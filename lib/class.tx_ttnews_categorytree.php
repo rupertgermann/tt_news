@@ -45,6 +45,7 @@ class tx_ttnews_categorytree extends t3lib_treeview {
 	var $categoryCountCache = array();
 	var $cacheHit = false;
 
+	var $expandable;
 
 	/**
 	 * Will create and return the HTML code for a browsable tree

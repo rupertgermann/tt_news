@@ -33,7 +33,7 @@
  */
 class tx_ttnewscatmanager_cm1 {
 
-
+	protected $backRef;
 
 	function main(&$backRef,$menuItems,$tableID,$srcId)	{
 		$this->includeLocalLang();
@@ -183,7 +183,7 @@ class tx_ttnewscatmanager_cm1 {
 		$editOnClick='';
 		$loc='top.content.list_frame';
 		$editOnClick='if('.$loc.'){'.$loc.".location.href=top.TS.PATH_typo3+'tce_db.php?redirect='+top.rawurlencode(".$this->backRef->frameLocation($loc.'.document').")+'".
-			"&data[".$table.']['.$uid.']['.$flagField.']='.($rec[$flagField]?0:1).'&prErr=1&vC='.$GLOBALS['BE_USER']->veriCode()."';hideCM();}";
+			"&data[".$table.']['.$uid.']['.$flagField.']='.($rec[$flagField]?0:1).'&prErr=1&vC='.$GLOBALS['BE_USER']->veriCode().t3lib_BEfunc::getUrlToken('tceAction')."';hideCM();}";
 
 		return $this->backRef->linkItem(
 			$title,
@@ -212,7 +212,7 @@ class tx_ttnewscatmanager_cm1 {
 		}
 		$editOnClick='if('.$loc." && ".$conf." ){".$loc.".location.href=top.TS.PATH_typo3+'tce_db.php?redirect='+top.rawurlencode(".
 			$this->backRef->frameLocation($loc.'.document').")+'".
-			"&cmd[".$table.']['.$uid.'][DDdelete]=1&prErr=1&vC='.$GLOBALS['BE_USER']->veriCode()."';hideCM();}";
+			"&cmd[".$table.']['.$uid.'][DDdelete]=1&prErr=1&vC='.$GLOBALS['BE_USER']->veriCode().t3lib_BEfunc::getUrlToken('tceAction')."';hideCM();}";
 
 		return $this->backRef->linkItem(
 			$GLOBALS['LANG']->getLLL('delete',$this->LL),

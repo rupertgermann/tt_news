@@ -237,7 +237,7 @@ class tx_ttnews_TCAform_selectTree {
 				$item = '<div class="typo3-TCEforms-originalLanguageValue">'.$item.'</div>';
 
 			} else { // build tree selector
-
+				$item = '';
 				if ($table == 'tt_news' && $this->intT3ver >= 4001000) {
 					$this->registerRequiredProperty($fobj,'range', $itemFormElName, array($minitems,$maxitems,'imgName'=>$table.'_'.$row['uid'].'_'.$field));
 				}

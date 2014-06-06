@@ -469,9 +469,12 @@ plugin.tt_news {
     # stdWrap for the complete category menu
     catmenu_stdWrap.wrap = <div class="news-catmenu">|</div>
 
-     # stdWrap for the category menu header in "nestedWraps" mode
+    # stdWrap for the category menu header in "nestedWraps" mode
     catmenuHeader_stdWrap.wrap = <p class="news-catmenu-header">|</p>
-
+    
+    # if set, the category menu header will not be displayed at all
+    hideCatmenuHeader = 0
+    
     # which icons to use for the category menu
     # 1 = icon from cat record
     # 2 = own icons

@@ -148,6 +148,9 @@ plugin.tt_news {
     mode = tree
     catmenu_stdWrap.wrap = <div class="news-catmenu">|</div>
     catmenuHeader_stdWrap.wrap = <h4>|</h4>
+	
+	# if set, the category menu header will not be displayed at all
+    hideCatmenuHeader = 0
 
     # 1 = icon from cat record
     # 2 = own icons

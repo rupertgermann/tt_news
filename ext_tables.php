@@ -144,6 +144,7 @@ mod.web_txttnewsM1 {
 		pidForNewArticles =
 		fList = pid,uid,title,datetime,archivedate,tstamp,category;author
 		icon = 1
+		searchFields = uid,title,short,bodytext
 
 		# configures the behavior of the record-title link. Possible values:
 		# edit: link editform, view: link FE singleView, any other value: no link

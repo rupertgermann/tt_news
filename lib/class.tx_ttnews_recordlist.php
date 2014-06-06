@@ -34,32 +34,8 @@
  * @package TYPO3
  * @subpackage tt_news
  */
-/**
- * [CLASS/FUNCTION INDEX of SCRIPT]
- *
- *
- *
- *   75: class tx_ttnews_recordlist extends tx_cms_layout
- *
- *              SECTION: Generic listing of items
- *   95:     function makeOrdinaryList($table, $id, $fList, $icon=0, $addWhere='')
- *  186:     function dataFields($fieldArr,$table,$row,$out=array(),$noEdit=FALSE)
- *  258:     function linkSingleView($url, $val, $uid)
- *  277:     function getNewRecordButton($table, $withLabel=false)
- *  301:     function getIcon($table,$row,$noEdit)
- *  325:     function checkRecordPerms(&$row,$checkCategories)
- *  354:     function noEditIcon($reason)
- *  380:     function headerFields($fieldArr,$table,$out=array())
- *  403:     function addSortLink($code,$field,$table)
- *  431:     function listURL($altId='',$table='',$exclList='')
- *  456:     function makeQueryArray($table, $id, $addWhere="",$fieldList='')
- *  533:     function ckeckDisallowedCategories($queryParts)
- *  572:     function getCategories($uid)
- *
- * TOTAL FUNCTIONS: 13
- * (This index is automatically created/updated by the extension "extdeveval")
- *
- */
+
+
 if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 6002000) {
 
 	require_once(PATH_t3lib.'class.t3lib_recordlist.php');
@@ -74,6 +50,21 @@ if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 600200
 	 */
 class tx_ttnews_recordlist extends tx_cms_layout {
 
+
+	var $newRecPid;
+	var $singlePid;
+	var $selectedCategories;
+	var $category;
+	var $excludeCats;
+	var $includeCats;
+	var $isAdmin;
+	var $current_sys_language;
+	var $showOnlyEditable;
+	var $pidList;
+	var $editablePagesList;
+	var $lTSprop;
+	var $pObj;
+	var $searchFields;
 
 
 	/**********************************
@@ -205,44 +196,44 @@ class tx_ttnews_recordlist extends tx_cms_layout {
 				$labelFirst = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:first');
 
 				$first = '<a href="' . $listURL . '&pointer=0">
-					<img' . t3lib_iconWorks::skinImg('', '../res/gfx/control_first.gif')
+					<img' . t3lib_iconWorks::skinImg('', t3lib_extMgm::extRelPath('tt_news') . 'res/gfx/control_first.gif')
 					. 'alt="' . $labelFirst . '" title="' . $labelFirst . '" />
 				</a>';
 			} else {
-				$first = '<img' . t3lib_iconWorks::skinImg('', '../res/gfx/control_first_disabled.gif') . 'alt="" title="" />';
+				$first = '<img' . t3lib_iconWorks::skinImg('', t3lib_extMgm::extRelPath('tt_news') . 'res/gfx/control_first_disabled.gif') . 'alt="" title="" />';
 			}
 
 			if (($currentPage - 1) > 0) {
 				$labelPrevious = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:previous');
 
 				$previous = '<a href="' . $listURL . '&pointer=' . (($currentPage - 2) * $this->iLimit) . '">
-					<img' . t3lib_iconWorks::skinImg('', '../res/gfx/control_previous.gif')
+					<img' . t3lib_iconWorks::skinImg('', t3lib_extMgm::extRelPath('tt_news') . 'res/gfx/control_previous.gif')
 					. 'alt="' . $labelPrevious . '" title="' . $labelPrevious . '" />
 					</a>';
 			} else {
-				$previous = '<img' . t3lib_iconWorks::skinImg('', '../res/gfx/control_previous_disabled.gif') . 'alt="" title="" />';
+				$previous = '<img' . t3lib_iconWorks::skinImg('', t3lib_extMgm::extRelPath('tt_news') . 'res/gfx/control_previous_disabled.gif') . 'alt="" title="" />';
 			}
 
 			if (($currentPage + 1) <= $totalPages) {
 				$labelNext = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:next');
 
 				$next = '<a href="' . $listURL . '&pointer=' . (($currentPage) * $this->iLimit) . '">
-					<img' . t3lib_iconWorks::skinImg('', '../res/gfx/control_next.gif')
+					<img' . t3lib_iconWorks::skinImg('', t3lib_extMgm::extRelPath('tt_news') . 'res/gfx/control_next.gif')
 					. 'alt="' . $labelNext . '" title="' . $labelNext . '" />
 					</a>';
 			} else {
-				$next = '<img' . t3lib_iconWorks::skinImg('', '../res/gfx/control_next_disabled.gif') . 'alt="" title="" />';
+				$next = '<img' . t3lib_iconWorks::skinImg('', t3lib_extMgm::extRelPath('tt_news') . 'res/gfx/control_next_disabled.gif') . 'alt="" title="" />';
 			}
 
 			if ($currentPage != $totalPages) {
 				$labelLast = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:last');
 
 				$last = '<a href="' . $listURL . '&pointer=' . (($totalPages - 1) * $this->iLimit) . '">
-					<img' . t3lib_iconWorks::skinImg('', '../res/gfx/control_last.gif')
+					<img' . t3lib_iconWorks::skinImg('', t3lib_extMgm::extRelPath('tt_news') . 'res/gfx/control_last.gif')
 					. 'alt="' . $labelLast . '" title="' . $labelLast . '" />
 					</a>';
 			} else {
-				$last = '<img' . t3lib_iconWorks::skinImg('', '../res/gfx/control_last_disabled.gif') . 'alt="" title="" />';
+				$last = '<img' . t3lib_iconWorks::skinImg('', t3lib_extMgm::extRelPath('tt_news') . 'res/gfx/control_last_disabled.gif') . 'alt="" title="" />';
 			}
 
 //			$reload = '<a href="#" onclick="document.dblistForm.action=\''
@@ -567,8 +558,8 @@ class tx_ttnews_recordlist extends tx_cms_layout {
 	 * @return	string		URL
 	 */
 	function listURL($altId='',$table='',$exclList='')	{
-		return $this->script.
-			'?id='.(strcmp($altId,'')?$altId:$this->id).
+		return t3lib_BEfunc::getModuleUrl('web_txttnewsM1').
+			'&id='.(strcmp($altId,'')?$altId:$this->id).
 //			($table!==FALSE?'&table='.rawurlencode($table==-1?$this->table:$table):'').
 			($this->thumbs?'&showThumbs='.$this->thumbs:'').
 //			($this->returnUrl?'&returnUrl='.rawurlencode($this->returnUrl):'').
@@ -609,6 +600,9 @@ class tx_ttnews_recordlist extends tx_cms_layout {
 			// Set LIMIT:
 		$limit = $this->iLimit ? ($this->firstElementNumber ? $this->firstElementNumber.',' : '').($this->iLimit) : '';
 
+		// fix for 6.2
+		$TCA[$table]['ctrl']['searchFields'] = $this->searchFields;
+
 			// Adding search constraints:
 		$search = $this->makeSearchString($table);
 
@@ -618,7 +612,7 @@ class tx_ttnews_recordlist extends tx_cms_layout {
 			$fieldList = 'DISTINCT '.$table.'.uid, '.$fieldList;
 			$leftjoin = ' LEFT JOIN '.$mmTable.' AS mm1 ON '.$table.'.uid=mm1.uid_local';
 		}
-
+		$catWhere = '';
 		if ($this->selectedCategories) {
 			$catWhere .= ' AND mm1.uid_foreign IN ('.$this->selectedCategories.')';
 		} elseif ($this->lTSprop['noListWithoutCatSelection'] && !$this->isAdmin) {

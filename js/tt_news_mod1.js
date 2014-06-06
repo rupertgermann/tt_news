@@ -83,12 +83,13 @@ var txttnewsM1js = {
 		var ajaxID = 'txttnewsM1::loadList';
 			// fallback if AJAX is not possible (e.g. IE < 6)
 		if (typeof Ajax.getTransport() != 'object') {
-			window.location.href = this.thisScript + '?ajaxID=' + ajaxID + '&category=' + category;
+			window.location.href = this.thisScript + '?ajaxID=' + ajaxID + '&category=' + category + '&M=web_txttnewsM1';
 			return;
 		}
 
 		new Ajax.Request(this.thisScript, {
-			parameters: 'ajaxID=' + ajaxID + '&category=' + category + '&id=' + pid,
+			parameters: 'ajaxID=' + ajaxID + '&category=' + category + '&id=' + pid + '&M=web_txttnewsM1',
+            method: 'get',
 			onComplete: function(xhr) {
 				$(obj).replace(xhr.responseText);
 				this.highlightActiveItem(category);
