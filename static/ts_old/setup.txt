@@ -6,7 +6,7 @@
 # 
 # (see Section Reference in the manual for more options & parameters)
 #
-# tt_news v 2.0.0 
+# tt_news v 2.2.0
 ###
 
 # Includes the newsLib:
@@ -274,7 +274,9 @@ plugin.tt_news {
       20 < plugin.tt_news.tmp.20
     }
   }
-  
+  useBidirectionalRelations = {$plugin.tt_news.useBidirectionalRelations}
+  usePagesRelations = {$plugin.tt_news.usePagesRelations}
+
   # related news by category
   relatedByCategory_stdWrap.wrap =  <dl class="news-single-related">|</dl>
   relatedByCategoryHeader_stdWrap.wrap = <dt>|</dt>
