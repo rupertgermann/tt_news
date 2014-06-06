@@ -1,0 +1,139 @@
+## Includes the newsLib:
+includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
+
+## This enables the tt_content.list item to display the news:
+plugin.tt_news >
+plugin.tt_news = USER
+plugin.tt_news {
+  userFunc = tx_ttnews->main_news
+
+  templateFile = {$plugin.tt_news.file.templateFile}
+  pid_list.field = pages
+  recursive.field = recursive
+  code.field = select_key
+
+  # Global wraps
+  wrap1.wrap = {$plugin.tt_news.wrap1}
+  wrap2.wrap = {$plugin.tt_news.wrap2}
+  color1.wrap = {$plugin.tt_news.color1}
+  color2.wrap = {$plugin.tt_news.color2}
+  color3.wrap = {$plugin.tt_news.color3}
+
+  # Rendering of news items
+  general_stdWrap {
+    brTag = <BR>
+    parseFunc < styles.content.parseFunc
+  }
+
+  limit = 10
+  latestLimit = 5
+  backPid = {$plugin.tt_news.backPid}
+  PIDsearch = 
+  PIDitemDisplay = {$plugin.tt_news.PIDitemDisplay}
+  datetimeDaysToArchive = 0
+  enableArchiveDate = 1
+  pageTypoLink.parameter.current = 1
+  archiveTypoLink.parameter = {$plugin.tt_news.backPid}
+
+  archiveMenuNoEmpty = 1
+  archiveTitleCObject = COA
+  archiveTitleCObject {
+    10 = TEXT
+    10.field = start
+    10.strftime = %B - %Y
+  }
+
+  getRelatedCObject = COA
+  getRelatedCObject {
+    10 = TEXT
+    10.field = title
+    10.typolink.parameter = {$plugin.tt_news.PIDitemDisplay}
+    10.typolink.additionalParams.field = uid 
+    10.typolink.additionalParams.wrap = &tt_news=|
+    20 = TEXT
+    20.field = datetime
+    20.strftime = %e-%m-%y %H:%M
+    20.wrap = <font size=1> - | </font>
+  }
+
+  # SINGLE news
+  displaySingle {
+    age_stdWrap.age = 1
+    date_stdWrap.strftime= %e-%m-%y
+    time_stdWrap.strftime= %H:%M
+    title_stdWrap.wrap = <b>|</b>
+    author_stdWrap.case = upper
+    author_stdWrap.typolink.parameter.field = author_email
+
+    imageCount=2
+    imageWrapIfAny = <table border=0 cellpadding=0 cellspacing=0 align=right width=1><tr><td><img src=clear.gif width=15 height=1></td><td>|</td></tr></table>
+
+    email_stdWrap.setContentToCurrent = 1
+    email_stdWrap.typolink.parameter.current = 1
+    caption_stdWrap.wrap = <font color=navy face=verdana size=1>|</font><BR><BR>
+    caption_stdWrap.trim=1
+    caption_stdWrap.required=1
+  }
+  displaySingle.image {
+    file.maxW = 200
+    wrap = | <BR>
+    imageLinkWrap = 1
+    imageLinkWrap {
+      enable = 1
+      bodyTag = <BODY bgColor=black>
+      wrap = <A href="javascript:close();"> | </A>
+      width = 400m
+      height = 400
+
+      JSwindow = 1
+      JSwindow.newWindow = 1
+      JSwindow.expand = 17,20
+    }
+    stdWrap.spaceAfter=10
+  }
+
+  # LATEST news
+  displayLatest {
+    age_stdWrap.age = 1
+    date_stdWrap.strftime= %e-%m-%y
+    time_stdWrap.strftime= %H:%M
+    caption_stdWrap.if.directReturn = 0
+    subheader_stdWrap.crop = 100 | ...
+    subheader_stdWrap.ifEmpty.field = bodytext
+    imageCount=1
+    imageWrapIfAny = <table border=0 cellpadding=0 cellspacing=0 align=left><tr><td>|</td><td><img src=clear.gif width=5 height=1></td></tr></table>
+  }
+  displayLatest.image < displaySingle.image
+  displayLatest.image {
+    file.maxW = 50
+    imageLinkWrap = 0
+    stdWrap.spaceAfter=5
+  }
+
+  # LIST news
+  displayList {
+    age_stdWrap.age = 1
+    date_stdWrap.strftime= %A %e. of %B
+    time_stdWrap.strftime= %e-%m-%y %H:%M
+    caption_stdWrap.wrap = <font face=verdana size=1 color=navy>|</font><BR>
+    caption_stdWrap.trim=1
+    caption_stdWrap.required=1
+    subheader_stdWrap.crop = 300 | ...
+    subheader_stdWrap.ifEmpty.field = bodytext
+    imageCount=1
+    imageWrapIfAny = 
+  }
+  displayList.image < displaySingle.image
+  displayList.image {
+    file.maxW = 150
+    imageLinkWrap = 1
+    stdWrap.spaceAfter=5
+  }
+}
+
+
+
+## This enables the tt_content.record item to display news items:
+tt_news >
+tt_news = < plugin.tt_news
+tt_news.displayCurrentRecord = 1

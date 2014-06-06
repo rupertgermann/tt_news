@@ -1,0 +1,21 @@
+plugin.tt_news {
+    # cat=plugin.news/file; type=file[html,htm,tmpl,txt]; label= Template File: HTML-template file for display of news. See EXT:tt_news/pi/news_template.tmpl for an example
+  file.templateFile = EXT:tt_news/pi/news_template.tmpl
+
+    # cat=plugin.news/typo; type=wrap; label= Wrap 1: This wrap is used in the template-file.
+  wrap1 = <font face="verdana" size=2 color=black> | </font>
+    # cat=plugin.news/typo; type=wrap; label= Wrap 2: This wrap is used in the template-file.
+  wrap2 = <font face="verdana" size=1 color=black> | </font>
+
+    # cat=plugin.news/color; type=color; label= Color 1: This bgcolor is used in the template-file.
+  color1 = #cccccc
+    # cat=plugin.news/color; type=color; label= Color 2: This bgcolor is used in the template-file.
+  color2 = #999999
+    # cat=plugin.news/color; type=color; label= Color 3: This bgcolor is used in the template-file.
+  color3 = #333333
+
+    # cat=plugin.news//; type=int+; label= "Single" pid: The PID of the page on which single news items should be displayed
+  PIDitemDisplay = 0
+    # cat=plugin.news//; type=int+; label= "Back" pid: The PID of the page to go back to from single news item display screen.
+  backPid = 0
+}
