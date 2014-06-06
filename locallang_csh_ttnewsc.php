@@ -21,6 +21,7 @@ $LOCAL_LANG = Array (
 	'fr' => Array (
 	),
 	'es' => Array (
+		'.description' => 'Categorías incorporadas por el sistema de noticias.',
 	),
 	'nl' => Array (
 		'.description' => 'Categoriën van het nieuwssysteem.',

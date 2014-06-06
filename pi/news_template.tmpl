@@ -104,7 +104,7 @@ LINK_NEXT
 			<tr>
 				<td bgcolor="###GC1###" valign="top">
 				###GW2B### ###NEWS_DATE### ###NEWS_TIME### <br />
-				<!--###LINK_ITEM###--><strong>###NEWS_TITLE###</strong><!--###LINK_ITEM###--><br />
+				<!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--><br />
 				<!--###LINK_ITEM###-->###NEWS_IMAGE###<!--###LINK_ITEM###--> 
 				###NEWS_SUBHEADER### 
 				<!--###LINK_ITEM###-->###MORE###<!--###LINK_ITEM###--><br />
@@ -118,7 +118,7 @@ LINK_NEXT
 			<tr>
 				<td bgcolor="###GC2###" valign="top">
 				###GW2B### ###NEWS_DATE### ###NEWS_TIME### <br />
-				<!--###LINK_ITEM###--><strong>###NEWS_TITLE###</strong><!--###LINK_ITEM###--><br />
+				<!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--><br />
 				<!--###LINK_ITEM###-->###NEWS_IMAGE###<!--###LINK_ITEM###--> 
 				###NEWS_SUBHEADER### 
 				<!--###LINK_ITEM###-->###MORE###<!--###LINK_ITEM###--><br />
@@ -162,8 +162,8 @@ LINK_NEXT
 		-->
 			<tr bgcolor="###GC1###">
 				<td valign="top" colspan="3">
-					###GW1B### <strong><!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></strong> ###GW1E### 
-					###GW2B### ###NEWS_DATE### ###GW2E###
+					###GW1B### <!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--> ###GW1E### 
+					###GW2B### ###NEWS_DATE### ###TEXT_NEWS_AGE### ###NEWS_AGE### ###GW2E###
 				</td>
 			</tr>
 			<tr bgcolor="###GC4###">
@@ -187,8 +187,8 @@ LINK_NEXT
 		-->
 			<tr bgcolor="###GC2###">
 				<td valign="top" colspan="3">
-					###GW1B### <strong><!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></strong> ###GW1E### 
-					###GW2B### ###NEWS_DATE### ###GW2E###
+					###GW1B### <!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--> ###GW1E### 
+					###GW2B### ###NEWS_DATE### ###TEXT_NEWS_AGE### ###NEWS_AGE### ###GW2E###
 				</td>
 			</tr>
 			<tr bgcolor="###GC4###">
@@ -233,26 +233,28 @@ LINK_NEXT
 <table border="0" cellspacing="0" cellpadding="1" width="98%">
 	<tr>
 		<td valign="top">
-			###GW1B###<strong>###NEWS_TITLE###</strong>###GW1E###<br />
+			###NEWS_TITLE### <br />
 			###GW2B### ###NEWS_DATE### ###NEWS_TIME### <br />
 			###TEXT_NEWS_AGE### ###NEWS_AGE### ###GW2E###<br />
 			<img alt="" src="clear.gif" width="1" height="5" /><br />
 			###GW2B### ###NEWS_AUTHOR### <br /><br />
-			###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE######GW2E###<br /><br />
+			###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###GW2E###<br /><br />
 			
 			
-			###GW1B### <em>###NEWS_SUBHEADER###</em> <br /> <br />
+			###GW1B### ###NEWS_SUBHEADER### <br />
 			
 			###NEWS_IMAGE### 
 			###NEWS_CONTENT### <br />
-			<br />
+			
 			###TEXT_LINKS###<br />
 			###NEWS_LINKS###<br />
-			<br />
+			
 			###TEXT_RELATED###<br />
 			###NEWS_RELATED###
-			
-			###GW1E###<br /><br />
+			<br />
+			###TEXT_FILES###<br />
+			###FILE_LINK###
+			###GW1E###<br />
 			###GW2B### <!--###LINK_ITEM###--> ###BACK_TO_LIST### <!--###LINK_ITEM###--> ###GW2E###		
 		</td>
 	</tr>
@@ -271,7 +273,7 @@ LINK_NEXT
 <table border="0" cellspacing="0" cellpadding="1" width="98%">
 	<tr>
 		<td valign="top">
-			###GW1B###<strong>###NEWS_TITLE###</strong>###GW1E###<br />
+			###NEWS_TITLE###<br />
 			###GW2B### ###NEWS_DATE### ###NEWS_TIME### <br />
 			###TEXT_NEWS_AGE### ###NEWS_AGE### ###GW2E###<br />
 			<img alt="" src="clear.gif" width="1" height="5" /><br />
@@ -279,17 +281,19 @@ LINK_NEXT
 			###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE######GW2E###<br /><br />
 			
 			
-			###GW1B### <em>###NEWS_SUBHEADER###</em> <br /> <br />
+			###GW1B### ###NEWS_SUBHEADER### <br />
 			
 			###NEWS_IMAGE### 
 			###NEWS_CONTENT### <br />
-			<br />
+			
 			###TEXT_LINKS###<br />
 			###NEWS_LINKS###<br />
-			<br />
+			
 			###TEXT_RELATED###<br />
 			###NEWS_RELATED###
-			
+			<br />
+			###TEXT_FILES###<br />
+			###FILE_LINK###
 			###GW1E###<br />
 		</td>
 	</tr>

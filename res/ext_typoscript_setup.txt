@@ -1,0 +1,232 @@
+###
+# This is the default TS setup for the CSS based template
+###
+
+## Includes the newsLib:
+includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
+
+## This enables the tt_content.list item to display the news:
+
+plugin.tt_news >
+plugin.tt_news = USER
+plugin.tt_news {
+  userFunc = tx_ttnews->main_news
+  
+  # template file
+  templateFile = EXT:tt_news/res/tt_news_medialinks.html
+  
+  # page to get the newsitems from -> "Starting point"
+  pid_list = {$plugin.tt_news.pid_list}
+     
+  # page for the single view
+  PIDitemDisplay = {$plugin.tt_news.PIDitemDisplay}
+
+  
+  # page id for the archive link in "LATEST" template
+  archiveTypoLink.parameter = {$plugin.tt_news.archiveLinkUid}
+
+  
+  recursive = 2
+  code.field = select_key
+  allowCaching = {$plugin.tt_news.allowCaching}
+  limit = 5
+  latestLimit = 3
+  backPid = 
+
+  # search 
+  searchPid = 
+  emptySearchAtStart = 1
+  
+  # add link type and target to links
+  itemLinkType = 
+  itemLinkTarget = 
+  
+  # mediafiles
+  newsFiles {
+    path = uploads/media/
+    icon = 1
+    stdWrap.wrap =   | <br />
+  }
+  
+  # Rendering of news items. re-use the RTE parseFunc configuration for normal content 
+  general_stdWrap {
+    parseFunc < tt_content.text.20.parseFunc
+  }
+  
+  content_stdWrap {
+   	
+  }
+
+
+  
+  # Pagebrowser settings
+  pageBrowser {
+    maxPages = 5
+    page_stdWrap.wrap = <span class="news-list-PBpage"> | </span>
+    actPage_stdWrap.wrap = <span class="news-list-PBactPage"> | </span>
+  }
+  # set this to '0' if you want the pagebrowser to display only numbers 
+  showPBrowserText = 1  
+    
+  # Category settings
+  catImageMode = {$plugin.tt_news.catImageMode}
+  catTextMode = {$plugin.tt_news.catTextMode}
+  maxCatImages = 10
+  maxCatTexts = 10
+  
+  # category modes:
+  # 0 = don't care about category selections
+  # 1 = display selected categories 
+  # -1 = display deselected categories
+  categoryMode = 0
+  
+  catImageMaxWidth = 25
+  catImageMaxHeight = 25
+    
+  # Archive settings
+  datetimeDaysToArchive = 100
+  enableArchiveDate = 1
+  pageTypoLink.parameter.current = 1
+
+  # Settings for links in 'LIST' & 'LATEST' to internal or external pages
+  # comment this out, if you use frames, to avoid opening links in the current frameset which will result in an error   
+  # pageTypoLink.target = _top
+  
+  reverseAMenu = 1
+  archiveMenuNoEmpty = 1
+  archiveTitleCObject = COA
+  archiveTitleCObject {
+    10 = TEXT
+    10.field = start
+    10.strftime = %B %Y
+  }
+
+  archiveEmptyMsg_stdWrap.wrap =
+  searchEmptyMsg_stdWrap.wrap =
+  
+  # Related News
+  relatedHeader_stdWrap.wrap = 
+  getRelatedCObject = COA
+    getRelatedCObject {
+      10=CASE
+      10.key.field=type
+      10.default=TEXT
+      10.default {
+        field = title
+        typolink.parameter = {$plugin.tt_news.PIDitemDisplay}
+        typolink.additionalParams.field = uid 
+        typolink.additionalParams.wrap = &tt_news=|
+        typolink.useCacheHash = {$plugin.tt_news.allowCaching}
+        typolink.no_cache = {$plugin.tt_news.allowCaching}
+        typolink.no_cache.if.negate = 1	   	
+      }   
+      10.1=TEXT
+      10.1 {
+        field=title
+        typolink.parameter=   	
+        typolink.parameter.field=page
+      }   
+      10.2=TEXT
+      10.2 {
+        field=title
+        typolink.parameter=   	
+        typolink.parameter.field=ext_url
+      }
+      20 = TEXT
+      20.field = datetime
+      20.strftime = %d/%m/%y %H:%M
+      20.wrap = &nbsp;-&nbsp; | <br />
+  }
+  
+
+
+  # rendering of SINGLE news
+  displaySingle {
+    age_stdWrap.age = 1
+    textNewsAge_stdWrap.wrap =
+    date_stdWrap.strftime= %d/%m/%y
+    time_stdWrap.strftime= %H:%M
+    title_stdWrap.wrap = 
+    subheader_stdWrap.wrap = 
+    author_stdWrap.typolink.parameter.field = author_email
+    links_stdWrap.wrap =
+
+    noNewsIdMsg_stdWrap = 
+    imageCount=2
+    imageWrapIfAny = <div class="news-single-images-container"> | </div>
+
+    email_stdWrap.setContentToCurrent = 1
+    email_stdWrap.typolink.parameter.current = 1
+    caption_stdWrap.wrap = <div class="news-single-imgcaption"> | </div>
+    caption_stdWrap.trim=1
+    caption_stdWrap.required=1
+  }
+  displaySingle.image {
+    file.maxW = 200
+    file.maxH = 150
+    wrap = | <br />
+    imageLinkWrap = 1
+    imageLinkWrap {
+      enable = 1
+      bodyTag = <body bgColor="#dddddd">
+      wrap = <a href="javascript:close();"> | </a>
+      width = 400m
+      height = 400
+
+      JSwindow = 1
+      JSwindow.newWindow = 1
+      JSwindow.expand = 17,20
+    }
+    stdWrap.spaceAfter=0
+  }
+
+  # rendering of LATEST news
+  displayLatest {
+    age_stdWrap.age = 1
+    date_stdWrap.strftime= %d/%m/%y
+    time_stdWrap.strftime= %H:%M
+    caption_stdWrap.if.directReturn = 0
+    subheader_stdWrap.crop = 100 | ...
+    subheader_stdWrap.ifEmpty.field = bodytext
+    imageCount=1
+  }
+  displayLatest.image < displaySingle.image
+  displayLatest.image {
+    file.maxW = 60
+    file.maxH = 45
+    imageLinkWrap = 1
+    stdWrap.spaceAfter = 0
+  }
+
+  # rendering of LIST news
+  displayList {
+    age_stdWrap.age = 1
+    textNewsAge_stdWrap.wrap =
+    date_stdWrap.strftime= %A %d. of %B %Y
+    time_stdWrap.strftime= %d/%m/%y %H:%M
+    caption_stdWrap.wrap = <span class="news-list-imgcaption"> | </span>
+    caption_stdWrap.trim=1
+    caption_stdWrap.required=1
+    title_stdWrap.wrap = 
+    subheader_stdWrap.wrap = 
+    subheader_stdWrap.crop = 300 | ...
+    subheader_stdWrap.ifEmpty.field = bodytext
+    author_stdWrap.wrap = 
+    imageCount=1
+    imageWrapIfAny = 
+  }
+  displayList.image < displaySingle.image
+  displayList.image {
+    file.maxW = 120
+    file.maxH = 90
+    imageLinkWrap = 1
+    stdWrap.spaceAfter=0
+  }
+  # Example for overriding values from locallang.php with other values
+  _LOCAL_LANG.de {
+    # more = [weiterlesen...]
+  }
+
+}
+
+

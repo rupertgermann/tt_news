@@ -1,8 +1,8 @@
 <?php
 /**
- * Language labels for extension "newloginbox"
+ * Language labels for extension "tt_news"
  * 
- * TYPO3 CVS ID: $Id: locallang.php,v 1.2 2004/07/31 19:39:46 rupertgermann Exp $
+ * TYPO3 CVS ID: $Id: locallang.php,v 1.12 2004/08/21 14:40:58 honk Exp $
  * This file is detected by the translation tool.
  */
 
@@ -28,6 +28,8 @@ $LOCAL_LANG = Array (
 	'fr' => Array (
 	),
 	'es' => Array (
+		'pi_title' => 'Noticias',
+		'pi_plus_wiz_description' => 'Añade noticias a la página.',
 	),
 	'nl' => Array (
 		'pi_title' => 'Nieuws',

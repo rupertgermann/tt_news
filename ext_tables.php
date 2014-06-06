@@ -42,9 +42,23 @@ $TCA['tt_news_cat'] = Array (
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][9]='layout,select_key,pages,recursive';
 $TCA['tt_content']['types']['list']['subtypes_addlist'][9]='pi_flexform';
 t3lib_extMgm::addPlugin(Array('LLL:EXT:tt_news/locallang_tca.php:tt_news', '9'));
-t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
+
 t3lib_extMgm::allowTableOnStandardPages('tt_news');
 t3lib_extMgm::addToInsertRecords('tt_news');
+
+
+// adds the possiblity to switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
+$confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+if ($confArr['useStoragePid']) {
+    t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
+} else {
+	t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds_no_sPID.xml');
+}
+
+
+
+
+
 
 // comment this out, if you don't want users to create news_categories on normal pages
 t3lib_extMgm::allowTableOnStandardPages('tt_news_cat');

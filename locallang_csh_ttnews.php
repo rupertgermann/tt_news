@@ -24,6 +24,8 @@ $LOCAL_LANG = Array (
 	'fr' => Array (
 	),
 	'es' => Array (
+		'.description' => 'Sistema de noticias.',
+		'.details' => 'Los elementos de "noticias" son aquellos que típicamente van en las páginas de los sitios web y contienen un enlace a una página con la historia completa. Además, pueden representar artículos (enlaces a páginas completas) del sistema.',
 	),
 	'nl' => Array (
 		'.description' => 'Ingebouwd nieuwssysteem',

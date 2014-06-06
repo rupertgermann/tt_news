@@ -1,4 +1,9 @@
 <?php
+// adds the possiblity to switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
+$confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+if ($confArr['useStoragePid']) {
+    $fTableWhere = 'AND tt_news_cat.pid=###STORAGE_PID### ';
+}
 
 // ******************************************************************
 // This is the standard TypoScript news table, tt_news
@@ -6,7 +11,7 @@
 $TCA['tt_news'] = Array (
 	'ctrl' => $TCA['tt_news']['ctrl'],
 	'interface' => Array (
-		'showRecordFieldList' => 'title,hidden,datetime,starttime,archivedate,category,author,author_email,short,image,imagecaption,links,related'
+		'showRecordFieldList' => 'title,hidden,datetime,starttime,archivedate,category,author,author_email,short,image,imagecaption,links,related,news_files'
 	),
 	'columns' => Array (	
 		'starttime' => Array (
@@ -90,7 +95,18 @@ $TCA['tt_news'] = Array (
 			'config' => Array (
 				'type' => 'text',
 				'cols' => '48',
-				'rows' => '5'
+				'rows' => '5',
+				'wizards' => Array(
+					'_PADDING' => 4,
+					'RTE' => Array(
+						'notNewRecords' => 1,
+						'RTEonly' => 1,
+						'type' => 'script',
+						'title' => 'LLL:EXT:cms/locallang_ttc.php:bodytext.W.RTE',
+						'icon' => 'wizard_rte2.gif',
+						'script' => 'wizard_rte.php',
+					),
+				)
 			)
 		),
 		'short' => Array (
@@ -189,7 +205,8 @@ $TCA['tt_news'] = Array (
 				'internal_type' => 'db',
 					'allowed' => 'tt_news',
 					'MM' => 'tt_news_related_mm',
-				'size' => '5',
+				'size' => '3',
+				'autoSizeMax' => 10,
 				'maxitems' => '200',
 				'minitems' => '0',
 				'show_thumbs' => '1'
@@ -217,34 +234,35 @@ $TCA['tt_news'] = Array (
 			'exclude' => 1,	
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.category',
 			'config' => Array (
-				"type" => "select",
-				"foreign_table" => "tt_news_cat",
-				"foreign_table_where" => "AND tt_news_cat.pid=###STORAGE_PID### ORDER BY tt_news_cat.uid",
-				"size" => 6,
-				"minitems" => 0,
-				"maxitems" => 100,
-				"MM" => "tt_news_cat_mm",
-				"wizards" => Array(
-					"_PADDING" => 2,
-					"_VERTICAL" => 1,
-					"add" => Array(
-						"type" => "script",
-						"title" => "Create new category",
-						"icon" => "add.gif",
-						"params" => Array(
-							"table"=>"tt_news_cat",
-							"pid" => "###STORAGE_PID###",
-							"setValue" => "set"
+				'type' => 'select',
+				'foreign_table' => 'tt_news_cat',
+				'foreign_table_where' => $fTableWhere.'ORDER BY tt_news_cat.uid',
+				'size' => 3,
+				'autoSizeMax' => 10,
+				'minitems' => 0,
+				'maxitems' => 100,
+				'MM' => 'tt_news_cat_mm',
+				'wizards' => Array(
+					'_PADDING' => 2,
+					'_VERTICAL' => 1,
+					'add' => Array(
+						'type' => 'script',
+						'title' => 'Create new category',
+						'icon' => 'add.gif',
+						'params' => Array(
+							'table'=>'tt_news_cat',
+							'pid' => '###STORAGE_PID###',
+							'setValue' => 'set'
 						),
-						"script" => "wizard_add.php",
+						'script' => 'wizard_add.php',
 					),
-					"edit" => Array(
-							"type" => "popup",
-							"title" => "Edit category",
-							"script" => "wizard_edit.php",
-							"popup_onlyOpenIfSelected" => 1,
-							"icon" => "edit2.gif",
-							"JSopenParams" => "height=350,width=580,status=0,menubar=0,scrollbars=1",
+					'edit' => Array(
+							'type' => 'popup',
+							'title' => 'Edit category',
+							'script' => 'wizard_edit.php',
+							'popup_onlyOpenIfSelected' => 1,
+							'icon' => 'edit2.gif',
+							'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
 					),
 				),
 			)
@@ -261,13 +279,40 @@ $TCA['tt_news'] = Array (
 				'minitems' => '0',
 				'show_thumbs' => '1'
 			)
-		)
+		),
+		# filelinks
+		'news_files' => Array (
+			'label' => 'LLL:EXT:cms/locallang_ttc.php:media',
+			'config' => Array (
+				'type' => 'group',
+				'internal_type' => 'file',
+				'allowed' => '',	// Must be empty for disallowed to work.
+				'disallowed' => 'php,php3',
+				'max_size' => '10000',
+				'uploadfolder' => 'uploads/media',
+				'show_thumbs' => '1',
+				'size' => '3',
+				'autoSizeMax' => '10',
+				'maxitems' => '10',
+				'minitems' => '0'
+			)
+		),
+		
+		
+		
 	),
 	'types' => Array (	
-#non-rte'0' => Array('showitem' => 'hidden;;;;1-1-1,type,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext,image;;;;4-4-4,imagecaption,--div--,links;;;;5-5-5,related'),
-		'0' => Array('showitem' => 'hidden;;;;1-1-1,type,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext;;9;richtext[*]:rte_transform[flag=rte_enabled|mode=ts];3-3-3,image;;;;4-4-4,imagecaption,--div--,links;;;;5-5-5,related'),
-		'1' => Array('showitem' => 'hidden;;;;1-1-1,type,page,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,image;;;;4-4-4,imagecaption'),
-		'2' => Array('showitem' => 'hidden;;;;1-1-1,type,ext_url,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,image;;;;4-4-4,imagecaption')
+// non-rte '0' => Array('showitem' => 'hidden;;;;1-1-1,type,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext,image;;;;4-4-4,imagecaption,--div--,links;;;;5-5-5,related'),
+
+// full enabled rte		'0' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext;;9;richtext[*]:rte_transform[flag=rte_enabled|mode=ts];3-3-3,image;;;;4-4-4,imagecaption,--div--,links;;;;5-5-5,related'),
+
+// rte like tt_content
+		'0' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext;;9;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image]:rte_transform[flag=rte_enabled|mode=ts];4-4-4, rte_enabled, text_properties;5-5-5,image;;;;6-6-6,imagecaption,--div--,links;;;;7-7-7,related,news_files'),
+		
+		
+		
+		'1' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,page,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,image;;;;4-4-4,imagecaption'),
+		'2' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,ext_url,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,image;;;;4-4-4,imagecaption')
 	),
 	'palettes' => Array (
 		'1' => Array('showitem' => 'endtime,fe_group')
@@ -282,7 +327,7 @@ $TCA['tt_news'] = Array (
 $TCA['tt_news_cat'] = Array (
 	'ctrl' => $TCA['tt_news_cat']['ctrl'],
 	'interface' => Array (
-		'showRecordFieldList' => 'title'
+		'showRecordFieldList' => 'title,image,shortcut,shortcut_target'
 	),
 	'columns' => Array (	
 		'title' => Array (
@@ -290,12 +335,13 @@ $TCA['tt_news_cat'] = Array (
 			'config' => Array (
 				'type' => 'input',
 				'size' => '40',
-				'max' => '256'
+				'max' => '256',
+				'eval' => 'required'
 			)
 		),
 		'image' => Array (		
 			'exclude' => 1,		
-			'label' => 'LLL:EXT:tt_news/locallang_db.php:tt_news_cat.image',
+			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news_cat.image',
 			'config' => Array (
 				'type' => 'group',
 				'internal_type' => 'file',
@@ -309,27 +355,39 @@ $TCA['tt_news_cat'] = Array (
 			)
 		),
 		'shortcut' => Array (
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.shortcut_page',
-			'config' => Array (
+			'exclude' => 1,	
+			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news_cat.shortcut',
+'config' => Array (
 				'type' => 'group',
 				'internal_type' => 'db',
-					'allowed' => 'pages',
+				'allowed' => 'pages',
 				'size' => '3',
 				'maxitems' => '1',
 				'minitems' => '0',
 				'show_thumbs' => '1'
 			)
-		)
+		),
+		'shortcut_target' => Array (
+			'exclude' => 1,	
+			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news_cat.shortcut_target',
+			'config' => Array (
+				'type' => 'input',
+				'size' => '10',
+				'checkbox' => '',
+				'eval' => 'trim',
+				'max' => '40'
+			)
+		),
 	),
+		
 	'types' => Array (	
-		'0' => Array('showitem' => 'title;;;;3-3-3,image,shortcut;;;;1-1-1')
+		'0' => Array('showitem' => 'title,image;;1;;1-1-1'),
+	
+	),
+	'palettes' => Array (
+		'1' => Array('showitem' => 'shortcut,shortcut_target'),
 	)
 );
-
-
-
-
-
 
 
 ?>

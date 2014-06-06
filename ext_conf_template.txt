@@ -1,0 +1,2 @@
+  # cat=basic; type=boolean; label= Use StoragePid: Here you can switch the BackEnd behaviour of category listing. If you set this value to "1" (default), categories are only displayed if they are found in the "General record storage page", if you set the value to "0", all categories from the pagetree are displayed in the BackEnd.
+useStoragePid = 1

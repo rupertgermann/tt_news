@@ -1,0 +1,546 @@
+2004-08-20	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.39:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.10:
+		- fixed a small bug with the “firstImageIsPreview” mode: now the captions are displayed correctly
+		- new feature: 'excludeLatestFromList' by setting this TSvar you can exclude the news already shown in LATEST from the “LIST” view on the same page. (thank goes to Joey who posted this code snippet)
+		- fix: now it is possible to display the PAGE template-markers also in the single view.
+		- Added a message which will appear when no news are found for display in the current list  'noNewsToListMsg'.
+		- Replaced the functions setPidlist and initRecursive with pi_getPidList
+		- updated changelog
+
+2004-08-16	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.sql 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.10:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.23:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.10:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.38:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.9:
+		- removed the Tsvar “itemLinkType” -> since the links are all build with typolinks this parameter is not needed anymore.
+		- removed the unnessecary parameters from some links (e.g. the category-links that point internal pages need no archive parameters)
+		- added new TSvar: “latestWithCatSelector”. If this is not set (default), the newsLatest element is excluded from the catselector. If you set this var, “LATEST” will change its contents with the catselector as newsLIST does (which was the  behaviour till now).
+		- added new TSvar: “amenuWithCatSelector”: the same for amenu.
+		- added new TSvar “catSelectorTargetPid”: Needed in framesets, to define a page where the category-selector links point to (e.g. Category-selector  links in a “LATEST”-element in left frame point to the “LIST” view in the frame for the normal content). Maybe also useful in “non-framed” pages.
+		- New db column/ form field ín tt_news_cat: “shortcut_target”: this fixes the problem, that category shortcuts in framesets always have the target defined by the itemLinkTarget. This made it impossible to use links to non-frames pages AND links to pages in framesets, at the same time as category shortcuts. Now you can define the target for each category shortcut in the tt_news_cat db-record.
+		- Added 'allowCaching' to the constant Editor.
+		- Removed some empty vars from default setup.
+		- Changed version number to 1.5.2
+
+2004-08-14	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.3:
+		updated changelog
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_conf_template.txt 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.php 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds_no_sPID.xml 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.37:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.8:
+		- added a "use Storage Pid" switch to plugin configuration in 
+		extension manager. this makes it possible to switch between the 
+		old behavior (show categories from the whole pagetree) and the 
+		new way of showing categories only from the "StoragePid"
+
+2004-08-13	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.22:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.11:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_constants.txt 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_setup.txt 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/res/tt_news_tut_main_stylesheet.css 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_medialinks.html 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_mtb_pagetree-z.t3d 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_styles.css 1.1:
+		- added a new constants and setup.txt files for the css based template
+		- edited the example pagetree so that it can be configured by setting only 3 values for the complete testsite
+		- edited the new htmls template added a css file for this template
+
+2004-08-13	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.22:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.11:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_constants.txt 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_setup.txt 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/res/tt_news_tut_main_stylesheet.css 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_medialinks.html 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_mtb_pagetree-z.t3d 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_styles.css 1.1:
+		- added a new constants and setup.txt files for the css based template
+		- edited the example pagetree so that it can be configured by setting only 3 values for the complete testsite
+		- edited the new htmls template added a css file for this template
+
+2004-08-12	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.21:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.36:
+		- added config for filelinks to default setup.txt
+		- fixed the different archive counting from getSelectConf and get_archiveMenu (thx ralf for pointing me to this)
+
+2004-08-12	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.21:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.36:
+		- added config for filelinks to default setup.txt
+		- fixed the different archive counting from getSelectConf and get_archiveMenu (thx ralf for pointing me to this)
+
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_php_api.dat 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.8:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.20:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/pi/Attic/news_help1.gif 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.35:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews_wizicon.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.8:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.10:
+	* cvsroot/typo3xdev/tx_ttnews/res/example_itemMarkerArrayFunc.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/Attic/main_ttnews_MTB_example.html 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/images/Attic/headerimage.jpg 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/images/Attic/menubackground.jpg 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/images/tt_news_tut_headerimage.jpg 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/images/tt_news_tut_menubackground.jpg 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/res/Attic/example_stylesheet.css 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/res/tt_news_tut_main_stylesheet.css 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/tt_news_tut_main.html 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_languageMenu.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_medialinks.html 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_mtb_pagetree-z.t3d 1.2:
+		- Changed the way to get the storage_pid in the function init categories to the standard getStorageSiterootPids() function. (This fixes an issue with displaying categories in single view and the page with the storage_pid is not in level 0)
+		- moved the marker processing for news-files (medialinks) from the userfuction to the main class.
+		- added some comments to main script ans setup txt
+		- updated ext_php_api.dat
+		- added ChangeLog
+		- updated example pagetree
+		- renamed some files in /res folder
+		- all other 'changed' files have only a new date
+
+2004-08-11	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.8:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.19:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.34:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.9:
+		fixed the lost 'emptyArchListAtStart' condition
+		fixed mispelling in textNewsAge_stdWrap.
+		Moved some <strong> & <em> tags from the html template to setup.txt
+		added markers for AGE in the html template
+		added updated language files from TER
+		changed default setting of 'emptySearchAtStart' to 1
+		changed version number to 1.4.6
+
+2004-08-09	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.7:
+		actual emconf v1.4.5
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.sql 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.33:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/res/example_itemMarkerArrayFunc.php 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/Attic/main_ttnews_MTB_example.html 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/images/Attic/headerimage.jpg 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/images/Attic/menubackground.jpg 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/main/res/Attic/example_stylesheet.css 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_medialinks.html 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_mtb_pagetree-z.t3d 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.7:
+		- pi/locallang.php: changed all '<' & '>' to their entities -> XHLML compliance
+		- added the file res/example_itemMarkerArrayFunc.php
+		- changes in ext_tables.sql & tca.php : added new db-field for medialinks called 'file_links'.
+		- added an example pagetree as t3d file -> the needed files for this example are in the folder res/main
+		- added a new 'non-table-based' template for tt_news in res/tt_news_medialinks.html
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.6:
+		actual emconf
+
+2004-08-08	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.18:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.10:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.8:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.32:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_languageMenu.php 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.6:
+		- small new feature: 'First image is preview-image' – by setting the var 'firstImageIsPreview' from TS or in the FF form (sheet: other settings) you can handle the first atachend image as preview image. This image is only displayed in list view.
+		- code commenting, function index added
+		- added a patched version of the script example_languageMenu.php that can handle the GET vars from tt_news. (see res/tt_news_languageMenu.php) -> works not with simulateStatic yet
+		- changes in tca.php: Changed the settings for the RTE: now the RTE for a news article is configured like the RTE for normal content. added 'autosize' to relation fields.
+
+2004-08-04	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.17:
+		and added the forgotten default parameters for the category 
+		image sizes to ext_typoscript_setup.txt
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.31:
+		- fix for bug id 0000270 'formURL don't support simulate Static'
+		- fix for bug id 0000274 'double type= parameters'
+		- fix for bug id 0000269 'Error in frame based pages, missing itemLinkTarget' -> thanks christian for report with included solution
+		- added $GLOBALS['TSFE']->set_no_cache(); in the search part, cause the search will not work with caching enabled.
+
+2004-07-31	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/class.ext_update.php 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.16:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_csh_ttnews.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_csh_ttnewsc.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.30:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews_wizicon.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.5:
+		this is v 1.4.0
+		see wiki for changelog: http://wiki.typo3.org/index.php/Ext_tt_news
+
+2004-07-29	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/class.ext_update.php 1.5:
+		- added the news fields 'pages' and 'recursive' to the ff template
+		- added changed varnames
+		- fixed a small issue when using the updater without a tt_news_cat_mm table. -> empty res condition
+		- added strtoupper to the line that finds the codes from tt_content, now also codes in smallcaps are updated
+
+2004-07-28	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.15:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.8:
+		changed some html tags and wraps to (better) XHTML compliance
+		no changes to the functionality - only code beautyfying
+
+	* cvsroot/typo3xdev/tx_ttnews/doc/manual.sxw 1.6:
+		- edited manual
+
+2004-07-26	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/pi/Attic/News conf1.gif 1.2:
+		- removed old 'News conf1.gif'
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.14:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.8:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.29:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_conf1.png 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_help.tmpl 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.5:
+		- rearranged the FlexForm Sheets of the tt_news content element
+		- moved the fields 'starting point' and 'recursive' to FF
+		- cleaned up the html-template, added alternating templateparts removed font tages...
+		- added a 3rd wrap, eg. for the amenu header
+		- added a 4th global color used by the list view
+		- removed the maxCatText lenght cropping from FF (cause its only working in linkMode1 in the other link modes it causes broken html)
+		- added a getLL var for the 'age' prefix
+		- added comments
+		- new help image
+		- ....
+
+2004-07-25	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.12:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.27:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.6:
+		- now all catlinkmodes do work
+		- fixed the backlink error in SingleView
+		- all types of related links are now linked correctly
+		- changed some var names for better CGL compliance
+		- added a new conf var 'emptySearchAtStart' which switches between 'display all messages' displaying the search function the first time and display a message 'searchEmptyMsg' which I changed. the old searchEmptyMsg is now called 'noResultsMsg'
+		- added the cat-markers to single view in the news-template
+		- added a new template part 'single_record_insert' to get rid of the 'back to list link' when news are displayed in insert records content elements.
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.13:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.28:
+		- added the storage pid to the category init function (now only 
+		category are displaed which are found in the storage pid of the 
+		actual page or the rootpage)
+
+2004-07-25	danp_typo
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.11:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.25:
+		-Change TS for getRelated to work with diffrent Newstypes
+		-Add a Hack in getRelated to use the newsinternal Linkgenerating if wanted
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.26:
+		remove some bugs from lastupdate
+
+2004-07-24	danp_typo
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.10:
+		add setup for pageBrowser
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.24:
+		-split out  functions get_page_browser, getLinkItemSubpartFromRow
+		- support for config.linkVars
+		-some small changes
+
+2004-07-23	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.23:
+		- small changes in class.tt_news.php: added the archiveLink.parameter value to the amenu links this replaces the 'ArchListPid' parameter cause it's the same ;-)
+		- added category link modes to constant editor
+
+2004-07-22	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.22:
+		moved the categories part from getItemMarkerArray to a new function: getCatMarkerArray
+		included caching parameters to all category links
+		changed the getLinkUrl function
+		-> still some issues with the catselector (catlink mode=3)
+		and also the 'double amenu getvars' bug is now fixed
+
+2004-07-21	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.8:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.21:
+		- included the 'caching & indexed search fixes' from Karsten 
+		Hachmeister - thx again for your work
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.20:
+		included the 'L' parameter in the getLinkUrl function -> thx 
+		mshigorin
+
+2004-07-20	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.4:
+		changed tca.php and flexform_ds.xml to find categories only in the 'storage pid'.
+		extended the constant editor with more of the basic configuration options
+
+2004-07-18	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.19:
+		- new TSvar: archListPid. setting this makes it possible to add another pid to the amenu links. default is, to link to the current page
+		- changed handling of backPid priority: now a given backPid from TS or FF allways overwrites the backPid from GET var. if you don't set a BackPid in conf the id of the current page is inserted. means: the backlink acts like a history.back function
+
+2004-07-17	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.17:
+		fix for bug ID 0000226:
+		moved the itemLinkType initialisation from getLinkUrl to the init_news function and added it to the local config array
+		added (conditionally) the 'target=' string to the link html-tag in the amenu function
+		
+		- edited some comments and function headers
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.6:
+		moved the RTE parsefunc confVars from content_stdwrap to general_stdwrap. so the double processing of the bodytext is prevented and you can use tables now. now the links in the bodytext and in the newslinks are handled in the same way
+		added/edited some comments
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.16:
+		fix for bug ID 0000212: category names and images are now also displayed in single view
+		moved category initialisation from news_list to init_news
+		changed name of the catImage configuration array to prevent the cat image from being wrapped with the same wrap as the normal news image
+		
+		also fixed the problem that a news content element inserted by TS is always influenced by the cat selector (catLinkMode=3)
+		now the value can be set also by TS.
+		new TSvar: selectDeselectCategories
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.18:
+		re-ordered and commented the init_news function
+		moved some more conf-vars to the init_news function and the internal config array
+		added a new TSvar: 'emptyArchListAtStart' if this is set, the archive listing shows nothing when no periodStart or lenght is given in the GET vars.
+		The default behavior for the archive listing with no parameters is now: show all archive items starting from today-datetimeDaysToArchive
+		changed the order of the formatStr und the strWrap functions for news links in function getItemMarkerArray (now links in bodytext and news links are handled the same)
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.2:
+		added caption_stdWrap to the constant editor
+
+2004-07-16	inshadow
+	* cvsroot/typo3xdev/tx_ttnews/class.ext_update.php 1.4:
+		Prevent doing mysql_num_rows if $res is empty (happens when 
+		upgrading from an tt_news installation which has empty tables/
+		not been used yet).
+
+2004-07-15	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/class.ext_update.php 1.3:
+		fixed bug ID 0000185  Errors by using tx_ttnews without a prior installation of tt_news
+		added 'if ($res)' in function access
+
+2004-07-11	danp_typo
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php [branchfor_multilanguage] 1.5.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.php [branchfor_multilanguage] 1.3.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.sql [branchfor_multilanguage] 1.2.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt [branchfor_multilanguage] 1.5.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php [branchfor_multilanguage] 1.5.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/conf.php [branchfor_multilanguage] 1.1.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/index.php [branchfor_multilanguage] 1.1.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/locallang.php [branchfor_multilanguage] 1.1.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/locallang_mod.php [branchfor_multilanguage] 1.1.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/moduleicon.gif [branchfor_multilanguage] 1.1.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php [branchfor_multilanguage] 1.15.2.1:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php [branchfor_multilanguage] 1.3.2.1:
+		1 Step for Multilanguage support
+		-added sys_language_uid an tt_news and a backendmodul
+		-added support for config.linkVars and config.sys_language_uid
+
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/index.php 1.1:
+		file index.php was initially added on branch 
+		branchfor_multilanguage.
+
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/locallang.php 1.1:
+		file locallang.php was initially added on branch 
+		branchfor_multilanguage.
+
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/conf.php 1.1:
+		file conf.php was initially added on branch 
+		branchfor_multilanguage.
+
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/locallang_mod.php 1.1:
+		file locallang_mod.php was initially added on branch 
+		branchfor_multilanguage.
+
+	* cvsroot/typo3xdev/tx_ttnews/mod1/Attic/moduleicon.gif 1.1:
+		file moduleicon.gif was initially added on branch 
+		branchfor_multilanguage.
+
+2004-07-11	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/doc/manual_01.sxw 1.1:
+		fixed manual with cvs file format (text/ASCII)
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.15:
+		added forgotten stdwrap to archive header
+		moved all lines one tab to the left, this was caused by the 'source code tuning' from extdevEval.
+		added cvs id tag in teh header
+
+2004-07-10	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/doc/manual.sxw 1.5:
+		updated TS-Ref in Manual with the new vars & wraps
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.5:
+		added 'allowTableOnStandardPages' for tt_news_cat -> this is more logically and keeps the FAQ smaller.
+		commented out the 'recursive' field in flexform_ds, cause it's already shown from tt_content
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.14:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.5:
+		added:
+		- getLL for all text from the html template
+		- stdwraps for the new text vars
+		- updated pi/locallang.php
+
+2004-07-09	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.13:
+		parsed through extdeveval: script documentation help & source code tuning & convert double quotes to single
+		-> and fixed the syntaxerrors made by the sourcecode tuning tool ;-)
+		no changes made to the code.
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.4:
+		added border=0 to the cleargif in the imagewraps -> so the 
+		border isn't displayed if you link the images
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.12:
+		new TS var: 'noNewsIdMsg'. By setting this in your TS you can 
+		override the message 'Wrong parameters, GET/POST....' with your 
+		own message.
+
+2004-07-08	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.11:
+		added a new TS var 'reverseAMenu'.
+		if this is given the amenu displays the newer items first
+
+2004-07-07	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.4:
+		added uploadfolder creation in ext_emconf
+		added the filetype 'html' to templates uploaded by FF
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.10:
+		codes can now be added by TS or FF with priority on FF (like in 
+		older versions)
+
+2004-07-06	inshadow
+	* cvsroot/typo3xdev/tx_ttnews/class.ext_update.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.8:
+		Hooks added for extra views and item markers.
+
+2004-07-06	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.6:
+		added:
+		$url = $this->getLinkUrl("","begin_at");
+		in function news_list. So the pagebrowser works again
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.9:
+		added a small fix to exclude the LATEST template from changing its content with the pagebrowser
+		this can be overridden by setting the conf var 'latestWithPagebrowser'
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.1:
+		added getLL vars for the pagebrowser,
+		added a locallang.php file in /pi
+		(the words 'prev' & 'next' have to be removed from the html-template)
+
+2004-07-05	danp_typo
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.4:
+		-restructure and clear the code in main class:
+		-->hived off new functions (single_view(); "init_news()","get_content_news_list()")
+		-->changes in main_news(), news_list()
+		So the Bug with "overriding" is solved.
+		-->use defaultCode for "insert record"
+		
+		Add some FlexForm languagevars
+		Add the no searchresult subpart in template
+
+2004-07-05	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/doc/manual.sxw 1.4:
+		copied all content to a new ext_manual template
+
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews_wizicon.php 1.2:
+		rupi: corrected the XCLASS inclusion statement at the end of the 
+		class. (was from newloginbox)
+
+2004-06-09	inshadow
+	* cvsroot/typo3xdev/tx_ttnews/class.ext_update.php 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/doc/manual.sxw 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_csh_ttnews.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/pi/Attic/News conf1.gif 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/pi/ce_wiz.gif 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews_wizicon.php 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_help.tmpl 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.3:
+		Major update.
+		Flexforms added.
+		Updater added for category table and CODE-filed(select_key) to FlexForms.
+		And more.
+
+2004-05-20	inshadow
+	* cvsroot/typo3xdev/tx_ttnews/doc/manual.sxw 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.sql 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_help.tmpl 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.2:
+		New features known from News+, News Category Image and News Multiple Categories. Added support for multiple categories, category images and shortcuts, RTE and more. Credits goes out to Andreas Schwarzkopf, Carsten Horst and Ingmar Schlecht.
+		
+		Some minor bugfixes as well
+
+2004-05-06	inshadow
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.2:
+		Bug fix: Would only display first month in archive list.
+
+2004-04-01	typo3
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.1.1.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.php 1.1.1.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.sql 1.1.1.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.1.1.1:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.1.1.1:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.1.1.1:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.1.1.1:
+

@@ -1,15 +1,19 @@
+###
+# This are the default TS-constants for the table-based standard template: EXT:tt_news/pi/news_template.tmpl
+##
+
 plugin.tt_news {
     # cat=plugin.tt_news/file; type=file[html,htm,tmpl,txt]; label= Template File: HTML-template file for display of news. See EXT:tt_news/pi/news_template.tmpl for an example
   file.templateFile = EXT:tt_news/pi/news_template.tmpl
 
-    # cat=plugin.tt_news/typo/1; type=wrap; label= Wrap 1: This wrap is used in the template-file (news header in SINGLE view).
+    # cat=plugin.tt_news/typo/1; type=wrap; label= Wrap 1: This wrap is used in the template-file (bodytext, links, related-news in SINGLE view).
   wrap1 = <font face="verdana" size="2" color="black"> | </font>
     # cat=plugin.tt_news/typo/2; type=wrap; label= Wrap 2: This wrap is used in the template-file ([more] links, pagebrowser...). 
   wrap2 = <font face="verdana" size="1" color="black"> | </font>
     # cat=plugin.tt_news/typo/3; type=wrap; label= Wrap 3: This wrap is used in the template-file (ArchiveMenu header, latest header). 
   wrap3 = <font face="verdana" size="1" color="white"><strong> | </strong></font>
     # cat=plugin.tt_news/typo/3; type=wrap; label= Caption stdWrap: This wrap is used for image captions.
-  caption_stdWrap = <font face="verdana" size="1" color="navi"> | </font>
+  caption_stdWrap = <font face="verdana" size="1" color="navy"> | </font><br />
 
     # cat=plugin.tt_news/color/1; type=color; label= Color 1: First alternating bgcolor in the template.
   color1 = #C7D5FE
@@ -27,7 +31,7 @@ plugin.tt_news {
     # cat=plugin.tt_news/links/3; type=int+; label= Archive Link: The PID of the page on which the archive list is displayed. This link appears at the bottom of the 'Latest' template.
   archiveTypoLink.parameter = 0
     
-	# cat=plugin.tt_news//4; type=int+; label= Days to Archive: If this is set, then elements are automatically in the archive after the given number of days has passed 
+	# cat=plugin.tt_news//4; type=int+; label= datetime Days to Archive: If this is set, elements are automatically in the archive, after the given number of days has passed. Set this to '0' if you want to disable this feature.
   datetimeDaysToArchive = 30
     # cat=plugin.tt_news//5; type=int+; label= List Limit: max items in LIST template.
   limit = 7
@@ -39,7 +43,8 @@ plugin.tt_news {
   catTextMode = 1
 	# cat=plugin.tt_news//9; type=int+; label= Category Image mode: same values as catTextMode.
   catImageMode = 1
-	
+	# cat=plugin.tt_news//10; type=bolean; label= Allow Caching: Allow caching of displayed news? If you want your news being indexed by the indexed-search this has to be enabled.
+  allowCaching = 1
 	
 	# cat=plugin.tt_news/dims/1; type=int+; label= single-image max Width: Max width for an image displayed in SINGLE template
   singleMaxW = 300

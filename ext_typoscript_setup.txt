@@ -1,3 +1,7 @@
+###
+# This is the default TS-setup for the table-based standard template: EXT:tt_news/pi/news_template.tmpl
+##
+
 ## Includes the newsLib:
 includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
 
@@ -11,16 +15,24 @@ plugin.tt_news {
   pid_list.field = pages
   recursive.field = recursive
   code.field = select_key
-  allowCaching = 1
+  allowCaching = {$plugin.tt_news.allowCaching}
   limit = {$plugin.tt_news.limit}
   latestLimit = {$plugin.tt_news.latestLimit}
   backPid = {$plugin.tt_news.backPid}
-  searchPid = 
   PIDitemDisplay = {$plugin.tt_news.PIDitemDisplay}
 
-  # add link type and target to links
-  itemLinkType = 
-  itemLinkTarget = 
+  # search 
+  emptySearchAtStart = 1
+
+  # mediafiles
+  newsFiles {
+    path = uploads/media/
+    icon = 1
+    stdWrap.wrap = |<br />
+  }
+  newsFilesHeader_stdWrap.wrap = <strong>|</strong>
+  
+
   
   # Global wraps
   wrap1.wrap = {$plugin.tt_news.wrap1}
@@ -32,29 +44,31 @@ plugin.tt_news {
   color4.wrap = {$plugin.tt_news.color4}
 
   # Rendering of news items
+  # the RTE parseFunc configuration
   general_stdWrap {
-    brTag =
-    encapsLines.wrapNonWrappedLines = <p style="margin:0 0 0 0;">|</p>
-    encapsLines.innerStdWrap_all.ifEmpty = &nbsp;
-    parseFunc {
-      makelinks = 1 
-      makelinks.http.keep = path
-      makelinks.http.extTarget = _blank 
-      makelinks.http.wrap = 
-      makelinks.mailto.keep = path 
-      makelinks.mailto.wrap =  
-      tags { 
-        link = TEXT 
-        link { 
-          current = 1 
-          typolink.parameter.data = parameters : allParams 
-          typolink.extTarget = _blank 
-          typolink.target = {$PAGE_TARGET}
-          typolink.wrap = 
-          parseFunc.constants = 1 
-        }
-      } 
-    }
+	  brTag =
+	  encapsLines.wrapNonWrappedLines = <p style="margin:0 0 0 0;">|</p>
+	  encapsLines.innerStdWrap_all.ifEmpty = &nbsp;
+	  parseFunc {
+	      makelinks = 1 
+	      makelinks.http.keep = path
+	      makelinks.http.extTarget = _blank 
+	      makelinks.http.wrap = 
+	      makelinks.mailto.keep = path 
+	      makelinks.mailto.wrap =  
+	      tags { 
+	        link = TEXT 
+	        link { 
+	          current = 1 
+	          typolink.parameter.data = parameters : allParams 
+	          typolink.extTarget = _blank 
+	          typolink.target = {$PAGE_TARGET}
+	          typolink.wrap = 
+	          parseFunc.constants = 1 
+	        }
+	      } 
+	    }
+
   }
   
   # Pagebrowser settings
@@ -69,20 +83,25 @@ plugin.tt_news {
   # Category settings
   catImageMode = {$plugin.tt_news.catImageMode}
   catTextMode = {$plugin.tt_news.catTextMode}
-  catTextLength = 2000
   maxCatImages = 10
   maxCatTexts = 10
+  
+  # category modes:
   # 0 = don't care about category selections
   # 1 = display selected categories 
   # -1 = display deselected categories
   categoryMode = 0
   
+  catImageMaxWidth = 20
+  catImageMaxHeight = 20
+  
+  
   # Archive settings
   datetimeDaysToArchive = {$plugin.tt_news.datetimeDaysToArchive}
   enableArchiveDate = 1
   pageTypoLink.parameter.current = 1
+  
   archiveTypoLink.parameter = {$plugin.tt_news.archiveTypoLink.parameter}
-
 
   reverseAMenu = 1
   archiveMenuNoEmpty = 1
@@ -101,6 +120,13 @@ plugin.tt_news {
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr><td><strong> | </strong></td></tr></table>
   )     
+  
+  # Settings for links in 'list' & 'latest' to internal or external pages
+  # comment this out, if you use frames, to avoid opening links in the current frameset which will result in an error   
+  
+  # pageTypoLink.target >
+  # pageTypoLink.target = _top
+  
   
   # Related News
   relatedHeader_stdWrap.wrap = <strong>|</strong>
@@ -133,29 +159,26 @@ plugin.tt_news {
       20 = TEXT
       20.field = datetime
       20.strftime = %d-%m-%y %H:%M
-      20.wrap = <font size="1"> -&nbsp; | </font><br />
+      20.wrap = &nbsp;- | <br />
   }
   
-  # the RTE parseFunc configuration
-  # 
-  content_stdWrap {
-   	
-  }
+
 
   # SINGLE news
   displaySingle {
     age_stdWrap.age = 1
-    textNewsAge_stdWrap.wrap = 
+    textNewsAge_stdWrap.wrap =
     date_stdWrap.strftime= %d-%m-%y
     time_stdWrap.strftime= %H:%M
-    title_stdWrap.wrap = <strong>|</strong>
-    author_stdWrap.case = upper
+    title_stdWrap.wrap = <font face="verdana" size="3"><strong>|</strong></font>
+    subheader_stdWrap.wrap = <strong><em>|</em></strong>
+	author_stdWrap.case = upper
     author_stdWrap.typolink.parameter.field = author_email
-    links_stdWrap.wrap = <br />
+    links_stdWrap.wrap = | <br />
 
     newsLinksHeader_stdWrap.wrap = <strong>|</strong>
     noNewsIdMsg_stdWrap (
-      <table border=0 cellpadding=0 cellspacing=0 width=100%>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr><td><strong>|</strong></td></tr></table>
     )    
     imageCount=2
@@ -195,6 +218,7 @@ plugin.tt_news {
     date_stdWrap.strftime= %d-%m-%y
     time_stdWrap.strftime= %H:%M
     caption_stdWrap.if.directReturn = 0
+    title_stdWrap.wrap = <strong>|</strong>
     subheader_stdWrap.crop = 100 | ...
     subheader_stdWrap.ifEmpty.field = bodytext
     imageCount=1
@@ -216,11 +240,13 @@ plugin.tt_news {
   # LIST news
   displayList {
     age_stdWrap.age = 1
+    textNewsAge_stdWrap.wrap =
     date_stdWrap.strftime= %A %d. of %B %Y
     time_stdWrap.strftime= %d-%m-%y %H:%M
     caption_stdWrap.wrap = {$plugin.tt_news.caption_stdWrap}
     caption_stdWrap.trim=1
     caption_stdWrap.required=1
+    title_stdWrap.wrap = <strong>|</strong>
     subheader_stdWrap.crop = 300 | ...
     subheader_stdWrap.ifEmpty.field = bodytext
     author_stdWrap.wrap = 
@@ -239,6 +265,9 @@ plugin.tt_news {
     # latestHeader = Das Allerneuste vom Neuen!  
     # more = [weiterlesen...]
   }
+  _CSS_DEFAULT_STYLE (
+  
+  )  
 }
 
 
