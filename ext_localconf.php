@@ -1,7 +1,7 @@
 <?php
 
 /**
- * $Id: ext_localconf.php 53028 2011-10-16 11:45:36Z rupi $
+ * $Id: ext_localconf.php 60835 2012-04-18 10:54:35Z rupi $
  */
 
 if (!defined ("TYPO3_MODE")) 	die ("Access denied.");
@@ -42,17 +42,33 @@ $TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::loadList'] = t3lib_extMgm::extPath('
 $TYPO3_CONF_VARS['BE']['AJAX']['tceFormsCategoryTree::expandCollapse'] = t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_TCAform_selectTree.php:tx_ttnews_TCAform_selectTree->ajaxExpandCollapse';
 
 
+if (function_exists('t3lib_utility_VersionNumber::convertVersionNumberToInteger')) {
+	$t3version = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
+} else {
+    $t3version = t3lib_div::int_from_ver(TYPO3_version);
+}
 
-// caching framework configuration
-if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {
-	$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = array(
-		'frontend' => 't3lib_cache_frontend_StringFrontend',
-		'backend' => 't3lib_cache_backend_DbBackend',
-		'options' => array(
-#			'cacheTable' => 'tt_news_cache',
-#			'tagsTable' => 'tt_news_cache_tags'
-		)
-	);
+if ($t3version < 4006000) {
+	// caching framework configuration
+	if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = array(
+			'frontend' => 't3lib_cache_frontend_StringFrontend',
+			'backend' => 't3lib_cache_backend_DbBackend',
+			'options' => array(
+				'cacheTable' => 'tt_news_cache',
+				'tagsTable' => 'tt_news_cache_tags'
+			)
+		);
+	}
+} else {
+	// caching framework configuration
+	if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = array(
+			'frontend' => 't3lib_cache_frontend_StringFrontend',
+			'backend' => 't3lib_cache_backend_DbBackend',
+			'options' => array()
+		);
+	}
 }
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['frontend'] = 't3lib_cache_frontend_VariableFrontend';
 
