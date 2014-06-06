@@ -74,7 +74,7 @@ plugin.tt_news {
     activeLinkWrap = <strong>|</strong>
     LinksWrap =|
     showResultsWrap = |<br />
-    showResultsNumbersWrap = |
+    showResultsNumbersWrap = 
     browseBoxWrap =  
     browseLinksWrap = |
   }

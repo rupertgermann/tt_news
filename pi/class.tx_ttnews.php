@@ -1738,9 +1738,11 @@ class tx_ttnews extends tslib_pibase {
 	function getCategories($uid, $getAll=false) {
 
 		if (!$this->config['catOrderBy'] || $this->config['catOrderBy'] == 'sorting') {
-			$this->config['catOrderBy'] = 'mmsorting';
+			$mmCatOrderBy = 'mmsorting';
+		} else {
+			$mmCatOrderBy = $this->config['catOrderBy'];
 		}
-
+		
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query (
 			'tt_news_cat.*,tt_news_cat_mm.sorting AS mmsorting',
 			'tt_news',
@@ -1748,7 +1750,7 @@ class tx_ttnews extends tslib_pibase {
 			'tt_news_cat',
 			' AND tt_news_cat_mm.uid_local='.($uid?$uid:0).$this->SPaddWhere.($getAll?' AND tt_news_cat.deleted=0':$this->enableCatFields),
 			'',
-			$this->config['catOrderBy']);
+			$mmCatOrderBy);
 
 		$categories = array();
 		$maincat = 0;
