@@ -61,8 +61,7 @@ writeParseTimesToDevlog = 0
   # cat=basic/dev/161; type=input; label=LLL:EXT:tt_news/locallang.xml:extmng.parsetimeThreshold
 parsetimeThreshold = 0.1
 
-  # cat=basic/dev/1000; type=user[EXT:tt_news/lib/class.tx_ttnews_tsparserext.php:tx_ttnews_tsparserext->displayMessage]; label=LLL:EXT:tt_news/locallang.xml:extmng.updatermsgOption
-updateMessage=0
+
 
 
 

@@ -35,10 +35,7 @@
  * @subpackage tt_news
  */
 
-require_once (PATH_t3lib . 'class.t3lib_treeview.php');
 require_once (t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_div.php');
-;
-
 /**
  * extend class t3lib_treeview to change function wrapTitle().
  *

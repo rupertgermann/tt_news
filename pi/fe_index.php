@@ -53,13 +53,6 @@ if ($L > 0) {
 $idAndTarget = rawurldecode(t3lib_div::_GP('id'));
 $idParts = t3lib_div::trimExplode(' ',$idAndTarget,1);
 $id = intval($idParts[0]);
-require_once(PATH_tslib.'class.tslib_fe.php');
-require_once(PATH_t3lib.'class.t3lib_page.php');
-require_once(PATH_t3lib.'class.t3lib_tstemplate.php');
-require_once(PATH_t3lib.'class.t3lib_cs.php');
-require_once(PATH_t3lib.'class.t3lib_userauth.php');
-require_once(PATH_tslib.'class.tslib_feuserauth.php');
-require_once(PATH_tslib.'class.tslib_content.php');
 
 // Make new instance of TSFE
 //$temp_TSFEclassName = t3lib_div::makeInstanceClassName('tslib_fe');
@@ -96,15 +89,13 @@ if ($L > 0) {
 
 
 
-require_once(t3lib_extMgm::extPath('tt_news').'pi/class.tx_ttnews.php');
-require_once(t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
-require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_typo3ajax.php');
-
 // finding the script path from the variable
 $ajaxID = (string) t3lib_div::_GP('ajaxID');
 
 
-
+require_once(t3lib_extMgm::extPath('tt_news').'pi/class.tx_ttnews.php');
+require_once(t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
+require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_typo3ajax.php');
 /**
  * TODO: 24.11.2009
  *
@@ -132,6 +123,33 @@ $tt_newsObj->conf = &$TSFE->tmpl->setup['plugin.']['tt_news.'];
 if (! $tt_newsObj->conf['dontUsePidList']) {
 	$tt_newsObj->initPidList();
 }
+/**
+ * For some reasons this is needed for TYPO3 6.1
+ *
+ * FIXME: there must be a proper way to do this
+ *
+ */
+$TCA['tt_news'] = array (
+		'ctrl' => array (
+				'enablecolumns' => array (
+						'disabled' => 'hidden',
+						'starttime' => 'starttime',
+						'endtime' => 'endtime',
+						'fe_group' => 'fe_group',
+				),
+		)
+);
+$TCA['tt_news_cat'] = array (
+		'ctrl' => array (
+				'enablecolumns' => array (
+						'disabled' => 'hidden',
+						'starttime' => 'starttime',
+						'endtime' => 'endtime',
+						'fe_group' => 'fe_group',
+				),
+		)
+);
+
 $tt_newsObj->enableFields = $tt_newsObj->getEnableFields('tt_news');
 
 $tt_newsObj->initCategoryVars();

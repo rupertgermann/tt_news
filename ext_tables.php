@@ -235,43 +235,32 @@ t3lib_extMgm::addToAllTCAtypes('be_users','tt_news_categorymounts;;;;1-1-1');
 
 
 if (TYPO3_MODE == 'BE')	{
-	if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4000000) {
-		if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4002000) {
+// 	if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4000000) {
+// 		if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4002000) {
 			t3lib_extMgm::addModule('web','txttnewsM1','',t3lib_extMgm::extPath($_EXTKEY).'mod1/');
 
 			$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
 			$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['icon'] = TRUE;
 
 
-		} else {
-			/**
-			 * @deprecated
-			 * this module will be removed completely in future versions
-			 */
-			t3lib_extMgm::insertModuleFunction(
-				'web_info',
-				'tx_ttnewscatmanager_modfunc1',
-				t3lib_extMgm::extPath($_EXTKEY).'modfunc1/class.tx_ttnewscatmanager_modfunc1.php',
-				'LLL:EXT:tt_news/modfunc1/locallang.xml:moduleFunction.tx_ttnews_modfunc1'
-			);
-		}
+// 		}
 		// register contextmenu for the tt_news category manager
 		$GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][] = array(
 			'name' => 'tx_ttnewscatmanager_cm1',
 			'path' => t3lib_extMgm::extPath($_EXTKEY).'cm1/class.tx_ttnewscatmanager_cm1.php'
 		);
-	}
+// 	}
 		// Adds a tt_news wizard icon to the content element wizard.
 	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi/class.tx_ttnews_wizicon.php';
 
 		// add folder icon
-	if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 4004000) {
-		$ICON_TYPES['news'] = array('icon' => t3lib_extMgm::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');
-	} else {
+// 	if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 4004000) {
+// 		$ICON_TYPES['news'] = array('icon' => t3lib_extMgm::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');
+// 	} else {
 		t3lib_SpriteManager::addTcaTypeIcon('pages', 'contains-news', t3lib_extMgm::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');
-	}
+// 	}
 
-	if (TYPO3_UseCachingFramework) {
+	if (TYPO3_UseCachingFramework || tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 6000000) {
 		// register the cache in BE so it will be cleared with "clear all caches"
 		try {
 			$GLOBALS['typo3CacheFactory']->create(

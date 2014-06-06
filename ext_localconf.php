@@ -42,11 +42,9 @@ $TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::loadList'] = t3lib_extMgm::extPath('
 $TYPO3_CONF_VARS['BE']['AJAX']['tceFormsCategoryTree::expandCollapse'] = t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_TCAform_selectTree.php:tx_ttnews_TCAform_selectTree->ajaxExpandCollapse';
 
 
-if (function_exists('t3lib_utility_VersionNumber::convertVersionNumberToInteger')) {
-	$t3version = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
-} else {
-    $t3version = t3lib_div::int_from_ver(TYPO3_version);
-}
+
+$t3version = tx_ttnews_compatibility::int_from_ver(TYPO3_version);
+
 
 if ($t3version < 4006000) {
 	// caching framework configuration
@@ -75,6 +73,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_ca
 // register news cache table for "clear all caches"
 if ($confArr['cachingMode']=='normal') {
 	$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['tt_news_cache'] = 'tt_news_cache';
+}
+
+// in order to make "direct Preview links" for tt_news work again in TYPO3 >= 6, unset pageNotFoundOnCHashError if a BE_USER is logged in
+if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 6000000) {
+	if ($_COOKIE[\TYPO3\CMS\Core\Authentication\BackendUserAuthentication::getCookieName()]) {
+		$GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = 0;
+	}
 }
 
 

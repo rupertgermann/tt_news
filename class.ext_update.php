@@ -128,11 +128,11 @@ class ext_update {
 		}
 
 
-		if ($this->compatibility()->int_from_ver(TYPO3_version) < 4003000) {
-				// add flashmessages styles
-			$cssPath = $GLOBALS['BACK_PATH'] . t3lib_extMgm::extRelPath('tt_news');
-			$out = '<link rel="stylesheet" type="text/css" href="' . $cssPath . 'compat/flashmessages.css" media="screen" />' . $out;
-		}
+// 		if ($this->compatibility()->int_from_ver(TYPO3_version) < 4003000) {
+// 				// add flashmessages styles
+// 			$cssPath = $GLOBALS['BACK_PATH'] . t3lib_extMgm::extRelPath('tt_news');
+// 			$out = '<link rel="stylesheet" type="text/css" href="' . $cssPath . 'compat/flashmessages.css" media="screen" />' . $out;
+// 		}
 
 
 		return $out;

@@ -66,12 +66,8 @@
  * (This index is automatically created/updated by the extension "extdeveval")
  *
  */
-
 require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_categorytree.php');
 require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_div.php');
-
-
-
 	/**
 	 * this class displays a tree selector with nested tt_news categories.
 	 *

@@ -48,7 +48,7 @@ class tx_ttnews_compatibility implements t3lib_Singleton {
 	 */
 	public function __construct() {
 		if (class_exists('t3lib_utility_VersionNumber')) {
-			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+			if (tx_ttnews_compatibility::int_from_ver(TYPO3_version) >= 6000000) {
 				$this->isVersion6 = TRUE;
 			}
 		}
@@ -62,14 +62,20 @@ class tx_ttnews_compatibility implements t3lib_Singleton {
 	 * @param integer $max Higher limit
 	 * @param integer $zeroValue Default value if input is FALSE.
 	 * @return integer The input value forced into the boundaries of $min and $max
-	 * @deprecated removed in TYPO3 6.0.0 already
 	 */
 	public function intInRange($theInt, $min, $max = 2000000000, $zeroValue = 0) {
-		if ($this->isVersion6) {
-			return t3lib_utility_Math::forceIntegerInRange($theInt, $min, $max, $zeroValue);
-		} else {
-			return t3lib_div::intInRange($theInt, $min, $max, $zeroValue);
+			// Returns $theInt as an integer in the integerspace from $min to $max
+		$theInt = intval($theInt);
+		if ($zeroValue && !$theInt) {
+			$theInt = $zeroValue;
+		} // If the input value is zero after being converted to integer, zeroValue may set another default value for it.
+		if ($theInt < $min) {
+			$theInt = $min;
 		}
+		if ($theInt > $max) {
+			$theInt = $max;
+		}
+		return $theInt;
 	}
 
 	/**
@@ -77,14 +83,17 @@ class tx_ttnews_compatibility implements t3lib_Singleton {
 	 *
 	 * @param string $verNumberStr Version number on format x.x.x
 	 * @return integer Integer version of version number (where each part can count to 999)
-	 * @deprecated to be removed in TYPO3 6.1.0
 	 */
-	public function int_from_ver($verNumberStr) {
-		if ($this->isVersion6) {
-			return t3lib_utility_VersionNumber::convertVersionNumberToInteger($verNumberStr);
-		} else {
-			return t3lib_div::int_from_ver($verNumberStr);
+	public function int_from_ver($versionNumber) {
+		$versionParts = explode('.', $versionNumber);
+		return intval(((int) $versionParts[0] . str_pad((int) $versionParts[1], 3, '0', STR_PAD_LEFT)) . str_pad((int) $versionParts[2], 3, '0', STR_PAD_LEFT));
 		}
+
+	public function testInt($var) {
+		if ($var === '') {
+			return FALSE;
+		}
+		return (string) intval($var) === (string) $var;
 	}
 
 	/**
@@ -95,7 +104,6 @@ class tx_ttnews_compatibility implements t3lib_Singleton {
 	 * @param string $langKey TYPO3 language key, eg. "dk" or "de" or "default"
 	 * @param string $charset Character set (optional)
 	 * @return array LOCAL_LANG array in return.
-	 * @deprecated since TYPO3 4.6, will be removed in TYPO3 6.0 - use t3lib_l10n_parser_Llxml::getParsedData() from now on
 	 */
 	public function readLLXMLfile($fileRef, $langKey, $charset = '') {
 		if ($this->isVersion6) {

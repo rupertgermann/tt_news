@@ -1,29 +1,29 @@
 <?php
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2005-2011 Rupert Germann (rupi@gmx.li)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*  A copy is found in the textfile GPL.txt and important notices to the license
-*  from the author is found in LICENSE.txt distributed with these scripts.
-*
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2005-2011 Rupert Germann (rupi@gmx.li)
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *  A copy is found in the textfile GPL.txt and important notices to the license
+ *  from the author is found in LICENSE.txt distributed with these scripts.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 /**
  * Class 'tx_ttnews_tcemain' for the tt_news extension.
@@ -51,8 +51,6 @@
  * (This index is automatically created/updated by the extension "extdeveval")
  *
  */
-
-require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_div.php');;
 
 /**
  * Class being included by TCEmain using a hook
@@ -108,10 +106,10 @@ class tx_ttnews_tcemain {
 		if ($table == 'tt_news_cat' && is_int($id)) { // prevent moving of categories into their rootline
 			$newParent = intval($fieldArray['parent_category']);
 			if ($newParent) {
-				$subcategories = tx_ttnews_div::getSubCategories($id,$this->SPaddWhere.$this->enableCatFields);
-				if (t3lib_div::inList($subcategories,$newParent)) {
-					$sourceRec = t3lib_BEfunc::getRecord($table,$id,'title');
-					$targetRec = t3lib_BEfunc::getRecord($table,$fieldArray['parent_category'],'title');
+				$subcategories = tx_ttnews_div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields);
+				if (t3lib_div::inList($subcategories, $newParent)) {
+					$sourceRec = t3lib_BEfunc::getRecord($table, $id, 'title');
+					$targetRec = t3lib_BEfunc::getRecord($table, $fieldArray['parent_category'], 'title');
 
 
 					/**
@@ -119,7 +117,7 @@ class tx_ttnews_tcemain {
 					 * localize
 					 */
 
-					$pObj->log($table,$id,2,0,1,"processDatamap: Attempt to move category '%s' (%s) to inside of its own rootline (at category '%s' (%s)).",1,array($sourceRec['title'],$id,$targetRec['title'],$newParent));
+					$pObj->log($table, $id, 2, 0, 1, "processDatamap: Attempt to move category '%s' (%s) to inside of its own rootline (at category '%s' (%s)).", 1, array($sourceRec['title'], $id, $targetRec['title'], $newParent));
 						// unset fieldArray to prevent saving of the record
 					$fieldArray = array();
 				}
@@ -131,7 +129,7 @@ class tx_ttnews_tcemain {
 
 				// copy "type" field in localized records
 			if (!is_int($id) && $fieldArray['l18n_parent']) { // record is a new localization
-				$rec = t3lib_BEfunc::getRecord($table,$fieldArray['l18n_parent'],'type'); // get "type" from parent record
+				$rec = t3lib_BEfunc::getRecord($table, $fieldArray['l18n_parent'], 'type'); // get "type" from parent record
 				$fieldArray['type'] = $rec['type']; // set type of current record
 			}
 
@@ -156,17 +154,17 @@ class tx_ttnews_tcemain {
 					if (count($treeIDs)) {
 						$allowedItems = $treeIDs;
 					} else {
-						$allowedItems = t3lib_div::intExplode(',',$GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
+						$allowedItems = t3lib_div::intExplode(',', $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
 					}
 					foreach ($categories as $k) {
-						if(!in_array($k,$allowedItems)) {
-							$notAllowedItems[]=$k;
+						if (!in_array($k, $allowedItems)) {
+							$notAllowedItems[] = $k;
 						}
 					}
 				}
 				if ($notAllowedItems[0]) {
 
-					$pObj->log($table,$id,2,0,1,"processDatamap: Attempt to modify a record from table '%s' without permission. Reason: the record has one or more categories assigned that are not defined in your BE usergroup (".implode($notAllowedItems,',').").",1,array($table));
+					$pObj->log($table, $id, 2, 0, 1, "processDatamap: Attempt to modify a record from table '%s' without permission. Reason: the record has one or more categories assigned that are not defined in your BE usergroup (" . implode($notAllowedItems, ',') . ").", 1, array($table));
 						// unset fieldArray to prevent saving of the record
 					$fieldArray = array();
 				}
@@ -220,21 +218,21 @@ class tx_ttnews_tcemain_cmdmap {
 	function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj) {
 
 		if ($table == 'tt_news' && !$GLOBALS['BE_USER']->isAdmin()) {
-			$rec = t3lib_BEfunc::getRecord($table,$id,'editlock'); // get record to check if it has an editlock
+			$rec = t3lib_BEfunc::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
 			if ($rec['editlock']) {
-				$pObj->log($table,$id,2,0,1,"processCmdmap [editlock]: Attempt to ".$command." a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).",1,array($table));
+				$pObj->log($table, $id, 2, 0, 1, "processCmdmap [editlock]: Attempt to " . $command . " a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).", 1, array($table));
 				$error = true;
 			}
 
 
 			if (is_int($id)) {
 					// get categories from the (untranslated) record in db
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query (
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query(
 						'tt_news_cat.uid, tt_news_cat.deleted, tt_news_cat_mm.sorting AS mmsorting',
 						'tt_news',
 						'tt_news_cat_mm',
 						'tt_news_cat',
-						' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local='.(is_int($id)?$id:0).t3lib_BEfunc::BEenableFields('tt_news_cat'));
+					' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . t3lib_BEfunc::BEenableFields('tt_news_cat'));
 				$categories = array();
 				while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 					$categories[] = $row['uid'];
@@ -247,17 +245,17 @@ class tx_ttnews_tcemain_cmdmap {
 					if (count($treeIDs)) {
 						$allowedItems = $treeIDs;
 					} else {
-						$allowedItems = t3lib_div::intExplode(',',$GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
+						$allowedItems = t3lib_div::intExplode(',', $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
 					}
 					foreach ($categories as $k) {
-						if(!in_array($k,$allowedItems)) {
-							$notAllowedItems[]=$k;
+						if (!in_array($k, $allowedItems)) {
+							$notAllowedItems[] = $k;
 						}
 					}
 				}
 
 				if ($notAllowedItems[0]) {
-					$pObj->log($table,$id,2,0,1,"tt_news processCmdmap: Attempt to ".$command." a record from table '%s' without permission. Reason: the record has one or more categories assigned that are not defined in your BE usergroup (tablename.allowedItems).",1,array($table));
+					$pObj->log($table, $id, 2, 0, 1, "tt_news processCmdmap: Attempt to " . $command . " a record from table '%s' without permission. Reason: the record has one or more categories assigned that are not defined in your BE usergroup (tablename.allowedItems).", 1, array($table));
 					$error = true;
 
 
@@ -283,32 +281,32 @@ class tx_ttnews_tcemain_cmdmap {
 
 			// copy records recursively from Drag&Drop in the category manager
 		if ($table == 'tt_news_cat' && $command == 'DDcopy') {
-			$srcRec = t3lib_BEfunc::getRecordWSOL('tt_news_cat',$srcId);
+			$srcRec = t3lib_BEfunc::getRecordWSOL('tt_news_cat', $srcId);
 			$overrideValues = array('parent_category' => $destId, 'hidden' => 1);
-			$newRecID = $pObj->copyRecord($table,$srcId,$srcRec['pid'],1,$overrideValues);
+			$newRecID = $pObj->copyRecord($table, $srcId, $srcRec['pid'], 1, $overrideValues);
 			$CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $newRecID, $table, $pObj);
 
-			foreach($CPtable as $recUid => $recParent)	{
+			foreach ($CPtable as $recUid => $recParent) {
 				$newParent = $pObj->copyMappingArray[$table][$recParent];
 				if (isset($newParent))	{
 					$overrideValues = array('parent_category' => $newParent, 'hidden' => 1);
-					$pObj->copyRecord($table,$recUid,$srcRec['pid'],1,$overrideValues);
+					$pObj->copyRecord($table, $recUid, $srcRec['pid'], 1, $overrideValues);
 				} else {
-					$pObj->log($table,$srcId,5,0,1,'Something went wrong during copying branch');
+					$pObj->log($table, $srcId, 5, 0, 1, 'Something went wrong during copying branch');
 					break;
 				}
 			}
 		}
 			// delete records recursively from Context Menu in the category manager
 		if ($table == 'tt_news_cat' && $command == 'DDdelete') {
-			$pObj->deleteRecord($table,$srcId, FALSE);
+			$pObj->deleteRecord($table, $srcId, FALSE);
 			$CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $srcId, $table, $pObj);
 
-			foreach($CPtable as $recUid => $p)	{
+			foreach ($CPtable as $recUid => $p) {
 				if (isset($recUid))	{
-					$pObj->deleteRecord($table,$recUid,FALSE);
+					$pObj->deleteRecord($table, $recUid, FALSE);
 				} else {
-					$pObj->log($table,$recUid,5,0,1,'Something went wrong during deleting branch');
+					$pObj->log($table, $recUid, 5, 0, 1, 'Something went wrong during deleting branch');
 					break;
 				}
 			}
@@ -328,13 +326,13 @@ class tx_ttnews_tcemain_cmdmap {
 	 */
 	function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)	{
 		if ($counter)	{
-			$addW =  !$pObj->admin ? ' AND '.$pObj->BE_USER->getPagePermsClause($pObj->pMap['show']) : '';
-			$mres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', $table, 'parent_category='.intval($srcId).$pObj->deleteClause($table).$addW, '', '');
-			while(($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($mres)))	{
-				if ($row['uid']!=$rootID)	{
+			$addW = !$pObj->admin ? ' AND ' . $pObj->BE_USER->getPagePermsClause($pObj->pMap['show']) : '';
+			$mres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', $table, 'parent_category=' . intval($srcId) . $pObj->deleteClause($table) . $addW, '', '');
+			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($mres))) {
+				if ($row['uid'] != $rootID) {
 					$CPtable[$row['uid']] = $srcId;
-					if ($counter-1)	{	// If the uid is NOT the rootID of the copyaction and if we are supposed to walk further down
-						$CPtable = $this->int_recordTreeInfo($CPtable,$row['uid'],$counter-1, $rootID, $table, $pObj);
+					if ($counter - 1) { // If the uid is NOT the rootID of the copyaction and if we are supposed to walk further down
+						$CPtable = $this->int_recordTreeInfo($CPtable, $row['uid'], $counter - 1, $rootID, $table, $pObj);
 					}
 				}
 			}

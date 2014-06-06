@@ -78,10 +78,13 @@
 unset($MCONF);
 require('conf.php');
 require_once($BACK_PATH.'init.php');
-require_once($BACK_PATH.'template.php');
+if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 6002000) {
+	require_once($BACK_PATH.'template.php');
+}
+
 
 $GLOBALS['LANG']->includeLLFile('EXT:tt_news/mod1/locallang.xml');
-require_once(PATH_t3lib.'class.t3lib_scbase.php');
+//require_once(PATH_t3lib.'class.t3lib_scbase.php');
 $GLOBALS['BE_USER']->modAccess($MCONF,1);	// This checks permissions and exits if the users has no permission for entry.
 	// DEFAULT initialization of a module [END]
 
@@ -452,7 +455,7 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 			}
 
 				// Create overview
-			$outputString .= '<table border="0" cellpadding="1" cellspacing="2" id="typo3-page-stdlist">'.implode('',$tRows).'</table>';
+			$outputString = '<table border="0" cellpadding="1" cellspacing="2" id="typo3-page-stdlist">'.implode('',$tRows).'</table>';
 
 				// Add output:
 			$this->markers['MOD_INFO'] = $outputString;
@@ -619,7 +622,9 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 		$this->initSubCategories();
 
 		$table = 'tt_news';
+		/* @var $dblist tx_ttnews_recordlist */
 		$dblist = t3lib_div::makeInstance('tx_ttnews_recordlist');
+
 
 		$dblist->backPath = $GLOBALS['BACK_PATH'];
 		$dblist->script = $this->script;
@@ -726,7 +731,9 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 	 * @return	[type]		...
 	 */
 	function processAjaxRequestConstruct() {
+		if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 6002000) {
 		require_once(PATH_typo3.'template.php');
+		}
 
 		global $SOBE;
 
@@ -777,7 +784,7 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 			$row = t3lib_BEfunc::getRecord($table, $this->category);
 //			$reset = '<a href="'.$this->script.'?id='.$this->id.'" id="resetcatselection">'.$LANG->getLL('resetCatSelection').'</a>';
 			$title = '<strong>'.t3lib_BEfunc::getRecordTitle($table,$row).'</strong>';
-			$content = '<div id="newscatsmsg">'.$reset.$LANG->getLL('showingOnlyCat').$title.'</div>';
+			$content = '<div id="newscatsmsg">'.$LANG->getLL('showingOnlyCat').$title.'</div>';
 
 			if ($this->useSubCategories && ($subCats = t3lib_div::rmFromList($this->category,$this->selectedCategories))) {
 				if (!$this->mData['showHiddenCategories']) {
@@ -812,7 +819,7 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 
 	function displaySearch($url) {
 		$formElements=array('<form action="'.htmlspecialchars($url).'" method="post">','</form>');
-
+		$content = '';
 			// Table with the search box:
 		$content.= '
 			'.$formElements[0].'
@@ -969,17 +976,21 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 		$backPath = $GLOBALS['BACK_PATH'];
 
 			// CSH
-		if (!strlen($this->id))	{
-			$buttons['csh'] = t3lib_BEfunc::cshItem('_MOD_web_txttnewsM1', 'list_module_noId', $backPath);
-		} elseif(!$this->id) {
-			$buttons['csh'] = t3lib_BEfunc::cshItem('_MOD_web_txttnewsM1', 'list_module_root', $backPath);
-		} else {
-			$buttons['csh'] = t3lib_BEfunc::cshItem('_MOD_web_txttnewsM1', 'list_module', $backPath);
-		}
+// 		if (!strlen($this->id))	{
+// 			$buttons['csh'] = t3lib_BEfunc::cshItem('_MOD_web_txttnewsM1', 'list_module_noId', $backPath);
+// 		} elseif(!$this->id) {
+// 			$buttons['csh'] = t3lib_BEfunc::cshItem('_MOD_web_txttnewsM1', 'list_module_root', $backPath);
+// 		} else {
+// 			$buttons['csh'] = t3lib_BEfunc::cshItem('_MOD_web_txttnewsM1', 'list_module', $backPath);
+// 		}
 
 		if (isset($this->id)) {
 			if ($GLOBALS['BE_USER']->check('modules','web_list'))	{
-				$href = $backPath . 'db_list.php?id=' . $this->pageinfo['uid'] . '&returnUrl=' . rawurlencode(t3lib_div::getIndpEnv('REQUEST_URI'));
+
+
+				$href = t3lib_BEfunc::getModuleUrl('web_list', array ('id' => $this->pageinfo['uid'], 'returnUrl' => t3lib_div::getIndpEnv('REQUEST_URI')) );
+
+
 				$buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '">' .
 						'<img' . t3lib_iconWorks::skinImg($backPath, 'gfx/list.gif', 'width="11" height="11"') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.showList', 1) . '" alt="" />' .
 						'</a>';
