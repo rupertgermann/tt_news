@@ -1,127 +1,140 @@
-
 /**
 * Real Url config for tt_news
-* 
+*
+* This config file includes the new GETvars 'month' and 'day' (available since tt_news 2.2.0)
+* and it does not include a configuration for the tt_news backPid.
+*
+* this configuration requires that tt_news is configured to use this options:
+*
+* plugin.tt_news {
+*   dontUseBackPid = 1
+*   useHRDates = 1
+* }
+*
+* see section "RealUrl and SimulateStaticDocuments" in the tt_news manual for more information.
+* http://typo3.org/documentation/document-library/tt_news/
+*
 */
 
-
-// realurl config
-$TYPO3_CONF_VARS['EXTCONF']['realurl'] = array('_DEFAULT' => array(),
-
-### Add your server name here ###
-    'yourserver.org' => array('init' => array('enableCHashCache' => 1,
-            // 'appendMissingSlash' => 'ifNotFile',
+$TYPO3_CONF_VARS['EXTCONF']['realurl'] = array(
+	'_DEFAULT' => array(
+		'init' => array(
+			'enableCHashCache' => 1,
+            'appendMissingSlash' => 'ifNotFile',
             'enableUrlDecodeCache' => 1,
             'enableUrlEncodeCache' => 1,
-            ),
+        ),
         'redirects' => array(),
         'preVars' => array(
-            array('GETvar' => 'no_cache',
-                'valueMap' => array('nc' => 1,
-                    ),
-                'noMatch' => 'bypass',
+            array(
+				'GETvar' => 'no_cache',
+                'valueMap' => array(
+					'nc' => 1,
                 ),
-            array('GETvar' => 'L',
-                'valueMap' => array('dk' => '1', 
-                    'de' => '2', 
-                    ),
                 'noMatch' => 'bypass',
-                ),
             ),
+            array(
+				'GETvar' => 'L',
+                'valueMap' => array(
+					'dk' => '2',
+                    'de' => '1',
+                ),
+                'noMatch' => 'bypass',
+            ),
+        ),
         'pagePath' => array(
-		
-		'type' => 'user',
+			'type' => 'user',
             'userFunc' => 'EXT:realurl/class.tx_realurl_advanced.php:&tx_realurl_advanced->main',
             'spaceCharacter' => '-',
             'languageGetVar' => 'L',
             'expireDays' => 7,
-### Add the id of the rootpage in your pagetree ###
-            'rootpage_id' => 168, 
-            ),
+###### include your rootpage id here
+            'rootpage_id' => 1,
+        ),
         'fixedPostVars' => array(),
-        'postVarSets' => array('_DEFAULT' => array(
-     
-                // archive
-                'period' => array(
-                    array('condPrevValue' => -1,
-                        'GETvar' => 'tx_ttnews[pS]' , 
-                        // 'valueMap' => array(
-                        // )
+        'postVarSets' => array(
+			'_DEFAULT' => array(
+				// news archive parameters
+                'archive' => array(
+                    array(
+                        'GETvar' => 'tx_ttnews[year]' ,
                         ),
-                    array('GETvar' => 'tx_ttnews[pL]' , 
+                	array(
+						'GETvar' => 'tx_ttnews[month]' ,
+					   	'valueMap' => array(
+							'january' => '01',
+                    		'february' => '02',
+							'march' => '03',
+							'april' => '04',
+							'may' => '05',
+							'june' => '06',
+							'july' => '07',
+							'august' => '08',
+							'september' => '09',
+							'october' => '10',
+							'november' => '11',
+							'december' => '12',
+						   	)
                         ),
-                    array('GETvar' => 'tx_ttnews[arc]' ,
-                        'valueMap' => array('archived' => 1,
-                            'non-archived' => -1,
-                            )
-                        ),
-                    ), 
-
-                // pagebrowser
+                    ),
+                // news pagebrowser
                 'browse' => array(
-                    array('GETvar' => 'tx_ttnews[pointer]',
-                       ),
-                    ),
-				// select news by category	
-                'select' => array (
-                    array('GETvar' => 'tx_ttnews[cat]',
-                        'lookUpTable' => array('table' => 'tt_news_cat',
-                            'id_field' => 'uid',
-                            'alias_field' => 'title',
-                            'addWhereClause' => ' AND NOT deleted',
-                            'useUniqueCache' => 1,
-                            'useUniqueCache_conf' => array('strtolower' => 1,
-                                ),
-                            ),
+                    array(
+						'GETvar' => 'tx_ttnews[pointer]',
                         ),
                     ),
-
-				// backPid link
-//                'back_to' => array(
-//                    array('GETvar' => 'tx_ttnews[backPid]',
-//					 'lookUpTable' => array('table' => 'pages',
-//                            'id_field' => 'uid',
-//                            'alias_field' => 'title',
-//                            'addWhereClause' => ' AND NOT deleted',
-//                            'useUniqueCache' => 1,
-//                            'useUniqueCache_conf' => array('strtolower' => 1,
-//                                'spaceCharacter' => '-',
-//                               ),
-//                           ),
-//                        ),
-//                    ),
-					
-					
-				// news title	
+                // news categories
+                'select_category' => array (
+                    array(
+						'GETvar' => 'tx_ttnews[cat]',
+                        ),
+                    ),
+                // news articles and searchwords
                 'article' => array(
-                  array('GETvar' => 'tx_ttnews[backPid]',
-                        ),
-                    array('GETvar' => 'tx_ttnews[tt_news]',
-                        'lookUpTable' => array('table' => 'tt_news',
+                    array(
+						'GETvar' => 'tx_ttnews[tt_news]',
+                        'lookUpTable' => array(
+							'table' => 'tt_news',
                             'id_field' => 'uid',
                             'alias_field' => 'title',
                             'addWhereClause' => ' AND NOT deleted',
                             'useUniqueCache' => 1,
-                            'useUniqueCache_conf' => array('strtolower' => 1,
+                            'useUniqueCache_conf' => array(
+								'strtolower' => 1,
                                 'spaceCharacter' => '-',
                                 ),
                             ),
                         ),
-                    array('GETvar' => 'tx_ttnews[swords]'
-                       ),
+                    array(
+						'GETvar' => 'tx_ttnews[swords]',
+                        ),
                     ),
                 ),
             ),
-        'fileName' => array('index' => array('rss.xml' => array('keyValues' => array('type' => 100,
-                        ),
-                    ), 
-                // 'index.html' => array(
-                // 'keyValues' => array(),
-                // ),
+		// configure filenames for different pagetypes
+        'fileName' => array(
+			'index' => array(
+				'rss.xml' => array(
+					'keyValues' => array(
+						'type' => 100,
+					),
                 ),
-
-            'defaultToHTMLsuffixOnPrev' => 1,
+				'rss091.xml' => array(
+					'keyValues' => array(
+						'type' => 101,
+                     ),
+                ),
+				'rdf.xml' => array(
+					'keyValues' => array(
+						'type' => 102,
+					),
+                ),
+				'atom.xml' => array(
+					'keyValues' => array(
+						'type' => 103,
+                    ),
+                ),
             ),
-        )
-    );
-
+        ),
+	),
+);

@@ -22,36 +22,36 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
-* [CLASS/FUNCTION INDEX of SCRIPT]
-*
-*
-*
-*   48: class ext_update
-*   55:     function main()
-*  163:     function access($what = 'all')
-*  189:     function query($updatewhat)
-*
-* TOTAL FUNCTIONS: 3
-* (This index is automatically created/updated by the extension "extdeveval")
-*
-*/
+ * [CLASS/FUNCTION INDEX of SCRIPT]
+ *
+ *
+ *
+ *   48: class ext_update
+ *   55:     function main()
+ *  166:     function access($what = 'all')
+ *  194:     function query($updatewhat)
+ *
+ * TOTAL FUNCTIONS: 3
+ * (This index is automatically created/updated by the extension "extdeveval")
+ *
+ */
 
 
 
 /**
-* Class for updating tt_news content elements and category relations.
-*
-* @author  Rupert Germann <rupi@gmx.li>
-* @package TYPO3
-* @subpackage tt_news
-*/
+ * Class for updating tt_news content elements and category relations.
+ *
+ * @author  Rupert Germann <rupi@gmx.li>
+ * @package TYPO3
+ * @subpackage tt_news
+ */
 class ext_update {
 
 	/**
-	* Main function, returning the HTML content of the module
-	*
-	* @return string  HTML
-	*/
+	 * Main function, returning the HTML content of the module
+	 *
+	 * @return	string		HTML
+	 */
 	function main() {
 		$testres = $GLOBALS['TYPO3_DB']->exec_SELECTquery ('*', 'tt_news_cat_mm', '1=1');
 		// check only for new category relations if there are 0 rows in the table tt_news_cat_mm
@@ -61,7 +61,7 @@ class ext_update {
 				$count_cat = $GLOBALS['TYPO3_DB']->sql_num_rows($res_cat);
 			}
 		}
-		
+
 		$res_flex = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($this->query('flexforms'));
 		if ($res_flex) {
 			$count_flex = $GLOBALS['TYPO3_DB']->sql_num_rows($res_flex);
@@ -157,12 +157,12 @@ class ext_update {
 	}
 
 	/**
-	* Checks how many rows are found and returns true if there are any
-	* (this function is called from the extension manager)
-	*
-	* @param [type]  $what: ...
-	* @return boolean
-	*/
+	 * Checks how many rows are found and returns true if there are any
+	 * (this function is called from the extension manager)
+	 *
+	 * @param	string		$what: what should be updated
+	 * @return	boolean
+	 */
 	function access($what = 'all') {
 		if ($what = 'all') {
 
@@ -186,11 +186,11 @@ class ext_update {
 
 
 	/**
-	* Creates query finding all tt_news elements which has a category relation in tt_news table not replicated in tt_news_cat_mm
-	*
-	* @param [type]  $updatewhat: ...
-	* @return string  Full query
-	*/
+	 * Creates query finding all tt_news elements which has a category relation in tt_news table not replicated in tt_news_cat_mm
+	 *
+	 * @param	string		$updatewhat: determines which query should be returned
+	 * @return	string		Full query
+	 */
 	function query($updatewhat) {
 		if ($updatewhat == 'categoryrelations') {
 			$query = array(

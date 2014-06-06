@@ -27,27 +27,27 @@
 /**
  * This is an example function for displaying links to atached files from news articles.
  * it uses the function itemMarkerArrayFunc() from the tt_news class fill the new (html)template
- * markers ###FILE_LINK### and ###TEXT_FILES### with values from the database field "news_files"  
- *  
+ * markers ###FILE_LINK### and ###TEXT_FILES### with values from the database field "news_files"
  *
- * $Id: example_itemMarkerArrayFunc.php,v 1.7 2004/11/17 17:21:53 rupertgermann Exp $
+ *
+ * $Id: example_itemMarkerArrayFunc.php,v 1.8 2005/05/15 19:18:18 rupertgermann Exp $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */
 
 /**
  * Example TS-setup for the display of the filelinks.
- * see: http://typo3.org/documentation/document-library/doc_core_tsref/filelink/ 
+ * see: http://typo3.org/documentation/document-library/doc_core_tsref/filelink/
  * for more details about configuring filelinks
- */ 
-/*  
+ */
+/*
 		add this to your TS setup:
-		
+
   		# include the php script
 		includeLibs.displayFileLinks = EXT:tt_news/res/example_itemMarkerArrayFunc.php
 		# call user function
 		plugin.tt_news.itemMarkerArrayFunc = user_displayFileLinks
-		
+
 		# configure some options
 		plugin.tt_news{
 		  newsFiles {
@@ -55,32 +55,33 @@
 		    icon = 1
 		    stdWrap.wrap =   | <br />
 		   }
-		} 
+		}
 */
-/** 
+/**
  * Example function for displaying links to atached files from news articles.
- *   
- * @param 	array	$markerArray: array filled with markers from the getItemMarkerArray function in tt_news class. see: EXT:tt_news/pi/class.tx_ttnews.php  
- * @return	array	the changed markerArray 
+ *
+ * @param	array		$markerArray: array filled with markers from the getItemMarkerArray function in tt_news class. see: EXT:tt_news/pi/class.tx_ttnews.php
+ * @param	[type]		$conf: ...
+ * @return	array		the changed markerArray
  */
 function user_displayFileLinks($markerArray, $conf){
-	$row = $conf['parentObj']->local_cObj->data; // get the data array of the current news record 
+	$row = $conf['parentObj']->local_cObj->data; // get the data array of the current news record
    // t3lib_div::debug($markerArray);
-	$markerArray['###FILE_LINK###'] = ''; 
-	$markerArray['###TEXT_FILES###'] = $conf['parentObj']->local_cObj->stdWrap($conf['parentObj']->pi_getLL('textFiles'), $conf['parentObj']->conf['newsFilesHeader_stdWrap.']); 
+	$markerArray['###FILE_LINK###'] = '';
+	$markerArray['###TEXT_FILES###'] = $conf['parentObj']->local_cObj->stdWrap($conf['parentObj']->pi_getLL('textFiles'), $conf['parentObj']->conf['newsFilesHeader_stdWrap.']);
 	if ($row['news_files']) {
 		$fileArr = explode(',',$row['news_files']);
-	 	while(list(,$val)=each($fileArr)) { 
+	 	while(list(,$val)=each($fileArr)) {
 		// fills the marker ###FILE_LINK### with the links to the atached files
-			$markerArray['###FILE_LINK###'] .= $conf['parentObj']->local_cObj->filelink($val,$conf['parentObj']->conf['newsFiles.']) ; 
+			$markerArray['###FILE_LINK###'] .= $conf['parentObj']->local_cObj->filelink($val,$conf['parentObj']->conf['newsFiles.']) ;
 		}
 	} else { // no file atached
 	    $markerArray['###FILE_LINK###']='';
-		$markerArray['###TEXT_FILES###']=''; 
+		$markerArray['###TEXT_FILES###']='';
 	}
-		
+
 	return $markerArray;
-	
+
 }
 
 

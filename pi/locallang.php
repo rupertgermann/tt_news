@@ -1,7 +1,7 @@
 <?php
 /**
  * Language labels for plugin 'tt_news'
- * 
+ *
  * This file is detected by the translation tool.
  */
 
@@ -21,16 +21,22 @@ $LOCAL_LANG = Array (
 		'noResultsMsg' => 'nothing found',
 		'searchEmptyMsg' => 'Please enter a searchword.',
 		'noNewsToListMsg' => 'no news in this list.',
+		'versionPreviewMessage' => 'Version preview !',
+		'versionPreviewMessageLinkToOriginal' => '(click here to see the public version of this record)',
+		'nonPlublicVersionMsg' => 'Error! You requested a non-public version of a tt_news article.',
+		'noNewsIdMsg' => 'no news_id given',
+		'noTranslMsg' => 'Sorry, there is no translation for this news-article.',
 		'textRelated' => 'Related News:',
 		'textLinks' => 'Links:',
 		'textFiles' => 'Files:',
+		'textRelatedByCategory' => 'Other news from this category:',
 		'pi_list_browseresults_prev' => '< Previous',
 		'pi_list_browseresults_page' => 'Page ',
 		'pi_list_browseresults_next' => 'Next >',
-		'noNewsIdMsg' => 'no news_id given',
 		'searchButtonLabel' => 'Search',
 		'altTextCatSelector' => 'Display only category: ',
 		'altTextCatShortcut' => 'Go to: ',
+		'catmenuHeader' => 'Select a category:',
 	),
 	'dk' => Array (
 		'latestHeader' => 'Seneste nyt:',

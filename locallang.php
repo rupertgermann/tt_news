@@ -1,15 +1,15 @@
 <?php
 /**
  * Language labels for extension "tt_news"
- * 
- * TYPO3 CVS ID: $Id: locallang.php,v 1.20 2005/03/04 21:50:43 rupertgermann Exp $
+ *
+ * TYPO3 CVS ID: $Id: locallang.php,v 1.22 2005/05/15 19:13:39 rupertgermann Exp $
  * This file is detected by the translation tool.
  */
 
 $LOCAL_LANG = Array (
 	'default' => Array (
 		'pi_title' => 'News',
-		'pi_plus_wiz_description' => 'Adds news to the page.',
+		'pi_plus_wiz_description' => 'Versatile news system for TYPO3',
 	),
 	'dk' => Array (
 		'pi_title' => 'Nyheder',

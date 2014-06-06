@@ -28,7 +28,7 @@
  * This is an example for processing the archive menu by a user function.
  * it uses the function amenuUserFunc() from the tt_news class
  *
- * $Id: news_amenuUserFunc2.php,v 1.2 2004/11/17 17:21:53 rupertgermann Exp $
+ * $Id: news_amenuUserFunc2.php,v 1.3 2005/05/15 19:18:18 rupertgermann Exp $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */
@@ -74,7 +74,7 @@ function user_processAmenu($amenuItemsArr, $conf){
 			if ($year != $oldyear) { // if year has changed, add a new item to the array
 			    if ($item['data']['start']<20000) {
 				    $year = 'no date';
-				}	
+				}
 			    $markerArray['###ARCHIVE_YEAR###'] = $conf['parentObj']->local_cObj->stdWrap($year, $lConf['wrap3.']);
 				$out[]['html'] = $conf['parentObj']->cObj->substituteMarkerArrayCached($tmpl, $markerArray);
 

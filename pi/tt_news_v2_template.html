@@ -2,6 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+<!--
+		IMPORTANT: The stylesheet link below is only for testing the template file directly in a browser while editing it.
+		On the website the css styles for tt_news have to be include with the static TS template "default CSS style (tt_news)" or
+		with an external file (see tt_news/res/tt_news_v2_styles.css) which you include via TypoSript in the "page" object.
+
+ -->
 	<title>new News example template</title>
     <link href="../res/tt_news_tut_main_stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
@@ -207,7 +213,12 @@ LINK_NEXT - used in the pagebrowser
 				
 					###TEXT_LINKS###
 					###NEWS_LINKS###
+			
+					###TEXT_RELATEDBYCATEGORY###
+					###NEWS_RELATEDBYCATEGORY###
+
 			###ADDINFO_WRAP_E###
+			###NEWS_SINGLE_PAGEBROWSER###
 	<div class="news-single-backlink">	
 	<!--###LINK_ITEM###-->###BACK_TO_LIST###<!--###LINK_ITEM###-->
 	</div>
@@ -262,8 +273,12 @@ LINK_NEXT - used in the pagebrowser
 				
 					###TEXT_LINKS###
 					###NEWS_LINKS###
+
+					###TEXT_RELATEDBYCATEGORY###
+					###NEWS_RELATEDBYCATEGORY###
 			###ADDINFO_WRAP_E###
 ###COMMENTS###
+###NEWS_SINGLE_PAGEBROWSER###
 <div class="news-single-backlink">	
 <!--###LINK_ITEM###-->###BACK_TO_LIST###<!--###LINK_ITEM###-->
 </div>			</div>		
@@ -426,7 +441,24 @@ LINK_NEXT - used in the pagebrowser
  ###BROWSE_LINKS###
 
 <!-- ###TEMPLATE_HEADER_LIST### end -->
+<br /><br />
+<br />
+<hr /><br />
+<h3>TEMPLATE_CAT_RELATED</h3>
+<em>shows a list of related news with the same category</em><br />
 
+<br />
+<!-- ###TEMPLATE_CAT_RELATED### begin -->
+	<!-- ###CONTENT### begin
+		  This is the part of the template substituted with the list of news: 
+	-->
+		<!-- ###NEWS### begin
+			Template for a single item 
+		-->
+		###GW3B###<!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--> ###NEWS_TIME### ###GW3E###
+		<!-- ###NEWS### end-->
+	<!-- ###CONTENT###  end -->
+<!-- ###TEMPLATE_CAT_RELATED### end -->
 
 <br />
 <br />

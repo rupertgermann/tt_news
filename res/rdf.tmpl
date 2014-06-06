@@ -1,0 +1,31 @@
+<!-- ###TEMPLATE_RDF### begin -->###XML_DECLARATION###
+<rdf:RDF 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns="http://purl.org/rss/1.0/">
+	<!-- ###HEADER### begin -->
+	<channel rdf:about="###SITE_LINK###">
+		<title>###SITE_TITLE###</title>
+		<link>###SITE_LINK###</link>
+		<description>###SITE_DESCRIPTION###</description>
+		<image rdf:resource="###IMG###" />
+		<items>
+			###NEWS_RDF_TOC###
+		</items>
+	</channel>
+	<image rdf:about="###IMG###">
+		<title>###SITE_TITLE###</title>
+		<link>###SITE_LINK###</link>
+		<url>###IMG###</url>
+	</image>
+	<!-- ###HEADER### end -->
+	<!-- ###CONTENT### begin -->  
+	<!-- ###NEWS### begin -->       
+	<item rdf:about="###NEWS_LINK###">
+		<title>###NEWS_TITLE###</title>
+		<link>###NEWS_LINK###</link>
+		<description>###NEWS_SUBHEADER###</description>
+	</item>
+	<!-- ###NEWS### end -->
+	<!-- ###CONTENT### end -->         
+</rdf:RDF>
+<!-- ###TEMPLATE_RDF### end -->

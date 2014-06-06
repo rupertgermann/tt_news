@@ -4,7 +4,7 @@
 #
 # (see Section Reference in the manual for more options & parameters)
 #
-# tt_news v 2.0.0 
+# tt_news v 2.2.x
 ###
 
 
@@ -18,10 +18,11 @@ plugin.tt_news {
   displayXML {
     rss091_tmplFile = {$plugin.tt_news.displayXML.rss091_tmplFile}
     rss2_tmplFile = {$plugin.tt_news.displayXML.rss2_tmplFile}
+    rdf_tmplFile = {$plugin.tt_news.displayXML.rdf_tmplFile}
+    atom03_tmplFile = {$plugin.tt_news.displayXML.atom03_tmplFile}
    
     xmlFormat = {$plugin.tt_news.displayXML.xmlFormat}
-    # possibile values: rss091 / rss2 /
-    # (planning: rdf / atom)
+    # possibile values: rss091 / rss2 / rdf / atom03
 
     xmlTitle = {$plugin.tt_news.displayXML.xmlTitle}
     xmlLink = {$plugin.tt_news.displayXML.xmlLink}
@@ -31,11 +32,11 @@ plugin.tt_news {
     xmlLimit = {$plugin.tt_news.displayXML.xmlLimit}
     xmlCaching = {$plugin.tt_news.displayXML.xmlCaching}
 
-	title_stdWrap.htmlSpecialChars = 1
-	title_stdWrap.htmlSpecialChars.preserveEntities = 1
-	subheader_stdWrap.stripHtml = 1
-	subheader_stdWrap.htmlSpecialChars = 1
-	subheader_stdWrap.htmlSpecialChars.preserveEntities = 1
+    title_stdWrap.htmlSpecialChars = 1
+    title_stdWrap.htmlSpecialChars.preserveEntities = 1
+    subheader_stdWrap.stripHtml = 1
+    subheader_stdWrap.htmlSpecialChars = 1
+    subheader_stdWrap.htmlSpecialChars.preserveEntities = 1
     subheader_stdWrap.crop = 100 | ... | 1 
     subheader_stdWrap.ifEmpty.field = bodytext
     xmlLastBuildDate = 1
@@ -59,6 +60,7 @@ xmlnews {
     disableAllHeaderCode = 1
     additionalHeaders = Content-type:application/xml
     xhtml_cleaning = 0
+    admPanel = 0
   }
 }
 
