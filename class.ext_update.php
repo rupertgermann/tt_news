@@ -40,7 +40,7 @@
  * 
  * @author	 Stig Nørgaard Jepsen <stig@8602.dk>
  * @package TYPO3
- * @subpackage tx_newloginbox
+ * @subpackage tt_news
  */
 class ext_update  {
 
@@ -56,7 +56,18 @@ class ext_update  {
 		$res_flex = mysql(TYPO3_db,$query_flex);
 		echo mysql_error();
 		
-		$count_cat = mysql_num_rows($res_cat);
+//		while($tmprow=mysql_fetch_assoc($res_cat))	{
+//		t3lib_div::debug($tmprow);
+//		}
+		#die();
+		
+		
+		if ($res_cat) {
+		    $count_cat = mysql_num_rows($res_cat);
+		}
+		if ($count_flex) {
+		    $count_flex = mysql_num_rows($res_flex);
+		}
 		$count_flex = mysql_num_rows($res_flex);
 		
 		if (!t3lib_div::GPvar('do_update'))	{
@@ -72,10 +83,11 @@ class ext_update  {
 			$returnthis.= '<br><br><br><b>Do you want to perform the action now?</b><br>(This action will not change your old data in the tt_news or tt_content table. So even if you perform this action, you will still be able to downgrade to an earlier version of tt_news retaining the old category relations and CODE field data.)
 			<br><br><form action=""><input type="submit" value="DO IT" onclick="'.htmlspecialchars($onClick).'"></form>';
 			return $returnthis;
-		} elseif($count_cat!=0 OR $count_flex!=0) {
+		} elseif($count_cat OR $count_flex) {
 			if($count_cat){
 				while($row=mysql_fetch_assoc($res_cat))	{
-					$insertQ = t3lib_BEfunc::DBcompileInsert('tt_news_cat_mm',array('uid_local'=>$row['uid'],'uid_foreign'=>$row['category'],'sorting'=>1));
+					$insertQ = t3lib_BEfunc::DBcompileInsert('tt_news_cat_mm',array('uid_local'=>$row['uid'],'uid_foreign'=>$row['category'],'sorting'=>1)); 
+					#t3lib_div::debug($insertQ);
 					$res2 = mysql(TYPO3_db,$insertQ);
 				}
 				$returndoupdate= $count_cat.' ROW(s) inserted.<br><br>';
@@ -87,20 +99,25 @@ class ext_update  {
 					if (!count($codes))	$codes=array("");
 					while(list(,$theCode)=each($codes))	{
 						list($theCode,$cat,$archive) = explode("/",$theCode);
-						$what_to_display[]=$theCode;
+						$what_to_display[]=(string)strtoupper(trim($theCode));
 						if(substr($cat, 0, 2)=='0;'){
-							$selection_mode=3;
+							$selection_mode=-1;
 							$cat = substr($cat,2);
 						}
 						$categories_to_display.=($categories_to_display?';'.$cat:$cat);
 					}
-					if(!$selection_mode)$selection_mode=(!$categories_to_display?1:2);
+					if(!$selection_mode)$selection_mode=(!$categories_to_display?0:1);
 					if($categories_to_display){
 						$categories_to_display=t3lib_div::trimExplode(";", $categories_to_display,1);
 						$categories_to_display=array_unique($categories_to_display);
 						$categories_to_display=(implode(',',$categories_to_display));
 					}
 					$archive=($archive?$archive:-1);
+					
+					// get pages (startingpoint) and recursive fields
+					$pages = $row['pages'];
+					$recursive = $row['recursive'];
+					
 					$xml= trim('<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
 						<T3FlexForms>
 						    <meta type="array">
@@ -112,15 +129,21 @@ class ext_update  {
 						                <what_to_display type="array">
 						                    <vDEF>'.implode($what_to_display,', ').'</vDEF>
 						                </what_to_display>
-						                <select_deselect_categories type="array">
+						                <categoryMode type="array">
 						                    <vDEF>'.$selection_mode.'</vDEF>
-						                </select_deselect_categories>
-						                <category_selection type="array">
+						                </categoryMode>
+						                <categorySelection type="array">
 						                    <vDEF>'.$categories_to_display.'</vDEF>
-						                </category_selection>
+						                </categorySelection>
 						                <archive type="array">
 						                    <vDEF>'.$archive.'</vDEF>
 						                </archive>
+										  <pages type="array">
+						                    <vDEF>'.$pages.'</vDEF>
+						                </pages>
+										  <recursive type="array">
+						                    <vDEF>'.$recursive.'</vDEF>
+						                </recursive>
 						            </lDEF>
 						        </sDEF>
 						    </data>
@@ -143,11 +166,11 @@ class ext_update  {
 	function access($what='all')	{
 		if($what='all'){
 			$res = mysql(TYPO3_db,$query=$this->query('categoryrelations'));
-			if(mysql_num_rows($res)) {
+		    if($res && mysql_num_rows($res)) {
 				return 1;
 			} else {
 				$res = mysql(TYPO3_db,$query=$this->query('flexforms'));
-				return mysql_num_rows($res) ? 1 : 0;
+				return ($res && mysql_num_rows($res) ? 1 : 0);
 			}
 		}
 	}
@@ -161,7 +184,7 @@ class ext_update  {
 		if($updatewhat=='categoryrelations'){
 			$query = 'SELECT tt_news.uid,category,tt_news_cat_mm.uid_foreign, max(category = uid_foreign) as testit
 					FROM tt_news LEFT JOIN tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local
-					GROUP By uid having (testit !=1 OR ISNULL(testit)) AND category!=0';
+					GROUP BY uid HAVING (testit !=1 OR ISNULL(testit)) AND category AND NOT tt_news_cat_mm.uid_foreign'; 
 			return $query;
 		} elseif($updatewhat=='flexforms') {
 			$query = 'SELECT * FROM tt_content WHERE

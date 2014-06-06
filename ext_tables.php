@@ -39,7 +39,7 @@ $TCA['tt_news_cat'] = Array (
 	)
 );
 
-$TCA['tt_content']['types']['list']['subtypes_excludelist'][9]='layout,select_key';
+$TCA['tt_content']['types']['list']['subtypes_excludelist'][9]='layout,select_key,pages,recursive';
 $TCA['tt_content']['types']['list']['subtypes_addlist'][9]='pi_flexform';
 t3lib_extMgm::addPlugin(Array('LLL:EXT:tt_news/locallang_tca.php:tt_news', '9'));
 t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');

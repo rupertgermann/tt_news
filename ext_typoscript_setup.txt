@@ -6,70 +6,83 @@ plugin.tt_news >
 plugin.tt_news = USER
 plugin.tt_news {
   userFunc = tx_ttnews->main_news
-
+  
   templateFile = {$plugin.tt_news.file.templateFile}
   pid_list.field = pages
   recursive.field = recursive
   code.field = select_key
-  itemLinkType =
-  itemLinkTarget =
+  allowCaching = 1
+  limit = {$plugin.tt_news.limit}
+  latestLimit = {$plugin.tt_news.latestLimit}
+  backPid = {$plugin.tt_news.backPid}
+  searchPid = 
+  PIDitemDisplay = {$plugin.tt_news.PIDitemDisplay}
+
+  # add link type and target to links
+  itemLinkType = 
+  itemLinkTarget = 
   
   # Global wraps
   wrap1.wrap = {$plugin.tt_news.wrap1}
   wrap2.wrap = {$plugin.tt_news.wrap2}
+  wrap3.wrap = {$plugin.tt_news.wrap3}
   color1.wrap = {$plugin.tt_news.color1}
   color2.wrap = {$plugin.tt_news.color2}
   color3.wrap = {$plugin.tt_news.color3}
+  color4.wrap = {$plugin.tt_news.color4}
 
   # Rendering of news items
   general_stdWrap {
-    brTag = <BR>
-    parseFunc < styles.content.parseFunc
-  }
-  
-  # category settings
-  catImageMaxWidth = 200
-  catImageMaxHeight = 20
-  catTextLength = 100
-  catImageMode = 2 #0(don't display),1(none),2(shortcuts),3(categoryselect)
-  catTextMode = 1 #0(don't display),1(none),2(shortcuts),3(categoryselect)
-  maxCatImages = 10
-  maxCatTexts = 2
-  
-  # the RTE parseFunc configuration
-  content_stdWrap {
-    makelinks = 1 
-    makelinks.http.keep = path
-    makelinks.http.extTarget = _blank 
-    makelinks.http.wrap = 
-    makelinks.mailto.keep = path 
-    makelinks.mailto.wrap =  
-    tags { 
-      link = TEXT 
-      link { 
-        current = 1 
-        typolink.parameter.data = parameters : allParams 
-        typolink.extTarget = _blank 
-        typolink.target = {$PAGE_TARGET}
-        typolink.wrap = 
-        parseFunc.constants =1 
+    brTag =
+    encapsLines.wrapNonWrappedLines = <p style="margin:0 0 0 0;">|</p>
+    encapsLines.innerStdWrap_all.ifEmpty = &nbsp;
+    parseFunc {
+      makelinks = 1 
+      makelinks.http.keep = path
+      makelinks.http.extTarget = _blank 
+      makelinks.http.wrap = 
+      makelinks.mailto.keep = path 
+      makelinks.mailto.wrap =  
+      tags { 
+        link = TEXT 
+        link { 
+          current = 1 
+          typolink.parameter.data = parameters : allParams 
+          typolink.extTarget = _blank 
+          typolink.target = {$PAGE_TARGET}
+          typolink.wrap = 
+          parseFunc.constants = 1 
+        }
       } 
-    } 
-    allowTags = b,i,u,a,img,br,div,center,pre,font,hr,sub,sup,p,strong,em,li,ul,ol,blockquote,strike,span
-    denyTags = * 
-    sword = <font color="red"><b>|</b></font>
-    constants = 1 
+    }
   }
   
-  limit = 10
-  latestLimit = 3
-  backPid = {$plugin.tt_news.backPid}
-  PIDsearch = 
-  PIDitemDisplay = {$plugin.tt_news.PIDitemDisplay}
-  datetimeDaysToArchive = 0
+  # Pagebrowser settings
+  pageBrowser {
+    maxPages={$plugin.tt_news.pageBrowser.maxPages}
+    page_stdWrap.wrap = <span class="ttnews-PBpage"> | </span>
+    actPage_stdWrap.wrap = <span class="ttnews-PBactPage"> | </span>
+  }
+  # set this to '0' if you want the pagebrowser to display only numbers 
+  showPBrowserText = 1  
+    
+  # Category settings
+  catImageMode = {$plugin.tt_news.catImageMode}
+  catTextMode = {$plugin.tt_news.catTextMode}
+  catTextLength = 2000
+  maxCatImages = 10
+  maxCatTexts = 10
+  # 0 = don't care about category selections
+  # 1 = display selected categories 
+  # -1 = display deselected categories
+  categoryMode = 0
+  
+  # Archive settings
+  datetimeDaysToArchive = {$plugin.tt_news.datetimeDaysToArchive}
   enableArchiveDate = 1
   pageTypoLink.parameter.current = 1
-  archiveTypoLink.parameter = {$plugin.tt_news.backPid}
+  archiveTypoLink.parameter = {$plugin.tt_news.archiveTypoLink.parameter}
+
 
   reverseAMenu = 1
   archiveMenuNoEmpty = 1
@@ -81,59 +94,91 @@ plugin.tt_news {
   }
   
   archiveEmptyMsg_stdWrap.wrap (
-  	<table border=0 cellpadding=0 cellspacing=0 width=100%>
-	<tr><td><b>|</b></td></tr></table>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr><td><strong> | </strong></td></tr></table>
   )
   searchEmptyMsg_stdWrap.wrap (
-  	<table border=0 cellpadding=0 cellspacing=0 width=100%>
-	<tr><td><b> | </b></td></tr></table>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr><td><strong> | </strong></td></tr></table>
   )     
   
+  # Related News
+  relatedHeader_stdWrap.wrap = <strong>|</strong>
   getRelatedCObject = COA
-  getRelatedCObject {
-    10 = TEXT
-    10.field = title
-    10.typolink.parameter = {$plugin.tt_news.PIDitemDisplay}
-    10.typolink.additionalParams.field = uid 
-    10.typolink.additionalParams.wrap = &tt_news=|
-    20 = TEXT
-    20.field = datetime
-    20.strftime = %e-%m-%y %H:%M
-    20.wrap = <font size=1> - | </font><br />
+    getRelatedCObject {
+      10=CASE
+      10.key.field=type
+      10.default=TEXT
+      10.default {
+        field = title
+        typolink.parameter = {$plugin.tt_news.PIDitemDisplay}
+        typolink.additionalParams.field = uid 
+        typolink.additionalParams.wrap = &tt_news=|
+        typolink.useCacheHash = {$plugin.tt_news.allowCaching}
+        typolink.no_cache = {$plugin.tt_news.allowCaching}
+        typolink.no_cache.if.negate = 1	   	
+      }   
+      10.1=TEXT
+      10.1 {
+        field=title
+        typolink.parameter=   	
+        typolink.parameter.field=page
+      }   
+      10.2=TEXT
+      10.2 {
+        field=title
+        typolink.parameter=   	
+        typolink.parameter.field=ext_url
+      }
+      20 = TEXT
+      20.field = datetime
+      20.strftime = %d-%m-%y %H:%M
+      20.wrap = <font size="1"> -&nbsp; | </font><br />
+  }
+  
+  # the RTE parseFunc configuration
+  # 
+  content_stdWrap {
+   	
   }
 
   # SINGLE news
   displaySingle {
     age_stdWrap.age = 1
-    date_stdWrap.strftime= %e-%m-%y
+    textNewsAge_stdWrap.wrap = 
+    date_stdWrap.strftime= %d-%m-%y
     time_stdWrap.strftime= %H:%M
-    title_stdWrap.wrap = <b>|</b>
+    title_stdWrap.wrap = <strong>|</strong>
     author_stdWrap.case = upper
     author_stdWrap.typolink.parameter.field = author_email
-    
-	relatedHeader_stdWrap.wrap = <b>|</b>
-    newsLinksHeader_stdWrap.wrap = <b>|</b>
-	noNewsIdMsg_stdWrap (
-  	  <table border=0 cellpadding=0 cellspacing=0 width=100%>
-	  <tr><td><b>|</b></td></tr></table>
-  	)    
+    links_stdWrap.wrap = <br />
+
+    newsLinksHeader_stdWrap.wrap = <strong>|</strong>
+    noNewsIdMsg_stdWrap (
+      <table border=0 cellpadding=0 cellspacing=0 width=100%>
+      <tr><td><strong>|</strong></td></tr></table>
+    )    
     imageCount=2
-    imageWrapIfAny = <table border=0 cellpadding=0 cellspacing=0 align=right width=1><tr><td><img src=clear.gif width=15 height=1 border=0></td><td>|</td></tr></table>
+    imageWrapIfAny ( 
+      <table border="0" cellpadding="0" cellspacing="0" align="right" width="1"><tr><td>
+      <img src="clear.gif" width="15" height="1" border="0" /></td><td> | </td></tr></table>
+    )
 
     email_stdWrap.setContentToCurrent = 1
     email_stdWrap.typolink.parameter.current = 1
-    caption_stdWrap.wrap = <font color=navy face=verdana size=1>|</font><BR><BR>
+    caption_stdWrap.wrap = {$plugin.tt_news.caption_stdWrap}
     caption_stdWrap.trim=1
     caption_stdWrap.required=1
   }
   displaySingle.image {
-    file.maxW = 200
-    wrap = | <BR>
+    file.maxW = {$plugin.tt_news.singleMaxW}
+    file.maxH = {$plugin.tt_news.singleMaxH}
+    wrap = | <br />
     imageLinkWrap = 1
     imageLinkWrap {
       enable = 1
-      bodyTag = <BODY bgColor=black>
-      wrap = <A href="javascript:close();"> | </A>
+      bodyTag = <body bgColor="#dddddd">
+      wrap = <a href="javascript:close();"> | </a>
       width = 400m
       height = 400
 
@@ -147,42 +192,52 @@ plugin.tt_news {
   # LATEST news
   displayLatest {
     age_stdWrap.age = 1
-    date_stdWrap.strftime= %e-%m-%y
+    date_stdWrap.strftime= %d-%m-%y
     time_stdWrap.strftime= %H:%M
     caption_stdWrap.if.directReturn = 0
     subheader_stdWrap.crop = 100 | ...
     subheader_stdWrap.ifEmpty.field = bodytext
     imageCount=1
-    imageWrapIfAny = <table border=0 cellpadding=0 cellspacing=0 align=left><tr><td>|</td><td><img src=clear.gif width=5 height=1 border=0></td></tr></table>
+    imageWrapIfAny ( 
+      <table border="0" cellpadding="0" cellspacing="0" align="left">
+      <tr><td>|</td><td>
+      <img src="clear.gif" width="5" height="1" border="0" />
+      </td></tr></table>
+    )
   }
   displayLatest.image < displaySingle.image
   displayLatest.image {
-    file.maxW = 50
-    imageLinkWrap = 0
+    file.maxW = {$plugin.tt_news.latestMaxW}
+    file.maxH = {$plugin.tt_news.latestMaxH}
+    imageLinkWrap = 1
     stdWrap.spaceAfter=5
   }
 
   # LIST news
   displayList {
     age_stdWrap.age = 1
-    date_stdWrap.strftime= %A %e. of %B
-    time_stdWrap.strftime= %e-%m-%y %H:%M
-    caption_stdWrap.wrap = <font face=verdana size=1 color=navy>|</font><BR>
+    date_stdWrap.strftime= %A %d. of %B %Y
+    time_stdWrap.strftime= %d-%m-%y %H:%M
+    caption_stdWrap.wrap = {$plugin.tt_news.caption_stdWrap}
     caption_stdWrap.trim=1
     caption_stdWrap.required=1
     subheader_stdWrap.crop = 300 | ...
     subheader_stdWrap.ifEmpty.field = bodytext
-	
-	author_stdWrap.wrap = 
-	
+    author_stdWrap.wrap = 
     imageCount=1
     imageWrapIfAny = 
   }
   displayList.image < displaySingle.image
   displayList.image {
-    file.maxW = 150
+    file.maxW = {$plugin.tt_news.listMaxW}
+    file.maxH = {$plugin.tt_news.listMaxH}
     imageLinkWrap = 1
     stdWrap.spaceAfter=5
+  }
+  # Example for overriding values from locallang.php with other values
+  _LOCAL_LANG.de {
+    # latestHeader = Das Allerneuste vom Neuen!  
+    # more = [weiterlesen...]
   }
 }
 
