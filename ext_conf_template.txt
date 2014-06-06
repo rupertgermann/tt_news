@@ -36,3 +36,5 @@ categorySelectedWidth =
   # cat=basic//70; type=int [0-600]; label= Width of the right category field: This field shows the category tree in the tt_news db-record (or in the category db-record). If "categoryTreeWidth" is set to 0 (zero) the default width will depend on the browser which displays the TYPO3 BackEnd. The default width for all browsers except IE is 280px, for IE the default width is 320px to suppress the unneeded horizontal scrollbar below the category tree.
 categoryTreeWidth =
 
+  # cat=basic//80; type=int [3-30]; label= Height of the right category field: Here you can configure the height of the category tree in BackEnd forms (is used for news and news categories).
+categoryTreeHeigth = 5

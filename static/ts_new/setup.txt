@@ -106,6 +106,9 @@ plugin.tt_news {
   showRelatedNewsByCategory = {$plugin.tt_news.showRelatedNewsByCategory}
   useSPidFromCategory = {$plugin.tt_news.useSPidFromCategory}
 
+  categoryDivider = ,
+  categoryDivider_stdWrap.noTrimWrap = || |
+
   # - - - - - - - - -  CATMENU settings  - - - - - - - - - - - #
 
   # setting for the category menu (CATMENU)
@@ -158,6 +161,17 @@ plugin.tt_news {
     catmenuLevel2_stdWrap.wrap = <div class="level2">|</div>
     catmenuLevel3_stdWrap.wrap = <div class="level3">|</div>
     catmenuLevel4_stdWrap.wrap = <div class="level4">|</div>
+  }
+
+  # - - - - - - - - -  catRootline settings  - - - - - - - - - - - #
+  catRootline {
+  	showCatRootline = {$plugin.tt_news.showCatRootline}
+  	catRootline_stdWrap.wrap = <div class="news-catRootline">|</div>
+
+	# if titles are linked the link points to the page which is configured as category shortcut
+	linkTitles = 1
+	title_stdWrap.wrap =
+	divider = &nbsp;&gt;&nbsp;
   }
 
   # - - - - - - - - -  Archive settings  - - - - - - - - - - - #

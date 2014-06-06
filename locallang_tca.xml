@@ -1,0 +1,2025 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <description>language labels for tt_news BE forms</description>
+        <type>database</type>
+        <csh_table></csh_table>
+        <fileId>EXT:tt_news/locallang_tca.xml</fileId>
+        <labelContext type="array">
+            <label index="tt_news"></label>
+            <label index="tt_news.type.I.0"></label>
+            <label index="tt_news.type.I.1"></label>
+            <label index="tt_news.type.I.2"></label>
+            <label index="tt_news.datetime"></label>
+            <label index="tt_news.archivedate"></label>
+            <label index="tt_news.no_auto_pb"></label>
+            <label index="tt_news.createNewCategory"></label>
+            <label index="tt_news.editCategory"></label>
+            <label index="tt_news.editDefLangVersion"></label>
+            <label index="tt_news.imagealttext"></label>
+            <label index="tt_news.imagetitletext"></label>
+            <label index="tt_news.related"></label>
+            <label index="tt_news.random"></label>
+            <label index="tt_news.category"></label>
+            <label index="tt_news_cat"></label>
+            <label index="tt_news_cat.image"></label>
+            <label index="tt_news_cat.createNewParentCategory"></label>
+            <label index="tt_news_cat.listCategories"></label>
+            <label index="tt_news_cat.title_lang_ol"></label>
+            <label index="tt_news_cat.parent_category"></label>
+            <label index="tt_news_cat.shortcut"></label>
+            <label index="tt_news_cat.shortcut_target"></label>
+            <label index="tt_news_cat.single_pid"></label>
+            <label index="tt_news_cat.description"></label>
+            <label index="tt_news.pi_flexform.sheet_general"></label>
+            <label index="tt_news.pi_flexform.sheet_template"></label>
+            <label index="tt_news.pi_flexform.sheet_category"></label>
+            <label index="tt_news.pi_flexform.sheet_misc"></label>
+            <label index="tt_news.pi_flexform.what_to_display"></label>
+            <label index="tt_news.pi_flexform.listOrderby"></label>
+            <label index="tt_news.pi_flexform.ascDesc"></label>
+            <label index="tt_news.pi_flexform.ascDesc_asc"></label>
+            <label index="tt_news.pi_flexform.ascDesc_desc"></label>
+            <label index="tt_news.pi_flexform.select_deselect_categories"></label>
+            <label index="tt_news.pi_flexform.itemsHeader"></label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized"></label>
+            <label index="tt_news.pi_flexform.category_selection"></label>
+            <label index="tt_news.pi_flexform.category_selection_showAll"></label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected"></label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected"></label>
+            <label index="tt_news.pi_flexform.archive"></label>
+            <label index="tt_news.pi_flexform.template_file"></label>
+            <label index="tt_news.pi_flexform.catImageMode"></label>
+            <label index="tt_news.pi_flexform.catTextMode"></label>
+            <label index="tt_news.pi_flexform.recursive"></label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth"></label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight"></label>
+            <label index="tt_news.pi_flexform.maxCatImages"></label>
+            <label index="tt_news.pi_flexform.maxTextLength"></label>
+            <label index="tt_news.pi_flexform.maxCatTexts"></label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay"></label>
+            <label index="tt_news.pi_flexform.backPid"></label>
+            <label index="tt_news.pi_flexform.archive_nonarc"></label>
+            <label index="tt_news.pi_flexform.archive_arc"></label>
+            <label index="tt_news.pi_flexform.archive_dontcare"></label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS"></label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow"></label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink"></label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut"></label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel"></label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview"></label>
+            <label index="tt_news.pi_flexform.limit"></label>
+            <label index="tt_news.pi_flexform.listStartId"></label>
+            <label index="tt_news.pi_flexform.noPageBrowser"></label>
+            <label index="tt_news.pi_flexform.imageMaxWidth"></label>
+            <label index="tt_news.pi_flexform.imageMaxHeight"></label>
+            <label index="tt_news.pi_flexform.alternatingLayouts"></label>
+            <label index="tt_news.pi_flexform.croppingLenght"></label>
+            <label index="tt_news.pi_flexform.maxWordsInSingleView"></label>
+        </labelContext>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="tt_news">News</label>
+            <label index="tt_news.type.I.0">News</label>
+            <label index="tt_news.type.I.1">Link internal Page</label>
+            <label index="tt_news.type.I.2">Link external URL</label>
+            <label index="tt_news.datetime">Date/Time:</label>
+            <label index="tt_news.archivedate">Archive date:</label>
+            <label index="tt_news.no_auto_pb">No automatic pagebreaks for this record</label>
+            <label index="tt_news.createNewCategory">create new category</label>
+            <label index="tt_news.editCategory">edit category</label>
+            <label index="tt_news.editDefLangVersion">edit default language version of this article</label>
+            <label index="tt_news.imagealttext">Image alttext</label>
+            <label index="tt_news.imagetitletext">Image titletext</label>
+            <label index="tt_news.related">Related news:</label>
+            <label index="tt_news.random">Randomize 0rder</label>
+            <label index="tt_news.category">Category</label>
+            <label index="tt_news_cat">News category</label>
+            <label index="tt_news_cat.image">Category image</label>
+            <label index="tt_news_cat.createNewParentCategory">create new parent category</label>
+            <label index="tt_news_cat.listCategories">list categories</label>
+            <label index="tt_news_cat.title_lang_ol">title language overlays</label>
+            <label index="tt_news_cat.parent_category">Parent category</label>
+            <label index="tt_news_cat.shortcut">News category shortcut</label>
+            <label index="tt_news_cat.shortcut_target">Target for news category shortcut</label>
+            <label index="tt_news_cat.single_pid">Single-view page for news from this category</label>
+            <label index="tt_news_cat.description">Description</label>
+            <label index="tt_news.pi_flexform.sheet_general">General Settings</label>
+            <label index="tt_news.pi_flexform.sheet_template">Template</label>
+            <label index="tt_news.pi_flexform.sheet_category">Category Settings</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Other Settings</label>
+            <label index="tt_news.pi_flexform.what_to_display">What to display:</label>
+            <label index="tt_news.pi_flexform.listOrderby">&quot;Order by&quot; this field (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc">Ascending or Descending (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Ascending</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Descending</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Category mode:</label>
+            <label index="tt_news.pi_flexform.itemsHeader">Special options:</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[not categorized]</label>
+            <label index="tt_news.pi_flexform.category_selection">Category selection</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Show all (don't care about selection below)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Show items with selected categories</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">Do NOT show items with selected categories</label>
+            <label index="tt_news.pi_flexform.archive">Archive setting (for LIST)</label>
+            <label index="tt_news.pi_flexform.template_file">Template file</label>
+            <label index="tt_news.pi_flexform.catImageMode">Category Image Link Mode:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Category Text Link Mode:</label>
+            <label index="tt_news.pi_flexform.recursive">Recursive level selection:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Max width of category image:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Max height of category image:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Max number of category images:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Max length of category text:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Max number of categorys texts:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">PageId for single news display:</label>
+            <label index="tt_news.pi_flexform.backPid">PageId to return to:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">SHOW NON-ARCHIVED</label>
+            <label index="tt_news.pi_flexform.archive_arc">SHOW ARCHIVED</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Don't Care</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Defined by TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Don't display at all</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Display, but no links</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Acts as link to category shortcuts</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Acts as a category selector</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Don't display first image in single view (firstImageIsPreview)</label>
+            <label index="tt_news.pi_flexform.limit">Limit: max items for LIST and LATEST</label>
+            <label index="tt_news.pi_flexform.listStartId">List StartId: Force LIST or LATEST to start from this item</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Don't display Pagebrowser in LIST</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Max width for images in news records</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Max height for images in news records</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Number of alternating template-layouts</label>
+            <label index="tt_news.pi_flexform.croppingLenght">stdWrap.crop for the subheader (short)</label>
+            <label index="tt_news.pi_flexform.maxWordsInSingleView">insert pagebreak in SINGLE after this number of words</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+            <label index="tt_news">Nyheder</label>
+            <label index="tt_news.type.I.0">Nyhed</label>
+            <label index="tt_news.type.I.1">Artikel</label>
+            <label index="tt_news.type.I.2">Link til extern URL</label>
+            <label index="tt_news.datetime">Dato/Tidspunkt:</label>
+            <label index="tt_news.archivedate">Arkiv dato:</label>
+            <label index="tt_news.related">Relaterede nyheder:</label>
+            <label index="tt_news_cat">Nyhedskategori</label>
+            <label index="tt_news_cat.image">Kategori Billede</label>
+            <label index="tt_news_cat.shortcut">Genvej til nyhedskategori</label>
+            <label index="tt_news_cat.shortcut_target">Mål for genvej til nyhedskategori</label>
+            <label index="tt_news.pi_flexform.sheet_general">Generelle Indstillinger</label>
+            <label index="tt_news.pi_flexform.sheet_template">Skabelon</label>
+            <label index="tt_news.pi_flexform.sheet_category">Kategori Indstillinger</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Andre indstillinger</label>
+            <label index="tt_news.pi_flexform.what_to_display">Hvad der skal vises:</label>
+            <label index="tt_news.pi_flexform.listOrderby">Sortér på dette felt (LIST &amp; LATEST)</label>
+            <label index="tt_news.pi_flexform.ascDesc">Stigende eller faldende (LIST &amp; LATEST)</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Stigende</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Faldende</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Kategori indstilling</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[ikke kategoriseret]</label>
+            <label index="tt_news.pi_flexform.category_selection">Kategori valg</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Vis alle (uanset valg nedenunder)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Vis nyheder med valgte kategorier</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">Vis IKKE nyheder med valgte kategorier</label>
+            <label index="tt_news.pi_flexform.archive">Arkiv indstilling</label>
+            <label index="tt_news.pi_flexform.template_file">Skabelon fil</label>
+            <label index="tt_news.pi_flexform.catImageMode">Kategori Billede Link Indstilling:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Kategori Tekst Link Indstilling:</label>
+            <label index="tt_news.pi_flexform.recursive">Rekursiv niveau valg:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Max bredde af kategori billede:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Max højde af kategori billede:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Max antal kategori billeder:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Max længde på kategori tekst:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Max antal kategori tekster:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">SideId til visning af enkel nyhed:</label>
+            <label index="tt_news.pi_flexform.backPid">SideId at vende tilbage til:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">VIS IKKE-ARKIVEREDE</label>
+            <label index="tt_news.pi_flexform.archive_arc">VIS ARKIVEREDE</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Vis Begge</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Defineret af TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Vis slet ikke</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Vis, men ingen links</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Virker som et link til kategori genveje</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Virker som en kategori vælger</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Vis ikke første billede i enkel visning (firstImageIsPreview)</label>
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index="tt_news">News</label>
+            <label index="tt_news.type.I.0">News</label>
+            <label index="tt_news.type.I.1">Link zu interner Seite</label>
+            <label index="tt_news.type.I.2">Link zu externer URL</label>
+            <label index="tt_news.datetime">Datum/Zeit:</label>
+            <label index="tt_news.archivedate">Archivdatum:</label>
+            <label index="tt_news.imagealttext">ALT-Text des Bildes</label>
+            <label index="tt_news.imagetitletext">Titel des Bildes</label>
+            <label index="tt_news.related">In Verbindung stehende News:</label>
+            <label index="tt_news_cat">News Kategorie</label>
+            <label index="tt_news_cat.image">Kategoriebild</label>
+            <label index="tt_news_cat.title_lang_ol">Übersetzungen (mehrere Einträge durch &quot;|&quot; trennen)</label>
+            <label index="tt_news_cat.shortcut">News Kategorie Shortcut</label>
+            <label index="tt_news_cat.shortcut_target">Ziel für News Kategorie Shortcut</label>
+            <label index="tt_news_cat.single_pid">Erstes Bild in Single-Anzeige (Newsdetails) für Nachrichten dieser Kategorie</label>
+            <label index="tt_news.pi_flexform.sheet_general">Allgemeine Einstellungen</label>
+            <label index="tt_news.pi_flexform.sheet_template">Template</label>
+            <label index="tt_news.pi_flexform.sheet_category">Kategorie Einstellungen</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Sonstige Einstellungen</label>
+            <label index="tt_news.pi_flexform.what_to_display">Ansicht:</label>
+            <label index="tt_news.pi_flexform.listOrderby">Sortiere Beiträge (LIST &amp; LATEST) nach:</label>
+            <label index="tt_news.pi_flexform.ascDesc">Sortierreihenfolge (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Aufsteigend</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Absteigend</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Kategoriemodus:</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[nicht kategorisiert]</label>
+            <label index="tt_news.pi_flexform.category_selection">Kategorieauswahl:</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Zeige alle Beiträge (ignoriere folgende Auswahl)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Zeige alle Beiträge aus ausgewählten Kategorien</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">Zeige KEINE Beiträge aus ausgewählten Kategorien</label>
+            <label index="tt_news.pi_flexform.archive">Archiveinstellungen (für LIST Ansicht):</label>
+            <label index="tt_news.pi_flexform.template_file">Template Datei</label>
+            <label index="tt_news.pi_flexform.catImageMode">Kategoriebild Link Mode:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Kategorietext Link Mode:</label>
+            <label index="tt_news.pi_flexform.recursive">Rekursiv:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Maximale Breite für Kategoriebild:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Maximale Höhe für Kategoriebild:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Maximale Anzahl für Kategoriebilder:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Maximale Länge für Kategorietext:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Maximale Anzahl für Kategorietexte:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">Seite für die Single-Anzeige (Newsdetails):</label>
+            <label index="tt_news.pi_flexform.backPid">Seite für 'Zurück':</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">Nur nicht-archivierte</label>
+            <label index="tt_news.pi_flexform.archive_arc">Nur archivierte</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Egal</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Definiert durch TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Nicht anzeigen</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Anzeigen aber ohne Link</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Anzeigen und Link zum Kategorie-Shortcut</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Anzeigen und Link als Kategorieselektor</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Erstes Bild in Single-Anzeige (Newsdetails) NICHT anzeigen (firstImageIsPreview)</label>
+            <label index="tt_news.pi_flexform.limit">Maximale Anzahl von Beiträgen in LIST (und LATEST, wenn 'latestLimit' nicht gesetzt ist)</label>
+            <label index="tt_news.pi_flexform.listStartId">List StartId: Ansicht für LIST &amp; LATEST ab diesem Eintrag beginnen</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Pagebrowser verbergen</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Maximale Breite für Bilder in Newsbeiträgen</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Maximale Höhe für Bilder in Newsbeiträgen</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Anzahl alternierenden Template Layouts</label>
+            <label index="tt_news.pi_flexform.croppingLenght">Untertitel abschneiden nach ... Zeichen</label>
+        </languageKey>
+        <languageKey index="no" type="array">
+            <label index="tt_news">Nyheter</label>
+            <label index="tt_news.type.I.0">Nyhet</label>
+            <label index="tt_news.type.I.1">Link til intern side</label>
+            <label index="tt_news.type.I.2">Link til ekstern URL</label>
+            <label index="tt_news.datetime">Dato/tid:</label>
+            <label index="tt_news.archivedate">Arkiveringsdato:</label>
+            <label index="tt_news.imagealttext">&quot;Alt-tekst&quot; for bilde</label>
+            <label index="tt_news.imagetitletext">Bildetittel tekst</label>
+            <label index="tt_news.related">Relaterte nyheter:</label>
+            <label index="tt_news_cat">Nyhetskategori</label>
+            <label index="tt_news_cat.image">Kategoribilde</label>
+            <label index="tt_news_cat.title_lang_ol">språkversjoner av titler</label>
+            <label index="tt_news_cat.shortcut">Snarvei til nyhetskategori</label>
+            <label index="tt_news_cat.shortcut_target">Mål for snarvei til nyhetskategori</label>
+            <label index="tt_news_cat.single_pid">Side for visning av nyheter fra denne kategorien.</label>
+            <label index="tt_news.pi_flexform.sheet_general">Generelle innstillinger</label>
+            <label index="tt_news.pi_flexform.sheet_template">Mal</label>
+            <label index="tt_news.pi_flexform.sheet_category">Innstillinger for kategori</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Andre innstillinger</label>
+            <label index="tt_news.pi_flexform.what_to_display">Hva skal vises:</label>
+            <label index="tt_news.pi_flexform.listOrderby">Sortér etter dette feltet (LIST og LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc">Stigende eller synkede rekkefølge:</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Stigende</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Synkende</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Innstillinger for kategori</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[ikke kategorisert]</label>
+            <label index="tt_news.pi_flexform.category_selection">Valgte kategorier</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Vis alle (ikke bruk valgene under)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Vis kun innenfor valgte kategorier</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">IKKE vis elementer innenfor valgte kategorier</label>
+            <label index="tt_news.pi_flexform.archive">Innstillinger for arkivering (gjelder LIST-funksjonen)</label>
+            <label index="tt_news.pi_flexform.template_file">Malfil</label>
+            <label index="tt_news.pi_flexform.catImageMode">Innstillinger for Kategoribildets lenke</label>
+            <label index="tt_news.pi_flexform.catTextMode">Innstillinger for kategoribildets tekst</label>
+            <label index="tt_news.pi_flexform.recursive">Valg for rekursivering:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Maksimal bredde for kategoribildet:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Maksimal høyde for kategoribildet:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Maks antall kategoribilder:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Maksimal lengde på kategoritekst:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Maksimalt antall kategoritekster:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">SideID for enkeltvisning av nyhet:</label>
+            <label index="tt_news.pi_flexform.backPid">SideID å gå tilbake til:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">VIS UARKIVERTE</label>
+            <label index="tt_news.pi_flexform.archive_arc">VIS ARKIVERTE</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">VIS ALLE</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Definert av TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Ikke vis i det hele tatt</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Vis, men uten linker</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Fungerer som link til kategori-snarveier</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Fungerer som en kategorivelger</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Ikke vis første bilde i enkeltvisning (første bilde kun som teaser)</label>
+            <label index="tt_news.pi_flexform.limit">Grense: Max. antall i LIST-visning (og LATEST, hvis 'latestLimit' ikke er satt)</label>
+            <label index="tt_news.pi_flexform.listStartId">LIST startid: Tvinger LIST og LATEST til å starte fra dette elementet</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Ikke vis sidenavigasjon</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Maksimal bredde for bilder i nye elementer</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Maksimal høyde for bilder i nye elementer</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Antall alternerende layouter i maler</label>
+            <label index="tt_news.pi_flexform.croppingLenght">Antall bokstaver i kortversjonen av undertittel</label>
+        </languageKey>
+        <languageKey index="it" type="array">
+            <label index="tt_news">News</label>
+            <label index="tt_news.type.I.0">News</label>
+            <label index="tt_news.type.I.1">Collegamento a pagina interna</label>
+            <label index="tt_news.type.I.2">Collegamento a URL esterna</label>
+            <label index="tt_news.datetime">Data/Ora:</label>
+            <label index="tt_news.archivedate">Data archiviazione:</label>
+            <label index="tt_news.related">News correlate:</label>
+            <label index="tt_news_cat">Categoria News</label>
+            <label index="tt_news_cat.image">Immagine Categoria</label>
+            <label index="tt_news_cat.shortcut">Scorciatoia alla Categoria News</label>
+            <label index="tt_news_cat.shortcut_target">Destinazione della scorciatoia alla Categoria News</label>
+            <label index="tt_news.pi_flexform.sheet_general">Configurazione generale</label>
+            <label index="tt_news.pi_flexform.sheet_template">Template</label>
+            <label index="tt_news.pi_flexform.sheet_category">Configurazione Categorie</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Altre configurazioni:</label>
+            <label index="tt_news.pi_flexform.what_to_display">Cosa visualizzare:</label>
+            <label index="tt_news.pi_flexform.listOrderby">&quot;Ordina per&quot; questo campo (LISTA &amp; ULTIME)</label>
+            <label index="tt_news.pi_flexform.ascDesc">Crescente o Decrescente (LISTA &amp; ULTIME)</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Crescente</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Decrescente</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Modalità Categoria:</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[senza categoria]</label>
+            <label index="tt_news.pi_flexform.category_selection">selezione della Categoria</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Mostra tutti (non importa la selezione sottostante)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Mostra elementi nelle categorie selezionate</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">NON mostrare elementi nelle categorie selezionate</label>
+            <label index="tt_news.pi_flexform.archive">Preferenze di archiviazione (per la LISTA)</label>
+            <label index="tt_news.pi_flexform.template_file">Template file:</label>
+            <label index="tt_news.pi_flexform.catImageMode">Modalità del link Immagine di Categoria:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Modalità del link Testo di Categoria:</label>
+            <label index="tt_news.pi_flexform.recursive">Selezione ricorsiva:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Larghezza massima dell'Immagine Categoria:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Altezza massima dell'Immagine Categoria:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Quantità massima di Immagine Categoria:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Lunghezza massima del testo Categoria:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Quantità massima di testi di Categoria:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">PageId per la news singola:</label>
+            <label index="tt_news.pi_flexform.backPid">PageId di ritorno:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">MOSTRA NON ARCHIVIATE</label>
+            <label index="tt_news.pi_flexform.archive_arc">MOSTRA ARCHIVIATE</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Non importa</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Definito in TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Non mostrare</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Mostra, ma non i links</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Agisci come link alle categorie</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Agisci come selezionatore di categoria</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Non mostrare la prima immagine nella vista singola (firstImageIsPreview)</label>
+        </languageKey>
+        <languageKey index="fr" type="array">
+            <label index="tt_news">Nouvelles</label>
+            <label index="tt_news.type.I.0">Nouvelles</label>
+            <label index="tt_news.type.I.1">Article</label>
+            <label index="tt_news.datetime">Date/Heure:</label>
+            <label index="tt_news.archivedate">Date d'archivage:</label>
+            <label index="tt_news.related">Nouvelles en relations:</label>
+            <label index="tt_news_cat">Catégorie de nouvelles</label>
+        </languageKey>
+        <languageKey index="es" type="array">
+            <label index="tt_news">Noticias</label>
+            <label index="tt_news.type.I.0">Noticias</label>
+            <label index="tt_news.type.I.1">Artículo</label>
+            <label index="tt_news.type.I.2">Enlace a URL externa</label>
+            <label index="tt_news.datetime">Fecha/Hora:</label>
+            <label index="tt_news.archivedate">Fecha de archivo:</label>
+            <label index="tt_news.related">Noticias relacionadas:</label>
+            <label index="tt_news_cat">Categorías de noticias</label>
+            <label index="tt_news_cat.image">Imagen de categoría</label>
+            <label index="tt_news_cat.shortcut">Atajo a categoría de noticias</label>
+            <label index="tt_news_cat.shortcut_target">Target para atajo a categoría de noticias</label>
+            <label index="tt_news.pi_flexform.sheet_general">Opciones generales</label>
+            <label index="tt_news.pi_flexform.sheet_template">Plantilla</label>
+            <label index="tt_news.pi_flexform.sheet_category">Opciones de categoría</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Otras opciones</label>
+            <label index="tt_news.pi_flexform.what_to_display">Qué mostrar:</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Modo de categoría:</label>
+            <label index="tt_news.pi_flexform.category_selection">Selección de Categoría</label>
+            <label index="tt_news.pi_flexform.archive">Opciones de archivo (para LIST)</label>
+            <label index="tt_news.pi_flexform.template_file">Fichero de plantilla</label>
+            <label index="tt_news.pi_flexform.catImageMode">Modo de enlace de la imagen de categoría:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Modo de enlace de la categoría del texto:</label>
+            <label index="tt_news.pi_flexform.recursive">Selección del nivel de recursividad:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Máxima anchura de la imagen de categoría:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Máxima altura de la imagen de categoría:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Máximo número de imágenes de categoría:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Máxima longitud del texto de categoría:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Máximo número de textos de categoría:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">PageId donde se muestran noticias individuales:</label>
+            <label index="tt_news.pi_flexform.backPid">PageId a donde regresar:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">MOSTRAR NO ARCHIVADAS</label>
+            <label index="tt_news.pi_flexform.archive_arc">MOSTRAR ARCHIVADO</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">No importa</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Definido por TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">No mostrar</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Mostrar, sin enlaces</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Actuar como enlace de categoría</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Actuar como selector de categoría</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">No mostrar la primera imagen en vista SINGLE (firstImageIsPreview)</label>
+        </languageKey>
+        <languageKey index="nl" type="array">
+            <label index="tt_news">Nieuws</label>
+            <label index="tt_news.type.I.0">Nieuws</label>
+            <label index="tt_news.type.I.1">Artikel</label>
+            <label index="tt_news.type.I.2">Externe link</label>
+            <label index="tt_news.datetime">Datum/Tijd:</label>
+            <label index="tt_news.archivedate">Archiveringsdatum:</label>
+            <label index="tt_news.imagealttext">Afbeelding alt tekst</label>
+            <label index="tt_news.imagetitletext">Afbeelding title tekst</label>
+            <label index="tt_news.related">Gerelateerd nieuws:</label>
+            <label index="tt_news_cat">Nieuwscategorie</label>
+            <label index="tt_news_cat.image">Afbeelding van categorie</label>
+            <label index="tt_news_cat.title_lang_ol">Titels in andere talen</label>
+            <label index="tt_news_cat.shortcut">Nieuws categorie snelkoppeling</label>
+            <label index="tt_news_cat.shortcut_target">Doel voor nieuws categorie snelkoppeling</label>
+            <label index="tt_news_cat.single_pid">Een nieuwsartikel uit deze categorie tonen</label>
+            <label index="tt_news.pi_flexform.sheet_general">Algemeen</label>
+            <label index="tt_news.pi_flexform.sheet_template">Sjabloon</label>
+            <label index="tt_news.pi_flexform.sheet_category">Categorie instellingen</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Overig</label>
+            <label index="tt_news.pi_flexform.what_to_display">Wat te tonen:</label>
+            <label index="tt_news.pi_flexform.listOrderby">&quot;Sorteren op&quot; dit veld (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc">Oplopend of aflopend (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Oplopend</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Aflopend</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Categorie modus:</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[niet gecategoriseerd]</label>
+            <label index="tt_news.pi_flexform.category_selection">Categorie selectie</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Toon alle (negeer onderstaande selectie)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Tonen van alle items aan de hand van geselecteerde categorien</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">NIET tonen van alle items aan de hand van geselecteerde categorien</label>
+            <label index="tt_news.pi_flexform.archive">Archief instellingen</label>
+            <label index="tt_news.pi_flexform.template_file">Sjabloon bestand</label>
+            <label index="tt_news.pi_flexform.catImageMode">Categorie Afbeelding Link Modus:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Categorie Tekst Link Modus:</label>
+            <label index="tt_news.pi_flexform.recursive">Recursieve niveau selectie:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Max breedte van categorie afbeelding:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Max hoogte van categorie afbeelding:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Max aantal categorie afbeeldingen:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Max lengte van categorie tekst:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Max aantal categorie teksten:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">PaginaID voor het tonen van Single News (Enkel nieuwsartikel):</label>
+            <label index="tt_news.pi_flexform.backPid">PaginaID om naar terug te gaan:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">TOON NIET GEARCHIVEERD</label>
+            <label index="tt_news.pi_flexform.archive_arc">TOON GEARCHIVEERD</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Maakt niet uit</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Gedefinieerd met TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Niet tonen</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Tonen, maar zonder links</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Als snelkoppeling gelinked naar categorie</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Als selectie van een categorie</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Geef eerste afbeelding niet weer in Single News (Enkel nieuwsartikel) (firstImageIsPreview)</label>
+            <label index="tt_news.pi_flexform.limit">Limiet: maximum aantal items in LIST (en LATEST, als geen 'latestLimit' is ingesteld)</label>
+            <label index="tt_news.pi_flexform.listStartId">List StartID: Start LIST en LATEST vanaf dit item</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Paginabrowser niet weergeven</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Maximum breedte voor afbeeldingen in nieuws records</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Maximum hoogte voor afbeeldingen in nieuws records</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Aantal afwisselende template-ontwerpen</label>
+            <label index="tt_news.pi_flexform.croppingLenght">stdWrap.crop voor de subkop (kort)</label>
+        </languageKey>
+        <languageKey index="cz" type="array">
+            <label index="tt_news">Zprávy</label>
+            <label index="tt_news.type.I.0">Zprávy</label>
+            <label index="tt_news.type.I.1">Článek</label>
+            <label index="tt_news.type.I.2">Odkaz na externí URL</label>
+            <label index="tt_news.datetime">Datum/Čas:</label>
+            <label index="tt_news.archivedate">Datum archivace:</label>
+            <label index="tt_news.related">Podobné zprávy:</label>
+            <label index="tt_news_cat">Kategorie zpráv</label>
+            <label index="tt_news_cat.image">Obrázek kategorie</label>
+            <label index="tt_news_cat.title_lang_ol">název překladového overlaye</label>
+            <label index="tt_news_cat.shortcut">Zkratka kategorie zpráv</label>
+            <label index="tt_news_cat.shortcut_target">Cíl pro zkratku kategorie zpráv</label>
+            <label index="tt_news.pi_flexform.sheet_general">Obecná nastavení</label>
+            <label index="tt_news.pi_flexform.sheet_template">Šablona</label>
+            <label index="tt_news.pi_flexform.sheet_category">Nastavení kategorií</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Jiná nastavení</label>
+            <label index="tt_news.pi_flexform.what_to_display">Co zobrazit:</label>
+            <label index="tt_news.pi_flexform.listOrderby">&quot;Seřadit podle&quot; tohoto pole (LIST &amp; LATEST)</label>
+            <label index="tt_news.pi_flexform.ascDesc">Vzestupně nebo sestupně (LIST &amp; LATEST)</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Vzestupně</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Sestupně</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Mód kategorie:</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[bez kategorie]</label>
+            <label index="tt_news.pi_flexform.category_selection">Výběr kategorie</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Ukázat vše (ignorovat nastavení dole)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Ukázat prvky ze zvolených kategorií</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">NEukázat prvky ze zvolených kategorií</label>
+            <label index="tt_news.pi_flexform.archive">Nastavení archivu (pro LIST)</label>
+            <label index="tt_news.pi_flexform.template_file">Soubor šablony</label>
+            <label index="tt_news.pi_flexform.catImageMode">Způsob odkazu obrázku kategorie:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Způsob odkazu názvu kategorie:</label>
+            <label index="tt_news.pi_flexform.recursive">Rekurzivní výběr:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Max šířka obrázku kategorie</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Max výška obrázku kategorie</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Max počet obrázků kategorií</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Max délka názvu kategorie</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Max počet názvů kategrií</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">PageId pro zobrazení jedné zprávy</label>
+            <label index="tt_news.pi_flexform.backPid">PageId, kam se vrátit</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">UKAŽ NE-ARCHIVOVANÉ</label>
+            <label index="tt_news.pi_flexform.archive_arc">UKAŽ ARCHIVOVANÉ</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Ignorovat</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Definováno v TS</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Nic nezobrazovat</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Zobrazit, ale bez odkazu</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Jako odkaz na zkratky kategorií</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Jak volba kategorie</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Nezobrazovat první obrázek v zobrazení jedné zprávy</label>
+            <label index="tt_news.pi_flexform.limit">Limit: max počet zpráv v LIST (a LATEST, pokud není zadán 'latestLimit')</label>
+            <label index="tt_news.pi_flexform.listStartId">List StartId: vnutit LIST nebo LATEST začít tímto záznamem</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Nezobrazovat Pagebrowser</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Max šířka obrázků ve zprávách</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Max výška obrázků ve zprávách</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Počet různých šablon</label>
+            <label index="tt_news.pi_flexform.croppingLenght">stdWrap.crop pro podnadpis (krátký)</label>
+        </languageKey>
+        <languageKey index="pl" type="array">
+            <label index="tt_news">Newsy</label>
+            <label index="tt_news.type.I.0">Newsy</label>
+            <label index="tt_news.type.I.1">Artykuł</label>
+            <label index="tt_news.datetime">Data/czas:</label>
+            <label index="tt_news.archivedate">Data archiwum:</label>
+            <label index="tt_news.related">Newsy związane:</label>
+            <label index="tt_news_cat">Kategoria newsów</label>
+        </languageKey>
+        <languageKey index="si" type="array">
+            <label index="tt_news">Novice</label>
+            <label index="tt_news.type.I.0">Novica</label>
+            <label index="tt_news.type.I.1">Članek</label>
+            <label index="tt_news.datetime">Datum/Ura:</label>
+            <label index="tt_news.archivedate">Arhivski datum:</label>
+            <label index="tt_news.related">Sorodne novice:</label>
+            <label index="tt_news_cat">Kategorija novic</label>
+        </languageKey>
+        <languageKey index="fi" type="array">
+            <label index="tt_news">Uutiset</label>
+            <label index="tt_news.type.I.0">Uutiset</label>
+            <label index="tt_news.type.I.1">Linkki sisäiselle sivulle</label>
+            <label index="tt_news.type.I.2">Linkki ulkoiselle sivulle</label>
+            <label index="tt_news.datetime">Päiväys/Kello</label>
+            <label index="tt_news.archivedate">Arkisto päiväys:</label>
+            <label index="tt_news.imagealttext">Kuvan vaihtoehtoteksti</label>
+            <label index="tt_news.imagetitletext">Kuvan otsikkoteksti</label>
+            <label index="tt_news.related">Asiaan liittyviä uutisia:</label>
+            <label index="tt_news_cat">Uutisluokka</label>
+            <label index="tt_news_cat.image">Luokan kuva</label>
+            <label index="tt_news_cat.title_lang_ol">Otsikon kielen kerrokset</label>
+            <label index="tt_news_cat.shortcut">Uutiskuokan oikopolku</label>
+            <label index="tt_news_cat.shortcut_target">Kohde uutiskuokan oikopolkuun</label>
+            <label index="tt_news_cat.single_pid">Yksittäisnäyttö sivu tämän kategorian uutisille</label>
+            <label index="tt_news.pi_flexform.sheet_general">Yleiset asetukset</label>
+            <label index="tt_news.pi_flexform.sheet_template">Mallinne</label>
+            <label index="tt_news.pi_flexform.sheet_category">Luokka asetukset</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Muut asetukset</label>
+            <label index="tt_news.pi_flexform.what_to_display">Mitä näytetäään</label>
+            <label index="tt_news.pi_flexform.listOrderby">&quot;Lajiteltuna&quot; tämän kentän mukaa (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc">Nouseva tai laskeva järjestys (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Nouseva</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Laskeva</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Luokka moodi:</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[ei luokiteltu]</label>
+            <label index="tt_news.pi_flexform.category_selection">Luokan valinta</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Näytä kaikki (alla olevaa valintaa ei huomioida)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Näytä tiedot valituista luokista</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">Älä näytä tietoja valituista luokista</label>
+            <label index="tt_news.pi_flexform.archive">Arkisto asetukset (listalle)</label>
+            <label index="tt_news.pi_flexform.template_file">Mallinne tiedosto</label>
+            <label index="tt_news.pi_flexform.catImageMode">Luokan kuvalinkki  moodi</label>
+            <label index="tt_news.pi_flexform.catTextMode">Luokan tekstilinkki  moodi</label>
+            <label index="tt_news.pi_flexform.recursive">Rekursiivisen tason valinta</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Maksimi leveys luokan kuvalle:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Maksimi korkeus luokan kuvalle:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Max lukumäärä luokan kuville:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Max pituus luokan tekstille:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Max lukumäärä luokan teksteille:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">SivuID yksittäisen uutisen näytölle:</label>
+            <label index="tt_news.pi_flexform.backPid">SivuID paluu sivulle:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">Näytä arkistoimattomat</label>
+            <label index="tt_news.pi_flexform.archive_arc">Näytä arkistoidut</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Älä välitä</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Määritelty TypoScriptilla</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Älä näytä ollenkaan</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Näytä, muttei linkkejä</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Toimii linkkinä luokkien oikoteihin</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Toimii luokan valitsijana</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Älä näytä ensimmäistä kuvaa yksittäisnäytössä (firstImageIsPreview)</label>
+            <label index="tt_news.pi_flexform.limit">Rajoitus: rajoita lukumäärää listalla (LIST) (ja viimeiset (LATEST), jos 'latestLimit' arvoa ei ole asetettu)</label>
+            <label index="tt_news.pi_flexform.listStartId">Listan StartID: Pakota LIST ja LATEST alkamaan tästä uutisesta</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Älä näytä Sivuselainta (Pagebrowser)</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Kuvien max. leveys uutistiedossa</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Kuvien max. korkeus uutistiedossa</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Vaihtoehtoisten mallinne-ulkoasujen lukumäärä</label>
+            <label index="tt_news.pi_flexform.croppingLenght">stdWrap.crop alaotsikolle (lyhyt)</label>
+        </languageKey>
+        <languageKey index="tr" type="array">
+            <label index="tt_news">Haberler</label>
+            <label index="tt_news.type.I.0">Haberler</label>
+            <label index="tt_news.type.I.1">Makale</label>
+            <label index="tt_news.type.I.2">Dış URL Linki</label>
+            <label index="tt_news.datetime">Tarih/Zaman:</label>
+            <label index="tt_news.archivedate">Arşiv tarihi:</label>
+            <label index="tt_news.related">İlgili haberler:</label>
+            <label index="tt_news_cat">Haber kategorisi</label>
+            <label index="tt_news_cat.image">Resim Kategorisi</label>
+            <label index="tt_news_cat.shortcut">Kısayol haberler kategorisi</label>
+            <label index="tt_news_cat.shortcut_target">Kısayol haberler kategorisi için hedef</label>
+            <label index="tt_news.pi_flexform.sheet_general">Genel ayarlar</label>
+            <label index="tt_news.pi_flexform.sheet_template">Şablon</label>
+            <label index="tt_news.pi_flexform.sheet_category">Kategori ayarları</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Diğer ayarlar</label>
+            <label index="tt_news.pi_flexform.what_to_display">Görüntülenecek olan:</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Kategori modu:</label>
+            <label index="tt_news.pi_flexform.category_selection">SEçili kategori</label>
+            <label index="tt_news.pi_flexform.archive">Arşiv ayarları(LISTE için)</label>
+            <label index="tt_news.pi_flexform.template_file">Şablon dosyası</label>
+            <label index="tt_news.pi_flexform.catImageMode">Resim kategorisi Link modu:</label>
+            <label index="tt_news.pi_flexform.catTextMode">MEtin kategorisi Link modu:</label>
+            <label index="tt_news.pi_flexform.recursive">Tekrarlamalı seviye seçimi:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Resim kategorisinin max. genişligi:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Resim kategorisinin max. uzunluğu:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Resim kategorisinin max. numarası</label>
+            <label index="tt_news.pi_flexform.maxTextLength">metin kategorisinin max. boyu:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">metin kategorisinin max. numarası:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">Tek haberin görüntülenmesi için sayfa ID si:</label>
+            <label index="tt_news.pi_flexform.backPid">Sayfa ID sine geri dönüş:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">ARŞİVDE OLMYANLARI GÖSTER</label>
+            <label index="tt_news.pi_flexform.archive_arc">ARŞİVDEKİLERİ GÖSTER</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">don't care</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">TypoScript tarafından tanımlanan</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Hepsini gösterme</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Göster, fakat link olmasın</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">işlemler , kategori kısayoluna link gibi</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">işlemler, kategori selector gibi</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">tek görüntüde ilk resmi gösterme (firstImageIsPreview)</label>
+        </languageKey>
+        <languageKey index="se" type="array">
+            <label index="tt_news">Nyheter</label>
+            <label index="tt_news.type.I.0">Nyheter</label>
+            <label index="tt_news.type.I.1">Artikel</label>
+            <label index="tt_news.type.I.2">Länk till en extern URL</label>
+            <label index="tt_news.datetime">Datum/Tid:</label>
+            <label index="tt_news.archivedate">Arkiveringsdatum:</label>
+            <label index="tt_news.related">Relaterade nyheter:</label>
+            <label index="tt_news_cat">Nyhetskategori</label>
+            <label index="tt_news_cat.image">Bild för kategorin</label>
+            <label index="tt_news_cat.title_lang_ol">överlappning i rubrikens språk</label>
+            <label index="tt_news_cat.shortcut">Genväg till nyhetskategorin</label>
+            <label index="tt_news_cat.shortcut_target">Mål för genvägen till nyhetskategorin</label>
+            <label index="tt_news.pi_flexform.sheet_general">Allmänna inställningar</label>
+            <label index="tt_news.pi_flexform.sheet_template">Mall</label>
+            <label index="tt_news.pi_flexform.sheet_category">Kategori-inställningar</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Andra inställningar</label>
+            <label index="tt_news.pi_flexform.what_to_display">Vad skall visas:</label>
+            <label index="tt_news.pi_flexform.listOrderby">&quot;Ordna enligt&quot; detta fält (LISTA &amp; SENASTE):</label>
+            <label index="tt_news.pi_flexform.ascDesc">Stigande eller fallande ordning (LISTA &amp; SENASTE):</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Stigande</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Fallande</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Kategoriläge</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[utan kategori]</label>
+            <label index="tt_news.pi_flexform.category_selection">Välj kategori</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Visa allt (utan hänsyn till vad som valts nedan)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Visa nyheter från valda kategorier</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">Visa INTE nyheter från valda kategorier</label>
+            <label index="tt_news.pi_flexform.archive">Arkivinställningar (för LISTA)</label>
+            <label index="tt_news.pi_flexform.template_file">Mall-fil</label>
+            <label index="tt_news.pi_flexform.catImageMode">Kategoribildens länkläge:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Kategoritextens länkläge:</label>
+            <label index="tt_news.pi_flexform.recursive">Välj rekursiv nivå:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Kategoribildens max bredd:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Kategoribildens max höjd:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Kategoribildernas max mängd:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Kategoritextens max längd:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Kategoritexternas max antal:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">Sid-ID för att visa en nyhet:</label>
+            <label index="tt_news.pi_flexform.backPid">Sid-ID att återvända till:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">VISA OARKIVERADE</label>
+            <label index="tt_news.pi_flexform.archive_arc">VISA ARKIVERADE</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Inget att bry sig om</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Definierad av TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Visa inte överhuvudtaget</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Visa, men utan länkar</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Fungerar som länk till kategorigenväg</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Fungerar som kategoriväljare</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Visa inte den första bilden i enkel visning (firstImageIsPreview)</label>
+            <label index="tt_news.pi_flexform.limit">Gräns: max antal nyheter i LISTA (och SENASTE, om inte inställningar gjorts för 'latestLimit')</label>
+            <label index="tt_news.pi_flexform.listStartId">Listans StartID: Tvinga LISTA eller SENASTE att starta från denna nyhet</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Visa inte sidbläddrare</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Max bredd för bilder i nyheter</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Max höjd för bilder i nyheter</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Antal alternativa mall-utseenden</label>
+            <label index="tt_news.pi_flexform.croppingLenght">stdWrap.crop för underrubriken (kort)</label>
+        </languageKey>
+        <languageKey index="pt" type="array">
+            <label index="tt_news">Notícias</label>
+            <label index="tt_news.type.I.0">Notícias</label>
+            <label index="tt_news.type.I.1">Artigo</label>
+            <label index="tt_news.datetime">Data/Hora:</label>
+            <label index="tt_news.archivedate">Data do arquivo:</label>
+            <label index="tt_news.related">Notícias relacionadas</label>
+            <label index="tt_news_cat">Categoria de notícias</label>
+        </languageKey>
+        <languageKey index="ru" type="array">
+            <label index="tt_news">Новости</label>
+            <label index="tt_news.type.I.0">Новости</label>
+            <label index="tt_news.type.I.1">Статья</label>
+            <label index="tt_news.type.I.2">Внешняя ссылка</label>
+            <label index="tt_news.datetime">Дата/Время:</label>
+            <label index="tt_news.archivedate">Архивная дата:</label>
+            <label index="tt_news.imagealttext">Всплывающий текст для картинки</label>
+            <label index="tt_news.imagetitletext">Название картинки</label>
+            <label index="tt_news.related">Связанные новости:</label>
+            <label index="tt_news_cat">Категория Новостей</label>
+            <label index="tt_news_cat.image">Иконка категории</label>
+            <label index="tt_news_cat.title_lang_ol">Языковые переводы Названия</label>
+            <label index="tt_news_cat.shortcut">Ярлык категории новостей</label>
+            <label index="tt_news_cat.shortcut_target">Окно (target) для ярлыка категории новостей</label>
+            <label index="tt_news_cat.single_pid">Страница полного отображения для новостей из этой категории</label>
+            <label index="tt_news.pi_flexform.sheet_general">Общие настройки</label>
+            <label index="tt_news.pi_flexform.sheet_template">Шаблон</label>
+            <label index="tt_news.pi_flexform.sheet_category">Настройки категории</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Другие настройки</label>
+            <label index="tt_news.pi_flexform.what_to_display">Что показывать</label>
+            <label index="tt_news.pi_flexform.listOrderby">&quot;Упорядочить по&quot; этому полю (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc">По возрастанию или убыванию (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">По возрастанию</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">По убыванию</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Режим категории</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">нет категории</label>
+            <label index="tt_news.pi_flexform.category_selection">Выбор категории</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Показать все (независимо от выбора ниже)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Показать записи из выбранных категорий</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">НЕ показывать записи из выбранных категорий</label>
+            <label index="tt_news.pi_flexform.archive">Настройки архива (для LIST)</label>
+            <label index="tt_news.pi_flexform.template_file">Файл шаблона</label>
+            <label index="tt_news.pi_flexform.catImageMode">Графический режим ссылки категории:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Текстовый режим ссылки категории:</label>
+            <label index="tt_news.pi_flexform.recursive">Выбор глубины рекурсии:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Максимальная ширина иконки категории:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Максимальная высота иконки категории:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Максимальное число иконок категории:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Максимальная длина текста категории:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Максимальное число текстов категории:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">Id страницы полного отображения новости:</label>
+            <label index="tt_news.pi_flexform.backPid">Id страницы для возврата:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">ПОКАЗЫВАТЬ НЕ-АРХИВИРОВАННЫЕ</label>
+            <label index="tt_news.pi_flexform.archive_arc">ПОКАЗЫВАТЬ АРХИВИРОВАННЫЕ</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Не важно</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Задано в TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Не показывать совсем</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Показывать, но без ссылки</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Работает как ссылка на ярлык категории</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Работает как выбор категории</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Не показывать первую картинку в полном отображении новости (firstImageIsPreview)</label>
+            <label index="tt_news.pi_flexform.limit">Максимальное число новостей для LIST и LATEST</label>
+            <label index="tt_news.pi_flexform.listStartId">Старт.ID: принудить начинать с этого номера (ID) в режимах LIST, LATEST</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Не показывать разбивку по страницам</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Максимальная ширина картинок в новостях</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Максимальная высота картинок в новостях</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Количество различных шаблонов-компоновок</label>
+            <label index="tt_news.pi_flexform.croppingLenght">stdWrap.crop для подзаголовка (коротк.)</label>
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+            <label index="tt_news">Správy</label>
+            <label index="tt_news.type.I.0">Správy</label>
+            <label index="tt_news.type.I.1">Článok</label>
+            <label index="tt_news.datetime">Dátum/Čas:</label>
+            <label index="tt_news.archivedate">Dátum archivácie:</label>
+            <label index="tt_news.related">Podobné správy:</label>
+            <label index="tt_news_cat">Kategória správ</label>
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+            <label index="tt_news">Novosti</label>
+            <label index="tt_news.type.I.0">Novosti</label>
+            <label index="tt_news.type.I.1">Članak</label>
+            <label index="tt_news.type.I.2">Link na vanjski URL</label>
+            <label index="tt_news.datetime">Datum/Vrijeme</label>
+            <label index="tt_news.archivedate">Datum arhiviranja</label>
+            <label index="tt_news.imagealttext">Alt tekst za sliku</label>
+            <label index="tt_news.imagetitletext">Title tekst za sliku</label>
+            <label index="tt_news.related">Povezane novosti</label>
+            <label index="tt_news_cat">Kategorija novosti</label>
+            <label index="tt_news_cat.image">Slika za kategoriju</label>
+            <label index="tt_news_cat.title_lang_ol">naslov za jezike</label>
+            <label index="tt_news_cat.shortcut">Kratica do kategorije novosti</label>
+            <label index="tt_news_cat.shortcut_target">Odredište kratice za kategoriju</label>
+            <label index="tt_news_cat.single_pid">Stranica za prikaz cijele vijesti za ovu kategoriju</label>
+            <label index="tt_news.pi_flexform.sheet_general">Općenite postavke</label>
+            <label index="tt_news.pi_flexform.sheet_template">Predložak</label>
+            <label index="tt_news.pi_flexform.sheet_category">Postavke kategorija</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Ostale postavke</label>
+            <label index="tt_news.pi_flexform.what_to_display">Što prikazati:</label>
+            <label index="tt_news.pi_flexform.listOrderby">&quot;Poredaj po&quot; ovom polju (LIST &amp; LATEST)</label>
+            <label index="tt_news.pi_flexform.ascDesc">Uzlazno ili silazno (LIST &amp; LATEST)</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Uzlazno</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Silazno</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Mod kategorije:</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[nije kategorizirano]</label>
+            <label index="tt_news.pi_flexform.category_selection">Odabir kategorija</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Prikaži sve (bez obzira šti je dolje odabrano)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Prikaži novosti za odabranu kategoriju</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">NE PRIKAZUJ novosti za odabrane kategorije</label>
+            <label index="tt_news.pi_flexform.archive">Postavke arhive (za LIST)</label>
+            <label index="tt_news.pi_flexform.template_file">Datoteka predloška</label>
+            <label index="tt_news.pi_flexform.catImageMode">Link mod za sliku kategorije:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Link mod za tekst kategorije:</label>
+            <label index="tt_news.pi_flexform.recursive">Rekurzivni odabir razine:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Max. širina slike kategorije:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Max. visina slike kategorije:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Max. broj slika kategorije:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Max. dužina teksta kategorije:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Maksimalni broj tekstova kategorije:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">ID stranice za prikaz jedne novosti:</label>
+            <label index="tt_news.pi_flexform.backPid">Stranica za povratak:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">PRIKAŽI NE ARHIVIRANE</label>
+            <label index="tt_news.pi_flexform.archive_arc">PRIKAŽI ARHIVIRANE</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Nije važno</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Određeno kroz TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Ne prikazuj uopće</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Prikaži, ali bez linkova</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Ponaša se kao link za kratice do kategorija</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Ponaša se kao izbornik kategorija</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Na prikazuj prvu sliku u single pogledu (firstImageIsPreview)</label>
+            <label index="tt_news.pi_flexform.limit">Limitiraj: maks. novosti za LIST i LATEST</label>
+            <label index="tt_news.pi_flexform.listStartId">List StartID: prisili LIST i LATEST da počinju od ove novosti</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Ne prikazuj Pagebrowser</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Maks. širina za slike u zapisu novosti</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Maks. visina za slike u zapisu novosti</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Broj izmjenjujućih predložaka</label>
+            <label index="tt_news.pi_flexform.croppingLenght">stdWrap.crop za subheader (kratko)</label>
+        </languageKey>
+        <languageKey index="hu" type="array">
+            <label index="tt_news">Hírek</label>
+            <label index="tt_news.type.I.0">Hírek</label>
+            <label index="tt_news.type.I.1">Link belső oldalra</label>
+            <label index="tt_news.type.I.2">Link külső URL-re</label>
+            <label index="tt_news.datetime">Dátum/Idő:</label>
+            <label index="tt_news.archivedate">Archív dátum:</label>
+            <label index="tt_news.related">Kapcsolódó hírek:</label>
+            <label index="tt_news_cat">Hírkategória</label>
+            <label index="tt_news_cat.image">Kategória kép</label>
+            <label index="tt_news_cat.shortcut">Hírkategória parancsikon</label>
+            <label index="tt_news_cat.shortcut_target">Hírkategória parancsikon célja</label>
+            <label index="tt_news.pi_flexform.sheet_general">Általános Beállítások</label>
+            <label index="tt_news.pi_flexform.sheet_template">Template</label>
+            <label index="tt_news.pi_flexform.sheet_category">Kategória Beállítások</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Egyéb Beállítások</label>
+            <label index="tt_news.pi_flexform.what_to_display">Megjelenítés</label>
+            <label index="tt_news.pi_flexform.listOrderby">Rendezési mező (LISTA &amp; LEGFRISSEBB)</label>
+            <label index="tt_news.pi_flexform.ascDesc">Növekvő vagy csökkenő (LISTA &amp; LEGFRISSEBB)</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Növekvő</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Csökkenő</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Kategória mód</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[nem kategorizált]</label>
+            <label index="tt_news.pi_flexform.category_selection">Kategória kiválasztás</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Minden hír megjelenítése (a lentebbi beállításoktól függetlenül)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">A kiválasztott kategóriákhoz tartozó hírek megjelenítése</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">NEM jeleníti meg a kiválasztott kategóriákhoz tartozó híreket</label>
+            <label index="tt_news.pi_flexform.archive">Archív beállítások (a LISTÁhoz)</label>
+            <label index="tt_news.pi_flexform.template_file">Template file</label>
+            <label index="tt_news.pi_flexform.catImageMode">Kategória kép hivatkozási mód:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Kategória szöveg hivatkozási mód:</label>
+            <label index="tt_news.pi_flexform.recursive">Rekurzív szintválasztás:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">A kategória kép maximális szélessége:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">A kategória kép maximális magassága:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">A kategória képek maximális száma:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">A kategória szöveg maixmális hossza:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">A kategória szövegek maximális száma:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">OldalID az egyedi hírek megjelenítéséhez:</label>
+            <label index="tt_news.pi_flexform.backPid">OldalID a visszatéréshez:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">NEM-ARCHÍVÁLTAK MUTATÁSA</label>
+            <label index="tt_news.pi_flexform.archive_arc">ARCHÍVÁLTAK MUTATÁSA</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Mindegy</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">TypoScriptben megadva</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Ne mutassa egyáltalán</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Mutassa, de hovatkozások nélkül</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Kategória parancsikonokra hivatkozásként</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Kategória választóként</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Ne mutassa az első képet az egyedi nézetben</label>
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+            <label index="tt_news">Notícias</label>
+            <label index="tt_news.type.I.0">Notícias</label>
+            <label index="tt_news.type.I.1">Artigos</label>
+            <label index="tt_news.type.I.2">Ligação para URL externa</label>
+            <label index="tt_news.datetime">Data/Hora:</label>
+            <label index="tt_news.archivedate">Data do arquivo:</label>
+            <label index="tt_news.imagealttext">Texto ALT da imagem</label>
+            <label index="tt_news.imagetitletext">Texto TITLE da imagem</label>
+            <label index="tt_news.related">Notícias relacionadas:</label>
+            <label index="tt_news_cat">Categoria de notícias</label>
+            <label index="tt_news_cat.image">Imagem da categoria</label>
+            <label index="tt_news_cat.title_lang_ol">Língua do título sobressai</label>
+            <label index="tt_news_cat.shortcut">Atalho para categoria de notícias</label>
+            <label index="tt_news_cat.shortcut_target">TARGET para o atalho da categoria da notícia</label>
+            <label index="tt_news_cat.single_pid">Página para visualização SINGLE das notícias desta categoria</label>
+            <label index="tt_news.pi_flexform.sheet_general">Configurações Gerais</label>
+            <label index="tt_news.pi_flexform.sheet_template">Modelo</label>
+            <label index="tt_news.pi_flexform.sheet_category">Configurações da Categoria</label>
+            <label index="tt_news.pi_flexform.sheet_misc">Outras configurações</label>
+            <label index="tt_news.pi_flexform.what_to_display">O que exibir:</label>
+            <label index="tt_news.pi_flexform.listOrderby">&quot;Ordenar por&quot; este campo (LIST &amp; LATEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc">Ascendente ou Descendente (LIST &amp; LASTEST):</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc">Ascendente</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc">Descendente</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories">Modo da categoria:</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized">[sem categoria]</label>
+            <label index="tt_news.pi_flexform.category_selection">Seleção de categoria</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll">Exibir todas (não se preocupe com a seleção abaixo)</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected">Exibir os ítens das categorias selecionadas</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected">Não exibir os ítens das categorias selecionadas</label>
+            <label index="tt_news.pi_flexform.archive">Configuração de Arquivamento (para LIST)</label>
+            <label index="tt_news.pi_flexform.template_file">Arquivo de Modelo</label>
+            <label index="tt_news.pi_flexform.catImageMode">Modo de ligação da categoria por imagem:</label>
+            <label index="tt_news.pi_flexform.catTextMode">Modo de ligação da categoria por texto:</label>
+            <label index="tt_news.pi_flexform.recursive">Seleção recursiva:</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth">Largura máxima da imagem de categoria:</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight">Altura máxima da imagem de categoria:</label>
+            <label index="tt_news.pi_flexform.maxCatImages">Número máximo de imagens de categoria:</label>
+            <label index="tt_news.pi_flexform.maxTextLength">Tamanho máximo do texto de categoria:</label>
+            <label index="tt_news.pi_flexform.maxCatTexts">Número máximo de textos de categoria:</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay">ID da página para exibir a notícia completa (SINGLE):</label>
+            <label index="tt_news.pi_flexform.backPid">ID da página para retornar:</label>
+            <label index="tt_news.pi_flexform.archive_nonarc">EXIBIR NÃO ARQUIVADAS</label>
+            <label index="tt_news.pi_flexform.archive_arc">EXIBIR ARQUIVADAS</label>
+            <label index="tt_news.pi_flexform.archive_dontcare">Não importa</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS">Definido por TypoScript</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow">Não exibir</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink">Exibir, mas sem ligações</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut">Atuar como ligação de categoria</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel">Atuar como seletor de categoria</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview">Não exibir a primeira imagem na visualização SINGLE</label>
+            <label index="tt_news.pi_flexform.limit">Limite: máximo de itens para LIST e LATEST</label>
+            <label index="tt_news.pi_flexform.listStartId">ID de início: Forçar LIST ou LATEST a iniciar por este item</label>
+            <label index="tt_news.pi_flexform.noPageBrowser">Não exibir navegador de página</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth">Largura máxima para as imagens das notícias</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight">Altura máxima para as imagens das notícias</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts">Número de modelos-layouts alternáveis</label>
+            <label index="tt_news.pi_flexform.croppingLenght">stdWrap.crop para o sub-título (curto)</label>
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+        <languageKey index="hi" type="array">
+        </languageKey>
+    </data>
+    <orig_hash type="array">
+        <languageKey index="default" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.no_auto_pb" type="integer">551914</label>
+            <label index="tt_news.createNewCategory" type="integer">84149092</label>
+            <label index="tt_news.editCategory" type="integer">137944993</label>
+            <label index="tt_news.editDefLangVersion" type="integer">9642248</label>
+            <label index="tt_news.imagealttext" type="integer">198482065</label>
+            <label index="tt_news.imagetitletext" type="integer">173947642</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news.random" type="integer">140651229</label>
+            <label index="tt_news.category" type="integer">61717939</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.createNewParentCategory" type="integer">144568110</label>
+            <label index="tt_news_cat.listCategories" type="integer">17119661</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.parent_category" type="integer">86730922</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news_cat.single_pid" type="integer">31516317</label>
+            <label index="tt_news_cat.description" type="integer">190479069</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.itemsHeader" type="integer">20791966</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+            <label index="tt_news.pi_flexform.maxWordsInSingleView" type="integer">128597142</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.imagealttext" type="integer">198482065</label>
+            <label index="tt_news.imagetitletext" type="integer">173947642</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news_cat.single_pid" type="integer">31516317</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+        </languageKey>
+        <languageKey index="no" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.imagealttext" type="integer">198482065</label>
+            <label index="tt_news.imagetitletext" type="integer">173947642</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news_cat.single_pid" type="integer">31516317</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+        </languageKey>
+        <languageKey index="it" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+        </languageKey>
+        <languageKey index="fr" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+        </languageKey>
+        <languageKey index="es" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+        </languageKey>
+        <languageKey index="nl" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.imagealttext" type="integer">198482065</label>
+            <label index="tt_news.imagetitletext" type="integer">173947642</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news_cat.single_pid" type="integer">31516317</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+        </languageKey>
+        <languageKey index="cz" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+        </languageKey>
+        <languageKey index="pl" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+        </languageKey>
+        <languageKey index="si" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+        </languageKey>
+        <languageKey index="fi" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.imagealttext" type="integer">198482065</label>
+            <label index="tt_news.imagetitletext" type="integer">173947642</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news_cat.single_pid" type="integer">31516317</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+        </languageKey>
+        <languageKey index="tr" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+        </languageKey>
+        <languageKey index="se" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+        </languageKey>
+        <languageKey index="pt" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+        </languageKey>
+        <languageKey index="ru" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.imagealttext" type="integer">198482065</label>
+            <label index="tt_news.imagetitletext" type="integer">173947642</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news_cat.single_pid" type="integer">31516317</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.imagealttext" type="integer">198482065</label>
+            <label index="tt_news.imagetitletext" type="integer">173947642</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news_cat.single_pid" type="integer">31516317</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+        </languageKey>
+        <languageKey index="hu" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+            <label index="tt_news" type="integer">231848472</label>
+            <label index="tt_news.type.I.0" type="integer">231848472</label>
+            <label index="tt_news.type.I.1" type="integer">227555672</label>
+            <label index="tt_news.type.I.2" type="integer">233404471</label>
+            <label index="tt_news.datetime" type="integer">101224737</label>
+            <label index="tt_news.archivedate" type="integer">19612986</label>
+            <label index="tt_news.imagealttext" type="integer">198482065</label>
+            <label index="tt_news.imagetitletext" type="integer">173947642</label>
+            <label index="tt_news.related" type="integer">113077112</label>
+            <label index="tt_news_cat" type="integer">251615162</label>
+            <label index="tt_news_cat.image" type="integer">153975169</label>
+            <label index="tt_news_cat.title_lang_ol" type="integer">107027713</label>
+            <label index="tt_news_cat.shortcut" type="integer">29617620</label>
+            <label index="tt_news_cat.shortcut_target" type="integer">69209800</label>
+            <label index="tt_news_cat.single_pid" type="integer">31516317</label>
+            <label index="tt_news.pi_flexform.sheet_general" type="integer">86983571</label>
+            <label index="tt_news.pi_flexform.sheet_template" type="integer">41469073</label>
+            <label index="tt_news.pi_flexform.sheet_category" type="integer">44407777</label>
+            <label index="tt_news.pi_flexform.sheet_misc" type="integer">176871661</label>
+            <label index="tt_news.pi_flexform.what_to_display" type="integer">185349833</label>
+            <label index="tt_news.pi_flexform.listOrderby" type="integer">134932287</label>
+            <label index="tt_news.pi_flexform.ascDesc" type="integer">241845138</label>
+            <label index="tt_news.pi_flexform.ascDesc_asc" type="integer">217316127</label>
+            <label index="tt_news.pi_flexform.ascDesc_desc" type="integer">238876076</label>
+            <label index="tt_news.pi_flexform.select_deselect_categories" type="integer">206189891</label>
+            <label index="tt_news.pi_flexform.category_selection_notCategorized" type="integer">207488249</label>
+            <label index="tt_news.pi_flexform.category_selection" type="integer">9582094</label>
+            <label index="tt_news.pi_flexform.category_selection_showAll" type="integer">116815203</label>
+            <label index="tt_news.pi_flexform.category_selection_showSelected" type="integer">207954795</label>
+            <label index="tt_news.pi_flexform.category_selection_DontShowSelected" type="integer">172816251</label>
+            <label index="tt_news.pi_flexform.archive" type="integer">227455488</label>
+            <label index="tt_news.pi_flexform.template_file" type="integer">169140391</label>
+            <label index="tt_news.pi_flexform.catImageMode" type="integer">241003713</label>
+            <label index="tt_news.pi_flexform.catTextMode" type="integer">251073050</label>
+            <label index="tt_news.pi_flexform.recursive" type="integer">142456576</label>
+            <label index="tt_news.pi_flexform.catImageMaxWidth" type="integer">260338394</label>
+            <label index="tt_news.pi_flexform.catImageMaxHeight" type="integer">121386792</label>
+            <label index="tt_news.pi_flexform.maxCatImages" type="integer">20301532</label>
+            <label index="tt_news.pi_flexform.maxTextLength" type="integer">182661528</label>
+            <label index="tt_news.pi_flexform.maxCatTexts" type="integer">130004</label>
+            <label index="tt_news.pi_flexform.PIDitemDisplay" type="integer">152868524</label>
+            <label index="tt_news.pi_flexform.backPid" type="integer">60625048</label>
+            <label index="tt_news.pi_flexform.archive_nonarc" type="integer">139345986</label>
+            <label index="tt_news.pi_flexform.archive_arc" type="integer">19268936</label>
+            <label index="tt_news.pi_flexform.archive_dontcare" type="integer">18128009</label>
+            <label index="tt_news.pi_flexform.catLinkMode_TS" type="integer">215933041</label>
+            <label index="tt_news.pi_flexform.catLinkMode_dontshow" type="integer">179962165</label>
+            <label index="tt_news.pi_flexform.catLinkMode_shownolink" type="integer">60554787</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catshortcut" type="integer">125568930</label>
+            <label index="tt_news.pi_flexform.catLinkMode_catsel" type="integer">227793818</label>
+            <label index="tt_news.pi_flexform.firstImageIsPreview" type="integer">18580028</label>
+            <label index="tt_news.pi_flexform.limit" type="integer">24675264</label>
+            <label index="tt_news.pi_flexform.listStartId" type="integer">174882474</label>
+            <label index="tt_news.pi_flexform.noPageBrowser" type="integer">17890256</label>
+            <label index="tt_news.pi_flexform.imageMaxWidth" type="integer">168392842</label>
+            <label index="tt_news.pi_flexform.imageMaxHeight" type="integer">225876668</label>
+            <label index="tt_news.pi_flexform.alternatingLayouts" type="integer">99098072</label>
+            <label index="tt_news.pi_flexform.croppingLenght" type="integer">126885054</label>
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+        <languageKey index="hi" type="array">
+        </languageKey>
+    </orig_hash>
+    <orig_text type="array">
+        <languageKey index="default" type="array">
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+        <languageKey index="hi" type="array">
+        </languageKey>
+    </orig_text>
+</T3locallang>

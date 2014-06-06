@@ -1,19 +1,18 @@
 <T3DataStructure>
-    <meta>
-       <langDisable>1</langDisable> 
-	  <!--  <langChildren>1</langChildren>!-->
-        </meta>
-  <sheets>
+	<meta>
+	<langDisable>1</langDisable>
+	<!--  <langChildren>1</langChildren>!-->
+		</meta>
+<sheets>
 	<sDEF>
-	  <ROOT>
+	<ROOT>
 		<TCEforms>
 			<sheetTitle>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.sheet_general</sheetTitle>
 		</TCEforms>
-	    <type>array</type>
-	    <el>
-		  <what_to_display>
-			  <TCEforms>
-
+		<type>array</type>
+		<el>
+		<what_to_display>
+			<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.what_to_display</label>
 				<config>
 					<type>select</type>
@@ -50,15 +49,15 @@
 					<selectedListStyle>width:150px</selectedListStyle>
 					<itemListStyle>width:150px</itemListStyle>
 				</config>
-			  </TCEforms>
-		  </what_to_display>		 
-			   <listOrderBy>
+			</TCEforms>
+		</what_to_display>
+		<listOrderBy>
 			<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.listOrderby</label>
 				<config>
 					<type>select</type>
 					<items type="array">
-								<numIndex index="0" type="array">
+						<numIndex index="0" type="array">
 							<numIndex index="0"></numIndex>
 							<numIndex index="1"></numIndex>
 						</numIndex>
@@ -85,14 +84,14 @@
 						<numIndex index="5" type="array">
 							<numIndex index="0">LLL:EXT:tt_news/locallang_tca.php:tt_news.random</numIndex>
 							<numIndex index="1">random</numIndex>
-						</numIndex>													
+						</numIndex>
 					</items>
 					<maxitems>1</maxitems>
 					<size>1</size>
 				</config>
 			</TCEforms>
-	      </listOrderBy>
-		  		   <ascDesc>
+		</listOrderBy>
+		<ascDesc>
 			<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.ascDesc</label>
 				<config>
@@ -115,8 +114,8 @@
 					<size>1</size>
 				</config>
 			</TCEforms>
-	      </ascDesc>
-		        <categoryMode>
+		</ascDesc>
+		<categoryMode>
 			<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.select_deselect_categories</label>
 				<config>
@@ -139,8 +138,8 @@
 					<size>1</size>
 				</config>
 			</TCEforms>
-	      </categoryMode>
-		  <categorySelection>
+		</categoryMode>
+		<categorySelection>
 			<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.category_selection</label>
 				<config>
@@ -164,8 +163,8 @@
 					<allowNonIdValues>1</allowNonIdValues>
 				</config>
 			</TCEforms>
-		  </categorySelection>
-		  <archive>
+		</categorySelection>
+		<archive>
 			<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.archive</label>
 				<config>
@@ -184,14 +183,13 @@
 							<numIndex index="1">-1</numIndex>
 						</numIndex>
 					</items>
-					<default>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.archive_nonarc</default>
 					<maxitems>1</maxitems>
 					<size>1</size>
 				</config>
 			</TCEforms>
-		  </archive>
-  		<pages>
-		  	<TCEforms>
+		</archive>
+		<pages>
+			<TCEforms>
 			<exclude>1</exclude>
 			<label>LLL:EXT:lang/locallang_general.php:LGL.startingpoint</label>
 			<config>
@@ -203,11 +201,11 @@
 				<minitems>0</minitems>
 				<show_thumbs>1</show_thumbs>
 			</config>
-		  	</TCEforms>
-		  </pages>
+			</TCEforms>
+		</pages>
 
 		<recursive>
-		  	<TCEforms>
+			<TCEforms>
 			<label>LLL:EXT:lang/locallang_general.php:LGL.recursive</label>
 				<config>
 					<type>select</type>
@@ -215,7 +213,7 @@
 						<numIndex index="0" type="array">
 							<numIndex index="0"></numIndex>
 							<numIndex index="1"></numIndex>
-						</numIndex>					
+						</numIndex>
 						<numIndex index="1" type="array">
 							<numIndex index="0">LLL:EXT:cms/locallang_ttc.php:recursive.I.1</numIndex>
 							<numIndex index="1">1</numIndex>
@@ -242,22 +240,18 @@
 					<size>1</size>
 				</config>
 			</TCEforms>
-		  </recursive>  
-		  
-		  
-		  
-		 
-	    </el>
-	  </ROOT>
-    </sDEF>
-    <s_template>
-	  <ROOT>
+		</recursive>
+		</el>
+	</ROOT>
+	</sDEF>
+	<s_template>
+	<ROOT>
 		<TCEforms>
 			<sheetTitle>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.sheet_template</sheetTitle>
 		</TCEforms>
-	    <type>array</type>
-	    <el>
-	      <template_file>
+		<type>array</type>
+		<el>
+		<template_file>
 			<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.template_file</label>
 				<config>
@@ -271,7 +265,7 @@
 					<selectedListStyle>Width:180px</selectedListStyle>
 				</config>
 			</TCEforms>
-	      </template_file>
+		</template_file>
 			<imageMaxWidth>
 				<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.imageMaxWidth</label>
@@ -314,17 +308,17 @@
 					<size>10</size>
 				</config>
 				</TCEforms>
-			</croppingLenght>	
-	    </el>
-	  </ROOT>
-    </s_template>
-    <s_category>
-	  <ROOT>
+			</croppingLenght>
+		</el>
+	</ROOT>
+	</s_template>
+	<s_category>
+	<ROOT>
 		<TCEforms>
 			<sheetTitle>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.sheet_category</sheetTitle>
 		</TCEforms>
-	    <type>array</type>
-	    <el>
+		<type>array</type>
+		<el>
 			<catImageMode>
 				<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.catImageMode</label>
@@ -444,7 +438,7 @@
 				</TCEforms>
 			</catTextLength>
 			-->
-			
+
 			<maxCatTexts>
 				<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.maxCatTexts</label>
@@ -456,20 +450,20 @@
 				</config>
 				</TCEforms>
 			</maxCatTexts>
-	    </el>
-	  </ROOT>
-    </s_category>
+		</el>
+	</ROOT>
+	</s_category>
 	<s_misc>
-	  <ROOT>
+	<ROOT>
 		<TCEforms>
 			<sheetTitle>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.sheet_misc</sheetTitle>
 		</TCEforms>
-	    <type>array</type>
-	    <el>
-		 
-			  
-		  <PIDitemDisplay>
-		  	<TCEforms>
+		<type>array</type>
+		<el>
+
+
+		<PIDitemDisplay>
+			<TCEforms>
 			<exclude>1</exclude>
 			<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.PIDitemDisplay</label>
 			<config>
@@ -481,10 +475,10 @@
 				<minitems>0</minitems>
 				<show_thumbs>1</show_thumbs>
 			</config>
-		  	</TCEforms>
-		  </PIDitemDisplay>
-		  <backPid>
-		  	<TCEforms>
+			</TCEforms>
+		</PIDitemDisplay>
+		<backPid>
+			<TCEforms>
 			<exclude>1</exclude>
 			<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.backPid</label>
 			<config>
@@ -496,17 +490,17 @@
 				<minitems>0</minitems>
 				<show_thumbs>1</show_thumbs>
 			</config>
-		  	</TCEforms>
-		  </backPid>
-		 <firstImageIsPreview>
+			</TCEforms>
+		</backPid>
+		<firstImageIsPreview>
 			<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.firstImageIsPreview</label>
 				<config>
 					<type>check</type>
 				</config>
 			</TCEforms>
-	      </firstImageIsPreview>
-	     <listStartId>
+		</firstImageIsPreview>
+		<listStartId>
 				<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.listStartId</label>
 				<config>
@@ -517,7 +511,7 @@
 				</config>
 				</TCEforms>
 			</listStartId>
-	  	  <listLimit>
+		<listLimit>
 				<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.limit</label>
 				<config>
@@ -528,7 +522,7 @@
 				</config>
 				</TCEforms>
 			</listLimit>
-			 <noPageBrowser>
+			<noPageBrowser>
 				<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.noPageBrowser</label>
 				<config>
@@ -547,8 +541,8 @@
 				</config>
 			</TCEforms>
 			</maxWordsInSingleView>
-	    </el>
-	  </ROOT>
-    </s_misc>
-  </sheets>
+		</el>
+	</ROOT>
+	</s_misc>
+</sheets>
 </T3DataStructure>

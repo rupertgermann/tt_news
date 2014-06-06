@@ -27,7 +27,7 @@
 /**
  * This is an example for processing the news images by a user function.
  *
- * $Id: example_imageMarkerFunc.php,v 1.9 2005/05/15 19:18:18 rupertgermann Exp $
+ * $Id: example_imageMarkerFunc.php,v 1.10 2006/02/18 18:07:48 rupertgermann Exp $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */
@@ -86,12 +86,6 @@ function user_imageMarkerFunc($paramArray,$conf){
 	reset($imgs);
 	$cc = 0;
 
-	// unset the first image in the array (in single view) if the TS-var 'firstImageIsPreview' is set
-	if (count($imgs) > 1 && $pObj->config['firstImageIsPreview'] && $textRenderObj == 'displaySingle') {
-		unset($imgs[0]);
-		unset($imgsCaptions[0]);
-		$cc = 1;
-	}
 	while (list(, $val) = each($imgs)) {
 		if ($cc == $imageNum) break;
 		if ($val) {
@@ -180,13 +174,7 @@ function user_maskImages($paramArray,$conf){
 	reset($imgs);
 
 	$cc = 0;
-	// remove first img from the image array in single view if the TSvar firstImageIsPreview is set
-	if (count($imgs) > 1 && $pObj->config['firstImageIsPreview'] && $textRenderObj == 'displaySingle') {
-		array_shift($imgs);
-		array_shift($imgsCaptions);
-		array_shift($imgsAltTexts);
-		array_shift($imgsTitleTexts);
-	}
+
 	// get img array parts for single view pages
 	if ($pObj->piVars[$pObj->config['singleViewPointerName']]) {
 		$spage = $pObj->piVars[$pObj->config['singleViewPointerName']];

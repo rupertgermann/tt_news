@@ -1,4 +1,8 @@
 <?php
+/**
+ * $Id: tca.php,v 1.41 2006/04/06 19:46:45 rupertgermann Exp $
+ */
+
 	// get extension confArr
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 	// switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
@@ -66,12 +70,14 @@ $TCA['tt_news'] = Array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.fe_group',
 			'config' => Array (
 				'type' => 'select',
+				'size' => 5,
+				'maxitems' => 20,
 				'items' => Array (
-					Array('', 0),
 					Array('LLL:EXT:lang/locallang_general.php:LGL.hide_at_login', -1),
 					Array('LLL:EXT:lang/locallang_general.php:LGL.any_login', -2),
 					Array('LLL:EXT:lang/locallang_general.php:LGL.usergroups', '--div--')
 				),
+				'exclusiveKeys' => '-1,-2',
 				'foreign_table' => 'fe_groups'
 			)
 		),
@@ -190,11 +196,12 @@ $TCA['tt_news'] = Array (
 				'type' => 'group',
 				'internal_type' => 'file',
 				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-				'max_size' => '1000',
+				'max_size' => '10000',
 				'uploadfolder' => 'uploads/pics',
 				'show_thumbs' => '1',
-				'size' => '3',
-				'maxitems' => '10',
+				'size' => 3,
+				'autoSizeMax' => 15,
+				'maxitems' => '99',
 				'minitems' => '0'
 			)
 		),
@@ -298,7 +305,7 @@ $TCA['tt_news'] = Array (
 				'foreign_table' => 'tt_news_cat',
 				#'foreign_table_where' => $fTableWhere.'ORDER BY tt_news_cat.'.$confArr['category_OrderBy'],
 				'size' => 3,
-				'autoSizeMax' => 25,
+				'autoSizeMax' => $confArr['categoryTreeHeigth'],
 				'minitems' => 0,
 				'maxitems' => 500,
 				'MM' => 'tt_news_cat_mm',
@@ -343,7 +350,7 @@ $TCA['tt_news'] = Array (
 		),
 		'news_files' => Array (
 			'exclude' => 1,
-			'l10n_mode' => 'exclude',
+			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:cms/locallang_ttc.php:media',
 			'config' => Array (
 				'type' => 'group',
@@ -390,12 +397,15 @@ $TCA['tt_news'] = Array (
 				'type'=>'passthrough')
 		),
 		't3ver_label' => Array (
-			'displayCond' => 'EXT:version:LOADED:true',
+			'displayCond' => 'FIELD:t3ver_label:REQ:true',
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
 			'config' => Array (
-				'type' => 'input',
-				'size' => '30',
-				'max' => '30',
+							'type'=>'none',
+							'cols' => 27
+
+// 				'type' => 'input',
+// 				'size' => '30',
+// 				'max' => '30',
 			)
 		),
 
@@ -421,9 +431,11 @@ $TCA['tt_news'] = Array (
 		'title;;1;;,type,datetime;;2;;1-1-1,author;;3;;,short,ext_url;;4;;,--div--;Relations,category,image;;;;1-1-1,imagecaption')
 	),
 	'palettes' => Array (
-		'1' => Array('showitem' => 'hidden,starttime,endtime,fe_group'),
+		'1' => Array('showitem' => 'hidden,starttime,endtime'),
+		'10' => Array('showitem' => 'fe_group'),
+		
 		'2' => Array('showitem' => 'archivedate,l18n_parent,sys_language_uid'),
-		'3' => Array('showitem' => 't3ver_label,author_email'),
+		'3' => Array('showitem' => 'author_email,t3ver_label'),
 		'4' => Array('showitem' => 'keywords'),
 		'5' => Array('showitem' => 'imagealttext,imagetitletext'),
 
@@ -473,12 +485,14 @@ $TCA['tt_news_cat'] = Array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.fe_group',
 			'config' => Array (
 				'type' => 'select',
+				'size' => 5,
+				'maxitems' => 20,
 				'items' => Array (
-					Array('', 0),
 					Array('LLL:EXT:lang/locallang_general.php:LGL.hide_at_login', -1),
 					Array('LLL:EXT:lang/locallang_general.php:LGL.any_login', -2),
 					Array('LLL:EXT:lang/locallang_general.php:LGL.usergroups', '--div--')
 				),
+				'exclusiveKeys' => '-1,-2',
 				'foreign_table' => 'fe_groups'
 			)
 		),
@@ -523,7 +537,7 @@ $TCA['tt_news_cat'] = Array (
 				'userFunc' => 'tx_ttnews_treeview->displayCategoryTree',
 				'treeView' => 1,
 				'size' => 1,
-				'autoSizeMax' => 10,
+				'autoSizeMax' => $confArr['categoryTreeHeigth'],
 				'minitems' => 0,
 				'maxitems' => 2,
 
@@ -621,11 +635,12 @@ $TCA['tt_news_cat'] = Array (
 	),
 
 	'types' => Array (
-		'0' => Array('showitem' => 'title,title_lang_ol,parent_category;;2;;,image;;;;,shortcut;;1;;1-1-1,single_pid,description'),
+		'0' => Array('showitem' => 'title,title_lang_ol,parent_category;;;;,image;;;;,shortcut;;1;;1-1-1,single_pid,description'),
 
 	),
 	'palettes' => Array (
-		'2' => Array('showitem' => 'hidden,starttime,endtime,fe_group'),
+		'2' => Array('showitem' => 'hidden,starttime,endtime'),
+		'10' => Array('showitem' => 'fe_group'),
 		'1' => Array('showitem' => 'shortcut_target'),
 	)
 );

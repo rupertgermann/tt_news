@@ -85,9 +85,9 @@ class tx_ttnews_tcemain {
 				$GLOBALS['_POST']['popViewId_addParams'] = ($fieldArray['sys_language_uid']>0?'&L='.$fieldArray['sys_language_uid']:'').'&no_cache=1&tx_ttnews[tt_news]='.$id;
 				$GLOBALS['_POST']['popViewId'] = $pagesTSC['tx_ttnews.']['singlePid'];
 			}
-			
+// 			debug(t3lib_div::_GP('popViewId_addParams'),__FUNCTION__);
 				// check permissions of assigned categories
-			if ($GLOBALS['BE_USER']->getTSConfigVal('options.useListOfAllowedItems') && !$GLOBALS['BE_USER']->isAdmin()) {
+			if ($GLOBALS['BE_USER']->getTSConfigVal('options.useListOfAllowedItems') && !$GLOBALS['BE_USER']->isAdmin() && is_int($id)) {
 
 					// get categories from the tt_news record in db
 				$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query ('tt_news_cat.uid,tt_news_cat_mm.sorting AS mmsorting', 'tt_news', 'tt_news_cat_mm', 'tt_news_cat', ' AND tt_news_cat_mm.uid_local='.(is_int($fieldArray['l18n_parent'])?$fieldArray['l18n_parent']:$id).t3lib_BEfunc::BEenableFields('tt_news_cat'));
@@ -143,7 +143,7 @@ class tx_ttnews_tcemain_cmdmap {
 				$pObj->log($table,$id,2,0,1,"processCmdmap [editlock]: Attempt to ".$command." a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).",1,array($table));
 				$error = true;
 			}
-			if ($GLOBALS['BE_USER']->getTSConfigVal('options.useListOfAllowedItems')) {
+			if ($GLOBALS['BE_USER']->getTSConfigVal('options.useListOfAllowedItems') && is_int($id)) {
 					// get categories from the (untranslated) record in db
 				if ($table == 'tt_news') {
 					$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query ('tt_news_cat.uid,tt_news_cat_mm.sorting AS mmsorting', 'tt_news', 'tt_news_cat_mm', 'tt_news_cat', ' AND tt_news_cat_mm.uid_local='.(is_int($id)?$id:0).t3lib_BEfunc::BEenableFields('tt_news_cat'));

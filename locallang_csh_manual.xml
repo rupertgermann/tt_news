@@ -12,7 +12,7 @@
 		<languageKey index="default" type="array">
 			<label index=".alttitle">News</label>
 			<label index=".description"> news description</label>
-			<label index="_.seeAlso">tt_news manual | http://typo3.org/documentation/document-library/tt_news/</label>
+			<label index="_.seeAlso">tt_news manual | http://typo3.org/documentation/document-library/extension-manuals/tt_news/current/</label>
 			<label index="_.image"> </label>
 			<label index=".image_descr"> </label>
 			<label index=".syntax"></label>

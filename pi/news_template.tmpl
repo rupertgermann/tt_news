@@ -50,6 +50,7 @@ NEWS_CATEGORY - news item category
 NEWS_CATEGORY_IMAGE - news item category image
 NEWS_RELATED - links to related news
 NEWS_IMAGE - news item images
+NEWS_CATEGORY_ROOTLINE - the category rootline
 
 PAGE_UID - Page id of the parent page (pid)
 PAGE_TITLE - Title of the parent page of the news item
@@ -154,6 +155,7 @@ LINK_NEXT
 	This is the template for the list of news in the archive or news page or search
 -->
 <table cellpadding="4" cellspacing="1" border="0" width="98%">
+###NEWS_CATEGORY_ROOTLINE###
 	<!-- ###CONTENT### begin
 		  This is the part of the template substituted with the list of news: 
 	-->
@@ -230,6 +232,7 @@ LINK_NEXT
 <!-- ###TEMPLATE_SINGLE### begin
 	This subpart is used to display single news items
 -->
+###NEWS_CATEGORY_ROOTLINE###
 <table border="0" cellspacing="0" cellpadding="1" width="98%">
 	<tr>
 		<td valign="top">

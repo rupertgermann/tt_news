@@ -13,21 +13,23 @@ plugin.tt_news {
   rdf_tmplFile = EXT:tt_news/res/rdf.tmpl
     # cat=plugin.tt_news/file/83; type=file[html,htm,tmpl,txt]; label= Atom-News Atom v0.3 Template File: XML template for Atom 0.3 feed.
   atom03_tmplFile = EXT:tt_news/res/atom_0_3.tmpl
-  # cat=plugin.tt_news//84; type=options[rss091,rss2,rdf,atom03]; label= News-Feed XML-Format: Defines the format of the news feed. Possible values are: 'rss091', 'rss2' 'rdf' and 'atom03'
+    # cat=plugin.tt_news/file/84; type=file[html,htm,tmpl,txt]; label= Atom-News Atom v1.0 Template File: XML template for Atom 1.0 feed.
+  atom1_tmplFile = EXT:tt_news/res/atom_1_0.tmpl
+    # cat=plugin.tt_news//85; type=options[rss091,rss2,rdf,atom1,atom03]; label= News-Feed XML-Format: Defines the format of the news feed. Possible values are: 'rss091', 'rss2' 'rdf', 'atom1' and 'atom03'
   xmlFormat = rss2
-    # cat=plugin.tt_news//85; type=text; label= News-Feed XML-Title: The title of your news feed. (required for rss091, rss2, rdf and atom03)
+    # cat=plugin.tt_news//86; type=text; label= News-Feed XML-Title: The title of your news feed. (required for rss091, rss2, rdf and atom03)
   xmlTitle = your-server.org: Latest News
-    # cat=plugin.tt_news//86; type=text; label= News-Feed XML-Link: The link to your hompage. (required for rss091, rss2, rdf and atom03)
+    # cat=plugin.tt_news//87; type=text; label= News-Feed XML-Link: The link to your hompage. (required for rss091, rss2, rdf and atom03)
   xmlLink = http://your-server.org/
-    # cat=plugin.tt_news//87; type=text; label= News-Feed XML-Description: The description of your news feed. (required for rss091, rss2 and rdf. optional for atom03)
+    # cat=plugin.tt_news//88; type=text; label= News-Feed XML-Description: The description of your news feed. (required for rss091, rss2 and rdf. optional for atom03)
   xmlDesc = Latest news
-   	# cat=plugin.tt_news//88; type=text; label= News-Feed XML-Language: Your site's language. A list of allowable values for <language> in RSS is available at http://backend.userland.com/stories/storyReader$16 (equired for rss091, optional for rss2, not available for rdf, recommended for atom03)
+   	# cat=plugin.tt_news//89; type=text; label= News-Feed XML-Language: Your site's language. A list of allowable values for <language> in RSS is available at http://backend.userland.com/stories/storyReader$16 (equired for rss091, optional for rss2, not available for rdf, recommended for atom03)
   xmlLang = en
-    # cat=plugin.tt_news//89; type=text; label= News-Feed XML-Icon: Provide an icon for your news feed with preferred size of 16x16 px, can be gif, jpeg or png. (required for rss091, optional for rss2 and rdf, not available for atom03)
+    # cat=plugin.tt_news//80; type=text; label= News-Feed XML-Icon: Provide an icon for your news feed with preferred size of 16x16 px, can be gif, jpeg or png. (required for rss091, optional for rss2 and rdf, not available for atom03)
   xmlIcon = EXT:tt_news/ext_icon.gif
-    # cat=plugin.tt_news//90; type=int+; label= News-Feed XML-Limit: max news items in RSS feeds.
+    # cat=plugin.tt_news//91; type=int+; label= News-Feed XML-Limit: max news items in RSS feeds.
   xmlLimit = 10
-    # cat=plugin.tt_news//91; type=boolean; label= News-Feed XML-Caching: Allow caching for the RSS feed
+    # cat=plugin.tt_news//92; type=boolean; label= News-Feed XML-Caching: Allow caching for the RSS feed
   xmlCaching = 1
   }
 }

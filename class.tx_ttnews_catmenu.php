@@ -29,6 +29,8 @@
 *
 * renders the CATMENU content element - extends class t3lib_treeview to change some methods.
 *
+* $Id: class.tx_ttnews_catmenu.php,v 1.4 2006/04/05 07:20:04 rupertgermann Exp $
+*
 * @author Rupert Germann <rupi@gmx.li>
 */
 /**
@@ -78,7 +80,7 @@ class tx_ttnews_catmenu extends t3lib_treeview {
 			$piVars = &$this->tt_news_obj->piVars;
 			$pTmp = $GLOBALS['TSFE']->ATagParams;
 			if ($newsConf['displayCatMenu.']['insertDescrAsTitle']) {
-				$GLOBALS['TSFE']->ATagParams = ($pTmp?$pTmp.' ':'').'title="'.$v['description'].'" alt="'.$v['description'].'"';
+				$GLOBALS['TSFE']->ATagParams = ($pTmp?$pTmp.' ':'').'title="'.$v['description'].'"';
 			}
 			if ($newsConf['useHRDates']) {
 				$link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, array(
@@ -113,6 +115,8 @@ class tx_ttnews_catmenu extends t3lib_treeview {
 		$treeArr=array();
 
 			// Traverse mounts:
+		$cc = 0;
+// 			debug($this->MOUNTS,'$this->MOUNTS '.__FUNCTION__.' '.__CLASS__);
 		foreach($this->MOUNTS as $idx => $uid)	{
 
 				// Set first:
@@ -126,6 +130,10 @@ class tx_ttnews_catmenu extends t3lib_treeview {
 
 				// Preparing rootRec for the mount
 			if ($uid)	{
+				if($cc) { // don't accumulate $firstHtml if we're listing multiple MOUNTS
+					$firstHtml = '';
+				}
+				$cc++;
 				$rootRec = $this->getRecord($uid);
 				$firstHtml.=$this->getIcon($rootRec);
 			} else {
@@ -133,6 +141,8 @@ class tx_ttnews_catmenu extends t3lib_treeview {
 				$rootRec = $this->getRootRecord($uid);
 				$firstHtml.=$this->getRootIcon($rootRec);
 			}
+			
+// 			debug($firstHtml,'$firstHtml bank:'.$idx.' '.__FUNCTION__.' '.__CLASS__);
 
 			if (is_array($rootRec))	{
 					// Add the root of the mount to ->tree
@@ -149,7 +159,10 @@ class tx_ttnews_catmenu extends t3lib_treeview {
 					// Add tree:
 				$treeArr=array_merge($treeArr,$this->tree);
 			}
+
 		}
+// 					debug($treeArr,'$treeArr '.__FUNCTION__.' '.__CLASS__);
+
 		return $this->printTree($treeArr);
 	}
 

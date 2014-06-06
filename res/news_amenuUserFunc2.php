@@ -28,7 +28,7 @@
  * This is an example for processing the archive menu by a user function.
  * it uses the function amenuUserFunc() from the tt_news class
  *
- * $Id: news_amenuUserFunc2.php,v 1.3 2005/05/15 19:18:18 rupertgermann Exp $
+ * $Id: news_amenuUserFunc2.php,v 1.4 2005/10/21 23:30:36 rupertgermann Exp $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */
@@ -63,9 +63,9 @@ function user_processAmenu($amenuItemsArr, $conf){
 	#$tmpl = '<tr><td bgcolor="'.$lConf['color3.']['wrap'].'" valign="top" nowrap="nowrap">###ARCHIVE_YEAR###</td></tr>';
 
 	// template-part for the new css based template:
- $tmpl = '<li class="news-amenu-item-year">###ARCHIVE_YEAR###</li>';
+ 	$tmpl = '<li class="news-amenu-item-year">###ARCHIVE_YEAR###</li>';
 
-
+	$oldyear = 0;
 	$out = array();
 	if ($amenuItemsArr) {
 		foreach ($amenuItemsArr as $item){

@@ -91,7 +91,7 @@ class ext_update {
 			}
 			if ($count_flex) {
 				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res_flex)) {
-					unset($what_to_display, $categories_to_display, $archive, $selection_mode, $theCode, $cat, $aFlag);
+					
 					$codes = t3lib_div::trimExplode(',', $row['select_key'], 1);
 					if (!count($codes)) $codes = array('');
 						while (list(, $theCode) = each($codes)) {
@@ -148,7 +148,7 @@ class ext_update {
 					$updateRecord = array();
 					$updateRecord['pi_flexform'] = $xml;
 					$res = $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tt_content', 'uid='.intval($row['uid']), $updateRecord);
-
+					unset($what_to_display, $categories_to_display, $archive, $selection_mode, $theCode, $cat);
 				}
 				$returndoupdate .= $count_flex.' ROW(s) updated.<br><br>';
 			}

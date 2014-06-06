@@ -182,7 +182,6 @@
 							<numIndex index="1">-1</numIndex>
 						</numIndex>
 					</items>
-					<default>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.archive_nonarc</default>
 					<maxitems>1</maxitems>
 					<size>1</size>
 				</config>

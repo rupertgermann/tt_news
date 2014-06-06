@@ -1,0 +1,30 @@
+<!-- ###TEMPLATE_ATOM1### begin -->###XML_DECLARATION###
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<!-- ###HEADER### begin -->
+	<title>###SITE_TITLE###</title>
+	<link rel="alternate" type="text/html" href="###SITE_LINK###" />
+	<updated>###NEWS_LASTBUILD###</updated>
+	<generator uri="http://www.typo3.com" version="###TYPO3_VERSION###">TYPO3 - get.content.right</generator>
+	<id>###SITE_LINK###</id>
+	###SITE_DESCRIPTION###
+	###NEWS_COPYRIGHT###	
+	<!-- ###HEADER### end -->
+	<!-- ###CONTENT### begin -->
+	<!-- ###NEWS### begin -->	
+	<entry>
+		<title>###NEWS_TITLE###</title>
+		<link rel="alternate" type="text/html" href="###NEWS_LINK###"/>
+		<updated>###NEWS_MODIFIED###</updated>
+		<published>###NEWS_CREATED###</published>
+		<id>###NEWS_ATOM_ENTRY_ID###</id>
+		<author>
+			<name>###NEWS_AUTHOR###</name>
+		</author>
+		<summary type="html" xml:base="###SITE_LINK###">
+			<![CDATA[###NEWS_SUBHEADER###]]>
+		</summary>
+	</entry>
+	<!-- ###NEWS### end -->
+	<!-- ###CONTENT### end -->
+</feed>
+<!-- ###TEMPLATE_ATOM1### end -->

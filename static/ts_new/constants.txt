@@ -21,7 +21,7 @@ plugin.tt_news {
   limit = 5
     # cat=plugin.tt_news//30; type=int+; label= Latest Limit: max news items in LATEST template.
   latestLimit = 3
-    # cat=plugin.tt_news//40; type=int+; label= Category Text mode: posible values are: 0 = don't display, 1 = display but no link, 2 = link to categoy shortcut, 3 = act as category selector.
+    # cat=plugin.tt_news//40; type=int+; label= Category Text mode: posible values are: 0 = don't display, 1 = display but no link, 2 = link to category shortcut, 3 = act as category selector.
   catTextMode = 1
 	# cat=plugin.tt_news//50; type=int+; label= Category Image mode: same values as catTextMode.
   catImageMode = 1
@@ -38,13 +38,14 @@ plugin.tt_news {
   useSubCategories = 0
  	# cat=plugin.tt_news/enable/6; type=boolean; label= Display subcategories: If this is enabled the subcategories of the categories that are assigned to a news record will also be displayed in news records in the FrontEnd. If displayed categories in a news record are subcategories they will be wrapped with "subCategoryTitleItem_stdWrap" (titles) or "subCategoryImgItem_stdWrap" (images).
   displaySubCategories = 0
-  	# cat=plugin.tt_news/enable/7; type=boolean; label= show related news by category: If this is enabled the SINGLE view shows a list of news with the same category as the current news record.
+  	# cat=plugin.tt_news/enable/7; type=boolean; label= show related news by category: If this is enbaled the SINGLE view shows a list of news with the same category as the current news record.
   showRelatedNewsByCategory = 0
-    # cat=plugin.tt_news/enable/8; type=boolean; label= Use singlePid from category: If this is enabled tt_news uses the singlePid from the first assigned category.
-  useSPidFromCategory = 1
-    # cat=plugin.tt_news/enable/9; type=boolean; label= Allow Caching: Allow caching of displayed news? If you want your news being indexed by the indexed-search this has to be enabled.
+    # cat=plugin.tt_news/enable/8; type=boolean; label= Allow Caching: Allow caching of displayed news? If you want your news being indexed by the indexed-search this has to be enabled.
   allowCaching = 1
-
+    # cat=plugin.tt_news/enable/9; type=boolean; label= Use singlePid from category: If this is enabled tt_news uses the singlePid from the first assigned category.
+  useSPidFromCategory = 0
+    # cat=plugin.tt_news/enable/10; type=boolean; label= Show category rootline: Enable this to show the category rootline in the SINGLE or LIST view.
+  showCatRootline = 0
 	
 	# cat=plugin.tt_news/dims/110; type=int+; label= single-image max Width: Max width for an image displayed in SINGLE template
   singleMaxW = 240

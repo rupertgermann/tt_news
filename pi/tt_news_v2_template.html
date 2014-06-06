@@ -53,6 +53,7 @@ NEWS_CATEGORY - news item category
 NEWS_CATEGORY_IMAGE - news item category image
 NEWS_RELATED - links to related news
 NEWS_IMAGE - news item images
+NEWS_CATEGORY_ROOTLINE - category rootline
 
 PAGE_UID - Page id of the parent page (pid)
 PAGE_TITLE - Title of the parent page of the news item
@@ -148,11 +149,11 @@ LINK_NEXT - used in the pagebrowser
 	This is the template for the list of news in the archive or news page or search
 -->
 <div class="news-list-container">
+###NEWS_CATEGORY_ROOTLINE###
 	<!-- ###CONTENT### begin
 		  This is the part of the template substituted with the list of news: 
 	-->
-
-		<!-- ###NEWS### begin 
+		<!-- ###NEWS### begin
 			Template for a single item 
 		-->
 			<div class="news-list-item">				
@@ -195,6 +196,7 @@ LINK_NEXT - used in the pagebrowser
 -->
 
 <div class="news-single-item">
+###NEWS_CATEGORY_ROOTLINE###
 	<div class="news-single-timedata">###NEWS_DATE### ###NEWS_TIME### ###TEXT_NEWS_AGE### ###NEWS_AGE###</div>
 		<h2>###NEWS_TITLE###</h2>
 		###CATWRAP_B### ###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E###

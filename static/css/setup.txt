@@ -177,12 +177,13 @@ plugin.tt_news {
 
 
 	/*---------------------------------  tt_news Page-Browser ---------------------------------*/
-.tx-ttnews-browsebox {
+.tx-ttnews-browsebox, .browseBoxWrap {
 	margin:3px;
 	border:1px solid #666;
 	padding:3px;
 	background-color:#F9FFE5;
 }
+
 .tx-ttnews-browsebox TD {
 	font-size: 10px;
 }
