@@ -2,7 +2,8 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2002-2004 Kasper Skårhøj (kasper@typo3.com)
+*  (c) 1999-2004 Kasper Skårhøj (kasper@typo3.com)
+*  (c) 2004-2006 Rupert Germann (rupi@gmx.li)
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
@@ -24,9 +25,9 @@
 /**
  * Class that adds the wizard icon.
  *
- * $Id: class.tx_ttnews_wizicon.php,v 1.13 2005/05/04 08:53:55 rupertgermann Exp $
+ * $Id: class.tx_ttnews_wizicon.php,v 1.14 2006/04/17 21:06:16 rupertgermann Exp $
  *
- * @author	Kasper Skårhøj (kasper@typo3.com)
+* @author Rupert Germann <rupi@gmx.li>
  */
 /**
  * [CLASS/FUNCTION INDEX of SCRIPT]
@@ -49,7 +50,7 @@
 /**
  * Class that adds the wizard icon.
  *
- * @author	Stig Nørgaard Jepsen (stig@8620.dk)
+* @author Rupert Germann <rupi@gmx.li>
  */
 class tx_ttnews_wizicon {
 
@@ -80,7 +81,8 @@ class tx_ttnews_wizicon {
 	 * @return	array		The LOCAL_LANG array
 	 */
 	function includeLocalLang()	{
-		include(t3lib_extMgm::extPath('tt_news').'locallang.php');
+		$llFile = t3lib_extMgm::extPath('tt_news').'locallang.xml';
+		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 		return $LOCAL_LANG;
 	}
 }
