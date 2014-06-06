@@ -2,10 +2,10 @@
 /***************************************************************
 *  Copyright notice
 *  
-*  (c) 1999-2003 Kasper Skårhøj (kasper@typo3.com)
+*  (c) 1999-2004 Kasper Skaarhoj (kasper@typo3.com)
 *  All rights reserved
 *
-*  This script is part of the Typo3 project. The Typo3 project is 
+*  This script is part of the TYPO3 project. The TYPO3 project is 
 *  free software; you can redistribute it and/or modify
 *  it under the terms of the GNU General Public License as published by
 *  the Free Software Foundation; either version 2 of the License, or
@@ -68,8 +68,7 @@ class tx_ttnews extends tslib_pibase {
 		return $xmlObj->getResult();
 	}
 	function getStoriesResult() {
-		$query = "SELECT * FROM tt_news WHERE pid=".$GLOBALS["TSFE"]->id.$this->cObj->enableFields("tt_news")." ORDER BY datetime DESC";
-		$res = mysql(TYPO3_db,$query);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_news', 'pid='.intval($GLOBALS['TSFE']->id).$this->cObj->enableFields('tt_news'), '', 'datetime DESC');
 		return $res;
 	}
 	
@@ -89,7 +88,7 @@ class tx_ttnews extends tslib_pibase {
 		// *** getting configuration values:
 		// *************************************
 		$this->conf = $conf;
-		$this->tt_news_uid = intval(t3lib_div::GPvar("tt_news"));
+		$this->tt_news_uid = intval(t3lib_div::_GP("tt_news"));
 		$this->alternativeLayouts = intval($this->conf["alternatingLayouts"])>0 ? intval($this->conf["alternatingLayouts"]) : 2;
 			
 			// pid_list is the pid/list of pids from where to fetch the news items.
@@ -176,14 +175,12 @@ class tx_ttnews extends tslib_pibase {
 	 */
 	function news_archiveMenu()	{
 		$this->arcExclusive=1;
-		$selectConf = $this->getSelectConf($where,1);
+		$selectConf = $this->getSelectConf('',1);
 
-			// Get plain Query:
-		$query = trim(eregi_replace("^[\t ]*SELECT.+FROM", "", $this->cObj->getQuery("tt_news",$selectConf)));
-			// FInding maximum and minimum values:
-		$q2 = "SELECT max(datetime) as maxval, min(datetime) as minval FROM ".$query;
-		$res = mysql(TYPO3_db,$q2); 
-		$row=mysql_fetch_assoc($res);
+			// Finding maximum and minimum values:
+		$selectConf['selectFields'] = 'max(datetime) as maxval, min(datetime) as minval';
+		$res = $this->cObj->exec_getQuery("tt_news",$selectConf);
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 
 		if ($row["minval"])	{
 			$dateArr = array();
@@ -209,6 +206,7 @@ class tx_ttnews extends tslib_pibase {
 	
 			reset($dateArr);
 			$periodAccum=array();
+			$selectConf2['where'] = $selectConf['where'];
 			while(list($k,$v)=each($dateArr))	{
 				if (!isset($dateArr[$k+1]))	{break;}
 				$periodInfo=array();
@@ -219,9 +217,10 @@ class tx_ttnews extends tslib_pibase {
 				$periodInfo["quarter"] = floor(date("m",$dateArr[$k])/3)+1;
 	
 					// FInding maximum and minimum values:
-				$q2 = "SELECT count(*) FROM ".$query." AND datetime>=".$periodInfo["start"]." AND datetime<".$periodInfo["stop"];
-				$res = mysql(TYPO3_db,$q2); 
-				$row=mysql_fetch_row($res);
+				$selectConf['selectFields'] = 'count(*)';
+				$selectConf['where'] = $selectConf2['where']." AND datetime>=".$periodInfo["start"]." AND datetime<".$periodInfo["stop"];
+				$res = $this->cObj->exec_getQuery("tt_news",$selectConf);
+				$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
 				$periodInfo["count"]=$row[0];
 				
 				if (!$this->conf["archiveMenuNoEmpty"] || $periodInfo["count"])	{
@@ -301,11 +300,9 @@ class tx_ttnews extends tslib_pibase {
 		
 		if ($this->tt_news_uid)	{
 				// performing query:
-		 	$query = "SELECT * FROM tt_news WHERE uid=".intval($this->tt_news_uid)." AND type=0".$this->enableFields;	// type=0 -> only real news.
-			$res = mysql(TYPO3_db,$query);
-			echo mysql_error();
+		 	$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_news', 'uid='.intval($this->tt_news_uid).' AND type=0'.$this->enableFields);	// type=0 -> only real news.
+			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 
-			$row=mysql_fetch_assoc($res);
 			if($this->config["displayCurrentRecord"] || is_array($row))		{
 				$this->setPidlist(intval($row["pid"]));
 				$this->generatePageArray();
@@ -320,14 +317,14 @@ class tx_ttnews extends tslib_pibase {
 
 					// Fill marker arrays
 				$wrappedSubpartArray=array();
-				$wrappedSubpartArray["###LINK_ITEM###"]= array('<A href="'.$this->getLinkUrl($this->conf["backPid"]?$this->conf["backPid"]:t3lib_div::GPvar("backPID")).'">','</A>');
+				$wrappedSubpartArray["###LINK_ITEM###"]= array('<A href="'.$this->getLinkUrl($this->conf["backPid"]?$this->conf["backPid"]:t3lib_div::_GP("backPID")).'">','</A>');
 				$markerArray = $this->getItemMarkerArray($row,"displaySingle");
 					// Substitute
 				$content= $this->cObj->substituteMarkerArrayCached($item,$markerArray,array(),$wrappedSubpartArray);
 			}
 		} elseif ($theCode=="SINGLE") {		
 			$content.="Wrong parameters, GET/POST var 'tt_news' was missing.";
-		} elseif ($this->arcExclusive>0 && !t3lib_div::GPvar("pS") && $theCode!="SEARCH") {			// periodStart must be set when listing from the archive.
+		} elseif ($this->arcExclusive>0 && !t3lib_div::_GP("pS") && $theCode!="SEARCH") {			// periodStart must be set when listing from the archive.
 			$content.="";
 		} else {		
 			$content="";
@@ -339,23 +336,22 @@ class tx_ttnews extends tslib_pibase {
 					// Substitute a few markers
 				$out=$t["search"];				
 				$out=$this->cObj->substituteMarker($out, "###FORM_URL###", $this->getLinkUrl($this->conf["PIDsearch"]));
-				$out=$this->cObj->substituteMarker($out, "###SWORDS###", htmlspecialchars(t3lib_div::GPvar("swords")));
+				$out=$this->cObj->substituteMarker($out, "###SWORDS###", htmlspecialchars(t3lib_div::_GP("swords")));
 					// Add to content
 				$content.=$out;
-				if (t3lib_div::GPvar("swords"))	{
-					$where = $this->searchWhere(trim(t3lib_div::GPvar("swords")));
+				if (t3lib_div::_GP("swords"))	{
+					$where = $this->searchWhere(trim(t3lib_div::_GP("swords")));
 				}
 			}
-			$begin_at=t3lib_div::intInRange(t3lib_div::GPvar("begin_at"),0,100000);
-			if (($theCode!="SEARCH" && !t3lib_div::GPvar("swords")) || $where)	{
+			$begin_at=t3lib_div::intInRange(t3lib_div::_GP("begin_at"),0,100000);
+			if (($theCode!="SEARCH" && !t3lib_div::_GP("swords")) || $where)	{
 
 				$selectConf = $this->getSelectConf($where);
 
 					// performing query to count all news (we need to know it for browsing):
-				$query = eregi_replace("^[\t ]*SELECT.+FROM", "SELECT count(*) FROM", $this->cObj->getQuery("tt_news",$selectConf));
-				$res = mysql(TYPO3_db,$query); 
-				echo mysql_error();
-				$row = mysql_fetch_row($res);
+				$selectConf['selectFields'] = 'count(*)';
+				$res = $this->cObj->exec_getQuery("tt_news",$selectConf);
+				$row = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
 				$newsCount = $row[0];
 
 					// range check to current newsCount
@@ -363,22 +359,20 @@ class tx_ttnews extends tslib_pibase {
 
 					// performing query for display:
 				$selectConf["orderBy"] = "datetime DESC"; 
+				$selectConf['selectFields'] = '*';
+				$selectConf['max'] = intval($this->config["limit"]+1);
+				$selectConf['begin'] = $begin_at;
 
-			 	$query = $this->cObj->getQuery("tt_news",$selectConf);
-				$query.=" LIMIT ".$begin_at.",".($this->config["limit"]+1);
-
-//				debug($query);
-				$res = mysql(TYPO3_db,$query);
-				echo mysql_error();
+			 	$res = $this->cObj->exec_getQuery("tt_news",$selectConf);
 
 					// Getting elements
-				$itemsOut="";
-				$t=array();
+				$itemsOut = "";
+				$t = array();
 				$t["total"] = $this->cObj->getSubpart($this->templateCode,$this->spMarker("###".$templateName."###"));
-				$t["item"]= $this->getLayouts($t["total"],$this->alternativeLayouts,"NEWS");
-				$cc=0;
+				$t["item"] = $this->getLayouts($t["total"],$this->alternativeLayouts,"NEWS");
+				$cc = 0;
 
-				while($row=mysql_fetch_assoc($res))		{
+				while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))		{
 						// Print Item Title
 					$wrappedSubpartArray=array();
 					if ($row["type"]==1 || $row["type"]==2)	{
@@ -452,8 +446,8 @@ class tx_ttnews extends tslib_pibase {
 
 
 			// Archive
-		if (intval(t3lib_div::GPvar("arc")))	{
-			$this->arcExclusive = intval(t3lib_div::GPvar("arc"));
+		if (intval(t3lib_div::_GP("arc")))	{
+			$this->arcExclusive = intval(t3lib_div::_GP("arc"));
 		}
 		if ($this->arcExclusive)	{
 			if ($this->conf["enableArchiveDate"])	{
@@ -473,17 +467,17 @@ class tx_ttnews extends tslib_pibase {
 			}
 		}
 			// Category
-		if (intval(t3lib_div::GPvar("cat")))	{
-			$this->catExclusive = intval(t3lib_div::GPvar("cat"));
+		if (intval(t3lib_div::_GP("cat")))	{
+			$this->catExclusive = intval(t3lib_div::_GP("cat"));
 		}
 		if ($this->catExclusive)	{
 			$selectConf["where"].=" AND category=".$this->catExclusive;
 		}
 			// Period
-		if (!$noPeriod && intval(t3lib_div::GPvar("pS")))	{
-			$selectConf["where"].=' AND datetime>'.intval(t3lib_div::GPvar("pS"));
-			if (intval(t3lib_div::GPvar("pL")))	{
-				$selectConf["where"].=' AND datetime<'.(intval(t3lib_div::GPvar("pS"))+intval(t3lib_div::GPvar("pL")));
+		if (!$noPeriod && intval(t3lib_div::_GP("pS")))	{
+			$selectConf["where"].=' AND datetime>'.intval(t3lib_div::_GP("pS"));
+			if (intval(t3lib_div::_GP("pL")))	{
+				$selectConf["where"].=' AND datetime<'.(intval(t3lib_div::_GP("pS"))+intval(t3lib_div::_GP("pL")));
 			}
 		}
 		return $selectConf;
@@ -528,11 +522,9 @@ class tx_ttnews extends tslib_pibase {
 	 */
 	function initCategories()	{
 			// Fetching catagories:
-	 	$query = "select * from tt_news_cat where 1=1".$this->cObj->enableFields("tt_news_cat");
-		$res = mysql(TYPO3_db,$query);
-		echo mysql_error();
-		$this->categories=array();
-		while($row = mysql_fetch_assoc($res))	{
+	 	$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_news_cat', '1=1'.$this->cObj->enableFields('tt_news_cat'));
+		$this->categories = array();
+		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 			$this->categories[$row["uid"]] = $row["title"];
 		}	
 	}
@@ -542,11 +534,9 @@ class tx_ttnews extends tslib_pibase {
 	 */
 	function generatePageArray()	{
 			// Get pages (for category titles)		
-		$query="SELECT title,uid,author,author_email FROM pages WHERE uid IN(".$this->pid_list.")";
-		$res = mysql(TYPO3_db,$query);
-		echo mysql_error();
-		$this->pageArray=array();
-		while($row=mysql_fetch_assoc($res))		{
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('title,uid,author,author_email', 'pages', 'uid IN ('.$this->pid_list.')');
+		$this->pageArray = array();
+		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))		{
 			$this->pageArray[$row["uid"]] = $row;
 		}
 	}
@@ -618,12 +608,11 @@ class tx_ttnews extends tslib_pibase {
 	 * Gets related news.
 	 */
 	function getRelated($uid)	{
-		$veryLocal_cObj =t3lib_div::makeInstance("tslib_cObj");		// Local cObj.
-		$query = "SELECT uid,title,short,datetime,archivedate FROM tt_news,tt_news_related_mm AS M WHERE tt_news.uid=M.uid_foreign AND M.uid_local=".$uid;
-		$res = mysql(TYPO3_db,$query);
+		$veryLocal_cObj = t3lib_div::makeInstance("tslib_cObj");		// Local cObj.
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,title,short,datetime,archivedate', 'tt_news,tt_news_related_mm AS M', 'tt_news.uid=M.uid_foreign AND M.uid_local='.intval($uid));
 
 		$lines = array();
-		while($row = mysql_fetch_assoc($res))	{
+		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
 			$veryLocal_cObj->start($row,"tt_news");
 			$lines[] = $veryLocal_cObj->cObjGetSingle($this->conf["getRelatedCObject"],$this->conf["getRelatedCObject."],"getRelated");
 		}
@@ -663,12 +652,12 @@ class tx_ttnews extends tslib_pibase {
 		$queryString["id"] = "id=".($id ? $id : $GLOBALS["TSFE"]->id);
 		$queryString["type"]= $GLOBALS["TSFE"]->type ? 'type='.$GLOBALS["TSFE"]->type : "";
 		$queryString["backPID"]= 'backPID='.$GLOBALS["TSFE"]->id;
-		$queryString["begin_at"]= t3lib_div::GPvar("begin_at") ? 'begin_at='.t3lib_div::GPvar("begin_at") : "";
-		$queryString["swords"]= t3lib_div::GPvar("swords") ? "swords=".rawurlencode(t3lib_div::GPvar("swords")) : "";
-		$queryString["pS"]= t3lib_div::GPvar("pS") ? "pS=".intval(t3lib_div::GPvar("pS")) : "";	// period start
-		$queryString["pL"]= t3lib_div::GPvar("pL") ? "pL=".intval(t3lib_div::GPvar("pL")) : ""; // Period length
-		$queryString["arc"]= t3lib_div::GPvar("arc") ? "arc=".intval(t3lib_div::GPvar("arc")) : ""; // Archive flag: 0 = don't care, -1 = latest, 1 = archive
-		$queryString["cat"]= t3lib_div::GPvar("cat") ? "cat=".intval(t3lib_div::GPvar("cat")) : ""; // Category uid, 0 = any
+		$queryString["begin_at"]= t3lib_div::_GP("begin_at") ? 'begin_at='.t3lib_div::_GP("begin_at") : "";
+		$queryString["swords"]= t3lib_div::_GP("swords") ? "swords=".rawurlencode(t3lib_div::_GP("swords")) : "";
+		$queryString["pS"]= t3lib_div::_GP("pS") ? "pS=".intval(t3lib_div::_GP("pS")) : "";	// period start
+		$queryString["pL"]= t3lib_div::_GP("pL") ? "pL=".intval(t3lib_div::_GP("pL")) : ""; // Period length
+		$queryString["arc"]= t3lib_div::_GP("arc") ? "arc=".intval(t3lib_div::_GP("arc")) : ""; // Archive flag: 0 = don't care, -1 = latest, 1 = archive
+		$queryString["cat"]= t3lib_div::_GP("cat") ? "cat=".intval(t3lib_div::_GP("cat")) : ""; // Category uid, 0 = any
 
 		reset($queryString);
 		while(list($key,$val)=each($queryString))	{
@@ -683,7 +672,7 @@ class tx_ttnews extends tslib_pibase {
 	 * Generates a search where clause.
 	 */
 	function searchWhere($sw)	{
-		$where=$this->cObj->searchWhere($sw,$this->searchFieldList);
+		$where=$this->cObj->searchWhere($sw, $this->searchFieldList, 'tt_news');
 		return $where;
 	}
 

@@ -21,6 +21,7 @@ CREATE TABLE tt_news (
   author tinytext NOT NULL,
   author_email tinytext NOT NULL,
   category int(11) DEFAULT '0' NOT NULL,
+#  category int(11) unsigned DEFAULT '0' NOT NULL
   links text NOT NULL,
   type tinyint(4) DEFAULT '0' NOT NULL,
   page int(11) DEFAULT '0' NOT NULL,
@@ -40,6 +41,8 @@ CREATE TABLE tt_news_cat (
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
   title tinytext NOT NULL,
+  image tinyblob NOT NULL,
+  shortcut int(11) unsigned DEFAULT '0' NOT NULL
   deleted tinyint(3) unsigned DEFAULT '0' NOT NULL,
   PRIMARY KEY (uid),
   KEY parent (pid)
@@ -51,6 +54,18 @@ CREATE TABLE tt_news_cat (
 CREATE TABLE tt_news_related_mm (
   uid_local int(11) unsigned DEFAULT '0' NOT NULL,
   uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+  sorting int(11) unsigned DEFAULT '0' NOT NULL,
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
+);
+
+#
+# Table structure for table 'tt_news_cat_mm'
+#
+CREATE TABLE tt_news_cat_mm (
+  uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+  uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+  tablenames varchar(30) DEFAULT '' NOT NULL,
   sorting int(11) unsigned DEFAULT '0' NOT NULL,
   KEY uid_local (uid_local),
   KEY uid_foreign (uid_foreign)
