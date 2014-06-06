@@ -9,6 +9,13 @@
 # Includes the newsLib:
 includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
 
+# Fix for TYPO3 4.6:
+tt_content.list.20.9 = CASE
+tt_content.list.20.9 {
+    key.field = layout
+    0 = < plugin.tt_news
+}
+
 
 plugin.tt_news = USER
 plugin.tt_news {
@@ -723,7 +730,52 @@ plugin.tt_news {
 
 
 
+  
+  displayRelated {
+    noPageBrowser = 1
+    limit = 15
+    
 
+    noNewsToListMsg_stdWrap.wrap = 
+    displayList {
+	   age_stdWrap.age = 1
+	    date_stdWrap.strftime= %d.%m.%Y
+	    time_stdWrap.strftime= %H:%M
+	    caption_stdWrap.if.directReturn = 0
+	    subheader_stdWrap {
+	      stripHtml = 1
+	      crop = 100 | ... | 1
+	      ifEmpty.field = bodytext
+	      outerWrap = <p>|</p>
+	    }
+	    imageCount = 1
+	    imgAltTextField = imagecaption
+	    imageWrapIfAny =
+	    category_stdWrap.wrap = <div class="news-latest-category"> | </div>
+	    categoryItem_stdWrap.wrap =
+	
+	    linkTitleField = title
+	    linkTitleField.wrap =
+	    linkAltField = short
+	    linkAltField.wrap =
+	    
+	    latestImageMode = {$plugin.tt_news.latestImageMode}
+	 
+	  }
+	  displayList.image {
+	    file.maxW = {$plugin.tt_news.latestMaxW}
+	    file.maxH = {$plugin.tt_news.latestMaxH}
+	    imageLinkWrap = 1
+	
+	    stdWrap.spaceAfter = 0
+	  }
+
+    
+    _LOCAL_LANG {
+      de.noNewsToListMsg = 
+      en.noNewsToListMsg = 
+    }
+  }
 
 
 
@@ -881,4 +933,4 @@ tt_news.displayCurrentRecord = 1
 
 
 ### CVS id ###
-# $Id: setup.txt 21018 2009-06-03 20:17:51Z rupi $
+# $Id: setup.txt 53028 2011-10-16 11:45:36Z rupi $

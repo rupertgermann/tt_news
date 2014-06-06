@@ -136,9 +136,11 @@ CREATE TABLE tt_news_cache (
     identifier varchar(32) DEFAULT '' NOT NULL,
     content text NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
-	lifetime int(11) DEFAULT '0' NOT NULL,    
+	lifetime int(11) DEFAULT '0' NOT NULL,
+	tags varchar(255) DEFAULT '' NOT NULL,
   	PRIMARY KEY (id),
-  	KEY cache_id (identifier)
+  	KEY cache_id (identifier),
+  	KEY tags (tags)
 ) ENGINE=InnoDB;
 
 

@@ -28,7 +28,7 @@
  * This function displays a selector with nested categories.
  * The original code is borrowed from the extension "Digital Asset Management" (tx_dam) author: René Fritz <r.fritz@colorcube.de>
  *
- * $Id: class.tx_ttnews_TCAform_selectTree.php 27024 2009-11-26 12:53:32Z rupi $
+ * $Id: class.tx_ttnews_TCAform_selectTree.php 44551 2011-03-03 13:17:31Z rupi $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  * @package TYPO3
@@ -205,9 +205,9 @@ class tx_ttnews_TCAform_selectTree {
 
 				// get categories of the translation original
 				$catres = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-								'tt_news_cat.uid,tt_news_cat.title',
+								'tt_news_cat.uid, tt_news_cat.title, tt_news_cat.deleted',
 								'tt_news_cat, tt_news_cat_mm',
-								'tt_news_cat_mm.uid_foreign=tt_news_cat.uid AND tt_news_cat_mm.uid_local='.$row['l18n_parent']);
+								'tt_news_cat_mm.uid_foreign=tt_news_cat.uid AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local='.$row['l18n_parent']);
 
 				$assignedCategories = array();
 				while (($catrow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($catres))) {
@@ -230,6 +230,8 @@ class tx_ttnews_TCAform_selectTree {
 					$this->NA_Items = $this->printError($NACats,$row);
 				}
 				$item = implode($categories,chr(10));
+
+
 
 				if ($item) {
 					$item = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.translOrgCat').'<br />'.$item;
@@ -326,7 +328,6 @@ class tx_ttnews_TCAform_selectTree {
 			$item .= '<input type="hidden" name="data['.$table.']['.$row['uid'].'][noDisallowedCategories]" value="'.($this->NA_Items?'':'1').'" />';
 
 		}
-
 		return $this->NA_Items.$item;
 	}
 

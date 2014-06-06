@@ -29,7 +29,7 @@
  * class.tx_ttnews.php
  *
  * versatile news system for TYPO3.
- * $Id: class.tx_ttnews.php 27058 2009-11-27 12:24:02Z rupi $
+ * $Id: class.tx_ttnews.php 46285 2011-04-06 14:54:40Z rupi $
  *
  * TypoScript setup:
  * @See ext/tt_news/pi/static/ts_new/setup.txt
@@ -59,7 +59,7 @@ class tx_ttnews extends tslib_pibase {
 	var $prefixId = 'tx_ttnews'; // Same as class name
 	var $scriptRelPath = 'pi/class.tx_ttnews.php'; // Path to this script relative to the extension dir.
 	var $extKey = 'tt_news'; // The extension key.
-
+	var $pi_checkCHash = true;
 
 	var $hObj; // class with helper functions
 	var $tt_news_uid = 0; // the uid of the current news record in SINGLE view
@@ -434,14 +434,6 @@ class tx_ttnews extends tslib_pibase {
 			$GLOBALS['TSFE']->set_no_cache();
 		}
 
-		// init renderFields
-		//		if (is_array($this->conf['renderFields.'])) {
-		//			foreach ($this->conf['renderFields.'] as $c => $fList) {
-		//				$this->renderFields[$c] = $fList;
-		//			}
-		//		}
-
-
 		// get siteUrl for links in rss feeds. the 'dontInsert' option seems to be needed in some configurations depending on the baseUrl setting
 		if (! $this->conf['displayXML.']['dontInsertSiteUrl']) {
 			$this->config['siteUrl'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL');
@@ -494,6 +486,8 @@ class tx_ttnews extends tslib_pibase {
 			case 'LIST2' :
 			case 'LIST3' :
 			case 'HEADER_LIST' :
+			case 'RELATED' :
+
 				$prefix_display = 'displayList';
 				$templateName = 'TEMPLATE_' . strtoupper($theCode);
 				break;
@@ -631,46 +625,26 @@ class tx_ttnews extends tslib_pibase {
 				$where = ' AND tt_news.uid NOT IN (' . $excludeUids . ')';
 			}
 
+
 			// build parameter Array for List query
 			$selectConf = $this->getSelectConf($where, $noPeriod);
 
 			// performing query to count all news (we need to know it for browsing):
+			if ($selectConf['leftjoin'] || ($this->theCode == 'RELATED' && $this->relNewsUid)) {
+				$selectConf['selectFields'] = 'COUNT(DISTINCT tt_news.uid)';
+			} else {
+				$selectConf['selectFields'] = 'COUNT(tt_news.uid)';
+			}
 
+			$newsCount = 0;
+			$countSelConf = $selectConf;
+			unset($countSelConf['orderBy']);
 
-			/**
-			 * TODO: 19.05.2009
-			 *
-			 * if the pagebrowser is disabled the count query should not be needed
-			 * in LATEST this is almost always the case
-			 *
-			 * FIXME
-			 * this will not work reliably!
-			 */
-
-//			if ($this->config['noPageBrowser']) {
-//				$newsCount = 1;
-//			} else {
-
-				if ($selectConf['leftjoin']) {
-					$selectConf['selectFields'] = 'COUNT(DISTINCT tt_news.uid)';
-				} else {
-					$selectConf['selectFields'] = 'COUNT(tt_news.uid)';
-				}
-
-				$newsCount = 0;
-				$countSelConf = $selectConf;
-				unset($countSelConf['orderBy']);
-
-				//			debug($countSelConf, $this->theCode . ' COUNT $selectConf (' . __CLASS__ . '::' . __FUNCTION__ . ')', __LINE__, __FILE__, 3);
-
-
-				if (($res = $this->exec_getQuery('tt_news', $countSelConf))) {
-					list($newsCount) = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
-					$GLOBALS['TYPO3_DB']->sql_free_result($res);
-				}
-//			}
-
-
+			if (($res = $this->exec_getQuery('tt_news', $countSelConf))) {
+				list($newsCount) = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
+				$GLOBALS['TYPO3_DB']->sql_free_result($res);
+			}
+			$this->newsCount = $newsCount;
 
 
 			// Only do something if the query result is not empty
@@ -686,17 +660,13 @@ class tx_ttnews extends tslib_pibase {
 				$renderMarkers = $this->getMarkers($t['total']);
 				$this->renderMarkers = array_unique($renderMarkers);
 
-				//debug($this->renderMarkers, ' ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 3);
-
-
 				// build query for display:
-				if ($selectConf['leftjoin']) {
+				if ($selectConf['leftjoin'] || ($this->theCode == 'RELATED' && $this->relNewsUid)) {
 					$selectConf['selectFields'] = 'DISTINCT tt_news.uid, tt_news.*';
 				} else {
 					$selectConf['selectFields'] = 'tt_news.*';
 				}
 
-//
 
 				// exclude the LATEST template from changing its content with the pagebrowser. This can be overridden by setting the conf var latestWithPagebrowser
 				if ($this->theCode != 'LATEST' || $this->conf['latestWithPagebrowser']) {
@@ -938,8 +908,7 @@ class tx_ttnews extends tslib_pibase {
 		$lConf = $this->conf[$prefix_display . '.'];
 		$res = $this->exec_getQuery('tt_news', $selectConf); //get query for list contents
 
-
-		//		debug($selectConf, $this->theCode.' final $selectConf (' . __CLASS__ . '::' . __FUNCTION__ . ')', __LINE__, __FILE__, 3);
+//				debug($selectConf, $this->theCode.' final $selectConf (' . __CLASS__ . '::' . __FUNCTION__ . ')', __LINE__, __FILE__, 3);
 
 
 		// make some final config manipulations
@@ -1044,15 +1013,21 @@ class tx_ttnews extends tslib_pibase {
 
 			// XML
 			if ($this->theCode == 'XML') {
-				if ($row['type'] == 1 || $row['type'] == 2) {
-					if ($row['type'] == 2) {
-						$exturl = trim(strpos($row['ext_url'], 'http://') !== FALSE ? $row['ext_url'] : 'http://' . $row['ext_url']);
-						$exturl = (strpos($exturl, ' ') ? substr($exturl, 0, strpos($exturl, ' ')) : $exturl);
+				if ($row['type'] == 2) {
+						// external URL
+					$exturl = trim(strpos($row['ext_url'], 'http://') !== FALSE ? $row['ext_url'] : 'http://' . $row['ext_url']);
+					$exturl = (strpos($exturl, ' ') ? substr($exturl, 0, strpos($exturl, ' ')) : $exturl);
+					$rssUrl = $exturl;
+				} elseif ($row['type'] == 1) {
+						// internal URL
+					$rssUrl = $this->pi_getPageLink($row['page'], '');
+					if (strpos($rssUrl, '://') === FALSE) {
+						$rssUrl = $this->config['siteUrl'] . $rssUrl;
 					}
-					$rssUrl = ($row['type'] == 1 ? $this->config['siteUrl'] . $this->pi_getPageLink($row['page'], '') : $exturl);
 				} else {
+						// News detail link
 					$link = $this->getSingleViewLink($singlePid, $row, $piVarsArray, true);
-					$rssUrl = trim(strpos($link, 'http://') === FALSE ? $this->config['siteUrl'] : '') . $link;
+					$rssUrl = trim(strpos($link, '://') === FALSE ? $this->config['siteUrl'] : '') . $link;
 
 				}
 				// replace square brackets [] in links with their URLcodes and replace the &-sign with its ASCII code
@@ -1151,6 +1126,7 @@ class tx_ttnews extends tslib_pibase {
 
 			// set the title of the single view page to the title of the news record
 			if ($this->conf['substitutePagetitle']) {
+
 
 				/**
 				 * TODO: 05.05.2009
@@ -1642,13 +1618,9 @@ class tx_ttnews extends tslib_pibase {
 		}
 		if ($this->isRenderMarker('###NEWS_CONTENT###')) {
 			if ($textRenderObj == 'displaySingle' && ! $row['no_auto_pb'] && $this->config['maxWordsInSingleView'] > 1 && $this->config['useMultiPageSingleView']) {
-
 				$row['bodytext'] = $this->hObj->insertPagebreaks($row['bodytext'], count(t3lib_div::trimExplode(' ', $row['short'], 1)));
-
-			//				debug($row['bodytext'], ' ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 3);
-
-
 			}
+
 			if (strpos($row['bodytext'], $this->config['pageBreakToken'])) {
 				if ($this->config['useMultiPageSingleView'] && $textRenderObj == 'displaySingle') {
 					$tmp = $this->hObj->makeMultiPageSView($row['bodytext'], $lConf);
@@ -1682,13 +1654,21 @@ class tx_ttnews extends tslib_pibase {
 
 		// get related news
 		if ($this->isRenderMarker('###TEXT_RELATED###') || $this->isRenderMarker('###NEWS_RELATED###')) {
-			$relatedNews = $this->getRelated($row['uid']);
+
+			if ($this->conf['renderRelatedNewsAsList']) {
+				$relatedNews = $this->getRelatedNewsAsList($row['uid']);
+			} else {
+				$relatedNews = $this->getRelated($row['uid']);
+			}
+
+
 			if ($relatedNews) {
 				$rel_stdWrap = t3lib_div::trimExplode('|', $this->conf['related_stdWrap.']['wrap']);
 				$markerArray['###TEXT_RELATED###'] = $rel_stdWrap[0] . $this->local_cObj->stdWrap($this->pi_getLL('textRelated'), $this->conf['relatedHeader_stdWrap.']);
 				$markerArray['###NEWS_RELATED###'] = $relatedNews . $rel_stdWrap[1];
 			}
 		}
+
 
 		// Links
 		$links = trim($row['links']);
@@ -1704,9 +1684,12 @@ class tx_ttnews extends tslib_pibase {
 		}
 
 		// show news with the same categories in SINGLE view
-		if ($textRenderObj == 'displaySingle' && $this->conf['showRelatedNewsByCategory'] && count($this->categories[$row['uid']]) && ($this->isRenderMarker('###NEWS_RELATEDBYCATEGORY###') || $this->isRenderMarker('###TEXT_RELATEDBYCATEGORY###'))) {
+		if ($textRenderObj == 'displaySingle' && $this->conf['showRelatedNewsByCategory'] && count($this->categories[$row['uid']])
+				&& ($this->isRenderMarker('###NEWS_RELATEDBYCATEGORY###') || $this->isRenderMarker('###TEXT_RELATEDBYCATEGORY###'))) {
 			$this->getRelatedNewsByCategory($markerArray, $row, $lConf);
+
 		}
+
 
 		// the markers: ###ADDINFO_WRAP_B### and ###ADDINFO_WRAP_E### are only inserted, if there are any files, related news or links
 		if ($relatedNews || $newsLinks || $markerArray['###FILE_LINK###'] || $markerArray['###NEWS_RELATEDBYCATEGORY###']) {
@@ -1827,7 +1810,7 @@ class tx_ttnews extends tslib_pibase {
 
 
 	function getRelatedNewsByCategory(&$markerArray, $row, $lConf) {
-		// save some variables which are used to build the backLonk to the list view
+		// save some variables which are used to build the backLink to the list view
 		$tmpcatExclusive = $this->catExclusive;
 		$tmparcExclusive = $this->arcExclusive;
 		$tmpcode = $this->theCode;
@@ -1840,9 +1823,13 @@ class tx_ttnews extends tslib_pibase {
 
 		$confSave = $this->conf;
 		$configSave = $this->config;
+		$tmp_renderMarkers = $this->renderMarkers;
+		$local_cObjSave = clone $this->local_cObj;
 
-		$this->conf = t3lib_div::array_merge_recursive_overrule($this->conf, $this->conf['relNewsByCategory.']);
+		$this->conf = t3lib_div::array_merge_recursive_overrule($this->conf, $this->conf['relNewsByCategory.'] ? $this->conf['relNewsByCategory.'] : array());
 		$this->config = $this->conf;
+		$this->config['catOrderBy'] = $configSave['catOrderBy'];
+
 		$this->arcExclusive = $this->conf['archive'];
 		$this->LOCAL_LANG_loaded = FALSE;
 		$this->pi_loadLL(); // Loading language-labels
@@ -1874,8 +1861,10 @@ class tx_ttnews extends tslib_pibase {
 		$this->piVars['pointer'] = $tmpBrowsePage;
 		$this->piVars['pS'] = $tmpPS;
 		$this->piVars['pL'] = $tmpPL;
+		$this->local_cObj = $local_cObjSave;
+		$this->renderMarkers = $tmp_renderMarkers;
 
-		unset($confSave, $configSave);
+		unset($confSave, $configSave, $local_cObjSave);
 	}
 
 
@@ -2412,7 +2401,7 @@ class tx_ttnews extends tslib_pibase {
 				$rows = array($row);
 				if ($this->conf['displaySubCategories'] && $this->config['useSubCategories']) {
 					$subCategories = array();
-					$subcats = implode(',', array_unique(explode(',', tx_ttnews_div::getSubCategories($row[0]['uid'], $addWhere))));
+					$subcats = implode(',', array_unique(explode(',', tx_ttnews_div::getSubCategories($rows[0]['uid'], $addWhere))));
 
 					$subres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('tt_news_cat.*', 'tt_news_cat', 'tt_news_cat.uid IN (' . ($subcats ? $subcats : 0) . ')' . $addWhere, '', 'tt_news_cat.' . $this->config['catOrderBy']);
 
@@ -2602,6 +2591,63 @@ class tx_ttnews extends tslib_pibase {
 	}
 
 
+
+	function getRelatedNewsAsList($uid) {
+				// save some variables which are used to build the backLink to the list view
+		$tmpcatExclusive = $this->catExclusive;
+		$tmparcExclusive = $this->arcExclusive;
+		$tmpCategories = $this->categories;
+		$tmpcode = $this->theCode;
+		$tmpBrowsePage = intval($this->piVars['pointer']);
+		unset($this->piVars['pointer']);
+		$tmpPS = intval($this->piVars['pS']);
+		unset($this->piVars['pS']);
+		$tmpPL = intval($this->piVars['pL']);
+		unset($this->piVars['pL']);
+
+		$confSave = $this->conf;
+		$configSave = $this->config;
+		$tmplocal_cObj = clone $this->local_cObj;
+		$tmp_renderMarkers = $this->renderMarkers;
+
+
+		if (!is_array($this->conf['displayRelated.'])) {
+			$this->conf['displayRelated.'] = array();
+		}
+
+		$this->conf = t3lib_div::array_merge_recursive_overrule($this->conf, $this->conf['displayRelated.']);
+		$this->config = $this->conf;
+		$this->arcExclusive = $this->conf['archive'];
+		$this->LOCAL_LANG_loaded = FALSE;
+		$this->pi_loadLL(); // reload language-labels
+
+
+		$this->theCode = 'RELATED';
+		$this->relNewsUid = $uid;
+		$this->addFromTable = 'tt_news_related_mm';
+
+		$relatedNews = trim($this->displayList());
+
+		// restore variables
+		$this->conf = $confSave;
+		$this->config = $configSave;
+		$this->theCode = $tmpcode;
+		$this->catExclusive = $tmpcatExclusive;
+		$this->arcExclusive = $tmparcExclusive;
+		$this->categories = $tmpCategories;
+		$this->piVars['pointer'] = $tmpBrowsePage;
+		$this->piVars['pS'] = $tmpPS;
+		$this->piVars['pL'] = $tmpPL;
+		$this->local_cObj = $tmplocal_cObj;
+		$this->renderMarkers = $tmp_renderMarkers;
+
+		unset($confSave, $configSave, $tmpCategories, $this->addFromTable, $tmplocal_cObj);
+
+		return $relatedNews;
+	}
+
+
+
 	/**
 	 * Find related news records and pages, add links to them and wrap them with stdWraps from TS.
 	 *
@@ -2609,6 +2655,7 @@ class tx_ttnews extends tslib_pibase {
 	 * @return	string		html code for the related news list
 	 */
 	function getRelated($uid) {
+
 		$lConf = $this->conf['getRelatedCObject.'];
 
 		if ($this->conf['checkCategoriesOfRelatedNews'] || $this->conf['useSPidFromCategory']) {
@@ -2631,12 +2678,13 @@ class tx_ttnews extends tslib_pibase {
 			$relPages = $this->getRelatedPages($uid);
 		}
 		//		$select_fields = 'DISTINCT uid, pid, title, short, datetime, archivedate, type, page, ext_url, sys_language_uid, l18n_parent, M.tablenames';
-		$select_fields = ' uid, pid, title, short, datetime, archivedate, type, page, ext_url, sys_language_uid, l18n_parent, tt_news_related_mm.tablenames';
+		$select_fields = ' uid, pid, title, short, datetime, archivedate, type, page, ext_url, sys_language_uid, l18n_parent, tt_news_related_mm.tablenames, image, bodytext';
 
 		//		$where = 'tt_news.uid=M.uid_foreign AND M.uid_local=' . $uid . ' AND M.tablenames!=' . $GLOBALS['TYPO3_DB']->fullQuoteStr('pages', 'tt_news_related_mm');
 		$where = 'tt_news_related_mm.uid_local=' . $uid . '
 					AND tt_news.uid=tt_news_related_mm.uid_foreign
 					AND tt_news_related_mm.tablenames!=' . $GLOBALS['TYPO3_DB']->fullQuoteStr('pages', 'tt_news_related_mm');
+
 
 		if ($lConf['groupBy']) {
 			$groupBy = trim($lConf['groupBy']);
@@ -2654,6 +2702,8 @@ class tx_ttnews extends tslib_pibase {
 						AND tt_news.uid=tt_news_related_mm.uid_local
 						AND tt_news_related_mm.tablenames!=' . $GLOBALS['TYPO3_DB']->fullQuoteStr('pages', 'tt_news_related_mm') . '))';
 		}
+
+
 
 		//		$from_table = 'tt_news,tt_news_related_mm AS M';
 		$from_table = 'tt_news_related_mm, tt_news';
@@ -3249,6 +3299,32 @@ class tx_ttnews extends tslib_pibase {
 			$selectConf['where'] .= $addwhere;
 		}
 
+		if ($this->conf['restrictListToThisTypes'] != '') {
+			$types = implode(',',t3lib_div::trimExplode(',',$this->conf['restrictListToTheseTypes'],1));
+			$where = ' AND tt_news.type IN (' . $types . ')';
+		}
+
+
+
+
+
+		// listing related news
+		if ($this->theCode == 'RELATED' && $this->relNewsUid) {
+			$where = $this->addFromTable.'.uid_local=' . $this->relNewsUid . '
+						AND tt_news.uid='.$this->addFromTable.'.uid_foreign
+						AND '.$this->addFromTable.'.tablenames!=' . $GLOBALS['TYPO3_DB']->fullQuoteStr('pages', $this->addFromTable);
+
+			if ($this->conf['useBidirectionalRelations']) {
+				$where = '((' . $where . ')
+						OR ('.$this->addFromTable.'.uid_foreign=' . $this->relNewsUid . '
+							AND tt_news.uid='.$this->addFromTable.'.uid_local
+							AND '.$this->addFromTable.'.tablenames!=' . $GLOBALS['TYPO3_DB']->fullQuoteStr('pages', $this->addFromTable) . '))';
+			}
+
+			$selectConf['where'] .= ' AND ' . $where;
+		}
+
+
 		// function Hook for processing the selectConf array
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['selectConfHook'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['selectConfHook'] as $_classRef) {
@@ -3259,7 +3335,7 @@ class tx_ttnews extends tslib_pibase {
 
 		//		debug($this->config['categoryMode'],'categoryMode');
 		//		debug($this->catExclusive,'$this->catExclusive');
-		//		debug($selectConf,'select_conf '.$this->theCode);
+//				debug($selectConf,'select_conf '.$this->theCode);
 
 
 		if ($this->debugTimes) {
@@ -3323,23 +3399,6 @@ class tx_ttnews extends tslib_pibase {
 
 
 	/**
-	 * The following functions are copied from class tslib_content to get a query without 'pidInList'
-	 *
-	 * Executes a SELECT query for records from $table and with conditions based on the configuration in the $conf array
-	 * This function is preferred over ->getQuery() if you just need to create and then execute a query.
-	 *
-	 * @param	string		The table name
-	 * @param	array		The TypoScript configuration properties
-	 * @return	mixed		A SQL result pointer
-	 * @see getQuery()
-	 */
-	//	function exec_getQuery($table, $conf) {
-	//		$queryParts = $this->getQuery($table, $conf, TRUE);
-	//		return $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
-	//	}
-
-
-	/**
 	 * [Describe function...]
 	 *
 	 * @param	[type]		$table: ...
@@ -3356,13 +3415,11 @@ class tx_ttnews extends tslib_pibase {
 
 
 	/**
-	 * Creates and returns a SELECT query for records from $table and with conditions based on the configuration in the $conf array
+	 * Creates and executes a SELECT query for records from $table and with conditions based on the configuration in the $conf array
 	 * Implements the "select" function in TypoScript
 	 *
 	 * @param	string		See ->exec_getQuery()
 	 * @param	array		See ->exec_getQuery()
-	 * @param	boolean		If set, the function will return the query not as a string but array with the various parts. RECOMMENDED!
-	 * @return	mixed		A SELECT query if $returnQueryArray is false, otherwise the SELECT query in an array as parts.
 	 * @access private
 	 * @see CONTENT(), numRows()
 	 */
@@ -3409,10 +3466,7 @@ class tx_ttnews extends tslib_pibase {
 			}
 
 			// Compile and return query:
-			$queryParts['FROM'] = trim($table . ' ' . $joinPart);
-			//			$query = $GLOBALS['TYPO3_DB']->SELECTquery($queryParts['SELECT'], $queryParts['FROM'], $queryParts['WHERE'], $queryParts['GROUPBY'], $queryParts['ORDERBY'], $queryParts['LIMIT']);
-			//			$queryParts = $returnQueryArray ? $queryParts : $query;
-
+			$queryParts['FROM'] = trim(($this->addFromTable?$this->addFromTable.',':'') . $table . ' ' . $joinPart);
 
 			return $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
 		}
@@ -3671,6 +3725,29 @@ class tx_ttnews extends tslib_pibase {
 			if ($lConf['includeList']) {
 				$this->catlistWhere .= ' AND tt_news_cat.uid IN (' . implode(t3lib_div::intExplode(',', $lConf['includeList']), ',') . ')';
 			}
+		}
+
+		if ($lConf['includeList'] || $lConf['excludeList'] || $this->catExclusive) {
+
+	       // MOUNTS (in tree mode) must only contain the main/parent categories. Therefore it is required to filter out the subcategories from $this->catExclusive or $lConf['includeList']
+	        $categoryMounts = ($this->catExclusive?$this->catExclusive:$lConf['includeList']);
+	        $tmpres = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+	               'uid,parent_category',
+	                'tt_news_cat',
+	                'tt_news_cat.uid IN ('.$categoryMounts.')'.$this->SPaddWhere.$this->enableCatFields,
+	                '',
+	                'tt_news_cat.'.$this->config['catOrderBy']);
+
+	       $this->cleanedCategoryMounts = array();
+
+	       if ($tmpres) {
+                while (($tmprow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($tmpres))) {
+	                if (!t3lib_div::inList($categoryMounts,$tmprow['parent_category'])) {
+	                    $this->dontStartFromRootRecord = true;
+	                    $this->cleanedCategoryMounts[] = $tmprow['uid'];
+	                }
+                }
+	        }
 		}
 	}
 

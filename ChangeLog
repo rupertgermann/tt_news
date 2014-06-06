@@ -1,6 +1,53 @@
+2011-10-16 Rupert Germann <rupi@gmx.li>
+	* fixed bug #18268: No news records since TYPO3 4.6beta2
+
+
+2011-04-06 Rupert Germann <rupi@gmx.li>
+	* bugfix: catOrderBy was overwritten in a wrong way when displaying related news by category causing an SQL error
+	* fixed bug #13330: error: Invalid database result resource detected (Thanks to Philipp Gampe)
+	* fixed bug #13232: check for category access does not work, if no restriction is applied (Thanks to Andreas Kiessling)
+	* fixed bug #16351: Missing $pi_checkCHash (Thanks to Robert Heel)
+
+2011-03-11 Rupert Germann <rupi@gmx.li>
+	* bugfix: the direct link in EM that points to to the updater script didn't work in TYPO3 4.5
+
+2011-03-04 Rupert Germann <rupi@gmx.li>
+	* bugfix: "relatedNewsByCategory" and "renderRelatedNewsAsList" didn't work together
+	* fixed bug #17870: Table tt_news_cache_tags is not flushed (thanks to Daniel Minder)
+	* fixed bug #16715: Caching framework configuration from localconf.php was overwritten by ext_localconf (thanks to Ralf Strobel)
+
+2011-03-04 Rupert Germann <rupi@gmx.li>
+	* fixed bug #15322: remove folder icon code which is deprecated since TYPO3 v4.4 (thanks to Simon Schick)
+	* fixed bug #17458: Hostname appended twice to internal links in feed when config.absRefPrefix set (thanks to Christian Weiske)
+	* fixed bug #14450: local_cObj is overwritten with data from related news by category (thanks to Sven Burkert)
+
+2011-03-03 Rupert Germann <rupi@gmx.li>
+	* fixed bug #16876: Plugin-CE not editable / t3lib_error_Exception / t3lib_iconWorks::getSpriteIconForRecord() (thanks to Thomas Oliver Moll)
+	* fixed bug #14001 (part 2): Deleted flag was not taken into account when checking categories for localized records
+	* fixed bug #13752: tt_news crash in single view (PHP Error: Argument 2 passed to t3lib_div::array_merge_recursive_overrule() 
+	  must be an array, null given) (Thanks to Geoffroy Cochard)
+
+2011-03-02 Rupert Germann <rupi@gmx.li>
+	* fixed bug #14001: User can't edit news with deleted categories
+
+2011-02-01 Rupert Germann <rupi@gmx.li>
+	* new feature: it's now possible to render related news with an html template.
+	* new feature: by setting "restrictListToThisTypes" it's possible to render a list view from news which
+	  shows only news having the selected type.
+	* raised compatibility version to TYPO3 4.5
+
+
+2009-12-07 Rupert Germann <rupi@gmx.li>
+	* fixed bug #13753: Category menu in mode "nested wraps" is broken. Thanks to Jochen Weiland for discovering 
+	this issue and to Ingo Renner for sponsorimg this bug at the T3Board10 bug auction.
+	
+2009-12-07 Rupert Germann <rupi@gmx.li>
+	* fixed bug #12944 (follow-up to #12848):  !!! Database change !!! unknown db field 'tags' in table tt_news_cache (thanks to Sven Juergens)
+
 2009-12-02 Rupert Germann <rupi@gmx.li>
 	* fixed bug #12848: !!! Database change !!! using caching framework for internal caching fails with exception. 
 	* fixed bug #12808: Duplicated '?>' in class.tx_ttnews_cache.php (thanks to Stephan Bauer)
+	* release of tt_news 3.0.1
 
 2009-11-27 Rupert Germann <rupi@gmx.li>
 	* fixed bug #9215: tt_news 3.0 category ajaxtree looses language parameter on ajax expand/collapse 
@@ -2811,5 +2858,5 @@
 
 -----------------------------------------------------------------------------------
 * svn ID:
-$Id: ChangeLog 27079 2009-11-27 16:07:11Z rupi $
+$Id: ChangeLog 53028 2011-10-16 11:45:36Z rupi $
 

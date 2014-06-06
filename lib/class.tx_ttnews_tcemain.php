@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2009 Rupert Germann (rupi@gmx.li)
+*  (c) 2005-2011 Rupert Germann (rupi@gmx.li)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,7 @@
 /**
  * Class 'tx_ttnews_tcemain' for the tt_news extension.
  *
- * $Id: class.tx_ttnews_tcemain.php 26993 2009-11-25 18:21:02Z rupi $
+ * $Id: class.tx_ttnews_tcemain.php 44502 2011-03-02 16:30:55Z rupi $
  *
  * @author     Rupert Germann <rupi@gmx.li>
  */
@@ -140,7 +140,11 @@ class tx_ttnews_tcemain {
 				$categories = array();
 				$recID = (($fieldArray['l18n_parent'] > 0) ? $fieldArray['l18n_parent'] : $id);
 					// get categories from the tt_news record in db
-				$cRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid_foreign', 'tt_news_cat_mm', 'uid_local='.$recID);
+				$cRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+						'uid_foreign, deleted',
+						'tt_news_cat_mm, tt_news_cat',
+						'uid_foreign=uid AND deleted=0 AND uid_local=' . $recID);
+
 				while (($cRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($cRes))) {
 					$categories[] = $cRow['uid_foreign'];
 				}
@@ -226,11 +230,11 @@ class tx_ttnews_tcemain_cmdmap {
 			if (is_int($id)) {
 					// get categories from the (untranslated) record in db
 				$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query (
-						'tt_news_cat.uid,tt_news_cat_mm.sorting AS mmsorting',
+						'tt_news_cat.uid, tt_news_cat.deleted, tt_news_cat_mm.sorting AS mmsorting',
 						'tt_news',
 						'tt_news_cat_mm',
 						'tt_news_cat',
-						' AND tt_news_cat_mm.uid_local='.(is_int($id)?$id:0).t3lib_BEfunc::BEenableFields('tt_news_cat'));
+						' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local='.(is_int($id)?$id:0).t3lib_BEfunc::BEenableFields('tt_news_cat'));
 				$categories = array();
 				while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 					$categories[] = $row['uid'];

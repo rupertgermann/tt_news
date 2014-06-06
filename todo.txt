@@ -1,5 +1,12 @@
 
 
+bugs:
+- cannot delete categories from tree in news admin
+
+
+
+
+
 cache more generated html internally
 
 

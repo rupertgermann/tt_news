@@ -28,7 +28,7 @@
 /**
  * tt_news misc functions
  *
- * $Id: class.tx_ttnews_div.php 26963 2009-11-25 14:42:20Z rupi $
+ * $Id: class.tx_ttnews_div.php 46282 2011-04-06 14:16:49Z rupi $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  * @package TYPO3
@@ -108,7 +108,6 @@ class tx_ttnews_div {
 
 		if (!$catlist) {
 			t3lib_div::devLog('EMPTY $catlist ('.__CLASS__.'::'.__FUNCTION__.')', 'tt_news', 3, array());
-
 		}
 
 
@@ -241,7 +240,8 @@ class tx_ttnews_div {
 		if ($catmounts) {
 			$includeList = $catmounts;
 		}
-		return t3lib_div::intExplode(',',$includeList);
+
+		return t3lib_div::intExplode(',',$includeList, 1);
 	}
 
 

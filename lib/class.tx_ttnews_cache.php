@@ -85,7 +85,7 @@ class tx_ttnews_cache {
 		try {
 			$GLOBALS['typo3CacheFactory']->create(
 				'tt_news_cache',
-				't3lib_cache_frontend_StringFrontend',
+				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['frontend'],
 				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['backend'],
 				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['options']);
 		} catch (t3lib_cache_exception_DuplicateIdentifier $e) {

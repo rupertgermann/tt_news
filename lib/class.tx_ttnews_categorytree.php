@@ -28,7 +28,7 @@
 /**
  * generates a tree from tt_news categories.
  *
- * $Id: class.tx_ttnews_categorytree.php 26878 2009-11-24 10:17:01Z rupi $
+ * $Id: class.tx_ttnews_categorytree.php 44560 2011-03-03 14:20:03Z rupi $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  * @package TYPO3
@@ -122,7 +122,9 @@ class tx_ttnews_categorytree extends t3lib_treeview {
 
 			if ($uid) {
 				$rootRec = $this->getRecord($uid);
-				$firstHtml .= $this->getIcon($rootRec);
+				if (is_array($rootRec)) {
+					$firstHtml .= $this->getIcon($rootRec);
+				}
 			} else {
 
 				if ($this->storagePid > 0 && $this->useStoragePid) {

@@ -52,13 +52,20 @@ class tx_ttnews_tsparserext {
 			$out .= '<link rel="stylesheet" type="text/css" href="' . $cssPath . 'compat/flashmessages.css" media="screen" />';
 		}
 
+		if (t3lib_div::int_from_ver(TYPO3_version) < 4005000) {
+			$link = 'index.php?&amp;id=0&amp;CMD[showExt]=tt_news&amp;SET[singleDetails]=updateModule';
+		} else {
+			$link = 'mod.php?&amp;id=0&amp;M=tools_em&amp;CMD[showExt]=tt_news&amp;SET[singleDetails]=updateModule';
+		}
+
+
 		$out .= '
 		<div style="position:absolute;top:10px;right:10px; width:300px;">
 			<div class="typo3-message message-information">
    				<div class="message-header">' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:extmng.updatermsgHeader') . '</div>
   				<div class="message-body">
   					' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:extmng.updatermsg') . '<br />
-  					<a style="text-decoration:underline;" href="index.php?&amp;id=0&amp;CMD[showExt]=tt_news&amp;SET[singleDetails]=updateModule">
+  					<a style="text-decoration:underline;" href="' . $link . '">
   					' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:extmng.updatermsgLink') . '</a>
   				</div>
   			</div>
