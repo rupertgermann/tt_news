@@ -45,7 +45,10 @@ $TYPO3_CONF_VARS['BE']['AJAX']['tceFormsCategoryTree::expandCollapse'] = t3lib_e
 
 // caching framework configuration
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['backend'] = 't3lib_cache_backend_DbBackend';
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['options'] = array('cacheTable' => 'tt_news_cache');
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['options'] = array(
+	'cacheTable' => 'tt_news_cache',
+	'tagsTable' => 'tt_news_cache_tags'
+);
 
 // register news cache table for "clear all caches"
 if ($confArr['cachingMode']=='normal') {

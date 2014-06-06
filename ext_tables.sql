@@ -132,14 +132,26 @@ CREATE TABLE be_users (
 # Table structure for table 'tt_news_cache'
 #
 CREATE TABLE tt_news_cache (
+    id int(11) unsigned NOT NULL auto_increment,
     identifier varchar(32) DEFAULT '' NOT NULL,
     content text NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
 	lifetime int(11) DEFAULT '0' NOT NULL,    
-	tags varchar(250) DEFAULT '' NOT NULL,
+  	PRIMARY KEY (id),
+  	KEY cache_id (identifier)
+) ENGINE=InnoDB;
 
-    PRIMARY KEY (identifier),
-	KEY tags (tags)
+
+#
+# Table structure for table 'tt_news_cache_tags'
+#
+CREATE TABLE tt_news_cache_tags (
+  id int(11) unsigned NOT NULL auto_increment,
+  identifier varchar(128) DEFAULT '' NOT NULL,
+  tag varchar(128) DEFAULT '' NOT NULL,
+  PRIMARY KEY (id),
+  KEY cache_id (identifier),
+  KEY cache_tag (tag)
 ) ENGINE=InnoDB;
 
 

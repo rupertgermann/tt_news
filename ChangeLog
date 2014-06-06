@@ -1,10 +1,14 @@
+2009-12-02 Rupert Germann <rupi@gmx.li>
+	* fixed bug #12848: !!! Database change !!! using caching framework for internal caching fails with exception. 
+	* fixed bug #12808: Duplicated '?>' in class.tx_ttnews_cache.php (thanks to Stephan Bauer)
 
-2009-11-27
+2009-11-27 Rupert Germann <rupi@gmx.li>
 	* fixed bug #9215: tt_news 3.0 category ajaxtree looses language parameter on ajax expand/collapse 
 	* fixed bug #12757: IFNULL statements in tt_news queries are not DBAL compatible 
 	* updated context sensitive help (CSH)
 	* added missing xclass statement to class tt_news_cache
 	* updated ext_emconf.php	
+	* release of tt_news 3.0
 	
 2009-11-26  Rupert Germann <rupi@gmx.li>
 	* added flashmessages icons for older TYPO3 versions to folder compat/gfx
