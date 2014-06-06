@@ -126,20 +126,20 @@ $TCA['tt_news'] = Array (
 				'items' => Array (
 					Array('LLL:EXT:tt_news/locallang_tca.php:tt_news.type.I.0', 0),
 					Array('LLL:EXT:tt_news/locallang_tca.php:tt_news.type.I.1', 1),
-					Array('LLL:EXT:lang/locallang_general.php:LGL.external', 2)
+					Array('LLL:EXT:tt_news/locallang_tca.php:tt_news.type.I.2', 2)
 				),
 				'default' => 0
 			)
 		),
 		'datetime' => Array (
-			"exclude" => 1,	
-			"label" => "LLL:EXT:tt_news/locallang_tca.php:tt_news.datetime",
-			"config" => Array (
-				"type" => "input",
-				"size" => "10",
-				"max" => "20",
-				"eval" => "datetime",
-				"default" => mktime(date("h"),date("i"),0,date("m"),date("d"),date("Y"))
+			'exclude' => 1,	
+			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news.datetime',
+			'config' => Array (
+				'type' => 'input',
+				'size' => '10',
+				'max' => '20',
+				'eval' => 'datetime',
+				'default' => mktime(date("H"),date("i"),0,date("m"),date("d"),date("Y"))
 				)
 		),
 		'archivedate' => Array (
@@ -282,6 +282,7 @@ $TCA['tt_news'] = Array (
 		),
 		# filelinks
 		'news_files' => Array (
+			'exclude' => 1,
 			'label' => 'LLL:EXT:cms/locallang_ttc.php:media',
 			'config' => Array (
 				'type' => 'group',
@@ -307,7 +308,7 @@ $TCA['tt_news'] = Array (
 // full enabled rte		'0' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext;;9;richtext[*]:rte_transform[flag=rte_enabled|mode=ts];3-3-3,image;;;;4-4-4,imagecaption,--div--,links;;;;5-5-5,related'),
 
 // rte like tt_content
-		'0' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext;;9;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image]:rte_transform[flag=rte_enabled|mode=ts];4-4-4, rte_enabled, text_properties;5-5-5,image;;;;6-6-6,imagecaption,--div--,links;;;;7-7-7,related,news_files'),
+		'0' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext;;9;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image]:rte_transform[flag=rte_enabled|mode=ts];4-4-4, rte_enabled, text_properties;5-5-5,image;;;;6-6-6,imagecaption,--div--,links;;;;7-7-7,related,news_files'),
 		
 		
 		

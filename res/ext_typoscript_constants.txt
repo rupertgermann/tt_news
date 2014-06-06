@@ -7,7 +7,7 @@ plugin.tt_news {
   pid_list = 
      
   # page for the single view
-  PIDitemDisplay = 
+  singlePid = 
   
   # page id for the archive link in "LATEST" template
   archiveLinkUid = 

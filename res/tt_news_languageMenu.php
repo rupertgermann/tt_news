@@ -30,7 +30,7 @@
  * THIS IS AN EXAMPLE designed to work with the official TYPO3 testsite, section "Another site in the ..."
  * You will have to program a similar menu for your own case.
  * 
- * $Id: tt_news_languageMenu.php,v 1.3 2004/08/12 15:28:45 honk Exp $
+ * $Id: tt_news_languageMenu.php,v 1.4 2004/08/25 11:32:19 honk Exp $
  * Revised for TYPO3 3.6 June/2003 by Kasper Skaarhoj
  * XHTML compliant
  *
@@ -73,8 +73,8 @@ while (list($key, $val) = each($paramArray)) {
 $theLink = 'index.php?'.implode($paramArray, '&');
 $flags = array();
 $flags[] = ($GLOBALS['TSFE']->sys_language_uid==0?$pointer:'').'<a href="'.htmlspecialchars($theLink.'&L=0').'" target="_top"><img src="media/uploads/flag_uk.gif" width="21" height="13" hspace="5" border="0" alt="" /></a>';
-$flags[] = ($GLOBALS['TSFE']->sys_language_uid==1?$pointer:'').'<a href="'.htmlspecialchars($theLink.'&L=1').'" target="_top"><img src="media/uploads/flag_de'.($langArr[1]?'':'_d').'.gif" width="21" height="13" hspace="5" border="0" alt="" /></a>';
-$flags[] = ($GLOBALS['TSFE']->sys_language_uid==2?$pointer:'').'<a href="'.htmlspecialchars($theLink.'&L=2').'" target="_top"><img src="media/uploads/flag_dk'.($langArr[2]?'':'_d').'.gif" width="21" height="13" hspace="5" border="0" alt="" /></a>';
+$flags[] = ($GLOBALS['TSFE']->sys_language_uid==1?$pointer:'').'<a href="'.htmlspecialchars($theLink.'&L=1').'" target="_top"><img src="media/uploads/flag_dk'.($langArr[1]?'':'_d').'.gif" width="21" height="13" hspace="5" border="0" alt="" /></a>';
+$flags[] = ($GLOBALS['TSFE']->sys_language_uid==2?$pointer:'').'<a href="'.htmlspecialchars($theLink.'&L=2').'" target="_top"><img src="media/uploads/flag_de'.($langArr[2]?'':'_d').'.gif" width="21" height="13" hspace="5" border="0" alt="" /></a>';
 
 $content = '<table border="0" cellpadding="0" cellspacing="0"><tr><td><img src="clear.gif" width="30" height="1" alt="" /></td><td>'.implode('',$flags).'</td></tr></table>';
 

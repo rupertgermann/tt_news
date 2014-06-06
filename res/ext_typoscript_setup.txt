@@ -19,12 +19,16 @@ plugin.tt_news {
   pid_list = {$plugin.tt_news.pid_list}
      
   # page for the single view
-  PIDitemDisplay = {$plugin.tt_news.PIDitemDisplay}
+  singlePid = {$plugin.tt_news.singlePid}
 
-  
   # page id for the archive link in "LATEST" template
   archiveTypoLink.parameter = {$plugin.tt_news.archiveLinkUid}
 
+  
+  
+  # [depreciated] this is for downwards compatibility (varname changed to "singlePid" in tt_news v 1.6.0) 
+  PIDitemDisplay = {$plugin.tt_news.PIDitemDisplay}
+  
   
   recursive = 2
   code.field = select_key
@@ -37,8 +41,7 @@ plugin.tt_news {
   searchPid = 
   emptySearchAtStart = 1
   
-  # add link type and target to links
-  itemLinkType = 
+  # add target to links
   itemLinkTarget = 
   
   # mediafiles
@@ -53,20 +56,15 @@ plugin.tt_news {
     parseFunc < tt_content.text.20.parseFunc
   }
   
-  content_stdWrap {
-   	
-  }
 
-
-  
   # Pagebrowser settings
   pageBrowser {
-    maxPages = 5
-    page_stdWrap.wrap = <span class="news-list-PBpage"> | </span>
-    actPage_stdWrap.wrap = <span class="news-list-PBactPage"> | </span>
+    maxPages = 10
+	# set this to '0' if you want the pagebrowser to display only numbers 
+	showPBrowserText = 1 
+	tableParams = cellpadding=2 
+	showResultCount = 1
   }
-  # set this to '0' if you want the pagebrowser to display only numbers 
-  showPBrowserText = 1  
     
   # Category settings
   catImageMode = {$plugin.tt_news.catImageMode}
@@ -84,7 +82,7 @@ plugin.tt_news {
   catImageMaxHeight = 25
     
   # Archive settings
-  datetimeDaysToArchive = 100
+  datetimeDaysToArchive = 0
   enableArchiveDate = 1
   pageTypoLink.parameter.current = 1
 
@@ -104,38 +102,68 @@ plugin.tt_news {
   archiveEmptyMsg_stdWrap.wrap =
   searchEmptyMsg_stdWrap.wrap =
   
-  # Related News
-  relatedHeader_stdWrap.wrap = 
+  ### Settings for Related News:
+  relatedHeader_stdWrap.wrap = <strong>|</strong>
+  
+  # icon for related news
+  tmp.5 = IMAGE
+  tmp.5 {
+    file = EXT:tt_news/ext_icon.gif 
+    file.width = 11
+    file.height = 12
+    wrap = | &nbsp;
+  }
+
+  # end-wrap for the getRelated objects
+  tmp.20 = TEXT 
+  tmp.20 {
+    field = datetime
+    strftime = %d-%m-%y %H:%M
+    wrap = &nbsp;-&nbsp; | <br /> 
+  }
+
+  # Build the list of related news:
   getRelatedCObject = COA
-    getRelatedCObject {
-      10=CASE
-      10.key.field=type
-      10.default=TEXT
+  getRelatedCObject {
+ 
+    # groupBy = 
+    orderBy = datetime desc
+  
+    10=CASE
+    10.key.field=type
+    # settings for 'normal' related news
+    10.default=COA
       10.default {
-        field = title
-        typolink.parameter = {$plugin.tt_news.PIDitemDisplay}
-        typolink.additionalParams.field = uid 
-        typolink.additionalParams.wrap = &tt_news=|
-        typolink.useCacheHash = {$plugin.tt_news.allowCaching}
-        typolink.no_cache = {$plugin.tt_news.allowCaching}
-        typolink.no_cache.if.negate = 1	   	
+        5 < plugin.tt_news.tmp.5
+        10 = TEXT
+        10.field = title
+        10.typolink.parameter = {$plugin.tt_news.singlePid}
+        10.typolink.additionalParams.data=register:newsAddParams 
+        10.wrap = |
+        20 < plugin.tt_news.tmp.20
       }   
-      10.1=TEXT
-      10.1 {
-        field=title
-        typolink.parameter=   	
-        typolink.parameter.field=page
-      }   
-      10.2=TEXT
-      10.2 {
-        field=title
-        typolink.parameter=   	
-        typolink.parameter.field=ext_url
-      }
-      20 = TEXT
-      20.field = datetime
-      20.strftime = %d/%m/%y %H:%M
-      20.wrap = &nbsp;-&nbsp; | <br />
+	# settings for related news, that point to internal pages  
+    10.1=COA
+    10.1 {
+      5 < plugin.tt_news.tmp.5
+      5.file=EXT:tt_news/res/tt_news_article.gif
+      10 = TEXT
+      10.field = title
+      10.typolink.parameter.field = page
+      10.wrap = |
+      20 < plugin.tt_news.tmp.20
+    }
+    # settings for related news, that point to external URLs     
+    10.2=COA
+    10.2 {
+      5 < plugin.tt_news.tmp.5
+      5.file=EXT:tt_news/res/tt_news_exturl.gif 
+      10 = TEXT
+      10.field = title
+      10.typolink.parameter.field = ext_url 
+      10.wrap = |
+      20 < plugin.tt_news.tmp.20
+    }
   }
   
 
@@ -153,6 +181,7 @@ plugin.tt_news {
 
     noNewsIdMsg_stdWrap = 
     imageCount=2
+	imgAltTextField = imagecaption
     imageWrapIfAny = <div class="news-single-images-container"> | </div>
 
     email_stdWrap.setContentToCurrent = 1
@@ -168,7 +197,7 @@ plugin.tt_news {
     imageLinkWrap = 1
     imageLinkWrap {
       enable = 1
-      bodyTag = <body bgColor="#dddddd">
+      bodyTag = <body bgColor="#ffffff">
       wrap = <a href="javascript:close();"> | </a>
       width = 400m
       height = 400
@@ -189,6 +218,7 @@ plugin.tt_news {
     subheader_stdWrap.crop = 100 | ...
     subheader_stdWrap.ifEmpty.field = bodytext
     imageCount=1
+	imgAltTextField = imagecaption
   }
   displayLatest.image < displaySingle.image
   displayLatest.image {
@@ -214,6 +244,7 @@ plugin.tt_news {
     author_stdWrap.wrap = 
     imageCount=1
     imageWrapIfAny = 
+	imgAltTextField = imagecaption
   }
   displayList.image < displaySingle.image
   displayList.image {

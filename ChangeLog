@@ -1,3 +1,75 @@
+2004-08-25	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/doc/manual.sxw 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.12:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.26:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.12:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.42:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.12:
+	* cvsroot/typo3xdev/tx_ttnews/res/example_amenuUserFunc.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_constants.txt 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_setup.txt 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_languageMenu.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.11:
+		- *major*: changed the varname "PIDitemDisplay" to "singlePid" (the old name is still recognized but the new one will win, if both are set)
+		- insert news title as title of the indexed page (single view)
+		- "alt" and "title" properties of the image tag can now be filled with the content of a selectable field ('imgAltTextField') from the news db-record.
+		- the backLink in single view is now displaying the title of the page where it points to (changed also the translation in locallang.php)
+		- changed some settings in the default TS setup files for both templates - added the new TS-vars
+		- added some more comments to the amenu example
+		- changed the labels of the news type= 1 (new: Link internal page) and type=2 (new: Link external URL)
+
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.8:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.13:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.13:
+		- updated langfiles with new translations
+		- updated changelog
+
+2004-08-24	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.11:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.25:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.41:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews_wizicon.php 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.11:
+	* cvsroot/typo3xdev/tx_ttnews/res/example_amenuUserFunc.php 1.1:
+		- new features: you can now process the amenu by a userfunction. An example is included, that shows, how to divide the amenu listing in yearly periods.
+		- fixed some smaller bugs from last changes
+
+2004-08-23	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.10:
+	* cvsroot/typo3xdev/tx_ttnews/ext_php_api.dat 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.24:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.40:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews_wizicon.php 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.12:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_medialinks.html 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_styles.css 1.2:
+		*major* changes in tt_news:
+		- all links in the tt_news-class are now build with the link functions from pibase.
+		- moved the GPvars to the piVars array
+		- the pagebrowser is now build with the pi_list_browseresults function from pi_base
+		- changed some function names
+		- cleaned up the code
+		- changed some parts of the default setup (RTE parse func)
+		- changes in the html templates and the stylesheet (searchfield name, pagebrowser)
+		- changed version number to 1.6.0
+
+2004-08-21	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/class.ext_update.php 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_csh_ttnews.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_csh_ttnewsc.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.11:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.10:
+	* cvsroot/typo3xdev/tx_ttnews/res/example_itemMarkerArrayFunc.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_languageMenu.php 1.3:
+		- merged in language files from TER
+		- updated changelog
+		- added xclass statement to updater to prevent the error message in extension mananger
+
 2004-08-20	rupertgermann
 	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.4:
 	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.5:

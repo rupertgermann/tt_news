@@ -70,6 +70,8 @@ $LOCAL_LANG = Array (
 	'hu' => Array (
 	),
 	'gl' => Array (
+		'pi_title' => 'Nutaarsiassat',
+		'pi_plus_wiz_description' => 'Nutaarsiassat quppernermut ilanngunneqassapput',
 	),
 	'th' => Array (
 	),

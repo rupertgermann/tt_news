@@ -296,8 +296,8 @@ LINK_NEXT - used in the pagebrowser
 -->
 <div class="news-search-form">
 <form method="post" action="###FORM_URL###">
-	<input size="30" maxlength="100" type="text" name="swords" value="###SWORDS###" />
-	<input type="submit" name="search" value="###SEARCH_BUTTON###" />
+	<input size="30" maxlength="100" type="text" name="tx_ttnews[swords]" value="###SWORDS###" />
+	<span class="news-search-form-submit"><input type="submit" name="search" value="###SEARCH_BUTTON###" /></span>
 </form></div>
 <!-- ###TEMPLATE_SEARCH### end -->
 
@@ -309,7 +309,37 @@ this is shown if the search result is empty
 <div class="news-search-emptyMsg">###SEARCH_EMPTY_MSG###</div> 
 <!-- ###TEMPLATE_SEARCH_EMPTY### end -->
 
+<br /><br /><br /><br /><hr /><br />
+<h3>TEMPLATE_HEADER_LIST</h3>
+<em>shows a list of news titles</em><br />
 
+<br />
+<!-- ###TEMPLATE_HEADER_LIST### begin -->
+
+	<!-- ###CONTENT### begin
+		  This is the part of the template substituted with the list of news: 
+	-->
+		<!-- ###NEWS### begin 
+			Template for a single item 
+		-->
+			<div class="news-header-list-container">
+					<div class="news-header-list-title"> <!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></div>
+					<div class="news-header-list-time"> ###NEWS_TIME###</div>
+					<div class="news-header-list-categories">###TEXT_CAT_LATEST### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE###</div>
+					
+			</div>
+
+		<!-- ###NEWS### end-->
+		
+	<!-- ###CONTENT###  end -->
+ ###BROWSE_LINKS###
+
+<!-- ###TEMPLATE_HEADER_LIST### end -->
+
+
+<br />
+<br />
+<br />
 
 
 
