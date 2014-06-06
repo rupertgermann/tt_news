@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: tca.php,v 1.41 2006/04/06 19:46:45 rupertgermann Exp $
+ * $Id: tca.php,v 1.42 2006/04/28 12:23:20 rupertgermann Exp $
  */
 
 	// get extension confArr
@@ -400,12 +400,8 @@ $TCA['tt_news'] = Array (
 			'displayCond' => 'FIELD:t3ver_label:REQ:true',
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
 			'config' => Array (
-							'type'=>'none',
-							'cols' => 27
-
-// 				'type' => 'input',
-// 				'size' => '30',
-// 				'max' => '30',
+				'type'=>'none',
+				'cols' => 27
 			)
 		),
 
@@ -419,21 +415,21 @@ $TCA['tt_news'] = Array (
 		),
 	),
 	'types' => Array (
-
-		'0' => Array('showitem' => 'title;;1;;,type,editlock,datetime;;2;;1-1-1,author;;3;;,short,bodytext;;4;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image]:rte_transform[flag=rte_enabled|mode=ts];4-4-4,no_auto_pb,--div--;Relations,category,image;;;;1-1-1,imagecaption;;5;;,links;;;;2-2-2,related;;;;3-3-3,news_files;;;;4-4-4'),
-
-
+		'0' => Array('showitem' =>
+			'title;;1;;,type,editlock,datetime;;2;;1-1-1,author;;3;;,short,bodytext;;4;richtext:rte_transform[flag=rte_enabled|mode=ts];4-4-4,no_auto_pb,
+			--div--;Relations,category,image;;;;1-1-1,imagecaption;;5;;,links;;;;2-2-2,related;;;;3-3-3,news_files;;;;4-4-4'),
 
 		'1' => Array('showitem' =>
-		'title;;1;;,type,datetime;;2;;1-1-1,author;;3;;,short,page;;4;;,--div--;Relations,category,image;;;;1-1-1,imagecaption'),
+			'title;;1;;,type,datetime;;2;;1-1-1,author;;3;;,short,page;;4;;,
+			--div--;Relations,category,image;;;;1-1-1,imagecaption'),
 
 		'2' => Array('showitem' =>
-		'title;;1;;,type,datetime;;2;;1-1-1,author;;3;;,short,ext_url;;4;;,--div--;Relations,category,image;;;;1-1-1,imagecaption')
+			'title;;1;;,type,datetime;;2;;1-1-1,author;;3;;,short,ext_url;;4;;,
+			--div--;Relations,category,image;;;;1-1-1,imagecaption')
 	),
 	'palettes' => Array (
 		'1' => Array('showitem' => 'hidden,starttime,endtime'),
 		'10' => Array('showitem' => 'fe_group'),
-		
 		'2' => Array('showitem' => 'archivedate,l18n_parent,sys_language_uid'),
 		'3' => Array('showitem' => 'author_email,t3ver_label'),
 		'4' => Array('showitem' => 'keywords'),

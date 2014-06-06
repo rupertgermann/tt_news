@@ -1,8 +1,38 @@
+2006-05-19	Rupert Germann <rupi@gmx.li>
+
+	* fix for bug 3515: fixed a MySQL error in workspace preview of news lists which occured when the list showed only certain categories.
+	* new feature (3415): added stdWrap to the parameter singlePid
+	* added cvs ids to several files
+
+2006-05-18	Rupert Germann <rupi@gmx.li>
+
+	* fix for bug 3504: changed the | char which is used to explode links to the ###LINK_ITEM### markers to a random value because it was not possible to render titles with | chars.
+	* new feature (3510): category links in news articles are having the category title as title attribute now.
+	* new feature: added an option to change the ordering of categories in category trees in BE forms to the extension config in EM.
+
+2006-05-09	Rupert Germann <rupi@gmx.li>
+
+	* added italian translation. Thanks to Claudio Strizzolo.
+
+2006-04-27	Rupert Germann <rupi@gmx.li>
+
+	* feature: added two new category modes:
+		2 = select only news which have all the selected categories assigned (AND)
+		-2 = show only news which have none of the selected categories assigned (OR)
+		thank goes to Reto Schmid/.hausformat for sponsoring this feature
+	* fix: changed the default RTE configuration in tca.php. Now the RTE in tt_news can be configured with the presets from the rteHtmlarea extension configuration.
+	* raised the number of categories which can be selected in the tt_news content element to 99.
+	* removed the option 'oldCatDeselectMode' because it did the same as categoryMode=-1
+
+2006-04-24	Rupert Germann <rupi@gmx.li>
+
+	* fix (bug 3322): fixed a bug that caused a MySQL error concerning the sorting of categories and which appeared when "displaySubCategories" was enabled.
+
 2006-04-21	Rupert Germann <rupi@gmx.li>
 
 	* fix: added the fix for "New or edited news records were not displayed in TYPO3 version below 4.0" to tt_news categories, too.
 	* fix: added some labels to the pi/locallang.xml file
-	* added slovak translation for locallang_tca.xml
+	* added slovak translation for locallang_tca.xml. thanks to George from Slovakia.
 	* version nr: 2.3.5
 
 2006-04-19	Rupert Germann <rupi@gmx.li>
@@ -1954,5 +1984,5 @@
 
 -----------------------------------------------------------------------------------
 * cvs ID:
-$Id: ChangeLog,v 1.63 2006/04/21 13:13:05 rupertgermann Exp $
+$Id: ChangeLog,v 1.68 2006/05/19 13:58:05 rupertgermann Exp $
 

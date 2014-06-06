@@ -4,7 +4,7 @@
 #
 # (see Section Reference in the manual for more options & parameters)
 #
-# tt_news v 2.2.x
+# tt_news v 2.x
 ###
 
 
@@ -68,3 +68,5 @@ xmlnews {
 }
 
 
+### CVS id ###
+# $Id: setup.txt,v 1.7 2006/05/19 13:58:06 rupertgermann Exp $

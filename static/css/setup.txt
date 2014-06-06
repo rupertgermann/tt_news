@@ -1,8 +1,9 @@
+###
+# This is the default CSS Styles for the new tt_news standard template: EXT:tt_news/pi/tt_news_v2_template.html
+##
 
 plugin.tt_news {
 	_CSS_DEFAULT_STYLE (
-	
-
 
 /*-----------------------------------  clearer  -----------------------------------*/
 /* prevent floated images from overlapping the div-containers they are wrapped in  */
@@ -374,3 +375,6 @@ plugin.tt_news {
    )
 
 }
+
+### CVS id ###
+# $Id: setup.txt,v 1.12 2006/05/19 13:58:06 rupertgermann Exp $

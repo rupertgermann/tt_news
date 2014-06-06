@@ -29,12 +29,21 @@ label_alt2 =
   # cat=basic//50; type=boolean; label= Force alternative label: If this is activated the alternative label will be always shown behind the label.
 label_alt_force = 0
 
+  # cat=basic//90; type=options[title,uid]; label= Category order in tree: Here you can configure the the ordering of categories in the category tree in BackEnd forms.
+treeOrderBy = uid
 
-  # cat=basic//60; type=int [0-600]; label= Width of the left category field: This field shows the selected categories in the tt_news db-record (or parent categories in the category db-record). If "categorySelectedWidth" is set to 0 (zero) the default width (=180px) will be taken.
+  # cat=basic/dims/60; type=int [0-600]; label= Width of the left category field: This field shows the selected categories in the tt_news db-record (or parent categories in the category db-record). If "categorySelectedWidth" is set to 0 (zero) the default width (=180px) will be taken.
 categorySelectedWidth =
 
-  # cat=basic//70; type=int [0-600]; label= Width of the right category field: This field shows the category tree in the tt_news db-record (or in the category db-record). If "categoryTreeWidth" is set to 0 (zero) the default width will depend on the browser which displays the TYPO3 BackEnd. The default width for all browsers except IE is 280px, for IE the default width is 320px to suppress the unneeded horizontal scrollbar below the category tree.
+  # cat=basic/dims/70; type=int [0-600]; label= Width of the right category field: This field shows the category tree in the tt_news db-record (or in the category db-record). If "categoryTreeWidth" is set to 0 (zero) the default width will depend on the browser which displays the TYPO3 BackEnd. The default width for all browsers except IE is 280px, for IE the default width is 320px to suppress the unneeded horizontal scrollbar below the category tree.
 categoryTreeWidth =
 
-  # cat=basic//80; type=int [3-30]; label= Height of the right category field: Here you can configure the height of the category tree in BackEnd forms (is used for news and news categories).
+  # cat=basic/dims/80; type=int [3-30]; label= Height of the right category field: Here you can configure the height of the category tree in BackEnd forms (is used for news and news categories).
 categoryTreeHeigth = 5
+
+
+
+/*
+  ### CVS id ###
+  $Id: ext_conf_template.txt,v 1.15 2006/05/19 13:58:05 rupertgermann Exp $
+*/

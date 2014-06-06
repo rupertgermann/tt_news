@@ -144,16 +144,28 @@
 			<label index="noResultsMsg">Nessun risultato</label>
 			<label index="searchEmptyMsg">Inserire una parola chiave.</label>
 			<label index="noNewsToListMsg">nessuna news in questa lista.</label>
+			<label index="versionPreviewMessage">Preview versione !</label>
+			<label index="versionPreviewMessageLinkToOriginal">(fai clic qui per vedere la versione pubblica di questo articolo)</label>
+			<label index="nonPlublicVersionMsg">Errore! Hai richiesto una versione non pubblica di un articolo di tt_news.</label>
+			<label index="noNewsIdMsg">nessun news_id</label>
+			<label index="noTranslMsg">Non è disponibile la traduzione per questo articolo.</label>
+			<label index="noNewsForArchPeriod">Non sono disponibili articoli tradotti nel periodo di tempo selezionato.</label>
 			<label index="textRelated">News collegate:</label>
 			<label index="textLinks">Links:</label>
 			<label index="textFiles">Files:</label>
+			<label index="textRelatedByCategory">Altre notizie in questa categoria:</label>
 			<label index="pi_list_browseresults_prev">&lt; Precedente</label>
 			<label index="pi_list_browseresults_page">Pagina</label>
 			<label index="pi_list_browseresults_next">Prossima &gt;</label>
-			<label index="noNewsIdMsg">nessun news_id</label>
+			<label index="pi_list_browseresults_first">&lt;&lt; Prima</label>
+			<label index="pi_list_browseresults_last">Ultima &gt;&gt;</label>
+			<label index="pi_list_browseresults_displays">Risultati da ###SPAN_BEGIN###%s a %s&lt;/span&gt; su ###SPAN_BEGIN###%s&lt;/span&gt;</label>
+			<label index="pi_list_browseresults_displays_advanced">Risultati da ###FROM### a ###TO### su ###OUT_OF###</label>
+			<label index="pi_list_browseresults_to">a</label>
 			<label index="searchButtonLabel">Cerca</label>
 			<label index="altTextCatSelector">Mostra solo categoria:</label>
 			<label index="altTextCatShortcut">Vai a:</label>
+			<label index="catmenuHeader">Seleziona una categoria:</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="latestHeader">Actualité:</label>
@@ -579,7 +591,7 @@
 			<label index="latestHeader" type="integer">131879361</label>
 			<label index="textCatLatest" type="integer">139144993</label>
 			<label index="textCat" type="integer">90868382</label>
-			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="textNewsAge" type="integer">38941977</label>
 			<label index="more" type="integer">185882405</label>
 			<label index="preAuthor" type="integer">150297700</label>
 			<label index="backToList" type="integer">94203432</label>
@@ -594,12 +606,24 @@
 			<label index="textLinks" type="integer">167557397</label>
 			<label index="textFiles" type="integer">147226768</label>
 			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
-			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_page" type="integer">26464201</label>
 			<label index="pi_list_browseresults_next" type="integer">232350798</label>
 			<label index="noNewsIdMsg" type="integer">119707058</label>
 			<label index="searchButtonLabel" type="integer">20138052</label>
-			<label index="altTextCatSelector" type="integer">104764090</label>
-			<label index="altTextCatShortcut" type="integer">10777901</label>
+			<label index="altTextCatSelector" type="integer">3573342</label>
+			<label index="altTextCatShortcut" type="integer">254367533</label>
+			<label index="versionPreviewMessage" type="integer">150202481</label>
+			<label index="versionPreviewMessageLinkToOriginal" type="integer">264551390</label>
+			<label index="nonPlublicVersionMsg" type="integer">132806514</label>
+			<label index="noTranslMsg" type="integer">218972020</label>
+			<label index="noNewsForArchPeriod" type="integer">155038832</label>
+			<label index="textRelatedByCategory" type="integer">183773946</label>
+			<label index="pi_list_browseresults_first" type="integer">31753173</label>
+			<label index="pi_list_browseresults_last" type="integer">14950014</label>
+			<label index="pi_list_browseresults_displays" type="integer">152851483</label>
+			<label index="pi_list_browseresults_displays_advanced" type="integer">3894331</label>
+			<label index="pi_list_browseresults_to" type="integer">1797664</label>
+			<label index="catmenuHeader" type="integer">105811375</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="latestHeader" type="integer">131879361</label>
@@ -974,6 +998,42 @@
 		<languageKey index="no" type="array">
 		</languageKey>
 		<languageKey index="it" type="array">
+			<label index="versionPreviewMessage">Version preview !</label>
+			<label index="versionPreviewMessageLinkToOriginal">(click here to see the public version of this record)</label>
+			<label index="nonPlublicVersionMsg">Error! You requested a non-public version of a tt_news article.</label>
+			<label index="noTranslMsg">Sorry, there is no translation for this news-article.</label>
+			<label index="noNewsForArchPeriod">Sorry, there are no translated news-articles in this Archive period.</label>
+			<label index="textRelatedByCategory">Other news from this category:</label>
+			<label index="pi_list_browseresults_first">&lt;&lt; First</label>
+			<label index="pi_list_browseresults_last">Last &gt;&gt;</label>
+			<label index="pi_list_browseresults_displays">Displaying results ###SPAN_BEGIN###%s to %s&lt;/span&gt; out of ###SPAN_BEGIN###%s&lt;/span&gt;</label>
+			<label index="pi_list_browseresults_displays_advanced">Displaying results ###FROM### to ###TO### out of ###OUT_OF###</label>
+			<label index="pi_list_browseresults_to">to</label>
+			<label index="catmenuHeader">Select a category:</label>
+			<label index="latestHeader">Breaking News:</label>
+			<label index="textCatLatest">Cat:</label>
+			<label index="textCat">Category:</label>
+			<label index="textNewsAge">Age:</label>
+			<label index="more">[more]</label>
+			<label index="preAuthor">By:</label>
+			<label index="backToList">&lt;- Back to: %s</label>
+			<label index="goToArchive">go to Archive -&gt;</label>
+			<label index="archiveHeader">ARCHIVE:</label>
+			<label index="archiveItems">items</label>
+			<label index="archiveEmptyMsg">Sorry, Archive contains no items</label>
+			<label index="noResultsMsg">nothing found</label>
+			<label index="searchEmptyMsg">Please enter a searchword.</label>
+			<label index="noNewsToListMsg">no news in this list.</label>
+			<label index="noNewsIdMsg">no news_id given</label>
+			<label index="textRelated">Related News:</label>
+			<label index="textLinks">Links:</label>
+			<label index="textFiles">Files:</label>
+			<label index="pi_list_browseresults_prev">&lt; Previous</label>
+			<label index="pi_list_browseresults_page">Page</label>
+			<label index="pi_list_browseresults_next">Next &gt;</label>
+			<label index="searchButtonLabel">Search</label>
+			<label index="altTextCatSelector">Display only category:</label>
+			<label index="altTextCatShortcut">Go to:</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 		</languageKey>

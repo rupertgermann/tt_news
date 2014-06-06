@@ -66,3 +66,7 @@ plugin.tt_news {
 
 
 }
+
+
+### CVS id ###
+# $Id: constants.txt,v 1.9 2006/05/19 13:58:06 rupertgermann Exp $

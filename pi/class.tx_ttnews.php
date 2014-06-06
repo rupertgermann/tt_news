@@ -29,7 +29,7 @@
 * class.tx_ttnews.php
 *
 * versatile news system for TYPO3.
-* $Id: class.tx_ttnews.php,v 1.124 2006/04/21 13:13:09 rupertgermann Exp $
+* $Id: class.tx_ttnews.php,v 1.127 2006/05/19 13:58:05 rupertgermann Exp $
 *
 * TypoScript setup:
 * @See static/ts_new/setup.txt
@@ -278,7 +278,7 @@ class tx_ttnews extends tslib_pibase {
 
 		// pid of the page with the single view. the old var PIDitemDisplay is still processed if no other value is found
 		$singlePid = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDitemDisplay', 's_misc');
-		$singlePid = $singlePid?$singlePid:intval($this->conf['singlePid']);
+		$singlePid = $singlePid?$singlePid:intval($this->cObj->stdWrap($this->conf['singlePid'],$this->conf['singlePid.']));
 		$this->config['singlePid'] = $singlePid ? $singlePid:intval($this->conf['PIDitemDisplay']);
 
 		// pid to return to when leaving single view
@@ -919,7 +919,7 @@ class tx_ttnews extends tslib_pibase {
 					}
 				}
 				$content .= $this->cObj->substituteMarkerArrayCached($t['total'], $markerArray, $subpartArray, $wrappedSubpartArray);
-			} elseif (ereg('1=0', $where)) {
+			} elseif (strpos($where,'1=0')) {
 				// first view of the search page with the parameter 'emptySearchAtStart' set
 				$markerArray['###SEARCH_EMPTY_MSG###'] = $this->local_cObj->stdWrap($this->pi_getLL('searchEmptyMsg'), $this->conf['searchEmptyMsg_stdWrap.']);
 				$searchEmptyMsg = $this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_SEARCH_EMPTY###'));
@@ -975,6 +975,7 @@ class tx_ttnews extends tslib_pibase {
 		$itempartsCount = count($itemparts);
 		$pTmp = $GLOBALS['TSFE']->ATagParams;
 		$cc = 0;
+		$token = md5(microtime());
 		// Getting elements
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 
@@ -985,7 +986,6 @@ class tx_ttnews extends tslib_pibase {
 			if ($GLOBALS['TSFE']->sys_language_content) {
 				$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay('tt_news', $row, $GLOBALS['TSFE']->sys_language_content, $GLOBALS['TSFE']->sys_language_contentOL, '');
 			}
-
 			if ($this->versioningEnabled) {
 				// get workspaces Overlay
 				$GLOBALS['TSFE']->sys_page->versionOL('tt_news',$row);
@@ -1024,7 +1024,7 @@ class tx_ttnews extends tslib_pibase {
 						'pL' => null,
 						'arc' => null,
 						);
-					$wrappedSubpartArray['###LINK_ITEM###'] = explode('|', $this->pi_linkTP_keepPIvars('|', $piVarsArray, $this->allowCaching, ($this->conf['dontUseBackPid']?1:0), $singlePid));
+					$wrappedSubpartArray['###LINK_ITEM###'] = explode($token, $this->pi_linkTP_keepPIvars($token, $piVarsArray, $this->allowCaching, ($this->conf['dontUseBackPid']?1:0), $singlePid));
 
 					$this->local_cObj->LOAD_REGISTER(array('newsMoreLink' => $this->pi_linkTP_keepPIvars($this->pi_getLL('more'), $piVarsArray, $this->allowCaching,($this->conf['dontUseBackPid']?1:0), $singlePid)), '');
 				} elseif ($this->conf['useHRDates'] && $this->conf['useHRDatesSingle']) {
@@ -1043,7 +1043,7 @@ class tx_ttnews extends tslib_pibase {
 						'pL' => null,
 						'arc' => null,
 						);
-					$wrappedSubpartArray['###LINK_ITEM###'] = explode('|', $this->pi_linkTP_keepPIvars('|',$piVarsArray, $this->allowCaching, ($this->conf['dontUseBackPid']?1:0), $singlePid));
+					$wrappedSubpartArray['###LINK_ITEM###'] = explode($token, $this->pi_linkTP_keepPIvars($token,$piVarsArray, $this->allowCaching, ($this->conf['dontUseBackPid']?1:0), $singlePid));
 
 					// fill the link string in a register to access it from TS
 					$this->local_cObj->LOAD_REGISTER(array('newsMoreLink' => $this->pi_linkTP_keepPIvars($this->pi_getLL('more'), $piVarsArray, $this->allowCaching, ($this->conf['dontUseBackPid']?1:0), $singlePid)), '');
@@ -1053,7 +1053,7 @@ class tx_ttnews extends tslib_pibase {
 					$this->piVars['day'] = $tmpD;
 
 				} else {
-					$wrappedSubpartArray['###LINK_ITEM###'] = explode('|', $this->pi_linkTP_keepPIvars('|', array('tt_news' => $row['uid'], 'backPid' => ($this->conf['dontUseBackPid']?null:$this->config['backPid'])), $this->allowCaching, ($this->conf['dontUseBackPid']?1:0), $singlePid));
+					$wrappedSubpartArray['###LINK_ITEM###'] = explode($token, $this->pi_linkTP_keepPIvars($token, array('tt_news' => $row['uid'], 'backPid' => ($this->conf['dontUseBackPid']?null:$this->config['backPid'])), $this->allowCaching, ($this->conf['dontUseBackPid']?1:0), $singlePid));
 
 					// fill the link string in a register to access it from TS
 					$this->local_cObj->LOAD_REGISTER(array('newsMoreLink' => $this->pi_linkTP_keepPIvars($this->pi_getLL('more'), array('tt_news' => $row['uid'], 'backPid' => ($this->conf['dontUseBackPid']?null:$this->config['backPid'])), $this->allowCaching, ($this->conf['dontUseBackPid']?1:0), $singlePid)), '');
@@ -1111,7 +1111,7 @@ class tx_ttnews extends tslib_pibase {
 				}
 
 			}
-
+			
 			$layoutNum = $cc % $itempartsCount;
 			// Store the result of template parsing in the Var $itemsOut, use the alternating layouts
 			$itemsOut .= $this->cObj->substituteMarkerArrayCached($itemparts[$layoutNum], $markerArray, array(), $wrappedSubpartArray);
@@ -1216,45 +1216,99 @@ class tx_ttnews extends tslib_pibase {
 			}
 		}
 
-		// exclude LATEST and AMENU from changing their contents with the cat selector. This can be overridden by setting the TSvars 'latestWithCatSelector' or 'amenuWithCatSelector'
-		if ($this->config['catSelection'] && (($this->theCode == 'LATEST' && $this->conf['latestWithCatSelector']) || ($this->theCode == 'AMENU' && $this->conf['amenuWithCatSelector']) || ($this->theCode == 'LIST' || $this->theCode == 'SEARCH' || $this->theCode == 'XML'))) {
-			$this->config['categoryMode'] = 1; // force 'select categories' mode if cat is given in GPvars
-			$this->catExclusive = $this->config['catSelection']; // override category selection from other news content-elements with the selection from the catselector
+		// exclude LATEST and AMENU from changing their contents with the catmenu. This can be overridden by setting the TSvars 'latestWithCatSelector' or 'amenuWithCatSelector'
+		if ($this->config['catSelection'] && (
+				($this->theCode == 'LATEST' && $this->conf['latestWithCatSelector']) ||
+				($this->theCode == 'AMENU' && $this->conf['amenuWithCatSelector']) ||
+				($this->theCode == 'LIST' || $this->theCode == 'SEARCH' || $this->theCode == 'XML'))) {
+			// force 'select categories' mode if cat is given in GPvars
+			$this->config['categoryMode'] = 1; 
+			// override category selection from other news content-elements with selection from catmenu (GPvars)
+			$this->catExclusive = $this->config['catSelection'];
 		}
-		// find newsitems by their categories if categoryMode is '1' or '-1'
-		if ($this->conf['oldCatDeselectMode'] && $this->config['categoryMode'] == -1) {
-			$selectConf['leftjoin'] = 'tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local';
-			$selectConf['where'] .= ' AND (IFNULL(tt_news_cat_mm.uid_foreign,0) NOT IN (' . ($this->catExclusive?$this->catExclusive:0) . '))';
-		} elseif ($this->catExclusive) {
-			if ($this->config['categoryMode'] == 1) {
+
+		if ($this->catExclusive) {
+			// select newsitems by their categories
+			if ($this->config['categoryMode'] == 1 || $this->config['categoryMode'] == 2) {
 				// show items with selected categories
 				$selectConf['leftjoin'] = 'tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local';
 				$selectConf['where'] .= ' AND (IFNULL(tt_news_cat_mm.uid_foreign,0) IN (' . ($this->catExclusive?$this->catExclusive:0) . '))';
 			}
-			if ($this->config['categoryMode'] == -1) {
+
+			// de-select newsitems by their categories
+			if (($this->config['categoryMode'] == -1 || $this->config['categoryMode'] == -2)) {
 				// do not show items with selected categories
-				$selectConf['leftjoin'] = 'tt_news_cat_mm ON (tt_news.uid = tt_news_cat_mm.uid_local';
-				$selectConf['where'] .= ' AND NOT (tt_news_cat_mm.uid_foreign=';
-				if (strstr($this->catExclusive, ',')) {
-					// more than one category de-selected
-					$selectConf['where'] .= ereg_replace(',', ' OR tt_news_cat_mm.uid_foreign=', $this->catExclusive);
-				} else {
-					$selectConf['where'] .= $this->catExclusive?$this->catExclusive:0;
-				}
-				$selectConf['leftjoin'] .= ')';
-				$selectConf['where'] .= ') AND (tt_news_cat_mm.uid_foreign)';
-			}
+				$selectConf['leftjoin'] = 'tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local';
+				$selectConf['where'] .= ' AND (IFNULL(tt_news_cat_mm.uid_foreign,0) NOT IN (' . ($this->catExclusive?$this->catExclusive:0) . '))';
+				$selectConf['where'] .= ' AND (tt_news_cat_mm.uid_foreign)'; // filter out not categoized records
+			}	
 		} elseif ($this->config['categoryMode']) {
-			// special case: show only non-categized records
+			// special case: if $this->catExclusive is not set but $this->config['categoryMode'] -> show only non-categized records
 			$selectConf['leftjoin'] = 'tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local';
 			$selectConf['where'] .= ' AND (IFNULL(tt_news_cat_mm.uid_foreign,'.$GLOBALS['TYPO3_DB']->fullQuoteStr('nocat', 'tt_news').') ' . ($this->config['categoryMode'] > 0?'':'!') . '='.$GLOBALS['TYPO3_DB']->fullQuoteStr('nocat', 'tt_news').')';
+		}
+
+		// if categoryMode is 'show items AND' it's required to check if the records in the result do actually have the same number of categories as in $this->catExclusive
+		if ($this->catExclusive && $this->config['categoryMode'] == 2) {
+			$res = $this->cObj->exec_getQuery('tt_news', $selectConf); 
+	
+			$results = array();
+			$resultsCount = array();
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+				$results[] = $row['uid'];
+				if (in_array($row['uid'], $results)) {
+					$resultsCount[$row['uid']]++;
+				}
+			}
+
+			$catCount = count(explode(',',$this->catExclusive));
+
+			$cleanedResultsCount = array();
+			foreach ($resultsCount as $uid => $hits) {
+				if ($hits == $catCount) {
+					$cleanedResultsCount[] = $uid;
+				}
+			}
+			$matchlist = implode(',',$cleanedResultsCount);
+			if ($matchlist) {
+				$selectConf['where'] .= ' AND tt_news.uid IN ('.$matchlist.')';
+			}
+		}
+
+		// if categoryMode is 'don't show items OR' we check if each found record does not have any of the deselected categories assigned
+		if ($this->catExclusive && $this->config['categoryMode'] == -2) {
+			$res = $this->cObj->exec_getQuery('tt_news', $selectConf);
+
+			$results = array();
+			$resultsCount = array();
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+				$results[$row['uid']] = $row['uid'];
+			}
+			array_unique($results);
+
+			foreach ($results as $k => $uid) {
+				 $currentCats = $this->getCategories($uid);
+				foreach ($currentCats as $catid => $v) {
+					if (t3lib_div::inList($this->catExclusive,$catid)) {
+						unset($results[$uid]);
+						break; // break after one deselected category was found
+					}
+				}
+			}
+			
+			$matchlist = implode(',',$results);
+			if ($matchlist) {
+				$selectConf['where'] .= ' AND tt_news.uid IN ('.$matchlist.')';
+			}
 		}
 
 			// filter Workspaces preview.
 			// Since "enablefields" is ignored in workspace previews it's required to filter out news manually which are not visible in the live version AND the selected workspace.
 		if ($GLOBALS['TSFE']->sys_page->versioningPreview) {
 				// execute the complete query
-			$wsRes = $this->cObj->exec_getQuery('tt_news', $selectConf);
+			$wsSelectconf = $selectConf;
+			$wsSelectconf['selectFields'] = 'uid,pid,tstamp,crdate,deleted,hidden,fe_group,sys_language_uid,l18n_parent,l18n_diffsource,t3ver_oid,t3ver_id,t3ver_label,t3ver_wsid,t3ver_state,t3ver_stage,t3ver_count,t3ver_tstamp,t3_origuid';
+			$wsRes = $this->cObj->exec_getQuery('tt_news', $wsSelectconf);
 			$removeUids = array();
 			while ($wsRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($wsRes)) {
 				$orgUid = $wsRow['uid'];
@@ -1278,7 +1332,15 @@ class tx_ttnews extends tslib_pibase {
 				$selectConf = $_procObj->processSelectConfHook($this, $selectConf);
 			}
 		}
-// 		debug(array($this->config['categoryMode'],$selectConf,$this->catExclusive),'select_conf');
+		
+
+		
+// 		debug($this->config['categoryMode'],'categoryMode');
+// 		debug($this->catExclusive,'$this->catExclusive');
+// 		debug($selectConf,'select_conf');
+		
+
+		
 		return $selectConf;
 	}
 
@@ -2099,6 +2161,7 @@ class tx_ttnews extends tslib_pibase {
 		$markerArray['###CATWRAP_B###'] = '';
 		$markerArray['###CATWRAP_E###'] = '';
 
+		$pTmp = $GLOBALS['TSFE']->ATagParams;
 		if (count($this->categories[$row['uid']]) && ($this->config['catImageMode'] || $this->config['catTextMode'])) {
 			// wrap for all categories
 			$cat_stdWrap = t3lib_div::trimExplode('|', $lConf['category_stdWrap.']['wrap']);
@@ -2116,7 +2179,8 @@ class tx_ttnews extends tslib_pibase {
 			foreach ($this->categories[$row['uid']] as $key => $val) {
 				// find categories, wrap them with links and collect them in the array $news_category.
 				$catTitle = htmlspecialchars($this->categories[$row['uid']][$key]['title']);
-				#$catTextLenght += strlen($catTitle);
+				$GLOBALS['TSFE']->ATagParams = $pTmp.' title="'.$catTitle.'"';
+
 				if ($this->config['catTextMode'] == 0) {
 					$markerArray['###NEWS_CATEGORY###'] = '';
 				} elseif ($this->config['catTextMode'] == 1) {
@@ -2213,6 +2277,8 @@ class tx_ttnews extends tslib_pibase {
 				$markerArray['###NEWS_CATEGORY###'] = $xmlCategories;
 			}
 		}
+		$GLOBALS['TSFE']->ATagParams = $pTmp;
+
 		return $markerArray;
 	}
 

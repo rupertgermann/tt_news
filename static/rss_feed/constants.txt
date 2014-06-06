@@ -33,3 +33,6 @@ plugin.tt_news {
   xmlCaching = 1
   }
 }
+
+### CVS id ###
+# $Id: constants.txt,v 1.6 2006/05/19 13:58:06 rupertgermann Exp $

@@ -46,7 +46,9 @@
 			<label index="tt_news.pi_flexform.category_selection"></label>
 			<label index="tt_news.pi_flexform.category_selection_showAll"></label>
 			<label index="tt_news.pi_flexform.category_selection_showSelected"></label>
+			<label index="tt_news.pi_flexform.category_selection_showSelectedAND"></label>
 			<label index="tt_news.pi_flexform.category_selection_DontShowSelected"></label>
+			<label index="tt_news.pi_flexform.category_selection_DontShowSelectedOR"></label>
 			<label index="tt_news.pi_flexform.archive"></label>
 			<label index="tt_news.pi_flexform.template_file"></label>
 			<label index="tt_news.pi_flexform.catImageMode"></label>
@@ -119,8 +121,10 @@
 			<label index="tt_news.pi_flexform.category_selection_notCategorized">[not categorized]</label>
 			<label index="tt_news.pi_flexform.category_selection">Category selection</label>
 			<label index="tt_news.pi_flexform.category_selection_showAll">Show all (don't care about selection below)</label>
-			<label index="tt_news.pi_flexform.category_selection_showSelected">Show items with selected categories</label>
-			<label index="tt_news.pi_flexform.category_selection_DontShowSelected">Do NOT show items with selected categories</label>
+			<label index="tt_news.pi_flexform.category_selection_showSelected">Show items with selected categories (OR)</label>
+			<label index="tt_news.pi_flexform.category_selection_showSelectedAND">Show items with selected categories (AND)</label>
+			<label index="tt_news.pi_flexform.category_selection_DontShowSelected">Do NOT show items with selected categories (AND)</label>
+			<label index="tt_news.pi_flexform.category_selection_DontShowSelectedOR">Do NOT show items with selected categories (OR)</label>
 			<label index="tt_news.pi_flexform.archive">Archive setting (for LIST)</label>
 			<label index="tt_news.pi_flexform.template_file">Template file</label>
 			<label index="tt_news.pi_flexform.catImageMode">Category Image Link Mode:</label>

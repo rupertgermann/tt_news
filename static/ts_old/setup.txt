@@ -6,7 +6,7 @@
 # 
 # (see Section Reference in the manual for more options & parameters)
 #
-# tt_news v 2.2.0
+# tt_news v 2.x
 ###
 
 # Includes the newsLib:
@@ -424,4 +424,6 @@ tt_news.displayCurrentRecord = 1
 
 
 
+### CVS id ###
+# $Id: setup.txt,v 1.19 2006/05/19 13:58:06 rupertgermann Exp $
 
