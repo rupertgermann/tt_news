@@ -3,7 +3,7 @@
 *  Copyright notice
 *
 *  (c) 1999-2004 Kasper Skårhøj (kasper@typo3.com)
-*  (c) 2004-2006 Rupert Germann (rupi@gmx.li)
+*  (c) 2004-2007 Rupert Germann (rupi@gmx.li)
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
@@ -25,7 +25,7 @@
 /**
  * Class that adds the wizard icon.
  *
- * $Id: class.tx_ttnews_wizicon.php,v 1.15 2006/04/19 12:10:14 rupertgermann Exp $
+ * $Id: class.tx_ttnews_wizicon.php 4750 2007-01-25 20:46:23Z rupertgermann $
  *
 * @author Rupert Germann <rupi@gmx.li>
  */

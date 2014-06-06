@@ -377,4 +377,4 @@ plugin.tt_news {
 }
 
 ### CVS id ###
-# $Id: setup.txt,v 1.12 2006/05/19 13:58:06 rupertgermann Exp $
+# $Id: setup.txt 3031 2006-05-19 13:58:06Z rupertgermann $

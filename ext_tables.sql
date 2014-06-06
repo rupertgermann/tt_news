@@ -107,3 +107,21 @@ CREATE TABLE tt_news_cat_mm (
   KEY uid_local (uid_local),
   KEY uid_foreign (uid_foreign)
 );
+
+#
+# Table structure for table 'be_groups'
+#
+CREATE TABLE be_groups (
+	tt_news_categorymounts tinytext NOT NULL,
+# 	tt_news_cmounts_usesubcats tinyint(4) unsigned DEFAULT '0' NOT NULL
+	
+);
+
+#
+# Table structure for table 'be_users'
+#
+CREATE TABLE be_users (
+	tt_news_categorymounts tinytext NOT NULL,
+# 	tt_news_cmounts_usesubcats tinyint(4) unsigned DEFAULT '0' NOT NULL
+);
+

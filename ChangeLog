@@ -1,8 +1,80 @@
+2007-02-28	Rupert Germann <rupi@gmx.li>
+
+	* updated function indexes - no actual code changes
+	* uploaded revised manual (Thanx Ben)
+	* version 2.5.0
+
+2007-02-20	Rupert Germann <rupi@gmx.li>
+
+	* fixed a small bug which caused asc/desc from Flexform to be ignored if a value for 'listOrderBy' was present in TS. Thx to Ernesto for the hint.
+
+2007-02-19	Ingo Renner <typo3@ingo-renner.com>
+
+	* new feature: RSS 2.0 feeds displaying full length news records now, credits Michael Feinbier
+
+2007-02-18	Ingo Renner <typo3@ingo-renner.com>
+
+	* new feature: list view can select news for a certain day only now - to play nice with TIMTAB (bug #2941)
+	* new feature: RSS 2.0 feeds deliver files attached to news records as <enclosure>s (feature request #4950)
+	
+2007-02-15	Rupert Germann <rupi@gmx.li>
+
+	* fixed a small bug in function getSubCategoriesForMenu which caused tt_news to display only 50 subcategories-
+	* updated the manual with the new features
+
+2007-02-09	Rupert Germann <rupi@gmx.li>
+
+	* fix for bug 4948: in TYPO3 4.1 a cHash error occured when links to related news were clicked (thx to Oliver Hader).
+	* fix: added a condition to ext_tables.php which disables the "tt_news category manager" module in TYPO versions below 4.0 (reason: the drag and drop code isn't present in these versions)
+
+2007-01-26	Rupert Germann <rupi@gmx.li>
+
+	* fix: the ajax category tree works correctly with different charsets now.
+
+2007-01-25	Rupert Germann <rupi@gmx.li>
+
+	* new feature: "don't use pid_list". In sites with huge pagetrees where it is needed to have the news not in a few sysfolders but in the complete pagetree the check for the pid_list in tt_news can be a big performance eater because thousands of pages have to be checked for visibility and added to the sql query. From now on it is possible to disable the use of the parameters "pid_list" and "recursive" when the TS var "plugin.tt_news.dontUsePidList = 1" is set. Thank goes to Franz Ripfel for sponsoring this feature.
+	* new feature: added a new backend module called "tt_news category manager". This module is located under web/info. It shows the complete category tree - of course expandable and collapsable - and offers drag and drop for moving and copying news categories.
+	* thanks: Many thank goes to: CNV (Christelijk Nationaal Vakverbond) for sponsoring the ajax category tree.
+	* improvement: rewrote the check for recursive categories. Creating recursive categories is now prevented by a function which hooks in tcemain. This works for normal category records and for the category manager
+	* improvement: removed the file flexform_ds_no_sPID.xml because it is not needed anymore.
+	* changed copyrights to 2007
+	
+2007-01-15	Ingo Renner <typo3@ingo-renner.com>
+
+	* new feature: forceFirstImageIsPreview (see manual)
+
+2006-12-09	Rupert Germann <rupi@gmx.li>
+
+	* new feature: if the extension xajax is installed, the category tree in BackEnd forms can now be expanded and collapsed. If you have a huge category tree this will speed up the rendering of the tree significantly. This feature still needs some work because it collides with the check for recursive categories which is currently disabled.
+	* improvement: if a subcategory of a category is selected the tree shows the titles of the parents of this category with underlined text.
+	* new feature: "Exclude already displayed news". The new TS option "excludeAlreadyDisplayedNews" allows you to place multiple news plugins on one page where the plugin itself takes care that no newsarticle is displayed twice. This feature makes the options "excludeLatestFromList" and "listStartId" obsolete. If "excludeAlreadyDisplayedNews" is enabled "excludeLatestFromList" and "listStartId" will be ignored.
+
+
+2006-08-23	Rupert Germann <rupi@gmx.li>
+
+	* fix for bug 3844: CategoryMode 2 (AND) didn't work correctly. Thanks to Krystian Szymukowicz who wrote the patch.
+	* fix for bug 3883: added missing german translations.
+
+2006-08-18	Rupert Germann <rupi@gmx.li>
+
+	* improvement: added a stdWrap to the TS properties limit and latestLimit
+	* new feature: added the category tree to be_users and be_groups records. Now it is possible to select the allowed and visible categories for a certain be_user/group with the category tree. If categories are selected in the be_user/group records the TSconfig settings 'options.useListOfAllowedItems', 'tt_newsPerms.tt_news_cat.includeList' and 'tt_newsPerms.tt_news_cat.allowedItems' have no effect anymore. (thanks to netcreators.nl for sponsoring this feature)
+	* new file: added a new php class 'class.tx_ttnews_div.php' which contains some helper functions for the BE classes.
+	* improvement: the selected categories in the category trees in BE are highlighted with bold font.
+	* improvement: added the uid of the categories to the title attribute in category trees in the BE.
+	* version nr: 2.4.1
+	
+2006-05-31	Rupert Germann <rupi@gmx.li>
+
+	* added faroese translation provided by Hjalti a Lava.
+
 2006-05-19	Rupert Germann <rupi@gmx.li>
 
 	* fix for bug 3515: fixed a MySQL error in workspace preview of news lists which occured when the list showed only certain categories.
 	* new feature (3415): added stdWrap to the parameter singlePid
 	* added cvs ids to several files
+	* version nr: 2.4.0
 
 2006-05-18	Rupert Germann <rupi@gmx.li>
 
@@ -27,6 +99,7 @@
 2006-04-24	Rupert Germann <rupi@gmx.li>
 
 	* fix (bug 3322): fixed a bug that caused a MySQL error concerning the sorting of categories and which appeared when "displaySubCategories" was enabled.
+	* version nr: 2.3.6
 
 2006-04-21	Rupert Germann <rupi@gmx.li>
 
@@ -482,7 +555,7 @@
 	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_v2_styles.css 1.5:
 	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.27:
 		some major updates:
-		- new feature: The BE forms for news and categories are showing the categories in a tree-view now. The code for this is borrowed from the extension "tx_dam" - thanks René Fritz for his awesome extension(s).
+		- new feature: The BE forms for news and categories are showing the categories in a tree-view now. The code for this is borrowed from the extension "tx_dam" - thanks Renï¿½ Fritz for his awesome extension(s).
 		- new feature: A list of allowed categories can be configured for each be_user or group (TSconfig). The non allowed categories are displayed in grey and the user can't select them. "options.useListOfAllowedItems=1" will enable this feature, the list of allowed categories can be set with "tt_newsPerms.tt_news_cat.allowedItems=1,2,3" f.e.
 		- new feature: Now it's possible to prevent editing of news records by their assigned categories. If the record has categories assigned that are not in the list of allowed categories, saving of this record will be disabled. (useful for restrict further editing of a record after a certain category has been assigned to it)
 		- new feature: the "add new record" button (+) in the category db-record is creating a new subcategory of the current category. (XCLASS for typo3/wizard_add.php).
@@ -1214,19 +1287,19 @@
 	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.54:
 	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_languageMenu.php 1.6:
 		- added rawurlencode to rss links: class.tt_txnews.php zeile 845: $markerArray['###NEWS_LINK###'] = $this->config['siteUrl'].rawurlencode(substr($wrappedSubpartArray['###LINK_ITEM###'][0], 9, -2));
-		- changed the link processing in the language menu. Now the additional params for the linka are build from the GetVars. The effect of this change is, that you can use the tt_news-language menu with simulateStatic. It still does not produce links like “home+M098098.html” but it works ;-)
-		- Inserted new function that returns the template subpart (suggested by Stefan Geith). This gives you the possibility to “XCLASS” tt_news for pre-processing the html-template.
-		- Fixed the “firstImageIsPreview” function. (added the forgotten parameter $textRenderObj to the getImageMarker function)
+		- changed the link processing in the language menu. Now the additional params for the linka are build from the GetVars. The effect of this change is, that you can use the tt_news-language menu with simulateStatic. It still does not produce links like ï¿½home+M098098.htmlï¿½ but it works ;-)
+		- Inserted new function that returns the template subpart (suggested by Stefan Geith). This gives you the possibility to ï¿½XCLASSï¿½ tt_news for pre-processing the html-template.
+		- Fixed the ï¿½firstImageIsPreviewï¿½ function. (added the forgotten parameter $textRenderObj to the getImageMarker function)
 
 2004-10-03	rupertgermann
 	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.53:
-		- removed the TS-var: “amenuShowAll” because it did not work.
+		- removed the TS-var: ï¿½amenuShowAllï¿½ because it did not work.
 
 2004-10-02	rupertgermann
 	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.52:
 	* cvsroot/typo3xdev/tx_ttnews/res/example_userPageBrowserFunc.php 1.1:
 		- added a TYPO3 version control for the multilang features. Now they are disabled if the TYPO3 version is below 3.7.0
-		- new TS-var: “amenuShowAll” by setting this, the amenu always shows all news items, no matter if they are archived or not, or if there is a value for “datetimeDaysToArchive” given.
+		- new TS-var: ï¿½amenuShowAllï¿½ by setting this, the amenu always shows all news items, no matter if they are archived or not, or if there is a value for ï¿½datetimeDaysToArchiveï¿½ given.
 		- added a userfunction to use another pagebrowser.
 		- Included an example script with two alternative pagebrowsers (see comments in file: example_userPageBrowserFunc.php for required settings)
 
@@ -1281,8 +1354,8 @@
 	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_styles.css 1.4:
 		- changed the behaviour of categoryMode=-1 (do not show items with selected categories). Now news are not shown in this cases: a) if they have only the selected category(s) assigned or b) if they have the selcted and other categories assigned.
 		the old functionality was only case a)
-		- Added a new TS-var: “oldCatDeselectMode” by setting this, you can use the old behaviour for de-selecting categories.
-		- Small new feature: now a “register” named “newsCategoryUid” is filled from the script with the uid of the category. You can access this register by TS to generate different wraps for different categories.
+		- Added a new TS-var: ï¿½oldCatDeselectModeï¿½ by setting this, you can use the old behaviour for de-selecting categories.
+		- Small new feature: now a ï¿½registerï¿½ named ï¿½newsCategoryUidï¿½ is filled from the script with the uid of the category. You can access this register by TS to generate different wraps for different categories.
 		- added some more comments to the example functions in res/ folder
 		- updated version numberr to 1.7.0
 		- added new vars and functions to manual
@@ -1314,21 +1387,21 @@
 	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.16:
 	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.46:
 	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.15:
-		- Moved the part, that fills the image markers, from the function getItemMarkerArray() to a new function: “getImageMarkers()”.
+		- Moved the part, that fills the image markers, from the function getItemMarkerArray() to a new function: ï¿½getImageMarkers()ï¿½.
 		- Added a  possibility to process the image markers by a user function. This userfunction works a bit different from the others: if it is enable, the images are only processed by the userfunction not by both functions. (this could already be done by the 'itemMarkerArrayFunc' but this would process the same images two times)
-		- Added an new example script: “res/example_imageMarkerFunc.php” that uses the new userfunction to add different wraps to the images in single view (see comments in file for needed TS-settings)
-		- changed the formating of the “back to list” link in single view: now you can define the string for the backlink in this way: “Back to: %s” - “%s” is the title of the page, where the backlink points to
+		- Added an new example script: ï¿½res/example_imageMarkerFunc.phpï¿½ that uses the new userfunction to add different wraps to the images in single view (see comments in file for needed TS-settings)
+		- changed the formating of the ï¿½back to listï¿½ link in single view: now you can define the string for the backlink in this way: ï¿½Back to: %sï¿½ - ï¿½%sï¿½ is the title of the page, where the backlink points to
 		- added a new TS-var 'hscBackLink': By setting this var, you can choose, whether the backLink-string is parsed through htmlspecialchars() or not.
-		Fixed a small bug with some stdWraps that referenced to the not initialized var $lConf: (“archiveHeader_stdWrap”, “archiveEmptyMsg_stdWrap” and “noNewsIdMsg_stdWrap”)
+		Fixed a small bug with some stdWraps that referenced to the not initialized var $lConf: (ï¿½archiveHeader_stdWrapï¿½, ï¿½archiveEmptyMsg_stdWrapï¿½ and ï¿½noNewsIdMsg_stdWrapï¿½)
 		- added 2 new flexform fields for ordering the news in list and latest-view
-		- added 2 new TS-vars for ordering and grouping the List and Latest view: “listOrderBy”. And “listGroupBy”. Use this with care: the queryparts given from TS are only trimmed and not further validated -> if the field don't exist you'll get a mysql-error
-		- if you set “listGroupBy = category” the string “category” is processed in a special way, because the tt_news_cat_mm table is not joined by default. This simulates the “group by category” functionality by joining the mm table to the tt_news table. (see line 643 in class.tx_ttnews.php) .
-		The result of this is:  you can configure f.e. a  “latest” content element to show only the newest news-record of each category.
+		- added 2 new TS-vars for ordering and grouping the List and Latest view: ï¿½listOrderByï¿½. And ï¿½listGroupByï¿½. Use this with care: the queryparts given from TS are only trimmed and not further validated -> if the field don't exist you'll get a mysql-error
+		- if you set ï¿½listGroupBy = categoryï¿½ the string ï¿½categoryï¿½ is processed in a special way, because the tt_news_cat_mm table is not joined by default. This simulates the ï¿½group by categoryï¿½ functionality by joining the mm table to the tt_news table. (see line 643 in class.tx_ttnews.php) .
+		The result of this is:  you can configure f.e. a  ï¿½latestï¿½ content element to show only the newest news-record of each category.
 		Restriction: this works only correct, if the news records have only one category assigned.
 		- updated api docs & changelog
 
 	* cvsroot/typo3xdev/tx_ttnews/res/example_imageMarkerFunc.php 1.1:
-		Added the example script: “res/example_imageMarkerFunc.php”
+		Added the example script: ï¿½res/example_imageMarkerFunc.phpï¿½
 
 2004-09-06	rupertgermann
 	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.9:
@@ -1340,7 +1413,7 @@
 	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.10:
 	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.15:
 	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.45:
-		- added new file for processing extra user-codes (class.tx_ttnews_itemsProcFunc.php), added a call  for this function in the flexform xml files (tx_ttnews_itemsProcFunc->user_insertExtraCodes)  this function adds the “extra codes” to the content element that are found in the $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display'] array.
+		- added new file for processing extra user-codes (class.tx_ttnews_itemsProcFunc.php), added a call  for this function in the flexform xml files (tx_ttnews_itemsProcFunc->user_insertExtraCodes)  this function adds the ï¿½extra codesï¿½ to the content element that are found in the $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display'] array.
 		- added some forgotten language markers to the flexform files & locallang_tca.php
 		- added a function Hook for processing the selectConf-array in function getSelectConf() (processSelectConfHook)
 		- changed version number to 1.6.4
@@ -1369,14 +1442,14 @@
 	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_styles.css 1.3:
 	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.12:
 		- changed default setting for the field datetime in tca.php to 24/hours format:  'default' => mktime(date("H"),date("i"),0,date("m"),date("d"), date("Y")), old setting for the hours was: date("h")
-		-> this influences the BE form, the “age” output and the archive.
+		-> this influences the BE form, the ï¿½ageï¿½ output and the archive.
 		
 		- Changed the building of the getRelatedCObject. -> Now it is (again) possible to wrap the titles of related news with stdWraps (e.g. crop)
 		
-		*Important*: this requires changes in the TS setup for tt_news -> see: example configuration in ext_typoscript_setup.txt, *and* it also requires that you change the old TS varname “PIDitemDisplay” to the new one “singlePid” in constants and setup. (otherwise the related news are not linked)
+		*Important*: this requires changes in the TS setup for tt_news -> see: example configuration in ext_typoscript_setup.txt, *and* it also requires that you change the old TS varname ï¿½PIDitemDisplayï¿½ to the new one ï¿½singlePidï¿½ in constants and setup. (otherwise the related news are not linked)
 		
-		- New feature: you can now configure the “order by” and “group by” parts of the query for the related news by TS. (new TS-vars: “orderBy” and “groupBy” )
-		- added “required” to the field newsfiles in tca.php
+		- New feature: you can now configure the ï¿½order byï¿½ and ï¿½group byï¿½ parts of the query for the related news by TS. (new TS-vars: ï¿½orderByï¿½ and ï¿½groupByï¿½ )
+		- added ï¿½requiredï¿½ to the field newsfiles in tca.php
 		- added some conditions to the function getItemMarkerArray, that will render wraps only if an item is found
 		- changed the caching settings of the search function
 		- to save performance, the getRelated function is now only called, when displaying the "single view" template.
@@ -1463,8 +1536,8 @@
 	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.39:
 	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.9:
 	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.10:
-		- fixed a small bug with the “firstImageIsPreview” mode: now the captions are displayed correctly
-		- new feature: 'excludeLatestFromList' by setting this TSvar you can exclude the news already shown in LATEST from the “LIST” view on the same page. (thank goes to Joey who posted this code snippet)
+		- fixed a small bug with the ï¿½firstImageIsPreviewï¿½ mode: now the captions are displayed correctly
+		- new feature: 'excludeLatestFromList' by setting this TSvar you can exclude the news already shown in LATEST from the ï¿½LISTï¿½ view on the same page. (thank goes to Joey who posted this code snippet)
 		- fix: now it is possible to display the PAGE template-markers also in the single view.
 		- Added a message which will appear when no news are found for display in the current list  'noNewsToListMsg'.
 		- Replaced the functions setPidlist and initRecursive with pi_getPidList
@@ -1479,12 +1552,12 @@
 	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.10:
 	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.38:
 	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.9:
-		- removed the Tsvar “itemLinkType” -> since the links are all build with typolinks this parameter is not needed anymore.
+		- removed the Tsvar ï¿½itemLinkTypeï¿½ -> since the links are all build with typolinks this parameter is not needed anymore.
 		- removed the unnessecary parameters from some links (e.g. the category-links that point internal pages need no archive parameters)
-		- added new TSvar: “latestWithCatSelector”. If this is not set (default), the newsLatest element is excluded from the catselector. If you set this var, “LATEST” will change its contents with the catselector as newsLIST does (which was the  behaviour till now).
-		- added new TSvar: “amenuWithCatSelector”: the same for amenu.
-		- added new TSvar “catSelectorTargetPid”: Needed in framesets, to define a page where the category-selector links point to (e.g. Category-selector  links in a “LATEST”-element in left frame point to the “LIST” view in the frame for the normal content). Maybe also useful in “non-framed” pages.
-		- New db column/ form field ín tt_news_cat: “shortcut_target”: this fixes the problem, that category shortcuts in framesets always have the target defined by the itemLinkTarget. This made it impossible to use links to non-frames pages AND links to pages in framesets, at the same time as category shortcuts. Now you can define the target for each category shortcut in the tt_news_cat db-record.
+		- added new TSvar: ï¿½latestWithCatSelectorï¿½. If this is not set (default), the newsLatest element is excluded from the catselector. If you set this var, ï¿½LATESTï¿½ will change its contents with the catselector as newsLIST does (which was the  behaviour till now).
+		- added new TSvar: ï¿½amenuWithCatSelectorï¿½: the same for amenu.
+		- added new TSvar ï¿½catSelectorTargetPidï¿½: Needed in framesets, to define a page where the category-selector links point to (e.g. Category-selector  links in a ï¿½LATESTï¿½-element in left frame point to the ï¿½LISTï¿½ view in the frame for the normal content). Maybe also useful in ï¿½non-framedï¿½ pages.
+		- New db column/ form field ï¿½n tt_news_cat: ï¿½shortcut_targetï¿½: this fixes the problem, that category shortcuts in framesets always have the target defined by the itemLinkTarget. This made it impossible to use links to non-frames pages AND links to pages in framesets, at the same time as category shortcuts. Now you can define the target for each category shortcut in the tt_news_cat db-record.
 		- Added 'allowCaching' to the constant Editor.
 		- Removed some empty vars from default setup.
 		- Changed version number to 1.5.2
@@ -1601,7 +1674,7 @@
 	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.32:
 	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_languageMenu.php 1.1:
 	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.6:
-		- small new feature: 'First image is preview-image' – by setting the var 'firstImageIsPreview' from TS or in the FF form (sheet: other settings) you can handle the first atachend image as preview image. This image is only displayed in list view.
+		- small new feature: 'First image is preview-image' ï¿½ by setting the var 'firstImageIsPreview' from TS or in the FF form (sheet: other settings) you can handle the first atachend image as preview image. This image is only displayed in list view.
 		- code commenting, function index added
 		- added a patched version of the script example_languageMenu.php that can handle the GET vars from tt_news. (see res/tt_news_languageMenu.php) -> works not with simulateStatic yet
 		- changes in tca.php: Changed the settings for the RTE: now the RTE for a news article is configured like the RTE for normal content. added 'autosize' to relation fields.
@@ -1984,5 +2057,5 @@
 
 -----------------------------------------------------------------------------------
 * cvs ID:
-$Id: ChangeLog,v 1.68 2006/05/19 13:58:05 rupertgermann Exp $
+$Id: ChangeLog 5071 2007-02-27 23:16:44Z rupertgermann $
 

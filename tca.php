@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: tca.php,v 1.42 2006/04/28 12:23:20 rupertgermann Exp $
+ * $Id: tca.php 3027 2006-04-28 12:23:22Z rupertgermann $
  */
 
 	// get extension confArr

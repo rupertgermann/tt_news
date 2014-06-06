@@ -92,16 +92,28 @@
 			<label index="noResultsMsg">Keine Ergebnisse</label>
 			<label index="searchEmptyMsg">Bitte geben Sie einen Suchbegriff ein.</label>
 			<label index="noNewsToListMsg">Keine News in dieser Ansicht.</label>
+			<label index="versionPreviewMessage">Versions Vorschau !</label>
+			<label index="versionPreviewMessageLinkToOriginal">(Klicken Sie hier um die öffentliche Version dieses Artikels zu sehen)</label>
+			<label index="nonPlublicVersionMsg">Fehler! Sie haben eine nicht-öffentliche Version eines News-Artikels aufgerufen.</label>
 			<label index="noNewsIdMsg">Keine news_id übergeben.</label>
+			<label index="noTranslMsg">Leider gibt es für diesen Artikel keine Übersetzung</label>
+			<label index="noNewsForArchPeriod">Leider gibts es für diesen Archiv Zeitraum keine übersetzten News-Artikel</label>
 			<label index="textRelated">In Verbindung stehende News:</label>
 			<label index="textLinks">Links:</label>
 			<label index="textFiles">Dateien:</label>
+			<label index="textRelatedByCategory">Weitere News in dieser Kategorie</label>
 			<label index="pi_list_browseresults_prev">&lt; zurück</label>
 			<label index="pi_list_browseresults_page">Seite</label>
 			<label index="pi_list_browseresults_next">vor &gt;</label>
+			<label index="pi_list_browseresults_first">&lt;&lt; Erste</label>
+			<label index="pi_list_browseresults_last">Letzte &gt;&gt;</label>
+			<label index="pi_list_browseresults_displays">News ###SPAN_BEGIN###%s bis %s&lt;/span&gt; von ###SPAN_BEGIN###%s&lt;/span&gt;</label>
+			<label index="pi_list_browseresults_displays_advanced">News ###FROM### bis ###TO### von ###OUT_OF###</label>
+			<label index="pi_list_browseresults_to">bis</label>
 			<label index="searchButtonLabel">Suchen</label>
 			<label index="altTextCatSelector">Nur diese Kategorie anzeigen:</label>
 			<label index="altTextCatShortcut">Gehe zu:</label>
+			<label index="catmenuHeader">Kategorieauswahl:</label>
 		</languageKey>
 		<languageKey index="no" type="array">
 			<label index="latestHeader">Siste nytt</label>
@@ -560,6 +572,18 @@
 			<label index="searchButtonLabel" type="integer">20138052</label>
 			<label index="altTextCatSelector" type="integer">3573342</label>
 			<label index="altTextCatShortcut" type="integer">254367533</label>
+			<label index="versionPreviewMessage" type="integer">150202481</label>
+			<label index="versionPreviewMessageLinkToOriginal" type="integer">264551390</label>
+			<label index="nonPlublicVersionMsg" type="integer">132806514</label>
+			<label index="noTranslMsg" type="integer">218972020</label>
+			<label index="noNewsForArchPeriod" type="integer">155038832</label>
+			<label index="textRelatedByCategory" type="integer">183773946</label>
+			<label index="pi_list_browseresults_first" type="integer">31753173</label>
+			<label index="pi_list_browseresults_last" type="integer">14950014</label>
+			<label index="pi_list_browseresults_displays" type="integer">152851483</label>
+			<label index="pi_list_browseresults_displays_advanced" type="integer">3894331</label>
+			<label index="pi_list_browseresults_to" type="integer">1797664</label>
+			<label index="catmenuHeader" type="integer">105811375</label>
 		</languageKey>
 		<languageKey index="no" type="array">
 			<label index="latestHeader" type="integer">131879361</label>
@@ -994,6 +1018,18 @@
 			<label index="searchButtonLabel">Search</label>
 			<label index="altTextCatSelector">Display only category:</label>
 			<label index="altTextCatShortcut">Go to:</label>
+			<label index="versionPreviewMessage">Version preview !</label>
+			<label index="versionPreviewMessageLinkToOriginal">(click here to see the public version of this record)</label>
+			<label index="nonPlublicVersionMsg">Error! You requested a non-public version of a tt_news article.</label>
+			<label index="noTranslMsg">Sorry, there is no translation for this news-article.</label>
+			<label index="noNewsForArchPeriod">Sorry, there are no translated news-articles in this Archive period.</label>
+			<label index="textRelatedByCategory">Other news from this category:</label>
+			<label index="pi_list_browseresults_first">&lt;&lt; First</label>
+			<label index="pi_list_browseresults_last">Last &gt;&gt;</label>
+			<label index="pi_list_browseresults_displays">Displaying results ###SPAN_BEGIN###%s to %s&lt;/span&gt; out of ###SPAN_BEGIN###%s&lt;/span&gt;</label>
+			<label index="pi_list_browseresults_displays_advanced">Displaying results ###FROM### to ###TO### out of ###OUT_OF###</label>
+			<label index="pi_list_browseresults_to">to</label>
+			<label index="catmenuHeader">Select a category:</label>
 		</languageKey>
 		<languageKey index="no" type="array">
 		</languageKey>

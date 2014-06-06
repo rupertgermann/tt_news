@@ -84,4 +84,4 @@ plugin.tt_news {
 
 }
 ### CVS id ###
-# $Id: constants.txt,v 1.10 2006/05/19 13:58:06 rupertgermann Exp $
+# $Id: constants.txt 3031 2006-05-19 13:58:06Z rupertgermann $

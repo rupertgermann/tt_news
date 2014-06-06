@@ -1,5 +1,5 @@
 <!-- ###TEMPLATE_RSS2### begin -->###XML_DECLARATION###
-<rss version="2.0">
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
 	<channel>
 		<!-- ###HEADER### begin -->
 		<title>###SITE_TITLE###</title>
@@ -27,9 +27,11 @@
 			<title>###NEWS_TITLE###</title>
 			<link>###NEWS_LINK###</link>
 			<description>###NEWS_SUBHEADER###</description>
+			<content:encoded><![CDATA[###NEWS_CONTENT###]]></content:encoded>
 			###NEWS_CATEGORY###
 			###NEWS_AUTHOR###
 			<pubDate>###NEWS_DATE###</pubDate>
+			###NEWS_RSS2_ENCLOSURES###
 		</item>
 		<!-- ###NEWS### end -->
 		<!-- ###CONTENT### end -->

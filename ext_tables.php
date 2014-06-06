@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: ext_tables.php,v 1.35 2006/04/21 13:13:07 rupertgermann Exp $
+ * $Id: ext_tables.php 4853 2007-02-09 20:38:58Z rupertgermann $
  */
  
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
@@ -73,7 +73,8 @@ $TCA['tt_news_cat'] = Array (
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group',
 		),
-		'prependAtCopy' => 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy',
+// 		'prependAtCopy' => 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy',
+		'hideAtCopy' => true,
 		'mainpalette' => '2,10',
 		'crdate' => 'crdate',
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'res/tt_news_cat.gif',
@@ -156,13 +157,8 @@ t3lib_extMgm::allowTableOnStandardPages('tt_news');
 	// add the tt_news record to the insert records content element
 t3lib_extMgm::addToInsertRecords('tt_news');
 
-
-	// switch the XML files for the FlexForm depending on if "use StoragePid"(general record Storage Page) is set or not.
-if ($confArr['useStoragePid']) {
-	t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
-} else {
-	t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds_no_sPID.xml');
-}
+	// add tt_news flexform to tt_content
+t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
 
 	// sets the transformation mode for the RTE to "ts_css" if the extension css_styled_content is installed (default is: "ts")
 if (t3lib_extMgm::isLoaded('css_styled_content')) {
@@ -183,12 +179,78 @@ include_once(t3lib_extMgm::extPath($_EXTKEY).'class.tx_ttnews_treeview.php');
 	// class that uses hooks in class.t3lib_tcemain.php (processDatamapClass and processCmdmapClass) to prevent not allowed "commands" (copy,delete,...) for a certain BE usergroup
 include_once(t3lib_extMgm::extPath($_EXTKEY).'class.tx_ttnews_tcemain.php');
 
+
+
+
+
+
+$tempColumns = Array (
+		'tt_news_categorymounts' => Array (
+			'exclude' => 1,
+		#	'l10n_mode' => 'exclude', // the localizalion mode will be handled by the userfunction
+			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news.categorymounts',
+			'config' => Array (
+			
+			
+				'type' => 'select',
+				'form_type' => 'user',
+				'userFunc' => 'tx_ttnews_treeview->displayCategoryTree',
+				'treeView' => 1,
+				'foreign_table' => 'tt_news_cat',
+				#'foreign_table_where' => $fTableWhere.'ORDER BY tt_news_cat.'.$confArr['category_OrderBy'],
+				'size' => 3,
+				'autoSizeMax' => $confArr['categoryTreeHeigth'],
+				'minitems' => 0,
+				'maxitems' => 500,
+// 				'MM' => 'tt_news_cat_mm',
+
+			)
+		),
+// 		'tt_news_cmounts_usesubcats' => Array (
+// 			'exclude' => 1,
+// 			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news.cmounts_usesubcats',
+// 			'config' => Array (
+// 				'type' => 'check'
+// 			)
+// 		),
+);
+
+
+t3lib_div::loadTCA('be_groups');
+t3lib_extMgm::addTCAcolumns('be_groups',$tempColumns,1);
+t3lib_extMgm::addToAllTCAtypes('be_groups','tt_news_categorymounts;;;;1-1-1');
+
+$tempColumns['tt_news_categorymounts']['displayCond'] = 'FIELD:admin:=:0';
+// $tempColumns['tt_news_cmounts_usesubcats']['displayCond'] = 'FIELD:admin:=:0';
+
+
+t3lib_div::loadTCA('be_users');
+t3lib_extMgm::addTCAcolumns('be_users',$tempColumns,1);
+t3lib_extMgm::addToAllTCAtypes('be_users','tt_news_categorymounts;;;;1-1-1');
+
+
+
 if (TYPO3_MODE=='BE')	{
+	if (t3lib_div::int_from_ver(TYPO3_version) >= 4000000) {
+		t3lib_extMgm::insertModuleFunction(
+			'web_info',
+			'tx_ttnewscatmanager_modfunc1',
+			t3lib_extMgm::extPath($_EXTKEY).'modfunc1/class.tx_ttnewscatmanager_modfunc1.php',
+			'LLL:EXT:tt_news/modfunc1/locallang.xml:moduleFunction.tx_ttnews_modfunc1'
+		);
+
+		$GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][]=array(
+			'name' => 'tx_ttnewscatmanager_cm1',
+			'path' => t3lib_extMgm::extPath($_EXTKEY).'modfunc1/class.tx_ttnewscatmanager_cm1.php'
+		);
+	}
 		// Adds a tt_news wizard icon to the content element wizard.
 	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi/class.tx_ttnews_wizicon.php';
 		// add folder icon
 	$ICON_TYPES['news'] = array('icon' => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon_ttnews_folder.gif');
-
+	
 }
+
+
 
 ?>

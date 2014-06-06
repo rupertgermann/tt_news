@@ -266,6 +266,7 @@ plugin.tt_news {
         10.field = title
         10.typolink.parameter = {$plugin.tt_news.singlePid}
         10.typolink.additionalParams.data=register:newsAddParams
+        10.typolink.useCacheHash = 1
         10.wrap = |
         20 < plugin.tt_news.tmp.20
      }
@@ -425,5 +426,5 @@ tt_news.displayCurrentRecord = 1
 
 
 ### CVS id ###
-# $Id: setup.txt,v 1.19 2006/05/19 13:58:06 rupertgermann Exp $
+# $Id: setup.txt 4853 2007-02-09 20:38:58Z rupertgermann $
 

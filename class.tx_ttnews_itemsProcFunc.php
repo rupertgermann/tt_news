@@ -3,7 +3,7 @@
 *  Copyright notice
 *
 *  (c) 2004 Mathias Bolt Lesniak <mathias@lilio.com>
-*  (c) 2005-2006 Rupert Germann <rupi@gmx.li>
+*  (c) 2005-2007 Rupert Germann <rupi@gmx.li>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,7 @@
 /**
  * Function for adding new display items to tt_news in the backend
  *
- * $Id: class.tx_ttnews_itemsProcFunc.php,v 1.10 2006/04/19 12:10:14 rupertgermann Exp $
+ * $Id: class.tx_ttnews_itemsProcFunc.php 4750 2007-01-25 20:46:23Z rupertgermann $
  *
  * @author	Mathias Bolt Lesniak <mathias@lilio.com>
  * @author Rupert Germann <rupi@gmx.li>

@@ -225,8 +225,8 @@ plugin.tt_news {
   # related news by category
   relatedByCategory_stdWrap.wrap =  <dl class="news-single-related">|</dl>
   relatedByCategoryHeader_stdWrap.wrap = <dt>|</dt>
-  # globalwrap 3 is used to wrap the list items
-  wrap3.wrap = <dd>|</dd>
+  # globalwrap 2 is used to wrap the list items
+  wrap2.wrap = <dd>|</dd>
   
     
   # - - - - - - -   Settings for Related News:  - - - - - - - -  #
@@ -272,6 +272,7 @@ plugin.tt_news {
         10.field = title
         10.typolink.parameter = {$plugin.tt_news.singlePid}
         10.typolink.additionalParams.data=register:newsAddParams
+        10.typolink.useCacheHash = 1
         20 < plugin.tt_news.tmp.20
       }
 	# settings for related news, that point to internal pages
@@ -360,6 +361,7 @@ plugin.tt_news {
     date_stdWrap.strftime= %d.%m.%y
     time_stdWrap.strftime= %H:%M
     caption_stdWrap.if.directReturn = 0
+    subheader_stdWrap.stripHtml = 1
     subheader_stdWrap.crop = 100 | ... | 1
     subheader_stdWrap.ifEmpty.field = bodytext
     imageCount=1
@@ -438,4 +440,4 @@ tt_news.displayCurrentRecord = 1
 
 
 ### CVS id ###
-# $Id: setup.txt,v 1.21 2006/05/19 13:58:06 rupertgermann Exp $
+# $Id: setup.txt 4853 2007-02-09 20:38:58Z rupertgermann $

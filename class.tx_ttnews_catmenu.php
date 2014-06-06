@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2006 Rupert Germann <rupi@gmx.li>
+*  (c) 2005-2007 Rupert Germann <rupi@gmx.li>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,7 +29,7 @@
 *
 * renders the CATMENU content element - extends class t3lib_treeview to change some methods.
 *
-* $Id: class.tx_ttnews_catmenu.php,v 1.5 2006/04/19 12:10:14 rupertgermann Exp $
+* $Id: class.tx_ttnews_catmenu.php 4750 2007-01-25 20:46:23Z rupertgermann $
 *
 * @author Rupert Germann <rupi@gmx.li>
 */
