@@ -26,17 +26,19 @@
 ***************************************************************/
 /**
  * This is an example function for displaying links to atached files from news articles.
- * it uses the function itemMarkerArrayFunc() from the tt_news class 
+ * it uses the function itemMarkerArrayFunc() from the tt_news class fill the new (html)template
+ * markers ###FILE_LINK### and ###TEXT_FILES### with values from the database field "news_files"  
+ *  
  *
- * $Id: example_itemMarkerArrayFunc.php,v 1.2 2004/08/12 15:28:45 honk Exp $
+ * $Id: example_itemMarkerArrayFunc.php,v 1.3 2004/09/19 06:43:32 honk Exp $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */
 
 /**
- * Example function for displaying links to atached files from news articles.
+ * Example TS-setup for the display of the filelinks.
  * see: http://typo3.org/documentation/document-library/doc_core_tsref/filelink/ 
- * for more details about configuring typolinks
+ * for more details about configuring filelinks
  */ 
 /*  
 		add this to your TS setup:
@@ -63,7 +65,7 @@
  */
 function user_displayFileLinks($markerArray, $conf){
 	$row = $conf['parentObj']->local_cObj->data; // get the data array of the current news record 
-   # t3lib_div::debug($markerArray);
+   // t3lib_div::debug($markerArray);
 	$markerArray['###FILE_LINK###'] = ''; 
 	$markerArray['###TEXT_FILES###'] = $conf['parentObj']->local_cObj->stdWrap($conf['parentObj']->pi_getLL('textFiles'), $conf['parentObj']->conf['newsFilesHeader_stdWrap.']); 
 	if ($row['news_files']) {

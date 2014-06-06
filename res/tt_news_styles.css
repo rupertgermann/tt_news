@@ -5,6 +5,7 @@
 		font-size: 13px;
 		font-weight: bold;
 		margin-left: 10px;
+		width: 200px;
     }
 	.news-latest-item {
 		margin-bottom: 10px;
@@ -40,7 +41,7 @@
 	/* tt_news LIST view  */
 	.news-list-item {
 		margin-bottom: 20px;
-		width: 500px;
+		width: 590px;
 	} 
 	.news-list-title {
 	margin-bottom: 5px;
@@ -174,6 +175,24 @@
 	}
 	
 	/* tt_news Archivemenu (AMENU) view  */
+	.news-archive-container {
+		width: 190px;
+		margin-left: 10px;
+	border-bottom: 1px solid #CCD6F2;
+	}
+		.news-archive-item-year {
+	font-weight: bold;
+	width: 190px;
+	border: 1px solid #CCD6F2;
+	padding-top: 3px;
+
+	padding-bottom: 3px;
+	padding-left: 3px;
+	background-color: #95A653;
+	color:#FFFFFF;
+	}
+
+
 	.news-archive-item {
 		width: 200px;
 		margin-left: 10px;

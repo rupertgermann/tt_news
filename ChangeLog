@@ -1,3 +1,94 @@
+2004-09-13	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.14:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.28:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds_no_sPID.xml 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.47:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_setup.txt 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/res/rss_0_91.tmpl 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/rss_2.tmpl 1.1:
+		- new feature: rss feeds from tt_news (thank goes to Ingo Renner for implementing this)
+		- added the new selectfields to the 'no Storagepid' FF file (forgotten ;-)
+		- updated version number to 1.6.4
+
+2004-09-12	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.10:
+	* cvsroot/typo3xdev/tx_ttnews/class.tx_ttnews_itemsProcFunc.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/ext_php_api.dat 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.12:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.16:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.46:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.15:
+		- Moved the part, that fills the image markers, from the function getItemMarkerArray() to a new function: “getImageMarkers()”.
+		- Added a  possibility to process the image markers by a user function. This userfunction works a bit different from the others: if it is enable, the images are only processed by the userfunction not by both functions. (this could already be done by the 'itemMarkerArrayFunc' but this would process the same images two times)
+		- Added an new example script: “res/example_imageMarkerFunc.php” that uses the new userfunction to add different wraps to the images in single view (see comments in file for needed TS-settings)
+		- changed the formating of the “back to list” link in single view: now you can define the string for the backlink in this way: “Back to: %s” - “%s” is the title of the page, where the backlink points to
+		- added a new TS-var 'hscBackLink': By setting this var, you can choose, whether the backLink-string is parsed through htmlspecialchars() or not.
+		Fixed a small bug with some stdWraps that referenced to the not initialized var $lConf: (“archiveHeader_stdWrap”, “archiveEmptyMsg_stdWrap” and “noNewsIdMsg_stdWrap”)
+		- added 2 new flexform fields for ordering the news in list and latest-view
+		- added 2 new TS-vars for ordering and grouping the List and Latest view: “listOrderBy”. And “listGroupBy”. Use this with care: the queryparts given from TS are only trimmed and not further validated -> if the field don't exist you'll get a mysql-error
+		- if you set “listGroupBy = category” the string “category” is processed in a special way, because the tt_news_cat_mm table is not joined by default. This simulates the “group by category” functionality by joining the mm table to the tt_news table. (see line 643 in class.tx_ttnews.php) .
+		The result of this is:  you can configure f.e. a  “latest” content element to show only the newest news-record of each category.
+		Restriction: this works only correct, if the news records have only one category assigned.
+		- updated api docs & changelog
+
+	* cvsroot/typo3xdev/tx_ttnews/res/example_imageMarkerFunc.php 1.1:
+		Added the example script: “res/example_imageMarkerFunc.php”
+
+2004-09-06	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/class.tx_ttnews_itemsProcFunc.php 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.13:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.php 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds.xml 1.11:
+	* cvsroot/typo3xdev/tx_ttnews/flexform_ds_no_sPID.xml 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.10:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.15:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.45:
+		- added new file for processing extra user-codes (class.tx_ttnews_itemsProcFunc.php), added a call  for this function in the flexform xml files (tx_ttnews_itemsProcFunc->user_insertExtraCodes)  this function adds the “extra codes” to the content element that are found in the $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display'] array.
+		- added some forgotten language markers to the flexform files & locallang_tca.php
+		- added a function Hook for processing the selectConf-array in function getSelectConf() (processSelectConfHook)
+		- changed version number to 1.6.4
+
+2004-09-03	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.12:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.14:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.44:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.14:
+		- small fix for the image altTexts (already included in 1.6.3)
+		- new language files from TER
+
+2004-08-29	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/doc/manual.sxw 1.8:
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.11:
+		- changed version number to 1.6.1
+
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.27:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.43:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.13:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_setup.txt 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_article.gif 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_exturl.gif 1.1:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_medialinks.html 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_styles.css 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.12:
+		- changed default setting for the field datetime in tca.php to 24/hours format:  'default' => mktime(date("H"),date("i"),0,date("m"),date("d"), date("Y")), old setting for the hours was: date("h")
+		-> this influences the BE form, the “age” output and the archive.
+		
+		- Changed the building of the getRelatedCObject. -> Now it is (again) possible to wrap the titles of related news with stdWraps (e.g. crop)
+		
+		*Important*: this requires changes in the TS setup for tt_news -> see: example configuration in ext_typoscript_setup.txt, *and* it also requires that you change the old TS varname “PIDitemDisplay” to the new one “singlePid” in constants and setup. (otherwise the related news are not linked)
+		
+		- New feature: you can now configure the “order by” and “group by” parts of the query for the related news by TS. (new TS-vars: “orderBy” and “groupBy” )
+		- added “required” to the field newsfiles in tca.php
+		- added some conditions to the function getItemMarkerArray, that will render wraps only if an item is found
+		- changed the caching settings of the search function
+		- to save performance, the getRelated function is now only called, when displaying the "single view" template.
+
+2004-08-27	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.8:
+		- updated changelog
+
 2004-08-25	rupertgermann
 	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.6:
 	* cvsroot/typo3xdev/tx_ttnews/doc/manual.sxw 1.7:
@@ -130,27 +221,6 @@
 		- added a new constants and setup.txt files for the css based template
 		- edited the example pagetree so that it can be configured by setting only 3 values for the complete testsite
 		- edited the new htmls template added a css file for this template
-
-2004-08-13	rupertgermann
-	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.2:
-	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.9:
-	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.22:
-	* cvsroot/typo3xdev/tx_ttnews/pi/news_template.tmpl 1.11:
-	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_constants.txt 1.1:
-	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_setup.txt 1.1:
-	* cvsroot/typo3xdev/tx_ttnews/res/main/res/tt_news_tut_main_stylesheet.css 1.2:
-	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_medialinks.html 1.3:
-	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_mtb_pagetree-z.t3d 1.3:
-	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_styles.css 1.1:
-		- added a new constants and setup.txt files for the css based template
-		- edited the example pagetree so that it can be configured by setting only 3 values for the complete testsite
-		- edited the new htmls template added a css file for this template
-
-2004-08-12	rupertgermann
-	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.21:
-	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.36:
-		- added config for filelinks to default setup.txt
-		- fixed the different archive counting from getSelectConf and get_archiveMenu (thx ralf for pointing me to this)
 
 2004-08-12	rupertgermann
 	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.21:

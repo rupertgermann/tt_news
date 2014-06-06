@@ -1,7 +1,8 @@
 ###
-# This are the default TS-constants for the CSS-based template: EXT:tt_news/res/tt_news_medialinks.html
+# This is an example for TS-constants for the CSS-based 
+# news-template: EXT:tt_news/res/tt_news_medialinks.html
 ##
-
+plugin.tt_news >
 plugin.tt_news {
   # page(s) to get the newsitems from -> "Starting point"
   pid_list = 
@@ -13,5 +14,5 @@ plugin.tt_news {
   archiveLinkUid = 
 
   # allow caching of news items
-  allowCaching = 1 
+  allowCaching = 1
 }

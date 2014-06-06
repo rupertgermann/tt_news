@@ -237,8 +237,8 @@ LINK_NEXT
 			###GW2B### ###NEWS_DATE### ###NEWS_TIME### <br />
 			###TEXT_NEWS_AGE### ###NEWS_AGE### ###GW2E###<br />
 			<img alt="" src="clear.gif" width="1" height="5" /><br />
-			###GW2B### ###NEWS_AUTHOR### <br /><br />
-			###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###GW2E###<br /><br />
+			###GW2B### ###NEWS_AUTHOR###<br /> 
+			###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###GW2E###<br />
 			
 			
 			###GW1B### ###NEWS_SUBHEADER### <br />
@@ -277,8 +277,8 @@ LINK_NEXT
 			###GW2B### ###NEWS_DATE### ###NEWS_TIME### <br />
 			###TEXT_NEWS_AGE### ###NEWS_AGE### ###GW2E###<br />
 			<img alt="" src="clear.gif" width="1" height="5" /><br />
-			###GW2B### ###NEWS_AUTHOR### <br /><br />
-			###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE######GW2E###<br /><br />
+			###GW2B### ###NEWS_AUTHOR### <br />
+			###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE######GW2E###<br />
 			
 			
 			###GW1B### ###NEWS_SUBHEADER### <br />
@@ -408,6 +408,50 @@ LINK_NEXT
   </tr>
 </table>
 <!-- ###TEMPLATE_SEARCH_EMPTY### end -->
+
+<br /><br /><br /><br /><hr /><br />
+<h3>TEMPLATE_HEADER_LIST</h3>
+<em>shows a list of news titles</em><br />
+
+<br />
+<!-- ###TEMPLATE_HEADER_LIST### begin -->
+<table cellpadding="4" cellspacing="1" border="0" width="98%">
+	<!-- ###CONTENT### begin
+		  This is the part of the template substituted with the list of news: 
+	-->
+		<!-- ###NEWS### begin 
+			Template for a single item 
+		-->
+			<tr bgcolor="###GC1###">
+				<td valign="top">
+					###GW1B### <!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--> ###GW1E###<br /> 
+					###GW2B### ###NEWS_TIME### 
+					###TEXT_CAT_LATEST### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE###
+					###GW2E###
+				</td>
+			</tr>
+
+		<!-- ###NEWS### end-->
+		<!-- ###NEWS_1### begin 
+			Template for an alternative item in single view 
+		-->
+			<tr bgcolor="###GC2###">
+				<td valign="top">
+					###GW1B### <!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--> ###GW1E###<br /> 
+					###GW2B### ###NEWS_TIME### 
+					###TEXT_CAT_LATEST### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE###
+					###GW2E###
+				</td>
+			</tr>
+		<!-- ###NEWS_1### end-->
+	<!-- ###CONTENT###  end -->
+	<tr>
+		<td align="center" colspan="3">###GW2B### ###BROWSE_LINKS### ###GW2E###</td>
+	</tr>
+</table>
+<!-- ###TEMPLATE_HEADER_LIST### end -->
+
+
 <br />
 <br />
 <br />

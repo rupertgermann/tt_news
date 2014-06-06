@@ -66,10 +66,13 @@ t3lib_extMgm::allowTableOnStandardPages('tt_news_cat');
 t3lib_extMgm::addLLrefForTCAdescr('tt_news','EXT:tt_news/locallang_csh_ttnews.php');
 t3lib_extMgm::addLLrefForTCAdescr('tt_news_cat','EXT:tt_news/locallang_csh_ttnewsc.php');
 
-	// Adds wizard icon to the content element wizard.
+	
 if (TYPO3_MODE=='BE')	{
+	// Adds wizard icon to the content element wizard.
 	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi/class.tx_ttnews_wizicon.php';
-#	require_once(t3lib_extMgm::extPath($_EXTKEY).'class.tx_newloginbox_feusers.php');
+	// add extra 'codes' to the 'what to display' selector
+	include_once(t3lib_extMgm::extPath('tt_news').'class.tx_ttnews_itemsProcFunc.php');
+	
 }
 
 ?>

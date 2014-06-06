@@ -1,5 +1,12 @@
 ###
-# This is the default TS setup for the CSS based template
+# This is an example TS setup for the CSS based template: EXT:tt_news/res/tt_news_medialinks.html
+#
+# the file EXT:tt_news/res/tt_news_styles.css contains the formating 
+# information for this template
+#
+# (see Section Reference in the manual for more options & parameters)
+#
+# tt_news v 1.7.0 
 ###
 
 ## Includes the newsLib:
@@ -17,79 +24,66 @@ plugin.tt_news {
   
   # page to get the newsitems from -> "Starting point"
   pid_list = {$plugin.tt_news.pid_list}
-     
-  # page for the single view
+
+  # page for the Single view  (changed in version 1.6.0 - PIDitemDisplay don't work anymore)
   singlePid = {$plugin.tt_news.singlePid}
 
   # page id for the archive link in "LATEST" template
   archiveTypoLink.parameter = {$plugin.tt_news.archiveLinkUid}
 
-  
-  
-  # [depreciated] this is for downwards compatibility (varname changed to "singlePid" in tt_news v 1.6.0) 
-  PIDitemDisplay = {$plugin.tt_news.PIDitemDisplay}
-  
-  
   recursive = 2
   code.field = select_key
   allowCaching = {$plugin.tt_news.allowCaching}
   limit = 5
   latestLimit = 3
-  backPid = 
+  backPid =
 
-  # search 
-  searchPid = 
+  # search
+  searchPid =
   emptySearchAtStart = 1
-  
-  # add target to links
-  itemLinkTarget = 
-  
+
   # mediafiles
   newsFiles {
     path = uploads/media/
     icon = 1
-    stdWrap.wrap =   | <br />
+    stdWrap.wrap =  | <br />
   }
-  
-  # Rendering of news items. re-use the RTE parseFunc configuration for normal content 
+ 
+  # Rendering of news items. re-use the RTE parseFunc configuration for normal content
   general_stdWrap {
     parseFunc < tt_content.text.20.parseFunc
   }
-  
+
 
   # Pagebrowser settings
   pageBrowser {
     maxPages = 10
-	# set this to '0' if you want the pagebrowser to display only numbers 
-	showPBrowserText = 1 
-	tableParams = cellpadding=2 
+	# set this to '0' if you want the pagebrowser to display only numbers
+	showPBrowserText = 1
+	tableParams = cellpadding=2
 	showResultCount = 1
   }
-    
+
   # Category settings
   catImageMode = {$plugin.tt_news.catImageMode}
   catTextMode = {$plugin.tt_news.catTextMode}
   maxCatImages = 10
   maxCatTexts = 10
-  
+
   # category modes:
   # 0 = don't care about category selections
-  # 1 = display selected categories 
+  # 1 = display selected categories
   # -1 = display deselected categories
   categoryMode = 0
-  
+
   catImageMaxWidth = 25
   catImageMaxHeight = 25
-    
+
   # Archive settings
   datetimeDaysToArchive = 0
   enableArchiveDate = 1
   pageTypoLink.parameter.current = 1
 
-  # Settings for links in 'LIST' & 'LATEST' to internal or external pages
-  # comment this out, if you use frames, to avoid opening links in the current frameset which will result in an error   
-  # pageTypoLink.target = _top
-  
   reverseAMenu = 1
   archiveMenuNoEmpty = 1
   archiveTitleCObject = COA
@@ -108,25 +102,25 @@ plugin.tt_news {
   # icon for related news
   tmp.5 = IMAGE
   tmp.5 {
-    file = EXT:tt_news/ext_icon.gif 
+    file = EXT:tt_news/ext_icon.gif
     file.width = 11
     file.height = 12
     wrap = | &nbsp;
   }
 
   # end-wrap for the getRelated objects
-  tmp.20 = TEXT 
+  tmp.20 = TEXT
   tmp.20 {
     field = datetime
     strftime = %d-%m-%y %H:%M
-    wrap = &nbsp;-&nbsp; | <br /> 
+    wrap = &nbsp;-&nbsp; | <br />
   }
 
   # Build the list of related news:
   getRelatedCObject = COA
   getRelatedCObject {
- 
-    # groupBy = 
+
+    # groupBy =
     orderBy = datetime desc
   
     10=CASE
@@ -138,11 +132,11 @@ plugin.tt_news {
         10 = TEXT
         10.field = title
         10.typolink.parameter = {$plugin.tt_news.singlePid}
-        10.typolink.additionalParams.data=register:newsAddParams 
+        10.typolink.additionalParams.data=register:newsAddParams
         10.wrap = |
         20 < plugin.tt_news.tmp.20
-      }   
-	# settings for related news, that point to internal pages  
+      }
+	# settings for related news, that point to internal pages
     10.1=COA
     10.1 {
       5 < plugin.tt_news.tmp.5
@@ -153,19 +147,19 @@ plugin.tt_news {
       10.wrap = |
       20 < plugin.tt_news.tmp.20
     }
-    # settings for related news, that point to external URLs     
+    # settings for related news, that point to external URLs  
     10.2=COA
     10.2 {
       5 < plugin.tt_news.tmp.5
-      5.file=EXT:tt_news/res/tt_news_exturl.gif 
+      5.file=EXT:tt_news/res/tt_news_exturl.gif
       10 = TEXT
       10.field = title
-      10.typolink.parameter.field = ext_url 
+      10.typolink.parameter.field = ext_url
       10.wrap = |
       20 < plugin.tt_news.tmp.20
     }
   }
-  
+
 
 
   # rendering of SINGLE news
@@ -174,12 +168,12 @@ plugin.tt_news {
     textNewsAge_stdWrap.wrap =
     date_stdWrap.strftime= %d/%m/%y
     time_stdWrap.strftime= %H:%M
-    title_stdWrap.wrap = 
-    subheader_stdWrap.wrap = 
+    title_stdWrap.wrap =
+    subheader_stdWrap.wrap =
     author_stdWrap.typolink.parameter.field = author_email
     links_stdWrap.wrap =
 
-    noNewsIdMsg_stdWrap = 
+    noNewsIdMsg_stdWrap =
     imageCount=2
 	imgAltTextField = imagecaption
     imageWrapIfAny = <div class="news-single-images-container"> | </div>
@@ -201,7 +195,6 @@ plugin.tt_news {
       wrap = <a href="javascript:close();"> | </a>
       width = 400m
       height = 400
-
       JSwindow = 1
       JSwindow.newWindow = 1
       JSwindow.expand = 17,20
@@ -237,13 +230,13 @@ plugin.tt_news {
     caption_stdWrap.wrap = <span class="news-list-imgcaption"> | </span>
     caption_stdWrap.trim=1
     caption_stdWrap.required=1
-    title_stdWrap.wrap = 
-    subheader_stdWrap.wrap = 
+    title_stdWrap.wrap =
+    subheader_stdWrap.wrap =
     subheader_stdWrap.crop = 300 | ...
     subheader_stdWrap.ifEmpty.field = bodytext
-    author_stdWrap.wrap = 
+    author_stdWrap.wrap =
     imageCount=1
-    imageWrapIfAny = 
+    imageWrapIfAny =
 	imgAltTextField = imagecaption
   }
   displayList.image < displaySingle.image
@@ -257,7 +250,59 @@ plugin.tt_news {
   _LOCAL_LANG.de {
     # more = [weiterlesen...]
   }
-
 }
+
+
+###
+# render XML news
+# point your rss reader to: http://your-server.org/index.php?type=100
+###
+
+plugin.tt_news {
+  displayXML {
+    # rss091_tmplFile = EXT:tt_news/res/rss_0_91.tmpl
+    rss2_tmplFile = EXT:tt_news/res/rss_2.tmpl
+   
+    xmlFormat = rss2
+    #possibile values: rss091 / rss2 /
+    # (planning: rdf / atom)
+
+    xmlTitle = example.com: Latest News
+    xmlLink = http://localhost/testsite-3.6.1/
+    xmlDesc = Latest News
+    xmlLang = en
+    xmlIcon = testsite-3.6.1/fileadmin/tt_news_article.gif
+    subheader_stdWrap.crop = 100 | ...
+    subheader_stdWrap.ifEmpty.field = bodytext
+    xmlLastBuildDate = 1
+    xmlLimit = 10
+  }
+}
+
+
+## This enables the xml news feed
+xmlnews = PAGE
+xmlnews {
+  typeNum = 100
+
+  10 >
+  10 < plugin.tt_news
+  10.pid_list >
+  10.pid_list = {$plugin.tt_news.pid_list}
+  10.singlePid = {$plugin.tt_news.singlePid}
+  10.defaultCode = XML
+
+  config {
+    disableAllHeaderCode = 1
+    additionalHeaders = Content-type:text/xml
+    no_cache = 1
+    xhtml_cleaning = 0
+  }
+}
+
+## This enables the tt_content.record item to display news items:
+tt_news >
+tt_news = < plugin.tt_news
+tt_news.displayCurrentRecord = 1
 
 

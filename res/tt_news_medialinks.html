@@ -138,6 +138,9 @@ LINK_NEXT - used in the pagebrowser
 	<!-- ###CONTENT### begin
 		  This is the part of the template substituted with the list of news: 
 	-->
+<div class="news-list-browse">
+		###BROWSE_LINKS###
+	</div>
 		<!-- ###NEWS### begin 
 			Template for a single item 
 		-->
@@ -152,7 +155,7 @@ LINK_NEXT - used in the pagebrowser
 		<!-- ###NEWS### end-->
 	<!-- ###CONTENT###  end -->
 	<div class="news-list-browse">
-		###LINK_PREV### ###BROWSE_LINKS### ###LINK_NEXT###
+		###BROWSE_LINKS###
 	</div>
 <!-- ###TEMPLATE_LIST### end -->
 
@@ -235,7 +238,7 @@ LINK_NEXT - used in the pagebrowser
 <br />
 <!-- ###TEMPLATE_ARCHIVE### begin
 	Subpart for the news archive menu
--->
+--><div class="news-archive-container">
 		<div class="news-archive-top">###ARCHIVE_HEADER###</div>
 	
 	<!-- ###CONTENT### begin
@@ -246,7 +249,7 @@ LINK_NEXT - used in the pagebrowser
 		-->
 			<div class="news-archive-item"><!--###LINK_ITEM###-->###ARCHIVE_TITLE###<!--###LINK_ITEM###-->: ###ARCHIVE_COUNT### ###ARCHIVE_ITEMS###</div>
 		<!-- ###MENUITEM### end-->
-	<!-- ###CONTENT###  end -->	
+	<!-- ###CONTENT###  end -->	</div>
 <!-- ###TEMPLATE_ARCHIVE### end -->
 
 

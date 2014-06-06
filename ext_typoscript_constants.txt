@@ -22,7 +22,7 @@ plugin.tt_news {
     # cat=plugin.tt_news/color/4; type=color; label= Color 4: This is the bgcolor for items in the list view.
   color4 = #F0F8FF
 
-    # cat=plugin.tt_news/links/1; type=int+; label= SinglePid: The PID of the page on which single news items should be displayed (since tt_news v1.6.0 this var is called 'singlePid'. The old var-name 'PIDitemDisplay' is still recognized by the script).
+    # cat=plugin.tt_news/links/1; type=int+; label= SinglePid: The PID of the page on which single news items should be displayed (since tt_news v1.6.0 this var is called 'singlePid'. The old var-name 'PIDitemDisplay' don not work anymore).
   singlePid = 0
     # cat=plugin.tt_news/links/2; type=int+; label= BackPid: The PID of the page to go back to from single news item display screen.
   backPid = 0

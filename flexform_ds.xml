@@ -34,7 +34,8 @@
 						<numIndex index="1">SEARCH</numIndex>
 					</numIndex>
 					</items>
-					<maxitems>4</maxitems>
+					<itemsProcFunc>tx_ttnews_itemsProcFunc->user_insertExtraCodes</itemsProcFunc>
+					<maxitems>100</maxitems>
 					<size>5</size>
 					<multiple>1</multiple>
 					<selectedListStyle>width:150px</selectedListStyle>
@@ -42,22 +43,82 @@
 				</config>
 			  </TCEforms>
 		  </what_to_display>		 
-	      <categoryMode>
+			   <listOrderBy>
+			<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.listOrderby</label>
+				<config>
+					<type>select</type>
+					<items type="array">
+								<numIndex index="0" type="array">
+							<numIndex index="0"></numIndex>
+							<numIndex index="1"></numIndex>
+						</numIndex>
+						<numIndex index="1" type="array">
+							<numIndex index="0">LLL:EXT:tt_news/locallang_tca.php:tt_news.datetime</numIndex>
+							<numIndex index="1">datetime</numIndex>
+						</numIndex>
+						<numIndex index="2" type="array">
+							<numIndex index="0">LLL:EXT:tt_news/locallang_tca.php:tt_news.archivedate</numIndex>
+							<numIndex index="1">archivedate</numIndex>
+						</numIndex>
+						<numIndex index="3" type="array">
+							<numIndex index="0">LLL:EXT:lang/locallang_general.php:LGL.author</numIndex>
+							<numIndex index="1">author</numIndex>
+						</numIndex>
+						<numIndex index="4" type="array">
+							<numIndex index="0">LLL:EXT:lang/locallang_general.php:LGL.title</numIndex>
+							<numIndex index="1">title</numIndex>
+						</numIndex>
+						<numIndex index="5" type="array">
+							<numIndex index="0">LLL:EXT:lang/locallang_general.php:LGL.type</numIndex>
+							<numIndex index="1">type</numIndex>
+						</numIndex>												
+					</items>
+					<maxitems>1</maxitems>
+					<size>1</size>
+				</config>
+			</TCEforms>
+	      </listOrderBy>
+		  		   <ascDesc>
+			<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.ascDesc</label>
+				<config>
+					<type>select</type>
+					<items type="array">
+					<numIndex index="0" type="array">
+							<numIndex index="0"></numIndex>
+							<numIndex index="1"></numIndex>
+						</numIndex>
+						<numIndex index="1" type="array">
+							<numIndex index="0">LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.ascDesc_asc</numIndex>
+							<numIndex index="1">asc</numIndex>
+						</numIndex>
+						<numIndex index="2" type="array">
+							<numIndex index="0">LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.ascDesc_desc</numIndex>
+							<numIndex index="1">desc</numIndex>
+						</numIndex>
+					</items>
+					<maxitems>1</maxitems>
+					<size>1</size>
+				</config>
+			</TCEforms>
+	      </ascDesc>
+		        <categoryMode>
 			<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.select_deselect_categories</label>
 				<config>
 					<type>select</type>
 					<items type="array">
 						<numIndex index="0" type="array">
-							<numIndex index="0">Show all (don't care about selection below)</numIndex>
+							<numIndex index="0">LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.category_selection_showAll</numIndex>
 							<numIndex index="1">0</numIndex>
 						</numIndex>
 						<numIndex index="1" type="array">
-							<numIndex index="0">Show items with selected categories</numIndex>
+							<numIndex index="0">LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.category_selection_showSelected</numIndex>
 							<numIndex index="1">1</numIndex>
 						</numIndex>
 						<numIndex index="2" type="array">
-							<numIndex index="0">DON'T show items with selected categories</numIndex>
+							<numIndex index="0">LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.category_selection_DontShowSelected</numIndex>
 							<numIndex index="1">-1</numIndex>
 						</numIndex>
 					</items>
@@ -73,8 +134,8 @@
 					<type>select</type>
 					<items type="array">
 						<numIndex index="100">
-							<numIndex index="0">[Not categorized]</numIndex>
-							<numIndex index="1">0</numIndex>
+								<numIndex index="0">LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.category_selection_notCategorized</numIndex>
+								<numIndex index="1">0</numIndex>
 						</numIndex>
 					</items>
 					<foreign_table>tt_news_cat</foreign_table>
