@@ -19,11 +19,11 @@ $EM_CONF[$_EXTKEY] = array(
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
-	'TYPO3_version' => '',
-	'PHP_version' => '0.0.4-0.0.4',
+	'TYPO3_version' => '3.6.2-0.0.2',
+	'PHP_version' => '0.0.5-0.0.5',
 	'module' => '',
 	'state' => 'stable',
-	'uploadfolder' => 0,
+	'uploadfolder' => 1,
 	'createDirs' => '',
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 1,
@@ -33,7 +33,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => '',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
-	'version' => '1.2.3',
+	'version' => '1.3.0',
 );
 
 ?>

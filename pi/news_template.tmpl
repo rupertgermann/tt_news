@@ -65,6 +65,18 @@ PAGE_TITLE - Title of the parent page of the news item
 PAGE_AUTHOR - Page author, if any
 PAGE_AUTHOR_EMAIL - Page author email, if any
 
+new Language Markers (see pi/locallang.php):
+###LATEST_HEADER### - header for the LATEST element
+###GOTOARCHIVE### - link to archive page in latest template
+###ARCHIVE_HEADER### - same for AMENU
+###MORE### - more ;-)
+###TEXT_CAT### - text output before categories and category images
+###BACK_TO_LIST### - link back to list-view in single-view template
+###ARCHIVE_EMPTY_MSG### - no items in archive
+###SEARCH_EMPTY_MSG### - message for empty search results
+... (list is not complete)
+
+
 <em>Wrapped Subparts:</em>
 LINK_ITEM - link to the news item single display
 </pre>
@@ -85,7 +97,7 @@ LINK_ITEM - link to the news item single display
 -->
 <TABLE cellpadding="4" cellspacing="1" border="0" width="1" align="right">
 	<TR bgcolor="###GC3###">
-		<TD valign="bottom">###GW2B### <font color="#FFFFFF"><B>BREAKING NEWS:</B></FONT>###GW2E###</TD>
+		<TD valign="bottom">###GW2B### <font color="#FFFFFF"><B>###LATEST_HEADER###</B></FONT>###GW2E###</TD>
 	</TR>
 	<!-- ###CONTENT### begin
 		  This is the part of the template substituted with the list of news: 
@@ -97,7 +109,10 @@ LINK_ITEM - link to the news item single display
 				<TD bgcolor="###GC2###" valign="top">
 				###GW2B### ###NEWS_DATE### ###NEWS_TIME### <br>
 				<!--###LINK_ITEM###--><B>###NEWS_TITLE###</B><!--###LINK_ITEM###--><BR>
-				###NEWS_IMAGE### ###NEWS_SUBHEADER### <!--###LINK_ITEM###-->[more]<!--###LINK_ITEM###--><BR>(Cat: ###NEWS_CATEGORY######NEWS_CATEGORY_IMAGE###) ###GW2E###<BR>
+				<!--###LINK_ITEM###-->###NEWS_IMAGE###<!--###LINK_ITEM###--> 
+				###NEWS_SUBHEADER### 
+				<!--###LINK_ITEM###-->###MORE###<!--###LINK_ITEM###--><BR>
+				###TEXT_CAT_LATEST### ###NEWS_CATEGORY######NEWS_CATEGORY_IMAGE### ###GW2E###<BR>
 				</TD>
 			</TR>
 		<!-- ###NEWS### end-->
@@ -108,13 +123,17 @@ LINK_ITEM - link to the news item single display
 				<TD bgcolor="###GC1###" valign="top">
 				###GW2B### ###NEWS_DATE### ###NEWS_TIME### <br>
 				<!--###LINK_ITEM###--><B>###NEWS_TITLE###</B><!--###LINK_ITEM###--><BR>
-				###NEWS_IMAGE### ###NEWS_SUBHEADER### <!--###LINK_ITEM###-->[more]<!--###LINK_ITEM###--><BR>(Cat: ###NEWS_CATEGORY###) ###GW2E###<BR>
+				<!--###LINK_ITEM###-->###NEWS_IMAGE###<!--###LINK_ITEM###--> 
+				###NEWS_SUBHEADER### 
+				<!--###LINK_ITEM###-->###MORE###<!--###LINK_ITEM###--><BR>
+				###TEXT_CAT_LATEST### ###NEWS_CATEGORY### ###GW2E###<BR>
 				</TD>
 			</TR>
 		<!-- ###NEWS_1### end-->
 	<!-- ###CONTENT###  end -->
 	<TR bgcolor="###GC3###">
-		<TD valign="bottom"><!--###LINK_ARCHIVE###-->###GW2B###<font color="#FFFFFF"><B>Go to archive</B></FONT>###GW2E###<!--###LINK_ARCHIVE###--></TD>
+		<TD valign="bottom"><!--###LINK_ARCHIVE###-->###GW2B###<font color="#FFFFFF">
+		<B>###GOTOARCHIVE###</B></FONT>###GW2E###<!--###LINK_ARCHIVE###--></TD>
 	</TR>
 	<TR>
 		<TD><img src=clear.gif width=150 height=1></TD>
@@ -147,19 +166,20 @@ LINK_ITEM - link to the news item single display
 		-->
 			<TR bgcolor="###GC1###">
 				<TD valign="top" colspan=3>
-					###GW1B### <strong><!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></strong> ###GW1E### ###GW2B### - ###NEWS_DATE### ###GW2E###
+					###GW1B### <strong><!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></strong> ###GW1E### 
+					###GW2B### ###NEWS_DATE### ###GW2E###
 				</TD>
 			</TR>
 			<TR>
 				<TD valign="top">
 					###GW1B### ###NEWS_SUBHEADER### ###GW1E###<BR>
 					<BR>
-					###GW2B###By ###NEWS_AUTHOR###, ###NEWS_TIME### <br>
-					Category: ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE###
+					###GW2B### ###NEWS_AUTHOR### ###NEWS_TIME### <br>
+					###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE###
 					###GW2E###
 				</TD>
 				<TD><img src=clear.gif height=1 width=10></TD>
-				<TD width=1%>###NEWS_IMAGE###</TD>
+				<TD width=1%><!--###LINK_ITEM###-->###NEWS_IMAGE###<!--###LINK_ITEM###--></TD>
 			</TR>
 			<TR>
 				<TD valign="top" colspan=3><img src=clear.gif height=5 width=1></TD>
@@ -167,13 +187,13 @@ LINK_ITEM - link to the news item single display
 		<!-- ###NEWS### end-->
 	<!-- ###CONTENT###  end -->
 	<TR>
-		<TD align="center" colspan=3>###GW2B###<!--###LINK_PREV###-->Prev<!--###LINK_PREV###--> ###BROWSE_LINKS### <!--###LINK_NEXT###-->Next<!--###LINK_NEXT###-->###GW2E###</TD>
+		<TD align="center" colspan=3>###GW2B### ###LINK_PREV### ###BROWSE_LINKS### ###LINK_NEXT### ###GW2E###</TD>
 	</TR>
 </TABLE><BR>
+
+
+
 <!-- ###TEMPLATE_LIST### end -->
-
-
-
 
 
 
@@ -193,7 +213,7 @@ LINK_ITEM - link to the news item single display
 			###GW2B### ###NEWS_DATE### ###NEWS_TIME### ###GW2E###<br>
 			###GW1B###<B>###NEWS_TITLE###</B>###GW1E###<BR>
 			<img src=clear.gif width=1 height=5><BR>
-			###GW2B### By ###NEWS_AUTHOR### ###GW2E###<br><br>
+			###GW2B### ###NEWS_AUTHOR### ###GW2E###<br><br>
 			
 			
 			###GW1B### <em>###NEWS_SUBHEADER###</em> <br> <br>
@@ -201,11 +221,10 @@ LINK_ITEM - link to the news item single display
 			###NEWS_IMAGE### 
 			###NEWS_CONTENT### <br>
 			<br>
-			<strong>Links:</strong><br>
+			###TEXT_LINKS###<br>
 			###NEWS_LINKS###<br>
 			<br>
-			<br>
-			<strong>Related news:</strong><br>
+			###TEXT_RELATED###<br>
 			###NEWS_RELATED###
 			
 			###GW1E###<BR>
@@ -217,7 +236,7 @@ LINK_ITEM - link to the news item single display
 
 ###GW2B###	
 <!--###LINK_ITEM###-->
-<b><- Back to the news list</b>
+<b>###BACK_TO_LIST###</b>
 <!--###LINK_ITEM###-->
 ###GW2E###						
 <!-- ###TEMPLATE_SINGLE### end -->
@@ -243,7 +262,7 @@ LINK_ITEM - link to the news item single display
 -->
 <TABLE cellpadding="4" cellspacing="1" border="0" width="1">
 	<TR bgcolor="###GC3###">
-		<TD valign="bottom">###GW2B### <font color="#FFFFFF"><B>ARCHIVE:</B></FONT>###GW2E###</TD>
+		<TD valign="bottom">###GW2B### <font color="#FFFFFF"><B>###ARCHIVE_HEADER###</B></FONT>###GW2E###</TD>
 	</TR>
 	<!-- ###CONTENT### begin
 		  This is the part of the template substituted with the list of items: 
@@ -252,7 +271,8 @@ LINK_ITEM - link to the news item single display
 			Template for a single item 
 		-->
 			<TR>
-				<TD bgcolor="###GC2###" valign="top" nowrap>###GW2B###<!--###LINK_ITEM###-->###ARCHIVE_TITLE###<!--###LINK_ITEM###--> - (###ARCHIVE_COUNT### items)###GW2E###</TD>
+				<TD bgcolor="###GC2###" valign="top" nowrap>
+				###GW2B###<!--###LINK_ITEM###-->###ARCHIVE_TITLE###<!--###LINK_ITEM###--> - (###ARCHIVE_COUNT### ###ARCHIVE_ITEMS###)###GW2E###</TD>
 			</TR>
 		<!-- ###MENUITEM### end-->
 	<!-- ###CONTENT###  end -->
@@ -277,15 +297,16 @@ LINK_ITEM - link to the news item single display
 -->
 <TABLE cellpadding="4" cellspacing="1" border="0" width="1">
 	<TR bgcolor="###GC3###">
-		<TD valign="bottom">###GW2B### <font color="#FFFFFF"><B>ARCHIVE:</B></FONT>###GW2E###</TD>
+		<TD valign="bottom">###GW2B### <font color="#FFFFFF"><B>###ARCHIVE_HEADER###</B></FONT>###GW2E###</TD>
 	</TR>
 	<TR>
-		<TD bgcolor="###GC2###" valign="top">###GW2B### The archive is empty! ###GW2E###</TD>
+		<TD bgcolor="###GC2###" valign="top">###GW2B### ###ARCHIVE_EMPTY_MSG### ###GW2E###</TD>
 	</TR>
 	<TR>
 		<TD><img src=clear.gif width=150 height=1></TD>
 	</TR>
 </TABLE>
+
 <!-- ###TEMPLATE_ARCHIVE_NOITEMS### end -->
 
 
@@ -308,8 +329,10 @@ LINK_ITEM - link to the news item single display
 </form>
 <!-- ###TEMPLATE_SEARCH### end -->
 
-
-
+this is show if the search result is empty
+<!-- ###ITEM_SEARCH_EMPTY### begin -->
+###SEARCH_EMPTY_MSG###
+<!-- ###ITEM_SEARCH_EMPTY### end -->
 
 
 </BODY>

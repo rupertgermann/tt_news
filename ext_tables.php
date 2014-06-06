@@ -46,6 +46,9 @@ t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
 t3lib_extMgm::allowTableOnStandardPages('tt_news');
 t3lib_extMgm::addToInsertRecords('tt_news');
 
+// comment this out, if you don't want users to create news_categories on normal pages
+t3lib_extMgm::allowTableOnStandardPages('tt_news_cat');
+
 t3lib_extMgm::addLLrefForTCAdescr('tt_news','EXT:tt_news/locallang_csh_ttnews.php');
 t3lib_extMgm::addLLrefForTCAdescr('tt_news_cat','EXT:tt_news/locallang_csh_ttnewsc.php');
 

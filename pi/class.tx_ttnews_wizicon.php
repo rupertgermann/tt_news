@@ -24,7 +24,7 @@
 /** 
  * Class that adds the wizard icon.
  *
- * $Id: class.tx_ttnews_wizicon.php,v 1.1 2004/06/09 08:37:36 inshadow Exp $
+ * $Id: class.tx_ttnews_wizicon.php,v 1.2 2004/07/05 17:35:01 rupertgermann Exp $
  *
  * @author	Kasper Skårhøj (kasper@typo3.com)
  */
@@ -86,8 +86,8 @@ class tx_ttnews_wizicon {
 }
 
 
-
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/pi/class.tx_ttnews_wizicon.php'])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/pi/class.tx_ttnews_wizicon.php']);
 }
+
 ?>
