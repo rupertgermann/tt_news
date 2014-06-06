@@ -59,6 +59,7 @@
 			<label index="tt_news.pi_flexform.no">No</label>
 			<label index="tt_news.pi_flexform.archive">Archive setting (for LIST)</label>
 			<label index="tt_news.pi_flexform.template_file">Template file</label>
+			<label index="tt_news.pi_flexform.template_file_ref">Template file reference</label>
 			<label index="tt_news.pi_flexform.catImageMode">Category Image Link Mode:</label>
 			<label index="tt_news.pi_flexform.catTextMode">Category Text Link Mode:</label>
 			<label index="tt_news.pi_flexform.recursive">Recursive level selection:</label>

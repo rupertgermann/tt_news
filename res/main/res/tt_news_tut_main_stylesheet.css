@@ -1,0 +1,136 @@
+/* GENERAL fonts */
+P, OL, UL, DIV, H1, H2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+H1 { font-size: 15px; }
+H2 { font-size: 13px; }
+P, H1, H2 {margin: 0px 0px 5px 0px;}
+
+
+TD#footer {border-top: dotted 1px #999999;}
+TD#footer P {
+	font-size: 10px;
+	text-align: center;
+}
+
+/* Content column */
+TD#content {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 15px;
+	vertical-align: top; 
+	width: 530px;
+}
+
+/* Menu 1 column */
+TD#menu_1 {	
+	vertical-align: top; 
+	width: 200px;	
+	background-image: url(../images/tt_news_tut_menubackground.jpg);
+	background-repeat : no-repeat;
+	padding-top: 10px;
+}
+TD#menu_1 DIV {
+	width: 95%;
+}
+TD#menu_1 DIV A {
+	color: navy;
+	text-decoration: none;
+}
+TD#menu_1 DIV A:hover {
+	text-decoration: underline;
+}
+
+/*  MENU 1, level 1, normal state (NO) */
+TD#menu_1 DIV.menu1-level1-no {
+  border-bottom: 1px dotted #999999;
+  font-size: 11px;
+  padding-top:5px;
+  padding-left:5px;
+}
+/*  MENU 1, level 1, active state (ACT) */
+TD#menu_1 DIV.menu1-level1-act {
+  border-bottom: 1px solid #999999;
+  font-weight:bold;
+  font-size: 11px;
+  padding-top:5px;
+  padding-left:5px;
+
+  background-color: #eeeeee;
+ /* filter:alpha(opacity=70, style=0); */
+}
+TD#menu_1 DIV.menu1-level1-act A {
+  color:black;
+}
+
+/*  MENU 1, level 2, normal state (NO) */
+TD#menu_1 DIV.menu1-level2-no {
+  font-size: 10px;
+  padding-left:20px;
+}
+/*  MENU 1, level 2, active state (ACT) */
+TD#menu_1 DIV.menu1-level2-act {
+  font-size: 10px;
+  font-weight:bold;
+  padding-left:20px;
+}
+
+TR#menu_2 TD {
+  background-color: #333366;
+  width: 10%;
+  text-align: center;
+  padding: 0px 2px 0px 2px;
+}
+.csc-caption {
+  font-size: 9px;
+}
+
+
+
+
+/*  MENU 2, level 1, general for all table cells: */
+TR#menu_2 TD {
+  background-color: #333366;
+  width: 10%;
+  text-align: center;
+  padding: 0px 2px 0px 2px;
+}
+TR#menu_2 TD A {
+  color: white;
+  font-size: 10px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  text-decoration: none;
+}
+TR#menu_2 TD A:hover {
+  text-decoration: underline;
+}
+TR#menu_2 TD.oddcell {
+  background-color: #666699;
+}
+TR#menu_2 TD.menu2-level1-act {
+  background-color: #88292A;
+}
+
+
+
+/* Style for the Path-menu: */
+TD#path {
+  white-space: nowrap;
+  background-color: #F8F8EC;
+
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-style: italic;
+  font-weight: bold;
+  padding: 1px 1px 5px 5px;
+}
+TD#path A {
+  text-decoration: none;
+  color:black;
+}
+TD#path A:hover {
+  text-decoration: underline;
+}
+
+

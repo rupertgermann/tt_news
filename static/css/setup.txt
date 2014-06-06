@@ -49,6 +49,7 @@ plugin.tt_news {
 	height: 1%;
 	line-height: 1.3;
 	/* IE hack end */
+	height: auto !important;
 	padding:3px;
 	margin:3px;
 	border:1px solid #666;
@@ -93,6 +94,7 @@ plugin.tt_news {
 	height: 1%;
 	line-height: 1.3;
 	/* IE hack end */
+	height: auto !important;
 	padding:3px;
 	margin:3px;
 	border:1px solid #666;
@@ -377,4 +379,4 @@ plugin.tt_news {
 }
 
 ### CVS id ###
-# $Id: setup.txt 3031 2006-05-19 13:58:06Z rupertgermann $
+# $Id: setup.txt 8063 2008-01-28 10:10:09Z liels_bugs $

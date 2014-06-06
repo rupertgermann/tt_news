@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: ext_tables.php 4853 2007-02-09 20:38:58Z rupertgermann $
+ * $Id: ext_tables.php 8602 2008-03-15 17:07:57Z rupertgermann $
  */
  
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
@@ -157,8 +157,12 @@ t3lib_extMgm::allowTableOnStandardPages('tt_news');
 	// add the tt_news record to the insert records content element
 t3lib_extMgm::addToInsertRecords('tt_news');
 
-	// add tt_news flexform to tt_content
-t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
+	// switch the XML files for the FlexForm depending on if "use StoragePid"(general record Storage Page) is set or not.
+if ($confArr['useStoragePid']) {
+	t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
+} else {
+	t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds_no_sPID.xml');
+}
 
 	// sets the transformation mode for the RTE to "ts_css" if the extension css_styled_content is installed (default is: "ts")
 if (t3lib_extMgm::isLoaded('css_styled_content')) {

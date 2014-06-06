@@ -17,6 +17,9 @@ hideNewLocalizations = 0
   # cat=basic/enable/180; type=boolean; label= Prepend at Copy: Here you can disable adding of the text "(copy [#])" to titles of copied records.
 prependAtCopy = 1
 
+  # cat=basic/enable/190; type=boolean; label= Require categories: Check if categories are required for every news item. Note that you can require categories also through page TSConfig using "TCEFORM.tt_news.category.config.minitems=1"
+requireCategories = 0
+
   # cat=basic//30; type=options[title,short,author]; label= News Label in List-Module: Defines which field is displayed in the title column in the web/list module.
 label = title
 
@@ -45,5 +48,5 @@ categoryTreeHeigth = 5
 
 /*
   ### CVS id ###
-  $Id: ext_conf_template.txt 4915 2007-02-15 23:46:05Z rupertgermann $
+  $Id: ext_conf_template.txt 8453 2008-03-03 13:01:30Z liels_bugs $
 */

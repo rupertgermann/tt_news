@@ -14,6 +14,8 @@
 		<languageKey index="default" type="array">
 			<label index="pi_title">News</label>
 			<label index="pi_plus_wiz_description">Versatile news system for TYPO3</label>
+			<label index="cms_layout.mode">Displaying: %s</label>
+			<label index="cms_layout.not_configured">Plugin is not configured!</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="pi_title">Nyheder</label>

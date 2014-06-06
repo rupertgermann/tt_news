@@ -317,6 +317,7 @@ plugin.tt_news {
     subheader_stdWrap.required=1
     author_stdWrap.typolink.parameter.field = author_email
     author_stdWrap.wrap = <p class="news-single-author">|</p>
+    preAuthor_stdWrap.noTrimWrap = || |
 	
     addInfo_stdWrap.wrap = <div class="news-single-additional-info"> | </div>
 
@@ -399,6 +400,7 @@ plugin.tt_news {
     subheader_stdWrap.crop = 230 | ... | 1
     subheader_stdWrap.ifEmpty.field = bodytext
     author_stdWrap.wrap =
+    preAuthor_stdWrap.noTrimWrap = || |
     imageCount=1
     imageWrapIfAny = 
 
@@ -440,4 +442,4 @@ tt_news.displayCurrentRecord = 1
 
 
 ### CVS id ###
-# $Id: setup.txt 4853 2007-02-09 20:38:58Z rupertgermann $
+# $Id: setup.txt 8605 2008-03-15 20:03:19Z rupertgermann $

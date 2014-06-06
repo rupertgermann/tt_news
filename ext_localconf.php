@@ -20,4 +20,10 @@ if (t3lib_extMgm::isLoaded('version')) {
 	$TYPO3_CONF_VARS['EXTCONF']['tt_news']['what_to_display'][] = array('VERSION_PREVIEW', 'VERSION_PREVIEW');
 }
 
+// Page module hook
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['9'][] = 'EXT:tt_news/class.tx_ttnews_cms_layout.php:tx_ttnews_cms_layout->getExtensionSummary';
+
+// Fix for template file name created with older versions
+$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_ttnews_templateeval'] = 'EXT:tt_news/class.tx_ttnews_templateeval.php';
+
 ?>

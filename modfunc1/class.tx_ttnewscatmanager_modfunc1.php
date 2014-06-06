@@ -71,8 +71,6 @@ class tx_ttnewscatmanager_modfunc1 extends t3lib_extobjbase {
 	 * @return	HTML
 	 */
 	function main()	{
-		global $SOBE,$BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
-
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']) { // get tt_news extConf array
 			$this->confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 		}
@@ -85,14 +83,10 @@ class tx_ttnewscatmanager_modfunc1 extends t3lib_extobjbase {
 			}
 		}
 
-		if (t3lib_extMgm::isLoaded('xajax')) {
-			$this->useXajax = TRUE;
-		}
-		$this->pObj->doc->JScode = '';
+		$this->useXajax = t3lib_extMgm::isLoaded('xajax');
 		if ($this->useXajax) {
-			global $TYPO3_CONF_VARS;
-			if ($TYPO3_CONF_VARS['BE']['forceCharset']) {
-				define ('XAJAX_DEFAULT_CHAR_ENCODING', $TYPO3_CONF_VARS['BE']['forceCharset']);
+			if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']) {
+				define ('XAJAX_DEFAULT_CHAR_ENCODING', $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']);
 			} else {
 				define ('XAJAX_DEFAULT_CHAR_ENCODING', 'iso-8859-15');
 			}
@@ -101,7 +95,7 @@ class tx_ttnewscatmanager_modfunc1 extends t3lib_extobjbase {
 			$this->xajax = t3lib_div::makeInstance('tx_xajax');
 			$this->xajax->setWrapperPrefix('tx_ttnews_');
 			$this->xajax->registerFunction(array('sendResponse',&$this,'sendResponse'));
-			$this->pObj->doc->JScode .= $this->xajax->getJavascript($BACK_PATH.'../'.t3lib_extMgm::siteRelPath('xajax'));
+			$this->pObj->doc->JScode .= $this->xajax->getJavascript($GLOBALS['BACK_PATH'].'../'.t3lib_extMgm::siteRelPath('xajax'));
 			$this->xajax->processRequests();
 		}
 
@@ -116,7 +110,7 @@ class tx_ttnewscatmanager_modfunc1 extends t3lib_extobjbase {
 		}
 
 		$theOutput.=$this->pObj->doc->spacer(5);
-		$theOutput.=$this->pObj->doc->section($LANG->getLL('title'),'',0,1);
+		$theOutput.=$this->pObj->doc->section($GLOBALS['LANG']->getLL('title'),'',0,1);
 		$theOutput.=$this->pObj->doc->spacer(5);
 
 		if ($this->useXajax) {

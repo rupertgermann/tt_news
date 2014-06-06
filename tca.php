@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: tca.php 3027 2006-04-28 12:23:22Z rupertgermann $
+ * $Id: tca.php 8602 2008-03-15 17:07:57Z rupertgermann $
  */
 
 	// get extension confArr
@@ -116,6 +116,7 @@ $TCA['tt_news'] = Array (
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
+				'softref' => 'typolink_tag,images,email[subst],url',
 				'wizards' => Array(
 					'_PADDING' => 4,
 					'RTE' => Array(
@@ -292,7 +293,6 @@ $TCA['tt_news'] = Array (
 				'rows' => '3'
 			)
 		),
-
 		'category' => Array (
 			'exclude' => 1,
 		#	'l10n_mode' => 'exclude', // the localizalion mode will be handled by the userfunction
@@ -306,7 +306,7 @@ $TCA['tt_news'] = Array (
 				#'foreign_table_where' => $fTableWhere.'ORDER BY tt_news_cat.'.$confArr['category_OrderBy'],
 				'size' => 3,
 				'autoSizeMax' => $confArr['categoryTreeHeigth'],
-				'minitems' => 0,
+				'minitems' => $confArr['requireCategories'] ? 1 : 0,
 				'maxitems' => 500,
 				'MM' => 'tt_news_cat_mm',
 				'wizards' => Array(
