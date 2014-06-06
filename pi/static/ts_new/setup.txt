@@ -933,4 +933,4 @@ tt_news.displayCurrentRecord = 1
 
 
 ### CVS id ###
-# $Id: setup.txt 53028 2011-10-16 11:45:36Z rupi $
+# $Id$

@@ -31,7 +31,7 @@
  * @author Rupert Germann <rg@rgdata.de>
  * Copyright (c) 2008
  *
- * @version $Id: be_axax_for_4.1.php 8822 2008-04-06 14:22:24Z rupi $
+ * @version $Id$
  */
 
 

@@ -69,4 +69,4 @@ xmlnews {
 
 
 ### CVS id ###
-# $Id: setup.txt 8822 2008-04-06 14:22:24Z rupi $
+# $Id$

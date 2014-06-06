@@ -29,7 +29,7 @@
  * class.tx_ttnews.php
  *
  * versatile news system for TYPO3.
- * $Id: class.tx_ttnews.php 58099 2012-02-17 16:53:40Z ohader $
+ * $Id$
  *
  * TypoScript setup:
  * @See ext/tt_news/pi/static/ts_new/setup.txt
@@ -144,7 +144,7 @@ class tx_ttnews extends tslib_pibase {
 
 		// leave early if USER_INT
 		$this->convertToUserIntObject = $this->conf['convertToUserIntObject'] ? 1 : 0;
-		if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000 && $this->convertToUserIntObject
+		if ($this->compatibility()->int_from_ver(TYPO3_version) >= 4003000 && $this->convertToUserIntObject
 				&& $this->cObj->getUserObjectType() == tslib_cObj::OBJECTTYPE_USER) {
 			$this->cObj->convertToUserIntObject();
 			return;
@@ -370,13 +370,13 @@ class tx_ttnews extends tslib_pibase {
 		$this->config['backPid'] = $backPid;
 
 		// max items per page
-		$FFlimit = t3lib_div::intInRange($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'listLimit', 's_template'), 0, 1000);
+		$FFlimit = $this->compatibility()->intInRange($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'listLimit', 's_template'), 0, 1000);
 
-		$limit = t3lib_div::intInRange($this->cObj->stdWrap($this->conf['limit'], $this->conf['limit.']), 0, 1000);
+		$limit = $this->compatibility()->intInRange($this->cObj->stdWrap($this->conf['limit'], $this->conf['limit.']), 0, 1000);
 		$limit = $limit ? $limit : 50;
 		$this->config['limit'] = $FFlimit ? $FFlimit : $limit;
 
-		$latestLimit = t3lib_div::intInRange($this->cObj->stdWrap($this->conf['latestLimit'], $this->conf['latestLimit.']), 0, 1000);
+		$latestLimit = $this->compatibility()->intInRange($this->cObj->stdWrap($this->conf['latestLimit'], $this->conf['latestLimit.']), 0, 1000);
 		$latestLimit = $latestLimit ? $latestLimit : 10;
 		$this->config['latestLimit'] = $FFlimit ? $FFlimit : $latestLimit;
 
@@ -2162,7 +2162,7 @@ class tx_ttnews extends tslib_pibase {
 			$markerArray = $this->userProcess('imageMarkerFunc', array($markerArray, $lConf));
 		} else {
 			$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount'] : 1;
-			$imageNum = t3lib_div::intInRange($imageNum, 0, 100);
+			$imageNum = $this->compatibility()->intInRange($imageNum, 0, 100);
 			$theImgCode = '';
 			$imgs = t3lib_div::trimExplode(',', $row['image'], 1);
 			$imgsCaptions = explode(chr(10), $row['imagecaption']);
@@ -2888,9 +2888,9 @@ class tx_ttnews extends tslib_pibase {
 		// Initializing variables:
 		$pointer = $this->piVars[$pointerName];
 		$count = $this->internal['res_count'];
-		$results_at_a_time = t3lib_div::intInRange($this->internal['results_at_a_time'], 1, 1000);
-		$maxPages = t3lib_div::intInRange($this->internal['maxPages'], 1, 100);
-		$max = t3lib_div::intInRange(ceil($count / $results_at_a_time), 1, $maxPages);
+		$results_at_a_time = $this->compatibility()->intInRange($this->internal['results_at_a_time'], 1, 1000);
+		$maxPages = $this->compatibility()->intInRange($this->internal['maxPages'], 1, 100);
+		$max = $this->compatibility()->intInRange(ceil($count / $results_at_a_time), 1, $maxPages);
 		$pointer = intval($pointer);
 		$links = array();
 
@@ -3453,7 +3453,7 @@ class tx_ttnews extends tslib_pibase {
 		if ($conf['max'] || $conf['begin']) {
 			$error = 0;
 			if (! $error) {
-				$conf['begin'] = t3lib_div::intInRange(ceil($this->cObj->calc($conf['begin'])), 0);
+				$conf['begin'] = $this->compatibility()->intInRange(ceil($this->cObj->calc($conf['begin'])), 0);
 				if ($conf['begin'] && ! $conf['max']) {
 					$conf['max'] = 100000;
 				}
@@ -4150,6 +4150,13 @@ class tx_ttnews extends tslib_pibase {
 			}
 		}
 		return $mimeType;
+	}
+
+	/**
+	 * @return tx_ttnews_compatibility
+	 */
+	protected function compatibility() {
+		return tx_ttnews_compatibility::getInstance();
 	}
 }
 

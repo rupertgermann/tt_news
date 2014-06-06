@@ -248,7 +248,7 @@ class tx_ttnewscatmanager_cm1 {
 	 */
 	function includeLocalLang()	{
 		$llFile = t3lib_extMgm::extPath('tt_news').'modfunc1/locallang.xml';
-		$this->LL = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+		$this->LL = tx_ttnews_compatibility::getInstance()->readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 	}
 }
 

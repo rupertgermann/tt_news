@@ -28,7 +28,7 @@
  * This is an example for processing the archive menu by a user function.
  * it uses the function amenuUserFunc() from the tt_news class
  *
- * $Id: example_amenuUserFunc.php 2985 2005-10-21 23:30:36Z rupi $
+ * $Id$
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */

@@ -97,7 +97,7 @@ require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_recordlist.ph
  * Module 'News Admin' for the 'tt_news' extension.
  *
  *
- * $Id: index.php 55932 2012-01-02 08:27:38Z rupi $
+ * $Id$
  *
  * @author	Rupert Germann <rg@rgdata.de>
  * @package	TYPO3
@@ -1142,7 +1142,7 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 	 * @return	[type]		...
 	 */
 	function initGPvars() {
-		$this->pointer = t3lib_div::intInRange(t3lib_div::_GP('pointer'),0,100000);
+		$this->pointer = $this->compatibility()->intInRange(t3lib_div::_GP('pointer'),0,100000);
 		$this->category = intval(t3lib_div::_GP('category'));
 		$this->search_field = t3lib_div::_GP('search_field');
 
@@ -1330,6 +1330,13 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 		}
 		return $params;
 	}
+
+	/**
+	 * @return tx_ttnews_compatibility
+	 */
+	protected function compatibility() {
+		return tx_ttnews_compatibility::getInstance();
+	}
 }
 
 
@@ -1477,11 +1484,6 @@ class tx_ttnewscatmanager_treeView extends tx_ttnews_categorytree {
 				'&vC='.rawurlencode($GLOBALS['BE_USER']->veriCode()).
 				'&prErr=1&uPT=1';
 	}
-
-
-
-
-
 }
 
 

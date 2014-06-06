@@ -28,7 +28,7 @@
 /**
  * generates the list view for the 'news admin' module
  *
- * $Id: class.tx_ttnews_recordlist.php 26963 2009-11-25 14:42:20Z rupi $
+ * $Id$
  *
  * @author	Rupert Germann <rupi@gmx.li>
  * @package TYPO3

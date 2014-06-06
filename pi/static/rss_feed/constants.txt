@@ -40,4 +40,4 @@ plugin.tt_news {
 }
 
 ### SVN id ###
-# $Id: constants.txt 18897 2009-04-09 16:59:12Z rupi $
+# $Id$

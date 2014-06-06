@@ -28,7 +28,7 @@
  * This function displays a selector with nested categories.
  * The original code is borrowed from the extension "Digital Asset Management" (tx_dam) author: René Fritz <r.fritz@colorcube.de>
  *
- * $Id: class.tx_ttnews_TCAform_selectTree.php 44551 2011-03-03 13:17:31Z rupi $
+ * $Id$
  *
  * @author	Rupert Germann <rupi@gmx.li>
  * @package TYPO3
@@ -134,7 +134,7 @@ class tx_ttnews_TCAform_selectTree {
 	 */
 	function renderCategoryFields(&$PA, &$fobj)    {
 
-		$this->intT3ver = t3lib_div::int_from_ver(TYPO3_version);
+		$this->intT3ver = $this->compatibility()->int_from_ver(TYPO3_version);
 		if ($this->intT3ver < 4001000) {
 			// load some additional styles for the BE trees in TYPO3 version lower that 4.1
 			// expand/collapse is disabled
@@ -189,9 +189,9 @@ class tx_ttnews_TCAform_selectTree {
 		$nMV_label = @sprintf($nMV_label, $this->PA['itemFormElValue']);
 
 					// Set max and min items:
-		$maxitems = t3lib_div::intInRange($this->fieldConfig['maxitems'],0);
+		$maxitems = $this->compatibility()->intInRange($this->fieldConfig['maxitems'],0);
 		if (!$maxitems)	$maxitems = 1000;
-		$minitems = t3lib_div::intInRange($this->fieldConfig['minitems'],0);
+		$minitems = $this->compatibility()->intInRange($this->fieldConfig['minitems'],0);
 
 
 
@@ -275,7 +275,7 @@ class tx_ttnews_TCAform_selectTree {
 
 					$width = 350; // default width for the field with the category tree
 					if (intval($this->confArr['categoryTreeWidth'])) { // if a value is set in extConf take this one.
-						$width = t3lib_div::intInRange($this->confArr['categoryTreeWidth'],1,600);
+						$width = $this->compatibility()->intInRange($this->confArr['categoryTreeWidth'],1,600);
 					}
 
 					$divStyle = 'position:relative; left:0px; top:0px; width:'.$width.'px; border:solid 1px #999;background:#fff;margin-bottom:5px;padding: 0 10px 10px 0;';
@@ -298,7 +298,7 @@ class tx_ttnews_TCAform_selectTree {
 				}
 				$sWidth = 200; // default width for the left field of the category select
 				if (intval($this->confArr['categorySelectedWidth'])) {
-					$sWidth = t3lib_div::intInRange($this->confArr['categorySelectedWidth'],1,600);
+					$sWidth = $this->compatibility()->intInRange($this->confArr['categorySelectedWidth'],1,600);
 				}
 				$params = array(
 					'autoSizeMax' => $this->fieldConfig['autoSizeMax'],
@@ -417,7 +417,7 @@ class tx_ttnews_TCAform_selectTree {
 					' record has the following categories assigned that are not defined in your BE usergroup: ' .
 					urldecode(implode($NACats, chr(10)));
 
-		if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+		if ($this->compatibility()->int_from_ver(TYPO3_version) < 4003000) {
 			$msg = '
 				<div style="padding:15px 15px 20px 0;">
 					<div class="typo3-message message-warning">
@@ -844,10 +844,12 @@ class tx_ttnews_TCAform_selectTree {
 		}
 	}
 
-
-
-
-
+	/**
+	 * @return tx_ttnews_compatibility
+	 */
+	protected function compatibility() {
+		return tx_ttnews_compatibility::getInstance();
+	}
 }
 
 

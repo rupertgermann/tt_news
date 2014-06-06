@@ -29,7 +29,7 @@
  * 
  * modified for the tt_news category menu by Rupert Germann <rupi@gmx.li>
  *
- * $Id: tt_news_mod1.js 26878 2009-11-24 10:17:01Z rupi $
+ * $Id$
  *
  */
  

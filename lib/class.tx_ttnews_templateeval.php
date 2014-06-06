@@ -27,7 +27,7 @@
 /**
  * Hook class for TCEforms.
  *
- * $Id: class.tx_ttnews_templateeval.php 26878 2009-11-24 10:17:01Z rupi $
+ * $Id$
  *
 * @author Dmitry Dulepov <dmitry@typo3.org>
  */

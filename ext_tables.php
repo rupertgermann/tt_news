@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: ext_tables.php 44687 2011-03-06 15:21:07Z rupi $
+ * $Id$
  */
 
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
@@ -235,8 +235,8 @@ t3lib_extMgm::addToAllTCAtypes('be_users','tt_news_categorymounts;;;;1-1-1');
 
 
 if (TYPO3_MODE == 'BE')	{
-	if (t3lib_div::int_from_ver(TYPO3_version) >= 4000000) {
-		if (t3lib_div::int_from_ver(TYPO3_version) >= 4002000) {
+	if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4000000) {
+		if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4002000) {
 			t3lib_extMgm::addModule('web','txttnewsM1','',t3lib_extMgm::extPath($_EXTKEY).'mod1/');
 
 			$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
@@ -265,7 +265,7 @@ if (TYPO3_MODE == 'BE')	{
 	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi/class.tx_ttnews_wizicon.php';
 
 		// add folder icon
-	if (t3lib_div::int_from_ver(TYPO3_version) < 4004000) {
+	if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 4004000) {
 		$ICON_TYPES['news'] = array('icon' => t3lib_extMgm::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');
 	} else {
 		t3lib_SpriteManager::addTcaTypeIcon('pages', 'contains-news', t3lib_extMgm::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');

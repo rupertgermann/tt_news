@@ -31,7 +31,7 @@
  * @author Rupert Germann <rg@rgdata.de>
  * Copyright (c) 2009
  *
- * @version $Id: fe_index.php 27054 2009-11-27 11:51:49Z rupi $
+ * @version $Id$
  */
 
 

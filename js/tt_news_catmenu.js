@@ -28,7 +28,7 @@
  * 
  * modified for the tt_news FE category menu (catmenu) by Rupert Germann <rupi@gmx.li>
  *
- * $Id: tt_news_catmenu.js 27054 2009-11-27 11:51:49Z rupi $
+ * $Id$
  *
  */
  

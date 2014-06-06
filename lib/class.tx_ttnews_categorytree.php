@@ -28,7 +28,7 @@
 /**
  * generates a tree from tt_news categories.
  *
- * $Id: class.tx_ttnews_categorytree.php 44560 2011-03-03 14:20:03Z rupi $
+ * $Id$
  *
  * @author	Rupert Germann <rupi@gmx.li>
  * @package TYPO3

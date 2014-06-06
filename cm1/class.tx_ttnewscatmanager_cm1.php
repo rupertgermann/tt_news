@@ -25,7 +25,7 @@
 /**
  * Additional items for the clickmenu.
  *
- * $Id: class.tx_ttnewscatmanager_cm1.php 26878 2009-11-24 10:17:01Z rupi $
+ * $Id$
  *
  * @author  Rupert Germann <rupi@gmx.li>
  * @package TYPO3
@@ -271,7 +271,7 @@ class tx_ttnewscatmanager_cm1 {
 	 */
 	function includeLocalLang()	{
 		$llFile = t3lib_extMgm::extPath('tt_news').'cm1/locallang.xml';
-		$this->LL = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+		$this->LL = tx_ttnews_compatibility::getInstance()->readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 	}
 }
 

@@ -28,7 +28,7 @@
 /**
  * Class 'tx_ttnews_tcemain' for the tt_news extension.
  *
- * $Id: class.tx_ttnews_tcemain.php 44502 2011-03-02 16:30:55Z rupi $
+ * $Id$
  *
  * @author     Rupert Germann <rupi@gmx.li>
  */

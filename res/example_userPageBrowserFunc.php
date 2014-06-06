@@ -28,7 +28,7 @@
 * This example shows, how you can substitute the pageBrowser from tt_news with your own pagebrowser script
 * it uses the function userPageBrowserFunc() from the tt_news class
 *
-* $Id: example_userPageBrowserFunc.php 2944 2005-05-15 19:18:18Z rupi $
+* $Id$
 *
 * @author Rupert Germann <rupi@gmx.li>
 */

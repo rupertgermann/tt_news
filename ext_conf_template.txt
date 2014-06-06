@@ -68,5 +68,5 @@ updateMessage=0
 
 /*
   ### CVS id ###
-  $Id: ext_conf_template.txt 25923 2009-10-27 21:15:50Z rupi $
+  $Id$
 */

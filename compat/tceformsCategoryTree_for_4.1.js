@@ -28,7 +28,7 @@
  * 
  * modified for the tt_news category menu by Rupert Germann <rupi@gmx.li>
  *
- * $Id: tceformsCategoryTree_for_4.1.js 18769 2009-04-07 13:09:47Z rupi $
+ * $Id$
  *
  */
  

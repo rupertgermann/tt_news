@@ -29,7 +29,7 @@
  *
  * renders the tt_news CATMENU content element - inspired by class.webpagetree.php which renders the pagetree in the TYPO3 BackEnd
  *
- * $Id: class.tx_ttnews_catmenu.php 27054 2009-11-27 11:51:49Z rupi $
+ * $Id$
  *
  * @author Rupert Germann <rupi@gmx.li>
  */

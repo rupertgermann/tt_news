@@ -28,7 +28,7 @@
 /**
  * tt_news misc functions
  *
- * $Id: class.tx_ttnews_div.php 46282 2011-04-06 14:16:49Z rupi $
+ * $Id$
  *
  * @author	Rupert Germann <rupi@gmx.li>
  * @package TYPO3

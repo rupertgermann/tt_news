@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: tca.php 57987 2012-02-15 18:31:33Z ohader $
+ * $Id$
  */
 
 	// get extension confArr

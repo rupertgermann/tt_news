@@ -25,7 +25,7 @@
 /**
  * Class that adds an entry to the "create new contentelement" wizard.
  *
- * $Id: class.tx_ttnews_wizicon.php 26878 2009-11-24 10:17:01Z rupi $
+ * $Id$
  *
 * @author Rupert Germann <rupi@gmx.li>
  */
@@ -82,7 +82,7 @@ class tx_ttnews_wizicon {
 	 */
 	function includeLocalLang()	{
 		$llFile = t3lib_extMgm::extPath('tt_news').'locallang.xml';
-		$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+		$LOCAL_LANG = tx_ttnews_compatibility::getInstance()->readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 		return $LOCAL_LANG;
 	}
 }

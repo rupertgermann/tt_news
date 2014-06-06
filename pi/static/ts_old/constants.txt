@@ -84,4 +84,4 @@ plugin.tt_news {
 
 }
 ### CVS id ###
-# $Id: constants.txt 8822 2008-04-06 14:22:24Z rupi $
+# $Id$
