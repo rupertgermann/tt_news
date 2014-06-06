@@ -28,7 +28,7 @@
  * This example shows, how you can substitute the pageBrowser from tt_news with your own pagebrowser script
  * it uses the function userPageBrowserFunc() from the tt_news class 
  * 
- * $Id: example_userPageBrowserFunc.php,v 1.1.1.1 2004/11/04 19:12:30 rgermann Exp $
+ * $Id: example_userPageBrowserFunc.php,v 1.5 2005/02/28 14:02:27 rupertgermann Exp $
  * 
  * @author Rupert Germann <rupi@gmx.li> 
  */
@@ -77,34 +77,36 @@
  * @return array $markerArray with filled in pagebrowser marker
  */
 function user_substPageBrowser($markerArray, $conf) {
-    $this = &$conf['parentObj']; // make a reference to the parent object
+    $pObj = &$conf['parentObj']; // make a reference to the parent object
+     
+   #debug($pObj->conf);
      
     // Initializing variables:
-	$showResultCount = $this->config['pageBrowser.']['showResultCount'];
-    $pointer = $this->piVars['pointer'];
-    $count = $this->internal['res_count'];
-    $results_at_a_time = t3lib_div::intInRange($this->internal['results_at_a_time'], 1, 1000);
-    $maxPages = t3lib_div::intInRange($this->internal['maxPages'], 1, 100);
+	$showResultCount = $pObj->conf['pageBrowser.']['showResultCount'];
+    $pointer = $pObj->piVars['pointer'];
+    $count = $pObj->internal['res_count'];
+    $results_at_a_time = t3lib_div::intInRange($pObj->internal['results_at_a_time'], 1, 1000);
+    $maxPages = t3lib_div::intInRange($pObj->internal['maxPages'], 1, 100);
     $max = t3lib_div::intInRange(ceil($count / $results_at_a_time), 1, $maxPages);
     $pointer = intval($pointer);
     $links = array(); 
     // Make browse-table/links:
-    if ($this->pi_alwaysPrev >= 0) {
+    if ($pObj->pi_alwaysPrev >= 0) {
         if ($pointer > 0) {
             $links[] = '
-					<td nowrap="nowrap"><p>' . $this->pi_linkTP_keepPIvars($this->pi_getLL('pi_list_browseresults_prev', '< Previous'), array('pointer' => ($pointer-1?$pointer-1:'')), $this->allowCaching) . '</p></td>';
-        } elseif ($this->pi_alwaysPrev) {
+					<td nowrap="nowrap"><p>' . $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL('pi_list_browseresults_prev', '< Previous'), array('pointer' => ($pointer-1?$pointer-1:'')), $pObj->allowCaching) . '</p></td>';
+        } elseif ($pObj->pi_alwaysPrev) {
             $links[] = '
-					<td nowrap="nowrap"><p>' . $this->pi_getLL('pi_list_browseresults_prev', '< Previous') . '</p></td>';
+					<td nowrap="nowrap"><p>' . $pObj->pi_getLL('pi_list_browseresults_prev', '< Previous') . '</p></td>';
         } 
     } 
     for($a = 0;$a < $max;$a++) {
         $links[] = '
-					<td' . ($pointer == $a?$this->pi_classParam('browsebox-SCell'):'') . ' nowrap="nowrap"><p>' . $this->pi_linkTP_keepPIvars(trim($this->pi_getLL('pi_list_browseresults_page', 'Page') . ' ' . ($a + 1)), array('pointer' => ($a?$a:'')), $this->allowCaching) . '</p></td>';
+					<td' . ($pointer == $a?$pObj->pi_classParam('browsebox-SCell'):'') . ' nowrap="nowrap"><p>' . $pObj->pi_linkTP_keepPIvars(trim($pObj->pi_getLL('pi_list_browseresults_page', 'Page') . ' ' . ($a + 1)), array('pointer' => ($a?$a:'')), $pObj->allowCaching) . '</p></td>';
     } 
     if ($pointer < ceil($count / $results_at_a_time)-1) {
         $links[] = '
-					<td nowrap="nowrap"><p>' . $this->pi_linkTP_keepPIvars($this->pi_getLL('pi_list_browseresults_next', 'Next >'), array('pointer' => $pointer + 1), $this->allowCaching) . '</p></td>';
+					<td nowrap="nowrap"><p>' . $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL('pi_list_browseresults_next', 'Next >'), array('pointer' => $pointer + 1), $pObj->allowCaching) . '</p></td>';
     } 
 
     $pR1 = $pointer * $results_at_a_time + 1;
@@ -114,17 +116,17 @@ function user_substPageBrowser($markerArray, $conf) {
 		<!--
 			List browsing box:
 		-->
-		<div' . $this->pi_classParam('browsebox') . '>' .
+		<div' . $pObj->pi_classParam('browsebox') . '>' .
     ($showResultCount ? '
 			<p>' .
-        ($this->internal['res_count'] ?
+        ($pObj->internal['res_count'] ?
             sprintf(
-                str_replace('###SPAN_BEGIN###', '<span' . $this->pi_classParam('browsebox-strong') . '>', $this->pi_getLL('pi_list_browseresults_displays', 'Displaying results ###SPAN_BEGIN###%s to %s</span> out of ###SPAN_BEGIN###%s</span>')),
-                $this->internal['res_count'] > 0 ? $pR1 : 0,
-                min(array($this->internal['res_count'], $pR2)),
-                $this->internal['res_count']
+                str_replace('###SPAN_BEGIN###', '<span' . $pObj->pi_classParam('browsebox-strong') . '>', $pObj->pi_getLL('pi_list_browseresults_displays', 'Displaying results ###SPAN_BEGIN###%s to %s</span> out of ###SPAN_BEGIN###%s</span>')),
+                $pObj->internal['res_count'] > 0 ? $pR1 : 0,
+                min(array($pObj->internal['res_count'], $pR2)),
+                $pObj->internal['res_count']
                 ) :
-            $this->pi_getLL('pi_list_browseresults_noResults', 'Sorry, no items were found.')) . '</p>':''
+            $pObj->pi_getLL('pi_list_browseresults_noResults', 'Sorry, no items were found.')) . '</p>':''
         ) . '
 
 			<' . trim('table ' . $tableParams) . '>
@@ -182,64 +184,65 @@ function user_substPageBrowser($markerArray, $conf) {
  */
 
 function user_substPageBrowser2 ($markerArray, $conf) {
-    $this = &$conf['parentObj']; // make a reference to the parent object
+    $pObj = &$conf['parentObj']; // make a reference to the parent object
     
-    $newsCount = $this->internal['res_count'] ;
-    $begin_at = $this->piVars['pointer'] * $this->config['limit']; 
+    $newsCount = $pObj->internal['res_count'] ;
+    $begin_at = $pObj->piVars['pointer'] * $pObj->config['limit'];
     // Make Next link
-    if ($newsCount > $begin_at + $this->config['limit']) {
-        $next = ($begin_at + $this->config['limit'] > $newsCount) ? $newsCount - $this->config['limit']:$begin_at + $this->config['limit'];
-        $next = intval($next / $this->config['limit']);
-        $markerArray['###LINK_NEXT###'] = $this->pi_linkTP_keepPIvars($this->pi_getLL('pi_list_browseresults_next', 'Next >'), array('pointer' => $next), $this->allowCaching);
+    if ($newsCount > $begin_at + $pObj->config['limit']) {
+        $next = ($begin_at + $pObj->config['limit'] > $newsCount) ? $newsCount - $pObj->config['limit']:$begin_at + $pObj->config['limit'];
+        $next = intval($next / $pObj->config['limit']);
+        $markerArray['###LINK_NEXT###'] = $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL('pi_list_browseresults_next', 'Next >'), array('pointer' => $next), $pObj->allowCaching);
     } else {
         $markerArray['###LINK_NEXT###'] = '';
     } 
     // Make Previous link
     if ($begin_at) {
-        $prev = ($begin_at - $this->config['limit'] < 0)?0:$begin_at - $this->config['limit'];
-        $prev = intval($prev / $this->config['limit']);
-        $markerArray['###LINK_PREV###'] = $this->pi_linkTP_keepPIvars($this->pi_getLL('pi_list_browseresults_prev', '< Previous'), array('pointer' => $prev), $this->allowCaching) . ' ';
+        $prev = ($begin_at - $pObj->config['limit'] < 0)?0:$begin_at - $pObj->config['limit'];
+        $prev = intval($prev / $pObj->config['limit']);
+        $markerArray['###LINK_PREV###'] = $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL('pi_list_browseresults_prev', '< Previous'), array('pointer' => $prev), $pObj->allowCaching) . ' ';
     } else {
         $markerArray['###LINK_PREV###'] = '';
     } 
 
     $firstPage = 0;
-    $lastPage = $pages = ceil($newsCount / $this->config['limit']);
-    $actualPage = floor($begin_at / $this->config['limit']);
+    $lastPage = $pages = ceil($newsCount / $pObj->config['limit']);
+    $actualPage = floor($begin_at / $pObj->config['limit']);
 
-    if ($lastPage > $this->config['pageBrowser.']['maxPages']) {
+    if ($lastPage > $pObj->conf['pageBrowser.']['maxPages']) {
         // if there are more pages than allowed in 'maxPages', calculate the first and the lastpage to show. The current page is shown in the middle of the list.
-        $precedingPagesCount = floor($this->config['pageBrowser.']['maxPages'] / 2);
-        $followPagesCount = $this->config['pageBrowser.']['maxPages'] - $precedingPagesCount; 
+        $precedingPagesCount = floor($pObj->conf['pageBrowser.']['maxPages'] / 2);
+        $followPagesCount = $pObj->conf['pageBrowser.']['maxPages'] - $precedingPagesCount;
         // set firstpage and lastpage
         $firstPage = $actualPage - $precedingPagesCount;
         if ($firstPage < 0) {
             $firstPage = 0;
-            $lastPage = $this->config['pageBrowser.']['maxPages'];
+            $lastPage = $pObj->conf['pageBrowser.']['maxPages'];
         } else {
             $lastPage = $actualPage + $followPagesCount;
             if ($lastPage > $pages) {
                 $lastPage = $pages;
-                $firstPage = $pages - $this->config['pageBrowser.']['maxPages'];
+                $firstPage = $pages - $pObj->conf['pageBrowser.']['maxPages'];
             } 
         } 
     } 
 
     for ($i = $firstPage ; $i < $lastPage; $i++) {
-        if (($begin_at >= $i * $this->config['limit']) && ($begin_at < $i * $this->config['limit'] + $this->config['limit'])) {
-            $item = ($this->config['pageBrowser.']['showPBrowserText']?$this->pi_getLL('pi_list_browseresults_page', 'Page'):'') . (string)($i + 1);
-            $markerArray['###BROWSE_LINKS###'] .= ' ' . $this->local_cObj->stdWrap($item, $this->config['pageBrowser.']['actPage_stdWrap.']) . ' ';
+        if (($begin_at >= $i * $pObj->config['limit']) && ($begin_at < $i * $pObj->config['limit'] + $pObj->config['limit'])) {
+            $item = ($pObj->conf['pageBrowser.']['showPBrowserText']?$pObj->pi_getLL('pi_list_browseresults_page', 'Page'):'') . (string)($i + 1);
+            $markerArray['###BROWSE_LINKS###'] .= ' ' . $pObj->local_cObj->stdWrap($item, $pObj->conf['pageBrowser.']['actPage_stdWrap.']) . ' ';
         } else {
-            $item = ($this->config['pageBrowser.']['showPBrowserText']?$this->pi_getLL('pi_list_browseresults_page', 'Page'):'') . (string)($i + 1);
+            $item = ($pObj->conf['pageBrowser.']['showPBrowserText']?$pObj->pi_getLL('pi_list_browseresults_page', 'Page'):'') . (string)($i + 1);
            
-            $markerArray['###BROWSE_LINKS###'] .= $this->pi_linkTP_keepPIvars($this->local_cObj->stdWrap($item, $this->config['pageBrowser.']['page_stdWrap.']) . ' ', array('pointer' => $i), $this->allowCaching) . ' ';
+            $markerArray['###BROWSE_LINKS###'] .= $pObj->pi_linkTP_keepPIvars($pObj->local_cObj->stdWrap($item, $pObj->conf['pageBrowser.']['page_stdWrap.']) . ' ', array('pointer' => $i), $pObj->allowCaching) . ' ';
         } 
     } 
 	
-   // un-comment the following line, to use only one marker for the pagebrowser. 
-   // $markerArray['###BROWSE_LINKS###'] = $markerArray['###LINK_PREV###'] . $markerArray['###BROWSE_LINKS###'] . $markerArray['###LINK_NEXT###'];
+   
+    $markerArray['###BROWSE_LINKS###'] = $markerArray['###LINK_PREV###'] . $markerArray['###BROWSE_LINKS###'] . $markerArray['###LINK_NEXT###'];
 
     return $markerArray;
 } 
+
 
 ?>

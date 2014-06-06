@@ -77,6 +77,10 @@ plugin.tt_news {
   }
 
   noNewsToListMsg_stdWrap.wrap = <p>|</p>
+  noNewsIdMsg_stdWrap.wrap (
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr><td><strong>|</strong></td></tr></table>
+    )
    
   # Pagebrowser settings
   pageBrowser {
@@ -208,11 +212,8 @@ plugin.tt_news {
     author_stdWrap.typolink.parameter.field = author_email
     links_stdWrap.wrap = | <br />
 
-    newsLinksHeader_stdWrap.wrap = <strong>|</strong>
-    noNewsIdMsg_stdWrap (
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-      <tr><td><strong>|</strong></td></tr></table>
-    )
+    linksHeader_stdWrap.wrap = <strong>|</strong>
+    
     imageCount = 2
     imgAltTextField = imagecaption
     imageWrapIfAny (

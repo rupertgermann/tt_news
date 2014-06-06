@@ -92,6 +92,8 @@ $LOCAL_LANG = Array (
 	'bg' => Array (
 	),
 	'br' => Array (
+		'.description' => 'Sistema de notícias.',
+		'.details' => 'Os elementos de "notícias" são aqueles que tipicamente vão nas páginas iniciais e lhe permitem ligar com uma página que contém a história completa. Também podem representar artigos (ligação a páginas completas) do sistema.',
 	),
 	'et' => Array (
 	),
@@ -112,6 +114,12 @@ $LOCAL_LANG = Array (
 	'ba' => Array (
 	),
 	'kr' => Array (
+	),
+	'eo' => Array (
+	),
+	'my' => Array (
+	),
+	'hi' => Array (
 	),
 );
 ?>

@@ -1,5 +1,4 @@
 
-
 /**
 * Real Url config for tt_news
 * 
@@ -10,7 +9,7 @@
 $TYPO3_CONF_VARS['EXTCONF']['realurl'] = array('_DEFAULT' => array(),
 
 ### Add your server name here ###
-    'linux01.wg' => array('init' => array('enableCHashCache' => 1, 
+    'yourserver.org' => array('init' => array('enableCHashCache' => 1,
             // 'appendMissingSlash' => 'ifNotFile',
             'enableUrlDecodeCache' => 1,
             'enableUrlEncodeCache' => 1,

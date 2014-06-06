@@ -2,7 +2,7 @@
 # Table structure for table 'tt_news'
 #
 CREATE TABLE tt_news (
-  uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+  uid int(11) DEFAULT '0' NOT NULL auto_increment,
   pid int(11) DEFAULT '0' NOT NULL,
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -15,6 +15,8 @@ CREATE TABLE tt_news (
   datetime int(11) unsigned DEFAULT '0' NOT NULL,
   image tinyblob NOT NULL,
   imagecaption text NOT NULL,
+  imagealttext text NOT NULL,
+  imagetitletext text NOT NULL,
   related int(11) DEFAULT '0' NOT NULL,
   short text NOT NULL,
   bodytext mediumtext NOT NULL,
@@ -40,7 +42,7 @@ CREATE TABLE tt_news (
 
   
   PRIMARY KEY (uid),
-  KEY parent (pid)
+  KEY parent (pid),
   KEY t3ver_oid (t3ver_oid)
 );
 
@@ -48,16 +50,19 @@ CREATE TABLE tt_news (
 # Table structure for table 'tt_news_cat'
 #
 CREATE TABLE tt_news_cat (
-  uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
-  pid int(11) unsigned DEFAULT '0' NOT NULL,
+  uid int(11) DEFAULT '0' NOT NULL auto_increment,
+  pid int(11) DEFAULT '0' NOT NULL,
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   crdate int(11) unsigned DEFAULT '0' NOT NULL,
+  hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+  sorting int(11) unsigned DEFAULT '0' NOT NULL,
   title tinytext NOT NULL,
   title_lang_ol tinytext NOT NULL,
   image tinyblob NOT NULL,
-  shortcut int(11) unsigned DEFAULT '0' NOT NULL
+  shortcut int(11) unsigned DEFAULT '0' NOT NULL,
   shortcut_target tinytext NOT NULL,
   deleted tinyint(3) unsigned DEFAULT '0' NOT NULL,
+  single_pid int(11) unsigned DEFAULT '0' NOT NULL,
   PRIMARY KEY (uid),
   KEY parent (pid)
 );

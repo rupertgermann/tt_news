@@ -29,7 +29,7 @@
  * flag for each language supported on the site.
  * 
  * 
- * $Id: tt_news_languageMenu.php,v 1.3 2004/11/13 10:29:13 rgermann Exp $
+ * $Id: tt_news_languageMenu.php,v 1.13 2004/11/17 17:21:53 rupertgermann Exp $
  * 
  * @author Rupert Germann <rupi@gmx.li> 
  */

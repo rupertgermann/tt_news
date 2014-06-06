@@ -1,0 +1,182 @@
+a:2:{s:4:"meta";a:3:{s:5:"title";s:7:"tt_news";s:5:"descr";s:0:"";s:7:"options";a:2:{s:10:"usageCount";s:1:"1";s:19:"includeCodeAbstract";N;}}s:5:"files";a:10:{s:14:"MD5_90958d130c";a:5:{s:8:"filename";s:20:"class.ext_update.php";s:8:"filesize";i:8112;s:6:"header";a:5:{s:4:"text";s:49:"
+
+Class for updating tt_news category relations.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:3:{i:0;s:37:"@author  Rupert Germann <rupi@gmx.li>";i:1;s:14:"@package TYPO3";i:2;s:19:"@subpackage tt_news";}s:11:"other_index";a:3:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}s:8:"@package";a:1:{i:0;s:6:"TYPO3 ";}s:11:"@subpackage";a:1:{i:0;s:8:"tt_news ";}}}s:3:"DAT";a:4:{i:1;a:8:{s:6:"header";s:18:"class ext_update {";s:5:"class";i:1;s:11:"parentClass";s:10:"ext_update";s:4:"cDat";a:5:{s:4:"text";s:49:"
+
+Class for updating tt_news category relations.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:3:{i:0;s:37:"@author  Rupert Germann <rupi@gmx.li>";i:1;s:14:"@package TYPO3";i:2;s:19:"@subpackage tt_news";}s:11:"other_index";a:3:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}s:8:"@package";a:1:{i:0;s:6:"TYPO3 ";}s:11:"@subpackage";a:1:{i:0;s:8:"tt_news ";}}}s:7:"content";s:0:"";s:12:"content_size";i:3;s:13:"content_lines";i:1;s:6:"atLine";i:46;}i:3;a:7:{s:6:"header";s:17:"function main() {";s:11:"parentClass";s:10:"ext_update";s:4:"cDat";a:3:{s:4:"text";s:58:"
+
+Main function, returning the HTML content of the module
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:4:"HTML";}}s:7:"content";s:0:"";s:12:"content_size";i:4429;s:13:"content_lines";i:100;s:6:"atLine";i:53;}i:5;a:4:{s:6:"header";s:32:"function access($what = 'all') {";s:11:"parentClass";s:10:"ext_update";s:4:"cDat";a:3:{s:4:"text";s:120:"
+
+Checks how many rows are found and returns true if there are any
+(this function is called from the extension manager)
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:6:"[type]";i:1;s:10:"$what: ...";}}s:6:"return";a:2:{i:0;s:7:"boolean";i:1;s:0:"";}}s:6:"atLine";i:161;}i:7;a:7:{s:6:"header";s:29:"function query($updatewhat) {";s:11:"parentClass";s:10:"ext_update";s:4:"cDat";a:3:{s:4:"text";s:125:"
+
+Creates query finding all tt_news elements which has a category relation in tt_news table not replicated in tt_news_cat_mm
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:6:"[type]";i:1;s:16:"$updatewhat: ...";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:10:"Full query";}}s:7:"content";s:0:"";s:12:"content_size";i:843;s:13:"content_lines";i:22;s:6:"atLine";i:187;}}s:10:"usageCount";a:4:{s:12:"H_8a50330fe7";a:2:{s:24:"_searchtime_milliseconds";d:55;s:15:"_functionHeader";s:18:"class ext_update {";}s:12:"H_a212299ace";a:2:{s:24:"_searchtime_milliseconds";d:2;s:15:"_functionHeader";s:17:"function main() {";}s:12:"H_af84cde9fe";a:2:{s:24:"_searchtime_milliseconds";d:2;s:15:"_functionHeader";s:32:"function access($what = 'all') {";}s:12:"H_1c12ba4934";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:4;s:5:"TOTAL";i:4;}s:14:"MD5_90958d130c";a:3:{s:8:"fileName";s:20:"class.ext_update.php";s:11:"objectUsage";i:4;s:5:"TOTAL";i:4;}s:24:"_searchtime_milliseconds";d:5;s:15:"_functionHeader";s:29:"function query($updatewhat) {";}}}s:14:"MD5_f479f70529";a:5:{s:8:"filename";s:33:"class.tx_ttnews_itemsProcFunc.php";s:8:"filesize";i:2488;s:6:"header";a:5:{s:4:"text";s:47:"
+
+'itemsProcFunc' for the 'tt_news' extension.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:3:{i:0;s:48:"@author	Mathias Bolt Lesniak <mathias@lilio.com>";i:1;s:14:"@package TYPO3";i:2;s:19:"@subpackage tt_news";}s:11:"other_index";a:3:{s:7:"@author";a:1:{i:0;s:40:"Mathias Bolt Lesniak <mathias@lilio.com>";}s:8:"@package";a:1:{i:0;s:6:"TYPO3 ";}s:11:"@subpackage";a:1:{i:0;s:8:"tt_news ";}}}s:3:"DAT";a:2:{i:1;a:5:{s:6:"header";s:31:"class tx_ttnews_itemsProcFunc {";s:5:"class";i:1;s:11:"parentClass";s:23:"tx_ttnews_itemsProcFunc";s:4:"cDat";a:5:{s:4:"text";s:47:"
+
+'itemsProcFunc' for the 'tt_news' extension.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:3:{i:0;s:48:"@author	Mathias Bolt Lesniak <mathias@lilio.com>";i:1;s:14:"@package TYPO3";i:2;s:19:"@subpackage tt_news";}s:11:"other_index";a:3:{s:7:"@author";a:1:{i:0;s:40:"Mathias Bolt Lesniak <mathias@lilio.com>";}s:8:"@package";a:1:{i:0;s:6:"TYPO3 ";}s:11:"@subpackage";a:1:{i:0;s:8:"tt_news ";}}}s:6:"atLine";i:52;}i:3;a:7:{s:6:"header";s:41:"function user_insertExtraCodes($config) {";s:11:"parentClass";s:23:"tx_ttnews_itemsProcFunc";s:4:"cDat";a:3:{s:4:"text";s:84:"
+
+insert 'codes', found in the ['what_to_display'] array to the selector in the BE.
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:5:"array";i:1;s:38:"$config: extension configuration array";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:40:"$config array with extra codes merged in";}}s:7:"content";s:0:"";s:12:"content_size";i:466;s:13:"content_lines";i:10;s:6:"atLine";i:59;}}s:10:"usageCount";a:2:{s:12:"H_5b2d22f843";a:2:{s:24:"_searchtime_milliseconds";d:63;s:15:"_functionHeader";s:31:"class tx_ttnews_itemsProcFunc {";}s:12:"H_b9799ddffd";a:2:{s:24:"_searchtime_milliseconds";d:2;s:15:"_functionHeader";s:41:"function user_insertExtraCodes($config) {";}}}s:14:"MD5_6cdbd68339";a:5:{s:8:"filename";s:22:"pi/class.tx_ttnews.php";s:8:"filesize";i:71536;s:6:"header";a:5:{s:4:"text";s:45:"
+
+Plugin 'news' for the 'tt_news' extension.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:3:{i:0;s:36:"@author Rupert Germann <rupi@gmx.li>";i:1;s:14:"@package TYPO3";i:2;s:19:"@subpackage tt_news";}s:11:"other_index";a:3:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}s:8:"@package";a:1:{i:0;s:6:"TYPO3 ";}s:11:"@subpackage";a:1:{i:0;s:8:"tt_news ";}}}s:3:"DAT";a:24:{i:1;a:8:{s:6:"header";s:38:"class tx_ttnews extends tslib_pibase {";s:5:"class";i:1;s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:5:{s:4:"text";s:45:"
+
+Plugin 'news' for the 'tt_news' extension.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:3:{i:0;s:36:"@author Rupert Germann <rupi@gmx.li>";i:1;s:14:"@package TYPO3";i:2;s:19:"@subpackage tt_news";}s:11:"other_index";a:3:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}s:8:"@package";a:1:{i:0;s:6:"TYPO3 ";}s:11:"@subpackage";a:1:{i:0;s:8:"tt_news ";}}}s:7:"content";s:0:"";s:12:"content_size";i:757;s:13:"content_lines";i:19;s:6:"atLine";i:83;}i:3;a:7:{s:6:"header";s:44:"function main_xmlnewsfeed($content, $conf) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:57:"
+
+this the old [DEPRECIATED] function for XML news feed.
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:6:"string";i:1;s:14:"$content : ...";}i:1;a:2:{i:0;s:5:"array";i:1;s:35:"$conf : configuration array from TS";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:26:"news content as xml string";}}s:7:"content";s:0:"";s:12:"content_size";i:342;s:13:"content_lines";i:9;s:6:"atLine";i:110;}i:5;a:7:{s:6:"header";s:29:"function getStoriesResult() {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:80:"
+
+returns the db-result for the news-item displayed by the xmlnewsfeed function
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:7:"pointer";i:1;s:41:"MySQL select result pointer / DBAL object";}}s:7:"content";s:0:"";s:12:"content_size";i:184;s:13:"content_lines";i:4;s:6:"atLine";i:125;}i:7;a:7:{s:6:"header";s:22:"function init($conf) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:90:"
+
+Init Function: here all the needed configuration Values are stored in class variables..
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:5:"array";i:1;s:35:"$conf : configuration array from TS";}}s:6:"return";a:2:{i:0;s:4:"void";i:1;s:0:"";}}s:7:"content";s:0:"";s:12:"content_size";i:9012;s:13:"content_lines";i:154;s:6:"atLine";i:136;}i:9;a:7:{s:6:"header";s:37:"function main_news($content, $conf) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:141:"
+
+Main news function: calls the init_news() function and decides by the given CODEs which of the
+functions to display news should by called.
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:6:"string";i:1;s:43:"$content : function output is added to this";}i:1;a:2:{i:0;s:5:"array";i:1;s:27:"$conf : configuration array";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:58:"$content: complete content generated by the tt_news plugin";}}s:7:"content";s:0:"";s:12:"content_size";i:2277;s:13:"content_lines";i:55;s:6:"atLine";i:299;}i:11;a:7:{s:6:"header";s:28:"function newsArchiveMenu() {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:34:"
+
+generates the News archive menu
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:29:"html code of the archive menu";}}s:7:"content";s:0:"";s:12:"content_size";i:5382;s:13:"content_lines";i:124;s:6:"atLine";i:360;}i:13;a:7:{s:6:"header";s:26:"function displaySingle() {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:133:"
+
+generates the single view of a news article. Is also used when displaying single records
+with the 'insert records' content element
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:32:"html-code for a single news item";}}s:7:"content";s:0:"";s:12:"content_size";i:2268;s:13:"content_lines";i:46;s:6:"atLine";i:491;}i:15;a:7:{s:6:"header";s:24:"function displayList() {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:341:"
+
+Display LIST,LATEST or SEARCH
+Things happen: determine the template-part to use, get the query parameters (add where if search was performed),
+exec count query to get the number of results, check if a browsebox should be displayed,
+get the general Markers for each item and fill the content array, check if a browsebox should be displayed
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:32:"html-code for the plugin content";}}s:7:"content";s:0:"";s:12:"content_size";i:11013;s:13:"content_lines";i:239;s:6:"atLine";i:546;}i:17;a:7:{s:6:"header";s:67:"function getListContent($itemparts, $selectConf, $prefix_display) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:79:"
+
+get the content for a news item NOT displayed as single item (List & Latest)
+";s:5:"param";a:3:{i:0;a:2:{i:0;s:5:"array";i:1;s:39:"$itemparts : parts of the html template";}i:1;a:2:{i:0;s:5:"array";i:1;s:42:"$selectConf : quety parameters in an array";}i:2;a:2:{i:0;s:6:"string";i:1;s:42:"$prefix_display : the part of the TS-setup";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:31:"$itemsOut: itemlist as htmlcode";}}s:7:"content";s:0:"";s:12:"content_size";i:2996;s:13:"content_lines";i:59;s:6:"atLine";i:794;}i:19;a:7:{s:6:"header";s:47:"function getSelectConf($where, $noPeriod = 0) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:85:"
+
+build the selectconf (array of query-parameters) to get the news items from the db
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:6:"string";i:1;s:32:"$where : where-part of the query";}i:1;a:2:{i:0;s:7:"integer";i:1;s:183:"$noPeriod : if this value exists the listing starts with the given 'period start' (pS). If not the value period start needs also a value for 'period lenght' (pL) to display something.";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:45:"the selectconf for the display of a news item";}}s:7:"content";s:0:"";s:12:"content_size";i:5353;s:13:"content_lines";i:94;s:6:"atLine";i:861;}i:21;a:7:{s:6:"header";s:27:"function initCategories() {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:57:"
+
+Getting all tt_news_cat categories into internal array
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:4:"void";i:1;s:0:"";}}s:7:"content";s:0:"";s:12:"content_size";i:1458;s:13:"content_lines";i:33;s:6:"atLine";i:961;}i:23;a:7:{s:6:"header";s:30:"function generatePageArray() {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:67:"
+
+Generates an array,->pageArray of the pagerecords from->pid_list
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:4:"void";i:1;s:0:"";}}s:7:"content";s:0:"";s:12:"content_size";i:307;s:13:"content_lines";i:8;s:6:"atLine";i:1000;}i:25;a:7:{s:6:"header";s:70:"function getItemMarkerArray ($row, $textRenderObj = 'displaySingle') {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:53:"
+
+Fills in the markerArray with data for a news item
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:5:"array";i:1;s:33:"$row : result row for a news item";}i:1;a:2:{i:0;s:5:"array";i:1;s:51:"$textRenderObj : conf vars for the current template";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:33:"$markerArray: filled marker array";}}s:7:"content";s:0:"";s:12:"content_size";i:7115;s:13:"content_lines";i:137;s:6:"atLine";i:1016;}i:27;a:7:{s:6:"header";s:56:"function getCatMarkerArray($markerArray, $row, $lConf) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:46:"
+
+Fills in the Category markerArray with data
+";s:5:"param";a:3:{i:0;a:2:{i:0;s:5:"array";i:1;s:41:"$markerArray : partly filled marker array";}i:1;a:2:{i:0;s:5:"array";i:1;s:33:"$row : result row for a news item";}i:2;a:2:{i:0;s:5:"array";i:1;s:51:"$lConf : configuration for the current templatepart";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:32:"$markerArray: filled markerarray";}}s:7:"content";s:0:"";s:12:"content_size";i:5549;s:13:"content_lines";i:91;s:6:"atLine";i:1162;}i:29;a:7:{s:6:"header";s:70:"function getImageMarkers($markerArray, $row, $lConf, $textRenderObj) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:134:"
+
+Fills the image markers with data. if a userfunction is given in "imageMarkerFunc",
+the marker Array is processed by this function.
+";s:5:"param";a:4:{i:0;a:2:{i:0;s:5:"array";i:1;s:41:"$markerArray : partly filled marker array";}i:1;a:2:{i:0;s:5:"array";i:1;s:33:"$row : result row for a news item";}i:2;a:2:{i:0;s:5:"array";i:1;s:51:"$lConf : configuration for the current templatepart";}i:3;a:2:{i:0;s:6:"string";i:1;s:45:"$textRenderObj : name of the template subpart";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:32:"$markerArray: filled markerarray";}}s:7:"content";s:0:"";s:12:"content_size";i:1801;s:13:"content_lines";i:48;s:6:"atLine";i:1264;}i:31;a:7:{s:6:"header";s:27:"function getRelated($uid) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:84:"
+
+Find related news records, add links to them and wrap them with stdWraps from TS.
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:7:"integer";i:1;s:34:"$uid : it of the current news item";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:35:"html code for the related news list";}}s:7:"content";s:0:"";s:12:"content_size";i:2012;s:13:"content_lines";i:51;s:6:"atLine";i:1319;}i:33;a:7:{s:6:"header";s:43:"function userProcess($mConfKey, $passVar) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:44:"
+
+Calls user function defined in TypoScript
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:7:"integer";i:1;s:69:"$mConfKey : if this value is empty the var $mConfKey is not processed";}i:1;a:2:{i:0;s:5:"mixed";i:1;s:53:"$passVar : this var is processed in the user function";}}s:6:"return";a:2:{i:0;s:5:"mixed";i:1;s:22:"the processed $passVar";}}s:7:"content";s:0:"";s:12:"content_size";i:243;s:13:"content_lines";i:8;s:6:"atLine";i:1378;}i:35;a:7:{s:6:"header";s:35:"function spMarker($subpartMarker) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:113:"
+
+returns the subpart name. if 'altMainMarkers.' are given this name is used instead of the default marker-name.
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:6:"string";i:1;s:54:"$subpartMarker : name of the subpart to be substituted";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:32:"new name of the template subpart";}}s:7:"content";s:0:"";s:12:"content_size";i:404;s:13:"content_lines";i:10;s:6:"atLine";i:1393;}i:37;a:7:{s:6:"header";s:27:"function searchWhere($sw) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:35:"
+
+Generates a search where clause.
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:6:"string";i:1;s:14:"$searchword(s)";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:9:"querypart";}}s:7:"content";s:0:"";s:12:"content_size";i:99;s:13:"content_lines";i:4;s:6:"atLine";i:1410;}i:39;a:7:{s:6:"header";s:26:"function formatStr($str) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:56:"
+
+Format string with general_stdWrap from configuration
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:6:"string";i:1;s:15:"$string to wrap";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:14:"wrapped string";}}s:7:"content";s:0:"";s:12:"content_size";i:152;s:13:"content_lines";i:6;s:6:"atLine";i:1421;}i:41;a:7:{s:6:"header";s:66:"function getLayouts($templateCode, $alternatingLayouts, $marker) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:30:"
+
+Returns alternating layouts
+";s:5:"param";a:3:{i:0;a:2:{i:0;s:6:"string";i:1;s:34:"$html code of the template subpart";}i:1;a:2:{i:0;s:7:"integer";i:1;s:29:"$number of alternatingLayouts";}i:2;a:2:{i:0;s:6:"string";i:1;s:53:"$name of the content-markers in this template-subpart";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:41:"html code for alternating content markers";}}s:7:"content";s:0:"";s:12:"content_size";i:274;s:13:"content_lines";i:12;s:6:"atLine";i:1436;}i:43;a:7:{s:6:"header";s:25:"function getXmlHeader() {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:56:"
+
+build the XML header (array of markers to substitute)
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:29:"the filled XML header markers";}}s:7:"content";s:0:"";s:12:"content_size";i:2253;s:13:"content_lines";i:49;s:6:"atLine";i:1454;}i:45;a:4:{s:6:"header";s:25:"function cleanXML($str) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:321:"
+
+cleans the content for rss feeds. removes '&nbsp;' and '?;' (dont't know if the scond one matters in real-life).
+The rest of the cleaning/character-conversion is done by the stdWrap functions htmlspecialchars,stripHtml and csconv.
+For details see http://typo3.org/documentation/document-library/doc_core_tsref/stdWrap/
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:6:"string";i:1;s:26:"$str: inputstring to clean";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:18:"the cleaned string";}}s:6:"atLine";i:1512;}i:47;a:7:{s:6:"header";s:62:"function getNewsSubpart($myTemplate, $myKey, $row = Array()) {";s:11:"parentClass";s:9:"tx_ttnews";s:4:"cDat";a:3:{s:4:"text";s:107:"
+
+Returns a subpart from the input content stream.
+Enables pre-/post-processing of templates/templatefiles
+";s:5:"param";a:3:{i:0;a:2:{i:0;s:6:"string";i:1;s:49:"$Content stream, typically HTML template content.";}i:1;a:2:{i:0;s:6:"string";i:1;s:49:"$Marker string, typically on the form "###...###"";}i:2;a:2:{i:0;s:5:"array";i:1;s:48:"$Optional: the active row of data - if available";}}s:6:"return";a:2:{i:0;s:6:"string";i:1;s:28:"The subpart found, if found.";}}s:7:"content";s:0:"";s:12:"content_size";i:271;s:13:"content_lines";i:9;s:6:"atLine";i:1529;}}s:10:"usageCount";a:24:{s:12:"H_d2aaf0df34";a:2:{s:24:"_searchtime_milliseconds";d:53;s:15:"_functionHeader";s:38:"class tx_ttnews extends tslib_pibase {";}s:12:"H_ca02b9b6c2";a:2:{s:24:"_searchtime_milliseconds";d:4;s:15:"_functionHeader";s:44:"function main_xmlnewsfeed($content, $conf) {";}s:12:"H_0ca196d7ff";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:5;s:15:"_functionHeader";s:29:"function getStoriesResult() {";}s:12:"H_2199b34fe8";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:6;s:15:"_functionHeader";s:22:"function init($conf) {";}s:12:"H_6183d7dab8";a:2:{s:24:"_searchtime_milliseconds";d:3;s:15:"_functionHeader";s:37:"function main_news($content, $conf) {";}s:12:"H_92f04ed43a";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:8;s:15:"_functionHeader";s:28:"function newsArchiveMenu() {";}s:12:"H_d044cf1d7a";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:8;s:15:"_functionHeader";s:26:"function displaySingle() {";}s:12:"H_036241a4e5";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:7;s:15:"_functionHeader";s:24:"function displayList() {";}s:12:"H_f13c3f6c62";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:12;s:15:"_functionHeader";s:67:"function getListContent($itemparts, $selectConf, $prefix_display) {";}s:12:"H_f04f9ef439";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:24:"_searchtime_milliseconds";d:11;s:15:"_functionHeader";s:47:"function getSelectConf($where, $noPeriod = 0) {";}s:12:"H_6930b10610";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:5;s:15:"_functionHeader";s:27:"function initCategories() {";}s:12:"H_9244121a6c";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:6;s:15:"_functionHeader";s:30:"function generatePageArray() {";}s:12:"H_1f2295666d";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:24:"_searchtime_milliseconds";d:18;s:15:"_functionHeader";s:70:"function getItemMarkerArray ($row, $textRenderObj = 'displaySingle') {";}s:12:"H_3f89c1c5dd";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:22;s:15:"_functionHeader";s:56:"function getCatMarkerArray($markerArray, $row, $lConf) {";}s:12:"H_572e289592";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:19;s:15:"_functionHeader";s:70:"function getImageMarkers($markerArray, $row, $lConf, $textRenderObj) {";}s:12:"H_68772fb954";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:17;s:15:"_functionHeader";s:27:"function getRelated($uid) {";}s:12:"H_1ea0c12272";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:4;s:5:"TOTAL";i:4;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:4;s:5:"TOTAL";i:4;}s:24:"_searchtime_milliseconds";d:19;s:15:"_functionHeader";s:43:"function userProcess($mConfKey, $passVar) {";}s:12:"H_d5ee0650c0";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:9;s:5:"TOTAL";i:9;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:9;s:5:"TOTAL";i:9;}s:24:"_searchtime_milliseconds";d:11;s:15:"_functionHeader";s:35:"function spMarker($subpartMarker) {";}s:12:"H_a7324edcde";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:24:"_searchtime_milliseconds";d:21;s:15:"_functionHeader";s:27:"function searchWhere($sw) {";}s:12:"H_e91540d1bf";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:4;s:5:"TOTAL";i:4;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:4;s:5:"TOTAL";i:4;}s:24:"_searchtime_milliseconds";d:16;s:15:"_functionHeader";s:26:"function formatStr($str) {";}s:12:"H_1a163a3fcc";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:24:"_searchtime_milliseconds";d:11;s:15:"_functionHeader";s:66:"function getLayouts($templateCode, $alternatingLayouts, $marker) {";}s:12:"H_842bb2c03d";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:24:"_searchtime_milliseconds";d:13;s:15:"_functionHeader";s:25:"function getXmlHeader() {";}s:12:"H_bb579935e5";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:2;s:5:"TOTAL";i:2;}s:24:"_searchtime_milliseconds";d:15;s:15:"_functionHeader";s:25:"function cleanXML($str) {";}s:12:"H_63b708c25b";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:13;s:5:"TOTAL";i:13;}s:14:"MD5_6cdbd68339";a:3:{s:8:"fileName";s:22:"pi/class.tx_ttnews.php";s:11:"objectUsage";i:13;s:5:"TOTAL";i:13;}s:24:"_searchtime_milliseconds";d:14;s:15:"_functionHeader";s:62:"function getNewsSubpart($myTemplate, $myKey, $row = Array()) {";}}}s:14:"MD5_9fd7a59fb2";a:5:{s:8:"filename";s:30:"pi/class.tx_ttnews_wizicon.php";s:8:"filesize";i:2601;s:6:"header";a:5:{s:4:"text";s:35:"
+
+Class that adds the wizard icon.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:1:{i:0;s:43:"@author	Stig Nørgaard Jepsen (stig@8620.dk)";}s:11:"other_index";a:1:{s:7:"@author";a:1:{i:0;s:35:"Stig Nørgaard Jepsen (stig@8620.dk)";}}}s:3:"DAT";a:3:{i:1;a:8:{s:6:"header";s:25:"class tx_ttnews_wizicon {";s:5:"class";i:1;s:11:"parentClass";s:17:"tx_ttnews_wizicon";s:4:"cDat";a:5:{s:4:"text";s:35:"
+
+Class that adds the wizard icon.
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:1:{i:0;s:43:"@author	Stig Nørgaard Jepsen (stig@8620.dk)";}s:11:"other_index";a:1:{s:7:"@author";a:1:{i:0;s:35:"Stig Nørgaard Jepsen (stig@8620.dk)";}}}s:7:"content";s:0:"";s:12:"content_size";i:2;s:13:"content_lines";i:1;s:6:"atLine";i:52;}i:3;a:4:{s:6:"header";s:29:"function proc($wizardItems)	{";s:11:"parentClass";s:17:"tx_ttnews_wizicon";s:4:"cDat";a:3:{s:4:"text";s:35:"
+
+Adds the newloginbox wizard icon
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:5:"array";i:1;s:41:"Input array with wizard items for plugins";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:60:"Modified input array, having the item for newloginbox added.";}}s:6:"atLine";i:60;}i:5;a:7:{s:6:"header";s:29:"function includeLocalLang()	{";s:11:"parentClass";s:17:"tx_ttnews_wizicon";s:4:"cDat";a:3:{s:4:"text";s:58:"
+
+Includes the locallang file for the 'tt_news' extension
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:20:"The LOCAL_LANG array";}}s:7:"content";s:0:"";s:12:"content_size";i:313;s:13:"content_lines";i:10;s:6:"atLine";i:80;}}s:10:"usageCount";a:3:{s:12:"H_de669ab95a";a:2:{s:24:"_searchtime_milliseconds";d:60;s:15:"_functionHeader";s:25:"class tx_ttnews_wizicon {";}s:12:"H_c495af0fb2";a:2:{s:24:"_searchtime_milliseconds";d:16;s:15:"_functionHeader";s:29:"function proc($wizardItems)	{";}s:12:"H_bb44c57692";a:4:{s:3:"ALL";a:2:{s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:14:"MD5_9fd7a59fb2";a:3:{s:8:"fileName";s:30:"pi/class.tx_ttnews_wizicon.php";s:11:"objectUsage";i:1;s:5:"TOTAL";i:1;}s:24:"_searchtime_milliseconds";d:3;s:15:"_functionHeader";s:29:"function includeLocalLang()	{";}}}s:14:"MD5_82ec230de4";a:5:{s:8:"filename";s:29:"res/example_amenuUserFunc.php";s:8:"filesize";i:3006;s:6:"header";a:5:{s:4:"text";s:211:"
+
+This is an example for processing the archive menu by a user function.
+it uses the function amenuUserFunc() from the tt_news class
+
+$Id: example_amenuUserFunc.php,v 1.7 2004/11/17 17:21:53 rupertgermann Exp $
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:1:{i:0;s:36:"@author	Rupert Germann <rupi@gmx.li>";}s:11:"other_index";a:1:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}}}s:3:"DAT";a:1:{i:1;a:7:{s:6:"header";s:50:"function user_processAmenu($amenuItemsArr, $conf){";s:11:"parentClass";s:0:"";s:4:"cDat";a:3:{s:4:"text";s:65:"
+
+Example function for displaying amenu items in yearly periods.
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:5:"array";i:1;s:54:"$amenuItemsArr: html code and data for the amenu items";}i:1;a:2:{i:0;s:6:"[type]";i:1;s:10:"$conf: ...";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:19:"the processed Array";}}s:7:"content";s:0:"";s:12:"content_size";i:1068;s:13:"content_lines";i:37;s:6:"atLine";i:53;}}s:10:"usageCount";a:1:{s:12:"H_e62ba9b981";a:2:{s:24:"_searchtime_milliseconds";d:3;s:15:"_functionHeader";s:50:"function user_processAmenu($amenuItemsArr, $conf){";}}}s:14:"MD5_bb01a4fdd6";a:5:{s:8:"filename";s:31:"res/example_imageMarkerFunc.php";s:8:"filesize";i:4700;s:6:"header";a:5:{s:4:"text";s:152:"
+
+This is an example for processing the news images by a user function.
+
+$Id: example_imageMarkerFunc.php,v 1.6 2005/02/28 14:02:26 rupertgermann Exp $
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:1:{i:0;s:36:"@author	Rupert Germann <rupi@gmx.li>";}s:11:"other_index";a:1:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}}}s:3:"DAT";a:1:{i:1;a:7:{s:6:"header";s:49:"function user_imageMarkerFunc($paramArray,$conf){";s:11:"parentClass";s:0:"";s:4:"cDat";a:3:{s:4:"text";s:65:"
+
+Example function for displaying amenu items in yearly periods.
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:5:"array";i:1;s:74:"$paramArray: $markerArray and $config of the current news item in an array";}i:1;a:2:{i:0;s:6:"[type]";i:1;s:10:"$conf: ...";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:25:"the processed markerArray";}}s:7:"content";s:0:"";s:12:"content_size";i:1682;s:13:"content_lines";i:51;s:6:"atLine";i:72;}}s:10:"usageCount";a:1:{s:12:"H_d9f58f0cc5";a:2:{s:24:"_searchtime_milliseconds";d:2;s:15:"_functionHeader";s:49:"function user_imageMarkerFunc($paramArray,$conf){";}}}s:14:"MD5_f0c8019470";a:5:{s:8:"filename";s:35:"res/example_itemMarkerArrayFunc.php";s:8:"filesize";i:3267;s:6:"header";a:5:{s:4:"text";s:361:"
+
+This is an example function for displaying links to atached files from news articles.
+it uses the function itemMarkerArrayFunc() from the tt_news class fill the new (html)template
+markers ###FILE_LINK### and ###TEXT_FILES### with values from the database field "news_files"
+
+
+$Id: example_itemMarkerArrayFunc.php,v 1.7 2004/11/17 17:21:53 rupertgermann Exp $
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:1:{i:0;s:36:"@author	Rupert Germann <rupi@gmx.li>";}s:11:"other_index";a:1:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}}}s:3:"DAT";a:1:{i:1;a:7:{s:6:"header";s:52:"function user_displayFileLinks($markerArray, $conf){";s:11:"parentClass";s:0:"";s:4:"cDat";a:3:{s:4:"text";s:77:"
+
+Example function for displaying links to atached files from news articles.
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:5:"array";i:1;s:134:"$markerArray: array filled with markers from the getItemMarkerArray function in tt_news class. see: EXT:tt_news/pi/class.tx_ttnews.php";}i:1;a:2:{i:0;s:6:"[type]";i:1;s:10:"$conf: ...";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:23:"the changed markerArray";}}s:7:"content";s:0:"";s:12:"content_size";i:805;s:13:"content_lines";i:21;s:6:"atLine";i:65;}}s:10:"usageCount";a:1:{s:12:"H_09f10ced29";a:2:{s:24:"_searchtime_milliseconds";d:3;s:15:"_functionHeader";s:52:"function user_displayFileLinks($markerArray, $conf){";}}}s:14:"MD5_6f61f397d2";a:5:{s:8:"filename";s:35:"res/example_userPageBrowserFunc.php";s:8:"filesize";i:10555;s:6:"header";a:5:{s:4:"text";s:257:"
+
+This example shows, how you can substitute the pageBrowser from tt_news with your own pagebrowser script
+it uses the function userPageBrowserFunc() from the tt_news class
+
+$Id: example_userPageBrowserFunc.php,v 1.5 2005/02/28 14:02:27 rupertgermann Exp $
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:1:{i:0;s:36:"@author Rupert Germann <rupi@gmx.li>";}s:11:"other_index";a:1:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}}}s:3:"DAT";a:2:{i:1;a:4:{s:6:"header";s:53:"function user_substPageBrowser($markerArray, $conf) {";s:11:"parentClass";s:0:"";s:4:"cDat";a:3:{s:4:"text";s:35:"
+
+Alternative pagebrowser function
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:5:"array";i:1;s:12:"$markerArray";}i:1;a:2:{i:0;s:5:"array";i:1;s:0:"";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:46:"$markerArray with filled in pagebrowser marker";}}s:6:"atLine";i:77;}i:3;a:7:{s:6:"header";s:55:"function user_substPageBrowser2 ($markerArray, $conf) {";s:11:"parentClass";s:0:"";s:4:"cDat";a:3:{s:4:"text";s:29:"
+
+Alternative Pagebrowser 2
+
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:5:"array";i:1;s:42:"$markerArray : array with template markers";}i:1;a:2:{i:0;s:5:"array";i:1;s:7:"$conf :";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:55:"marker Array with filled in markers for the pagebrowser";}}s:7:"content";s:0:"";s:12:"content_size";i:3233;s:13:"content_lines";i:61;s:6:"atLine";i:183;}}s:10:"usageCount";a:2:{s:12:"H_23fb9bd649";a:2:{s:24:"_searchtime_milliseconds";d:2;s:15:"_functionHeader";s:53:"function user_substPageBrowser($markerArray, $conf) {";}s:12:"H_f3adeff20f";a:2:{s:24:"_searchtime_milliseconds";d:2;s:15:"_functionHeader";s:55:"function user_substPageBrowser2 ($markerArray, $conf) {";}}}s:14:"MD5_51b2b8a8dd";a:5:{s:8:"filename";s:27:"res/news_amenuUserFunc2.php";s:8:"filesize";i:3003;s:6:"header";a:5:{s:4:"text";s:209:"
+
+This is an example for processing the archive menu by a user function.
+it uses the function amenuUserFunc() from the tt_news class
+
+$Id: news_amenuUserFunc2.php,v 1.2 2004/11/17 17:21:53 rupertgermann Exp $
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:1:{i:0;s:36:"@author	Rupert Germann <rupi@gmx.li>";}s:11:"other_index";a:1:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}}}s:3:"DAT";a:1:{i:1;a:7:{s:6:"header";s:50:"function user_processAmenu($amenuItemsArr, $conf){";s:11:"parentClass";s:0:"";s:4:"cDat";a:3:{s:4:"text";s:65:"
+
+Example function for displaying amenu items in yearly periods.
+";s:5:"param";a:2:{i:0;a:2:{i:0;s:5:"array";i:1;s:54:"$amenuItemsArr: html code and data for the amenu items";}i:1;a:2:{i:0;s:6:"[type]";i:1;s:10:"$conf: ...";}}s:6:"return";a:2:{i:0;s:5:"array";i:1;s:19:"the processed Array";}}s:7:"content";s:0:"";s:12:"content_size";i:1067;s:13:"content_lines";i:37;s:6:"atLine";i:53;}}s:10:"usageCount";a:1:{s:12:"H_e62ba9b981";a:2:{s:24:"_searchtime_milliseconds";d:3;s:15:"_functionHeader";s:50:"function user_processAmenu($amenuItemsArr, $conf){";}}}s:14:"MD5_4893de4b3f";a:5:{s:8:"filename";s:28:"res/tt_news_languageMenu.php";s:8:"filesize";i:5106;s:6:"header";a:5:{s:4:"text";s:212:"
+
+Creates a language-selector menu with three flags, an english, a danish and a german
+flag for each language supported on the site.
+
+
+$Id: tt_news_languageMenu.php,v 1.13 2004/11/17 17:21:53 rupertgermann Exp $
+";s:5:"param";a:0:{}s:6:"return";a:2:{i:0;s:6:"[type]";i:1;s:3:"...";}s:5:"other";a:1:{i:0;s:36:"@author Rupert Germann <rupi@gmx.li>";}s:11:"other_index";a:1:{s:7:"@author";a:1:{i:0;s:28:"Rupert Germann <rupi@gmx.li>";}}}s:3:"DAT";a:1:{i:1;a:7:{s:6:"header";s:38:"function user_languageMenu($content) {";s:11:"parentClass";s:0:"";s:4:"cDat";a:4:{s:4:"text";s:55:"
+
+language menu that keeps the links vars from tt_news
+";s:5:"param";a:1:{i:0;a:2:{i:0;s:6:"[type]";i:1;s:13:"$content: ...";}}s:6:"return";a:2:{i:0;s:4:"void";i:1;s:0:"";}s:6:"access";s:6:"public";}s:7:"content";s:0:"";s:12:"content_size";i:3530;s:13:"content_lines";i:88;s:6:"atLine";i:42;}}s:10:"usageCount";a:1:{s:12:"H_dbacde2de1";a:2:{s:24:"_searchtime_milliseconds";d:2;s:15:"_functionHeader";s:38:"function user_languageMenu($content) {";}}}}}

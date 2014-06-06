@@ -25,7 +25,7 @@ plugin.tt_news {
     # cat=plugin.tt_news/links/3; type=int+; label= Starting Point (pid_list): The PID of the page where your news items are located.
   pid_list = 0
 
-    # cat=plugin.tt_news/links/5; type=int+; label= SinglePid: The PID of the page on which single news items should be displayed (since tt_news v1.6.0 this var is called 'singlePid'. The old var-name 'PIDitemDisplay' don not work anymore).
+    # cat=plugin.tt_news/links/5; type=int+; label= SinglePid: The PID of the page on which single news items should be displayed (since tt_news v1.6.0 this var is called 'singlePid'. The old var-name 'PIDitemDisplay' does not work anymore).
   singlePid = 0
     # cat=plugin.tt_news/links/9; type=int+; label= BackPid: The PID of the page to go back to from single news item display screen.
   backPid = 0

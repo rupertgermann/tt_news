@@ -27,7 +27,7 @@
 /**
  * This is an example for processing the news images by a user function.
  *
- * $Id: example_imageMarkerFunc.php,v 1.1.1.1 2004/11/04 19:12:30 rgermann Exp $
+ * $Id: example_imageMarkerFunc.php,v 1.6 2005/02/28 14:02:26 rupertgermann Exp $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */
@@ -74,8 +74,8 @@ function user_imageMarkerFunc($paramArray,$conf){
 
 	$markerArray = $paramArray[0];
 	$lConf = $paramArray[1];
-    $this = &$conf['parentObj']; // make a reference to the parent-object
-	$row = $this->local_cObj->data;
+    $pObj = &$conf['parentObj']; // make a reference to the parent-object
+	$row = $pObj->local_cObj->data;
 	
 	$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount']:1;
 	$imageNum = t3lib_div::intInRange($imageNum, 0, 100);
@@ -86,7 +86,7 @@ function user_imageMarkerFunc($paramArray,$conf){
 	$cc = 0;
 
 	// unset the first image in the array (in single view) if the TS-var 'firstImageIsPreview' is set
-	if (count($imgs) > 1 && $this->config['firstImageIsPreview'] && $textRenderObj == 'displaySingle') {
+	if (count($imgs) > 1 && $pObj->config['firstImageIsPreview'] && $textRenderObj == 'displaySingle') {
 		unset($imgs[0]);
 		unset($imgsCaptions[0]);
 		$cc = 1;
@@ -108,12 +108,12 @@ function user_imageMarkerFunc($paramArray,$conf){
 					$lConf['image.']['altText'] .= $row[$lConf['imgAltTextField']];
 			} 
 		}
-		$theImgCode .= $this->local_cObj->wrap($this->local_cObj->IMAGE($lConf['image.']).$this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']),$lConf['imageWrapIfAny_'.$cc]);
+		$theImgCode .= $pObj->local_cObj->wrap($pObj->local_cObj->IMAGE($lConf['image.']).$pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']),$lConf['imageWrapIfAny_'.$cc]);
 		$cc++;
 	}
 	$markerArray['###NEWS_IMAGE###'] = '';
 	if ($cc) {
-		$markerArray['###NEWS_IMAGE###'] = $this->local_cObj->wrap(trim($theImgCode), $lConf['imageWrapIfAny']);
+		$markerArray['###NEWS_IMAGE###'] = $pObj->local_cObj->wrap(trim($theImgCode), $lConf['imageWrapIfAny']);
 		
 	}
 		return $markerArray;

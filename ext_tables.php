@@ -46,6 +46,13 @@ $TCA['tt_news_cat'] = Array (
 		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
+		'sortby' => 'sorting',
+		'enablecolumns' => Array (
+			'disabled' => 'hidden',
+	#		'starttime' => 'starttime',
+	#		'endtime' => 'endtime',
+#			'fe_group' => 'fe_group',
+		),
 		'prependAtCopy' => 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy',
 		'crdate' => 'crdate',
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php'
@@ -68,7 +75,7 @@ t3lib_extMgm::addToInsertRecords('tt_news');
 // adds the possiblity to switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
 
 if ($confArr['useStoragePid']) {
-    t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
+	t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
 } else {
 	t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds_no_sPID.xml');
 }

@@ -27,7 +27,7 @@
 /**
  * Function for adding new display items to tt_news in the backend
  *
- * $Id: class.tx_ttnews_itemsProcFunc.php,v 1.2 2004/11/17 21:48:52 rgermann Exp $
+ * $Id: class.tx_ttnews_itemsProcFunc.php,v 1.9 2004/11/17 17:21:51 rupertgermann Exp $
  *
  * @author	Mathias Bolt Lesniak <mathias@lilio.com>
  */

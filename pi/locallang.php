@@ -366,7 +366,7 @@ $LOCAL_LANG = Array (
 		'textCat' => 'Kategorija:',
 		'textNewsAge' => 'Starost:',
 		'more' => '[više]',
-		'preAuthor' => 'Autor:',
+		'preAuthor' => 'Autor/ica:',
 		'backToList' => '<- povratak na popis novosti',
 		'goToArchive' => 'u arhivu ->',
 		'archiveHeader' => 'ARHIVA',
@@ -425,6 +425,30 @@ $LOCAL_LANG = Array (
 	'bg' => Array (
 	),
 	'br' => Array (
+		'latestHeader' => 'Últimas Notícias:',
+		'textCatLatest' => 'Cat:',
+		'textCat' => 'Categoria:',
+		'textNewsAge' => 'Tempo:',
+		'more' => '[mais]',
+		'preAuthor' => 'Por:',
+		'backToList' => '<- Voltar para: %s',
+		'goToArchive' => 'ir para Arquivo ->',
+		'archiveHeader' => 'ARQUIVO:',
+		'archiveItems' => 'ítens',
+		'archiveEmptyMsg' => 'Desculpe, o Arquivo não contém ítens',
+		'noResultsMsg' => 'nada encontrado',
+		'searchEmptyMsg' => 'Por favor informe a palavra-chave',
+		'noNewsToListMsg' => 'sem notícias nesta lista.',
+		'textRelated' => 'Notícias Relacionadas:',
+		'textLinks' => 'Links:',
+		'textFiles' => 'Arquivos:',
+		'pi_list_browseresults_prev' => '< Anterior',
+		'pi_list_browseresults_page' => 'Página',
+		'pi_list_browseresults_next' => 'Próximo >',
+		'noNewsIdMsg' => 'nenhum ID de notícia foi informado',
+		'searchButtonLabel' => 'Busca',
+		'altTextCatSelector' => 'Exibir apenas a categoria:',
+		'altTextCatShortcut' => 'Ir para:',
 	),
 	'et' => Array (
 	),
@@ -445,6 +469,12 @@ $LOCAL_LANG = Array (
 	'ba' => Array (
 	),
 	'kr' => Array (
+	),
+	'eo' => Array (
+	),
+	'my' => Array (
+	),
+	'hi' => Array (
 	),
 );
 ?>

@@ -30,7 +30,7 @@
  * markers ###FILE_LINK### and ###TEXT_FILES### with values from the database field "news_files"  
  *  
  *
- * $Id: example_itemMarkerArrayFunc.php,v 1.1.1.1 2004/11/04 19:12:30 rgermann Exp $
+ * $Id: example_itemMarkerArrayFunc.php,v 1.7 2004/11/17 17:21:53 rupertgermann Exp $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */
