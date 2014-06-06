@@ -3,136 +3,176 @@
 // ******************************************************************
 // This is the standard TypoScript address table, tt_address
 // ******************************************************************
-$TCA['tt_address'] = Array (
+$TCA['tt_address'] = array (
 	'ctrl' => $TCA['tt_address']['ctrl'],
-	'interface' => Array (
-		'showRecordFieldList' => 'name,address,city,zip,country,phone,fax,email,www,title,company,image'
+	'interface' => array (
+		'showRecordFieldList' => 'name,address,city,zip,region,country,phone,fax,email,www,title,company,image'
 	),
 	'feInterface' => $TCA['tt_address']['feInterface'],
-	'columns' => Array (
-		'hidden' => Array (
+	'columns' => array (
+		'hidden' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.hidden',
-			'config' => Array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config' => array (
 				'type' => 'check'
 			)
 		),
-		'name' => Array (
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.name',
-			'config' => Array (
+		'name' => array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.name',
+			'config' => array (
 				'type' => 'input',
 				'size' => '40',
 				'max' => '256'
 			)
 		),
-		'title' => Array (
+		'first_name' => array (		
+			'exclude' => 0,		
+			'label' => 'LLL:EXT:tt_address/locallang_tca.xml:tt_address.first_name',		
+			'config' => array (
+				'type' => 'input',
+				'size' => '40',
+				'eval' => 'trim',
+				'max' => '256'
+			)
+		),
+		'middle_name' => array (		
+			'exclude' => 0,		
+			'label' => 'LLL:EXT:tt_address/locallang_tca.xml:tt_address.middle_name',		
+			'config' => array (
+				'type' => 'input',
+				'size' => '40',
+				'eval' => 'trim',
+				'max' => '256'
+			)
+		),
+		'last_name' => array (		
+			'exclude' => 0,		
+			'label' => 'LLL:EXT:tt_address/locallang_tca.xml:tt_address.last_name',		
+			'config' => array (
+				'type' => 'input',
+				'size' => '40',
+				'eval' => 'trim',
+				'max' => '256'
+			)
+		),
+		'title' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.title_person',
-			'config' => Array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.title_person',
+			'config' => array (
 				'type' => 'input',
 				'size' => '20',
 				'eval' => 'trim',
 				'max' => '40'
 			)
 		),
-		'address' => Array (
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.address',
-			'config' => Array (
+		'address' => array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.address',
+			'config' => array (
 				'type' => 'text',
 				'cols' => '20',
 				'rows' => '3'
 			)
 		),
-		'phone' => Array (
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.phone',
-			'config' => Array (
+		'phone' => array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.phone',
+			'config' => array (
 				'type' => 'input',
 				'eval' => 'trim',
 				'size' => '20',
 				'max' => '30'
 			)
 		),
-		'fax' => Array (
+		'fax' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.fax',
-			'config' => Array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.fax',
+			'config' => array (
 				'type' => 'input',
 				'size' => '20',
 				'eval' => 'trim',
 				'max' => '30'
 			)
 		),
-		'mobile' => Array (
+		'mobile' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:tt_address/locallang_tca.php:tt_address.mobile',
-			'config' => Array (
+			'label' => 'LLL:EXT:tt_address/locallang_tca.xml:tt_address.mobile',
+			'config' => array (
 				'type' => 'input',
 				'eval' => 'trim',
 				'size' => '20',
 				'max' => '30'
 			)
 		),
-		'www' => Array (
+		'www' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.www',
-			'config' => Array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.www',
+			'config' => array (
 				'type' => 'input',
 				'eval' => 'trim',
 				'size' => '20',
 				'max' => '80'
 			)
 		),
-		'email' => Array (
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.email',
-			'config' => Array (
+		'email' => array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.email',
+			'config' => array (
 				'type' => 'input',
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '80'
 			)
 		),
-		'company' => Array (
+		'company' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.company',
-			'config' => Array (
+			'label' => 'LLL:EXT:tt_address/locallang_tca.xml:tt_address.organization',
+			'config' => array (
 				'type' => 'input',
 				'eval' => 'trim',
 				'size' => '20',
 				'max' => '80'
 			)
 		),
-		'city' => Array (
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.city',
-			'config' => Array (
+		'city' => array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.city',
+			'config' => array (
 				'type' => 'input',
 				'size' => '20',
 				'eval' => 'trim',
 				'max' => '80'
 			)
 		),
-		'zip' => Array (
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.zip',
-			'config' => Array (
+		'zip' => array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.zip',
+			'config' => array (
 				'type' => 'input',
 				'eval' => 'trim',
 				'size' => '10',
 				'max' => '20'
 			)
 		),
-		'country' => Array (
+		'region' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.country',
-			'config' => Array (
+			'label' => 'LLL:EXT:tt_address/locallang_tca.xml:tt_address.region',
+			'config' => array (
 				'type' => 'input',
 				'size' => '20',
 				'eval' => 'trim',
 				'max' => '30'
 			)
 		),
-		'image' => Array (
+		'country' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.image',
-			'config' => Array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.country',
+			'config' => array (
+				'type' => 'input',
+				'size' => '20',
+				'eval' => 'trim',
+				'max' => '30'
+			)
+		),
+		'image' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.image',
+			'config' => array (
 				'type' => 'group',
 				'internal_type' => 'file',
 				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
@@ -144,24 +184,191 @@ $TCA['tt_address'] = Array (
 				'minitems' => '0'
 			)
 		),
-		'description' => Array (
+		'description' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.description',
-			'config' => Array (
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.description',
+			'config' => array (
 				'type' => 'text',
 				'rows' => 5,
 				'cols' => 48
 			)
+		),
+		'addressgroup' => array(
+			'exclude' => 1,		
+			'label' => 'LLL:EXT:tt_address/locallang_tca.xml:tt_address.addressgroup',		
+			'config' => array(
+				'type' => 'select',
+				'form_type' => 'user',
+				'userFunc' => 'tx_ttaddress_treeview->displayGroupTree',
+				'treeView' => 1,
+				'foreign_table' => 'tt_address_group',
+				'size' => 5,
+				'autoSizeMax' => 25,
+				'minitems' => 0,
+				'maxitems' => 50,
+				'MM' => 'tt_address_group_mm',
+			)
 		)
 	),
-	'types' => Array (
-		'1' => Array('showitem' => 'hidden;;;;1-1-1, name;;2;;3-3-3, address, zip, city;;3, email;;5, phone;;4, image;;;;4-4-4, description')
+	'types' => array (
+		'1' => array('showitem' => 'hidden;;;;1-1-1, name;;2;;3-3-3, address, zip, city;;3, email;;5, phone;;4, image;;;;4-4-4, description, addressgroup;;;;1-1-1')
 	),
-	'palettes' => Array (
-		'2' => Array('showitem' => 'title, company'),
-		'3' => Array('showitem' => 'country'),
-		'4' => Array('showitem' => 'mobile, fax'),
-		'5' => Array('showitem' => 'www')
+	'palettes' => array (
+		'2' => array('showitem' => 'title, company'),
+		'3' => array('showitem' => 'region, country'),
+		'4' => array('showitem' => 'mobile, fax'),
+		'5' => array('showitem' => 'www')
 	)
 );
+
+$TCA['tt_address_group'] = array(
+	'ctrl' => $TCA['tt_address_group']['ctrl'],
+	'interface' => array(
+		'showRecordFieldList' => 'hidden,fe_group,title,parent_group,description'
+	),
+	'feInterface' => $TCA['tt_address_group']['feInterface'],
+	'columns' => array(
+		'hidden' => array(
+			'l10n_mode' => 'mergeIfNotBlank',	
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config' => array(
+				'type' => 'check',
+				'default' => '1'
+			)
+		),
+		'fe_group' => array(		
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.fe_group',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.hide_at_login', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.any_login', -2),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.usergroups', '--div--')
+				),
+				'foreign_table' => 'fe_groups'
+			)
+		),
+		'title' => array(		
+			'exclude' => 1,		
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.title',		
+			'config' => array(
+				'type' => 'input',	
+				'size' => '30',	
+				'eval' => 'required',
+			)
+		),
+		'parent_group' => array(		
+			'exclude' => 1,		
+			'label' => 'LLL:EXT:tt_address/locallang_tca.xml:tt_address_group.parent_group',		
+			'config' => array(
+				'type' => 'select',
+				'form_type' => 'user',
+				'userFunc' => 'tx_ttaddress_treeview->displayGroupTree',
+				'treeView' => 1,
+				'size' => 1,
+				'autoSizeMax' => 10,
+				'minitems' => 0,
+				'maxitems' => 2,
+				'foreign_table' => 'tt_address_group',
+			)
+		),
+		'description' => array(		
+			'exclude' => 1,		
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.description',		
+			'config' => array(
+				'type' => 'text',
+				'cols' => '30',	
+				'rows' => '5',
+			)
+		),
+		'sys_language_uid' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'sys_language',
+				'foreign_table_where' => 'ORDER BY sys_language.title',
+				'items' => array(
+					array('LLL:EXT:lang/locallang_general.php:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.php:LGL.default_value', 0)
+				)
+			)
+		),
+		'l18n_parent' => array(
+			'displayCond' => 'FIELD:sys_language_uid:>:0',
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
+			'config' => array(
+				'type' => 'select',
+				'items' => array(
+					array('', 0),
+				),
+				'foreign_table' => 'tt_address_group',
+				'foreign_table_where' => 'AND tt_address_group.uid=###REC_FIELD_l18n_parent### AND tt_address_group.sys_language_uid IN (-1,0)',
+			)
+		),
+		'l18n_diffsource' => array(
+			'config'=> array(
+				'type'=>'passthrough'
+			)
+		),
+	),
+	'types' => array(
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, title;;;;2-2-2, parent_group;;;;3-3-3, description')
+	),
+	'palettes' => array(
+		'1' => array('showitem' => 'fe_group')
+	)
+);
+
+
+//-- start splitting name into first and last name
+
+$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_address']);
+
+// original values
+$showitemOrig            = $TCA['tt_address']['types'][1]['showitem'];
+$showRecordFieldListOrig = $TCA['tt_address']['interface']['showRecordFieldList'];
+$fe_admin_fieldListOrig  = $TCA['tt_address']['feInterface']['fe_admin_fieldList'];
+
+// shows both, the old and the new fields while converting to the new fields
+$showItemReplace = ' name;;;;3-3-3, first_name, middle_name, last_name;;2;;,'; 
+$showRecordFieldListReplace = 'name,first_name,middle_name,last_name,';
+$fe_admin_fieldListReplace  = 'name,first_name,middle_name,last_name,';
+
+
+if($extConf['disableCombinedNameField']) {
+	unset($TCA['tt_address']['columns']['name']);
+	
+	// shows only the new fields
+	$showItemReplace            = ' first_name;;;;1-1-1, middle_name;;;;, last_name;;2;;,';
+	$showRecordFieldListReplace = 'first_name,middle_name,last_name,';
+	$fe_admin_fieldListReplace  = 'first_name,middle_name,last_name,';
+
+	$TCA['tt_address']['ctrl']['label_alt']       = 'last_name, first_name';
+	$TCA['tt_address']['ctrl']['label_alt_force'] = 1;
+	$TCA['tt_address']['ctrl']['default_sortby']  = 'ORDER BY last_name, first_name, middle_name';
+}
+
+$showitemNew = str_replace(' name;;2;;3-3-3,', $showItemReplace, $showitemOrig);
+$showRecordFieldListNew = str_replace(
+	'name,',
+	$showRecordFieldListReplace,
+	$showRecordFieldListOrig
+);
+$fe_admin_fieldListNew = str_replace(
+	'name,',
+	$fe_admin_fieldListReplace,
+	$fe_admin_fieldListOrig
+);
+$TCA['tt_address']['types'][1]['showitem'] = $showitemNew;
+$TCA['tt_address']['interface']['showRecordFieldList'] = $showRecordFieldListNew;
+$TCA['tt_address']['feInterface']['fe_admin_fieldList'] = $fe_admin_fieldListNew;
+
+//-- end splitting name
+
+
 ?>

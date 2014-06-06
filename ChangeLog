@@ -1,0 +1,42 @@
+2007-03-26 Ingo Renner	<typo3@ingo-renner.com>
+
+	* ADD added update routines for transition from addressgroups to tt_address
+	* ADD added backwards compatibility function so that other extensions building on tt_address will still work when they use the combined name field
+	* ADD added hook to process extra/own markers
+	* UPD updated manual
+	* FIX template path was not read correctly
+	* ADD single records and groups can be selecty via TS
+	* ADD added chanes from Uwe Schlüter, thanks!
+
+2007-01-02 Ingo Renner	<typo3@ingo-renner.com>
+
+	* CHG !!! changed company marker and configuration to "organization" to be closer to the hcard standard, the table field used however is still "company"
+	* CHG increased length for country field to 100
+	* ADD !!! implemented hcard microformat standard
+	* ADD added first_name, middle_name, last_name fields to allowed sort fields
+	* ADD added region field
+	* FIX the "default" TS configuraion was not used when the default template file name was not default.htm
+
+2006-12-29 Ingo Renner	<typo3@ingo-renner.com>
+
+	* ADD added middle name field
+
+2006-11-29 Ingo Renner	<typo3@ingo-renner.com>
+
+	* ADD pi1 can use the new first and last name fields now
+
+2006-11-28 Ingo Renner	<typo3@ingo-renner.com>
+
+	* ADD !!! merged EXT:addressgroups into tt_address
+
+2006-10-26 Ingo Renner	<typo3@ingo-renner.com>
+
+	* CHG Converted locallang files to xml
+	* RMV removed obsolete php locallang files
+	* ADD added fields first name and last name
+	* ADD added option to disable the old combined name field
+	* ADD added wizard to migrate/update from the old combined name field to first and last name fields
+
+2006-10-04	Ingo Renner	<typo3@ingo-renner.com>
+	
+	* CHG Taking over tt_address from Kasper

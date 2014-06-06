@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Address Example Template</title>
+</head>
+<body>
+
+<!--
+Markers you can use:
+
+###UID###
+###FIRSTNAME###
+###MIDDLENAME###
+###LASTNAME###
+###TITLE###
+###EMAIL###
+###PHONE###
+###MOBILE###
+###WWW###
+###ADDRESS###
+###ORGANIZATION###
+###CITY###
+###ZIP###
+###REGION###
+###COUNTRY###
+###IMAGE###
+###FAX###
+###DESCRIPTION###
+###MAINGROUP###
+###GROUPLIST###
+
+
+-->
+
+<!-- ###TEMPLATE_ADDRESS### beginn -->
+<div class="vcard">
+###IMAGE###
+<!-- ###SUBPART_URL### begin -->
+###FIRSTNAME### ###MIDDLENAME### ###LASTNAME###
+<!-- ###SUBPART_URL### end -->
+###ORGANIZATION###
+###EMAIL###
+<!-- ###SUBPART_ADR### begin -->
+<div class="adr">
+###ADDRESS###
+###CITY### ###REGION### ###ZIP### ###COUNTRY###
+</div>
+<!-- ###SUBPART_ADR### end -->
+###PHONE###
+</div>
+<!-- ###TEMPLATE_ADDRESS### end -->
+
+</body>
+</html>
