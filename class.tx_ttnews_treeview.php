@@ -216,7 +216,6 @@ class tx_ttnews_treeview {
 						$treeViewObj = t3lib_div::makeInstance('tx_ttnews_tceFunc_selectTreeView');
 					}
 					$treeViewObj->table = $config['foreign_table'];
-
 					$treeViewObj->init($SPaddWhere);
 					$treeViewObj->backPath = $this->pObj->backPath;
 					$treeViewObj->parentField = $TCA[$config['foreign_table']]['ctrl']['treeParentField'];

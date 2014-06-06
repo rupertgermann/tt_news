@@ -41,13 +41,14 @@ $TCA['tt_news'] = Array (
 	)
 );
 
+#$category_OrderBy = $confArr['category_OrderBy'];
 $TCA['tt_news_cat'] = Array (
 	'ctrl' => Array (
 		'title' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news_cat',
 		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
-		'sortby' => 'sorting',
+		'default_sortby' => 'ORDER BY uid',
 		'treeParentField' => 'parent_category',
 		'enablecolumns' => Array (
 			'disabled' => 'hidden',

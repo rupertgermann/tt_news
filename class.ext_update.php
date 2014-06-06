@@ -165,19 +165,20 @@ class ext_update {
 	 */
 	function access($what = 'all') {
 		if ($what = 'all') {
-
-			if (in_array('tt_news_cat_mm', $GLOBALS['TYPO3_DB']->admin_get_tables ())) {
-				$testres = $GLOBALS['TYPO3_DB']->exec_SELECTquery ('*', 'tt_news_cat_mm', '1=1');
-				// test, if there are rows in the tt_news_cat_mm table. If so, the UPDATE option is not shown.
-				if ($testres && !$GLOBALS['TYPO3_DB']->sql_num_rows($testres)) {
-					$res = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($this->query('categoryrelations'));
-					if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res)) {
-						return 1;
-					}
-				} else {
-					$res = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($this->query('flexforms'));
-					if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res)){
-						return 1;
+			if(is_object($GLOBALS['TYPO3_DB'])) {
+				if (in_array('tt_news_cat_mm', $GLOBALS['TYPO3_DB']->admin_get_tables ())) {
+					$testres = $GLOBALS['TYPO3_DB']->exec_SELECTquery ('*', 'tt_news_cat_mm', '1=1');
+					// test, if there are rows in the tt_news_cat_mm table. If so, the UPDATE option is not shown.
+					if ($testres && !$GLOBALS['TYPO3_DB']->sql_num_rows($testres)) {
+						$res = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($this->query('categoryrelations'));
+						if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res)) {
+							return 1;
+						}
+					} else {
+						$res = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($this->query('flexforms'));
+						if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res)){
+							return 1;
+						}
 					}
 				}
 			}

@@ -28,7 +28,7 @@
 * class.tx_ttnews.php
 *
 * versatile news system for TYPO3.
-* $Id: class.tx_ttnews.php,v 1.101 2005/05/17 17:02:00 rupertgermann Exp $
+* $Id: class.tx_ttnews.php,v 1.105 2005/06/11 09:02:27 rupertgermann Exp $
 *
 * TypoScript setup:
 * - See static/ts_new/setup.txt
@@ -898,14 +898,13 @@ class tx_ttnews extends tslib_pibase {
 			$wrappedSubpartArray = array();
 			$lConf = $this->conf[$prefix_display.'.'];
 			$titleField = $lConf['linkTitleField']?$lConf['linkTitleField']:'';
-			$altField = $lConf['linkAltField']?$lConf['linkAltField']:'';
 
-			$GLOBALS['TSFE']->ATagParams = ($pTmp?$pTmp.' ':'').'title="'.$this->local_cObj->stdWrap($row[$titleField], $lConf['linkTitleField.']).'" alt="'.$this->local_cObj->stdWrap($row[$altField], $lConf['linkAltField.']).'"';
+			$GLOBALS['TSFE']->ATagParams = $pTmp.' title="'.$this->local_cObj->stdWrap(trim(htmlspecialchars($row[$titleField])), $lConf['linkTitleField.']).'"';
 
 			if ($GLOBALS['TSFE']->sys_language_content) {
 				$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay('tt_news', $row, $GLOBALS['TSFE']->sys_language_content, $GLOBALS['TSFE']->sys_language_contentOL, '');
 			}
-			$markerArray = $this->getItemMarkerArray($row, $prefix_display);
+			$this->categories[$row['uid']] = $this->getCategories($row['uid']);
 
 			if ($row['type'] == 1 || $row['type'] == 2) {
 				// News type article or external url
@@ -916,8 +915,9 @@ class tx_ttnews extends tslib_pibase {
 				$this->local_cObj->LOAD_REGISTER(array('newsMoreLink' => $this->local_cObj->typolink($this->pi_getLL('more'), $this->conf['pageTypoLink.'])), '');
 			} else {
 					//  Overwrite the singlePid from config-array with a singlePid given from the first entry in $this->categories
-				if ($this->conf['useSPidFromCategory']) {
-					$catSPid = array_shift($this->categories[$row['uid']]);
+				if ($this->conf['useSPidFromCategory'] && is_array($this->categories)) {
+					$tmpcats = $this->categories;
+					$catSPid = array_shift($tmpcats[$row['uid']]);
 				}
 				$singlePid = $catSPid['single_pid']?$catSPid['single_pid']:$this->config['singlePid'];
 				if ($this->conf['useHRDates'] && !$this->conf['useHRDatesSingle']) {
@@ -967,6 +967,7 @@ class tx_ttnews extends tslib_pibase {
 
 
 			}
+			$markerArray = $this->getItemMarkerArray($row, $prefix_display);
 
 			// XML
 			if ($this->theCode == 'XML') {
@@ -985,6 +986,7 @@ class tx_ttnews extends tslib_pibase {
 				}
 
 			}
+
 			$layoutNum = $cc % $itempartsCount;
 			// Store the result of template parsing in the Var $itemsOut, use the alternating layouts
 			$itemsOut .= $this->cObj->substituteMarkerArrayCached($itemparts[$layoutNum], $markerArray, array(), $wrappedSubpartArray);
@@ -1135,8 +1137,9 @@ class tx_ttnews extends tslib_pibase {
 		$markerArray = $this->getImageMarkers($markerArray, $row, $lConf, $textRenderObj);
 
 		// find categories for the current record
-		$this->categories[$row['uid']] = $this->getCategories($row['uid']);
-
+		if (!is_array($this->categories)) {
+			$this->categories[$row['uid']] = $this->getCategories($row['uid']);
+		}
 		// get markers and links for categories
 		$markerArray = $this->getCatMarkerArray($markerArray, $row, $lConf);
 
@@ -1262,7 +1265,9 @@ class tx_ttnews extends tslib_pibase {
 		
 		// show news with the same categories in SINGLE view
 		if ($textRenderObj == 'displaySingle') {
-			$this->catExclusive = implode(array_keys($this->categories[$row['uid']]),',');
+			if(is_array($this->catExclusive)) {
+				$this->catExclusive = implode(array_keys($this->categories[$row['uid']]),',');
+			} 
 			$this->config['categoryMode'] = 1;
 			$tmpcode = $this->theCode;
 			$this->theCode = 'LIST';
@@ -1315,7 +1320,7 @@ class tx_ttnews extends tslib_pibase {
 
 			if($this->conf['displayXML.']['xmlFormat'] == 'rss2' ||
 				$this->conf['displayXML.']['xmlFormat'] == 'rss091') {
-				$markerArray['###NEWS_DATE###'] = date('r', $row['datetime']);
+				$markerArray['###NEWS_DATE###'] = date('D, d M Y H:i:s O', $row['datetime']);
 			} elseif ($this->conf['displayXML.']['xmlFormat'] == 'atom03') {
 				$markerArray['###NEWS_DATE###'] = $this->getW3cDate($row['datetime']);
 			}
@@ -1515,7 +1520,7 @@ class tx_ttnews extends tslib_pibase {
 	 * @return	array		$categories: array of found categories
 	 */
 	function getCategories($uid) {
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query ('tt_news_cat.*,tt_news_cat_mm.sorting AS mmsorting', 'tt_news', 'tt_news_cat_mm', 'tt_news_cat', $whereClause = ' AND tt_news_cat_mm.uid_local='.($uid?$uid:0).$this->SPaddWhere.$this->enableCatFields, $groupBy = '', 'mmsorting, '.$this->config['catOrderBy'], $limit = '');
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query ('tt_news_cat.*,tt_news_cat_mm.sorting AS mmsorting', 'tt_news', 'tt_news_cat_mm', 'tt_news_cat', $whereClause = ' AND tt_news_cat_mm.uid_local='.($uid?$uid:0).$this->SPaddWhere.$this->enableCatFields, $groupBy = '', ($this->config['catOrderBy']&&$this->config['catOrderBy']!='sorting'?$this->config['catOrderBy']:'mmsorting'), $limit = '');
 
 		$categories = array();
 		$maincat = 0;
@@ -1596,7 +1601,7 @@ class tx_ttnews extends tslib_pibase {
 				$orderBy = 'sorting';
 				$fields = '*';
 				$lConf = $this->conf['displayCatMenu.'];
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields, 'tt_news_cat', 'parent_category=0' .$this->SPaddWhere. $this->enableCatFields,'',$orderBy);
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields, 'tt_news_cat', 'parent_category=0' .$this->SPaddWhere. $this->enableCatFields,'',$this->config['catOrderBy']);
 				$cArr = array();
 				$cArr[] = $this->local_cObj->stdWrap($this->pi_getLL('catmenuHeader','Select a category:'),$lConf['catmenuHeader_stdWrap.']);
 				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
@@ -1613,7 +1618,7 @@ class tx_ttnews extends tslib_pibase {
 				$treeViewObj = t3lib_div::makeInstance('tx_ttnews_catmenu');
 	
 				$treeViewObj->table = 'tt_news_cat';
-				$treeViewObj->init($this->SPaddWhere. $this->enableCatFields);
+				$treeViewObj->init($this->SPaddWhere.$this->enableCatFields, $this->config['catOrderBy']);
 				$treeViewObj->backPath = 't3lib/';
 				$treeViewObj->parentField = 'parent_category';
 				$treeViewObj->expandAll = 1;
@@ -2122,6 +2127,7 @@ class tx_ttnews extends tslib_pibase {
 		$this->enableCatFields = $this->cObj->enableFields('tt_news_cat');
 
 		$catOrderBy = trim($this->conf['catOrderBy']);
+		if ($catOrderBy) { $catOrderBy = $this->validateFields($catOrderBy); }
 		$this->config['catOrderBy'] = $catOrderBy?$catOrderBy:'sorting';
 
 		// categoryModes are: 0=display all categories, 1=display selected categories, -1=display deselected categories
@@ -2292,7 +2298,7 @@ class tx_ttnews extends tslib_pibase {
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		// optional tags
 		if ($this->conf['displayXML.']['xmlLastBuildDate']) {
-			$markerArray['###NEWS_LASTBUILD###'] = '<lastBuildDate>' . date('r', $row['maxval']) . '</lastBuildDate>';
+			$markerArray['###NEWS_LASTBUILD###'] = '<lastBuildDate>' . date('D, d M Y H:i:s O', $row['maxval']) . '</lastBuildDate>';
 		} else {
 			$markerArray['###NEWS_LASTBUILD###'] = '';
 		}

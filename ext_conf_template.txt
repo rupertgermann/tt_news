@@ -17,7 +17,7 @@ hideNewLocalizations = 0
   # cat=basic/enable/180; type=boolean; label= Prepend at Copy: Here you can disable adding of the text "(copy [#])" to titles of copied records.
 prependAtCopy = 1
 
-# cat=basic//30; type=options[title,short,author]; label= News Label in List-Module: Defines which field is displayed in the title column in the web/list module.
+  # cat=basic//30; type=options[title,short,author]; label= News Label in List-Module: Defines which field is displayed in the title column in the web/list module.
 label = title
 
   # cat=basic//40; type=options[,datetime,title,short,author,tstamp,category]; label= Alternative Label: Defines which field is displayed in the title column in lists if the field is empty, that is configured as label. If no alternative label is defined and the label field is empty the text [No title] will be shown. (in TYPO3 versions below 3.8.0 this doesn't work for processed fields like 'datetime' and 'category')
@@ -28,6 +28,7 @@ label_alt2 =
 
   # cat=basic//50; type=boolean; label= Force alternative label: If this is activated the alternative label will be always shown behind the label.
 label_alt_force = 0
+
 
   # cat=basic//60; type=int [0-600]; label= Width of the left category field: This field shows the selected categories in the tt_news db-record (or parent categories in the category db-record). If "categorySelectedWidth" is set to 0 (zero) the default width (=180px) will be taken.
 categorySelectedWidth =

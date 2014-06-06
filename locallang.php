@@ -2,7 +2,7 @@
 /**
  * Language labels for extension "tt_news"
  *
- * TYPO3 CVS ID: $Id: locallang.php,v 1.22 2005/05/15 19:13:39 rupertgermann Exp $
+ * TYPO3 CVS ID: $Id: locallang.php,v 1.23 2005/05/19 08:53:05 rupertgermann Exp $
  * This file is detected by the translation tool.
  */
 

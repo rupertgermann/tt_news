@@ -296,7 +296,7 @@ $TCA['tt_news'] = Array (
 				'userFunc' => 'tx_ttnews_treeview->displayCategoryTree',
 				'treeView' => 1,
 				'foreign_table' => 'tt_news_cat',
-				'foreign_table_where' => $fTableWhere.'ORDER BY tt_news_cat.sorting',
+				#'foreign_table_where' => $fTableWhere.'ORDER BY tt_news_cat.'.$confArr['category_OrderBy'],
 				'size' => 3,
 				'autoSizeMax' => 25,
 				'minitems' => 0,
@@ -528,7 +528,7 @@ $TCA['tt_news_cat'] = Array (
 				'maxitems' => 2,
 
 				'foreign_table' => 'tt_news_cat',
-				'foreign_table_where' => $fTableWhere.' ORDER BY tt_news_cat.sorting',
+				#'foreign_table_where' => $fTableWhere.' ORDER BY tt_news_cat.'.$confArr['category_OrderBy'],
 				'wizards' => Array(
 					'_PADDING' => 2,
 					'_VERTICAL' => 1,
