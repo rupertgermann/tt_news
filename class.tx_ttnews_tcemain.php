@@ -79,8 +79,8 @@ class tx_ttnews_tcemain {
 			}
 			
 				// direct preview
-			if (isset($GLOBALS['_POST']['_savedokview_x']) && !$fieldArray['type'])	{
-					// if "savedokview" has been pressed and current article has "type" 0 (= normal news article) open current record in single view
+			if (isset($GLOBALS['_POST']['_savedokview_x']) && !$fieldArray['type'] && !$GLOBALS['BE_USER']->workspace)	{
+					// if "savedokview" has been pressed and current article has "type" 0 (= normal news article) and the beUser works in the LIVE workspace open current record in single view
 				$pagesTSC = t3lib_BEfunc::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
 				$GLOBALS['_POST']['popViewId_addParams'] = ($fieldArray['sys_language_uid']>0?'&L='.$fieldArray['sys_language_uid']:'').'&no_cache=1&tx_ttnews[tt_news]='.$id;
 				$GLOBALS['_POST']['popViewId'] = $pagesTSC['tx_ttnews.']['singlePid'];

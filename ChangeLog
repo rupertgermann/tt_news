@@ -1,3 +1,8 @@
+2006-04-18	Rupert Germann <rupi@gmx.li>
+
+	* fix: Empty news records were displayed in workspace previews. Added a check to function getSelectConf which removes news records from WS preview which are hidden in the live Workspace AND in the draft workspace.
+	* version nr: 2.3.2
+
 2006-04-17	Rupert Germann <rupi@gmx.li>
 
 	* fix: removed reference to locallang.php file in class.tx_ttnews_wizicon.php
@@ -1935,5 +1940,5 @@
 
 -----------------------------------------------------------------------------------
 * cvs ID:
-$Id: ChangeLog,v 1.59 2006/04/17 21:06:15 rupertgermann Exp $
+$Id: ChangeLog,v 1.60 2006/04/18 11:41:49 rupertgermann Exp $
 
