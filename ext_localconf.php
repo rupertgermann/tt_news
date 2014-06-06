@@ -77,7 +77,11 @@ if ($confArr['cachingMode']=='normal') {
 
 // in order to make "direct Preview links" for tt_news work again in TYPO3 >= 6, unset pageNotFoundOnCHashError if a BE_USER is logged in
 if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 6000000) {
-	if ($_COOKIE[\TYPO3\CMS\Core\Authentication\BackendUserAuthentication::getCookieName()]) {
+	$configuredCookieName = trim($GLOBALS['TYPO3_CONF_VARS']['BE']['cookieName']);
+	if (empty($configuredCookieName)) {
+		$configuredCookieName = 'be_typo_user';
+	}
+	if ($_COOKIE[$configuredCookieName]) {
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = 0;
 	}
 }
