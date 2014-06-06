@@ -1,0 +1,430 @@
+###
+# This is the default TS-setup for the table-based standard template: EXT:tt_news/pi/news_template.tmpl
+#
+# If your site is css based, maybe the css-file and the css-based news template
+# from folder res/ will fit better in your setup.
+#
+# (see Section Reference in the manual for more options & parameters)
+#
+###
+
+# Includes the newsLib:
+includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
+
+# This enables the tt_content.list item to display the news:
+plugin.tt_news >
+plugin.tt_news = USER
+plugin.tt_news {
+  userFunc = tx_ttnews->main_news
+
+  templateFile = {$plugin.tt_news.file.templateFile}
+  # pid_list is the page, where your news db-records are stored
+  pid_list = {$plugin.tt_news.pid_list}
+
+  # you can also leave the "starting Point" field in the content element empty and
+  # define the pid_list in this way:
+  # pid_list = 12,13  # comma separated list of pages
+
+  recursive.field = recursive
+
+  # page for the Single view  (changed in version 1.6.0 - PIDitemDisplay don't work anymore)
+  singlePid = {$plugin.tt_news.singlePid}
+
+  code.field = select_key
+  allowCaching = {$plugin.tt_news.allowCaching}
+  limit = {$plugin.tt_news.limit}
+  latestLimit = {$plugin.tt_news.latestLimit}
+  backPid = {$plugin.tt_news.backPid}
+  useHRDates = {$plugin.tt_news.useHRDates}
+
+
+  # show an empty list when entering the search page.
+  emptySearchAtStart = 1
+  searchEmptyMsg_stdWrap.wrap (
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr><td><strong> | </strong></td></tr></table>
+  )
+
+  # settings for attached files
+  newsFiles {
+    path = uploads/media/
+    icon = 1
+    stdWrap.wrap = |<br />
+  }
+  newsFilesHeader_stdWrap.wrap = <strong>|</strong>
+  newsFiles_stdWrap.wrap =
+
+  # Display language labels and/or flags
+  showLangLabels = 0
+  showFlags = 0
+  flagImage {
+    file.maxW = 16
+  }
+
+  # Global wraps & colors - [depreciated] use CSS ;-)
+  wrap1.wrap = {$plugin.tt_news.wrap1}
+  wrap2.wrap = {$plugin.tt_news.wrap2}
+  wrap3.wrap = {$plugin.tt_news.wrap3}
+  color1.wrap = {$plugin.tt_news.color1}
+  color2.wrap = {$plugin.tt_news.color2}
+  color3.wrap = {$plugin.tt_news.color3}
+  color4.wrap = {$plugin.tt_news.color4}
+
+  # Renders news items in the same way like content as text or text/w image
+  # RTE parseFunc configuration for the fields: bodytext, short(subheader), links, author
+  general_stdWrap {
+     parseFunc < tt_content.text.20.parseFunc
+  }
+
+  noNewsToListMsg_stdWrap.wrap = <p>|</p>
+  noNewsIdMsg_stdWrap.wrap (
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr><td><strong>|</strong></td></tr></table>
+  )
+  versionPreviewMessage_stdWrap.wrap = <div style="border:2px solid red;padding:10px;margin:10px 0px 10px 0px;"><img src="t3lib/gfx/icon_note.gif" class="absmiddle" alt="" height="16" width="18">&nbsp;<strong>|</strong></div>
+  versionPreviewMessageLinkToOriginal_stdWrap.wrap = &nbsp;<span style="font-weight:normal;">|</span>
+
+  # Pagebrowser settings
+  usePiBasePagebrowser = 0
+  pageBrowser {
+    maxPages = 7
+    showResultCount = 1
+    showPBrowserText = 0
+    dontLinkActivePage = 1
+    tableParams = cellpadding="2" align="center"
+
+    # settings for the extended pageBrowser from TYPO3 3.8.0
+    showFirstLast = 1
+    pagefloat = center
+    showRange = 1
+    disabledLinkWrap = <span style="color:#bbb;">|</span>
+    inactiveLinkWrap = |
+    activeLinkWrap = <strong>|</strong>
+    LinksWrap =|
+    showResultsWrap = |<br />
+    showResultsNumbersWrap =
+    browseBoxWrap =
+    browseLinksWrap = |
+  }
+
+  # Category settings
+  catImageMode = {$plugin.tt_news.catImageMode}
+  catTextMode = {$plugin.tt_news.catTextMode}
+  maxCatImages = 10
+  maxCatTexts = 10
+
+  # category modes:
+  # 0 = don't care about category selections
+  # 1 = display selected categories
+  # -1 = display deselected categories
+  categoryMode = 0
+
+  catImageMaxWidth = 25
+  catImageMaxHeight = 25
+  useSubCategories = {$plugin.tt_news.useSubCategories}
+  displaySubCategories = {$plugin.tt_news.displaySubCategories}
+  showRelatedNewsByCategory = {$plugin.tt_news.showRelatedNewsByCategory}
+  useSPidFromCategory = {$plugin.tt_news.useSPidFromCategory}
+
+  categoryDivider = ,
+  categoryDivider_stdWrap.noTrimWrap = || |
+
+  # settings for the category rootline
+  catRootline {
+  	showCatRootline = {$plugin.tt_news.showCatRootline}
+  	catRootline_stdWrap.wrap = <div class="news-catRootline">|</div>
+
+	# if titles are linked the link points to the page which is configured as category shortcut
+	linkTitles = 1
+	title_stdWrap.wrap =
+	divider = &nbsp;&gt;&nbsp;
+  }
+
+  # setting for the category menu (CATMENU)
+  displayCatMenu {
+    # catmenu rendermode:
+    # nestedWraps = make a catmenu with nested wraps
+    # tree = use TYPO3 class treeview to build the catmenu
+    mode = tree
+    catmenu_stdWrap.wrap = <div class="news-catmenu">|</div>
+    catmenuHeader_stdWrap.wrap = <h4>|</h4>
+
+    # 1 = icon from cat record
+    # 2 = own icons
+    # 0 = default icon
+    # -1 = no icon
+    catmenuIconMode = 0
+
+    # if "catmenuIconPath" is set and "catmenuIconMode" is 2 all icons "join","joinbottom" & "line" are expected in this path
+    catmenuIconPath =
+
+    # icon for all categories if "catmenuIconMode" = 2
+    catmenuIconFile = tt_news_cat.gif
+
+    # icon size for "catmenuIconMode" 1 & 2
+    catmenuIconFile {
+      width = 18
+      height = 16
+    }
+
+    # disables the "root" icon of the category tree if set
+    catmenuNoRootIcon = 1
+
+    insertDescrAsTitle = 1
+
+    # userdefined root icon
+    # catmenuRootIconFile = circle_blue.gif
+
+    # size of the userdefined root icon
+    catmenuRootIconFile {
+      width = 20
+      height = 20
+    }
+
+    # wraps for active or inactive category links in the tree
+    catmenuItem_ACT_stdWrap.wrap = <div class="news-catmenu-ACT">|</div>
+    catmenuItem_NO_stdWrap.wrap = <div class="news-catmenu-NO">|</div>
+
+    # wraps for each menu level (only in mode "nestedWraps")
+    catmenuLevel1_stdWrap.wrap = <div class="level1">|</div>
+    catmenuLevel2_stdWrap.wrap = <div class="level2">|</div>
+    catmenuLevel3_stdWrap.wrap = <div class="level3">|</div>
+    catmenuLevel4_stdWrap.wrap = <div class="level4">|</div>
+  }
+
+  # substitute pagetitle with title of news article
+  substitutePagetitle = 1
+
+  # Archive settings
+  datetimeDaysToArchive = {$plugin.tt_news.datetimeDaysToArchive}
+  enableArchiveDate = 1
+  archiveTypoLink.parameter = {$plugin.tt_news.archiveTypoLink.parameter}
+  reverseAMenu = 1
+  archiveMenuNoEmpty = 1
+
+ archiveTitleCObject = COA
+  archiveTitleCObject {
+    10 = TEXT
+    10.field = start
+    10.strftime = %B - %Y
+
+    # if there is no value for datetime, this text is inserted instead:
+    20 = TEXT
+    20.value = no date
+    20.if {
+    # don't insert 0 as value, because localized times can also set other
+    # values for unixtime start.
+      value = 20000
+      isGreaterThan.field=start
+      negate = 1
+    }
+  }
+
+  archiveEmptyMsg_stdWrap.wrap (
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr><td><strong> | </strong></td></tr></table>
+  )
+
+  # comment the following lines(//) out, if you want to divide the Archive-menu in yearly columns.
+  # the included script inserts html, that will fit in the standard template. If you use another template,
+  # see comments in the script for required changes.
+
+  # include amenu script & call user function:
+  // includeLibs.newsAmenuUserFunc = EXT:tt_news/res/example_amenuUserFunc.php
+  // plugin.tt_news.newsAmenuUserFunc = user_processAmenu
+
+  pageTypoLink.parameter.current = 1
+
+  ### Settings for Related News:
+  related_stdWrap.wrap =  <dl class="news-single-related">|</dl>
+  relatedHeader_stdWrap.wrap = <dt>|</dt>
+
+  relatedHeader_stdWrap.wrap = <strong>|</strong>
+
+  # end-wrap for the getRelated objects
+  tmp.20 = TEXT
+  tmp.20 {
+    field = datetime
+    strftime = %d-%m-%y %H:%M
+    wrap = &nbsp;-&nbsp; | <br />
+  }
+
+  # Build the list of related news:
+  getRelatedCObject = COA
+  getRelatedCObject {
+
+    # groupBy =
+    orderBy = datetime desc
+
+    10=CASE
+    10.key.field=type
+    # settings for 'normal' related news
+    10.default=COA
+      10.default {
+        10 = TEXT
+        10.field = title
+        10.typolink.parameter = {$plugin.tt_news.singlePid}
+        10.typolink.additionalParams.data=register:newsAddParams
+        10.typolink.useCacheHash = 1
+        10.wrap = |
+        20 < plugin.tt_news.tmp.20
+     }
+    # settings for related news, that point to internal pages
+    10.1=COA
+    10.1 {
+      10 = TEXT
+      10.field = title
+      10.typolink.parameter.field = page
+      10.wrap = |
+      20 < plugin.tt_news.tmp.20
+    }
+    # settings for related news, that point to external URLs
+    10.2=COA
+    10.2 {
+      10 = TEXT
+      10.field = title
+      10.typolink.parameter.field = ext_url
+      10.wrap = |
+      20 < plugin.tt_news.tmp.20
+    }
+  }
+  useBidirectionalRelations = {$plugin.tt_news.useBidirectionalRelations}
+  usePagesRelations = {$plugin.tt_news.usePagesRelations}
+
+  # related news by category
+  relatedByCategory_stdWrap.wrap =  <dl class="news-single-related">|</dl>
+  relatedByCategoryHeader_stdWrap.wrap = <dt>|</dt>
+  # globalwrap 3 is used to wrap the list items
+  wrap3.wrap = <dd>|</dd>
+
+  # pagebrowser for singleview
+  useMultiPageSingleView = {$plugin.tt_news.useMultiPageSingleView}
+  maxWordsInSingleView = 0
+
+
+  ### SINGLE news
+  displaySingle {
+    age_stdWrap.age = 1
+    textNewsAge_stdWrap.wrap =
+    date_stdWrap.strftime = %d-%m-%y
+    time_stdWrap.strftime = %H:%M
+    title_stdWrap.wrap = <font face="verdana" size="3"><strong>|</strong></font>
+    subheader_stdWrap.wrap = <strong><em>|</em></strong>
+	author_stdWrap.case = upper
+    author_stdWrap.typolink.parameter.field = author_email
+    preAuthor_stdWrap.noTrimWrap = || |
+
+    links_stdWrap.wrap = | <br />
+
+    linksHeader_stdWrap.wrap = <strong>|</strong>
+
+    imageCount = 2
+    imgAltTextField = imagecaption
+    imageWrapIfAny (
+      <table border="0" cellpadding="0" cellspacing="0" align="right" width="1"><tr><td>
+      <img src="clear.gif" width="15" height="1" border="0" /></td><td> | </td></tr></table>
+    )
+
+    email_stdWrap.setContentToCurrent = 1
+    email_stdWrap.typolink.parameter.current = 1
+    caption_stdWrap.wrap = <font face="verdana" size="1">|</font><br />
+    caption_stdWrap.spaceAfter = 5
+	caption_stdWrap.trim = 1
+    caption_stdWrap.required = 1
+  }
+  displaySingle.image {
+    file.maxW = {$plugin.tt_news.singleMaxW}
+    file.maxH = {$plugin.tt_news.singleMaxH}
+    wrap =
+    imageLinkWrap = 1
+    imageLinkWrap {
+      enable = 1
+      bodyTag = <body bgColor="#dddddd">
+      wrap = <a href="javascript:close();"> | </a>
+      width = 400m
+      height = 400
+      JSwindow = 1
+      JSwindow.newWindow = 1
+      JSwindow.expand = 17,20
+    }
+    stdWrap.spaceAfter=10
+  }
+
+  ### LATEST news
+  displayLatest {
+    age_stdWrap.age = 1
+    date_stdWrap.strftime= %d-%m-%y
+    time_stdWrap.strftime= %H:%M
+    caption_stdWrap.if.directReturn = 0
+    title_stdWrap.wrap = <strong>|</strong>
+    subheader_stdWrap.crop = 100 | ...
+    subheader_stdWrap.ifEmpty.field = bodytext
+    imageCount=1
+    imgAltTextField = imagecaption
+    imageWrapIfAny (
+      <table border="0" cellpadding="0" cellspacing="0" align="left">
+      <tr><td>|</td><td>
+      <img src="clear.gif" width="5" height="1" border="0" />
+      </td></tr></table>
+    )
+  }
+  displayLatest.image {
+    file.maxW = {$plugin.tt_news.latestMaxW}
+    file.maxH = {$plugin.tt_news.latestMaxH}
+    imageLinkWrap = 1
+    stdWrap.spaceAfter=5
+  }
+
+  ### LIST news
+  displayList {
+    age_stdWrap.age = 1
+    textNewsAge_stdWrap.wrap =
+    date_stdWrap.strftime= %A %d. of %B %Y
+    time_stdWrap.strftime= %d-%m-%y %H:%M
+    caption_stdWrap.wrap = <font face="verdana" size="1">|</font><br /><br />
+    caption_stdWrap.spaceAfter =
+    caption_stdWrap.trim=1
+    caption_stdWrap.required=1
+    title_stdWrap.wrap = <strong>|</strong>
+    subheader_stdWrap.crop = 300 | ...
+    subheader_stdWrap.ifEmpty.field = bodytext
+    author_stdWrap.wrap =
+    preAuthor_stdWrap.noTrimWrap = || |
+    imageCount = 1
+    imageWrapIfAny =
+    imgAltTextField = imagecaption
+  }
+  displayList.image {
+    file.maxW = {$plugin.tt_news.listMaxW}
+    file.maxH = {$plugin.tt_news.listMaxH}
+    imageLinkWrap = 1
+    stdWrap.spaceAfter=5
+  }
+
+  ### Example for overwriting values from locallang.php with other ones
+  _LOCAL_LANG.de {
+    # latestHeader = Das Allerneuste vom Neuen!
+    # more = [weiterlesen...]
+    # pi_list_browseresults_displays = Sie sehen Artikel ###SPAN_BEGIN###%s bis %s</span> von ###SPAN_BEGIN###%s</span>
+
+  }
+  ### Set default Styles
+  _CSS_DEFAULT_STYLE (
+  /* example styles for the pagebrowser */
+    .tx-ttnews-browsebox TD { font-size: 10px; }
+    .tx-ttnews-browsebox-strong, .tx-ttnews-browsebox-SCell { font-weight: bold; }
+    .tx-ttnews-browsebox-SCell { background-color: #EEE; }
+  )
+}
+
+
+## This enables the tt_content.record item to display news items:
+tt_news >
+tt_news = < plugin.tt_news
+tt_news.displayCurrentRecord = 1
+
+
+
+### CVS id ###
+# $Id: setup.txt 8864 2008-04-10 10:48:51Z rupi $
+

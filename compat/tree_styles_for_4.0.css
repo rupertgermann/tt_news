@@ -1,0 +1,57 @@
+/**
+  Styles for the category tree in BE forms needed for TYPO3 < 4.1
+*/
+
+
+ul.tree {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	clear: both;
+}
+
+ul.tree A {
+	text-decoration: none;
+}
+
+ul.tree A.pm {
+	cursor: pointer;
+}
+
+ul.tree img {
+	vertical-align: middle;
+}
+
+ul.tree ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	padding-left: 17px;
+}
+
+ul.tree ul li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	line-height: 10px;
+	white-space: nowrap;
+}
+
+ul.tree ul li.expanded ul {
+	background: transparent url('../../../../typo3/gfx/ol/line.gif') repeat-y top left;
+}
+
+ul.tree ul li.last > ul {
+	background: none;
+}
+
+ul.tree li.active, ul.tree ul li.active {
+	background-color: #ebebeb !important;
+}
+
+ul.tree li.active ul, ul.tree ul li.active ul {
+	background-color: #f7f3ef;
+}
+
+
+

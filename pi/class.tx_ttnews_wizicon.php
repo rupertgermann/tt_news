@@ -2,8 +2,8 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2004 Kasper Skårhøj (kasper@typo3.com)
-*  (c) 2004-2007 Rupert Germann (rupi@gmx.li)
+*  (c) 1999-2004 Kasper SkÃ¥rhÃ¸j (kasperYYYY@typo3.com)
+*  (c) 2004-2009 Rupert Germann (rupi@gmx.li)
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
@@ -23,9 +23,9 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- * Class that adds the wizard icon.
+ * Class that adds an entry to the "create new contentelement" wizard.
  *
- * $Id: class.tx_ttnews_wizicon.php 4750 2007-01-25 20:46:23Z rupertgermann $
+ * $Id: class.tx_ttnews_wizicon.php 26878 2009-11-24 10:17:01Z rupi $
  *
 * @author Rupert Germann <rupi@gmx.li>
  */

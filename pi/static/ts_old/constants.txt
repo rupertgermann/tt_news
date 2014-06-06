@@ -1,0 +1,87 @@
+###
+# This are the default TS-constants for the table-based standard template: EXT:tt_news/pi/news_template.tmpl
+##
+
+
+plugin.tt_news {
+
+    # cat=plugin.tt_news/file; type=file[html,htm,tmpl,txt]; label= Template File: HTML-template file for display of news. See EXT:tt_news/pi/news_template.tmpl for an example
+  file.templateFile = EXT:tt_news/pi/news_template.tmpl
+
+    # cat=plugin.tt_news/typo/1; type=wrap; label= Wrap 1: This wrap is used in the template-file (bodytext, links, related-news in SINGLE view).
+  wrap1 = <font face="verdana" size="2" color="black"> | </font>
+    # cat=plugin.tt_news/typo/2; type=wrap; label= Wrap 2: This wrap is used in the template-file ([more] links, pagebrowser...).
+  wrap2 = <font face="verdana" size="1" color="black"> | </font>
+    # cat=plugin.tt_news/typo/3; type=wrap; label= Wrap 3: This wrap is used in the template-file (ArchiveMenu header, latest header).
+  wrap3 = <font face="verdana" size="1" color="white"><strong> | </strong></font>
+
+    # cat=plugin.tt_news/color/1; type=color; label= Color 1: First alternating bgcolor in the template.
+  color1 = #C7D5FE
+    # cat=plugin.tt_news/color/2; type=color; label= Color 2: Second alternating bgcolor in the template.
+  color2 = #E3EAFE
+    # cat=plugin.tt_news/color/3; type=color; label= Color 3: This is the bgcolor for the headers of the latest and amenu templates.
+  color3 = #90ABFC
+    # cat=plugin.tt_news/color/4; type=color; label= Color 4: This is the bgcolor for items in the list view.
+  color4 = #F0F8FF
+
+    # cat=plugin.tt_news/links/3; type=text; label= Starting Point (pid_list): The PID of the page (or comma separated list of PIDs) where your news articles are located.
+  pid_list = 0
+
+    # cat=plugin.tt_news/links/5; type=int+; label= SinglePid: The PID of the page on which single news items should be displayed (since tt_news v1.6.0 this var is called 'singlePid'. The old var-name 'PIDitemDisplay' does not work anymore).
+  singlePid = 0
+    # cat=plugin.tt_news/links/9; type=int+; label= BackPid: The PID of the page to go back to from single news item display screen.
+  backPid = 0
+    # cat=plugin.tt_news/links/7; type=text; label= Archive Link parameter: The PID of the page with a LIST element that displays only archived news items. This link appears at the bottom of the 'LATEST template and it is also used for the links in the AMENU (see: http://typo3.org/documentation/document-library/doc_core_tsref/typolink/ section 'parameter' for more information)
+  archiveTypoLink.parameter = 0
+    
+	# cat=plugin.tt_news//4; type=int+; label= datetime Days to Archive: If this is set, elements are automatically in the archive, after the given number of days has passed. Set this to '0' if you want to disable this feature.
+  datetimeDaysToArchive = 0
+    # cat=plugin.tt_news//5; type=int+; label= List Limit: max items in LIST template.
+  limit = 7
+    # cat=plugin.tt_news//6; type=int+; label= Latest Limit: max news items in LATEST template.
+  latestLimit = 3
+    # cat=plugin.tt_news//8; type=int+; label= Category Text mode: posible values are: 0 = don't display, 1 = display but no link, 2 = link to category shortcut, 3 = act as category selector.
+  catTextMode = 1
+	# cat=plugin.tt_news//9; type=int+; label= Category Image mode: same values as catTextMode.
+  catImageMode = 1
+
+	
+	# cat=plugin.tt_news/dims/1; type=int+; label= single-image max Width: Max width for an image displayed in SINGLE template
+  singleMaxW = 240
+    # cat=plugin.tt_news/dims/2; type=int+; label= single-image max height: Max height for an image displayed in SINGLE template
+  singleMaxH = 180
+
+    # cat=plugin.tt_news/dims/3; type=int+; label= latest-image max width: Max width for an image displayed in LATEST template
+  latestMaxW = 80
+    # cat=plugin.tt_news/dims/4; type=int+; label= latest-image max height: Max height for an image displayed in LATEST template
+  latestMaxH = 60
+  
+    # cat=plugin.tt_news/dims/5; type=int+; label= list-image max width: Max width for an image displayed in LIST template
+  listMaxW = 140
+    # cat=plugin.tt_news/dims/6; type=int+; label= list-image max height: Max height for an image displayed in LIST template
+  listMaxH = 90
+
+     # cat=plugin.tt_news/enable/1; type=boolean; label= Use human readable dates: This enables the use of the GETvars 'year' and 'month' for the archive links instead of the non-readable 'pS', 'pL' and 'arc'.
+  useHRDates = 0
+    # cat=plugin.tt_news/enable/2; type=boolean; label= Use Multipage Single View: Enable this if you want to divide the news SINGLE view to multiple pages.
+  useMultiPageSingleView = 0
+    # cat=plugin.tt_news/enable/3; type=boolean; label= Use bidirectional relations: If this is enabled the SINGLE view shows the the relations of news in both directions. The relation which points back to the source record will be inserted automatically.
+  useBidirectionalRelations = 1
+	# cat=plugin.tt_news/enable/4; type=boolean; label= Use Pages as related news: If this is enabled the SINGLE view shows also relations to pages.
+  usePagesRelations = 1
+  	# cat=plugin.tt_news/enable/5; type=boolean; label= Use subcategories: Enable this if news should also be selected for display if they are a member of a subcategory of the selected category. Works only if categoryMode is 1 (="Show items with selected categories").
+  useSubCategories = 0
+ 	# cat=plugin.tt_news/enable/6; type=boolean; label= Display subcategories: If this is enabled the subcategories of the categories that are assigned to a news record will also be displayed in news records in the FrontEnd. If displayed categories in a news record are subcategories they will be wrapped with "subCategoryTitleItem_stdWrap" (titles) or "subCategoryImgItem_stdWrap" (images).
+  displaySubCategories = 0
+  	# cat=plugin.tt_news/enable/7; type=boolean; label= show related news by category: If this is enbaled the SINGLE view shows a list of news with the same category as the current news record.
+  showRelatedNewsByCategory = 0
+    # cat=plugin.tt_news/enable/8; type=boolean; label= Allow Caching: Allow caching of displayed news? If you want your news being indexed by the indexed-search this has to be enabled.
+  allowCaching = 1
+    # cat=plugin.tt_news/enable/9; type=boolean; label= Use singlePid from category: If this is enabled tt_news uses the singlePid from the first assigned category.
+  useSPidFromCategory = 0
+    # cat=plugin.tt_news/enable/10; type=boolean; label= Show category rootline: Enable this to show the category rootline in the SINGLE or LIST view.
+  showCatRootline = 0
+
+}
+### CVS id ###
+# $Id: constants.txt 8822 2008-04-06 14:22:24Z rupi $

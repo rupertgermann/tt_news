@@ -1,0 +1,9 @@
+
+--- DEPRECATED ---
+
+This folder contains the old tt_news category manager module which was replaced by the "news admin" module (folder: mod1/).
+The tt_news tt_news category manager is only visible in TYPO3 version 4.1 and below.
+The folder modfunc1 will be removed in tt_news 3.1
+
+18.06.2009 Rupert Germann:
+

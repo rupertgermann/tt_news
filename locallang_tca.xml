@@ -11,20 +11,31 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="tt_news">News</label>
+			<label index="tt_news.tabs.special">Special</label>
+			<label index="tt_news.tabs.media">Media</label>
+			<label index="tt_news.tabs.catAndRels">Categories &amp; Relations</label>
+			<label index="tt_news.tabs.categories">Categories</label>
+			<label index="tt_news.tabs.access">Access</label>
+			<label index="tt_news.tabs.extended">Extended</label>
+		
+			<label index="tt_news.uid">ID:</label>
+			<label index="tt_news.tstamp">Last change:</label>
+			<label index="tt_news.pid">Page:</label>
+			
 			<label index="tt_news.type.I.0">News</label>
 			<label index="tt_news.type.I.1">Link internal Page</label>
 			<label index="tt_news.type.I.2">Link external URL</label>
 			<label index="tt_news.datetime">Date/Time:</label>
 			<label index="tt_news.archivedate">Archive date:</label>
 			<label index="tt_news.no_auto_pb">No automatic pagebreaks for this record</label>
-			<label index="tt_news.createNewCategory">create new category</label>
+			<label index="tt_news.manageCategories">Open tt_news category manager</label>
 			<label index="tt_news.editCategory">edit category</label>
 			<label index="tt_news.editDefLangVersion">edit default language version of this article</label>
 			<label index="tt_news.imagealttext">Image alttext</label>
 			<label index="tt_news.imagetitletext">Image titletext</label>
 			<label index="tt_news.related">Related news:</label>
 			<label index="tt_news.random">Randomize 0rder</label>
-			<label index="tt_news.category">Category</label>
+			<label index="tt_news.category">Category:</label>
 			<label index="tt_news_cat">News category</label>
 			<label index="tt_news_cat.image">Category image</label>
 			<label index="tt_news_cat.createNewParentCategory">create new parent category</label>
@@ -40,6 +51,21 @@
 			<label index="tt_news.pi_flexform.sheet_category">Category Settings</label>
 			<label index="tt_news.pi_flexform.sheet_misc">Other Settings</label>
 			<label index="tt_news.pi_flexform.what_to_display">What to display:</label>
+			
+			<label index="tt_news.pi_flexform.codeFromTS">Defined by TypoScript</label>
+			<label index="tt_news.pi_flexform.LIST">Standard list view (LIST)</label>
+			<label index="tt_news.pi_flexform.LIST2">Advanced list view with 6 alternating template parts (LIST2)</label>
+			<label index="tt_news.pi_flexform.LIST3">Standard list view with 3 alternating template parts (LIST3)</label>
+			<label index="tt_news.pi_flexform.LATEST">Latest view (LATEST)</label>
+			<label index="tt_news.pi_flexform.SINGLE">Detail view (SINGLE)</label>
+			<label index="tt_news.pi_flexform.SINGLE2">Advanced detail view with 3 image markers (SINGLE2)</label>
+			
+			<label index="tt_news.pi_flexform.HEADER_LIST">Header list without images (HEADER_LIST)</label>
+			<label index="tt_news.pi_flexform.AMENU">Archive menu (AMENU)</label>
+			<label index="tt_news.pi_flexform.SEARCH">Searchform with result list (SEARCH)</label>
+			<label index="tt_news.pi_flexform.CATMENU">Category menu (CATMENU)</label>
+			<label index="tt_news.pi_flexform.VERSION_PREVIEW">Preview of not published versions of news records (VERSION_PREVIEW)</label>
+			
 			<label index="tt_news.pi_flexform.listOrderby">&quot;Order by&quot; this field (LIST &amp; LATEST):</label>
 			<label index="tt_news.pi_flexform.ascDesc">Ascending or Descending (LIST &amp; LATEST):</label>
 			<label index="tt_news.pi_flexform.ascDesc_asc">Ascending</label>
@@ -63,6 +89,9 @@
 			<label index="tt_news.pi_flexform.catImageMode">Category Image Link Mode:</label>
 			<label index="tt_news.pi_flexform.catTextMode">Category Text Link Mode:</label>
 			<label index="tt_news.pi_flexform.recursive">Recursive level selection:</label>
+			
+			<label index="tt_news.pi_flexform.recursive.I.0">0 levels</label>
+			<label index="tt_news.pi_flexform.recursive_TS">Defined by TypoScript</label>
 			<label index="tt_news.pi_flexform.catImageMaxWidth">Max width of category image:</label>
 			<label index="tt_news.pi_flexform.catImageMaxHeight">Max height of category image:</label>
 			<label index="tt_news.pi_flexform.maxCatImages">Max number of category images:</label>
@@ -83,12 +112,36 @@
 			<label index="tt_news.pi_flexform.limit">Limit: max items for LIST and LATEST</label>
 			<label index="tt_news.pi_flexform.listStartId">List StartId: Force LIST or LATEST to start from this item</label>
 			<label index="tt_news.pi_flexform.noPageBrowser">Don't display Pagebrowser in LIST</label>
-			<label index="tt_news.pi_flexform.imageMaxWidth">Max width for images in news records</label>
-			<label index="tt_news.pi_flexform.imageMaxHeight">Max height for images in news records</label>
-			<label index="tt_news.pi_flexform.alternatingLayouts">Number of alternating template-layouts</label>
+			<label index="tt_news.pi_flexform.imageMaxWidth">Max width for images in news records (accepts optionSplit)</label>
+			<label index="tt_news.pi_flexform.imageMaxHeight">Max height for images in news records (accepts optionSplit)</label>
+			<label index="tt_news.pi_flexform.altLayoutsOptionSplit">Template part number / optionSplit of template part numbers</label>
+			<label index="tt_news.pi_flexform.alternatingLayouts">Number of alternating template parts (is ignored if "Template part number / optionSplit" is set)</label>
 			<label index="tt_news.pi_flexform.croppingLenght">stdWrap.crop for the subheader (short)</label>
+			<label index="tt_news.pi_flexform.croppingLenghtOptionSplit">OptionSplit for cropping lenght of subheader (overwrites lenght parameter from stdWrap.crop)</label>
+			
 			<label index="tt_news.pi_flexform.maxWordsInSingleView">insert pagebreak in SINGLE after this number of words</label>
+			<label index="tt_news.pi_flexform.startingpoint">Page(s) with tt_news records</label>
+			<label index="tt_news.pi_flexform.tsconfig">Typoscript for this content element (plugin.tt_news.[your TS])</label>
+			
 			<label index="tt_news.categorymounts">tt_news: allowed/visible categories</label>
+			
+			
+			
+			<label index="tt_news.treeSelect.msg_notInGRSP">The current category is not located in the "general record storage page" but "useStoragePid" is activated in tt_news configuration. Selecting a parent category from a different pid is not supported.</label>
+			<label index="tt_news.treeSelect.msg_emptyTree">No categories found in page: ###PID###</label>
+			<label index="tt_news.treeSelect.translOrgCat">Categories from the translation original of this record:</label>
+			<label index="tt_news.treeSelect.translOrgNoCat">The translation original of this record has no categories assigned.</label>
+			
+			
+			<label index="tt_news.treeSelect.pageTitleSuffix">[pid: %s]</label>
+			<label index="tt_news.treeSelect.pageTitleSuffixNoGrsp">[from all pages]</label>
+			<label index="tt_news.treeSelect.treeTitle">News categories</label>
+			
+			
+			
+			
+			
+			
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="tt_news">Nyheder</label>

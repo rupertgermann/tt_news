@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>The tt_news manual</description>
+		<type>CSH</type>
+		<csh_table>xEXT_tt_news</csh_table>
+		<fileId>EXT:tt_news/locallang_csh_manual.php</fileId>
+		<labelContext type="array">
+		</labelContext>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index=".alttitle">News</label>
+			<label index=".description"> news description</label>
+			<label index="_.seeAlso">tt_news manual | http://typo3.org/documentation/document-library/extension-manuals/tt_news/current/</label>
+			<label index="_.image"> </label>
+			<label index=".image_descr"> </label>
+			<label index=".syntax"></label>
+		</languageKey>
+		<languageKey index="de" type="array">
+
+		</languageKey>
+	</data>
+
+</T3locallang>

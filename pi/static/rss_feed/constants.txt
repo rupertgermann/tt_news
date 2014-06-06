@@ -1,0 +1,43 @@
+###
+# These are the default TS-constants for RSS feeds from tt_news
+##
+
+plugin.tt_news {
+  displayXML {
+    # cat=plugin_tt_news_XML-feeds//10; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.xmlFormat
+  xmlFormat = rss2
+
+
+
+    # cat=plugin_tt_news_XML-feeds//20; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.xmlTitle
+  xmlTitle = example.com: Latest News
+    # cat=plugin_tt_news_XML-feeds//30; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.xmlLink
+  xmlLink = http://www.example.com/
+    # cat=plugin_tt_news_XML-feeds//40; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.xmlDesc
+  xmlDesc = Latest news from example.com
+    # cat=plugin_tt_news_XML-feeds//50; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.xmlLang
+  xmlLang = en
+    # cat=plugin_tt_news_XML-feeds//60; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.xmlIcon
+  xmlIcon = EXT:tt_news/ext_icon.gif
+    # cat=plugin_tt_news_XML-feeds//70; type=int+; label= LLL:EXT:tt_news/locallang.xml:tsce.xmlLimit
+  xmlLimit = 10
+    # cat=plugin_tt_news_XML-feeds//80; type=boolean; label= LLL:EXT:tt_news/locallang.xml:tsce.xmlCaching
+  xmlCaching = 1
+
+    # cat=plugin_tt_news_XML-feeds/file/10; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.rss2_tmplFile
+  rss2_tmplFile = EXT:tt_news/res/rss_2.tmpl
+    # cat=plugin_tt_news_XML-feeds/file/20; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.rss091_tmplFile
+  rss091_tmplFile = EXT:tt_news/res/rss_0_91.tmpl
+    # cat=plugin_tt_news_XML-feeds/file/30; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.rdf_tmplFile
+  rdf_tmplFile = EXT:tt_news/res/rdf.tmpl
+    # cat=plugin_tt_news_XML-feeds/file/40; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.atom03_tmplFile
+  atom03_tmplFile = EXT:tt_news/res/atom_0_3.tmpl
+    # cat=plugin_tt_news_XML-feeds/file/50; type=text; label= LLL:EXT:tt_news/locallang.xml:tsce.atom1_tmplFile
+  atom1_tmplFile = EXT:tt_news/res/atom_1_0.tmpl
+
+
+  }
+}
+
+### SVN id ###
+# $Id: constants.txt 18897 2009-04-09 16:59:12Z rupi $

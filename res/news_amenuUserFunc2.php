@@ -28,14 +28,16 @@
  * This is an example for processing the archive menu by a user function.
  * it uses the function amenuUserFunc() from the tt_news class
  *
- * $Id: news_amenuUserFunc2.php 2985 2005-10-21 23:30:36Z rupertgermann $
+ * $Id: news_amenuUserFunc2.php 8822 2008-04-06 14:22:24Z rupi $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */
 
 /**
  * Example function for dividing the archive menu listing in years.
+ * @deprecated: since tt_news 2.6.0 the functionality of this script is included directly in tt_news
  */
+
 /*  add this to your TS setup:
 
   		# include the php script

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2007 Rupert Germann <rupi@gmx.li>
+*  (c) 2006-2009 Rupert Germann <rupi@gmx.li>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -34,16 +34,16 @@
  *
  *   64: class tx_ttnewscatmanager_modfunc1 extends t3lib_extobjbase
  *   73:     function main()
- *  141:     function renderCatTree($cmd='')
- *  197:     function sendResponse($cmd)
+ *  135:     function renderCatTree($cmd='')
+ *  191:     function sendResponse($cmd)
  *
  *
- *  242: class tx_ttnewscatmanager_treeView extends t3lib_treeview
- *  254:     function wrapTitle($title,$v)
- *  285:     function makeControl($table,$row)
- *  347:     function includeLocalLang()
- *  363:     function PM_ATagWrap($icon,$cmd,$bMark='')
- *  383:     function wrapIcon($icon,&$row)
+ *  236: class tx_ttnewscatmanager_treeView extends t3lib_treeview
+ *  248:     function wrapTitle($title,$v)
+ *  279:     function makeControl($table,$row)
+ *  341:     function includeLocalLang()
+ *  357:     function PM_ATagWrap($icon,$cmd,$bMark='')
+ *  377:     function wrapIcon($icon,&$row)
  *
  * TOTAL FUNCTIONS: 8
  * (This index is automatically created/updated by the extension "extdeveval")
@@ -52,7 +52,7 @@
 
 require_once(PATH_t3lib.'class.t3lib_extobjbase.php');
 require_once(PATH_t3lib.'class.t3lib_treeview.php');
-require_once(t3lib_extMgm::extPath('tt_news').'class.tx_ttnews_div.php');
+require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_div.php');
 
 /**
  * Module extension (addition to function menu) 'category manager' for the 'tt_news' extension.

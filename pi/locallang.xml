@@ -24,6 +24,7 @@
 			<label index="goToArchive">go to Archive -&gt;</label>
 			<label index="archiveHeader">ARCHIVE:</label>
 			<label index="archiveItems">items</label>
+			<label index="archiveItem">item</label>
 			<label index="archiveEmptyMsg">Sorry, Archive contains no items</label>
 			<label index="noResultsMsg">nothing found</label>
 			<label index="searchEmptyMsg">Please enter a searchword.</label>
@@ -50,6 +51,8 @@
 			<label index="altTextCatSelector">Display only category:</label>
 			<label index="altTextCatShortcut">Go to:</label>
 			<label index="catmenuHeader">Select a category:</label>
+			<label index="nextArticle">Next article</label>
+			<label index="prevArticle">Previous article</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="latestHeader">Seneste nyt:</label>
@@ -88,6 +91,7 @@
 			<label index="goToArchive">zum Archiv -&gt;</label>
 			<label index="archiveHeader">Nachrichten Archiv:</label>
 			<label index="archiveItems">Einträge</label>
+			<label index="archiveItem">Eintrag</label>
 			<label index="archiveEmptyMsg">Leider keine Einträge im Archiv vorhanden.</label>
 			<label index="noResultsMsg">Keine Ergebnisse</label>
 			<label index="searchEmptyMsg">Bitte geben Sie einen Suchbegriff ein.</label>
@@ -114,6 +118,9 @@
 			<label index="altTextCatSelector">Nur diese Kategorie anzeigen:</label>
 			<label index="altTextCatShortcut">Gehe zu:</label>
 			<label index="catmenuHeader">Kategorieauswahl:</label>
+			<label index="nextArticle">weiter</label>
+			<label index="prevArticle">zurück</label>
+						
 		</languageKey>
 		<languageKey index="no" type="array">
 			<label index="latestHeader">Siste nytt</label>

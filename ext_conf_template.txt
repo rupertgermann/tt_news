@@ -1,52 +1,72 @@
 
-  # cat=basic//10; type=boolean; label= Use "General record storage page": This option configures the handling of news categories in BackEnd forms and on the website (FrontEnd). By default categories will be displayed only if they are found in the "General record storage page" (AKA "GRSP" or "storagePid"). If you set "useStoragePid" to "0", all categories from the pagetree will be displayed (that was the default behaviour for tt_news versions < 1.3.0). If you're updating an older tt_news version or if you need the "GRSP" for other records (e.g. fe_users) you should set this value to "0". If "useStoragePid" is set to "1" and the tt_news categories are not located in the "GRSP" you won't see any categories in BackEnd forms or on the website. See tt_news manual for more information.
-useStoragePid = 1
+  # cat=basic/11; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.useStoragePid
+useStoragePid=1
 
-  # cat=basic/enable/120; type=boolean; label= Do not use Tab-Dividers: Here you can disable the "dividers2tabs" feature (TYPO3 > 3.7.0). "Dividers to Tabs" means: the BE form is divided in 2 sections. If you don't want this, set this value to 1.
-noTabDividers = 0
-
-  # cat=basic/enable/130; type=boolean; label= Localization mode for text fields: By default, all text fields (text, subheader, imagecaption ...) from a new localized news article will be prepended with "[translate to ...]". If this is not wanted you can disable it here. If "l10n_mode_prefixLangTitle" is disabled the text "(copy [#])" will be added to the titles of this records unless "prependAtCopy" is disabled (see "prependAtCopy").
-l10n_mode_prefixLangTitle = 1
-
-  # cat=basic/enable/140; type=boolean; label= Localization mode for images: The image field of a localized news article is excluded by default (images are alwas taken from the record in the default language). If you need localized images (f.e. if the images show texts) you can enable the "image" field in translated news by setting "l10n_mode_imageExclude" to 0.
-l10n_mode_imageExclude = 1
-
-  # cat=basic/enable/150; type=boolean; label= Hide new localizations: Here you choose if new localizations of news articles should be hidden or not. By default new localizations are visible. If this is not wanted set "hideNewLocalizations" to 1.
-hideNewLocalizations = 0
-
-  # cat=basic/enable/180; type=boolean; label= Prepend at Copy: Here you can disable adding of the text "(copy [#])" to titles of copied records.
-prependAtCopy = 1
-
-  # cat=basic/enable/190; type=boolean; label= Require categories: Check if categories are required for every news item. Note that you can require categories also through page TSConfig using "TCEFORM.tt_news.category.config.minitems=1"
+  # cat=basic/enable/100; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.requireCategories
 requireCategories = 0
 
-  # cat=basic//30; type=options[title,short,author]; label= News Label in List-Module: Defines which field is displayed in the title column in the web/list module.
-label = title
+  # cat=basic/enable/150; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.useInternalCaching
+useInternalCaching = 1
 
-  # cat=basic//40; type=options[,datetime,title,short,author,tstamp,category]; label= Alternative Label: Defines which field is displayed in the title column in lists if the field is empty, that is configured as label. If no alternative label is defined and the label field is empty the text [No title] will be shown. (in TYPO3 versions below 3.8.0 this doesn't work for processed fields like 'datetime' and 'category')
-label_alt =
+  # cat=basic/enable/155; type=options[normal,lifetime,static]; label=LLL:EXT:tt_news/locallang.xml:extmng.cachingMode
+cachingMode = normal
 
-  # cat=basic//45; type=options[,datetime,title,short,author,tstamp,category]; label= Alternative Label 2: see Alternative label.
-label_alt2 =
+  # cat=basic/enable/157; type=int; label=LLL:EXT:tt_news/locallang.xml:extmng.cacheLifetime
+cacheLifetime = 0
 
-  # cat=basic//50; type=boolean; label= Force alternative label: If this is activated the alternative label will be always shown behind the label.
-label_alt_force = 0
+  # cat=basic/enable/170; type=options[internal,cachingFramework]; label=LLL:EXT:tt_news/locallang.xml:extmng.cachingEngine
+cachingEngine = internal
 
-  # cat=basic//90; type=options[title,uid]; label= Category ordering in BackEnd trees: Here you can configure the the ordering of categories in category trees in BackEnd forms.
+
+  # cat=basic//15; type=options[title,uid]; label=LLL:EXT:tt_news/locallang.xml:extmng.treeOrderBy
 treeOrderBy = uid
 
-  # cat=basic/dims/60; type=int [0-600]; label= Width of the left category field: This field shows the selected categories in the tt_news db-record (or parent categories in the category db-record). If "categorySelectedWidth" is set to 0 (zero) the default width (=180px) will be taken.
+  # cat=basic//20; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.prependAtCopy
+prependAtCopy = 1
+
+  # cat=basic//30; type=options[title,short,author]; label=LLL:EXT:tt_news/locallang.xml:extmng.label
+label = title
+
+  # cat=basic//40; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/locallang.xml:extmng.label_alt
+label_alt =
+
+  # cat=basic//45; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/locallang.xml:extmng.label_alt2
+label_alt2 =
+
+  # cat=basic//50; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.label_alt_force
+label_alt_force = 0
+
+  # cat=basic/dims/60; type=int [0-600]; label=LLL:EXT:tt_news/locallang.xml:extmng.categorySelectedWidth
 categorySelectedWidth =
 
-  # cat=basic/dims/70; type=int [0-600]; label= Width of the right category field: This field shows the category tree in the tt_news db-record (or in the category db-record). If "categoryTreeWidth" is set to 0 (zero) the default width will depend on the browser which displays the TYPO3 BackEnd. The default width for all browsers except IE is 280px, for IE the default width is 320px to suppress the unneeded horizontal scrollbar below the category tree.
+  # cat=basic/dims/70; type=int [0-600]; label=LLL:EXT:tt_news/locallang.xml:extmng.categoryTreeWidth
 categoryTreeWidth =
 
-  # cat=basic/dims/80; type=int [3-30]; label= Max height for category trees: Here you can configure the maximum height of category trees in BackEnd forms. If you have xajax enabled for the expandable category tree, set this value to 30 because the height of the tree field will then be adapted to the tree height automatically.
-categoryTreeHeigth = 5
+  # cat=basic/language/130; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.l10n_mode_prefixLangTitle
+l10n_mode_prefixLangTitle = 1
+
+  # cat=basic/language/140; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.l10n_mode_imageExclude
+l10n_mode_imageExclude = 1
+
+  # cat=basic/language/150; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.hideNewLocalizations
+hideNewLocalizations = 0
+
+
+  # cat=basic/dev/151; type=options[disabled|0,cache misses|1,all|2]; label=LLL:EXT:tt_news/locallang.xml:extmng.writeCachingInfoToDevlog
+writeCachingInfoToDevlog = 0
+
+  # cat=basic/dev/160; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.writeParseTimesToDevlog
+writeParseTimesToDevlog = 0
+
+  # cat=basic/dev/161; type=input; label=LLL:EXT:tt_news/locallang.xml:extmng.parsetimeThreshold
+parsetimeThreshold = 0.1
+
+  # cat=basic/dev/1000; type=user[EXT:tt_news/lib/class.tx_ttnews_tsparserext.php:tx_ttnews_tsparserext->displayMessage]; label=LLL:EXT:tt_news/locallang.xml:extmng.updatermsgOption
+updateMessage=0
 
 
 
 /*
   ### CVS id ###
-  $Id: ext_conf_template.txt 8453 2008-03-03 13:01:30Z liels_bugs $
+  $Id: ext_conf_template.txt 25923 2009-10-27 21:15:50Z rupi $
 */
