@@ -11,11 +11,11 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Address list',
+	'title' => 'Address List',
 	'description' => 'Displays a list of addresses from an address table on the page.',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '2.2.0',
+	'version' => '2.2.1',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
