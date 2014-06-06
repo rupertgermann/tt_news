@@ -1,0 +1,29 @@
+###
+# These are the default TS-constants for RSS feeds from tt_news 
+##
+
+plugin.tt_news {
+  displayXML {
+
+    # cat=plugin.tt_news/file/80; type=file[html,htm,tmpl,txt]; label= RSS-News rss v2 Template File: XML template for RSS 2.0 feed
+  rss2_tmplFile = EXT:tt_news/res/rss_2.tmpl
+    # cat=plugin.tt_news/file/81; type=file[html,htm,tmpl,txt]; label= RSS-News rss v0.91 Template File: XML template for RSS 0.91 feed. 
+  rss091_tmplFile = EXT:tt_news/res/rss_0_91.tmpl
+    # cat=plugin.tt_news//82; type=int+; label= RSS-News XML-Format: Defines the format of the news feed. Possible values are: 'rss091' and 'rss2' (rdf and atom will follow) 
+  xmlFormat = rss2
+    # cat=plugin.tt_news//83; type=text; label= RSS-News XML-Title: The title of your news feed. (required for rss091, rss2) 
+  xmlTitle = your-server.org: Latest News
+    # cat=plugin.tt_news//84; type=text; label= RSS-News XML-Link: The link to your hompage. (required for rss091, rss2)
+  xmlLink = http://your-server.org/
+    # cat=plugin.tt_news//85; type=text; label= RSS-News XML-Description: The description of your news feed. (required for rss091, rss2)
+  xmlDesc = Latest news
+   	# cat=plugin.tt_news//86; type=int+; label= RSS-News XML-Language: Your site's language. A list of allowable values for <language> in RSS is available at http://backend.userland.com/stories/storyReader$16 (required for rss091, optional for rss2) 
+  xmlLang = en
+    # cat=plugin.tt_news//87; type=int+; label= RSS-News XML-Icon: Provide an icon for your news feed with preferred size of 16x16 px, can be gif, jpeg or png. (required for rss091, optional for rss2) 
+  xmlIcon = typo3/gfx/i/tt_news.gif
+    # cat=plugin.tt_news//88; type=int+; label= RSS-News XML-Limit: max news items in RSS feeds.
+  xmlLimit = 10
+    # cat=plugin.tt_news//89; type=boolean; label= RSS-News XML-Caching: Allow caching for the RSS feed
+  xmlCaching = 1
+  }
+}

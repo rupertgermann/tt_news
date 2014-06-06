@@ -1,0 +1,128 @@
+
+
+/**
+* Real Url config for tt_news
+* 
+*/
+
+
+// realurl config
+$TYPO3_CONF_VARS['EXTCONF']['realurl'] = array('_DEFAULT' => array(),
+
+### Add your server name here ###
+    'linux01.wg' => array('init' => array('enableCHashCache' => 1, 
+            // 'appendMissingSlash' => 'ifNotFile',
+            'enableUrlDecodeCache' => 1,
+            'enableUrlEncodeCache' => 1,
+            ),
+        'redirects' => array(),
+        'preVars' => array(
+            array('GETvar' => 'no_cache',
+                'valueMap' => array('nc' => 1,
+                    ),
+                'noMatch' => 'bypass',
+                ),
+            array('GETvar' => 'L',
+                'valueMap' => array('dk' => '1', 
+                    'de' => '2', 
+                    ),
+                'noMatch' => 'bypass',
+                ),
+            ),
+        'pagePath' => array(
+		
+		'type' => 'user',
+            'userFunc' => 'EXT:realurl/class.tx_realurl_advanced.php:&tx_realurl_advanced->main',
+            'spaceCharacter' => '-',
+            'languageGetVar' => 'L',
+            'expireDays' => 7,
+### Add the id of the rootpage in your pagetree ###
+            'rootpage_id' => 168, 
+            ),
+        'fixedPostVars' => array(),
+        'postVarSets' => array('_DEFAULT' => array(
+     
+                // archive
+                'period' => array(
+                    array('condPrevValue' => -1,
+                        'GETvar' => 'tx_ttnews[pS]' , 
+                        // 'valueMap' => array(
+                        // )
+                        ),
+                    array('GETvar' => 'tx_ttnews[pL]' , 
+                        ),
+                    array('GETvar' => 'tx_ttnews[arc]' ,
+                        'valueMap' => array('archived' => 1,
+                            'non-archived' => -1,
+                            )
+                        ),
+                    ), 
+
+                // pagebrowser
+                'browse' => array(
+                    array('GETvar' => 'tx_ttnews[pointer]',
+                       ),
+                    ),
+				// select news by category	
+                'select' => array (
+                    array('GETvar' => 'tx_ttnews[cat]',
+                        'lookUpTable' => array('table' => 'tt_news_cat',
+                            'id_field' => 'uid',
+                            'alias_field' => 'title',
+                            'addWhereClause' => ' AND NOT deleted',
+                            'useUniqueCache' => 1,
+                            'useUniqueCache_conf' => array('strtolower' => 1,
+                                ),
+                            ),
+                        ),
+                    ),
+
+				// backPid link
+//                'back_to' => array(
+//                    array('GETvar' => 'tx_ttnews[backPid]',
+//					 'lookUpTable' => array('table' => 'pages',
+//                            'id_field' => 'uid',
+//                            'alias_field' => 'title',
+//                            'addWhereClause' => ' AND NOT deleted',
+//                            'useUniqueCache' => 1,
+//                            'useUniqueCache_conf' => array('strtolower' => 1,
+//                                'spaceCharacter' => '-',
+//                               ),
+//                           ),
+//                        ),
+//                    ),
+					
+					
+				// news title	
+                'article' => array(
+                  array('GETvar' => 'tx_ttnews[backPid]',
+                        ),
+                    array('GETvar' => 'tx_ttnews[tt_news]',
+                        'lookUpTable' => array('table' => 'tt_news',
+                            'id_field' => 'uid',
+                            'alias_field' => 'title',
+                            'addWhereClause' => ' AND NOT deleted',
+                            'useUniqueCache' => 1,
+                            'useUniqueCache_conf' => array('strtolower' => 1,
+                                'spaceCharacter' => '-',
+                                ),
+                            ),
+                        ),
+                    array('GETvar' => 'tx_ttnews[swords]'
+                       ),
+                    ),
+                ),
+            ),
+        'fileName' => array('index' => array('rss.xml' => array('keyValues' => array('type' => 100,
+                        ),
+                    ), 
+                // 'index.html' => array(
+                // 'keyValues' => array(),
+                // ),
+                ),
+
+            'defaultToHTMLsuffixOnPrev' => 1,
+            ),
+        )
+    );
+

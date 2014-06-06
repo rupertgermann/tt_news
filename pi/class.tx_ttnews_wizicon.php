@@ -24,7 +24,7 @@
 /** 
  * Class that adds the wizard icon.
  *
- * $Id: class.tx_ttnews_wizicon.php,v 1.11 2004/08/12 15:28:43 honk Exp $
+ * $Id: class.tx_ttnews_wizicon.php,v 1.1.1.1 2004/11/04 19:12:30 rgermann Exp $
  *
  * @author	Kasper Skårhøj (kasper@typo3.com)
  */

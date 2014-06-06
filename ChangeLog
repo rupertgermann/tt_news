@@ -1,3 +1,250 @@
+2004-11-11	rupertgermann
+	* pi/class.tx_ttnews.php 1.62:
+	* static/ts_new/setup.txt 1.2:
+	* static/ts_old/setup.txt 1.2:
+		- sys_language_mode "strict" does now work
+		- the "language=all" property is now correctly interpreted
+		- added a default wrap for "noNwesToList" message to the default setup files
+		- new TSvar "dontInsertSiteUrl" for links in rss feeds.
+
+	* doc/manual.sxw 1.12:
+		small changes in the manual
+
+2004-11-08	rupertgermann
+	* doc/manual.sxw 1.11:
+	* ext_conf_template.txt 1.2:
+	* ext_emconf.php 1.22:
+	* ext_tables.php 1.11:
+	* pi/class.tx_ttnews.php 1.61:
+	* tca.php 1.17:
+		- changed the "dividers2tabs" behaviour: now all types of news db-record are only divided in 2 tabs one for title,text,author... the other one for the "relations" (images, files, related news ...)
+		- now you can disable the dividers2tabs feature in the installation in EM
+		- fixed the character filtering for the rss feed. added stdWraps to the rss-title and subheader.
+		- updated manual (not yet complete)
+
+	* doc/manual_01.sxw 1.2:
+		removed file manual01.sxw
+
+2004-11-06	rupertgermann
+	* doc/manual.sxw 1.10:
+		changed manual - added new section about localization
+
+	* static/css/setup.txt 1.2:
+		removed main-page styles
+
+2004-10-31	rupertgermann
+	* class.tx_ttnews_itemsProcFunc.php 1.8:
+	* ext_emconf.php 1.21:
+	* ext_tables.php 1.10:
+	* ext_typoscript_constants.txt 1.14:
+	* ext_typoscript_setup.txt 1.33:
+	* locallang.php 1.16:
+	* pi/class.tx_ttnews.php 1.60:
+	* pi/class.tx_ttnews_wizicon.php 1.11:
+	* pi/tt_news_v2_template.html 1.1:
+	* res/example_amenuUserFunc.php 1.6:
+	* res/example_imageMarkerFunc.php 1.4:
+	* res/example_itemMarkerArrayFunc.php 1.6:
+	* res/example_userPageBrowserFunc.php 1.3:
+	* res/ext_typoscript_constants.txt 1.4:
+	* res/ext_typoscript_setup.txt 1.7:
+	* res/news_amenuUserFunc2.php 1.1:
+	* res/tt_news_languageMenu.php 1.11:
+	* res/tt_news_mtb_pagetree-z.t3d 1.4:
+	* res/tt_news_v2_styles.css 1.1:
+	* static/css/setup.txt 1.1:
+	* static/ts_new/constants.txt 1.1:
+	* static/ts_new/setup.txt 1.1:
+	* static/ts_old/constants.txt 1.1:
+	* static/ts_old/setup.txt 1.1:
+		--- Major changes ---
+		- added new html template (pi/tt_news_v2_template.html)
+		- added new stylesheet for this template (res/tt_news_v2_styles.css)
+		- moved all html-tags for content that is not required to the TS template. there should be no empty tags anymore when there is no content in the db-field.
+		- moved ALL TS_setup- and TS_contstants-files to the new folder "static/". this folder holds 3 subfolders for 2 different TS-setups:
+		  setup 1: TS settings for the "classic" table-based template (with fonts, globalWraps, globalColors ....)
+		  setup 2: consists of two subparts: the TS settings for the new CSS-based (XHMTL valid) template and the css styles for this template
+		    which can be included seperately as css_default_style from the third static ext-(TS)template.
+		- added two new template markers that build a wrap for the additional data in the single view (###ADDINFO_WRAP_B### ###ADDINFO_WRAP_E###).
+		   this wrap is only inserted if there is at least one of the elements: related, files or links present.
+		- added new template markers for a wrap for all categories ( ###CATWRAP_B### and  ###CATWRAP_E### )
+		- changed the wrapping of the author: now also the author prefix is wrapped in the author wrap.
+		
+		- some fixes for rss conformity: added the new function cleanXML which removes '&nbsp;' from the rss feed content.
+		- changed the link building for the links to the single view in rss feeds: now also links to internal and external sites are working in the rss-feed
+		- added a preg_replace which replaces the squarebrackets in the links with their rawurlcodes and the &-sign with its ASCII code (rawurlencoding the complete link caused non-functional links)
+		- version number is now 1.7.7
+
+2004-10-26	rupertgermann
+	* flexform_ds.xml 1.13:
+	* flexform_ds_no_sPID.xml 1.4:
+		disabled language switching for the flexform files
+
+	* class.tx_ttnews_itemsProcFunc.php 1.7:
+	* ext_emconf.php 1.20:
+	* ext_php_api.dat 1.5:
+	* ext_tables.php 1.9:
+	* ext_typoscript_setup.txt 1.32:
+	* locallang.php 1.15:
+	* pi/class.tx_ttnews.php 1.59:
+	* pi/class.tx_ttnews_wizicon.php 1.10:
+	* pi/news_template.tmpl 1.14:
+	* res/rss_2.tmpl 1.2:
+	* res/tt_news_languageMenu.php 1.10:
+	* tca.php 1.16:
+		- enabled 'dividers2tabs' for the tt_news form in BE
+		- added 'l10n_modes' for the most fields in TCA -> now some of the fields e.g. images will take their content from the default language and are not editable in the translated version
+		- enabled display of the 'l18n_parent' (record in the default language) for translated records
+		- changed the order of the fields in the tt_news db-resord to group them under 3 tabs.
+		- added a new template marker: ###LANGUAGE### (is wrapped with a stdWrap, so you can also output flag-images)
+		- added the sys_language_mode 'strict' for news records. now you can choose by ts wheather all news are showing or only those in the current language
+		- some fixes for rss validity: now the authors email instead of his name is submited in the news items,
+		- moved the author tag from the rss2 tmpl to the script to display it only if there is an email given.
+		- version number is now 1.7.6
+		- updated function api/doc
+
+2004-10-23	rupertgermann
+	* class.tx_ttnews_itemsProcFunc.php 1.6:
+	* ext_emconf.php 1.19:
+	* ext_tables.php 1.8:
+	* ext_tables.sql 1.6:
+	* ext_typoscript_setup.txt 1.31:
+	* locallang.php 1.14:
+	* locallang_tca.php 1.18:
+	* pi/class.tx_ttnews.php 1.58:
+	* res/realUrl_example_setup.txt 1.1:
+	* res/tt_news_languageMenu.php 1.9:
+	* tca.php 1.15:
+		- added versioning for news records (TYPO3 >= 3.7.0 and MySQL 4 required)
+		- fix for the double "L" parameter in the language menu -> now the language menu works also with simulateStatic *and* pEnc enabled
+		- added a new field for translations of category titles.
+		- changed the id handling of translated news. now all links to newsrecords point to the uid of their original translation. this makes the fallback for not translated news work like the translations for normal content.
+		- version number is now 1.7.5
+		- added an example configuration for tt_news with realUrl. see file: res/realUrl_example_setup.txt
+
+2004-10-20	rupertgermann
+	* ext_emconf.php 1.18:
+	* pi/class.tx_ttnews.php 1.57:
+		removed some more unnecessary parameters from the amenu links
+		updated version number to 1.7.4
+
+2004-10-19	rupertgermann
+	* class.tx_ttnews_itemsProcFunc.php 1.5:
+	* ext_typoscript_setup.txt 1.30:
+	* locallang.php 1.13:
+	* pi/class.tx_ttnews.php 1.56:
+	* pi/class.tx_ttnews_wizicon.php 1.9:
+	* res/example_amenuUserFunc.php 1.5:
+	* res/ext_typoscript_setup.txt 1.6:
+	* res/tt_news_languageMenu.php 1.8:
+		some improvements for multilanguage news:
+		- the category titles can now be translated by adding the titles for other languages seperated by '|'  f.e.: title(en) | title(dk) | title(de)
+		- the pagetitle in the backToList link inthe single view now shows the title of the language overlay if one is found.
+		- removed some not needed parameters from the backlink (-> gives better looking realUrl Adresses)
+		- added a fix for the archive, that show no items when one item has an empty datetime field. thx heike for pointing me to this.
+		- added a possibility to process new user codes/templateparts as news-list. You can define new codes in the array ['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display']
+		and process them by a small userfunction that call the getNewsList function from within the tt_news class. example will follow.
+
+2004-10-17	rupertgermann
+	* class.tx_ttnews_itemsProcFunc.php 1.4:
+	* ext_emconf.php 1.17:
+	* ext_php_api.dat 1.4:
+	* locallang.php 1.12:
+	* pi/class.tx_ttnews.php 1.55:
+	* pi/class.tx_ttnews_wizicon.php 1.8:
+	* res/example_amenuUserFunc.php 1.4:
+	* res/example_imageMarkerFunc.php 1.3:
+	* res/example_itemMarkerArrayFunc.php 1.5:
+	* res/example_userPageBrowserFunc.php 1.2:
+	* res/tt_news_languageMenu.php 1.7:
+		- fixed some problems with the handling of translated news
+		- changed the getRelated function: now it works with realUrl & simulateStatic
+		- changed the language menu: now it is a functions and uses the USER object (has to be included with "includeLibs")
+		- changed the link building in the language menu: now it uses typolinks to build its links. -> there is still a problem with the language paramater and pEnc enabled
+		- changed the handling of xml news: now they can be configured like a news list content element
+		- some code beautyfying, updates apidocs
+
+2004-10-13	rupertgermann
+	* pi/class.tx_ttnews.php 1.54:
+	* res/tt_news_languageMenu.php 1.6:
+		- added rawurlencode to rss links: class.tt_txnews.php zeile 845: $markerArray['###NEWS_LINK###'] = $this->config['siteUrl'].rawurlencode(substr($wrappedSubpartArray['###LINK_ITEM###'][0], 9, -2));
+		- changed the link processing in the language menu. Now the additional params for the linka are build from the GetVars. The effect of this change is, that you can use the tt_news-language menu with simulateStatic. It still does not produce links like “home+M098098.html” but it works ;-)
+		- Inserted new function that returns the template subpart (suggested by Stefan Geith). This gives you the possibility to “XCLASS” tt_news for pre-processing the html-template.
+		- Fixed the “firstImageIsPreview” function. (added the forgotten parameter $textRenderObj to the getImageMarker function)
+
+2004-10-03	rupertgermann
+	* pi/class.tx_ttnews.php 1.53:
+		- removed the TS-var: “amenuShowAll” because it did not work.
+
+2004-10-02	rupertgermann
+	* pi/class.tx_ttnews.php 1.52:
+	* res/example_userPageBrowserFunc.php 1.1:
+		- added a TYPO3 version control for the multilang features. Now they are disabled if the TYPO3 version is below 3.7.0
+		- new TS-var: “amenuShowAll” by setting this, the amenu always shows all news items, no matter if they are archived or not, or if there is a value for “datetimeDaysToArchive” given.
+		- added a userfunction to use another pagebrowser.
+		- Included an example script with two alternative pagebrowsers (see comments in file: example_userPageBrowserFunc.php for required settings)
+
+2004-09-30	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.51:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.14:
+		- added "l10n_mode"-lines to tca.php. this prefixes some fields in the language-copy of a record with [translate to..]
+		- fix for language switching in single view. now it works also, if you enter the single view not from the default language.
+		- added an error message that appears when a record is not translated -> toDo: display record in the default language if not translated
+
+2004-09-29	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.16:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.php 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/ext_tables.sql 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.50:
+	* cvsroot/typo3xdev/tx_ttnews/tca.php 1.13:
+		- new Feature: language relations between news-records. if you 
+		add a language overlay to your news sysfolder you'll get a '
+		translate' button in the (Localization)list view in BE. in FE 
+		you need to set the sys_language_uid by a TS condition like 
+		shown in the 'multilanguage sites with typo3 tutorial'.
+
+2004-09-19	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.12:
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.13:
+	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.15:
+		updated changelog
+
+	* cvsroot/typo3xdev/tx_ttnews/class.tx_ttnews_itemsProcFunc.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/doc/manual.sxw 1.9:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_constants.txt 1.13:
+	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.29:
+	* cvsroot/typo3xdev/tx_ttnews/locallang.php 1.11:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_csh_ttnews.php 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_csh_ttnewsc.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/locallang_tca.php 1.17:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.49:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews_wizicon.php 1.7:
+	* cvsroot/typo3xdev/tx_ttnews/pi/locallang.php 1.16:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_conf1.png 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/pi/news_help.tmpl 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/res/example_amenuUserFunc.php 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/res/example_imageMarkerFunc.php 1.2:
+	* cvsroot/typo3xdev/tx_ttnews/res/example_itemMarkerArrayFunc.php 1.4:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_constants.txt 1.3:
+	* cvsroot/typo3xdev/tx_ttnews/res/ext_typoscript_setup.txt 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_languageMenu.php 1.5:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_medialinks.html 1.6:
+	* cvsroot/typo3xdev/tx_ttnews/res/tt_news_styles.css 1.4:
+		- changed the behaviour of categoryMode=-1 (do not show items with selected categories). Now news are not shown in this cases: a) if they have only the selected category(s) assigned or b) if they have the selcted and other categories assigned.
+		the old functionality was only case a)
+		- Added a new TS-var: “oldCatDeselectMode” by setting this, you can use the old behaviour for de-selecting categories.
+		- Small new feature: now a “register” named “newsCategoryUid” is filled from the script with the uid of the category. You can access this register by TS to generate different wraps for different categories.
+		- added some more comments to the example functions in res/ folder
+		- updated version numberr to 1.7.0
+		- added new vars and functions to manual
+		- new translations
+
+2004-09-14	rupertgermann
+	* cvsroot/typo3xdev/tx_ttnews/ChangeLog 1.11:
+	* cvsroot/typo3xdev/tx_ttnews/pi/class.tx_ttnews.php 1.48:
+		- fix: removed a forgotten debugger from class.tx_ttnews.php
+		- updated changelog
+
 2004-09-13	rupertgermann
 	* cvsroot/typo3xdev/tx_ttnews/ext_emconf.php 1.14:
 	* cvsroot/typo3xdev/tx_ttnews/ext_typoscript_setup.txt 1.28:

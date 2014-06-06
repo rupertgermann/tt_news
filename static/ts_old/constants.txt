@@ -22,11 +22,14 @@ plugin.tt_news {
     # cat=plugin.tt_news/color/4; type=color; label= Color 4: This is the bgcolor for items in the list view.
   color4 = #F0F8FF
 
-    # cat=plugin.tt_news/links/1; type=int+; label= SinglePid: The PID of the page on which single news items should be displayed (since tt_news v1.6.0 this var is called 'singlePid'. The old var-name 'PIDitemDisplay' don not work anymore).
+    # cat=plugin.tt_news/links/3; type=int+; label= Starting Point (pid_list): The PID of the page where your news items are located.
+  pid_list = 0
+
+    # cat=plugin.tt_news/links/5; type=int+; label= SinglePid: The PID of the page on which single news items should be displayed (since tt_news v1.6.0 this var is called 'singlePid'. The old var-name 'PIDitemDisplay' don not work anymore).
   singlePid = 0
-    # cat=plugin.tt_news/links/2; type=int+; label= BackPid: The PID of the page to go back to from single news item display screen.
+    # cat=plugin.tt_news/links/9; type=int+; label= BackPid: The PID of the page to go back to from single news item display screen.
   backPid = 0
-    # cat=plugin.tt_news/links/3; type=int+; label= Archive Link: The PID of the page on which the archive list is displayed. This link appears at the bottom of the 'Latest' template.
+    # cat=plugin.tt_news/links/7; type=text; label= Archive Link parameter: The PID of the page with a LIST element that displays only archived news items. This link appears at the bottom of the 'LATEST template and it is also used for the links in the AMENU (see: http://typo3.org/documentation/document-library/doc_core_tsref/typolink/ section 'parameter' for more information)
   archiveTypoLink.parameter = 0
     
 	# cat=plugin.tt_news//4; type=int+; label= datetime Days to Archive: If this is set, elements are automatically in the archive, after the given number of days has passed. Set this to '0' if you want to disable this feature.

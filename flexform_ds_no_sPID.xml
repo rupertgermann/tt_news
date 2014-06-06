@@ -1,4 +1,7 @@
 <T3DataStructure>
+    <meta>
+       <langDisable>1</langDisable> 
+        </meta>
   <sheets>
 	<sDEF>
 	  <ROOT>
@@ -270,7 +273,50 @@
 				</config>
 			</TCEforms>
 	      </template_file>
-	    </el>
+			<imageMaxWidth>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.imageMaxWidth</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>5</size>
+				</config>
+				</TCEforms>
+			</imageMaxWidth>
+			<imageMaxHeight>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.imageMaxHeight</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>5</size>
+				</config>
+				</TCEforms>
+			</imageMaxHeight>
+			<alternatingLayouts>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.alternatingLayouts</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>5</size>
+				</config>
+				</TCEforms>
+			</alternatingLayouts>
+			<croppingLenght>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.croppingLenght</label>
+				<config>
+					<type>input</type>
+					<checkbox></checkbox>
+					<size>10</size>
+				</config>
+				</TCEforms>
+			</croppingLenght>	    
+		</el>
 	  </ROOT>
     </s_template>
     <s_category>
@@ -461,7 +507,36 @@
 				</config>
 			</TCEforms>
 	      </firstImageIsPreview>
-	  		  
+	  	<listStartId>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.listStartId</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>3</size>
+				</config>
+				</TCEforms>
+			</listStartId>
+	  	  <listLimit>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.limit</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>3</size>
+				</config>
+				</TCEforms>
+			</listLimit>
+			<noPageBrowser>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.noPageBrowser</label>
+				<config>
+					<type>check</type>
+				</config>
+			</TCEforms>
+			</noPageBrowser>
 	    </el>
 	  </ROOT>
     </s_misc>

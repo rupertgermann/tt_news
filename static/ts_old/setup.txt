@@ -6,7 +6,7 @@
 # 
 # (see Section Reference in the manual for more options & parameters)
 #
-# tt_news v 1.7.0 
+# tt_news v 2.0.0 
 ###
 
 # Includes the newsLib:
@@ -20,7 +20,7 @@ plugin.tt_news {
 
   templateFile = {$plugin.tt_news.file.templateFile}
   # pid_list is the page, where your news db-records are stored 
-  pid_list.field = pages
+  pid_list = {$plugin.tt_news.pid_list}
   
   # you can also leave the "starting Point" field in the content element empty and
   # define the pid_list in this way:
@@ -54,7 +54,13 @@ plugin.tt_news {
   newsFilesHeader_stdWrap.wrap = <strong>|</strong>
   newsFiles_stdWrap.wrap = 
 
-  
+  # Display language labels and/or flags
+  showLangLabels = 0
+  showFlags = 0
+  flagImage {
+    file.maxW = 16
+  }
+
   # Global wraps & colors - [depreciated] use CSS ;-)
   wrap1.wrap = {$plugin.tt_news.wrap1}
   wrap2.wrap = {$plugin.tt_news.wrap2}
@@ -69,6 +75,8 @@ plugin.tt_news {
   general_stdWrap { 
      parseFunc < tt_content.text.20.parseFunc
   }
+
+  noNewsToListMsg_stdWrap.wrap = <p>|</p>
    
   # Pagebrowser settings
   pageBrowser {
@@ -94,7 +102,7 @@ plugin.tt_news {
   catImageMaxWidth = 25
   catImageMaxHeight = 25
 
-  # substitute pagetitle with newstitle in single view
+  # substitute pagetitle with title of news article
   substitutePagetitle = 1
   
   # Archive settings
@@ -104,12 +112,24 @@ plugin.tt_news {
   reverseAMenu = 1
   archiveMenuNoEmpty = 1
   
-  archiveTitleCObject = COA
+ archiveTitleCObject = COA
   archiveTitleCObject {
     10 = TEXT
     10.field = start
     10.strftime = %B - %Y
-  }
+
+    # if there is no value for datetime, this text is inserted instead:
+    20 = TEXT
+    20.value = no date
+    20.if {
+    # don't insert 0 as value, because localized times can also set other 
+    # values for unixtime start. 
+      value = 20000
+      isGreaterThan.field=start
+      negate = 1
+    } 
+  }	
+	
   archiveEmptyMsg_stdWrap.wrap (
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr><td><strong> | </strong></td></tr></table>
@@ -299,9 +319,6 @@ tt_news >
 tt_news = < plugin.tt_news
 tt_news.displayCurrentRecord = 1
 
-
-# for XML news feed settings see reference in the tt_news manual 
-# or the setup-file in the folder res/
 
 
 

@@ -27,12 +27,14 @@
 /**
  * Function for adding new display items to tt_news in the backend
  *
- * $Id: class.tx_ttnews_itemsProcFunc.php,v 1.3 2004/09/19 06:43:24 honk Exp $
+ * $Id: class.tx_ttnews_itemsProcFunc.php,v 1.2 2004/11/17 21:48:52 rgermann Exp $
  *
  * @author	Mathias Bolt Lesniak <mathias@lilio.com>
  */
 /**
  * [CLASS/FUNCTION INDEX of SCRIPT]
+ *
+ *
  *
  *   54: class tx_ttnews_itemsProcFunc
  *   61:     function user_insertExtraCodes($config)

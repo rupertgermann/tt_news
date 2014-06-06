@@ -36,6 +36,8 @@ $LOCAL_LANG = Array (
 		'.details' => '\'Nieuws\'items zijn typische deze die op de voorpagina getoond worden en het je mogelijk maken door te klikken naar het volledige verhaal. Ze kunnen ook artikelen representeren (links naar volledige pagina\'s) in het systeem.',
 	),
 	'cz' => Array (
+		'.description' => 'Vestavìnı systém zpráv',
+		'.details' => '\'Zprávy\' jsou typicky na homepage webu a dovolují prokliknout na stránku s celım textem. Také mohou reprezentovat èlánky (odkazy na úplné strany) v systému.',
 	),
 	'pl' => Array (
 	),
@@ -51,7 +53,7 @@ $LOCAL_LANG = Array (
 	),
 	'se' => Array (
 		'.description' => 'Ett inbyggt nyhetssystem.',
-		'.details' => '\'Nyheter\' är ofta små notiser på websitens första sida som sedan länkar vidare till en sida med hela nyheten. De kan också presentera artiklar (sidor) som finns längre in i sidsystemet.',
+		'.details' => '\'Nyheter\' är ofta små notiser på webbplatsens första sida som sedan länkar vidare till en sida med hela nyheten. De kan också presentera artiklar (sidor) som finns längre in på webbplatsen.',
 	),
 	'pt' => Array (
 	),

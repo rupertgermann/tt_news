@@ -1,2 +1,4 @@
-  # cat=basic; type=boolean; label= Use StoragePid: Here you can switch the BackEnd behaviour of category listing. If you set this value to "1" (default), categories are only displayed if they are found in the "General record storage page", if you set the value to "0", all categories from the pagetree are displayed in the BackEnd.
+  # cat=basic//10; type=boolean; label= Use StoragePid: Here you can switch the BackEnd behaviour of category listing. If you set this value to "1" (default), categories are only displayed if they are found in the "General record storage page", if you set the value to "0", all categories from the pagetree are displayed in the BackEnd.
 useStoragePid = 1
+  # cat=basic//20; type=boolean; label= Do not use Tab-Dividers: Here you can disable the "dividers2tabs" feature (TYPO3 > 3.7.0). "Dividers to Tabs" means: the BE form is divided in 2 sections. If you don't want this, set this value to 1.
+noTabDividers = 0

@@ -2,7 +2,7 @@
 /**
  * Language labels for extension "tt_news"
  * 
- * TYPO3 CVS ID: $Id: locallang.php,v 1.15 2004/09/19 12:51:30 honk Exp $
+ * TYPO3 CVS ID: $Id: locallang.php,v 1.3 2004/11/18 16:33:45 rgermann Exp $
  * This file is detected by the translation tool.
  */
 
@@ -21,7 +21,7 @@ $LOCAL_LANG = Array (
 	),
 	'no' => Array (
 		'pi_title' => 'Nyheter',
-		'pi_plus_wiz_description' => 'Legger til nyheter til siden.',
+		'pi_plus_wiz_description' => 'Tilføyer nyhetselementer på siden.',
 	),
 	'it' => Array (
 		'pi_title' => 'News',
@@ -38,6 +38,8 @@ $LOCAL_LANG = Array (
 		'pi_plus_wiz_description' => 'Voegt nieuws aan de pagina toe.',
 	),
 	'cz' => Array (
+		'pi_title' => 'Zprávy',
+		'pi_plus_wiz_description' => 'Vloí zprávy na stranu.',
 	),
 	'pl' => Array (
 	),

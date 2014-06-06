@@ -1,6 +1,8 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 t3lib_div::loadTCA('tt_content');
+$confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+
 $TCA['tt_news'] = Array (
 	'ctrl' => Array (
 		'title' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news',
@@ -9,6 +11,17 @@ $TCA['tt_news'] = Array (
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
 		'prependAtCopy' => 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy',
+		
+		'versioning' => TRUE,
+		#'versioning_followPages' => TRUE,
+		'dividers2tabs' => $confArr['noTabDividers']?FALSE:TRUE,
+		
+		'copyAfterDuplFields' => 'sys_language_uid',
+		'useColumnsForDefaultValues' => 'sys_language_uid',
+		'transOrigPointerField' => 'l18n_parent',
+		'transOrigDiffSourceField' => 'l18n_diffsource',
+		'languageField' => 'sys_language_uid',
+		
 		'crdate' => 'crdate',
 		'type' => 'type',
 		'enablecolumns' => Array (
@@ -43,12 +56,17 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist'][9]='layout,select_ke
 $TCA['tt_content']['types']['list']['subtypes_addlist'][9]='pi_flexform';
 t3lib_extMgm::addPlugin(Array('LLL:EXT:tt_news/locallang_tca.php:tt_news', '9'));
 
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/ts_new/','CSS-based tmpl');	
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/css/','default CSS-styles');	
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/ts_old/','table-based tmpl');	
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/rss_feed/','RSS-feed (type=100)');	
+
 t3lib_extMgm::allowTableOnStandardPages('tt_news');
 t3lib_extMgm::addToInsertRecords('tt_news');
 
 
 // adds the possiblity to switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
-$confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+
 if ($confArr['useStoragePid']) {
     t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
 } else {

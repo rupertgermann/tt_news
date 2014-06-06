@@ -1,0 +1,49 @@
+###
+# This are the default TS-constants for the table-based standard template: EXT:tt_news/pi/news_template.tmpl
+##
+
+plugin.tt_news {
+    # cat=plugin.tt_news/file/1; type=file[html,htm,tmpl,txt]; label= Template File: HTML-template file for display of news. See EXT:tt_news/pi/tt_news_v2_template.html for an example
+
+  file.templateFile = EXT:tt_news/pi/tt_news_v2_template.html
+    # cat=plugin.tt_news/links/3; type=int+; label= Starting Point (pid_list): The PID of the page where your news items are located.
+  pid_list = 0
+    # cat=plugin.tt_news/links/5; type=int+; label= SinglePid: The PID of the page on which single news items should be displayed (since tt_news v1.6.0 this var is called 'singlePid'. The old var-name 'PIDitemDisplay' does not work anymore).
+  singlePid = 0
+    # cat=plugin.tt_news/links/9; type=int+; label= BackPid: The PID of the page to go back to from single news item display screen.
+  backPid = 0
+    # cat=plugin.tt_news/links/7; type=text; label= Archive Link parameter: The PID of the page with a LIST element that displays only archived news items. This link appears at the bottom of the 'LATEST template and it is also used for the links in the AMENU (see: http://typo3.org/documentation/document-library/doc_core_tsref/typolink/ section 'parameter' for more information)
+  archiveTypoLink.parameter = 0
+    
+	# cat=plugin.tt_news//10; type=int+; label= datetime Days to Archive: If this is set, elements are automatically in the archive, after the given number of days has passed. Set this to '0' if you want to disable this feature.
+  datetimeDaysToArchive = 0
+    # cat=plugin.tt_news//20; type=int+; label= List Limit: max items in LIST template.
+  limit = 5
+    # cat=plugin.tt_news//30; type=int+; label= Latest Limit: max news items in LATEST template.
+  latestLimit = 3
+    # cat=plugin.tt_news//40; type=int+; label= Category Text mode: posible values are: 0 = don't display, 1 = display but no link, 2 = link to categoy shortcut, 3 = act as category selector.
+  catTextMode = 1
+	# cat=plugin.tt_news//50; type=int+; label= Category Image mode: same values as catTextMode.
+  catImageMode = 1
+	# cat=plugin.tt_news//60; type=bolean; label= Allow Caching: Allow caching of displayed news? If you want your news being indexed by the indexed-search this has to be enabled.
+  allowCaching = 1
+	
+	# cat=plugin.tt_news/dims/110; type=int+; label= single-image max Width: Max width for an image displayed in SINGLE template
+  singleMaxW = 240
+    # cat=plugin.tt_news/dims/120; type=int+; label= single-image max height: Max height for an image displayed in SINGLE template
+  singleMaxH = 180
+
+    # cat=plugin.tt_news/dims/130; type=int+; label= latest-image max width: Max width for an image displayed in LATEST template
+  latestMaxW = 60
+    # cat=plugin.tt_news/dims/140; type=int+; label= latest-image max height: Max height for an image displayed in LATEST template
+  latestMaxH = 40
+  
+    # cat=plugin.tt_news/dims/150; type=int+; label= list-image max width: Max width for an image displayed in LIST template
+  listMaxW = 120
+    # cat=plugin.tt_news/dims/160; type=int+; label= list-image max height: Max height for an image displayed in LIST template
+  listMaxH = 90
+
+
+
+
+}

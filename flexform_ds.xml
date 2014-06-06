@@ -1,4 +1,8 @@
 <T3DataStructure>
+    <meta>
+       <langDisable>1</langDisable> 
+	  <!--  <langChildren>1</langChildren>!-->
+        </meta>
   <sheets>
 	<sDEF>
 	  <ROOT>
@@ -9,6 +13,7 @@
 	    <el>
 		  <what_to_display>
 			  <TCEforms>
+
 				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.what_to_display</label>
 				<config>
 					<type>select</type>
@@ -147,20 +152,7 @@
 					<itemListStyle>width:150px</itemListStyle>
 					<allowNonIdValues>1</allowNonIdValues>
 				</config>
-				<wizards type="array">
-					<_PADDING>1</_PADDING>
-					<add type="array">
-						<type>script</type>
-						<title>Add Category</title>
-						<script>wizard_add.php</script>
-						<icon>add.gif</icon>
-						<params type="array">
-							<table>tt_news_cat</table>
-							<pid>###STORAGE_PID###</pid>
-							<setValue>set</setValue>
-						</params>
-					</add>
-				</wizards>
+
 			</TCEforms>
 		  </categorySelection>
 		  <archive>
@@ -270,6 +262,49 @@
 				</config>
 			</TCEforms>
 	      </template_file>
+			<imageMaxWidth>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.imageMaxWidth</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>5</size>
+				</config>
+				</TCEforms>
+			</imageMaxWidth>
+			<imageMaxHeight>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.imageMaxHeight</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>5</size>
+				</config>
+				</TCEforms>
+			</imageMaxHeight>
+			<alternatingLayouts>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.alternatingLayouts</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>5</size>
+				</config>
+				</TCEforms>
+			</alternatingLayouts>
+			<croppingLenght>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.croppingLenght</label>
+				<config>
+					<type>input</type>
+					<checkbox></checkbox>
+					<size>10</size>
+				</config>
+				</TCEforms>
+			</croppingLenght>	
 	    </el>
 	  </ROOT>
     </s_template>
@@ -461,7 +496,36 @@
 				</config>
 			</TCEforms>
 	      </firstImageIsPreview>
-	  		  
+	     <listStartId>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.listStartId</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>3</size>
+				</config>
+				</TCEforms>
+			</listStartId>
+	  	  <listLimit>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.limit</label>
+				<config>
+					<type>input</type>
+					<eval>num</eval>
+					<checkbox></checkbox>
+					<size>3</size>
+				</config>
+				</TCEforms>
+			</listLimit>
+			 <noPageBrowser>
+				<TCEforms>
+				<label>LLL:EXT:tt_news/locallang_tca.php:tt_news.pi_flexform.noPageBrowser</label>
+				<config>
+					<type>check</type>
+				</config>
+			</TCEforms>
+			</noPageBrowser>
 	    </el>
 	  </ROOT>
     </s_misc>

@@ -3,7 +3,7 @@
 
 <head>
 	<title>new News example template</title>
-    <link href="file:///D|/apache/htdocs/dummy-3.7.0/fileadmin/template/main/tt_news_tut_main_stylesheet.css" rel="stylesheet" type="text/css" />
+    <link href="../res/tt_news_tut_main_stylesheet.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -107,7 +107,7 @@ LINK_NEXT - used in the pagebrowser
 				<span class="news-latest-date"><!--###LINK_ITEM###-->###NEWS_DATE### ###NEWS_TIME###<!--###LINK_ITEM###--></span>
 				<h3><!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></h3>
 				<!--###LINK_ITEM###-->###NEWS_IMAGE###<!--###LINK_ITEM###-->
-				###NEWS_SUBHEADER###
+				###NEWS_SUBHEADER###<hr class="clearer" />
 				###CATWRAP_B### ###TEXT_CAT_LATEST### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E### 
                 <div class="news-latest-morelink"><!--###LINK_ITEM###-->###MORE###<!--###LINK_ITEM###--></div>
 			  </div>
@@ -154,11 +154,11 @@ LINK_NEXT - used in the pagebrowser
 <span class="news-list-date">###NEWS_DATE###</span>
 <!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></h3>
 			  <!--###LINK_ITEM###-->###NEWS_IMAGE###<!--###LINK_ITEM###-->
-			 <h4>###NEWS_SUBHEADER###</h4>
+			 ###NEWS_SUBHEADER###
 			###CATWRAP_B### ###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E###
 			<div class="news-list-morelink"><!--###LINK_ITEM###-->###MORE###<!--###LINK_ITEM###--></div>
-			</div>
 
+<hr class="clearer" /></div>
 		<!-- ###NEWS### end-->
 	<!-- ###CONTENT###  end -->
 	<div class="news-list-browse">###BROWSE_LINKS###</div>
@@ -189,36 +189,114 @@ LINK_NEXT - used in the pagebrowser
 -->
 
 <div class="news-single-item">
+	<div class="news-single-timedata">###NEWS_DATE### ###NEWS_TIME### ###TEXT_NEWS_AGE### ###NEWS_AGE###</div>
+		<h2>###NEWS_TITLE###</h2>
+		###CATWRAP_B### ###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E###
+		###NEWS_AUTHOR###
+		###NEWS_SUBHEADER###
+		###NEWS_IMAGE### 
+		###NEWS_CONTENT###
+		<hr class="clearer" />
+			###ADDINFO_WRAP_B###
+						  
+				  	###TEXT_RELATED###
+				 	###NEWS_RELATED###
+			
+					###TEXT_FILES###
+				 	###FILE_LINK###				  
+				
+					###TEXT_LINKS###
+					###NEWS_LINKS###
+			###ADDINFO_WRAP_E###
+	<div class="news-single-backlink">	
+	<!--###LINK_ITEM###-->###BACK_TO_LIST###<!--###LINK_ITEM###-->
+	</div>
+</div>		
+<!-- ###TEMPLATE_SINGLE### end -->
+
+
+
+
+
+
+
+
+
+
+
+
+<br />
+<br /><hr />
+<br />
+<br />
+<br />
+<h3>TEMPLATE_SINGLE_RECORDINSERT</h3>
+<em>This subpart is used to display single news items with the &quot;Insert Records&quot; content element </em><br />
+<br />
+<br />
+
+<!-- ###TEMPLATE_SINGLE_RECORDINSERT### begin
+	This subpart is used to display single news items
+-->
+
+<div class="news-single-item">
 			<div class="news-single-timedata">###NEWS_DATE### ###NEWS_TIME### ###TEXT_NEWS_AGE### ###NEWS_AGE###</div>
 			<h2>###NEWS_TITLE###</h2>
-			###CATWRAP_B### ###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E###<p class="news-single-author">###NEWS_AUTHOR###</p>		
+			###CATWRAP_B### ###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E###
+			###NEWS_AUTHOR###		
 			
 			
 			
-			<h3>###NEWS_SUBHEADER###</h3>
+			###NEWS_SUBHEADER###
 			
 			###NEWS_IMAGE### 
 			###NEWS_CONTENT###
 
-			<div class="news-single-additional-info">			  
-			    <dl class="news-single-related">
-				  	<dt class="news-single-related-header">###TEXT_RELATED###</dt>
-				 	<dd class="news-single-related-items">###NEWS_RELATED###</dd>
-			   </dl>
-				 <dl class="news-single-files">
-				  	<dt class="news-single-files-header">###TEXT_FILES###</dt>
-				 	<dd class="news-single-files-items">###FILE_LINK###</dd>				  
-				</dl>
-				<dl class="news-single-links">
-  		 			<dt class="news-single-links-header">###TEXT_LINKS###</dt>
-				 	<dd class="news-single-links-items">###NEWS_LINKS###</dd>					
-				</dl>
-			</div>			
+						###ADDINFO_WRAP_B###
+						  
+				  	###TEXT_RELATED###
+				 	###NEWS_RELATED###
+			
+					###TEXT_FILES###
+				 	###FILE_LINK###				  
+				
+					###TEXT_LINKS###
+					###NEWS_LINKS###
+			###ADDINFO_WRAP_E###
+###COMMENTS###
+<div class="news-single-backlink">	
+<!--###LINK_ITEM###-->###BACK_TO_LIST###<!--###LINK_ITEM###-->
+</div>			</div>		
+<!-- ###TEMPLATE_SINGLE_RECORDINSERT### end --><br /><hr />
+<br />
+<br />
+<br />
+<h3>TEMPLATE_SINGLE_FORUM</h3>
+<em>This subpart is used to display single news items with the &quot;Insert Records&quot; content element </em><br />
+<br />
+<br />
+
+<!-- ###TEMPLATE_SINGLE_FORUM### begin
+	This subpart is used to display single news items
+-->
+
+<div class="news-single-item">
+			<div class="news-single-timedata">###NEWS_DATE### ###NEWS_TIME### ###TEXT_NEWS_AGE### ###NEWS_AGE###</div>
+			<h2>###NEWS_TITLE###</h2>
+			###CATWRAP_B### ###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E###
+			###NEWS_AUTHOR###
+			
+			
+			
+			###NEWS_SUBHEADER###
+			
+			###NEWS_IMAGE### 
+			###NEWS_CONTENT###
 
 <div class="news-single-backlink">	
 <!--###LINK_ITEM###-->###BACK_TO_LIST###<!--###LINK_ITEM###-->
 </div>			</div>		
-<!-- ###TEMPLATE_SINGLE### end -->
+<!-- ###TEMPLATE_SINGLE_FORUM### end -->
 
 
 
@@ -244,26 +322,19 @@ LINK_NEXT - used in the pagebrowser
 <br />
 <br />
 <!-- ###TEMPLATE_ARCHIVE### begin
-	Subpart for the news archive menu
---><div class="news-amenu-container">
-		<h2>###ARCHIVE_HEADER###</h2>
+	Subpart for the news archive menu 
+ -->
+<div class="news-amenu-container">
+	<h2>###ARCHIVE_HEADER###</h2>
 	<ul>
-	<!-- ###CONTENT### begin
-		  This is the part of the template substituted with the list of items: 
-	-->
-		<!-- ###MENUITEM### begin 
-			Template for a single item 
-		-->
-			<li><!--###LINK_ITEM###-->###ARCHIVE_TITLE###: ###ARCHIVE_COUNT### ###ARCHIVE_ITEMS###<!--###LINK_ITEM###--></li>
+	<!-- ###CONTENT### begin -->
+		<!-- ###MENUITEM### begin -->
+		<li><!--###LINK_ITEM###-->###ARCHIVE_TITLE###: ###ARCHIVE_COUNT### ###ARCHIVE_ITEMS###<!--###LINK_ITEM###--></li>
 		<!-- ###MENUITEM### end-->
 	<!-- ###CONTENT###  end -->
-</ul>
+	</ul>
 </div>
 <!-- ###TEMPLATE_ARCHIVE### end -->
-
-
-
-
 
 
 <br />
@@ -281,8 +352,12 @@ LINK_NEXT - used in the pagebrowser
 <!-- ###TEMPLATE_ARCHIVE_NOITEMS### begin
 	Shown if the archive has no items!
 -->
-		<div class="news-archive-top">###ARCHIVE_HEADER###</div>
-	    <div class="news-archive-item">###ARCHIVE_EMPTY_MSG###</div>		
+<div class="news-amenu-container">
+		<h2>###ARCHIVE_HEADER###</h2>
+	    <ul>
+		<li>###ARCHIVE_EMPTY_MSG###</li>
+		</ul>		
+</div>
 <!-- ###TEMPLATE_ARCHIVE_NOITEMS### end -->
 
 
@@ -313,15 +388,19 @@ LINK_NEXT - used in the pagebrowser
 </form></div>
 <!-- ###TEMPLATE_SEARCH### end -->
 
-
-this is shown if the search result is empty 
-
-   
+<br />
+<hr /><br />
+<h3>
+  this is shown if the search result is empty </h3>
+  <br />
+     
 <!-- ###TEMPLATE_SEARCH_EMPTY### begin -->
 <div class="news-search-emptyMsg">###SEARCH_EMPTY_MSG###</div> 
 <!-- ###TEMPLATE_SEARCH_EMPTY### end -->
 
-<br /><br /><br /><br /><hr /><br />
+<br /><br />
+<br />
+<hr /><br />
 <h3>TEMPLATE_HEADER_LIST</h3>
 <em>shows a list of news titles</em><br />
 

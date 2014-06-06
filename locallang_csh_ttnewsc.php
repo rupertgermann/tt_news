@@ -15,7 +15,7 @@ $LOCAL_LANG = Array (
 		'.description' => 'Das News System erlaubt es dem Benutzer, Nachrichten zu kategorisieren. Dadurch wird eine bessere Übersichlichkeit der Meldungen gewährleistet.',
 	),
 	'no' => Array (
-		'.description' => 'Kategorier for nyhetsystemet.',
+		'.description' => 'Kategorier for det innebygde nyhetsystemet.',
 	),
 	'it' => Array (
 		'.description' => 'Categorie delle News integrate al sito',
@@ -29,6 +29,7 @@ $LOCAL_LANG = Array (
 		'.description' => 'Categoriën van het nieuwssysteem.',
 	),
 	'cz' => Array (
+		'.description' => 'Vestavìnı systém kategorií zpráv.',
 	),
 	'pl' => Array (
 	),

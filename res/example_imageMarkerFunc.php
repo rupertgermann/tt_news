@@ -27,7 +27,7 @@
 /**
  * This is an example for processing the news images by a user function.
  *
- * $Id: example_imageMarkerFunc.php,v 1.3 2004/09/19 06:43:32 honk Exp $
+ * $Id: example_imageMarkerFunc.php,v 1.1.1.1 2004/11/04 19:12:30 rgermann Exp $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  */

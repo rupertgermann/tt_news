@@ -16,6 +16,7 @@ $TCA['tt_news'] = Array (
 	'columns' => Array (	
 		'starttime' => Array (
 			'exclude' => 1,	
+			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.starttime',
 			'config' => Array (
 				'type' => 'input',
@@ -27,7 +28,8 @@ $TCA['tt_news'] = Array (
 			)
 		),
 		'endtime' => Array (
-			'exclude' => 1,	
+			'exclude' => 1,
+			'l10n_mode' => 'mergeIfNotBlank',	
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.endtime',
 			'config' => Array (
 				'type' => 'input',
@@ -43,6 +45,7 @@ $TCA['tt_news'] = Array (
 			)
 		),
 		'hidden' => Array (
+			#'l10n_mode' => 'mergeIfNotBlank',
 			'exclude' => 1,	
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.hidden',
 			'config' => Array (
@@ -52,6 +55,7 @@ $TCA['tt_news'] = Array (
 		),
 		'fe_group' => Array (
 			'exclude' => 1,	
+			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.fe_group',
 			'config' => Array (
 				'type' => 'select',	
@@ -66,6 +70,7 @@ $TCA['tt_news'] = Array (
 		),
 		'title' => Array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.title',
+			'l10n_mode' => 'prefixLangTitle',
 			'config' => Array (
 				'type' => 'input',
 				'size' => '40',
@@ -73,6 +78,7 @@ $TCA['tt_news'] = Array (
 			)
 		),
 		'ext_url' => Array (
+			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.external',
 			'config' => Array (
 				'type' => 'input',
@@ -92,6 +98,7 @@ $TCA['tt_news'] = Array (
 		),
 		'bodytext' => Array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.text',
+			'l10n_mode' => 'prefixLangTitle',
 			'config' => Array (
 				'type' => 'text',
 				'cols' => '48',
@@ -112,6 +119,7 @@ $TCA['tt_news'] = Array (
 		'short' => Array (
 			'exclude' => 1,	
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.subheader',	
+			'l10n_mode' => 'prefixLangTitle',
 			'config' => Array (
 				'type' => 'text',
 				'cols' => '40',
@@ -120,6 +128,7 @@ $TCA['tt_news'] = Array (
 		),
 		'type' => Array (
 			'exclude' => 1,	
+			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.type',
 			'config' => Array (
 				'type' => 'select',
@@ -132,6 +141,7 @@ $TCA['tt_news'] = Array (
 			)
 		),
 		'datetime' => Array (
+			'l10n_mode' => 'mergeIfNotBlank',
 			'exclude' => 1,	
 			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news.datetime',
 			'config' => Array (
@@ -143,6 +153,7 @@ $TCA['tt_news'] = Array (
 				)
 		),
 		'archivedate' => Array (
+			'l10n_mode' => 'mergeIfNotBlank',
 			'exclude' => 1,	
 			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news.archivedate',
 			'config' => Array (
@@ -155,6 +166,7 @@ $TCA['tt_news'] = Array (
 		),
 		'image' => Array (
 			'exclude' => 1,	
+			'l10n_mode' => 'exclude',	
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.images',
 			'config' => Array (
 				'type' => 'group',
@@ -171,6 +183,7 @@ $TCA['tt_news'] = Array (
 		'imagecaption' => Array (
 			'exclude' => 1,	
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.caption',
+			'l10n_mode' => 'prefixLangTitle',
 			'config' => Array (
 				'type' => 'text',
 				'cols' => '30',
@@ -178,7 +191,8 @@ $TCA['tt_news'] = Array (
 			)
 		),
 		'author' => Array (
-			'exclude' => 1,	
+			'exclude' => 1,
+			'l10n_mode' => 'mergeIfNotBlank',		
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.author',
 			'config' => Array (
 				'type' => 'input',
@@ -189,6 +203,7 @@ $TCA['tt_news'] = Array (
 		),
 		'author_email' => Array (
 			'exclude' => 1,	
+			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.email',
 			'config' => Array (
 				'type' => 'input',
@@ -199,6 +214,7 @@ $TCA['tt_news'] = Array (
 		),
 		'related' => Array (
 			'exclude' => 1,	
+			'l10n_mode' => 'exclude',	
 			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news.related',
 			'config' => Array (
 				'type' => 'group',
@@ -213,6 +229,7 @@ $TCA['tt_news'] = Array (
 			)
 		),
 		'keywords' => Array (
+			'l10n_mode' => 'mergeIfNotBlank',
 			'exclude' => 1,	
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.keywords',
 			'config' => Array (
@@ -222,6 +239,7 @@ $TCA['tt_news'] = Array (
 			)
 		),
 		'links' => Array (
+			'l10n_mode' => 'mergeIfNotBlank',	
 			'exclude' => 1,	
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.links',	
 			'config' => Array (
@@ -232,6 +250,7 @@ $TCA['tt_news'] = Array (
 		),
 		'category' => Array (
 			'exclude' => 1,	
+			'l10n_mode' => 'exclude',	
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.category',
 			'config' => Array (
 				'type' => 'select',
@@ -268,7 +287,8 @@ $TCA['tt_news'] = Array (
 			)
 		),
 		'page' => Array (
-			'exclude' => 1,	
+			'exclude' => 1,
+		#	'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.shortcut_page',
 			'config' => Array (
 				'type' => 'group',
@@ -283,6 +303,7 @@ $TCA['tt_news'] = Array (
 		# filelinks
 		'news_files' => Array (
 			'exclude' => 1,
+			'l10n_mode' => 'exclude',	
 			'label' => 'LLL:EXT:cms/locallang_ttc.php:media',
 			'config' => Array (
 				'type' => 'group',
@@ -298,25 +319,83 @@ $TCA['tt_news'] = Array (
 				'minitems' => '0'
 			)
 		),
-		
+		'sys_language_uid' => Array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.language',
+			'config' => Array (
+				'type' => 'select',
+				'foreign_table' => 'sys_language',
+				'foreign_table_where' => 'ORDER BY sys_language.title',
+				'items' => Array(
+					Array('LLL:EXT:lang/locallang_general.php:LGL.allLanguages',-1),
+					Array('LLL:EXT:lang/locallang_general.php:LGL.default_value',0)
+				)
+			)
+		),
+		'l18n_parent' => Array (
+			'displayCond' => 'FIELD:sys_language_uid:>:0',
+			'exclude' => 1,
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.l18n_parent',
+			'config' => Array (
+				'type' => 'select',
+				'items' => Array (
+					Array('', 0),
+				),
+				'foreign_table' => 'tt_news',
+				'foreign_table_where' => 'AND tt_news.uid=###REC_FIELD_l18n_parent### AND tt_news.sys_language_uid IN (-1,0)',
+				'wizards' => Array(
+					'_PADDING' => 2,
+					'_VERTICAL' => 1,
+					
+					'edit' => Array(
+							'type' => 'popup',
+							'title' => 'edit default language version of this record ',
+							'script' => 'wizard_edit.php',
+							'popup_onlyOpenIfSelected' => 1,
+							'icon' => 'edit2.gif',
+							'JSopenParams' => 'height=600,width=700,status=0,menubar=0,scrollbars=1,resizable=1',
+					),
+				),
+			)
+		),
+		'l18n_diffsource' => Array('config'=>array('type'=>'passthrough')),
+		't3ver_label' => Array (
+			'displayCond' => 'EXT:version:LOADED:true',
+			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.versionLabel',
+			'config' => Array (
+				'type' => 'input',
+				'size' => '30',
+				'max' => '30',
+			)
+		),
 		
 		
 	),
 	'types' => Array (	
-// non-rte '0' => Array('showitem' => 'hidden;;;;1-1-1,type,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext,image;;;;4-4-4,imagecaption,--div--,links;;;;5-5-5,related'),
 
-// full enabled rte		'0' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext;;9;richtext[*]:rte_transform[flag=rte_enabled|mode=ts];3-3-3,image;;;;4-4-4,imagecaption,--div--,links;;;;5-5-5,related'),
 
 // rte like tt_content
-		'0' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext;;9;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image]:rte_transform[flag=rte_enabled|mode=ts];4-4-4, rte_enabled, text_properties;5-5-5,image;;;;6-6-6,imagecaption,--div--,links;;;;7-7-7,related,news_files'),
+		#'0' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,bodytext;;9;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image]:rte_transform[flag=rte_enabled|mode=ts];4-4-4, rte_enabled, text_properties;5-5-5,image;;;;6-6-6,imagecaption,--div--,links;;;;7-7-7,related,news_files'),
+	
+
+
+// divider to Tabs	
+		'0' => Array('showitem' => 'title;;1;;,datetime;;2;;1-1-1,author;;3;;,short,bodytext;;4;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image]:rte_transform[flag=rte_enabled|mode=ts];4-4-4,--div--;Relations,category,image;;;;1-1-1,imagecaption,links;;;;2-2-2,related;;;;3-3-3,news_files;;;;4-4-4'),
+
 		
 		
-		
-		'1' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,page,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,image;;;;4-4-4,imagecaption'),
-		'2' => Array('showitem' => 'hidden;;;;1-1-1,type,sys_language_uid,ext_url,title;;;;2-2-2,datetime,starttime;;1,archivedate,category,author,author_email,keywords,--div--,short;;;;3-3-3,image;;;;4-4-4,imagecaption')
+		'1' => Array('showitem' =>
+		'title;;1;;,datetime;;2;;1-1-1,author;;3;;,short,page;;4;;,--div--;Relations,category,image;;;;1-1-1,imagecaption'),
+
+		'2' => Array('showitem' =>
+		'title;;1;;,datetime;;2;;1-1-1,author;;3;;,short,ext_url;;4;;,--div--;Relations,category,image;;;;1-1-1,imagecaption')
 	),
 	'palettes' => Array (
-		'1' => Array('showitem' => 'endtime,fe_group')
+		'1' => Array('showitem' => 'hidden,type,starttime,endtime,fe_group'),
+		'2' => Array('showitem' => 'archivedate,l18n_parent,sys_language_uid'),
+		'3' => Array('showitem' => 't3ver_label,author_email'),
+		'4' => Array('showitem' => 'keywords'),
+	
 	)
 );
 
@@ -338,6 +417,15 @@ $TCA['tt_news_cat'] = Array (
 				'size' => '40',
 				'max' => '256',
 				'eval' => 'required'
+			)
+		),
+		'title_lang_ol' => Array (
+			'label' => 'LLL:EXT:tt_news/locallang_tca.php:tt_news_cat.title_lang_ol',
+			'config' => Array (
+				'type' => 'input',
+				'size' => '40',
+				'max' => '256',
+		
 			)
 		),
 		'image' => Array (		
@@ -382,7 +470,7 @@ $TCA['tt_news_cat'] = Array (
 	),
 		
 	'types' => Array (	
-		'0' => Array('showitem' => 'title,image;;1;;1-1-1'),
+		'0' => Array('showitem' => 'title,title_lang_ol,image;;1;;1-1-1'),
 	
 	),
 	'palettes' => Array (

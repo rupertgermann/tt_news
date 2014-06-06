@@ -1,0 +1,65 @@
+###
+# This is the default TS-setup RSS feed from tt_news
+# this template has to be included after the tt_news main TS-setup because it depends on some settings from there
+#
+# (see Section Reference in the manual for more options & parameters)
+#
+# tt_news v 2.0.0 
+###
+
+
+
+
+# - - - - - - - - - - - - - -  render XML news   - - - - - - - - - - - - -  #
+ 
+# point your RSS reader to: http://your-server.org/index.php?type=100
+
+plugin.tt_news {
+  displayXML {
+    rss091_tmplFile = {$plugin.tt_news.displayXML.rss091_tmplFile}
+    rss2_tmplFile = {$plugin.tt_news.displayXML.rss2_tmplFile}
+   
+    xmlFormat = {$plugin.tt_news.displayXML.xmlFormat}
+    # possibile values: rss091 / rss2 /
+    # (planning: rdf / atom)
+
+    xmlTitle = {$plugin.tt_news.displayXML.xmlTitle}
+    xmlLink = {$plugin.tt_news.displayXML.xmlLink}
+    xmlDesc = {$plugin.tt_news.displayXML.xmlDesc}
+    xmlLang = {$plugin.tt_news.displayXML.xmlLang}
+    xmlIcon = {$plugin.tt_news.displayXML.xmlIcon}
+    xmlLimit = {$plugin.tt_news.displayXML.xmlLimit}
+    xmlCaching = {$plugin.tt_news.displayXML.xmlCaching}
+
+	title_stdWrap.htmlSpecialChars = 1
+	title_stdWrap.htmlSpecialChars.preserveEntities = 1
+	subheader_stdWrap.stripHtml = 1
+	subheader_stdWrap.htmlSpecialChars = 1
+	subheader_stdWrap.htmlSpecialChars.preserveEntities = 1
+    subheader_stdWrap.crop = 100 | ... | 1 
+    subheader_stdWrap.ifEmpty.field = bodytext
+    xmlLastBuildDate = 1
+  }
+}
+
+
+## This enables the xml news feed
+xmlnews = PAGE
+xmlnews {
+  typeNum = 100
+
+  10 < plugin.tt_news
+  10.pid_list >
+  10.pid_list = {$plugin.tt_news.pid_list}
+  10.singlePid = {$plugin.tt_news.singlePid}
+  10.defaultCode = XML
+
+
+  config {
+    disableAllHeaderCode = 1
+    additionalHeaders = Content-type:text/xml
+    xhtml_cleaning = 0
+  }
+}
+
+
