@@ -17,7 +17,8 @@ $TCA['tt_address'] = array (
 			'disabled' => 'hidden'
 		),
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile'          => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon.gif'
+		'iconfile'          => t3lib_extMgm::extRelPath($_EXTKEY).'ext_icon.gif',
+        'searchFields'		=> 'name, first_name, middle_name, last_name, email'
 	),
 	'feInterface' => array (
 		'fe_admin_fieldList' => 'pid,hidden,gender,name,title,address,building,room,birthday,phone,fax,mobile,www,email,city,zip,company,region,country,image,description'
@@ -49,6 +50,25 @@ $TCA['tt_address_group'] = array(
 	)
 );
 
+	// start splitting name into first and last name
+$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_address']);
+
+$fe_admin_fieldListOrig  = $TCA['tt_address']['feInterface']['fe_admin_fieldList'];
+$fe_admin_fieldListReplace  = 'name,first_name,middle_name,last_name,';
+
+if ($extConf['disableCombinedNameField']) {
+		// shows only the new fields
+	$fe_admin_fieldListReplace  = 'first_name,middle_name,last_name,';
+}
+
+$fe_admin_fieldListNew = str_replace(
+	'name,',
+	$fe_admin_fieldListReplace,
+	$fe_admin_fieldListOrig
+);
+$TCA['tt_address']['feInterface']['fe_admin_fieldList'] = $fe_admin_fieldListNew;
+	// end splitting name
+
 
 t3lib_extMgm::addPlugin(
 	array(
@@ -57,6 +77,7 @@ t3lib_extMgm::addPlugin(
 	)
 );
 t3lib_extMgm::allowTableOnStandardPages('tt_address');
+t3lib_extMgm::allowTableOnStandardPages('tt_address_group');
 t3lib_extMgm::addToInsertRecords('tt_address');
 
 t3lib_extMgm::addLLrefForTCAdescr('tt_address','EXT:tt_address/locallang_csh_ttaddress.xml');

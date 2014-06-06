@@ -1,3 +1,33 @@
+2013-01-07  Ingo Renner  <ingo@typo3.org>
+
+	* Release of version 2.3.0
+
+2012-06-05 Lorenz Ulrich <lorenz.ulrich@visol.ch>
+	* ADD feature #33888 Placeholder image if none is selected for the tt_address record
+
+2012-06-01 Lorenz Ulrich <lorenz.ulrich@visol.ch>
+	* FIX issue #M11276: Enable sorting by single selection
+	* Updated documentation for #M11276 and #M18242
+	* FIX issue #M12776: Incorrect sorting with umlauts and whitespace
+	* FIX issue #M18558: Compatibility with TYPO3 4.6+
+	* ADD feature #36511: Use TCA suggest wizard for single selection and starting point
+	* ADD feature #37698: Add configuration for searchFields to TCA
+	* FIX issue #9034: Group tree not working in localized Flexform (Thanks Michel Tremblay)
+
+2012-05-30 Lorenz Ulrich <lorenz.ulrich@visol.ch>
+	* FIX issue #M18489: Fatal error using non existing int() function
+	* FIX issue #M8725: Missing microformat classes for email, mobile, fax
+	* FIX issue #M7095: Add link wizard to www field
+	* FIX issue #M7060: Sorting of address items not working if set in FlexForm (Thanks Uwe Schmelzer)
+	* FIX issue #M18391: tt_address cannot be configured using TypoScript anymore (Thanks Gabriel Kaufmann)
+	* FIX issue #36351: Name fields modification (first_name, ...) fails for fe_admin_fieldList in "media/scripts/fe_adminLib.inc" (Thanks Andy Grunwald)
+	* FIX issue #18140: Trim combinedName after applying the format
+
+2011-08-08 Michael Miousse <mmiousse@infoglobe.ca>
+	* ADD added feature #18242, Missing stdWrap on groupSelection
+	* FIX fixed issue #16711, Do not limit the size of varchar fields
+	* FIX fixed issue #10603, SQL Errors in ext_tables.sql prevent correct installation (tt_address 2.2.1), credits Jochen Rieger
+
 2007-12-23 Ingo Renner	<typo3@ingo-renner.com>
 
 	* ADD added building and room fields
@@ -33,7 +63,7 @@
 	* UPD updated manual
 	* FIX template path was not read correctly
 	* ADD single records and groups can be selecty via TS
-	* ADD added chanes from Uwe Schlüter, thanks!
+	* ADD added chanes from Uwe Schlï¿½ter, thanks!
 
 2007-01-02 Ingo Renner	<typo3@ingo-renner.com>
 

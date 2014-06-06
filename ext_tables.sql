@@ -2,7 +2,7 @@
 # Table structure for table 'tt_address'
 #
 CREATE TABLE tt_address (
-  uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+  uid int(11) unsigned NOT NULL auto_increment,
   pid int(11) unsigned DEFAULT '0' NOT NULL,
   tstamp int(11) unsigned DEFAULT '0' NOT NULL,
   hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -11,25 +11,25 @@ CREATE TABLE tt_address (
   first_name tinytext NOT NULL,
   middle_name tinytext NOT NULL,
   last_name tinytext NOT NULL,
-  birthday int(11) DEFAULT '0' NOT NULL
-  title varchar(40) DEFAULT '' NOT NULL,
-  email varchar(80) DEFAULT '' NOT NULL,
+  birthday int(11) DEFAULT '0' NOT NULL,
+  title varchar(255) DEFAULT '' NOT NULL,
+  email varchar(255) DEFAULT '' NOT NULL,
   phone varchar(30) DEFAULT '' NOT NULL,
   mobile varchar(30) DEFAULT '' NOT NULL,
-  www varchar(80) DEFAULT '' NOT NULL,
+  www varchar(255) DEFAULT '' NOT NULL,
   address tinytext NOT NULL,
   building varchar(20) DEFAULT '' NOT NULL,
   room varchar(15) DEFAULT '' NOT NULL,
-  company varchar(80) DEFAULT '' NOT NULL,
-  city varchar(80) DEFAULT '' NOT NULL,
+  company varchar(255) DEFAULT '' NOT NULL,
+  city varchar(255) DEFAULT '' NOT NULL,
   zip varchar(20) DEFAULT '' NOT NULL,
-  region varchar(100) DEFAULT '' NOT NULL,
-  country varchar(100) DEFAULT '' NOT NULL,
+  region varchar(255) DEFAULT '' NOT NULL,
+  country varchar(128) DEFAULT '' NOT NULL,
   image tinyblob NOT NULL,
   fax varchar(30) DEFAULT '' NOT NULL,
   deleted tinyint(3) DEFAULT '0',
   description text NOT NULL,
-  addressgroup int(11) DEFAULT '0' NOT NULL
+  addressgroup int(11) DEFAULT '0' NOT NULL,
   PRIMARY KEY (uid),
   KEY parent (pid),
   KEY pid (pid,email)

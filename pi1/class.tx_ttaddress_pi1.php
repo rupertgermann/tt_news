@@ -58,18 +58,37 @@ class tx_ttaddress_pi1 extends tslib_pibase {
 		$addresses = t3lib_div::array_merge($singleSelection, $groupSelection);
 
 		$templateCode = $this->getTemplate();
-		$sorting = explode(',', $this->ffData['singleRecords']);
 
-			// sorting the addresses
-		$sortBy = array();
-		foreach($addresses as $k => $v) {
-			$sortBy[$k] = $v[$this->conf['sortByColumn']];
+			// apply sorting
+		if ($this->conf['sortByColumn'] === 'singleSelection' && count($groupSelection) === 0) {
+
+				// we want to sort by single selection and only have single record selection
+			$sortedAdressesUid = explode(',', $this->conf['singleSelection']);
+			$sortedAddresses = array();
+
+			foreach($sortedAdressesUid as $uid) {
+				$sortedAddresses[] = $addresses[$uid];
+			}
+			$addresses = $sortedAddresses;
+
+		} else {
+				// if sortByColumn was set to singleSelection, but we don't have a single selection, switch to default column "name"
+			if ($this->conf['sortByColumn'] === 'singleSelection') {
+				$this->conf['sortByColumn'] = 'name';
+			}
+
+				// sorting the addresses by any other field
+			$sortBy = array();
+			foreach($addresses as $k => $v) {
+				$sortBy[$k] = $this->normalizeSortingString($v[$this->conf['sortByColumn']]);
+			}
+			array_multisort($sortBy, $this->conf['sortOrder'], $addresses);
+
 		}
-		array_multisort($sortBy, $this->conf['sortOrder'], $addresses);
 
 			// limit output to max listMaxItems addresses
-		if( ((int) $this->conf['listMaxItems']) > 0) {
-			$addresses = array_slice($addresses, 0, int($this->conf['listMaxItems']));
+		if (((int)$this->conf['listMaxItems']) > 0) {
+			$addresses = array_slice($addresses, 0, (int)$this->conf['listMaxItems']);
 		}
 
 			// output
@@ -136,13 +155,16 @@ class tx_ttaddress_pi1 extends tslib_pibase {
 		}
 		$this->conf['combination'] = $combination;
 
-			//set default sorting to name
-		$this->conf['sortByColumn'] = $this->ffData['sortBy'] ?
-			$this->ffData['sortBy'] :
-				$this->conf['sortByColumn'] ?
-					$this->conf['sortByColumn'] :
-					'name';
-			//check a userdefined sorting criteria for validity
+			// check sorting, priorize FlexForm configuration over TypoScript
+        if ($this->ffData['sortBy']) {
+            	// sortBy from FlexForm overrides TypoScript configuration
+            $this->conf['sortByColumn'] = $this->ffData['sortBy'];
+        } elseif ($this->conf['sortByColumn']) {
+            	// use sortByColumn from TypoScript if we don't have a FlexForm sorting
+            $this->conf['sortByColumn'] = $this->conf['sortByColumn'];
+        }
+
+			// check sorting column for validity, use default column "name" if column is invalid or not set
 		$this->conf['sortByColumn'] = $this->checkSorting($this->conf['sortByColumn']);
 
 			//set sorting, set to ASC if not valid
@@ -181,9 +203,10 @@ class tx_ttaddress_pi1 extends tslib_pibase {
 
 		$this->conf['groupSelection'] = $this->ffData['groupSelection'] ?
 			$this->ffData['groupSelection'] :
-			$this->conf['groupSelection'];
+			$this->cObj->stdWrap($this->conf['groupSelection'], $this->conf['groupSelection.']);
 
 		$this->conf['templateName'] = $this->getTemplateName();
+
 	}
 
 	/**
@@ -346,7 +369,7 @@ class tx_ttaddress_pi1 extends tslib_pibase {
 		$markerArray['###MAINGROUP###']    = $lcObj->stdWrap($address['groups'][0]['title'], $lConf['mainGroup.']);
 		$markerArray['###GROUPLIST###']    = $lcObj->stdWrap($address['groupList'], 			$lConf['groupList.']);
 
-			//the image
+			// the image
 		$markerArray['###IMAGE###'] = '';
 		if(!empty($address['image'])) {
 			$iConf = $lConf['image.'];
@@ -367,6 +390,14 @@ class tx_ttaddress_pi1 extends tslib_pibase {
 				$markerArray['###IMAGE'.($i == 0 ? '' : $i).'###'] = $lcObj->IMAGE($iConf);
 			}
 
+		} elseif (!empty($lConf['placeholderImage'])) {
+				// we have no image, but a default image
+			$iConf = $lConf['image.'];
+			$iConf['file'] = $lcObj->stdWrap($lConf['placeholderImage'], $lConf['placeholderImage.']);
+			$iConf['altText'] = !empty($iConf['altText']) ? $iConf['altText'] : $address['name'];
+			$iConf['titleText'] = !empty($iConf['titleText']) ? $iConf['titleText'] : $address['name'];
+
+			$markerArray['###IMAGE###'] = $lcObj->IMAGE($iConf);
 		}
 
 			// adds hook for processing of extra item markers
@@ -425,15 +456,20 @@ class tx_ttaddress_pi1 extends tslib_pibase {
 	 */
 	function getTemplateName() {
 		$templateName = '';
-		$templateFile = $this->ffData['templateFile'];
 
-		if($templateFile == $this->conf['defaultTemplateFileName'] ||
+		if (isset($this->ffData['templateFile'])) {
+			$templateFile = $this->ffData['templateFile'];
+		} elseif (isset($this->conf['defaultTemplateFileName'])) {
+			$templateFile = $this->conf['defaultTemplateFileName'];
+		}
+
+		if ($templateFile == $this->conf['defaultTemplateFileName'] ||
 		   $templateFile == 'default') {
 			$templateName = 'default';
 		}
 
-			//cutting off the file extension
-		if($templateName != 'default') {
+			// cutting off the file extension
+		if ($templateName != 'default') {
 			$templateName = substr($templateFile, 0, strrpos($templateFile, '.'));
 		}
 
@@ -447,14 +483,19 @@ class tx_ttaddress_pi1 extends tslib_pibase {
 	 * @return	string	html template code
 	 */
 	function getTemplate() {
-		$templateFile = $this->ffData['templateFile'];
 
-		if($templateFile == 'default') {
+        if (isset($this->ffData['templateFile'])) {
+            $templateFile = $this->ffData['templateFile'];
+        } elseif (isset($this->conf['defaultTemplateFileName'])) {
+            $templateFile = $this->conf['defaultTemplateFileName'];
+        }
+
+		if ($templateFile == 'default') {
 			$templateFile = $this->conf['defaultTemplateFileName'];
 		}
 
 		$templateCode = $this->cObj->fileResource(
-			$this->conf['templatePath'].$templateFile
+			$this->conf['templatePath'] . $templateFile
 		);
 
 		$subPart = $this->cObj->getSubpart(
@@ -478,7 +519,7 @@ class tx_ttaddress_pi1 extends tslib_pibase {
 			'uid', 'pid', 'tstamp',
 			'name', 'gender', 'first_name', 'middle_name', 'last_name', 'title', 'email',
 			'phone', 'mobile', 'www', 'address', 'building', 'room', 'birthday', 'company', 'city', 'zip',
-			'region', 'country', 'image', 'fax', 'description'
+			'region', 'country', 'image', 'fax', 'description', 'singleSelection'
 		);
 
 		if(!in_array($sortBy, $validSortings)) {
@@ -527,6 +568,33 @@ class tx_ttaddress_pi1 extends tslib_pibase {
 		}
 
 		return $flag;
+	}
+
+	/**
+	 * Removes whitespaces, hyphens and replaces umlauts to allow a correct
+	 * sorting with multisort.
+	 *
+	 * @param mixed $value: value to clean
+	 * @return cleaned value
+	 */
+	protected function normalizeSortingString($value) {
+			if (!is_string($value)) {
+					// return if value is not a string
+				return $value;
+			}
+
+			$value = $GLOBALS['TSFE']->csConvObj->conv_case($GLOBALS['TSFE']->renderCharset, $value, 'toLower'); // lowercase
+			$value = preg_replace("/\s+/", "", $value); // remove whitespace
+			$value = preg_replace("/-/", "", $value); // remove hyphens e.g. from double names
+			$value = preg_replace("/ü/", "u", $value); // remove umlauts
+			$value = preg_replace("/ä/", "a", $value);
+			$value = preg_replace("/ö/", "o", $value);
+			$value = preg_replace("/ë/", "e", $value);
+			$value = preg_replace("/é/", "e", $value);
+			$value = preg_replace("/è/", "e", $value);
+			$value = preg_replace("/ç/", "c", $value);
+
+			return $value;
 	}
 
 }

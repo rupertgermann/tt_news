@@ -35,7 +35,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'size' => '40',
 				'eval' => 'trim',
-				'max'  => '256'
+				'max'  => '255'
 			)
 		),
 		'first_name' => array (
@@ -45,7 +45,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'size' => '40',
 				'eval' => 'trim',
-				'max'  => '256'
+				'max'  => '255'
 			)
 		),
 		'middle_name' => array (
@@ -55,7 +55,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'size' => '40',
 				'eval' => 'trim',
-				'max'  => '256'
+				'max'  => '255'
 			)
 		),
 		'last_name' => array (
@@ -65,7 +65,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'size' => '40',
 				'eval' => 'trim',
-				'max'  => '256'
+				'max'  => '255'
 			)
 		),
 		'birthday' => array (
@@ -85,7 +85,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'size' => '20',
 				'eval' => 'trim',
-				'max'  => '40'
+				'max'  => '255'
 			)
 		),
 		'address' => array (
@@ -102,7 +102,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'eval' => 'trim',
 				'size' => '20',
-				'max'  => '15'
+				'max'  => '20'
 			)
 		),
 		'room' => array (
@@ -150,7 +150,20 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'eval' => 'trim',
 				'size' => '20',
-				'max'  => '80'
+				'max'  => '255',
+				'wizards' => array(
+					'_PADDING' => 2,
+					'link' => array(
+						'type' => 'popup',
+						'title' => 'LLL:EXT:cms/locallang_ttc.xml:header_link_formlabel',
+						'icon' => 'link_popup.gif',
+						'script' => 'browse_links.php?mode=wizard&act=page|url',
+						'params' => array(
+							'blindLinkOptions' => 'mail,file,spec,folder',
+						),
+						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1',
+					),
+				)
 			)
 		),
 		'email' => array (
@@ -159,7 +172,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'size' => '40',
 				'eval' => 'trim',
-				'max'  => '80'
+				'max'  => '255'
 			)
 		),
 		'company' => array (
@@ -169,7 +182,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'eval' => 'trim',
 				'size' => '20',
-				'max'  => '80'
+				'max'  => '255'
 			)
 		),
 		'city' => array (
@@ -178,7 +191,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'size' => '20',
 				'eval' => 'trim',
-				'max'  => '80'
+				'max'  => '255'
 			)
 		),
 		'zip' => array (
@@ -197,7 +210,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'size' => '20',
 				'eval' => 'trim',
-				'max'  => '30'
+				'max'  => '255'
 			)
 		),
 		'country' => array (
@@ -207,7 +220,7 @@ $TCA['tt_address'] = array (
 				'type' => 'input',
 				'size' => '20',
 				'eval' => 'trim',
-				'max'  => '30'
+				'max'  => '128'
 			)
 		),
 		'image' => array (
@@ -367,26 +380,22 @@ $TCA['tt_address_group'] = array(
 );
 
 
-//-- start splitting name into first and last name
-
+	// start splitting name into first and last name
 $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_address']);
 
-// original values
+	// original values
 $showitemOrig            = $TCA['tt_address']['types'][1]['showitem'];
 $showRecordFieldListOrig = $TCA['tt_address']['interface']['showRecordFieldList'];
-$fe_admin_fieldListOrig  = $TCA['tt_address']['feInterface']['fe_admin_fieldList'];
 
-// shows both, the old and the new fields while converting to the new fields
+	// shows both, the old and the new fields while converting to the new fields
 $showItemReplace = ' name, first_name, middle_name, last_name;;2;;,';
 $showRecordFieldListReplace = 'name,first_name,middle_name,last_name,';
-$fe_admin_fieldListReplace  = 'name,first_name,middle_name,last_name,';
 
 
-if($extConf['disableCombinedNameField']) {
+if ($extConf['disableCombinedNameField']) {
 		// shows only the new fields
 	$showItemReplace            = ' first_name, middle_name;;;;, last_name;;2;;,';
 	$showRecordFieldListReplace = 'first_name,middle_name,last_name,';
-	$fe_admin_fieldListReplace  = 'first_name,middle_name,last_name,';
 
 	$TCA['tt_address']['ctrl']['label']           = 'last_name';
 	$TCA['tt_address']['ctrl']['label_alt']       = 'first_name';
@@ -404,16 +413,10 @@ $showRecordFieldListNew = str_replace(
 	$showRecordFieldListReplace,
 	$showRecordFieldListOrig
 );
-$fe_admin_fieldListNew = str_replace(
-	'name,',
-	$fe_admin_fieldListReplace,
-	$fe_admin_fieldListOrig
-);
+
 $TCA['tt_address']['types'][1]['showitem'] = $showitemNew;
 $TCA['tt_address']['interface']['showRecordFieldList'] = $showRecordFieldListNew;
-$TCA['tt_address']['feInterface']['fe_admin_fieldList'] = $fe_admin_fieldListNew;
 
-//-- end splitting name
-
+	// end splitting name
 
 ?>
