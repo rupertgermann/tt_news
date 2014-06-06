@@ -38,9 +38,11 @@ plugin.tt_news {
   useSubCategories = 0
  	# cat=plugin.tt_news/enable/6; type=boolean; label= Display subcategories: If this is enabled the subcategories of the categories that are assigned to a news record will also be displayed in news records in the FrontEnd. If displayed categories in a news record are subcategories they will be wrapped with "subCategoryTitleItem_stdWrap" (titles) or "subCategoryImgItem_stdWrap" (images).
   displaySubCategories = 0
-  	# cat=plugin.tt_news/enable/7; type=boolean; label= show related news by category: If this is enbaled the SINGLE view shows a list of news with the same category as the current news record.
+  	# cat=plugin.tt_news/enable/7; type=boolean; label= show related news by category: If this is enabled the SINGLE view shows a list of news with the same category as the current news record.
   showRelatedNewsByCategory = 0
-    # cat=plugin.tt_news/enable/8; type=boolean; label= Allow Caching: Allow caching of displayed news? If you want your news being indexed by the indexed-search this has to be enabled.
+    # cat=plugin.tt_news/enable/8; type=boolean; label= Use singlePid from category: If this is enabled tt_news uses the singlePid from the first assigned category.
+  useSPidFromCategory = 1
+    # cat=plugin.tt_news/enable/9; type=boolean; label= Allow Caching: Allow caching of displayed news? If you want your news being indexed by the indexed-search this has to be enabled.
   allowCaching = 1
 
 	

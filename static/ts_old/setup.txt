@@ -125,7 +125,8 @@ plugin.tt_news {
   useSubCategories = {$plugin.tt_news.useSubCategories}
   displaySubCategories = {$plugin.tt_news.displaySubCategories}
   showRelatedNewsByCategory = {$plugin.tt_news.showRelatedNewsByCategory}
-  
+  useSPidFromCategory = {$plugin.tt_news.useSPidFromCategory}
+
   # setting for the category menu (CATMENU)
   displayCatMenu {
     # catmenu rendermode:

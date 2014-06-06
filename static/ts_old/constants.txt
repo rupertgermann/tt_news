@@ -77,7 +77,8 @@ plugin.tt_news {
   showRelatedNewsByCategory = 0
     # cat=plugin.tt_news/enable/8; type=boolean; label= Allow Caching: Allow caching of displayed news? If you want your news being indexed by the indexed-search this has to be enabled.
   allowCaching = 1
-
+    # cat=plugin.tt_news/enable/8; type=boolean; label= Use singlePid from category: If this is enabled tt_news uses the singlePid from the first assigned category.
+  useSPidFromCategory = 1
 
 
 }
