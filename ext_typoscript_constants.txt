@@ -4,7 +4,7 @@ content.tt_address {
     # cat=address/typo; type=options[,upper,lower]; label=Case, name
   name.case = upper
     # cat=address/typo; type=wrap; label=Wrap, address information
-  info.wrap = <font color=maroon> |</font>
+  info.wrap = <font color="maroon"> |</font>
     # cat=address/dims; type=int+; label=Width, information field
   info.width = 300
     # cat=address/dims; type=int+; label=Width, image
