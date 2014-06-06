@@ -810,12 +810,13 @@ class tx_ttnews extends tslib_pibase {
 
 				$t['item'] = $this->getLayouts($t['total'], $this->alternatingLayouts, 'NEWS');
 				// build query for display:
-				$selectConf['selectFields'] = 'tt_news.*';
+				$selectConf['selectFields'] = 'DISTINCT(tt_news.uid),tt_news.*';
 				if ($this->config['groupBy']) {
 					$selectConf['groupBy'] = $this->config['groupBy'];
-				} else {
-//					$selectConf['groupBy'] = 'tt_news.uid';
 				}
+// 				else {
+// 					$selectConf['groupBy'] = 'tt_news.uid';
+// 				}
 
 				if ($this->config['orderBy']) {
 					if (strtoupper($this->config['orderBy']) == 'RANDOM') {
@@ -831,7 +832,7 @@ class tx_ttnews extends tslib_pibase {
 				if (!$this->catExclusive && $selectConf['groupBy'] == 'category') {
 					$selectConf['leftjoin'] = 'tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local';
 					$selectConf['groupBy'] = 'tt_news_cat_mm.uid_foreign';
-					$selectConf['selectFields'] = 'DISTINCT tt_news.uid,tt_news.*';
+// 					$selectConf['selectFields'] = 'DISTINCT(tt_news.uid),tt_news.*';
 				}
 				// exclude the LATEST template from changing its content with the pagebrowser. This can be overridden by setting the conf var latestWithPagebrowser
 				if ($theCode != 'LATEST' || $this->conf['latestWithPagebrowser']) {
@@ -1042,7 +1043,7 @@ class tx_ttnews extends tslib_pibase {
 				$row['ext_url'] = $tmpExtURL;
 			}
 
-			
+
 			if ($this->versioningEnabled) {
 				// get workspaces Overlay
 				$GLOBALS['TSFE']->sys_page->versionOL('tt_news',$row);

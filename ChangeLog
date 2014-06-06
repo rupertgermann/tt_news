@@ -1,9 +1,15 @@
+2008-03-17	Rupert Germann <rupi@gmx.li>
+
+	* fixed the fix for bug #7181: Added "DISTINCT(tt_news.uid),tt_news.*" to the list-query to get rid of the "groupBy tt_news.uid" part of that query.
+		Only removing the groupBy clause is not enough because then news with multiple categories would be displayed multiple, too.
+	* upload to TER as version 2.5.2
 
 2008-03-15	Rupert Germann <rupi@gmx.li>
 
 	* Fixed bug 5103: fix for the nonvisible categories in selectors when "General record storage page" was used. (re-introduced the file: flexform_ds_no_sPID.xml)
 	* fix: the string 'http://' in external urls (type=2) is now detected correctly
 	* added the layout Fixes from Dmitry to the example CSS file (THANK YOU Dmitry for helping out!!)
+	* upload to TER as version 2.5.1
 
 2008-03-03	Dmitry Dulepov <dmitry@typo3.org>
 

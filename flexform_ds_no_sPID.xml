@@ -440,13 +440,6 @@
 				</config>
 				</TCEforms>
 			</maxCatImages>
-			<testtest>
-				<TCEforms>
-				<config>
-				<type>none</type>
-				</config>
-				</TCEforms>
-			</testtest>
 			<catTextMode>
 				<TCEforms>
 				<label>LLL:EXT:tt_news/locallang_tca.xml:tt_news.pi_flexform.catTextMode</label>
