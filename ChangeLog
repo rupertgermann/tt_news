@@ -1,3 +1,10 @@
+2006-04-21	Rupert Germann <rupi@gmx.li>
+
+	* fix: added the fix for "New or edited news records were not displayed in TYPO3 version below 4.0" to tt_news categories, too.
+	* fix: added some labels to the pi/locallang.xml file
+	* added slovak translation for locallang_tca.xml
+	* version nr: 2.3.5
+
 2006-04-19	Rupert Germann <rupi@gmx.li>
 
 	* fix: New or edited news records were not displayed in TYPO3 version below 4.0. Added a function to class.tx_ttnews_tcemain which adds the missing 0 to the fe_group field. Added a condition to ext_tables.php which changes the fe_group field configuration under TYPO3 lower than 4.0 back to the old state.
@@ -1947,5 +1954,5 @@
 
 -----------------------------------------------------------------------------------
 * cvs ID:
-$Id: ChangeLog,v 1.62 2006/04/19 12:10:14 rupertgermann Exp $
+$Id: ChangeLog,v 1.63 2006/04/21 13:13:05 rupertgermann Exp $
 

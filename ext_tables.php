@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: ext_tables.php,v 1.34 2006/04/19 14:28:42 rupertgermann Exp $
+ * $Id: ext_tables.php,v 1.35 2006/04/21 13:13:07 rupertgermann Exp $
  */
  
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
@@ -53,33 +53,7 @@ $TCA['tt_news'] = Array (
 	)
 );
 
-// enable Workspace versioning only for TYPO3 v 4.0 and higher
-if (t3lib_div::int_from_ver(TYPO3_version) >= 4000000) {
-	$TCA['tt_news']['ctrl']['versioningWS'] = TRUE;
-} else {
-	$TCA['tt_news']['ctrl']['versioning'] = TRUE;
 
-	// disable support for nested fe_groups in TYPO3 versions lower than 4.0
-	t3lib_div::loadTCA('tt_news');
-	$TCA['tt_news']['columns']['fe_group'] = array (
-		'exclude' => 1,
-		'l10n_mode' => 'mergeIfNotBlank',
-		'label' => 'LLL:EXT:lang/locallang_general.php:LGL.fe_group',
-		'config' => Array (
-			'type' => 'select',
-			'items' => Array (
-				Array('', 0),
-				Array('LLL:EXT:lang/locallang_general.php:LGL.hide_at_login', -1),
-				Array('LLL:EXT:lang/locallang_general.php:LGL.any_login', -2),
-				Array('LLL:EXT:lang/locallang_general.php:LGL.usergroups', '--div--')
-			),
-			'foreign_table' => 'fe_groups'
-		)
-	);
-	$TCA['tt_news']['palettes']['1'] = Array('showitem' => 'hidden,starttime,endtime,fe_group');
-	$TCA['tt_news']['ctrl']['mainpalette'] = false;
-
-}
 
 
 
@@ -106,6 +80,60 @@ $TCA['tt_news_cat'] = Array (
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php'
 	)
 );
+
+/**
+	Compatibility with TYPO3 versions lower than 4.0
+*/
+
+// enable Workspace versioning only for TYPO3 v 4.0 and higher
+if (t3lib_div::int_from_ver(TYPO3_version) >= 4000000) {
+	$TCA['tt_news']['ctrl']['versioningWS'] = TRUE;
+} else {
+	$TCA['tt_news']['ctrl']['versioning'] = TRUE;
+
+	// disable support for nested fe_groups in tt_news records in TYPO3 versions lower than 4.0
+	t3lib_div::loadTCA('tt_news');
+	$TCA['tt_news']['columns']['fe_group'] = array (
+		'exclude' => 1,
+		'l10n_mode' => 'mergeIfNotBlank',
+		'label' => 'LLL:EXT:lang/locallang_general.php:LGL.fe_group',
+		'config' => Array (
+			'type' => 'select',
+			'items' => Array (
+				Array('', 0),
+				Array('LLL:EXT:lang/locallang_general.php:LGL.hide_at_login', -1),
+				Array('LLL:EXT:lang/locallang_general.php:LGL.any_login', -2),
+				Array('LLL:EXT:lang/locallang_general.php:LGL.usergroups', '--div--')
+			),
+			'foreign_table' => 'fe_groups'
+		)
+	);
+	$TCA['tt_news']['palettes']['1'] = Array('showitem' => 'hidden,starttime,endtime,fe_group');
+	$TCA['tt_news']['ctrl']['mainpalette'] = false;
+
+	// disable support for nested fe_groups in tt_news_cat records in TYPO3 versions lower than 4.0
+	t3lib_div::loadTCA('tt_news_cat');
+	$TCA['tt_news_cat']['columns']['fe_group'] = array (
+		'exclude' => 1,
+		'l10n_mode' => 'mergeIfNotBlank',
+		'label' => 'LLL:EXT:lang/locallang_general.php:LGL.fe_group',
+		'config' => Array (
+			'type' => 'select',
+			'items' => Array (
+				Array('', 0),
+				Array('LLL:EXT:lang/locallang_general.php:LGL.hide_at_login', -1),
+				Array('LLL:EXT:lang/locallang_general.php:LGL.any_login', -2),
+				Array('LLL:EXT:lang/locallang_general.php:LGL.usergroups', '--div--')
+			),
+			'foreign_table' => 'fe_groups'
+		)
+	);
+	$TCA['tt_news_cat']['palettes']['2'] = Array('showitem' => 'hidden,starttime,endtime,fe_group');
+	$TCA['tt_news_cat']['ctrl']['mainpalette'] = 2;
+
+
+}
+
 
 	// load tt_content to $TCA array
 t3lib_div::loadTCA('tt_content');

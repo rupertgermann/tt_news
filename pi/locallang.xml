@@ -1,1091 +1,1055 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
-    <meta type="array">
-        <description>language labels for tt_news FE plugin</description>
-        <type>database</type>
-        <csh_table></csh_table>
-        <fileId>EXT:tt_news/pi/locallang.xml</fileId>
-        <labelContext type="array">
-            <label index="latestHeader"></label>
-            <label index="textCatLatest"></label>
-            <label index="textCat"></label>
-            <label index="textNewsAge"></label>
-            <label index="more"></label>
-            <label index="preAuthor"></label>
-            <label index="backToList"></label>
-            <label index="goToArchive"></label>
-            <label index="archiveHeader"></label>
-            <label index="archiveItems"></label>
-            <label index="archiveEmptyMsg"></label>
-            <label index="noResultsMsg"></label>
-            <label index="searchEmptyMsg"></label>
-            <label index="noNewsToListMsg"></label>
-            <label index="versionPreviewMessage"></label>
-            <label index="versionPreviewMessageLinkToOriginal"></label>
-            <label index="nonPlublicVersionMsg"></label>
-            <label index="noNewsIdMsg"></label>
-            <label index="noTranslMsg"></label>
-            <label index="textRelated"></label>
-            <label index="textLinks"></label>
-            <label index="textFiles"></label>
-            <label index="textRelatedByCategory"></label>
-            <label index="pi_list_browseresults_prev"></label>
-            <label index="pi_list_browseresults_page"></label>
-            <label index="pi_list_browseresults_next"></label>
-            <label index="pi_list_browseresults_first"></label>
-            <label index="pi_list_browseresults_last"></label>
-            <label index="searchButtonLabel"></label>
-            <label index="altTextCatSelector"></label>
-            <label index="altTextCatShortcut"></label>
-            <label index="catmenuHeader"></label>
-        </labelContext>
-    </meta>
-    <data type="array">
-        <languageKey index="default" type="array">
-            <label index="latestHeader">Breaking News:</label>
-            <label index="textCatLatest">Cat:</label>
-            <label index="textCat">Category:</label>
-            <label index="textNewsAge">Age: </label>
-            <label index="more">[more]</label>
-            <label index="preAuthor">By:</label>
-            <label index="backToList">&lt;- Back to: %s</label>
-            <label index="goToArchive">go to Archive -&gt;</label>
-            <label index="archiveHeader">ARCHIVE:</label>
-            <label index="archiveItems">items</label>
-            <label index="archiveEmptyMsg">Sorry, Archive contains no items</label>
-            <label index="noResultsMsg">nothing found</label>
-            <label index="searchEmptyMsg">Please enter a searchword.</label>
-            <label index="noNewsToListMsg">no news in this list.</label>
-            <label index="versionPreviewMessage">Version preview !</label>
-            <label index="versionPreviewMessageLinkToOriginal">(click here to see the public version of this record)</label>
-            <label index="nonPlublicVersionMsg">Error! You requested a non-public version of a tt_news article.</label>
-            <label index="noNewsIdMsg">no news_id given</label>
-            <label index="noTranslMsg">Sorry, there is no translation for this news-article.</label>
-            <label index="textRelated">Related News:</label>
-            <label index="textLinks">Links:</label>
-            <label index="textFiles">Files:</label>
-            <label index="textRelatedByCategory">Other news from this category:</label>
-            <label index="pi_list_browseresults_prev">&lt; Previous</label>
-            <label index="pi_list_browseresults_page">Page </label>
-            <label index="pi_list_browseresults_next">Next &gt;</label>
-            <label index="pi_list_browseresults_first">&lt;&lt; First</label>
-            <label index="pi_list_browseresults_last">Last &gt;&gt;</label>
-            <label index="searchButtonLabel">Search</label>
-            <label index="altTextCatSelector">Display only category: </label>
-            <label index="altTextCatShortcut">Go to: </label>
-            <label index="catmenuHeader">Select a category:</label>
-        </languageKey>
-        <languageKey index="dk" type="array">
-            <label index="latestHeader">Seneste nyt:</label>
-            <label index="textCatLatest">Kat:</label>
-            <label index="textCat">Kategori:</label>
-            <label index="textNewsAge">Alder:</label>
-            <label index="more">[mere]</label>
-            <label index="preAuthor">Af:</label>
-            <label index="backToList">&amp;lt;- tilbage til nyhedslisten</label>
-            <label index="goToArchive">gå til arkivet -&amp;gt;</label>
-            <label index="archiveHeader">ARKIV:</label>
-            <label index="archiveItems">emne</label>
-            <label index="archiveEmptyMsg">Beklager, Arkivet indeholder ingen emner</label>
-            <label index="noResultsMsg">intet fundet</label>
-            <label index="searchEmptyMsg">Indtast venligst et søgeord.</label>
-            <label index="noNewsToListMsg">ingen nyheder i denne liste</label>
-            <label index="textRelated">Relaterede Nyheder:</label>
-            <label index="textLinks">Links:</label>
-            <label index="textFiles">Filer:</label>
-            <label index="pi_list_browseresults_prev">&lt; Forrige</label>
-            <label index="pi_list_browseresults_page">Side</label>
-            <label index="pi_list_browseresults_next">Næste &gt;</label>
-            <label index="noNewsIdMsg">Intet news_id angivet</label>
-            <label index="searchButtonLabel">Søg</label>
-            <label index="altTextCatSelector">Vis kun kategori:</label>
-            <label index="altTextCatShortcut">Gå til:</label>
-        </languageKey>
-        <languageKey index="de" type="array">
-            <label index="latestHeader">Aktuelles:</label>
-            <label index="textCatLatest">Kat:</label>
-            <label index="textCat">Kategorie:</label>
-            <label index="textNewsAge">Alter:</label>
-            <label index="more">[mehr]</label>
-            <label index="preAuthor">Von:</label>
-            <label index="backToList">&lt;- Zurück zu: %s</label>
-            <label index="goToArchive">zum Archiv -&gt;</label>
-            <label index="archiveHeader">Nachrichten Archiv:</label>
-            <label index="archiveItems">Einträge</label>
-            <label index="archiveEmptyMsg">Leider keine Einträge im Archiv vorhanden.</label>
-            <label index="noResultsMsg">Keine Ergebnisse</label>
-            <label index="searchEmptyMsg">Bitte geben Sie einen Suchbegriff ein.</label>
-            <label index="noNewsToListMsg">Keine News in dieser Ansicht.</label>
-            <label index="textRelated">In Verbindung stehende News:</label>
-            <label index="textLinks">Links:</label>
-            <label index="textFiles">Dateien:</label>
-            <label index="pi_list_browseresults_prev">&lt; zurück</label>
-            <label index="pi_list_browseresults_page">Seite</label>
-            <label index="pi_list_browseresults_next">vor &gt;</label>
-            <label index="noNewsIdMsg">Keine news_id übergeben.</label>
-            <label index="searchButtonLabel">Suchen</label>
-            <label index="altTextCatSelector">Nur diese Kategorie anzeigen:</label>
-            <label index="altTextCatShortcut">Gehe zu:</label>
-        </languageKey>
-        <languageKey index="no" type="array">
-            <label index="latestHeader">Siste nytt</label>
-            <label index="textCatLatest">Kat.:</label>
-            <label index="textCat">Kategori:</label>
-            <label index="textNewsAge">Alder:</label>
-            <label index="more">[les mer]</label>
-            <label index="preAuthor">Av:</label>
-            <label index="backToList">&lt;- Tilbake til: %s</label>
-            <label index="goToArchive">Til Nyhetsarkivet -&gt;</label>
-            <label index="archiveHeader">NYHETSARKIV:</label>
-            <label index="archiveItems">saker</label>
-            <label index="archiveEmptyMsg">Det er ingen saker i arkivet!</label>
-            <label index="noResultsMsg">ingenting funnet</label>
-            <label index="searchEmptyMsg">Vennligst angi et søkeord.</label>
-            <label index="noNewsToListMsg">ingen nyheter i denne listen.</label>
-            <label index="textRelated">Relaterte Nyheter:</label>
-            <label index="textLinks">Linker:</label>
-            <label index="textFiles">Filer:</label>
-            <label index="pi_list_browseresults_prev">&lt; Forrige</label>
-            <label index="pi_list_browseresults_page">Side</label>
-            <label index="pi_list_browseresults_next">Neste &gt;</label>
-            <label index="noNewsIdMsg">ingen nyhets_ID ble oppgitt</label>
-            <label index="searchButtonLabel">Søk</label>
-            <label index="altTextCatSelector">Vis kun kategori:</label>
-            <label index="altTextCatShortcut">Gå til:</label>
-        </languageKey>
-        <languageKey index="it" type="array">
-            <label index="latestHeader">News:</label>
-            <label index="textCatLatest">Cat:</label>
-            <label index="textCat">Categoria:</label>
-            <label index="textNewsAge">Età:</label>
-            <label index="more">[leggi]</label>
-            <label index="preAuthor">Autore:</label>
-            <label index="backToList">&lt;- Indietro a: %s</label>
-            <label index="goToArchive">Archivio -&gt;</label>
-            <label index="archiveHeader">ARCHIVIO:</label>
-            <label index="archiveItems">elementi</label>
-            <label index="archiveEmptyMsg">Spiacenti: l'archivio é vuoto</label>
-            <label index="noResultsMsg">Nessun risultato</label>
-            <label index="searchEmptyMsg">Inserire una parola chiave.</label>
-            <label index="noNewsToListMsg">nessuna news in questa lista.</label>
-            <label index="textRelated">News collegate:</label>
-            <label index="textLinks">Links:</label>
-            <label index="textFiles">Files:</label>
-            <label index="pi_list_browseresults_prev">&lt; Precedente</label>
-            <label index="pi_list_browseresults_page">Pagina</label>
-            <label index="pi_list_browseresults_next">Prossima &gt;</label>
-            <label index="noNewsIdMsg">nessun news_id</label>
-            <label index="searchButtonLabel">Cerca</label>
-            <label index="altTextCatSelector">Mostra solo categoria:</label>
-            <label index="altTextCatShortcut">Vai a:</label>
-        </languageKey>
-        <languageKey index="fr" type="array">
-            <label index="latestHeader">Actualité:</label>
-            <label index="textCatLatest">Cat:</label>
-            <label index="textCat">Categorie:</label>
-            <label index="textNewsAge">Il y a: </label>
-            <label index="more">[details]</label>
-            <label index="preAuthor">Auteur :</label>
-            <label index="backToList">&lt;- retour: </label>
-            <label index="goToArchive">voir les archives -&gt;</label>
-            <label index="archiveHeader">ARCHIVES :</label>
-            <label index="archiveItems">articles</label>
-            <label index="archiveEmptyMsg">Désolé, il y a aucun article dans les archives.</label>
-            <label index="noResultsMsg">pas de résultat</label>
-            <label index="searchEmptyMsg">Veuillez entrer un mot-clé</label>
-            <label index="noNewsToListMsg">Pas d'article dans la liste.</label>
-            <label index="textRelated">Actualités relatives:</label>
-            <label index="textLinks">Liens:</label>
-            <label index="textFiles">Fichiers:</label>
-            <label index="pi_list_browseresults_prev">&lt; Précédent</label>
-            <label index="pi_list_browseresults_page">Page </label>
-            <label index="pi_list_browseresults_next">Suivant &gt;</label>
-            <label index="noNewsIdMsg">aucun news_id n' a été donné</label>
-            <label index="searchButtonLabel">Chercher</label>
-            <label index="altTextCatSelector">N'afficher que cette catégorie: </label>
-            <label index="altTextCatShortcut">Voir: </label>
-        </languageKey>
-        <languageKey index="es" type="array">
-            <label index="latestHeader">Últimas noticias:</label>
-            <label index="textCatLatest">Cat:</label>
-            <label index="textCat">Categoría:</label>
-            <label index="textNewsAge">Antiguedad:</label>
-            <label index="more">[Leer más]</label>
-            <label index="preAuthor">Por:</label>
-            <label index="backToList">&lt;- Atrás, a la lista de noticias</label>
-            <label index="goToArchive">ir al Archivo -&gt;</label>
-            <label index="archiveHeader">ARCHIVO:</label>
-            <label index="archiveItems">items</label>
-            <label index="archiveEmptyMsg">Lo sentimos, Archivo no contiene items</label>
-            <label index="noResultsMsg">no se ha encontrado nada</label>
-            <label index="searchEmptyMsg">Nada encontrado</label>
-            <label index="noNewsToListMsg">No existen noticias en esta lista.</label>
-            <label index="textRelated">Noticias relacionadas:</label>
-            <label index="textLinks">Enlaces:</label>
-            <label index="textFiles">Ficheros:</label>
-            <label index="pi_list_browseresults_prev">&lt; Anterior</label>
-            <label index="pi_list_browseresults_page">Página</label>
-            <label index="pi_list_browseresults_next">Siguiente &gt;</label>
-            <label index="noNewsIdMsg">No hay news_id</label>
-            <label index="searchButtonLabel">Buscar</label>
-            <label index="altTextCatSelector">Mostrar sólo categoría:</label>
-            <label index="altTextCatShortcut">Ir a:</label>
-        </languageKey>
-        <languageKey index="nl" type="array">
-            <label index="latestHeader">Laatste Nieuws:</label>
-            <label index="textCatLatest">Cat:</label>
-            <label index="textCat">Categorie:</label>
-            <label index="textNewsAge">Leeftijd:</label>
-            <label index="more">[meer...]</label>
-            <label index="preAuthor">Door:</label>
-            <label index="backToList">nieuwslijst</label>
-            <label index="goToArchive">archief</label>
-            <label index="archiveHeader">ARCHIEF:</label>
-            <label index="archiveItems">items</label>
-            <label index="archiveEmptyMsg">Sorry, Archief bevat geen items</label>
-            <label index="noResultsMsg">niets gevonden</label>
-            <label index="searchEmptyMsg">Vul een zoekterm in.</label>
-            <label index="noNewsToListMsg">Geen nieuws in deze lijst:</label>
-            <label index="textRelated">Gerelateerd nieuws</label>
-            <label index="textLinks">Links:</label>
-            <label index="textFiles">Bestanden:</label>
-            <label index="pi_list_browseresults_prev">&lt; Vorige</label>
-            <label index="pi_list_browseresults_page">Pag.</label>
-            <label index="pi_list_browseresults_next">Volgende</label>
-            <label index="noNewsIdMsg">geen news_id ingevoerd</label>
-            <label index="searchButtonLabel">Zoek</label>
-            <label index="altTextCatSelector">Toon één categorie</label>
-            <label index="altTextCatShortcut">Ga naar:</label>
-        </languageKey>
-        <languageKey index="cz" type="array">
-            <label index="latestHeader">Poslední novinky:</label>
-            <label index="textCatLatest">Kat.:</label>
-            <label index="textCat">Kategorie:</label>
-            <label index="textNewsAge">Věk:</label>
-            <label index="more">[více]</label>
-            <label index="preAuthor">Autor:</label>
-            <label index="backToList">&lt;- zpět:</label>
-            <label index="goToArchive">jdi do archivu -&gt;</label>
-            <label index="archiveHeader">ARCHÍV:</label>
-            <label index="archiveItems">položky</label>
-            <label index="archiveEmptyMsg">Omlouváme se, archiv neobsahuje žádné položky</label>
-            <label index="noResultsMsg">Nebylo nic nalezeno.</label>
-            <label index="searchEmptyMsg">Vložte hledané slovo.</label>
-            <label index="noNewsToListMsg">V tomto listu nejsou žádné novinky.</label>
-            <label index="textRelated">Příbuzné novinky:</label>
-            <label index="textLinks">Odkazy:</label>
-            <label index="textFiles">Složky:</label>
-            <label index="pi_list_browseresults_prev">&lt; Předchozí</label>
-            <label index="pi_list_browseresults_page">Stránka</label>
-            <label index="pi_list_browseresults_next">Následující &gt;</label>
-            <label index="noNewsIdMsg">Chybí atribut news_id.</label>
-            <label index="searchButtonLabel">Hledat</label>
-            <label index="altTextCatSelector">Zobrazit pouze kategorii:</label>
-            <label index="altTextCatShortcut">Jdi na:</label>
-        </languageKey>
-        <languageKey index="pl" type="array">
-        </languageKey>
-        <languageKey index="si" type="array">
-        </languageKey>
-        <languageKey index="fi" type="array">
-            <label index="latestHeader">Viimeisimmät uutiset:</label>
-            <label index="textCatLatest">Luokka:</label>
-            <label index="textCat">Luokka:</label>
-            <label index="textNewsAge">Ikä</label>
-            <label index="more">[lisää]</label>
-            <label index="preAuthor">kirjoittanut:</label>
-            <label index="backToList">&lt;- takaisin uutislistalle</label>
-            <label index="goToArchive">siirry arkistoon -&gt;</label>
-            <label index="archiveHeader">Arkisto:</label>
-            <label index="archiveItems">uutiset</label>
-            <label index="archiveEmptyMsg">Valitan, arkistossa ei ole uutisia</label>
-            <label index="noResultsMsg">mitään ei löydetty</label>
-            <label index="searchEmptyMsg">Anna hakusana</label>
-            <label index="noNewsToListMsg">ei uutisia tässä listassa.</label>
-            <label index="textRelated">samankaltaisia uutisia:</label>
-            <label index="textLinks">Linkit:</label>
-            <label index="textFiles">Tiedostot:</label>
-            <label index="pi_list_browseresults_prev">&lt; Edellinen</label>
-            <label index="pi_list_browseresults_page">Sivu</label>
-            <label index="pi_list_browseresults_next">Seuraava &gt;</label>
-            <label index="noNewsIdMsg">no news_id given</label>
-            <label index="searchButtonLabel">Etsi</label>
-            <label index="altTextCatSelector">Näytä ainoastaan luokka</label>
-            <label index="altTextCatShortcut">Siirry:</label>
-        </languageKey>
-        <languageKey index="tr" type="array">
-            <label index="latestHeader">Flash haber:</label>
-            <label index="textCatLatest">Kat:</label>
-            <label index="textCat">Kategori:</label>
-            <label index="textNewsAge">zaman:</label>
-            <label index="more">(daha)</label>
-            <label index="preAuthor">tarafından:</label>
-            <label index="backToList">&lt;-geriye:</label>
-            <label index="goToArchive">arşive git-&gt;</label>
-            <label index="archiveHeader">ARŞİV:</label>
-            <label index="archiveItems">nesneler</label>
-            <label index="archiveEmptyMsg">üzgünüm, Arşiv nesne içermiyor</label>
-            <label index="noResultsMsg">Hiçbirşey bulunamadı</label>
-            <label index="searchEmptyMsg">Lütfen arayacağınız kelimeyi girin.</label>
-            <label index="noNewsToListMsg">listede haber yok</label>
-            <label index="textRelated">İlişkili haberler:</label>
-            <label index="textLinks">Linkler:</label>
-            <label index="textFiles">Dosyalar:</label>
-            <label index="pi_list_browseresults_prev">&lt; Önceki</label>
-            <label index="pi_list_browseresults_page">Sayfa</label>
-            <label index="pi_list_browseresults_next">Sonraki &gt;</label>
-            <label index="noNewsIdMsg">Verilen news_id yok</label>
-            <label index="searchButtonLabel">Ara</label>
-            <label index="altTextCatSelector">Sadece kategoriyi görüntüle:</label>
-            <label index="altTextCatShortcut">Git:</label>
-        </languageKey>
-        <languageKey index="se" type="array">
-            <label index="latestHeader">Senaste nytt</label>
-            <label index="textCatLatest">Kat:</label>
-            <label index="textCat">Kategori:</label>
-            <label index="textNewsAge">Ålder:</label>
-            <label index="more">[läs mer]</label>
-            <label index="preAuthor">Av:</label>
-            <label index="backToList">&lt;- Tillbaka till: %s</label>
-            <label index="goToArchive">gå till arkivet -&gt;</label>
-            <label index="archiveHeader">ARKIV:</label>
-            <label index="archiveItems">artiklar</label>
-            <label index="archiveEmptyMsg">Beklagar, arkivet är tomt</label>
-            <label index="noResultsMsg">inget hittades</label>
-            <label index="searchEmptyMsg">Fyll i ett sökord.</label>
-            <label index="noNewsToListMsg">inga nyheter i denhär listan.</label>
-            <label index="textRelated">Relaterade nyheter:</label>
-            <label index="textLinks">Länkar:</label>
-            <label index="textFiles">Filer:</label>
-            <label index="pi_list_browseresults_prev">&lt; Föregående</label>
-            <label index="pi_list_browseresults_page">Denna sida</label>
-            <label index="pi_list_browseresults_next">Nästa &gt;</label>
-            <label index="noNewsIdMsg">inget nyhets_id har givits</label>
-            <label index="searchButtonLabel">Sök</label>
-            <label index="altTextCatSelector">Visa endast kategori:</label>
-            <label index="altTextCatShortcut">Gå till:</label>
-        </languageKey>
-        <languageKey index="pt" type="array">
-        </languageKey>
-        <languageKey index="ru" type="array">
-            <label index="latestHeader">Горячие новости:</label>
-            <label index="textCatLatest">Кат.:</label>
-            <label index="textCat">Категория:</label>
-            <label index="textNewsAge">Давность:</label>
-            <label index="more">[подробнее]</label>
-            <label index="preAuthor">Автор:</label>
-            <label index="backToList">&lt;- назад в: %s</label>
-            <label index="goToArchive">в Архив -&gt;</label>
-            <label index="archiveHeader">АРХИВ:</label>
-            <label index="archiveItems">шт.</label>
-            <label index="archiveEmptyMsg">Извините, в архиве нет записей</label>
-            <label index="noResultsMsg">ничего не найдено</label>
-            <label index="searchEmptyMsg">Пожалуйста введите слово для поиска.</label>
-            <label index="noNewsToListMsg">в этом списке нет новостей.</label>
-            <label index="textRelated">Связанные новости:</label>
-            <label index="textLinks">Ссылки:</label>
-            <label index="textFiles">Файлы:</label>
-            <label index="pi_list_browseresults_prev">&lt; предыдущ.</label>
-            <label index="pi_list_browseresults_page">Страница</label>
-            <label index="pi_list_browseresults_next">следующ. &gt;</label>
-            <label index="noNewsIdMsg">нет идентификатора новости</label>
-            <label index="searchButtonLabel">Поиск</label>
-            <label index="altTextCatSelector">Показать только категорию:</label>
-            <label index="altTextCatShortcut">Перейти к:</label>
-        </languageKey>
-        <languageKey index="ro" type="array">
-        </languageKey>
-        <languageKey index="ch" type="array">
-        </languageKey>
-        <languageKey index="sk" type="array">
-        </languageKey>
-        <languageKey index="lt" type="array">
-        </languageKey>
-        <languageKey index="is" type="array">
-        </languageKey>
-        <languageKey index="hr" type="array">
-            <label index="latestHeader">Zadnje novosti</label>
-            <label index="textCatLatest">Kat:</label>
-            <label index="textCat">Kategorija:</label>
-            <label index="textNewsAge">Starost:</label>
-            <label index="more">[više]</label>
-            <label index="preAuthor">Autor/ica:</label>
-            <label index="backToList">&lt;- povratak na popis novosti</label>
-            <label index="goToArchive">u arhivu -&gt;</label>
-            <label index="archiveHeader">ARHIVA</label>
-            <label index="archiveItems">elementi</label>
-            <label index="archiveEmptyMsg">Arhiva je nažalost prazna</label>
-            <label index="noResultsMsg">ništa nije pronađeno</label>
-            <label index="searchEmptyMsg">Molimo unesite traženu riječ.</label>
-            <label index="noNewsToListMsg">nema novosti u popisu.</label>
-            <label index="textRelated">povezane novosti</label>
-            <label index="textLinks">Linkovi:</label>
-            <label index="textFiles">Datoteke:</label>
-            <label index="pi_list_browseresults_prev">&lt; Prethodna</label>
-            <label index="pi_list_browseresults_page">Stranica</label>
-            <label index="pi_list_browseresults_next">Sljedeća &gt;</label>
-            <label index="noNewsIdMsg">nije zadan ID novosti</label>
-            <label index="searchButtonLabel">Traži</label>
-            <label index="altTextCatSelector">Prikaži samo kategoriju:</label>
-            <label index="altTextCatShortcut">Idi na:</label>
-        </languageKey>
-        <languageKey index="hu" type="array">
-            <label index="latestHeader">Legújabb híreink</label>
-            <label index="textCatLatest">Kat.:</label>
-            <label index="textCat">Kategória:</label>
-            <label index="textNewsAge">Kor:</label>
-            <label index="more">[tovább]</label>
-            <label index="preAuthor">Szerző:</label>
-            <label index="backToList">&lt;- Vissza: %s</label>
-            <label index="goToArchive">Archivált hírek -&gt;</label>
-            <label index="archiveHeader">Archivált hírek</label>
-            <label index="archiveItems">elemek</label>
-            <label index="archiveEmptyMsg">Nincsenek archivált hírek</label>
-            <label index="noResultsMsg">nincs találat</label>
-            <label index="searchEmptyMsg">Adj meg egy kulcsszót</label>
-            <label index="noNewsToListMsg">nincsenek hírek ebben a listában</label>
-            <label index="textRelated">Kapcsolodó hírek:</label>
-            <label index="textLinks">Hivatkozások:</label>
-            <label index="textFiles">Fájlok:</label>
-            <label index="pi_list_browseresults_prev">&lt; Előző</label>
-            <label index="pi_list_browseresults_page">Oldal</label>
-            <label index="pi_list_browseresults_next">Következő &gt;</label>
-            <label index="noNewsIdMsg">nincs news_id megadva</label>
-            <label index="searchButtonLabel">Keresés</label>
-            <label index="altTextCatSelector">Csak az alábbi kategória:</label>
-            <label index="altTextCatShortcut">Ugrás:</label>
-        </languageKey>
-        <languageKey index="gl" type="array">
-        </languageKey>
-        <languageKey index="th" type="array">
-        </languageKey>
-        <languageKey index="gr" type="array">
-        </languageKey>
-        <languageKey index="hk" type="array">
-        </languageKey>
-        <languageKey index="eu" type="array">
-        </languageKey>
-        <languageKey index="bg" type="array">
-        </languageKey>
-        <languageKey index="br" type="array">
-            <label index="latestHeader">Últimas Notícias:</label>
-            <label index="textCatLatest">Cat:</label>
-            <label index="textCat">Categoria:</label>
-            <label index="textNewsAge">Tempo:</label>
-            <label index="more">[mais]</label>
-            <label index="preAuthor">Por:</label>
-            <label index="backToList">&lt;- Voltar para: %s</label>
-            <label index="goToArchive">ir para Arquivo -&gt;</label>
-            <label index="archiveHeader">ARQUIVO:</label>
-            <label index="archiveItems">ítens</label>
-            <label index="archiveEmptyMsg">Desculpe, o Arquivo não contém ítens</label>
-            <label index="noResultsMsg">nada encontrado</label>
-            <label index="searchEmptyMsg">Por favor informe a palavra-chave</label>
-            <label index="noNewsToListMsg">sem notícias nesta lista.</label>
-            <label index="textRelated">Notícias Relacionadas:</label>
-            <label index="textLinks">Links:</label>
-            <label index="textFiles">Arquivos:</label>
-            <label index="pi_list_browseresults_prev">&lt; Anterior</label>
-            <label index="pi_list_browseresults_page">Página</label>
-            <label index="pi_list_browseresults_next">Próximo &gt;</label>
-            <label index="noNewsIdMsg">nenhum ID de notícia foi informado</label>
-            <label index="searchButtonLabel">Busca</label>
-            <label index="altTextCatSelector">Exibir apenas a categoria:</label>
-            <label index="altTextCatShortcut">Ir para:</label>
-        </languageKey>
-        <languageKey index="et" type="array">
-        </languageKey>
-        <languageKey index="ar" type="array">
-        </languageKey>
-        <languageKey index="he" type="array">
-        </languageKey>
-        <languageKey index="ua" type="array">
-        </languageKey>
-        <languageKey index="lv" type="array">
-        </languageKey>
-        <languageKey index="jp" type="array">
-        </languageKey>
-        <languageKey index="vn" type="array">
-        </languageKey>
-        <languageKey index="ca" type="array">
-        </languageKey>
-        <languageKey index="ba" type="array">
-        </languageKey>
-        <languageKey index="kr" type="array">
-        </languageKey>
-        <languageKey index="eo" type="array">
-        </languageKey>
-        <languageKey index="my" type="array">
-        </languageKey>
-        <languageKey index="hi" type="array">
-        </languageKey>
-    </data>
-    <orig_hash type="array">
-        <languageKey index="default" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="versionPreviewMessage" type="integer">150202481</label>
-            <label index="versionPreviewMessageLinkToOriginal" type="integer">264551390</label>
-            <label index="nonPlublicVersionMsg" type="integer">132806514</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="noTranslMsg" type="integer">218972020</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="textRelatedByCategory" type="integer">183773946</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="pi_list_browseresults_first" type="integer">31753173</label>
-            <label index="pi_list_browseresults_last" type="integer">14950014</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-            <label index="catmenuHeader" type="integer">105811375</label>
-        </languageKey>
-        <languageKey index="dk" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="de" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="no" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="it" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="fr" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="es" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="nl" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="cz" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="pl" type="array">
-        </languageKey>
-        <languageKey index="si" type="array">
-        </languageKey>
-        <languageKey index="fi" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="tr" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="se" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="pt" type="array">
-        </languageKey>
-        <languageKey index="ru" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="ro" type="array">
-        </languageKey>
-        <languageKey index="ch" type="array">
-        </languageKey>
-        <languageKey index="sk" type="array">
-        </languageKey>
-        <languageKey index="lt" type="array">
-        </languageKey>
-        <languageKey index="is" type="array">
-        </languageKey>
-        <languageKey index="hr" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="hu" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="gl" type="array">
-        </languageKey>
-        <languageKey index="th" type="array">
-        </languageKey>
-        <languageKey index="gr" type="array">
-        </languageKey>
-        <languageKey index="hk" type="array">
-        </languageKey>
-        <languageKey index="eu" type="array">
-        </languageKey>
-        <languageKey index="bg" type="array">
-        </languageKey>
-        <languageKey index="br" type="array">
-            <label index="latestHeader" type="integer">131879361</label>
-            <label index="textCatLatest" type="integer">139144993</label>
-            <label index="textCat" type="integer">90868382</label>
-            <label index="textNewsAge" type="integer">136995621</label>
-            <label index="more" type="integer">185882405</label>
-            <label index="preAuthor" type="integer">150297700</label>
-            <label index="backToList" type="integer">94203432</label>
-            <label index="goToArchive" type="integer">128701237</label>
-            <label index="archiveHeader" type="integer">230880370</label>
-            <label index="archiveItems" type="integer">110220546</label>
-            <label index="archiveEmptyMsg" type="integer">153194111</label>
-            <label index="noResultsMsg" type="integer">238911929</label>
-            <label index="searchEmptyMsg" type="integer">50263115</label>
-            <label index="noNewsToListMsg" type="integer">207723737</label>
-            <label index="textRelated" type="integer">77990475</label>
-            <label index="textLinks" type="integer">167557397</label>
-            <label index="textFiles" type="integer">147226768</label>
-            <label index="pi_list_browseresults_prev" type="integer">20121992</label>
-            <label index="pi_list_browseresults_page" type="integer">191572054</label>
-            <label index="pi_list_browseresults_next" type="integer">232350798</label>
-            <label index="noNewsIdMsg" type="integer">119707058</label>
-            <label index="searchButtonLabel" type="integer">20138052</label>
-            <label index="altTextCatSelector" type="integer">104764090</label>
-            <label index="altTextCatShortcut" type="integer">10777901</label>
-        </languageKey>
-        <languageKey index="et" type="array">
-        </languageKey>
-        <languageKey index="ar" type="array">
-        </languageKey>
-        <languageKey index="he" type="array">
-        </languageKey>
-        <languageKey index="ua" type="array">
-        </languageKey>
-        <languageKey index="lv" type="array">
-        </languageKey>
-        <languageKey index="jp" type="array">
-        </languageKey>
-        <languageKey index="vn" type="array">
-        </languageKey>
-        <languageKey index="ca" type="array">
-        </languageKey>
-        <languageKey index="ba" type="array">
-        </languageKey>
-        <languageKey index="kr" type="array">
-        </languageKey>
-        <languageKey index="eo" type="array">
-        </languageKey>
-        <languageKey index="my" type="array">
-        </languageKey>
-        <languageKey index="hi" type="array">
-        </languageKey>
-    </orig_hash>
-    <orig_text type="array">
-        <languageKey index="default" type="array">
-        </languageKey>
-        <languageKey index="dk" type="array">
-        </languageKey>
-        <languageKey index="de" type="array">
-        </languageKey>
-        <languageKey index="no" type="array">
-        </languageKey>
-        <languageKey index="it" type="array">
-        </languageKey>
-        <languageKey index="fr" type="array">
-        </languageKey>
-        <languageKey index="es" type="array">
-        </languageKey>
-        <languageKey index="nl" type="array">
-        </languageKey>
-        <languageKey index="cz" type="array">
-        </languageKey>
-        <languageKey index="pl" type="array">
-        </languageKey>
-        <languageKey index="si" type="array">
-        </languageKey>
-        <languageKey index="fi" type="array">
-        </languageKey>
-        <languageKey index="tr" type="array">
-        </languageKey>
-        <languageKey index="se" type="array">
-        </languageKey>
-        <languageKey index="pt" type="array">
-        </languageKey>
-        <languageKey index="ru" type="array">
-        </languageKey>
-        <languageKey index="ro" type="array">
-        </languageKey>
-        <languageKey index="ch" type="array">
-        </languageKey>
-        <languageKey index="sk" type="array">
-        </languageKey>
-        <languageKey index="lt" type="array">
-        </languageKey>
-        <languageKey index="is" type="array">
-        </languageKey>
-        <languageKey index="hr" type="array">
-        </languageKey>
-        <languageKey index="hu" type="array">
-        </languageKey>
-        <languageKey index="gl" type="array">
-        </languageKey>
-        <languageKey index="th" type="array">
-        </languageKey>
-        <languageKey index="gr" type="array">
-        </languageKey>
-        <languageKey index="hk" type="array">
-        </languageKey>
-        <languageKey index="eu" type="array">
-        </languageKey>
-        <languageKey index="bg" type="array">
-        </languageKey>
-        <languageKey index="br" type="array">
-        </languageKey>
-        <languageKey index="et" type="array">
-        </languageKey>
-        <languageKey index="ar" type="array">
-        </languageKey>
-        <languageKey index="he" type="array">
-        </languageKey>
-        <languageKey index="ua" type="array">
-        </languageKey>
-        <languageKey index="lv" type="array">
-        </languageKey>
-        <languageKey index="jp" type="array">
-        </languageKey>
-        <languageKey index="vn" type="array">
-        </languageKey>
-        <languageKey index="ca" type="array">
-        </languageKey>
-        <languageKey index="ba" type="array">
-        </languageKey>
-        <languageKey index="kr" type="array">
-        </languageKey>
-        <languageKey index="eo" type="array">
-        </languageKey>
-        <languageKey index="my" type="array">
-        </languageKey>
-        <languageKey index="hi" type="array">
-        </languageKey>
-    </orig_text>
+	<meta type="array">
+		<description>language labels for tt_news FE plugin</description>
+		<type>database</type>
+		<csh_table></csh_table>
+		<fileId>EXT:tt_news/pi/locallang.xml</fileId>
+		<labelContext type="array">
+			<label index="pi_list_browseresults_first">only available if the advanced pagebrowser is enabled</label>
+			<label index="pi_list_browseresults_last">only available if the advanced pagebrowser is enabled</label>
+			<label index="pi_list_browseresults_displays">if the advanced pagebrowser is enabled tt_news uses the label [pi_list_browseresults_displays_advanced] instead of this label</label>
+			<label index="pi_list_browseresults_to">the value of this label is filled to the marker ###FROM_TO### which can be used in [pi_list_browseresults_displays_advanced] if the advanced pagebrowser is enabled</label>
+		</labelContext>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="latestHeader">Breaking News:</label>
+			<label index="textCatLatest">Cat:</label>
+			<label index="textCat">Category:</label>
+			<label index="textNewsAge">Age:</label>
+			<label index="more">[more]</label>
+			<label index="preAuthor">By:</label>
+			<label index="backToList">&lt;- Back to: %s</label>
+			<label index="goToArchive">go to Archive -&gt;</label>
+			<label index="archiveHeader">ARCHIVE:</label>
+			<label index="archiveItems">items</label>
+			<label index="archiveEmptyMsg">Sorry, Archive contains no items</label>
+			<label index="noResultsMsg">nothing found</label>
+			<label index="searchEmptyMsg">Please enter a searchword.</label>
+			<label index="noNewsToListMsg">no news in this list.</label>
+			<label index="versionPreviewMessage">Version preview !</label>
+			<label index="versionPreviewMessageLinkToOriginal">(click here to see the public version of this record)</label>
+			<label index="nonPlublicVersionMsg">Error! You requested a non-public version of a tt_news article.</label>
+			<label index="noNewsIdMsg">no news_id given</label>
+			<label index="noTranslMsg">Sorry, there is no translation for this news-article.</label>
+			<label index="noNewsForArchPeriod">Sorry, there are no translated news-articles in this Archive period.</label>
+			<label index="textRelated">Related News:</label>
+			<label index="textLinks">Links:</label>
+			<label index="textFiles">Files:</label>
+			<label index="textRelatedByCategory">Other news from this category:</label>
+			<label index="pi_list_browseresults_prev">&lt; Previous</label>
+			<label index="pi_list_browseresults_page">Page</label>
+			<label index="pi_list_browseresults_next">Next &gt;</label>
+			<label index="pi_list_browseresults_first">&lt;&lt; First</label>
+			<label index="pi_list_browseresults_last">Last &gt;&gt;</label>
+			<label index="pi_list_browseresults_displays">Displaying results ###SPAN_BEGIN###%s to %s&lt;/span&gt; out of ###SPAN_BEGIN###%s&lt;/span&gt;</label>
+			<label index="pi_list_browseresults_displays_advanced">Displaying results ###FROM### to ###TO### out of ###OUT_OF###</label>
+			<label index="pi_list_browseresults_to">to</label>
+			<label index="searchButtonLabel">Search</label>
+			<label index="altTextCatSelector">Display only category:</label>
+			<label index="altTextCatShortcut">Go to:</label>
+			<label index="catmenuHeader">Select a category:</label>
+		</languageKey>
+		<languageKey index="dk" type="array">
+			<label index="latestHeader">Seneste nyt:</label>
+			<label index="textCatLatest">Kat:</label>
+			<label index="textCat">Kategori:</label>
+			<label index="textNewsAge">Alder:</label>
+			<label index="more">[mere]</label>
+			<label index="preAuthor">Af:</label>
+			<label index="backToList">&amp;lt;- tilbage til nyhedslisten</label>
+			<label index="goToArchive">gå til arkivet -&amp;gt;</label>
+			<label index="archiveHeader">ARKIV:</label>
+			<label index="archiveItems">emne</label>
+			<label index="archiveEmptyMsg">Beklager, Arkivet indeholder ingen emner</label>
+			<label index="noResultsMsg">intet fundet</label>
+			<label index="searchEmptyMsg">Indtast venligst et søgeord.</label>
+			<label index="noNewsToListMsg">ingen nyheder i denne liste</label>
+			<label index="textRelated">Relaterede Nyheder:</label>
+			<label index="textLinks">Links:</label>
+			<label index="textFiles">Filer:</label>
+			<label index="pi_list_browseresults_prev">&lt; Forrige</label>
+			<label index="pi_list_browseresults_page">Side</label>
+			<label index="pi_list_browseresults_next">Næste &gt;</label>
+			<label index="noNewsIdMsg">Intet news_id angivet</label>
+			<label index="searchButtonLabel">Søg</label>
+			<label index="altTextCatSelector">Vis kun kategori:</label>
+			<label index="altTextCatShortcut">Gå til:</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="latestHeader">Aktuelles:</label>
+			<label index="textCatLatest">Kat:</label>
+			<label index="textCat">Kategorie:</label>
+			<label index="textNewsAge">Alter:</label>
+			<label index="more">[mehr]</label>
+			<label index="preAuthor">Von:</label>
+			<label index="backToList">&lt;- Zurück zu: %s</label>
+			<label index="goToArchive">zum Archiv -&gt;</label>
+			<label index="archiveHeader">Nachrichten Archiv:</label>
+			<label index="archiveItems">Einträge</label>
+			<label index="archiveEmptyMsg">Leider keine Einträge im Archiv vorhanden.</label>
+			<label index="noResultsMsg">Keine Ergebnisse</label>
+			<label index="searchEmptyMsg">Bitte geben Sie einen Suchbegriff ein.</label>
+			<label index="noNewsToListMsg">Keine News in dieser Ansicht.</label>
+			<label index="noNewsIdMsg">Keine news_id übergeben.</label>
+			<label index="textRelated">In Verbindung stehende News:</label>
+			<label index="textLinks">Links:</label>
+			<label index="textFiles">Dateien:</label>
+			<label index="pi_list_browseresults_prev">&lt; zurück</label>
+			<label index="pi_list_browseresults_page">Seite</label>
+			<label index="pi_list_browseresults_next">vor &gt;</label>
+			<label index="searchButtonLabel">Suchen</label>
+			<label index="altTextCatSelector">Nur diese Kategorie anzeigen:</label>
+			<label index="altTextCatShortcut">Gehe zu:</label>
+		</languageKey>
+		<languageKey index="no" type="array">
+			<label index="latestHeader">Siste nytt</label>
+			<label index="textCatLatest">Kat.:</label>
+			<label index="textCat">Kategori:</label>
+			<label index="textNewsAge">Alder:</label>
+			<label index="more">[les mer]</label>
+			<label index="preAuthor">Av:</label>
+			<label index="backToList">&lt;- Tilbake til: %s</label>
+			<label index="goToArchive">Til Nyhetsarkivet -&gt;</label>
+			<label index="archiveHeader">NYHETSARKIV:</label>
+			<label index="archiveItems">saker</label>
+			<label index="archiveEmptyMsg">Det er ingen saker i arkivet!</label>
+			<label index="noResultsMsg">ingenting funnet</label>
+			<label index="searchEmptyMsg">Vennligst angi et søkeord.</label>
+			<label index="noNewsToListMsg">ingen nyheter i denne listen.</label>
+			<label index="textRelated">Relaterte Nyheter:</label>
+			<label index="textLinks">Linker:</label>
+			<label index="textFiles">Filer:</label>
+			<label index="pi_list_browseresults_prev">&lt; Forrige</label>
+			<label index="pi_list_browseresults_page">Side</label>
+			<label index="pi_list_browseresults_next">Neste &gt;</label>
+			<label index="noNewsIdMsg">ingen nyhets_ID ble oppgitt</label>
+			<label index="searchButtonLabel">Søk</label>
+			<label index="altTextCatSelector">Vis kun kategori:</label>
+			<label index="altTextCatShortcut">Gå til:</label>
+		</languageKey>
+		<languageKey index="it" type="array">
+			<label index="latestHeader">News:</label>
+			<label index="textCatLatest">Cat:</label>
+			<label index="textCat">Categoria:</label>
+			<label index="textNewsAge">Età:</label>
+			<label index="more">[leggi]</label>
+			<label index="preAuthor">Autore:</label>
+			<label index="backToList">&lt;- Indietro a: %s</label>
+			<label index="goToArchive">Archivio -&gt;</label>
+			<label index="archiveHeader">ARCHIVIO:</label>
+			<label index="archiveItems">elementi</label>
+			<label index="archiveEmptyMsg">Spiacenti: l'archivio é vuoto</label>
+			<label index="noResultsMsg">Nessun risultato</label>
+			<label index="searchEmptyMsg">Inserire una parola chiave.</label>
+			<label index="noNewsToListMsg">nessuna news in questa lista.</label>
+			<label index="textRelated">News collegate:</label>
+			<label index="textLinks">Links:</label>
+			<label index="textFiles">Files:</label>
+			<label index="pi_list_browseresults_prev">&lt; Precedente</label>
+			<label index="pi_list_browseresults_page">Pagina</label>
+			<label index="pi_list_browseresults_next">Prossima &gt;</label>
+			<label index="noNewsIdMsg">nessun news_id</label>
+			<label index="searchButtonLabel">Cerca</label>
+			<label index="altTextCatSelector">Mostra solo categoria:</label>
+			<label index="altTextCatShortcut">Vai a:</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="latestHeader">Actualité:</label>
+			<label index="textCatLatest">Cat:</label>
+			<label index="textCat">Categorie:</label>
+			<label index="textNewsAge">Il y a: </label>
+			<label index="more">[details]</label>
+			<label index="preAuthor">Auteur :</label>
+			<label index="backToList">&lt;- retour: </label>
+			<label index="goToArchive">voir les archives -&gt;</label>
+			<label index="archiveHeader">ARCHIVES :</label>
+			<label index="archiveItems">articles</label>
+			<label index="archiveEmptyMsg">Désolé, il y a aucun article dans les archives.</label>
+			<label index="noResultsMsg">pas de résultat</label>
+			<label index="searchEmptyMsg">Veuillez entrer un mot-clé</label>
+			<label index="noNewsToListMsg">Pas d'article dans la liste.</label>
+			<label index="textRelated">Actualités relatives:</label>
+			<label index="textLinks">Liens:</label>
+			<label index="textFiles">Fichiers:</label>
+			<label index="pi_list_browseresults_prev">&lt; Précédent</label>
+			<label index="pi_list_browseresults_page">Page </label>
+			<label index="pi_list_browseresults_next">Suivant &gt;</label>
+			<label index="noNewsIdMsg">aucun news_id n' a été donné</label>
+			<label index="searchButtonLabel">Chercher</label>
+			<label index="altTextCatSelector">N'afficher que cette catégorie: </label>
+			<label index="altTextCatShortcut">Voir: </label>
+		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="latestHeader">Últimas noticias:</label>
+			<label index="textCatLatest">Cat:</label>
+			<label index="textCat">Categoría:</label>
+			<label index="textNewsAge">Antiguedad:</label>
+			<label index="more">[Leer más]</label>
+			<label index="preAuthor">Por:</label>
+			<label index="backToList">&lt;- Atrás, a la lista de noticias</label>
+			<label index="goToArchive">ir al Archivo -&gt;</label>
+			<label index="archiveHeader">ARCHIVO:</label>
+			<label index="archiveItems">items</label>
+			<label index="archiveEmptyMsg">Lo sentimos, Archivo no contiene items</label>
+			<label index="noResultsMsg">no se ha encontrado nada</label>
+			<label index="searchEmptyMsg">Nada encontrado</label>
+			<label index="noNewsToListMsg">No existen noticias en esta lista.</label>
+			<label index="textRelated">Noticias relacionadas:</label>
+			<label index="textLinks">Enlaces:</label>
+			<label index="textFiles">Ficheros:</label>
+			<label index="pi_list_browseresults_prev">&lt; Anterior</label>
+			<label index="pi_list_browseresults_page">Página</label>
+			<label index="pi_list_browseresults_next">Siguiente &gt;</label>
+			<label index="noNewsIdMsg">No hay news_id</label>
+			<label index="searchButtonLabel">Buscar</label>
+			<label index="altTextCatSelector">Mostrar sólo categoría:</label>
+			<label index="altTextCatShortcut">Ir a:</label>
+		</languageKey>
+		<languageKey index="nl" type="array">
+			<label index="latestHeader">Laatste Nieuws:</label>
+			<label index="textCatLatest">Cat:</label>
+			<label index="textCat">Categorie:</label>
+			<label index="textNewsAge">Leeftijd:</label>
+			<label index="more">[meer...]</label>
+			<label index="preAuthor">Door:</label>
+			<label index="backToList">nieuwslijst</label>
+			<label index="goToArchive">archief</label>
+			<label index="archiveHeader">ARCHIEF:</label>
+			<label index="archiveItems">items</label>
+			<label index="archiveEmptyMsg">Sorry, Archief bevat geen items</label>
+			<label index="noResultsMsg">niets gevonden</label>
+			<label index="searchEmptyMsg">Vul een zoekterm in.</label>
+			<label index="noNewsToListMsg">Geen nieuws in deze lijst:</label>
+			<label index="textRelated">Gerelateerd nieuws</label>
+			<label index="textLinks">Links:</label>
+			<label index="textFiles">Bestanden:</label>
+			<label index="pi_list_browseresults_prev">&lt; Vorige</label>
+			<label index="pi_list_browseresults_page">Pag.</label>
+			<label index="pi_list_browseresults_next">Volgende</label>
+			<label index="noNewsIdMsg">geen news_id ingevoerd</label>
+			<label index="searchButtonLabel">Zoek</label>
+			<label index="altTextCatSelector">Toon één categorie</label>
+			<label index="altTextCatShortcut">Ga naar:</label>
+		</languageKey>
+		<languageKey index="cz" type="array">
+			<label index="latestHeader">Poslední novinky:</label>
+			<label index="textCatLatest">Kat.:</label>
+			<label index="textCat">Kategorie:</label>
+			<label index="textNewsAge">Věk:</label>
+			<label index="more">[více]</label>
+			<label index="preAuthor">Autor:</label>
+			<label index="backToList">&lt;- zpět:</label>
+			<label index="goToArchive">jdi do archivu -&gt;</label>
+			<label index="archiveHeader">ARCHÍV:</label>
+			<label index="archiveItems">položky</label>
+			<label index="archiveEmptyMsg">Omlouváme se, archiv neobsahuje žádné položky</label>
+			<label index="noResultsMsg">Nebylo nic nalezeno.</label>
+			<label index="searchEmptyMsg">Vložte hledané slovo.</label>
+			<label index="noNewsToListMsg">V tomto listu nejsou žádné novinky.</label>
+			<label index="textRelated">Příbuzné novinky:</label>
+			<label index="textLinks">Odkazy:</label>
+			<label index="textFiles">Složky:</label>
+			<label index="pi_list_browseresults_prev">&lt; Předchozí</label>
+			<label index="pi_list_browseresults_page">Stránka</label>
+			<label index="pi_list_browseresults_next">Následující &gt;</label>
+			<label index="noNewsIdMsg">Chybí atribut news_id.</label>
+			<label index="searchButtonLabel">Hledat</label>
+			<label index="altTextCatSelector">Zobrazit pouze kategorii:</label>
+			<label index="altTextCatShortcut">Jdi na:</label>
+		</languageKey>
+		<languageKey index="pl" type="array">
+		</languageKey>
+		<languageKey index="si" type="array">
+		</languageKey>
+		<languageKey index="fi" type="array">
+			<label index="latestHeader">Viimeisimmät uutiset:</label>
+			<label index="textCatLatest">Luokka:</label>
+			<label index="textCat">Luokka:</label>
+			<label index="textNewsAge">Ikä</label>
+			<label index="more">[lisää]</label>
+			<label index="preAuthor">kirjoittanut:</label>
+			<label index="backToList">&lt;- takaisin uutislistalle</label>
+			<label index="goToArchive">siirry arkistoon -&gt;</label>
+			<label index="archiveHeader">Arkisto:</label>
+			<label index="archiveItems">uutiset</label>
+			<label index="archiveEmptyMsg">Valitan, arkistossa ei ole uutisia</label>
+			<label index="noResultsMsg">mitään ei löydetty</label>
+			<label index="searchEmptyMsg">Anna hakusana</label>
+			<label index="noNewsToListMsg">ei uutisia tässä listassa.</label>
+			<label index="textRelated">samankaltaisia uutisia:</label>
+			<label index="textLinks">Linkit:</label>
+			<label index="textFiles">Tiedostot:</label>
+			<label index="pi_list_browseresults_prev">&lt; Edellinen</label>
+			<label index="pi_list_browseresults_page">Sivu</label>
+			<label index="pi_list_browseresults_next">Seuraava &gt;</label>
+			<label index="noNewsIdMsg">no news_id given</label>
+			<label index="searchButtonLabel">Etsi</label>
+			<label index="altTextCatSelector">Näytä ainoastaan luokka</label>
+			<label index="altTextCatShortcut">Siirry:</label>
+		</languageKey>
+		<languageKey index="tr" type="array">
+			<label index="latestHeader">Flash haber:</label>
+			<label index="textCatLatest">Kat:</label>
+			<label index="textCat">Kategori:</label>
+			<label index="textNewsAge">zaman:</label>
+			<label index="more">(daha)</label>
+			<label index="preAuthor">tarafından:</label>
+			<label index="backToList">&lt;-geriye:</label>
+			<label index="goToArchive">arşive git-&gt;</label>
+			<label index="archiveHeader">ARŞİV:</label>
+			<label index="archiveItems">nesneler</label>
+			<label index="archiveEmptyMsg">üzgünüm, Arşiv nesne içermiyor</label>
+			<label index="noResultsMsg">Hiçbirşey bulunamadı</label>
+			<label index="searchEmptyMsg">Lütfen arayacağınız kelimeyi girin.</label>
+			<label index="noNewsToListMsg">listede haber yok</label>
+			<label index="textRelated">İlişkili haberler:</label>
+			<label index="textLinks">Linkler:</label>
+			<label index="textFiles">Dosyalar:</label>
+			<label index="pi_list_browseresults_prev">&lt; Önceki</label>
+			<label index="pi_list_browseresults_page">Sayfa</label>
+			<label index="pi_list_browseresults_next">Sonraki &gt;</label>
+			<label index="noNewsIdMsg">Verilen news_id yok</label>
+			<label index="searchButtonLabel">Ara</label>
+			<label index="altTextCatSelector">Sadece kategoriyi görüntüle:</label>
+			<label index="altTextCatShortcut">Git:</label>
+		</languageKey>
+		<languageKey index="se" type="array">
+			<label index="latestHeader">Senaste nytt</label>
+			<label index="textCatLatest">Kat:</label>
+			<label index="textCat">Kategori:</label>
+			<label index="textNewsAge">Ålder:</label>
+			<label index="more">[läs mer]</label>
+			<label index="preAuthor">Av:</label>
+			<label index="backToList">&lt;- Tillbaka till: %s</label>
+			<label index="goToArchive">gå till arkivet -&gt;</label>
+			<label index="archiveHeader">ARKIV:</label>
+			<label index="archiveItems">artiklar</label>
+			<label index="archiveEmptyMsg">Beklagar, arkivet är tomt</label>
+			<label index="noResultsMsg">inget hittades</label>
+			<label index="searchEmptyMsg">Fyll i ett sökord.</label>
+			<label index="noNewsToListMsg">inga nyheter i denhär listan.</label>
+			<label index="textRelated">Relaterade nyheter:</label>
+			<label index="textLinks">Länkar:</label>
+			<label index="textFiles">Filer:</label>
+			<label index="pi_list_browseresults_prev">&lt; Föregående</label>
+			<label index="pi_list_browseresults_page">Denna sida</label>
+			<label index="pi_list_browseresults_next">Nästa &gt;</label>
+			<label index="noNewsIdMsg">inget nyhets_id har givits</label>
+			<label index="searchButtonLabel">Sök</label>
+			<label index="altTextCatSelector">Visa endast kategori:</label>
+			<label index="altTextCatShortcut">Gå till:</label>
+		</languageKey>
+		<languageKey index="pt" type="array">
+		</languageKey>
+		<languageKey index="ru" type="array">
+			<label index="latestHeader">Горячие новости:</label>
+			<label index="textCatLatest">Кат.:</label>
+			<label index="textCat">Категория:</label>
+			<label index="textNewsAge">Давность:</label>
+			<label index="more">[подробнее]</label>
+			<label index="preAuthor">Автор:</label>
+			<label index="backToList">&lt;- назад в: %s</label>
+			<label index="goToArchive">в Архив -&gt;</label>
+			<label index="archiveHeader">АРХИВ:</label>
+			<label index="archiveItems">шт.</label>
+			<label index="archiveEmptyMsg">Извините, в архиве нет записей</label>
+			<label index="noResultsMsg">ничего не найдено</label>
+			<label index="searchEmptyMsg">Пожалуйста введите слово для поиска.</label>
+			<label index="noNewsToListMsg">в этом списке нет новостей.</label>
+			<label index="textRelated">Связанные новости:</label>
+			<label index="textLinks">Ссылки:</label>
+			<label index="textFiles">Файлы:</label>
+			<label index="pi_list_browseresults_prev">&lt; предыдущ.</label>
+			<label index="pi_list_browseresults_page">Страница</label>
+			<label index="pi_list_browseresults_next">следующ. &gt;</label>
+			<label index="noNewsIdMsg">нет идентификатора новости</label>
+			<label index="searchButtonLabel">Поиск</label>
+			<label index="altTextCatSelector">Показать только категорию:</label>
+			<label index="altTextCatShortcut">Перейти к:</label>
+		</languageKey>
+		<languageKey index="ro" type="array">
+		</languageKey>
+		<languageKey index="ch" type="array">
+		</languageKey>
+		<languageKey index="sk" type="array">
+		</languageKey>
+		<languageKey index="lt" type="array">
+		</languageKey>
+		<languageKey index="is" type="array">
+		</languageKey>
+		<languageKey index="hr" type="array">
+			<label index="latestHeader">Zadnje novosti</label>
+			<label index="textCatLatest">Kat:</label>
+			<label index="textCat">Kategorija:</label>
+			<label index="textNewsAge">Starost:</label>
+			<label index="more">[više]</label>
+			<label index="preAuthor">Autor/ica:</label>
+			<label index="backToList">&lt;- povratak na popis novosti</label>
+			<label index="goToArchive">u arhivu -&gt;</label>
+			<label index="archiveHeader">ARHIVA</label>
+			<label index="archiveItems">elementi</label>
+			<label index="archiveEmptyMsg">Arhiva je nažalost prazna</label>
+			<label index="noResultsMsg">ništa nije pronađeno</label>
+			<label index="searchEmptyMsg">Molimo unesite traženu riječ.</label>
+			<label index="noNewsToListMsg">nema novosti u popisu.</label>
+			<label index="textRelated">povezane novosti</label>
+			<label index="textLinks">Linkovi:</label>
+			<label index="textFiles">Datoteke:</label>
+			<label index="pi_list_browseresults_prev">&lt; Prethodna</label>
+			<label index="pi_list_browseresults_page">Stranica</label>
+			<label index="pi_list_browseresults_next">Sljedeća &gt;</label>
+			<label index="noNewsIdMsg">nije zadan ID novosti</label>
+			<label index="searchButtonLabel">Traži</label>
+			<label index="altTextCatSelector">Prikaži samo kategoriju:</label>
+			<label index="altTextCatShortcut">Idi na:</label>
+		</languageKey>
+		<languageKey index="hu" type="array">
+			<label index="latestHeader">Legújabb híreink</label>
+			<label index="textCatLatest">Kat.:</label>
+			<label index="textCat">Kategória:</label>
+			<label index="textNewsAge">Kor:</label>
+			<label index="more">[tovább]</label>
+			<label index="preAuthor">Szerző:</label>
+			<label index="backToList">&lt;- Vissza: %s</label>
+			<label index="goToArchive">Archivált hírek -&gt;</label>
+			<label index="archiveHeader">Archivált hírek</label>
+			<label index="archiveItems">elemek</label>
+			<label index="archiveEmptyMsg">Nincsenek archivált hírek</label>
+			<label index="noResultsMsg">nincs találat</label>
+			<label index="searchEmptyMsg">Adj meg egy kulcsszót</label>
+			<label index="noNewsToListMsg">nincsenek hírek ebben a listában</label>
+			<label index="textRelated">Kapcsolodó hírek:</label>
+			<label index="textLinks">Hivatkozások:</label>
+			<label index="textFiles">Fájlok:</label>
+			<label index="pi_list_browseresults_prev">&lt; Előző</label>
+			<label index="pi_list_browseresults_page">Oldal</label>
+			<label index="pi_list_browseresults_next">Következő &gt;</label>
+			<label index="noNewsIdMsg">nincs news_id megadva</label>
+			<label index="searchButtonLabel">Keresés</label>
+			<label index="altTextCatSelector">Csak az alábbi kategória:</label>
+			<label index="altTextCatShortcut">Ugrás:</label>
+		</languageKey>
+		<languageKey index="gl" type="array">
+		</languageKey>
+		<languageKey index="th" type="array">
+		</languageKey>
+		<languageKey index="gr" type="array">
+		</languageKey>
+		<languageKey index="hk" type="array">
+		</languageKey>
+		<languageKey index="eu" type="array">
+		</languageKey>
+		<languageKey index="bg" type="array">
+		</languageKey>
+		<languageKey index="br" type="array">
+			<label index="latestHeader">Últimas Notícias:</label>
+			<label index="textCatLatest">Cat:</label>
+			<label index="textCat">Categoria:</label>
+			<label index="textNewsAge">Tempo:</label>
+			<label index="more">[mais]</label>
+			<label index="preAuthor">Por:</label>
+			<label index="backToList">&lt;- Voltar para: %s</label>
+			<label index="goToArchive">ir para Arquivo -&gt;</label>
+			<label index="archiveHeader">ARQUIVO:</label>
+			<label index="archiveItems">ítens</label>
+			<label index="archiveEmptyMsg">Desculpe, o Arquivo não contém ítens</label>
+			<label index="noResultsMsg">nada encontrado</label>
+			<label index="searchEmptyMsg">Por favor informe a palavra-chave</label>
+			<label index="noNewsToListMsg">sem notícias nesta lista.</label>
+			<label index="textRelated">Notícias Relacionadas:</label>
+			<label index="textLinks">Links:</label>
+			<label index="textFiles">Arquivos:</label>
+			<label index="pi_list_browseresults_prev">&lt; Anterior</label>
+			<label index="pi_list_browseresults_page">Página</label>
+			<label index="pi_list_browseresults_next">Próximo &gt;</label>
+			<label index="noNewsIdMsg">nenhum ID de notícia foi informado</label>
+			<label index="searchButtonLabel">Busca</label>
+			<label index="altTextCatSelector">Exibir apenas a categoria:</label>
+			<label index="altTextCatShortcut">Ir para:</label>
+		</languageKey>
+		<languageKey index="et" type="array">
+		</languageKey>
+		<languageKey index="ar" type="array">
+		</languageKey>
+		<languageKey index="he" type="array">
+		</languageKey>
+		<languageKey index="ua" type="array">
+		</languageKey>
+		<languageKey index="lv" type="array">
+		</languageKey>
+		<languageKey index="jp" type="array">
+		</languageKey>
+		<languageKey index="vn" type="array">
+		</languageKey>
+		<languageKey index="ca" type="array">
+		</languageKey>
+		<languageKey index="ba" type="array">
+		</languageKey>
+		<languageKey index="kr" type="array">
+		</languageKey>
+		<languageKey index="eo" type="array">
+		</languageKey>
+		<languageKey index="my" type="array">
+		</languageKey>
+		<languageKey index="hi" type="array">
+		</languageKey>
+	</data>
+	<orig_hash type="array">
+		<languageKey index="dk" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">38941977</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">26464201</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">3573342</label>
+			<label index="altTextCatShortcut" type="integer">254367533</label>
+		</languageKey>
+		<languageKey index="no" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="it" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="es" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="nl" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="cz" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="pl" type="array">
+		</languageKey>
+		<languageKey index="si" type="array">
+		</languageKey>
+		<languageKey index="fi" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="tr" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="se" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="pt" type="array">
+		</languageKey>
+		<languageKey index="ru" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="ro" type="array">
+		</languageKey>
+		<languageKey index="ch" type="array">
+		</languageKey>
+		<languageKey index="sk" type="array">
+		</languageKey>
+		<languageKey index="lt" type="array">
+		</languageKey>
+		<languageKey index="is" type="array">
+		</languageKey>
+		<languageKey index="hr" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="hu" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="gl" type="array">
+		</languageKey>
+		<languageKey index="th" type="array">
+		</languageKey>
+		<languageKey index="gr" type="array">
+		</languageKey>
+		<languageKey index="hk" type="array">
+		</languageKey>
+		<languageKey index="eu" type="array">
+		</languageKey>
+		<languageKey index="bg" type="array">
+		</languageKey>
+		<languageKey index="br" type="array">
+			<label index="latestHeader" type="integer">131879361</label>
+			<label index="textCatLatest" type="integer">139144993</label>
+			<label index="textCat" type="integer">90868382</label>
+			<label index="textNewsAge" type="integer">136995621</label>
+			<label index="more" type="integer">185882405</label>
+			<label index="preAuthor" type="integer">150297700</label>
+			<label index="backToList" type="integer">94203432</label>
+			<label index="goToArchive" type="integer">128701237</label>
+			<label index="archiveHeader" type="integer">230880370</label>
+			<label index="archiveItems" type="integer">110220546</label>
+			<label index="archiveEmptyMsg" type="integer">153194111</label>
+			<label index="noResultsMsg" type="integer">238911929</label>
+			<label index="searchEmptyMsg" type="integer">50263115</label>
+			<label index="noNewsToListMsg" type="integer">207723737</label>
+			<label index="textRelated" type="integer">77990475</label>
+			<label index="textLinks" type="integer">167557397</label>
+			<label index="textFiles" type="integer">147226768</label>
+			<label index="pi_list_browseresults_prev" type="integer">20121992</label>
+			<label index="pi_list_browseresults_page" type="integer">191572054</label>
+			<label index="pi_list_browseresults_next" type="integer">232350798</label>
+			<label index="noNewsIdMsg" type="integer">119707058</label>
+			<label index="searchButtonLabel" type="integer">20138052</label>
+			<label index="altTextCatSelector" type="integer">104764090</label>
+			<label index="altTextCatShortcut" type="integer">10777901</label>
+		</languageKey>
+		<languageKey index="et" type="array">
+		</languageKey>
+		<languageKey index="ar" type="array">
+		</languageKey>
+		<languageKey index="he" type="array">
+		</languageKey>
+		<languageKey index="ua" type="array">
+		</languageKey>
+		<languageKey index="lv" type="array">
+		</languageKey>
+		<languageKey index="jp" type="array">
+		</languageKey>
+		<languageKey index="vn" type="array">
+		</languageKey>
+		<languageKey index="ca" type="array">
+		</languageKey>
+		<languageKey index="ba" type="array">
+		</languageKey>
+		<languageKey index="kr" type="array">
+		</languageKey>
+		<languageKey index="eo" type="array">
+		</languageKey>
+		<languageKey index="my" type="array">
+		</languageKey>
+		<languageKey index="hi" type="array">
+		</languageKey>
+	</orig_hash>
+	<orig_text type="array">
+		<languageKey index="dk" type="array">
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="latestHeader">Breaking News:</label>
+			<label index="textCatLatest">Cat:</label>
+			<label index="textCat">Category:</label>
+			<label index="textNewsAge">Age:</label>
+			<label index="more">[more]</label>
+			<label index="preAuthor">By:</label>
+			<label index="backToList">&lt;- Back to: %s</label>
+			<label index="goToArchive">go to Archive -&gt;</label>
+			<label index="archiveHeader">ARCHIVE:</label>
+			<label index="archiveItems">items</label>
+			<label index="archiveEmptyMsg">Sorry, Archive contains no items</label>
+			<label index="noResultsMsg">nothing found</label>
+			<label index="searchEmptyMsg">Please enter a searchword.</label>
+			<label index="noNewsToListMsg">no news in this list.</label>
+			<label index="noNewsIdMsg">no news_id given</label>
+			<label index="textRelated">Related News:</label>
+			<label index="textLinks">Links:</label>
+			<label index="textFiles">Files:</label>
+			<label index="pi_list_browseresults_prev">&lt; Previous</label>
+			<label index="pi_list_browseresults_page">Page</label>
+			<label index="pi_list_browseresults_next">Next &gt;</label>
+			<label index="searchButtonLabel">Search</label>
+			<label index="altTextCatSelector">Display only category:</label>
+			<label index="altTextCatShortcut">Go to:</label>
+		</languageKey>
+		<languageKey index="no" type="array">
+		</languageKey>
+		<languageKey index="it" type="array">
+		</languageKey>
+		<languageKey index="fr" type="array">
+		</languageKey>
+		<languageKey index="es" type="array">
+		</languageKey>
+		<languageKey index="nl" type="array">
+		</languageKey>
+		<languageKey index="cz" type="array">
+		</languageKey>
+		<languageKey index="pl" type="array">
+		</languageKey>
+		<languageKey index="si" type="array">
+		</languageKey>
+		<languageKey index="fi" type="array">
+		</languageKey>
+		<languageKey index="tr" type="array">
+		</languageKey>
+		<languageKey index="se" type="array">
+		</languageKey>
+		<languageKey index="pt" type="array">
+		</languageKey>
+		<languageKey index="ru" type="array">
+		</languageKey>
+		<languageKey index="ro" type="array">
+		</languageKey>
+		<languageKey index="ch" type="array">
+		</languageKey>
+		<languageKey index="sk" type="array">
+		</languageKey>
+		<languageKey index="lt" type="array">
+		</languageKey>
+		<languageKey index="is" type="array">
+		</languageKey>
+		<languageKey index="hr" type="array">
+		</languageKey>
+		<languageKey index="hu" type="array">
+		</languageKey>
+		<languageKey index="gl" type="array">
+		</languageKey>
+		<languageKey index="th" type="array">
+		</languageKey>
+		<languageKey index="gr" type="array">
+		</languageKey>
+		<languageKey index="hk" type="array">
+		</languageKey>
+		<languageKey index="eu" type="array">
+		</languageKey>
+		<languageKey index="bg" type="array">
+		</languageKey>
+		<languageKey index="br" type="array">
+		</languageKey>
+		<languageKey index="et" type="array">
+		</languageKey>
+		<languageKey index="ar" type="array">
+		</languageKey>
+		<languageKey index="he" type="array">
+		</languageKey>
+		<languageKey index="ua" type="array">
+		</languageKey>
+		<languageKey index="lv" type="array">
+		</languageKey>
+		<languageKey index="jp" type="array">
+		</languageKey>
+		<languageKey index="vn" type="array">
+		</languageKey>
+		<languageKey index="ca" type="array">
+		</languageKey>
+		<languageKey index="ba" type="array">
+		</languageKey>
+		<languageKey index="kr" type="array">
+		</languageKey>
+		<languageKey index="eo" type="array">
+		</languageKey>
+		<languageKey index="my" type="array">
+		</languageKey>
+		<languageKey index="hi" type="array">
+		</languageKey>
+	</orig_text>
 </T3locallang>

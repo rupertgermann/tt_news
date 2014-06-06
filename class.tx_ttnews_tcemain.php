@@ -25,7 +25,7 @@
 /**
  * Class 'tx_ttnews_tcemain' for the tt_news extension.
  *
- * $Id: class.tx_ttnews_tcemain.php,v 1.12 2006/04/19 12:10:14 rupertgermann Exp $
+ * $Id: class.tx_ttnews_tcemain.php,v 1.13 2006/04/21 13:13:07 rupertgermann Exp $
  *
  * @author     Rupert Germann <rupi@gmx.li>
  */
@@ -59,7 +59,7 @@
 class tx_ttnews_tcemain {
 
 	/**
-	 * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a record is saved. We use it to fix the value of the field "fe_group" which may not be empty in TYPO3 versions below 4.0.
+	 * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a record is saved. We use it to fix the value of the field "fe_group" which must not be empty in TYPO3 versions below 4.0.
 	 *
 	 * @param	string		$status: The TCEmain operation status, fx. 'update'
 	 * @param	string		$table: The table TCEmain is currently processing
@@ -70,7 +70,7 @@ class tx_ttnews_tcemain {
 	 * @access public
 	 */
 	function processDatamap_postProcessFieldArray ($status, $table, $id, &$fieldArray, &$pObj) {
-		if ($table == 'tt_news' && t3lib_div::int_from_ver(TYPO3_version) < 4000000) {
+		if (($table == 'tt_news' || $table == 'tt_news_cat') && t3lib_div::int_from_ver(TYPO3_version) < 4000000) {
 			if ($status == 'new') {
 				if (!strcmp($fieldArray['fe_group'],'')) {
 					$fieldArray['fe_group'] = '0';
