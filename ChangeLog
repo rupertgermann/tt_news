@@ -1,6 +1,22 @@
+2012-02-17 Oliver Hader <oliver.hader@typo3.org>
+	* !!! Fixed bug #12626: No workspace preview for translated news (order changed to version overlay, localization overlay)
+
+2012-02-15 Oliver Hader <oliver.hader@typo3.org>
+	* Raise required TYPO3 version to 4.3.0
+	* Fixed bug #9234: Parant localization record cannot be modified (thanks to Robert Heel)
+	* Fixed bug #14187: Translated news not shown if news in parent record of type internal/external link (thanks to Robert Heel)
+
+2011-12-30 Rupert Germann <rupi@gmx.li>
+	* fixed bug #18392: Typo in mod1/index.php (thanks to Andrey Aksenov)
+
+2011-12-18 Oliver Hader <oliver.hader@typo3.org>
+	* Fixed bug #18369: t3lib_htmlmail removed in TYPO3 4.7, tt_news crashes
+
+2011-11-06 Oliver Hader <oliver.hader@typo3.org>
+	* Fixed bug #18341: LocalLang labels are not correctly overridden in TYPO3 4.6
+
 2011-10-16 Rupert Germann <rupi@gmx.li>
 	* fixed bug #18268: No news records since TYPO3 4.6beta2
-
 
 2011-04-06 Rupert Germann <rupi@gmx.li>
 	* bugfix: catOrderBy was overwritten in a wrong way when displaying related news by category causing an SQL error
@@ -2858,5 +2874,5 @@
 
 -----------------------------------------------------------------------------------
 * svn ID:
-$Id: ChangeLog 53028 2011-10-16 11:45:36Z rupi $
+$Id: ChangeLog 58099 2012-02-17 16:53:40Z ohader $
 

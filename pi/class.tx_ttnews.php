@@ -29,7 +29,7 @@
  * class.tx_ttnews.php
  *
  * versatile news system for TYPO3.
- * $Id: class.tx_ttnews.php 46285 2011-04-06 14:54:40Z rupi $
+ * $Id: class.tx_ttnews.php 58099 2012-02-17 16:53:40Z ohader $
  *
  * TypoScript setup:
  * @See ext/tt_news/pi/static/ts_new/setup.txt
@@ -41,7 +41,6 @@
  */
 
 require_once (PATH_tslib . 'class.tslib_pibase.php');
-require_once (PATH_t3lib . 'class.t3lib_htmlmail.php');
 
 require_once (t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_catmenu.php');
 require_once (t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
@@ -113,7 +112,10 @@ class tx_ttnews extends tslib_pibase {
 	var $cache_categoryCount = FALSE;
 	var $cache_categories = FALSE;
 
-
+	/**
+	 * @var tslib_cObj
+	 */
+	var $local_cObj;
 
 	/**
 	 * Main news function: calls the init_news() function and decides by the given CODEs which of the
@@ -750,7 +752,7 @@ class tx_ttnews extends tslib_pibase {
 					$this->internal['maxPages'] = $pbConf['maxPages'];
 
 					if (! $pbConf['showPBrowserText']) {
-						$this->LOCAL_LANG[$this->LLkey]['pi_list_browseresults_page'] = '';
+						$this->overrideLL('pi_list_browseresults_page', '');
 					}
 					if ($this->conf['userPageBrowserFunc']) {
 						$markerArray = $this->userProcess('userPageBrowserFunc', $markerArray);
@@ -840,9 +842,12 @@ class tx_ttnews extends tslib_pibase {
 			}
 		}
 
-		if ($wrapArr['showResultsNumbersWrap'] && strpos($this->LOCAL_LANG[$this->LLkey]['pi_list_browseresults_displays'], '%s')) {
+		if ($wrapArr['showResultsNumbersWrap'] && strpos($this->pi_getLL('pi_list_browseresults_displays'), '%s') !== FALSE) {
 			// if the advanced pagebrowser is enabled and the "pi_list_browseresults_displays" label contains %s it will be replaced with the content of the label "pi_list_browseresults_displays_advanced"
-			$this->LOCAL_LANG[$this->LLkey]['pi_list_browseresults_displays'] = $this->LOCAL_LANG[$this->LLkey]['pi_list_browseresults_displays_advanced'];
+			$this->overrideLL(
+				'pi_list_browseresults_displays',
+				$this->pi_getLL('pi_list_browseresults_displays_advanced')
+			);
 		}
 
 		if ($this->conf['useHRDates']) {
@@ -949,7 +954,6 @@ class tx_ttnews extends tslib_pibase {
 
 		// Getting elements
 		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-
 			// gets the option splitted config for this record
 			if ($this->conf['enableOptionSplit'] && ! empty($this->splitLConf[$cc])) {
 				$lConf = $this->splitLConf[$cc];
@@ -960,6 +964,11 @@ class tx_ttnews extends tslib_pibase {
 			$wrappedSubpartArray = array();
 			$titleField = $lConf['linkTitleField'] ? $lConf['linkTitleField'] : '';
 
+				// First get workspace/version overlay:
+			if ($this->versioningEnabled) {
+				$GLOBALS['TSFE']->sys_page->versionOL('tt_news', $row);
+			}
+				// Then get localization of record:
 			if ($GLOBALS['TSFE']->sys_language_content) {
 				// prevent link targets from being changed in localized records
 				$tmpPage = $row['page'];
@@ -968,11 +977,7 @@ class tx_ttnews extends tslib_pibase {
 				$row['page'] = $tmpPage;
 				$row['ext_url'] = $tmpExtURL;
 			}
-
-			if ($this->versioningEnabled) {
-				// get workspaces Overlay
-				$GLOBALS['TSFE']->sys_page->versionOL('tt_news', $row);
-			}
+				// Register displayed news item globally:
 			$GLOBALS['TSFE']->displayedNews[] = $row['uid'];
 
 			$GLOBALS['TSFE']->ATagParams = $pTmp . ' title="' . $this->local_cObj->stdWrap(trim(htmlspecialchars($row[$titleField])), $lConf['linkTitleField.']) . '"';
@@ -1070,7 +1075,7 @@ class tx_ttnews extends tslib_pibase {
 		$selectConf['selectFields'] = '*';
 		$selectConf['fromTable'] = 'tt_news';
 		$selectConf['where'] = 'tt_news.uid=' . $this->tt_news_uid;
-		$selectConf['where'] .= ' AND tt_news.type NOT IN(1,2)' . $this->enableFields; // only real news -> type=0
+		$selectConf['where'] .= $this->enableFields;
 
 
 		// function Hook for processing the selectConf array
@@ -1086,21 +1091,28 @@ class tx_ttnews extends tslib_pibase {
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 
-		// get the translated record if the content language is not the default language
+			// First get workspace/version overlay and fix workspace pid:
+		if ($this->versioningEnabled) {
+			$GLOBALS['TSFE']->sys_page->versionOL('tt_news', $row);
+			$GLOBALS['TSFE']->sys_page->fixVersioningPid('tt_news', $row);
+		}
+			// Then get localization of record:
+			// (if the content language is not the default language)
 		if ($GLOBALS['TSFE']->sys_language_content) {
 			$OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
 			$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay('tt_news', $row, $GLOBALS['TSFE']->sys_language_content, $OLmode);
 		}
-		if ($this->versioningEnabled) {
-			// get workspaces Overlay
-			$GLOBALS['TSFE']->sys_page->versionOL('tt_news', $row);
-			// fix pid for record from workspace
-			$GLOBALS['TSFE']->sys_page->fixVersioningPid('tt_news', $row);
-		}
+			// Register displayed news item globally:
 		$GLOBALS['TSFE']->displayedNews[] = $row['uid'];
 
 		if (is_array($row) && ($row['pid'] > 0 || $this->vPrev)) { // never display versions of a news record (having pid=-1) for normal website users
-
+			// If type is 1 or 2 (internal/external link), redirect to accordant page:
+			if (is_array($row) && t3lib_div::inList('1,2', $row['type'])) {
+				$redirectUrl = $this->local_cObj->getTypoLink_URL(
+					$row['type'] == 1 ? $row['page'] : $row['ext_url']
+				);
+				t3lib_utility_Http::redirect($redirectUrl);
+			}
 
 			// Get the subpart code
 			if ($this->conf['displayCurrentRecord']) {
@@ -1796,7 +1808,7 @@ class tx_ttnews extends tslib_pibase {
 				if (@is_file($theFile)) {
 					$fileURL = $this->config['siteUrl'] . $theFile;
 					$fileSize = filesize($theFile);
-					$fileMimeType = t3lib_htmlmail::getMimeType($fileURL);
+					$fileMimeType = $this->getMimeTypeByHttpRequest($fileURL);
 
 					$rss2Enclousres .= '<enclosure url="' . $fileURL . '" ';
 					$rss2Enclousres .= 'length ="' . $fileSize . '" ';
@@ -4106,6 +4118,39 @@ class tx_ttnews extends tslib_pibase {
 		}
 	}
 
+	/**
+	 * Overrides a LocalLang value and takes care of the XLIFF structure.
+	 *
+	 * @param string $key Key of the label
+	 * @param string $value Value of the label
+	 * @return void
+	 */
+	protected function overrideLL($key, $value) {
+		if (isset($this->LOCAL_LANG[$this->LLkey][$key][0]['target'])) {
+			$this->LOCAL_LANG[$this->LLkey][$key][0]['target'] = $value;
+		} else {
+			$this->LOCAL_LANG[$this->LLkey][$key] = $value;
+		}
+	}
+
+	/**
+	 * This function returns the mime type of the file specified by the url
+	 * (copied from t3lib_htmlmail of TYPO3 4.6 which got removed in TYPO3 4.7)
+	 *
+	 * @param	string		$url: the url
+	 * @return	string		$mimeType: the mime type found in the header
+	 */
+	protected function getMimeTypeByHttpRequest($url) {
+		$mimeType = '';
+		$headers = trim(t3lib_div::getUrl($url, 2));
+		if ($headers) {
+			$matches = array();
+			if (preg_match('/(Content-Type:[\s]*)([a-zA-Z_0-9\/\-\.\+]*)([\s]|$)/', $headers, $matches)) {
+				$mimeType = trim($matches[2]);
+			}
+		}
+		return $mimeType;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/pi/class.tx_ttnews.php']) {

@@ -97,7 +97,7 @@ require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_recordlist.ph
  * Module 'News Admin' for the 'tt_news' extension.
  *
  *
- * $Id: index.php 26995 2009-11-25 18:47:29Z rupi $
+ * $Id: index.php 55932 2012-01-02 08:27:38Z rupi $
  *
  * @author	Rupert Germann <rg@rgdata.de>
  * @package	TYPO3
@@ -149,7 +149,7 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 
 		$tceTSC = array();
 		if ($this->confArr['useStoragePid']) {
-			$tceTSC = t3lib_BEfunc::getTCEFORM_TSconfig('tt_mews_cat',array('pid'=>$this->id));
+			$tceTSC = t3lib_BEfunc::getTCEFORM_TSconfig('tt_news_cat',array('pid'=>$this->id));
 		}
 		$this->storagePid = $tceTSC['_STORAGE_PID']?$tceTSC['_STORAGE_PID']:$this->id;
 

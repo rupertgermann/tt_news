@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: tca.php 27026 2009-11-26 13:12:51Z rupi $
+ * $Id: tca.php 57987 2012-02-15 18:31:33Z ohader $
  */
 
 	// get extension confArr
@@ -367,7 +367,7 @@ $TCA['tt_news'] = Array (
 					Array('', 0),
 				),
 				'foreign_table' => 'tt_news',
-				'foreign_table_where' => 'AND tt_news.uid=###REC_FIELD_l18n_parent### AND tt_news.sys_language_uid IN (-1,0)',
+				'foreign_table_where' => 'AND tt_news.pid=###CURRENT_PID### AND tt_news.sys_language_uid IN (-1,0)',
 			)
 		),
 		'l18n_diffsource' => Array(

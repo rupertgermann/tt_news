@@ -49,8 +49,8 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations
 		'frontend' => 't3lib_cache_frontend_StringFrontend',
 		'backend' => 't3lib_cache_backend_DbBackend',
 		'options' => array(
-			'cacheTable' => 'tt_news_cache',
-			'tagsTable' => 'tt_news_cache_tags'
+#			'cacheTable' => 'tt_news_cache',
+#			'tagsTable' => 'tt_news_cache_tags'
 		)
 	);
 }
