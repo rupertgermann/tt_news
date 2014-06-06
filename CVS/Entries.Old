@@ -1,19 +1,23 @@
-/ext_emconf.php/1.1.1.1/Thu Apr  1 10:21:05 2004//
-/ext_icon.gif/1.1.1.1/Thu Apr  1 10:21:04 2004/-kb/
-/ext_icon__h.gif/1.1.1.1/Thu Apr  1 10:21:05 2004/-kb/
-/ext_icon__ht.gif/1.1.1.1/Thu Apr  1 10:21:05 2004/-kb/
-/ext_icon__htu.gif/1.1.1.1/Thu Apr  1 10:21:05 2004/-kb/
-/ext_icon__hu.gif/1.1.1.1/Thu Apr  1 10:21:05 2004/-kb/
-/ext_icon__t.gif/1.1.1.1/Thu Apr  1 10:21:05 2004/-kb/
-/ext_icon__tu.gif/1.1.1.1/Thu Apr  1 10:21:05 2004/-kb/
-/ext_icon__u.gif/1.1.1.1/Thu Apr  1 10:21:05 2004/-kb/
-/ext_icon__x.gif/1.1.1.1/Thu Apr  1 10:21:05 2004/-kb/
-/ext_tables.php/1.1.1.1/Thu Apr  1 10:21:04 2004//
-/ext_tables.sql/1.1.1.1/Thu Apr  1 10:21:05 2004/-ko/
-/ext_typoscript_constants.txt/1.1.1.1/Thu Apr  1 10:21:05 2004//
-/ext_typoscript_setup.txt/1.1.1.1/Thu Apr  1 10:21:05 2004//
-/locallang_csh_ttnews.php/1.1.1.1/Thu Apr  1 10:21:05 2004//
-/locallang_csh_ttnewsc.php/1.1.1.1/Thu Apr  1 10:21:05 2004//
-/locallang_tca.php/1.1.1.1/Thu Apr  1 10:21:05 2004//
-/tca.php/1.1.1.1/Thu Apr  1 10:21:05 2004//
-D
+D/doc////
+D/pi////
+/ext_icon.gif/1.1.1.1/Thu May 20 06:12:30 2004/-kb/
+/ext_icon__h.gif/1.1.1.1/Thu May 20 06:12:30 2004/-kb/
+/ext_icon__ht.gif/1.1.1.1/Thu May 20 06:12:30 2004/-kb/
+/ext_icon__htu.gif/1.1.1.1/Thu May 20 06:12:30 2004/-kb/
+/ext_icon__hu.gif/1.1.1.1/Thu May 20 06:12:30 2004/-kb/
+/ext_icon__t.gif/1.1.1.1/Thu May 20 06:12:30 2004/-kb/
+/ext_icon__tu.gif/1.1.1.1/Thu May 20 06:12:30 2004/-kb/
+/ext_icon__u.gif/1.1.1.1/Thu May 20 06:12:30 2004/-kb/
+/ext_icon__x.gif/1.1.1.1/Thu May 20 06:12:30 2004/-kb/
+/ext_typoscript_constants.txt/1.1.1.1/Thu May 20 06:12:30 2004//
+/locallang_csh_ttnewsc.php/1.1.1.1/Thu May 20 06:12:30 2004//
+/ext_tables.sql/1.2/Thu May 20 06:12:30 2004/-ko/
+/ext_emconf.php/1.3/Tue Jun  1 12:08:46 2004//
+/ext_tables.php/1.2/Tue Jun  8 17:47:41 2004//
+/ext_typoscript_setup.txt/1.3/Mon Jun  7 09:44:31 2004//
+/locallang_csh_ttnews.php/1.2/Mon Jun  7 10:38:00 2004//
+/locallang_tca.php/1.3/Tue Jun  8 11:16:22 2004//
+/tca.php/1.3/Mon Jun  7 09:57:06 2004//
+/class.ext_update.php/1.1/Thu Jun  3 07:45:32 2004//
+/flexform_ds.xml/1.1/Tue Jun  8 17:19:13 2004//
+/locallang.php/1.1/Wed Jun  9 08:37:36 2004//

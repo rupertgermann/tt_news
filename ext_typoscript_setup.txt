@@ -11,7 +11,9 @@ plugin.tt_news {
   pid_list.field = pages
   recursive.field = recursive
   code.field = select_key
-
+  itemLinkType =
+  itemLinkTarget =
+  
   # Global wraps
   wrap1.wrap = {$plugin.tt_news.wrap1}
   wrap2.wrap = {$plugin.tt_news.wrap2}
@@ -24,9 +26,43 @@ plugin.tt_news {
     brTag = <BR>
     parseFunc < styles.content.parseFunc
   }
-
+  
+  # category settings
+  catImageMaxWidth = 200
+  catImageMaxHeight = 20
+  catTextLength = 100
+  catImageMode = 2 #0(don't display),1(none),2(shortcuts),3(categoryselect)
+  catTextMode = 1 #0(don't display),1(none),2(shortcuts),3(categoryselect)
+  maxCatImages = 10
+  maxCatTexts = 2
+  
+  # the RTE parseFunc configuration
+  content_stdWrap {
+    makelinks = 1 
+    makelinks.http.keep = path
+    makelinks.http.extTarget = _blank 
+    makelinks.http.wrap = 
+    makelinks.mailto.keep = path 
+    makelinks.mailto.wrap =  
+    tags { 
+      link = TEXT 
+      link { 
+        current = 1 
+        typolink.parameter.data = parameters : allParams 
+        typolink.extTarget = _blank 
+        typolink.target = {$PAGE_TARGET}
+        typolink.wrap = 
+        parseFunc.constants =1 
+      } 
+    } 
+    allowTags = b,i,u,a,img,br,div,center,pre,font,hr,sub,sup,p,strong,em,li,ul,ol,blockquote,strike,span
+    denyTags = * 
+    sword = <font color="red"><b>|</b></font>
+    constants = 1 
+  }
+  
   limit = 10
-  latestLimit = 5
+  latestLimit = 3
   backPid = {$plugin.tt_news.backPid}
   PIDsearch = 
   PIDitemDisplay = {$plugin.tt_news.PIDitemDisplay}
@@ -130,7 +166,6 @@ plugin.tt_news {
     stdWrap.spaceAfter=5
   }
 }
-
 
 
 ## This enables the tt_content.record item to display news items:

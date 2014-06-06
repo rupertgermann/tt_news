@@ -224,7 +224,30 @@ $TCA['tt_news'] = Array (
 				"minitems" => 0,
 				"maxitems" => 100,
 				"MM" => "tt_news_cat_mm",
-				)
+				"wizards" => Array(
+					"_PADDING" => 2,
+					"_VERTICAL" => 1,
+					"add" => Array(
+						"type" => "script",
+						"title" => "Create new category",
+						"icon" => "add.gif",
+						"params" => Array(
+							"table"=>"tt_news_cat",
+							"pid" => "###STORAGE_PID###",
+							"setValue" => "set"
+						),
+						"script" => "wizard_add.php",
+					),
+					"edit" => Array(
+							"type" => "popup",
+							"title" => "Edit category",
+							"script" => "wizard_edit.php",
+							"popup_onlyOpenIfSelected" => 1,
+							"icon" => "edit2.gif",
+							"JSopenParams" => "height=350,width=580,status=0,menubar=0,scrollbars=1",
+					),
+				),
+			)
 		),
 		'page' => Array (
 			'exclude' => 1,	
@@ -272,7 +295,7 @@ $TCA['tt_news_cat'] = Array (
 		),
 		'image' => Array (		
 			'exclude' => 1,		
-			'label' => 'LLL:EXT:tt_news/locallang_db.php:tt_news.image',
+			'label' => 'LLL:EXT:tt_news/locallang_db.php:tt_news_cat.image',
 			'config' => Array (
 				'type' => 'group',
 				'internal_type' => 'file',

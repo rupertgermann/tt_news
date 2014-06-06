@@ -1,4 +1,5 @@
-/ext_emconf.php////
+D/doc////
+D/pi////
 /ext_icon.gif////
 /ext_icon__h.gif////
 /ext_icon__ht.gif////
@@ -8,11 +9,15 @@
 /ext_icon__tu.gif////
 /ext_icon__u.gif////
 /ext_icon__x.gif////
-/ext_tables.php////
-/ext_tables.sql////
 /ext_typoscript_constants.txt////
+/locallang_csh_ttnewsc.php////
+/ext_tables.sql////
+/ext_emconf.php////
+/ext_tables.php////
 /ext_typoscript_setup.txt////
 /locallang_csh_ttnews.php////
-/locallang_csh_ttnewsc.php////
 /locallang_tca.php////
 /tca.php////
+/class.ext_update.php////
+/flexform_ds.xml////
+/locallang.php////

@@ -56,6 +56,7 @@ NEWS_SUBHEADER - subheader, if empty main content is inserted here in LIST and L
 NEWS_CONTENT - main content
 NEWS_LINKS - news links
 NEWS_CATEGORY - news item category
+NEWS_CATEGORY_IMAGE - news item category image
 NEWS_RELATED - links to related news
 NEWS_IMAGE - news item images
 
@@ -96,7 +97,7 @@ LINK_ITEM - link to the news item single display
 				<TD bgcolor="###GC2###" valign="top">
 				###GW2B### ###NEWS_DATE### ###NEWS_TIME### <br>
 				<!--###LINK_ITEM###--><B>###NEWS_TITLE###</B><!--###LINK_ITEM###--><BR>
-				###NEWS_IMAGE### ###NEWS_SUBHEADER### <!--###LINK_ITEM###-->[more]<!--###LINK_ITEM###--><BR>(Cat: ###NEWS_CATEGORY###) ###GW2E###<BR>
+				###NEWS_IMAGE### ###NEWS_SUBHEADER### <!--###LINK_ITEM###-->[more]<!--###LINK_ITEM###--><BR>(Cat: ###NEWS_CATEGORY######NEWS_CATEGORY_IMAGE###) ###GW2E###<BR>
 				</TD>
 			</TR>
 		<!-- ###NEWS### end-->
@@ -154,7 +155,7 @@ LINK_ITEM - link to the news item single display
 					###GW1B### ###NEWS_SUBHEADER### ###GW1E###<BR>
 					<BR>
 					###GW2B###By ###NEWS_AUTHOR###, ###NEWS_TIME### <br>
-					Category: ###NEWS_CATEGORY###
+					Category: ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE###
 					###GW2E###
 				</TD>
 				<TD><img src=clear.gif height=1 width=10></TD>

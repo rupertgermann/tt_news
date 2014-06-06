@@ -20,7 +20,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'priority' => '',
 	'loadOrder' => '',
 	'TYPO3_version' => '',
-	'PHP_version' => '',
+	'PHP_version' => '0.0.4-0.0.4',
 	'module' => '',
 	'state' => 'stable',
 	'uploadfolder' => 0,
@@ -28,12 +28,12 @@ $EM_CONF[$_EXTKEY] = array(
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 1,
 	'lockType' => '',
-	'author' => 'Kasper Skårhøj',
-	'author_email' => 'kasper@typo3.com',
-	'author_company' => 'Curby Soft Multimedia',
+	'author' => 'Stig Nørgaard Jepsen',
+	'author_email' => 'stig@8620.dk',
+	'author_company' => '',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
-	'version' => '1.0.5',
+	'version' => '1.2.3',
 );
 
 ?>
