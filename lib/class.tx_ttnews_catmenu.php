@@ -334,7 +334,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 		if ($this->FE_USER->user) { // a user is logged in
 			$this->stored = unserialize($this->FE_USER->uc['tt_news'][$this->treeName]);
 		} else {
-			$this->stored = unserialize($_COOKIE[$this->treeName]);
+			$this->stored = json_decode($_COOKIE[$this->treeName], true);
 		}
 		if (!is_array($this->stored)) { $this->stored = array(); }
 //		debug($this->stored);
@@ -371,7 +371,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 			$this->FE_USER->uc['tt_news'][$this->treeName] = serialize($this->stored);
 			$this->FE_USER->writeUC();
 		} else {
-			setcookie($this->treeName, serialize($this->stored));
+			setcookie($this->treeName, json_encode($this->stored));
 		}
 	}
 
