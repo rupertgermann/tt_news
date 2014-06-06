@@ -1,6 +1,13 @@
+2006-04-19	Rupert Germann <rupi@gmx.li>
+
+	* fix: New or edited news records were not displayed in TYPO3 version below 4.0. Added a function to class.tx_ttnews_tcemain which adds the missing 0 to the fe_group field. Added a condition to ext_tables.php which changes the fe_group field configuration under TYPO3 lower than 4.0 back to the old state.
+	* updated function indexes and copyrights
+	* version nr: 2.3.3
+
 2006-04-18	Rupert Germann <rupi@gmx.li>
 
 	* fix: Empty news records were displayed in workspace previews. Added a check to function getSelectConf which removes news records from WS preview which are hidden in the live Workspace AND in the draft workspace.
+	* fix: changed direct preview for news. Now it works only in the live workspace
 	* version nr: 2.3.2
 
 2006-04-17	Rupert Germann <rupi@gmx.li>
@@ -1940,5 +1947,5 @@
 
 -----------------------------------------------------------------------------------
 * cvs ID:
-$Id: ChangeLog,v 1.60 2006/04/18 11:41:49 rupertgermann Exp $
+$Id: ChangeLog,v 1.62 2006/04/19 12:10:14 rupertgermann Exp $
 

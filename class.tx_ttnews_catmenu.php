@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005 Rupert Germann <rupi@gmx.li>
+*  (c) 2005-2006 Rupert Germann <rupi@gmx.li>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,7 +29,7 @@
 *
 * renders the CATMENU content element - extends class t3lib_treeview to change some methods.
 *
-* $Id: class.tx_ttnews_catmenu.php,v 1.4 2006/04/05 07:20:04 rupertgermann Exp $
+* $Id: class.tx_ttnews_catmenu.php,v 1.5 2006/04/19 12:10:14 rupertgermann Exp $
 *
 * @author Rupert Germann <rupi@gmx.li>
 */
@@ -38,14 +38,14 @@
  *
  *
  *
- *   54: class tx_ttnews_catmenu extends t3lib_treeview
- *   66:     function wrapTitle($title,$v)
- *  101:     function getBrowsableTree()
- *  162:     function getTree($uid, $depth=999, $depthData='',$blankLineCode='')
- *  238:     function printTree($treeArr='')
- *  264:     function getRootIcon($rec)
- *  284:     function getIcon($row)
- *  326:     function PMicon($row,$a,$c,$nextCount,$exp)
+ *   56: class tx_ttnews_catmenu extends t3lib_treeview
+ *   68:     function wrapTitle($title,$v)
+ *  108:     function getBrowsableTree()
+ *  180:     function getTree($uid, $depth=999, $depthData='',$blankLineCode='')
+ *  256:     function printTree($treeArr='')
+ *  282:     function getRootIcon($rec)
+ *  302:     function getIcon($row)
+ *  344:     function PMicon($row,$a,$c,$nextCount,$exp)
  *
  * TOTAL FUNCTIONS: 7
  * (This index is automatically created/updated by the extension "extdeveval")
@@ -141,7 +141,7 @@ class tx_ttnews_catmenu extends t3lib_treeview {
 				$rootRec = $this->getRootRecord($uid);
 				$firstHtml.=$this->getRootIcon($rootRec);
 			}
-			
+
 // 			debug($firstHtml,'$firstHtml bank:'.$idx.' '.__FUNCTION__.' '.__CLASS__);
 
 			if (is_array($rootRec))	{

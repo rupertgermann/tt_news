@@ -2,8 +2,8 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c)   2004-2005 Rupert Germann <rupi@gmx.li>
-*  All   rights reserved
+*  (c) 2004-2006 Rupert Germann <rupi@gmx.li>
+*  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
 *  free software; you can redistribute it and/or modify
@@ -26,10 +26,10 @@
  *
  *
  *
- *   48: class ext_update
- *   55:     function main()
- *  166:     function access($what = 'all')
- *  194:     function query($updatewhat)
+ *   50: class ext_update
+ *   57:     function main()
+ *  168:     function access($what = 'all')
+ *  197:     function query($updatewhat)
  *
  * TOTAL FUNCTIONS: 3
  * (This index is automatically created/updated by the extension "extdeveval")
@@ -40,6 +40,8 @@
 
 /**
  * Class for updating tt_news content elements and category relations.
+ *
+ * $Id: class.ext_update.php,v 1.13 2006/04/19 12:10:14 rupertgermann Exp $
  *
  * @author  Rupert Germann <rupi@gmx.li>
  * @package TYPO3
@@ -91,7 +93,7 @@ class ext_update {
 			}
 			if ($count_flex) {
 				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res_flex)) {
-					
+
 					$codes = t3lib_div::trimExplode(',', $row['select_key'], 1);
 					if (!count($codes)) $codes = array('');
 						while (list(, $theCode) = each($codes)) {

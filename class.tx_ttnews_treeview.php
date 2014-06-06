@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005 Rupert Germann <rupi@gmx.li>
+*  (c) 2005-2006 Rupert Germann <rupi@gmx.li>
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
@@ -25,7 +25,7 @@
  * This function displays a selector with nested categories.
  * The original code is borrowed from the extension "Digital Asset Management" (tx_dam) author: René Fritz <r.fritz@colorcube.de>
  *
- * $Id: class.tx_ttnews_treeview.php,v 1.16 2006/04/14 12:55:02 rupertgermann Exp $
+ * $Id: class.tx_ttnews_treeview.php,v 1.17 2006/04/19 12:10:14 rupertgermann Exp $
  *
  * @author	Rupert Germann <rupi@gmx.li>
  * @package TYPO3
@@ -36,16 +36,16 @@
  *
  *
  *
- *   58: class tx_ttnews_tceFunc_selectTreeView extends t3lib_treeview
- *   70:     function wrapTitle($title,$v)
+ *   60: class tx_ttnews_tceFunc_selectTreeView extends t3lib_treeview
+ *   72:     function wrapTitle($title,$v)
  *
  *
- *   89: class tx_ttnews_treeview
- *   99:     function displayCategoryTree($PA, $fobj)
- *  353:     function getNotAllowedItems($PA,$SPaddWhere)
- *  397:     function findRecursiveCategories ($PA,$row,$table,$storagePid,$treeIds)
- *  438:     function compareCategoryVals ($treeIds,$catString)
- *  466:     function displayTypeFieldCheckCategories($PA, $fobj)
+ *   91: class tx_ttnews_treeview
+ *  101:     function displayCategoryTree($PA, $fobj)
+ *  393:     function getNotAllowedItems($PA,$SPaddWhere)
+ *  435:     function findRecursiveCategories ($PA,$row,$table,$storagePid,$treeIds)
+ *  480:     function compareCategoryVals ($treeIds,$catString)
+ *  509:     function displayTypeFieldCheckCategories(&$PA, $fobj)
  *
  * TOTAL FUNCTIONS: 6
  * (This index is automatically created/updated by the extension "extdeveval")
@@ -126,7 +126,7 @@ class tx_ttnews_treeview {
 // 			$removeItems .= ','.$this->excludeList;
 // 		}
 		$this->includeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.includeList');
-			
+
 		foreach($selItems as $tk => $p)	{
 			if (in_array($p[1],$removeItems))	{
 				unset($selItems[$tk]);
@@ -229,13 +229,13 @@ class tx_ttnews_treeview {
 
 
 /** exclude some categories */
-					
+
 
 
 					if ($this->excludeList) {
 						$catlistWhere = ' AND tt_news_cat.uid NOT IN ('.implode(t3lib_div::intExplode(',',$this->excludeList),',').')';
 					}
-					
+
 					$treeViewObj->table = $config['foreign_table'];
 					$treeViewObj->init($SPaddWhere.$catlistWhere);
 					$treeViewObj->backPath = $this->pObj->backPath;
@@ -443,7 +443,7 @@ class tx_ttnews_treeview {
 			} elseif ($table == 'tt_news_cat' || $table == 'tt_news') {
 				if ($table == 'tt_news_cat' && $row['pid'] == $storagePid && intval($row['uid']) && !in_array($row['uid'],$treeIds))	{ // if the selected category is not empty and not in the array of tree-uids it seems to be part of a chain of recursive categories
 					$recursionMsg = 'RECURSIVE CATEGORIES DETECTED!! <br />This record is part of a chain of recursive categories. The affected categories will not be displayed in the category tree.  You should remove the parent category of this record to prevent this.';
-				
+
 				}
 				if ($table == 'tt_news' && $row['category']) { // find recursive categories in the tt_news db-record
 					$rcList = $this->compareCategoryVals ($treeIds,$row['category']);
@@ -455,7 +455,7 @@ class tx_ttnews_treeview {
 			}
 			if (strlen($rcList)) {
 				$recursionMsg = 'RECURSIVE CATEGORIES DETECTED!! <br />This record has the following recursive categories assigned: '.$rcList.'<br />Recursive categories will not be shown in the category tree and will therefore not be selectable. ';
-	
+
 				if ($table == 'tt_news') {
 					$recursionMsg .= 'To solve this problem mark these categories in the left select field, click on "edit category" and clear the field "parent category" of the recursive category.';
 				} else {
@@ -491,7 +491,7 @@ class tx_ttnews_treeview {
 			$rcArr = array();
 			foreach ($recursiveCategories as $key => $cat) {
 				if ($cat[0]) $rcArr[] = $cat[1].' ('.$cat[0].')'; // format result: title (uid)
-				
+
 			}
 			$rcList = implode($rcArr,', ');
 		}
@@ -528,14 +528,14 @@ class tx_ttnews_treeview {
 
 				if ($uidField) {
 
-				
+
 					// get categories of the record in db
 					$catres = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query ('tt_news_cat.uid,tt_news_cat.title,tt_news_cat_mm.sorting AS mmsorting', 'tt_news', 'tt_news_cat_mm', 'tt_news_cat', ' AND tt_news_cat_mm.uid_local='.$uidField.$SPaddWhere,'', 'mmsorting');
 					$NACats = array();
 					if ($catres) {
 						while ($catrow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($catres)) {
 							if($catrow['uid'] && $notAllowedItems[0] && in_array($catrow['uid'],$notAllowedItems)) {
-	
+
 								$NACats[]= '<p style="padding:0px;color:red;font-weight:bold;">- '.$catrow['title'].' <span class="typo3-dimmed"><em>['.$catrow['uid'].']</em></span></p>';
 							}
 						}
@@ -543,7 +543,7 @@ class tx_ttnews_treeview {
 
 					if($NACats[0]) {
 						$NA_Items =  '<table class="warningbox" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td><img src="gfx/icon_fatalerror.gif" class="absmiddle" alt="" height="16" width="18">SAVING DISABLED!! <br />'.($row['l18n_parent']&&$row['sys_language_uid']?'The translation original of this':'This').' record has the following categories assigned that are not defined in your BE usergroup: '.implode($NACats,chr(10)).'</td></tr></tbody></table>';
-					}				
+					}
 				}
 			}
 		}
