@@ -615,7 +615,7 @@ plugin.tt_news {
   }
 
   # content which is filled to the marker ###ARCHIVE_ACTIVE### for the selected archive period
-  archiveActiveMarkerContent = class="amenu-act"
+  archiveActiveMarkerContent = amenu-act
 
 
 

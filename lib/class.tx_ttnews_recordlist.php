@@ -74,6 +74,7 @@ if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 600200
 	 */
 class tx_ttnews_recordlist extends tx_cms_layout {
 
+	public $lTSprop;
 
 
 	/**********************************
@@ -83,14 +84,12 @@ class tx_ttnews_recordlist extends tx_cms_layout {
 	 **********************************/
 
 	/**
-	 * Creates a standard list of elements from a table.
-	 *
-	 * @param	string		Table name
-	 * @param	integer		Page id.
-	 * @param	string		Comma list of fields to display
-	 * @param	boolean		If true, icon is shown
-	 * @param	string		Additional WHERE-clauses.
-	 * @return	string		HTML table
+	 * @param $table
+	 * @param $id
+	 * @param $fList
+	 * @param int $icon
+	 * @param string $addWhere
+	 * @return string
 	 */
 	function makeOrdinaryList($table, $id, $fList, $icon=0, $addWhere='')	{
 			// Initialize:
@@ -152,6 +151,27 @@ class tx_ttnews_recordlist extends tx_cms_layout {
 						} else {
 							$NrowIcon .= $this->noEditIcon($noEdit);
 						}
+
+						if ($this->singlePid) {
+							$params = '&tx_ttnews[tt_news]='.$row['uid'].'&no_cache=1';
+							if ($GLOBALS['BE_USER']->workspace !== 0) {
+									// if we are in a workspace, find the live record's uid and pid
+									$origRec = t3lib_BEfunc::getRecord('tt_news', $row['t3ver_oid']);
+
+								$params .= '&tx_ttnews[t3ver_oid]='.$row['t3ver_oid'];
+								$params .= '&tx_ttnews[pid]='.$origRec['pid'];
+							}
+
+							$NrowIcon.='<a href="#" onclick="'.htmlspecialchars(t3lib_BEfunc::viewOnClick($this->singlePid, $this->backPath,'','','',$params)).'" title="'.$GLOBALS['LANG']->getLL('openFePreview',1).'">'.
+								t3lib_iconWorks::getSpriteIcon('actions-document-view') .
+								'</a>';
+						}
+
+
+
+
+						// wrap icons
+						$NrowIcon = '<div style="width:54px;">'.$NrowIcon.'</div>';
 
 							// Get values:
 						$Nrow = $this->dataFields($this->fieldArray,$table,$row,$Nrow,$noEdit);
@@ -347,7 +367,11 @@ class tx_ttnews_recordlist extends tx_cms_layout {
 
 						if ($this->lTSprop['clickTitleMode'] == 'view') {
 							if ($this->singlePid) {
-								$val = $this->linkSingleView($url,$val,$row['uid']);
+								if ($GLOBALS['BE_USER']->workspace !== 0) {
+									// if we are in a workspace, find the live record's uid and pid
+									$origRec = t3lib_BEfunc::getRecord('tt_news', $row['t3ver_oid']);
+								}
+								$val = $this->linkSingleView($val,$row,$origRec);
 							}
 						} elseif ($this->lTSprop['clickTitleMode'] == 'edit') {
 							if (!$noEdit)	{
@@ -393,15 +417,18 @@ class tx_ttnews_recordlist extends tx_cms_layout {
 	 * @param	[type]		$uid: ...
 	 * @return	[type]		...
 	 */
-	function linkSingleView($url, $val, $uid) {
-		$params = array(
-				'id' => $this->singlePid,
-				'tx_ttnews[tt_news]' => $uid,
-				'no_cache' => 1);
-		$linkedurl = t3lib_div::linkThisUrl($url,$params);
-		$onclick = 'openFePreview(\''.htmlspecialchars($linkedurl).'\');';
-		$lTitle = $GLOBALS['LANG']->getLL('openFePreview',1);
-		$link = '<a href="#" onclick="'.$onclick.'" title="'.$lTitle.'">'.$val.'</a>';
+	function linkSingleView($val, $row, $origRec) {
+
+		$params = '&tx_ttnews[tt_news]='.$row['uid'].'&no_cache=1';
+		if ($GLOBALS['BE_USER']->workspace !== 0) {
+			$params .= '&tx_ttnews[t3ver_oid]='.$row['t3ver_oid'];
+			$params .= '&tx_ttnews[pid]='.$origRec['pid'];
+		}
+
+		$link = '<a href="#" onclick="'.htmlspecialchars(t3lib_BEfunc::viewOnClick($this->singlePid, $this->backPath,'','','',$params)).'" title="'.$GLOBALS['LANG']->getLL('openFePreview',1).'">'.
+			$val .
+			'</a>';
+
 		return $link;
 	}
 
@@ -618,7 +645,7 @@ class tx_ttnews_recordlist extends tx_cms_layout {
 			$fieldList = 'DISTINCT '.$table.'.uid, '.$fieldList;
 			$leftjoin = ' LEFT JOIN '.$mmTable.' AS mm1 ON '.$table.'.uid=mm1.uid_local';
 		}
-
+		$catWhere = '';
 		if ($this->selectedCategories) {
 			$catWhere .= ' AND mm1.uid_foreign IN ('.$this->selectedCategories.')';
 		} elseif ($this->lTSprop['noListWithoutCatSelection'] && !$this->isAdmin) {

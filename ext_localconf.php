@@ -19,6 +19,11 @@ $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['pro
 	// it checks if the record has an editlock. If true, nothing will not be saved.
 $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] = 'EXT:tt_news/lib/class.tx_ttnews_tcemain.php:tx_ttnews_tcemain_cmdmap';
 
+	// manipulate die preview Url for view_on_click
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_befunc.php']['viewOnClickClass']['tt_news'] = 'EXT:tt_news/lib/class.tx_ttnews_viewOnClick.php:tx_ttnews_viewOnClick';
+
+
+$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/workspaces/Classes/Controller/PreviewController.php'] = t3lib_extMgm::extPath($_EXTKEY,'xClass/class.PreviewController.php');
 
 
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);

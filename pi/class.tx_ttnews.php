@@ -1276,7 +1276,7 @@ class tx_ttnews extends tslib_pibase {
 					$from_table = 'tt_news';
 					$join = ($selectConf['leftjoin'] ? ' LEFT JOIN ' . $selectConf['leftjoin'] : '');
 					$where_clause = $tmpWhere . ' AND tt_news.datetime>=' . $periodInfo['start'] . ' AND tt_news.datetime<' . $periodInfo['stop'];
-
+$this->db->store_lastBuiltQuery = 1;
 					$res = $this->db->exec_SELECTquery($select_fields, $from_table . $join, $where_clause);
 
 					$row = $this->db->sql_fetch_row($res);
