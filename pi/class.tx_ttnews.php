@@ -138,6 +138,18 @@ class tx_ttnews extends tslib_pibase {
 	 */
 	var $local_cObj;
 
+
+	/**
+	 * disables internal rendering. If set to true an external renderer like Fluid can be used
+	 * @var bool
+	 */
+	private $useUpstreamRenderer = false;
+
+	public $upstreamVars = array();
+
+	private $listData;
+
+
 	/**
 	 * Main news function: calls the init_news() function and decides by the given CODEs which of the
 	 * functions to display news should by called.
@@ -162,6 +174,11 @@ class tx_ttnews extends tslib_pibase {
 		}
 
 		$this->conf = $conf; //store configuration
+
+
+		if ($this->conf['upstreamRendererFunc']) {
+			$this->useUpstreamRenderer = true;
+		}
 
 		// leave early if USER_INT
 		$this->convertToUserIntObject = $this->conf['convertToUserIntObject'] ? 1 : 0;
@@ -795,7 +812,9 @@ class tx_ttnews extends tslib_pibase {
 						$markerArray = $_procObj->extraGlobalMarkerProcessor($this, $markerArray);
 					}
 				}
-				$content .= $this->cObj->substituteMarkerArrayCached($t['total'], $markerArray, $subpartArray, $wrappedSubpartArray);
+				if (!$this->useUpstreamRenderer) {
+					$content .= $this->cObj->substituteMarkerArrayCached($t['total'], $markerArray, $subpartArray, $wrappedSubpartArray);
+				}
 			} elseif (strpos($where, '1=0') !== false) {
 				// first view of the search page with the parameter 'emptySearchAtStart' set
 				$markerArray['###SEARCH_EMPTY_MSG###'] = $this->local_cObj->stdWrap($this->pi_getLL('searchEmptyMsg'), $this->conf['searchEmptyMsg_stdWrap.']);
@@ -835,6 +854,10 @@ class tx_ttnews extends tslib_pibase {
 			} else {
 				$content .= $this->local_cObj->stdWrap($this->pi_getLL('noNewsToListMsg'), $this->conf['noNewsToListMsg_stdWrap.']);
 			}
+		}
+
+		if ($this->conf['upstreamRendererFunc']) {
+			$content = $this->userProcess('upstreamRendererFunc', array('rows' => $this->listData, 'markerArray'=> $markerArray,'content' => $content));
 		}
 
 		if ($this->debugTimes) {
@@ -971,6 +994,10 @@ class tx_ttnews extends tslib_pibase {
 				'year' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['year'] ? $this->piVars['year'] : null)),
 				'month' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['month'] ? $this->piVars['month'] : null)));
 
+
+		// needed for external renderer
+		$this->listData = array();
+
 		// Getting elements
 		while (($row = $this->db->sql_fetch_assoc($res))) {
 			// gets the option splitted config for this record
@@ -996,6 +1023,7 @@ class tx_ttnews extends tslib_pibase {
 				$row['page'] = $tmpPage;
 				$row['ext_url'] = $tmpExtURL;
 			}
+
 				// Register displayed news item globally:
 			$GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'];
 
@@ -1064,9 +1092,13 @@ class tx_ttnews extends tslib_pibase {
 			}
 
 			$layoutNum = ($itempartsCount == 0 ? 0 : ($cc % $itempartsCount));
+			if (!$this->useUpstreamRenderer) {
+				// Store the result of template parsing in the Var $itemsOut, use the alternating layouts
+				$itemsOut .= $this->cObj->substituteMarkerArrayCached($itemparts[$layoutNum], $markerArray, array(), $wrappedSubpartArray);
+			}
 
-			// Store the result of template parsing in the Var $itemsOut, use the alternating layouts
-			$itemsOut .= $this->cObj->substituteMarkerArrayCached($itemparts[$layoutNum], $markerArray, array(), $wrappedSubpartArray);
+			$this->listData[] = array('row' => $row, 'markerArray' => $markerArray, 'categories' => $this->categories);
+
 			$cc++;
 			if ($cc == $limit) {
 				break;
@@ -1088,8 +1120,9 @@ class tx_ttnews extends tslib_pibase {
 	 * @return	string		html-code for the "single view"
 	 */
 	function displaySingle() {
-		$lConf = $this->conf['displaySingle.'];
 
+		$lConf = $this->conf['displaySingle.'];
+		$content = '';
 		$selectConf = array();
 		$selectConf['selectFields'] = '*';
 		$selectConf['fromTable'] = 'tt_news';
@@ -1123,8 +1156,12 @@ class tx_ttnews extends tslib_pibase {
 		}
 			// Register displayed news item globally:
 		$GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'];
+		$markerArray = array();
 
 		if (is_array($row) && ($row['pid'] > 0 || $this->vPrev)) { // never display versions of a news record (having pid=-1) for normal website users
+
+			$this->upstreamVars['mode'] = 'display';
+
 			// If type is 1 or 2 (internal/external link), redirect to accordant page:
 			if (is_array($row) && t3lib_div::inList('1,2', $row['type'])) {
 				$redirectUrl = $this->local_cObj->getTypoLink_URL(
@@ -1133,27 +1170,32 @@ class tx_ttnews extends tslib_pibase {
 				t3lib_utility_Http::redirect($redirectUrl);
 			}
 			$item = FALSE;
-			// Get the subpart code
-			if ($this->conf['displayCurrentRecord']) {
-				$item = trim($this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_SINGLE_RECORDINSERT###'), $row));
-			}
-
-			if (! $item) {
-				$item = $this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_' . $this->theCode . '###'), $row);
-			}
-			$renderMarkers = $this->getMarkers($item);
-			$this->renderMarkers = array_unique($renderMarkers);
-
 			// reset marker array
 			$wrappedSubpartArray = array();
-			// build the backToList link
-			if ($this->conf['useHRDates']) {
-				$wrappedSubpartArray['###LINK_ITEM###'] = explode('|', $this->pi_linkTP_keepPIvars('|', array('tt_news' => null, 'backPid' => null,
+
+			if (!$this->useUpstreamRenderer) {
+				// Get the subpart code
+				if ($this->conf['displayCurrentRecord']) {
+					$item = trim($this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_SINGLE_RECORDINSERT###'), $row));
+				}
+
+				if (! $item) {
+					$item = $this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_' . $this->theCode . '###'), $row);
+				}
+				$renderMarkers = $this->getMarkers($item);
+				$this->renderMarkers = array_unique($renderMarkers);
+
+
+				// build the backToList link
+				if ($this->conf['useHRDates']) {
+					$wrappedSubpartArray['###LINK_ITEM###'] = explode('|', $this->pi_linkTP_keepPIvars('|', array('tt_news' => null, 'backPid' => null,
 						$this->config['singleViewPointerName'] => null, 'pS' => null, 'pL' => null), $this->allowCaching, ($this->conf['dontUseBackPid'] ? 1 : 0), $this->config['backPid']));
-			} else {
-				$wrappedSubpartArray['###LINK_ITEM###'] = explode('|', $this->pi_linkTP_keepPIvars('|', array('tt_news' => null, 'backPid' => null,
+				} else {
+					$wrappedSubpartArray['###LINK_ITEM###'] = explode('|', $this->pi_linkTP_keepPIvars('|', array('tt_news' => null, 'backPid' => null,
 						$this->config['singleViewPointerName'] => null), $this->allowCaching, ($this->conf['dontUseBackPid'] ? 1 : 0), $this->config['backPid']));
+				}
 			}
+
 
 			// set the title of the single view page to the title of the news record
 			if ($this->conf['substitutePagetitle']) {
@@ -1173,19 +1215,38 @@ class tx_ttnews extends tslib_pibase {
 			}
 			$this->categories = array();
 			$this->categories[$row['uid']] = $this->getCategories($row['uid']);
+
 			$markerArray = $this->getItemMarkerArray($row, $lConf, 'displaySingle');
-			// Substitute
-			$content = $this->cObj->substituteMarkerArrayCached($item, $markerArray, array(), $wrappedSubpartArray);
+			if (!$this->useUpstreamRenderer) {
+				// Substitute
+				$content = $this->cObj->substituteMarkerArrayCached($item, $markerArray, array(), $wrappedSubpartArray);
+			}
+
 		} elseif ($this->sys_language_mode == 'strict' && $this->tt_news_uid && $this->tsfe->sys_language_content) { // not existing translation
+			$this->upstreamVars['mode'] = 'noTranslation';
 			$noTranslMsg = $this->local_cObj->stdWrap($this->pi_getLL('noTranslMsg'), $this->conf['noNewsIdMsg_stdWrap.']);
 			$content = $noTranslMsg;
 		} elseif ($row['pid'] < 0) { // a non-public version of a record was requested
+			$this->upstreamVars['mode'] = 'nonPlublicVersion';
 			$nonPlublicVersion = $this->local_cObj->stdWrap($this->pi_getLL('nonPlublicVersionMsg'), $this->conf['nonPlublicVersionMsg_stdWrap.']);
 			$content = $nonPlublicVersion;
 		} else { // if singleview is shown with no tt_news uid given from GETvars (&tx_ttnews[tt_news]=) an error message is displayed.
+			$this->upstreamVars['mode'] = 'noNewsId';
 			$noNewsIdMsg = $this->local_cObj->stdWrap($this->pi_getLL('noNewsIdMsg'), $this->conf['noNewsIdMsg_stdWrap.']);
 			$content = $noNewsIdMsg;
 		}
+
+//		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['upstreamRendererHook'])) {
+//			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['upstreamRendererHook'] as $_classRef) {
+//				$_procObj = & t3lib_div::getUserObj($_classRef,false);
+//				$content = $_procObj->processUpstreamRendererHook($row, $markerArray, $content, $this);
+//			}
+//		}
+
+		if ($this->conf['upstreamRendererFunc']) {
+			$content = $this->userProcess('upstreamRendererFunc', array('row' => $row, 'markerArray' => $markerArray, 'content' => $content));
+		}
+
 
 		if ($this->debugTimes) {
 			$this->hObj->getParsetime(__METHOD__);
@@ -3965,7 +4026,7 @@ class tx_ttnews extends tslib_pibase {
 	 * @return bool
 	 */
 	function isRenderMarker($marker) {
-		if (in_array($marker, $this->renderMarkers)) {
+		if ($this->useUpstreamRenderer || in_array($marker, $this->renderMarkers)) {
 			return true;
 		}
 
