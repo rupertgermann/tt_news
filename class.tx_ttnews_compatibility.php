@@ -25,7 +25,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class tx_ttnews_compatibility implements t3lib_Singleton {
+class tx_ttnews_compatibility implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * @var boolean
 	 */
@@ -40,7 +40,7 @@ class tx_ttnews_compatibility implements t3lib_Singleton {
 	 * @return tx_ttnews_compatibility
 	 */
 	public static function getInstance() {
-		return t3lib_div::makeInstance('tx_ttnews_compatibility');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_compatibility');
 	}
 
 	/**
@@ -81,7 +81,8 @@ class tx_ttnews_compatibility implements t3lib_Singleton {
 	/**
 	 * Returns an integer from a three part version number, eg '4.12.3' -> 4012003
 	 *
-	 * @param string $verNumberStr Version number on format x.x.x
+	 * @param $versionNumber
+	 * @internal param string $verNumberStr Version number on format x.x.x
 	 * @return integer Integer version of version number (where each part can count to 999)
 	 */
 	public function int_from_ver($versionNumber) {
@@ -106,11 +107,7 @@ class tx_ttnews_compatibility implements t3lib_Singleton {
 	 * @return array LOCAL_LANG array in return.
 	 */
 	public function readLLXMLfile($fileRef, $langKey, $charset = '') {
-		if ($this->isVersion6) {
-			return $this->getLlxmlParser()->getParsedData($fileRef, $langKey, $charset);
-		} else {
-			return t3lib_div::readLLXMLfile($fileRef, $langKey, $charset);
-		}
+		return $this->getLlxmlParser()->getParsedData($fileRef, $langKey, $charset);
 	}
 
 	/**
@@ -118,7 +115,7 @@ class tx_ttnews_compatibility implements t3lib_Singleton {
 	 */
 	protected function getLlxmlParser() {
 		if (!isset($this->llxmlParser)) {
-			$this->llxmlParser = t3lib_div::makeInstance('t3lib_l10n_parser_Llxml');
+			$this->llxmlParser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_l10n_parser_Llxml');
 		}
 		return $this->llxmlParser;
 	}

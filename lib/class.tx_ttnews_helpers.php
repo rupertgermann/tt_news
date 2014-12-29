@@ -37,6 +37,9 @@
  */
 class tx_ttnews_helpers {
 
+	/**
+	 * @var \tx_ttnews
+	 */
 	var $pObj;
 
 
@@ -53,7 +56,7 @@ class tx_ttnews_helpers {
 	 */
 	function validateFields($fieldlist, $existingFields) {
 		$checkedFields = array();
-		$fArr = t3lib_div::trimExplode(',', $fieldlist, 1);
+		$fArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldlist, 1);
 		foreach ($fArr as $fN) {
 			if (in_array($fN, $existingFields)) {
 				$checkedFields[] = $fN;
@@ -72,7 +75,7 @@ class tx_ttnews_helpers {
 	 */
 	function checkRecords($recordlist) {
 		if ($recordlist) {
-			$tempRecs = t3lib_div::trimExplode(',', $recordlist, 1);
+			$tempRecs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $recordlist, 1);
 			// debug($temp);
 			$newtemp = array();
 			foreach ($tempRecs as $val) {
@@ -165,8 +168,9 @@ class tx_ttnews_helpers {
 	function makeMultiPageSView($bodytext, $lConf) {
 		$pointerName = $this->pObj->config['singleViewPointerName'];
 		$pagenum = $this->pObj->piVars[$pointerName] ? $this->pObj->piVars[$pointerName] : 0;
-		$textArr = t3lib_div::trimExplode($this->pObj->config['pageBreakToken'], $bodytext, 1);
+		$textArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($this->pObj->config['pageBreakToken'], $bodytext, 1);
 		$pagecount = count($textArr);
+		$pagebrowser = '';
 		// render a pagebrowser for the single view
 		if ($pagecount > 1) {
 			// configure pagebrowser vars
@@ -230,9 +234,9 @@ class tx_ttnews_helpers {
 	/**
 	 * inserts pagebreaks after a certain amount of words
 	 *
-	 * @param	string		text which can contain manully inserted 'pageBreakTokens'
-	 * @param	integer		amount of words in the subheader (short). The length of the first page will be reduced by that amount of words added to the value of $this->conf['cropWordsFromFirstPage'].
-	 * @return	string		the processed text
+	 * @param    string $text text which can contain manully inserted 'pageBreakTokens'
+	 * @param    integer $firstPageWordCrop amount of words in the subheader (short). The length of the first page will be reduced by that amount of words added to the value of $this->conf['cropWordsFromFirstPage'].
+	 * @return    string        the processed text
 	 */
 	function insertPagebreaks($text, $firstPageWordCrop) {
 
@@ -270,7 +274,7 @@ class tx_ttnews_helpers {
 					$pArr[] = $w;
 					$isfirst = false;
 				} elseif ($cc >= $this->compatibility()->intInRange($wc, 0, $this->pObj->config['maxWordsInSingleView'])) { // more words than maxWordsInSingleView
-					if (t3lib_div::inList('.,!,?', substr($w, - 1))) {
+					if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('.,!,?', substr($w, - 1))) {
 						if ($this->pObj->conf['useParagraphAsPagebreak']) { // break at paragraph
 							$break = true;
 							$pArr[] = $w;
@@ -380,7 +384,7 @@ class tx_ttnews_helpers {
 					}
 				}
 			}
-			t3lib_div::devLog($lbl . ($time ? ' time: ' . $time . ' s' : ''), $this->pObj->extKey, (int) $sev, $msg);
+			\TYPO3\CMS\Core\Utility\GeneralUtility::devLog($lbl . ($time ? ' time: ' . $time . ' s' : ''), $this->pObj->extKey, (int) $sev, $msg);
 		} else {
 			debug($msg, $lbl, $code_line, $msg['file:'], 3);
 		}
@@ -398,7 +402,7 @@ class tx_ttnews_helpers {
 		 * TODO: 07.05.2009
 		 * localize
 		 */
-
+		$msg = '';
 		if (count($this->pObj->errors) >= 2) {
 			$msg = '--> Did you include the static TypoScript template (\'News settings\') for tt_news?';
 		}
@@ -429,8 +433,8 @@ class tx_ttnews_helpers {
 	function getCurrentVersion() {
 		$_EXTKEY = $this->pObj->extKey;
 		// require_once fails if the plugin is executed multiple times
-		require (t3lib_extMgm::extPath($_EXTKEY, 'ext_emconf.php'));
-		return $EM_CONF[$_EXTKEY]['version'];
+		require (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY, 'ext_emconf.php'));
+		return isset($EM_CONF[$_EXTKEY]['version']) ? $EM_CONF[$_EXTKEY]['version'] : null;
 	}
 
 
@@ -439,8 +443,8 @@ class tx_ttnews_helpers {
 	 * see: http://www.w3.org/TR/NOTE-datetime (same as ISO 8601)
 	 * in php5 it would be so easy: date('c', $row['datetime']);
 	 *
-	 * @param	integer		the datetime value to be converted to w3c format
-	 * @return	string		datetime in w3c format
+	 * @param    integer $datetime the datetime value to be converted to w3c format
+	 * @return    string        datetime in w3c format
 	 */
 	function getW3cDate($datetime) {
 		$offset = date('Z', $datetime) / 3600;
@@ -471,4 +475,4 @@ class tx_ttnews_helpers {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_helpers.php']) {
 	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_helpers.php']);
 }
-?>
+

@@ -86,9 +86,9 @@ function user_substPageBrowser($markerArray, $conf) {
 	$tableParams = $pObj->conf['pageBrowser.']['tableParams'];
 	$pointer = $pObj->piVars['pointer'];
 	$count = $pObj->internal['res_count'];
-	$results_at_a_time = t3lib_div::intInRange($pObj->internal['results_at_a_time'], 1, 1000);
-	$maxPages = t3lib_div::intInRange($pObj->internal['maxPages'], 1, 100);
-	$max = t3lib_div::intInRange(ceil($count / $results_at_a_time), 1, $maxPages);
+	$results_at_a_time = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($pObj->internal['results_at_a_time'], 1, 1000);
+	$maxPages = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($pObj->internal['maxPages'], 1, 100);
+	$max = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange(ceil($count / $results_at_a_time), 1, $maxPages);
 	$pointer = intval($pointer);
 	$links = array();
 	// Make browse-table/links:
@@ -145,7 +145,7 @@ function user_substPageBrowser($markerArray, $conf) {
 /*
 * Alternative pagebrowser 2:
 * This is a changed version of the pagebrowser function from older tt_news versions (<1.6.0).
-* (originally implemented by Daniel Pötzinger)
+* (originally implemented by Daniel Pï¿½tzinger)
 * This pagebrowser does not display the result count, but it has another nice feature: if the number of
 * pages exceeds the limit from "maxPages", the start of the list is shifted to the left.
 * The current page is displayed in the middle of the list.

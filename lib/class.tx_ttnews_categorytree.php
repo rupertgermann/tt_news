@@ -35,12 +35,12 @@
  * @subpackage tt_news
  */
 
-require_once (t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_div.php');
+require_once (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_div.php');
 /**
  * extend class t3lib_treeview to change function wrapTitle().
  *
  */
-class tx_ttnews_categorytree extends t3lib_treeview {
+class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
 
 	var $categoryCountCache = array();
 	var $cacheHit = false;
@@ -74,14 +74,14 @@ class tx_ttnews_categorytree extends t3lib_treeview {
 			$tmpCCC = $this->tt_news_obj->cache->get($storeKey);
 			if ($tmpCCC) {
 				if ($this->tt_news_obj->writeCachingInfoToDevlog>1) {
-					t3lib_div::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
+					\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
 				}
 
 				$this->categoryCountCache = unserialize($tmpCCC);
 				$this->cacheHit = TRUE;
 			} else {
 				if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-					t3lib_div::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array($this->stored,$this->MOUNTS,
+					\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array($this->stored,$this->MOUNTS,
 					$this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause));
 				}
 			}
@@ -103,7 +103,7 @@ class tx_ttnews_categorytree extends t3lib_treeview {
 			// Set PM icon for root of mount:
 			$cmd = $this->bank . '_' . ($isOpen ? "0_" : "1_") . $uid . '_' . $this->treeName;
 
-			$icon = '<img' . t3lib_iconWorks::skinImg($this->backPath, 'gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
+			$icon = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath, 'gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
 			if ($this->expandable && ! $this->expandFirst) {
 				$firstHtml = $this->PMiconATagWrap($icon, $cmd);
 			} else {
@@ -183,17 +183,17 @@ class tx_ttnews_categorytree extends t3lib_treeview {
 		}
 
 		if ($sum !== false) {
-			//			t3lib_div::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
+			//			\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
 		} else {
 			if ($this->tt_news_obj->cache_categoryCount) {
-				$hash = t3lib_div::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause), 30);
+				$hash = \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause), 30);
 				$sum = $this->tt_news_obj->cache->get($hash);
 
 			}
 
 			if ($sum === false) {
 				if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-					t3lib_div::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
+					\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
 				}
 
 				$result = array();
@@ -336,7 +336,7 @@ class tx_ttnews_categorytree extends t3lib_treeview {
 
 		// -- evaluate AJAX request
 		// IE takes anchor as parameter
-		$PM = t3lib_div::_GP('PM');
+		$PM = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('PM');
 
 		if (($PMpos = strpos($PM, '#')) !== false) {
 			$PM = substr($PM, 0, $PMpos);
@@ -457,7 +457,7 @@ class tx_ttnews_categorytree extends t3lib_treeview {
 		}
 
 		$BTM = ($a == $c) ? 'bottom' : '';
-		$icon = '<img' . t3lib_iconWorks::skinImg($this->backPath, 'gfx/ol/' . $PM . $BTM . '.gif', 'width="18" height="16"') . ' alt="" />';
+		$icon = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath, 'gfx/ol/' . $PM . $BTM . '.gif', 'width="18" height="16"') . ' alt="" />';
 
 		if ($nextCount) {
 			$cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;

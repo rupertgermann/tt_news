@@ -53,7 +53,7 @@ class tx_ttnews_cms_layout {
  */
 	function getExtensionSummary($params, &$pObj) {
 		if ($params['row']['list_type'] == 9) {
-			$data = t3lib_div::xml2array($params['row']['pi_flexform']);
+			$data = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($params['row']['pi_flexform']);
 			if (is_array($data) && $data['data']['sDEF']['lDEF']['what_to_display']['vDEF']) {
 				$result = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:cms_layout.mode'),
 							$data['data']['sDEF']['lDEF']['what_to_display']['vDEF']);

@@ -133,7 +133,7 @@ class tx_ttnews_typo3ajax {
 	 * @return	void
 	 */
 	function setContentFormat($format) {
-		if (t3lib_div::inArray(array('plain', 'xml', 'json', 'jsonhead', 'jsonbody'), $format)) {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::inArray(array('plain', 'xml', 'json', 'jsonhead', 'jsonbody'), $format)) {
 			$this->contentFormat = $format;
 		}
 	}

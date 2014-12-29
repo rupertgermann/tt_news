@@ -40,9 +40,7 @@
  * @co-author Ingo Renner <typo3@ingo-renner.com>
  */
 
-require_once (t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_catmenu.php');
-require_once (t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
-require_once (t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_cache.php');
+
 
 /**
  * Plugin 'news' for the 'tt_news' extension.
@@ -51,7 +49,7 @@ require_once (t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_cache.php'
  * @package TYPO3
  * @subpackage tt_news
  */
-class tx_ttnews extends tslib_pibase {
+class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	// Default plugin variables:
 	var $prefixId = 'tx_ttnews'; // Same as class name
 	var $scriptRelPath = 'pi/class.tx_ttnews.php'; // Path to this script relative to the extension dir.
@@ -134,7 +132,7 @@ class tx_ttnews extends tslib_pibase {
 
 	var $newsCount;
 	/**
-	 * @var tslib_cObj
+	 * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
 	 */
 	var $local_cObj;
 
@@ -183,7 +181,7 @@ class tx_ttnews extends tslib_pibase {
 		// leave early if USER_INT
 		$this->convertToUserIntObject = $this->conf['convertToUserIntObject'] ? 1 : 0;
 		if ($this->compatibility()->int_from_ver(TYPO3_version) >= 4003000 && $this->convertToUserIntObject
-				&& $this->cObj->getUserObjectType() == tslib_cObj::OBJECTTYPE_USER) {
+				&& $this->cObj->getUserObjectType() == \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::OBJECTTYPE_USER) {
 			$this->cObj->convertToUserIntObject();
 			return '';
 		}
@@ -237,7 +235,7 @@ class tx_ttnews extends tslib_pibase {
 					// hook for processing of extra codes
 					if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraCodesHook'])) {
 						foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraCodesHook'] as $_classRef) {
-							$_procObj = & t3lib_div::getUserObj($_classRef);
+							$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 							$content .= $_procObj->extraCodesProcessor($this);
 						}
 					} else { // code not known and no hook found to handle it -> displayerror
@@ -277,7 +275,7 @@ class tx_ttnews extends tslib_pibase {
 
 		$flexformTyposcript = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'myTS','s_misc');
 		if ($flexformTyposcript) {
-			$tsparser = t3lib_div::makeInstance('t3lib_tsparser');
+			$tsparser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_tsparser');
 			// Copy conf into existing setup
 			$tsparser->setup = $this->conf;
 			// Parse the new Typoscript
@@ -296,7 +294,7 @@ class tx_ttnews extends tslib_pibase {
 		}
 
 		// get codes and decide which function is used to process the content
-		$codes = t3lib_div::trimExplode(',', $this->config['code'] ? $this->config['code'] : $this->conf['defaultCode'], 1);
+		$codes = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $this->config['code'] ? $this->config['code'] : $this->conf['defaultCode'], 1);
 		if (! count($codes)) { // no code at all
 			$codes = array();
 			$this->errors[] = 'No code given';
@@ -324,7 +322,7 @@ class tx_ttnews extends tslib_pibase {
 
 		$this->initCaching();
 
-		$this->local_cObj = t3lib_div::makeInstance('tslib_cObj'); // Local cObj.
+		$this->local_cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class); // Local cObj.
 		$this->enableFields = $this->getEnableFields('tt_news');
 
 		if ($this->tt_news_uid === 0) { // no tt_news_uid set by displayCurrentRecord
@@ -336,7 +334,7 @@ class tx_ttnews extends tslib_pibase {
 		}
 		$this->token = md5(microtime());
 
-		if (t3lib_extMgm::isLoaded('version')) {
+		if (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('version')) {
 			$this->versioningEnabled = true;
 		}
 		// load available syslanguages
@@ -472,7 +470,7 @@ class tx_ttnews extends tslib_pibase {
 
 		// get siteUrl for links in rss feeds. the 'dontInsert' option seems to be needed in some configurations depending on the baseUrl setting
 		if (! $this->conf['displayXML.']['dontInsertSiteUrl']) {
-			$this->config['siteUrl'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL');
+			$this->config['siteUrl'] = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
 		}
 
 		if ($this->debugTimes) {
@@ -543,7 +541,7 @@ class tx_ttnews extends tslib_pibase {
 				// Hook for any additional form fields
 				if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['additionalFormSearchFields'])) {
 					foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['additionalFormSearchFields'] as $_classRef) {
-						$_procObj = & t3lib_div::getUserObj($_classRef);
+						$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 						$searchMarkers = $_procObj->additionalFormSearchFields($this, $searchMarkers);
 					}
 				}
@@ -645,14 +643,6 @@ class tx_ttnews extends tslib_pibase {
 		}
 
 		if (1) {
-
-/**
- * TODO: 28.05.2009
- * what exactly is this condition supposed to do?
- */
-
-			// Allowed to show the listing? periodStart must be set, when listing from the archive.
-//		if (! ($this->arcExclusive > - 1 && ! $this->piVars['pS'] && $theCode != 'SEARCH')) {
 
 
 			if ($this->conf['displayCurrentRecord'] && $this->tt_news_uid) {
@@ -808,7 +798,7 @@ class tx_ttnews extends tslib_pibase {
 				// Adds hook for processing of extra global markers
 				if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraGlobalMarkerHook'])) {
 					foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraGlobalMarkerHook'] as $_classRef) {
-						$_procObj = & t3lib_div::getUserObj($_classRef);
+						$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 						$markerArray = $_procObj->extraGlobalMarkerProcessor($this, $markerArray);
 					}
 				}
@@ -849,14 +839,19 @@ class tx_ttnews extends tslib_pibase {
 
 				$content .= $t['total'];
 			} elseif ($this->arcExclusive && $this->piVars['pS'] && $this->tsfe->sys_language_content) {
+				$markerArray = array();
 				// this matches if a user has switched languages within a archive period that contains no items in the desired language
 				$content .= $this->local_cObj->stdWrap($this->pi_getLL('noNewsForArchPeriod'), $this->conf['noNewsToListMsg_stdWrap.']);
 			} else {
+				$markerArray = array();
 				$content .= $this->local_cObj->stdWrap($this->pi_getLL('noNewsToListMsg'), $this->conf['noNewsToListMsg_stdWrap.']);
 			}
 		}
 
 		if ($this->conf['upstreamRendererFunc']) {
+			if (!isset($markerArray)) {
+				$markerArray = array();
+			}
 			$content = $this->userProcess('upstreamRendererFunc', array('rows' => $this->listData, 'markerArray'=> $markerArray,'content' => $content));
 		}
 
@@ -1133,7 +1128,7 @@ class tx_ttnews extends tslib_pibase {
 		// function Hook for processing the selectConf array
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['sViewSelectConfHook'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['sViewSelectConfHook'] as $_classRef) {
-				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 				$selectConf = $_procObj->processSViewSelectConfHook($this, $selectConf);
 			}
 		}
@@ -1163,11 +1158,11 @@ class tx_ttnews extends tslib_pibase {
 			$this->upstreamVars['mode'] = 'display';
 
 			// If type is 1 or 2 (internal/external link), redirect to accordant page:
-			if (is_array($row) && t3lib_div::inList('1,2', $row['type'])) {
+			if (is_array($row) && \TYPO3\CMS\Core\Utility\GeneralUtility::inList('1,2', $row['type'])) {
 				$redirectUrl = $this->local_cObj->getTypoLink_URL(
 					$row['type'] == 1 ? $row['page'] : $row['ext_url']
 				);
-				t3lib_utility_Http::redirect($redirectUrl);
+				\TYPO3\CMS\Core\Utility\HttpUtility::redirect($redirectUrl);
 			}
 			$item = FALSE;
 			// reset marker array
@@ -1238,7 +1233,7 @@ class tx_ttnews extends tslib_pibase {
 
 //		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['upstreamRendererHook'])) {
 //			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['upstreamRendererHook'] as $_classRef) {
-//				$_procObj = & t3lib_div::getUserObj($_classRef,false);
+//				$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef,false);
 //				$content = $_procObj->processUpstreamRendererHook($row, $markerArray, $content, $this);
 //			}
 //		}
@@ -1318,7 +1313,7 @@ class tx_ttnews extends tslib_pibase {
 
 			if ($cachedPeriodAccum != '') {
 				if ($this->writeCachingInfoToDevlog > 1) {
-					t3lib_div::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
+					\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
 				}
 				$periodAccum = unserialize($cachedPeriodAccum);
 			} else {
@@ -1350,7 +1345,7 @@ class tx_ttnews extends tslib_pibase {
 				}
 				if ($this->cache_amenuPeriods && count($periodAccum)) {
 					if ($this->writeCachingInfoToDevlog) {
-						t3lib_div::devLog('CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
+						\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
 					}
 					//					$this->tsfe->sys_page->storeHash($storeKey, serialize($periodAccum), 'news_amenuPeriodsCache');
 					$this->cache->set($storeKey, serialize($periodAccum), __FUNCTION__);
@@ -1371,7 +1366,7 @@ class tx_ttnews extends tslib_pibase {
 			$tCount = count($t['item']);
 			$cc = 0;
 
-			$veryLocal_cObj = t3lib_div::makeInstance('tslib_cObj');
+			$veryLocal_cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 			// reverse amenu order if 'reverseAMenu' is given
 			if ($this->conf['reverseAMenu']) {
 				arsort($periodAccum);
@@ -1525,12 +1520,12 @@ class tx_ttnews extends tslib_pibase {
 			case 'tree' :
 			case 'ajaxtree' :
 
-				$catTreeObj = t3lib_div::makeInstance('tx_ttnews_catmenu');
+				$catTreeObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_catmenu');
 				if ($mode == 'ajaxtree') {
 					// todo use pagerenderer
 					$this->tsfe->additionalHeaderData['tt_news_categorytree'] = '
 						' . ($lConf['includePrototypeJS'] ? '<script type="text/javascript" src="typo3/contrib/prototype/prototype.js"></script>' : '') . '
-						<script type="text/javascript" src="' . t3lib_extMgm::siteRelPath('tt_news') . 'js/tt_news_catmenu.js"></script>
+						<script type="text/javascript" src="' . TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('tt_news') . 'js/tt_news_catmenu.js"></script>
 					';
 
 				}
@@ -1543,7 +1538,7 @@ class tx_ttnews extends tslib_pibase {
 				// hook for user catmenu
 				if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['userDisplayCatmenuHook'])) {
 					foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['userDisplayCatmenuHook'] as $_classRef) {
-						$_procObj = & t3lib_div::getUserObj($_classRef);
+						$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 						$content = $_procObj->userDisplayCatmenu($lConf, $this);
 					}
 				}
@@ -1572,7 +1567,7 @@ class tx_ttnews extends tslib_pibase {
 		$piADMCMD = FALSE;
 		$content = '';
 		if ($this->versioningEnabled) {
-			$vPrev = t3lib_div::_GP('ADMCMD_vPrev');
+			$vPrev = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('ADMCMD_vPrev');
 			if ($this->piVars['ADMCMD_vPrev']) {
 				$piADMCMD = unserialize(rawurldecode($this->piVars['ADMCMD_vPrev']));
 			}
@@ -1719,7 +1714,7 @@ class tx_ttnews extends tslib_pibase {
 		$newscontent = FALSE;
 		if ($this->isRenderMarker('###NEWS_CONTENT###')) {
 			if ($textRenderObj == 'displaySingle' && ! $row['no_auto_pb'] && $this->config['maxWordsInSingleView'] > 1 && $this->config['useMultiPageSingleView']) {
-				$row['bodytext'] = $this->hObj->insertPagebreaks($row['bodytext'], count(t3lib_div::trimExplode(' ', $row['short'], 1)));
+				$row['bodytext'] = $this->hObj->insertPagebreaks($row['bodytext'], count(\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(' ', $row['short'], 1)));
 			}
 
 			if (strpos($row['bodytext'], $this->config['pageBreakToken'])) {
@@ -1765,7 +1760,7 @@ class tx_ttnews extends tslib_pibase {
 
 
 			if ($relatedNews) {
-				$rel_stdWrap = t3lib_div::trimExplode('|', $this->conf['related_stdWrap.']['wrap']);
+				$rel_stdWrap = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $this->conf['related_stdWrap.']['wrap']);
 				$markerArray['###TEXT_RELATED###'] = $rel_stdWrap[0] . $this->local_cObj->stdWrap($this->pi_getLL('textRelated'), $this->conf['relatedHeader_stdWrap.']);
 				$markerArray['###NEWS_RELATED###'] = $relatedNews . $rel_stdWrap[1];
 			}
@@ -1776,7 +1771,7 @@ class tx_ttnews extends tslib_pibase {
 		$newsLinks = FALSE;
 		$links = trim($row['links']);
 		if ($links && ($this->isRenderMarker('###TEXT_LINKS###') || $this->isRenderMarker('###NEWS_LINKS###'))) {
-			$links_stdWrap = t3lib_div::trimExplode('|', $lConf['links_stdWrap.']['wrap']);
+			$links_stdWrap = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $lConf['links_stdWrap.']['wrap']);
 			$newsLinks = $this->local_cObj->stdWrap($this->formatStr($row['links']), $lConf['linksItem_stdWrap.']);
 			$markerArray['###TEXT_LINKS###'] = $links_stdWrap[0] . $this->local_cObj->stdWrap($this->pi_getLL('textLinks'), $lConf['linksHeader_stdWrap.']);
 			$markerArray['###NEWS_LINKS###'] = $newsLinks . $links_stdWrap[1];
@@ -1796,7 +1791,7 @@ class tx_ttnews extends tslib_pibase {
 
 		// the markers: ###ADDINFO_WRAP_B### and ###ADDINFO_WRAP_E### are only inserted, if there are any files, related news or links
 		if ($relatedNews || $newsLinks || $markerArray['###FILE_LINK###'] || $markerArray['###NEWS_RELATEDBYCATEGORY###']) {
-			$addInfo_stdWrap = t3lib_div::trimExplode('|', $lConf['addInfo_stdWrap.']['wrap']);
+			$addInfo_stdWrap = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $lConf['addInfo_stdWrap.']['wrap']);
 			$markerArray['###ADDINFO_WRAP_B###'] = $addInfo_stdWrap[0];
 			$markerArray['###ADDINFO_WRAP_E###'] = $addInfo_stdWrap[1];
 		}
@@ -1829,7 +1824,7 @@ class tx_ttnews extends tslib_pibase {
 		// Adds hook for processing of extra item markers
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemMarkerHook'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemMarkerHook'] as $_classRef) {
-				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 				$markerArray = $_procObj->extraItemMarkerProcessor($markerArray, $row, $lConf, $this);
 			}
 		}
@@ -1882,7 +1877,7 @@ class tx_ttnews extends tslib_pibase {
 
 
 	function getFileLinks(&$markerArray, $row) {
-		$files_stdWrap = t3lib_div::trimExplode('|', $this->conf['newsFiles_stdWrap.']['wrap']);
+		$files_stdWrap = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $this->conf['newsFiles_stdWrap.']['wrap']);
 		$markerArray['###TEXT_FILES###'] = $files_stdWrap[0] . $this->local_cObj->stdWrap($this->pi_getLL('textFiles'), $this->conf['newsFilesHeader_stdWrap.']);
 		$fileArr = explode(',', $row['news_files']);
 		$filelinks = '';
@@ -1912,7 +1907,7 @@ class tx_ttnews extends tslib_pibase {
 	}
 
 
-	function getRelatedNewsByCategory(&$markerArray, $row, $lConf) {
+	function getRelatedNewsByCategory(&$markerArray, $row) {
 		// save some variables which are used to build the backLink to the list view
 		$tmpcatExclusive = $this->catExclusive;
 		$tmparcExclusive = $this->arcExclusive;
@@ -1929,7 +1924,7 @@ class tx_ttnews extends tslib_pibase {
 		$tmp_renderMarkers = $this->renderMarkers;
 		$local_cObjSave = clone $this->local_cObj;
 
-		$this->conf = t3lib_div::array_merge_recursive_overrule($this->conf, $this->conf['relNewsByCategory.'] ? $this->conf['relNewsByCategory.'] : array());
+		\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($this->conf, $this->conf['relNewsByCategory.'] ? $this->conf['relNewsByCategory.'] : array());
 		$this->config = $this->conf;
 		$this->config['catOrderBy'] = $configSave['catOrderBy'];
 
@@ -1949,7 +1944,7 @@ class tx_ttnews extends tslib_pibase {
 		$relNewsByCat = trim($this->displayList($row['uid']));
 
 		if ($relNewsByCat) {
-			$cat_rel_stdWrap = t3lib_div::trimExplode('|', $this->conf['relatedByCategory_stdWrap.']['wrap']);
+			$cat_rel_stdWrap = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $this->conf['relatedByCategory_stdWrap.']['wrap']);
 			$lbl = $this->pi_getLL('textRelatedByCategory');
 			$markerArray['###TEXT_RELATEDBYCATEGORY###'] = $cat_rel_stdWrap[0] . $this->local_cObj->stdWrap($lbl, $this->conf['relatedByCategoryHeader_stdWrap.']);
 			$markerArray['###NEWS_RELATEDBYCATEGORY###'] = $relNewsByCat . $cat_rel_stdWrap[1];
@@ -1991,7 +1986,7 @@ class tx_ttnews extends tslib_pibase {
 
 			// merge with special configuration (based on current CODE [SINGLE, LIST, LATEST]) if this is available
 			if (is_array($this->genericMarkerConf[$this->theCode . '.'])) {
-				$this->genericMarkerConf = t3lib_div::array_merge_recursive_overrule($this->genericMarkerConf, $this->genericMarkerConf[$this->theCode . '.']);
+				\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($this->genericMarkerConf, $this->genericMarkerConf[$this->theCode . '.']);
 			}
 		}
 	}
@@ -2107,7 +2102,7 @@ class tx_ttnews extends tslib_pibase {
 		$pTmp = $this->tsfe->ATagParams;
 		if (count($this->categories[$row['uid']]) && ($this->config['catImageMode'] || $this->config['catTextMode'])) {
 			// wrap for all categories
-			$cat_stdWrap = t3lib_div::trimExplode('|', $lConf['category_stdWrap.']['wrap']);
+			$cat_stdWrap = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $lConf['category_stdWrap.']['wrap']);
 			$markerArray['###CATWRAP_B###'] = $cat_stdWrap[0];
 			$markerArray['###CATWRAP_E###'] = $cat_stdWrap[1];
 			$markerArray['###TEXT_CAT###'] = $this->pi_getLL('textCat');
@@ -2250,7 +2245,7 @@ class tx_ttnews extends tslib_pibase {
 			$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount'] : 1;
 			$imageNum = $this->compatibility()->intInRange($imageNum, 0, 100);
 			$theImgCode = '';
-			$imgs = t3lib_div::trimExplode(',', $row['image'], 1);
+			$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
 			$imgsCaptions = explode(chr(10), $row['imagecaption']);
 			$imgsAltTexts = explode(chr(10), $row['imagealttext']);
 			$imgsTitleTexts = explode(chr(10), $row['imagetitletext']);
@@ -2459,7 +2454,7 @@ class tx_ttnews extends tslib_pibase {
 		$hash = FALSE;
 		$tmpcat = false;
 		if ($this->cache_categories) {
-			$hash = t3lib_div::shortMD5(serialize(array($uid, $this->config['catOrderBy'], $this->enableCatFields, $this->SPaddWhere, $getAll,
+			$hash = \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(serialize(array($uid, $this->config['catOrderBy'], $this->enableCatFields, $this->SPaddWhere, $getAll,
 					$this->tsfe->sys_language_content, $this->conf['useSPidFromCategory'], $this->conf['useSPidFromCategoryRecusive'],
 					$this->conf['displaySubCategories'], $this->config['useSubCategories'])), 30);
 			$tmpcat = $this->cache->get($hash);
@@ -2467,12 +2462,12 @@ class tx_ttnews extends tslib_pibase {
 
 		if ($tmpcat !== false) {
 			if ($this->writeCachingInfoToDevlog > 1) {
-				t3lib_div::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
+				\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
 			}
 			$categories = unserialize($tmpcat);
 		} else {
 			if ($this->cache_categories && $this->writeCachingInfoToDevlog) {
-				t3lib_div::devLog('CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
+				\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
 			}
 
 			if (! $this->config['catOrderBy'] || $this->config['catOrderBy'] == 'sorting') {
@@ -2519,7 +2514,7 @@ class tx_ttnews extends tslib_pibase {
 					$catTitle = '';
 					if ($this->tsfe->sys_language_content) {
 						// find translations of category titles
-						$catTitleArr = t3lib_div::trimExplode('|', $val['title_lang_ol']);
+						$catTitleArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $val['title_lang_ol']);
 						$catTitle = $catTitleArr[($this->tsfe->sys_language_content - 1)];
 					}
 					$catTitle = $catTitle ? $catTitle : $val['title'];
@@ -2531,7 +2526,7 @@ class tx_ttnews extends tslib_pibase {
 
 					$categories[$val['uid']] = array('title' => $catTitle, 'image' => $val['image'], 'shortcut' => $val['shortcut'],
 							'shortcut_target' => $val['shortcut_target'], 'single_pid' => $singlePid, 'catid' => $val['uid'],
-							'parent_category' => (! t3lib_div::inList($maincat, $val['uid']) && $this->conf['displaySubCategories'] ? $val['parent_category'] : ''),
+							'parent_category' => (! \TYPO3\CMS\Core\Utility\GeneralUtility::inList($maincat, $val['uid']) && $this->conf['displaySubCategories'] ? $val['parent_category'] : ''),
 							'sorting' => $val['sorting'], 'mmsorting' => $val['mmsorting']);
 
 				}
@@ -2575,7 +2570,7 @@ class tx_ttnews extends tslib_pibase {
 			$uid = $mainCategory['catid'];
 
 			if (intval($uid) != $uid) {
-				t3lib_div::devLog('EMPTY category (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 3, array($mainCategory, $this->SPaddWhere,
+				\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('EMPTY category (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 3, array($mainCategory, $this->SPaddWhere,
 						$this->enableCatFields));
 			}
 
@@ -2598,7 +2593,7 @@ class tx_ttnews extends tslib_pibase {
 			if (is_array($theRowArray)) {
 				krsort($theRowArray);
 				foreach ($theRowArray as $val) {
-					if ($lConf['linkTitles'] && t3lib_div::inList('2,3', $this->config['catTextMode'])) {
+					if ($lConf['linkTitles'] && \TYPO3\CMS\Core\Utility\GeneralUtility::inList('2,3', $this->config['catTextMode'])) {
 						$this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $val['title'] . '"';
 						if ($this->config['catTextMode'] == 2) {
 							// link to category shortcut
@@ -2665,7 +2660,7 @@ class tx_ttnews extends tslib_pibase {
 					} elseif ($key == $titlefield) {
 						if ($this->tsfe->sys_language_content && $array_in['uid']) {
 							// get translations of category titles
-							$catTitleArr = t3lib_div::trimExplode('|', $array_in['title_lang_ol']);
+							$catTitleArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $array_in['title_lang_ol']);
 							$syslang = $this->tsfe->sys_language_content - 1;
 							$val = $catTitleArr[$syslang] ? $catTitleArr[$syslang] : $val;
 						}
@@ -2720,7 +2715,7 @@ class tx_ttnews extends tslib_pibase {
 			$this->conf['displayRelated.'] = array();
 		}
 
-		$this->conf = t3lib_div::array_merge_recursive_overrule($this->conf, $this->conf['displayRelated.']);
+		\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($this->conf, $this->conf['displayRelated.']);
 		$this->config = $this->conf;
 		$this->arcExclusive = $this->conf['archive'];
 		$this->LOCAL_LANG_loaded = FALSE;
@@ -2827,7 +2822,7 @@ class tx_ttnews extends tslib_pibase {
 				if ($this->conf['checkCategoriesOfRelatedNews']) {
 					if (count($currentCats)) { // record has categories
 						foreach ($currentCats as $cUid) {
-							if (t3lib_div::inList($visibleCategories, $cUid['catid'])) { // if the record has at least one visible category assigned it will be shown
+							if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($visibleCategories, $cUid['catid'])) { // if the record has at least one visible category assigned it will be shown
 								$relrows[$relrow['uid']] = $relrow;
 								break;
 							}
@@ -2859,7 +2854,7 @@ class tx_ttnews extends tslib_pibase {
 					'year' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['year'] ? $this->piVars['year'] : null)),
 					'month' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['month'] ? $this->piVars['month'] : null)));
 
-			$veryLocal_cObj = t3lib_div::makeInstance('tslib_cObj'); // Local cObj.
+			$veryLocal_cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class); // Local cObj.
 			$lines = array();
 
 			// save current realUrl state
@@ -2899,10 +2894,10 @@ class tx_ttnews extends tslib_pibase {
 
 					$link = $this->getSingleViewLink($sPid, $row, $piVarsArray, true);
 
-					$linkArr = t3lib_div::explodeUrl2Array($link, true);
+					$linkArr = \TYPO3\CMS\Core\Utility\GeneralUtility::explodeUrl2Array($link, true);
 					$newsAddParams = '';
 					if (is_array($linkArr) && is_array($linkArr['tx_ttnews'])) {
-						$newsAddParams = t3lib_div::implodeArrayForUrl('tx_ttnews', $linkArr['tx_ttnews']);
+						$newsAddParams = \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('tx_ttnews', $linkArr['tx_ttnews']);
 					}
 
 					// load the parameter string into the register 'newsAddParams' to access it from TS
@@ -3072,13 +3067,13 @@ class tx_ttnews extends tslib_pibase {
 			$markerArray['###SITE_LANG###'] = '';
 		}
 
-		$imgFile = t3lib_div::getFileAbsFileName($this->cObj->stdWrap($lConf['xmlIcon'], $lConf['xmlIcon.']));
+		$imgFile = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->cObj->stdWrap($lConf['xmlIcon'], $lConf['xmlIcon.']));
 		$imgSize = is_file($imgFile) ? getimagesize($imgFile) : '';
 		$markerArray['###IMG_W###'] = $imgSize[0];
 		$markerArray['###IMG_H###'] = $imgSize[1];
 
 		$relImgFile = str_replace(PATH_site, '', $imgFile);
-		$markerArray['###IMG###'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $relImgFile;
+		$markerArray['###IMG###'] = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $relImgFile;
 
 		$markerArray['###NEWS_WEBMASTER###'] = $lConf['xmlWebMaster'];
 		$markerArray['###NEWS_MANAGINGEDITOR###'] = $lConf['xmlManagingEditor'];
@@ -3218,7 +3213,7 @@ class tx_ttnews extends tslib_pibase {
 		if (! $this->externalCategorySelection) {
 
 			// exclude LATEST and AMENU from changing their contents with the catmenu. This can be overridden by setting the TSvars 'latestWithCatSelector' or 'amenuWithCatSelector'
-			if ($this->config['catSelection'] && (($this->theCode == 'LATEST' && $this->conf['latestWithCatSelector']) || ($this->theCode == 'AMENU' && $this->conf['amenuWithCatSelector']) || (t3lib_div::inList('LIST,LIST2,LIST3,HEADER_LIST,SEARCH,XML', $this->theCode)))) {
+			if ($this->config['catSelection'] && (($this->theCode == 'LATEST' && $this->conf['latestWithCatSelector']) || ($this->theCode == 'AMENU' && $this->conf['amenuWithCatSelector']) || (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('LIST,LIST2,LIST3,HEADER_LIST,SEARCH,XML', $this->theCode)))) {
 				// force 'select categories' mode if cat is given in GPvars
 				$this->config['categoryMode'] = 1;
 				// override category selection from other news content-elements with selection from catmenu (GPvars)
@@ -3295,7 +3290,7 @@ class tx_ttnews extends tslib_pibase {
 				foreach ($results as $uid) {
 					$currentCats = $this->getCategories($uid);
 					foreach ($currentCats as $v) {
-						if (t3lib_div::inList($this->catExclusive, $v['catid'])) {
+						if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($this->catExclusive, $v['catid'])) {
 							unset($results[$uid]);
 							break; // break after one deselected category was found
 						}
@@ -3408,7 +3403,7 @@ class tx_ttnews extends tslib_pibase {
 		}
 
 		if ($this->conf['restrictListToThisTypes'] != '') {
-			$types = implode(',',t3lib_div::trimExplode(',',$this->conf['restrictListToTheseTypes'],1));
+			$types = implode(',',\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',',$this->conf['restrictListToTheseTypes'],1));
 			$where = ' AND tt_news.type IN (' . $types . ')';
 		}
 
@@ -3436,7 +3431,7 @@ class tx_ttnews extends tslib_pibase {
 		// function Hook for processing the selectConf array
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['selectConfHook'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['selectConfHook'] as $_classRef) {
-				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 				$selectConf = $_procObj->processSelectConfHook($this, $selectConf);
 			}
 		}
@@ -3495,7 +3490,7 @@ class tx_ttnews extends tslib_pibase {
 		$where = $this->cObj->searchWhere($sw, $this->searchFieldList, 'tt_news');
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['searchWhere'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['searchWhere'] as $_classRef) {
-				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 				$where = $_procObj->searchWhere($this, $sw, $where);
 			}
 		}
@@ -3594,7 +3589,6 @@ class tx_ttnews extends tslib_pibase {
 
 		// Init:
 		$query = '';
-		$pid_uid_flag = 0;
 		$queryParts = array('SELECT' => '', 'FROM' => '', 'WHERE' => '', 'GROUPBY' => '', 'ORDERBY' => '', 'LIMIT' => '');
 
 		if (($where = trim($conf['where']))) {
@@ -3602,12 +3596,9 @@ class tx_ttnews extends tslib_pibase {
 		}
 
 		if (trim($conf['pidInList'])) {
-			$listArr = t3lib_div::intExplode(',', $conf['pidInList']); // str_replace instead of ereg_replace 020800
+			$listArr = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $conf['pidInList']); // str_replace instead of ereg_replace 020800
 			if (count($listArr)) {
 				$query .= ' AND ' . $table . '.pid IN (' . implode(',', $listArr) . ')';
-				$pid_uid_flag++;
-			} else {
-				$pid_uid_flag = 0; // If not uid and not pid then uid is set to 0 - which results in nothing!!
 			}
 		}
 
@@ -3693,7 +3684,7 @@ class tx_ttnews extends tslib_pibase {
 			$this->cache_categories = true;
 
 			if ($this->confArr['writeCachingInfoToDevlog']) {
-				$tmp = t3lib_div::trimExplode('|', $this->confArr['writeCachingInfoToDevlog'], 0);
+				$tmp = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $this->confArr['writeCachingInfoToDevlog'], 0);
 				if ($tmp[1]) {
 					$this->writeCachingInfoToDevlog = $tmp[1];
 				}
@@ -3739,7 +3730,7 @@ class tx_ttnews extends tslib_pibase {
 			// init catPidList
 			$catPl = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'pages', 's_misc');
 			$catPl = ($catPl ? $catPl : $this->cObj->stdWrap($lc['catPidList'], $lc['catPidList.']));
-			$catPl = implode(',', t3lib_div::intExplode(',', $catPl));
+			$catPl = implode(',', \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $catPl));
 
 			$recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'recursive', 's_misc');
 			if (! strcmp($recursive, '') || $recursive === NULL) {
@@ -3823,10 +3814,10 @@ class tx_ttnews extends tslib_pibase {
 			$this->catlistWhere = ' AND tt_news_cat.uid' . ($this->config['categoryMode'] < 0 ? ' NOT' : '') . ' IN (' . $this->catExclusive . ')';
 		} else {
 			if ($lConf['excludeList']) {
-				$this->catlistWhere = ' AND tt_news_cat.uid NOT IN (' . implode(t3lib_div::intExplode(',', $lConf['excludeList']), ',') . ')';
+				$this->catlistWhere = ' AND tt_news_cat.uid NOT IN (' . implode(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $lConf['excludeList']), ',') . ')';
 			}
 			if ($lConf['includeList']) {
-				$this->catlistWhere .= ' AND tt_news_cat.uid IN (' . implode(t3lib_div::intExplode(',', $lConf['includeList']), ',') . ')';
+				$this->catlistWhere .= ' AND tt_news_cat.uid IN (' . implode(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $lConf['includeList']), ',') . ')';
 			}
 		}
 
@@ -3845,7 +3836,7 @@ class tx_ttnews extends tslib_pibase {
 
 	       if ($tmpres) {
                 while (($tmprow = $this->db->sql_fetch_assoc($tmpres))) {
-	                if (!t3lib_div::inList($categoryMounts,$tmprow['parent_category'])) {
+	                if (!\TYPO3\CMS\Core\Utility\GeneralUtility::inList($categoryMounts,$tmprow['parent_category'])) {
 	                    $this->dontStartFromRootRecord = true;
 	                    $this->cleanedCategoryMounts[] = $tmprow['uid'];
 	                }
@@ -3899,7 +3890,7 @@ class tx_ttnews extends tslib_pibase {
 		// pid_list is the pid/list of pids from where to fetch the news items.
 		$pid_list = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'pages', 's_misc');
 		$pid_list = $pid_list ? $pid_list : trim($this->cObj->stdWrap($this->conf['pid_list'], $this->conf['pid_list.']));
-		$pid_list = $pid_list ? implode(t3lib_div::intExplode(',', $pid_list), ',') : $this->tsfe->id;
+		$pid_list = $pid_list ? implode(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $pid_list), ',') : $this->tsfe->id;
 
 		$recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'recursive', 's_misc');
 		if (! strcmp($recursive, '') || $recursive === NULL) {
@@ -4182,7 +4173,7 @@ class tx_ttnews extends tslib_pibase {
 		// hook for processing of links
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] as $_classRef) {
-				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 				$params = array('singlePid' => &$singlePid, 'row' => &$row, 'piVarsArray' => $piVarsArray);
 				$_procObj->processSingleViewLink($linkWrap, $url, $params, $this);
 			}
@@ -4226,7 +4217,7 @@ class tx_ttnews extends tslib_pibase {
 	 */
 	protected function getMimeTypeByHttpRequest($url) {
 		$mimeType = '';
-		$headers = trim(t3lib_div::getUrl($url, 2));
+		$headers = trim(\TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($url, 2));
 		if ($headers) {
 			$matches = array();
 			if (preg_match('/(Content-Type:[\s]*)([a-zA-Z_0-9\/\-\.\+]*)([\s]|$)/', $headers, $matches)) {
@@ -4247,4 +4238,3 @@ class tx_ttnews extends tslib_pibase {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_news/pi/class.tx_ttnews.php']) {
 	include_once ($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_news/pi/class.tx_ttnews.php']);
 }
-?>

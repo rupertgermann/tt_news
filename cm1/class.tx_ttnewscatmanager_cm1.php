@@ -57,16 +57,16 @@ class tx_ttnewscatmanager_cm1 {
 		if (($tableID == 'dragDrop_tt_news_cat' || $tableID == 'tt_news_cat_CM') && $srcId) {
 			$table = 'tt_news_cat';
 
-			$rec = t3lib_BEfunc::getRecordWSOL($table,$srcId);
+			$rec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordWSOL($table,$srcId);
 			// fetch page record to get editing permissions
-			$lCP = $GLOBALS['BE_USER']->calcPerms(t3lib_BEfunc::getRecord('pages',$rec['pid']));
+			$lCP = $GLOBALS['BE_USER']->calcPerms(\TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('pages',$rec['pid']));
 			$doEdit = $lCP&16;
 
 //print_r( array($lCP));
 
 			if ($doEdit && $tableID == 'dragDrop_tt_news_cat') {
 				$this->backRef->backPath = '../../../';
-				$dstId = intval(t3lib_div::_GP('dstId'));
+				$dstId = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('dstId'));
 				$menuItems['moveinto'] = $this->dragDrop_moveCategory($srcId,$dstId);
 				$menuItems['copyinto'] = $this->dragDrop_copyCategory($srcId,$dstId);
 			}
@@ -88,7 +88,7 @@ class tx_ttnewscatmanager_cm1 {
 
 				if ($doEdit) {
 					$menuItems['hide'] = $this->DB_hideUnhide($table,$rec,'hidden');
-					$elInfo = array(t3lib_div::fixed_lgd_cs(t3lib_BEfunc::getRecordTitle('tt_news_cat',$rec),$GLOBALS['BE_USER']->uc['titleLen']));
+					$elInfo = array(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getRecordTitle('tt_news_cat',$rec),$GLOBALS['BE_USER']->uc['titleLen']));
 					$menuItems['spacer2'] = 'spacer';
 					$menuItems['delete'] = $this->DB_delete($table,$srcId,$elInfo);
 				}
@@ -115,7 +115,7 @@ class tx_ttnewscatmanager_cm1 {
 
 		return $this->backRef->linkItem(
 			$this->backRef->label('edit'),
-			$this->backRef->excludeIcon('<img'.t3lib_iconWorks::skinImg($this->backRef->PH_backPath,'gfx/edit2.gif','width="11" height="12"').' alt="" />'),
+			$this->backRef->excludeIcon('<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backRef->PH_backPath,'gfx/edit2.gif','width="11" height="12"').' alt="" />'),
 			$editOnClick.'return hideCM();'
 		);
 	}
@@ -148,7 +148,7 @@ class tx_ttnewscatmanager_cm1 {
 
 		return $this->backRef->linkItem(
 			$GLOBALS['LANG']->getLLL($lkey,$this->LL),
-			$this->backRef->excludeIcon('<img'.t3lib_iconWorks::skinImg($this->backRef->PH_backPath,'gfx/new_el.gif','width="11" height="12"').' alt="" />'),
+			$this->backRef->excludeIcon('<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backRef->PH_backPath,'gfx/new_el.gif','width="11" height="12"').' alt="" />'),
 			$editOnClick.'return hideCM();'
 		);
 	}
@@ -183,11 +183,11 @@ class tx_ttnewscatmanager_cm1 {
 		$editOnClick='';
 		$loc='top.content.list_frame';
 		$editOnClick='if('.$loc.'){'.$loc.".location.href=top.TS.PATH_typo3+'tce_db.php?redirect='+top.rawurlencode(".$this->backRef->frameLocation($loc.'.document').")+'".
-			"&data[".$table.']['.$uid.']['.$flagField.']='.($rec[$flagField]?0:1).'&prErr=1&vC='.$GLOBALS['BE_USER']->veriCode().t3lib_BEfunc::getUrlToken('tceAction')."';hideCM();}";
+			"&data[".$table.']['.$uid.']['.$flagField.']='.($rec[$flagField]?0:1).'&prErr=1&vC='.$GLOBALS['BE_USER']->veriCode().\TYPO3\CMS\Backend\Utility\BackendUtility::getUrlToken('tceAction')."';hideCM();}";
 
 		return $this->backRef->linkItem(
 			$title,
-			$this->backRef->excludeIcon('<img'.t3lib_iconWorks::skinImg($this->backRef->PH_backPath,'gfx/button_'.($rec[$flagField]?'un':'').$name.'.gif','width="11" height="10"').' alt="" />'),
+			$this->backRef->excludeIcon('<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backRef->PH_backPath,'gfx/button_'.($rec[$flagField]?'un':'').$name.'.gif','width="11" height="10"').' alt="" />'),
 			$editOnClick.'return false;',
 			1
 		);
@@ -206,17 +206,17 @@ class tx_ttnewscatmanager_cm1 {
 		$loc='top.content.list_frame';
 		if($GLOBALS['BE_USER']->jsConfirmation(4))	{
 			$conf = "confirm(".$GLOBALS['LANG']->JScharCode(sprintf($GLOBALS['LANG']->sL('LLL:EXT:lang/locallang_core.php:mess.delete'),$elInfo[0]).
-				t3lib_BEfunc::referenceCount($table,$uid,' (There are %s reference(s) to this record!)')).")";
+				\TYPO3\CMS\Backend\Utility\BackendUtility::referenceCount($table,$uid,' (There are %s reference(s) to this record!)')).")";
 		} else {
 			$conf = '1==1';
 		}
 		$editOnClick='if('.$loc." && ".$conf." ){".$loc.".location.href=top.TS.PATH_typo3+'tce_db.php?redirect='+top.rawurlencode(".
 			$this->backRef->frameLocation($loc.'.document').")+'".
-			"&cmd[".$table.']['.$uid.'][DDdelete]=1&prErr=1&vC='.$GLOBALS['BE_USER']->veriCode().t3lib_BEfunc::getUrlToken('tceAction')."';hideCM();}";
+			"&cmd[".$table.']['.$uid.'][DDdelete]=1&prErr=1&vC='.$GLOBALS['BE_USER']->veriCode().\TYPO3\CMS\Backend\Utility\BackendUtility::getUrlToken('tceAction')."';hideCM();}";
 
 		return $this->backRef->linkItem(
 			$GLOBALS['LANG']->getLLL('delete',$this->LL),
-			$this->backRef->excludeIcon('<img'.t3lib_iconWorks::skinImg($this->backRef->PH_backPath,'gfx/garbage.gif','width="11" height="12"').' alt="" />'),
+			$this->backRef->excludeIcon('<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backRef->PH_backPath,'gfx/garbage.gif','width="11" height="12"').' alt="" />'),
 			$editOnClick.'return false;'
 		);
 	}
@@ -238,7 +238,7 @@ class tx_ttnewscatmanager_cm1 {
 
 		return $this->backRef->linkItem(
 			$GLOBALS['LANG']->getLLL('moveCategoryinto',$this->LL),
-			$this->backRef->excludeIcon('<img'.t3lib_iconWorks::skinImg($this->backRef->PH_backPath,t3lib_extMgm::extRelPath('tt_news').'res/tt_news_cat.gif','width="18" height="16"').' alt="" />'),
+			$this->backRef->excludeIcon('<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backRef->PH_backPath,TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'res/tt_news_cat.gif','width="18" height="16"').' alt="" />'),
 			$editOnClick.'return false;',
 			0
 		);
@@ -258,7 +258,7 @@ class tx_ttnewscatmanager_cm1 {
 
 		return $this->backRef->linkItem(
 			$GLOBALS['LANG']->getLLL('copyCategoryinto',$this->LL),
-			$this->backRef->excludeIcon('<img'.t3lib_iconWorks::skinImg($this->backRef->PH_backPath,t3lib_extMgm::extRelPath('tt_news').'res/tt_news_cat.gif','width="18" height="16"').' alt="" />'),
+			$this->backRef->excludeIcon('<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backRef->PH_backPath,TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'res/tt_news_cat.gif','width="18" height="16"').' alt="" />'),
 			$editOnClick.'return false;',
 			0
 		);
@@ -270,7 +270,7 @@ class tx_ttnewscatmanager_cm1 {
 	 * @return	[type]		...
 	 */
 	function includeLocalLang()	{
-		$llFile = t3lib_extMgm::extPath('tt_news').'cm1/locallang.xml';
+		$llFile = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'cm1/locallang.xml';
 		$this->LL = tx_ttnews_compatibility::getInstance()->readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 	}
 }
@@ -280,5 +280,3 @@ class tx_ttnewscatmanager_cm1 {
 if (defined("TYPO3_MODE") && $TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/tt_news/cm1/class.tx_ttnewscatmanager_cm1.php"])	{
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]["XCLASS"]["ext/tt_news/cm1/class.tx_ttnewscatmanager_cm1.php"]);
 }
-
-?>

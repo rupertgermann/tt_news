@@ -44,27 +44,27 @@ $TYPO3_AJAX = true;
 
 //print_r(array(TYPO3_REQUESTTYPE_AJAX,TYPO3_REQUESTTYPE,TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_AJAX));
 
-$L = intval(t3lib_div::_GP('L'));
+$L = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L'));
 if ($L > 0) {
-	t3lib_div::_GETset(array('L' => $L));
+	\TYPO3\CMS\Core\Utility\GeneralUtility::_GETset(array('L' => $L));
 }
 
 
-$idAndTarget = rawurldecode(t3lib_div::_GP('id'));
-$idParts = t3lib_div::trimExplode(' ',$idAndTarget,1);
+$idAndTarget = rawurldecode(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id'));
+$idParts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(' ',$idAndTarget,1);
 $id = intval($idParts[0]);
 
 // Make new instance of TSFE
-//$temp_TSFEclassName = t3lib_div::makeInstanceClassName('tslib_fe');
-$TSFE = new tslib_fe (
+//$temp_TSFEclassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstanceClassName('tslib_fe');
+$TSFE = new \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController (
 	$GLOBALS['TYPO3_CONF_VARS'],
 	$id,
-	t3lib_div::_GP('type'),
-	t3lib_div::_GP('no_cache'),
-	t3lib_div::_GP('cHash'),
-	t3lib_div::_GP('jumpurl'),
-	t3lib_div::_GP('MP'),
-	t3lib_div::_GP('RDCT')
+	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('type'),
+	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('no_cache'),
+	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('cHash'),
+	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('jumpurl'),
+	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('MP'),
+	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('RDCT')
 );
 
 
@@ -78,7 +78,6 @@ $TSFE->initFEuser();
 $TSFE->checkAlternativeIdMethods();
 $TSFE->clear_preview();
 $TSFE->determineId();
-$TSFE->getCompressedTCarray();
 $TSFE->initTemplate();
 $TSFE->getConfigArray();
 
@@ -90,31 +89,31 @@ if ($L > 0) {
 
 
 // finding the script path from the variable
-$ajaxID = (string) t3lib_div::_GP('ajaxID');
+$ajaxID = (string) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('ajaxID');
 
 
-require_once(t3lib_extMgm::extPath('tt_news').'pi/class.tx_ttnews.php');
-require_once(t3lib_extMgm::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
-require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_typo3ajax.php');
+require_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'pi/class.tx_ttnews.php');
+require_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
+require_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_typo3ajax.php');
 /**
  * TODO: 24.11.2009
  *
  *
- * use t3lib_div::makeInstance
+ * use \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance
  */
 
 
 // instantiating the AJAX object
-//$ajaxClassName = t3lib_div::makeInstanceClassName('tx_ttnews_typo3ajax');
+//$ajaxClassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstanceClassName('tx_ttnews_typo3ajax');
 $ajaxObj = new tx_ttnews_typo3ajax($ajaxID);
 $ajaxParams = array();
 
 $tt_newsObj = new tx_ttnews();
 $tt_newsObj->hObj = new tx_ttnews_helpers($tt_newsObj);
-$tt_newsObj->cObj = t3lib_div::makeInstance('tslib_cObj');
+$tt_newsObj->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
 $tt_newsObj->local_cObj = &$tt_newsObj->cObj;
 
-$cObjUid = intval(t3lib_div::_GP('cObjUid'));
+$cObjUid = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('cObjUid'));
 $tt_newsObj->cObj->data = $TSFE->sys_page->checkRecord('tt_content',$cObjUid,1);
 $tt_newsObj->pi_initPIflexForm();
 $tt_newsObj->conf = &$TSFE->tmpl->setup['plugin.']['tt_news.'];
@@ -159,7 +158,7 @@ $tt_newsObj->initCatmenuEnv($tt_newsObj->conf['displayCatMenu.']);
 $ajaxParams['tt_newsObj'] = &$tt_newsObj;
 $ajaxParams['feUserObj'] = &$TSFE->fe_user;
 
-$ajaxScript = t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_catmenu.php:tx_ttnews_catmenu->ajaxExpandCollapse';
+$ajaxScript = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_catmenu.php:tx_ttnews_catmenu->ajaxExpandCollapse';
 
 
 // evaluating the arguments and calling the AJAX method/function
@@ -168,11 +167,10 @@ if (empty($ajaxID)) {
 } else if (empty($ajaxScript)) {
 	$ajaxObj->setError('Registered backend function for ajaxID "'.$ajaxID.'" was not found.');
 } else {
-	$ret = t3lib_div::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
+	$ret = \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
 	//	if ($ret === false) {
 	//		$ajaxObj->setError('Registered backend function for ajaxID "'.$ajaxID.'" was not found.');
 	//	}
 }
 
 $ajaxObj->render();
-?>

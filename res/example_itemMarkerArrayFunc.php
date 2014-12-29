@@ -66,7 +66,7 @@
  */
 function user_displayFileLinks($markerArray, $conf){
 	$row = $conf['parentObj']->local_cObj->data; // get the data array of the current news record
-   // t3lib_div::debug($markerArray);
+   // \TYPO3\CMS\Core\Utility\GeneralUtility::debug($markerArray);
 	$markerArray['###FILE_LINK###'] = '';
 	$markerArray['###TEXT_FILES###'] = $conf['parentObj']->local_cObj->stdWrap($conf['parentObj']->pi_getLL('textFiles'), $conf['parentObj']->conf['newsFilesHeader_stdWrap.']);
 	if ($row['news_files']) {

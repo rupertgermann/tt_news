@@ -72,17 +72,17 @@ class ext_update {
 	 */
 	function main() {
 		$out = '';
-		$this->flexObj = t3lib_div::makeInstance('t3lib_flexformtools');
+		$this->flexObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_flexformtools');
 
 		// analyze
 		$this->tstemplates = $this->getTsTemplates();
 		$this->contentElements = $this->getContentElements();
 		$this->parseFlexformXML();
 
-		if (t3lib_div::_GP('do_update')) {
-			$out .= '<a href="' . t3lib_div::linkThisScript(array('do_update' => '', 'func' => '')) . '">' . $GLOBALS['LANG']->sL($this->ll . 'back') . '</a><br>';
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('do_update')) {
+			$out .= '<a href="' . \TYPO3\CMS\Core\Utility\GeneralUtility::linkThisScript(array('do_update' => '', 'func' => '')) . '">' . $GLOBALS['LANG']->sL($this->ll . 'back') . '</a><br>';
 
-			$func = trim(t3lib_div::_GP('func'));
+			$func = trim(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('func'));
 			if (method_exists($this, $func)) {
 				$out .= '
 				<div style="padding:15px 15px 20px 0;">
@@ -101,8 +101,8 @@ class ext_update {
    				</div>';
 			}
 		} else {
-			$out .= '<a href="' . t3lib_div::linkThisScript(array('do_update' => '', 'func' => '')) . '">' . $GLOBALS['LANG']->sL($this->ll . 'reload') . '
-			<img style="vertical-align:bottom;" ' . t3lib_iconWorks::skinImg($GLOBALS['BACK_PATH'], 'gfx/refresh_n.gif', 'width="18" height="16"') . '></a><br>';
+			$out .= '<a href="' . \TYPO3\CMS\Core\Utility\GeneralUtility::linkThisScript(array('do_update' => '', 'func' => '')) . '">' . $GLOBALS['LANG']->sL($this->ll . 'reload') . '
+			<img style="vertical-align:bottom;" ' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($GLOBALS['BACK_PATH'], 'gfx/refresh_n.gif', 'width="18" height="16"') . '></a><br>';
 
 			$out .= $this->displayWarning();
 
@@ -130,7 +130,7 @@ class ext_update {
 
 // 		if ($this->compatibility()->int_from_ver(TYPO3_version) < 4003000) {
 // 				// add flashmessages styles
-// 			$cssPath = $GLOBALS['BACK_PATH'] . t3lib_extMgm::extRelPath('tt_news');
+// 			$cssPath = $GLOBALS['BACK_PATH'] . TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news');
 // 			$out = '<link rel="stylesheet" type="text/css" href="' . $cssPath . 'compat/flashmessages.css" media="screen" />' . $out;
 // 		}
 
@@ -149,7 +149,7 @@ class ext_update {
 		} else {
 			$i = 'warning2';
 		}
-		$msg .= ' <img ' . t3lib_iconWorks::skinImg($GLOBALS['BACK_PATH'], 'gfx/icon_' . $i . '.gif', 'width="18" height="16"') . '>';
+		$msg .= ' <img ' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($GLOBALS['BACK_PATH'], 'gfx/icon_' . $i . '.gif', 'width="18" height="16"') . '>';
 
 		if ($count) {
 			$msg .= '<p style="margin:5px 0;">' . $GLOBALS['LANG']->sL($this->ll . 'question_' . $k) . '<p>';
@@ -281,7 +281,7 @@ class ext_update {
 
 		$params = array('do_update' => 1, 'func' => $func);
 
-		$onClick = "document.location='" . t3lib_div::linkThisScript($params) . "'; return false;";
+		$onClick = "document.location='" . \TYPO3\CMS\Core\Utility\GeneralUtility::linkThisScript($params) . "'; return false;";
 		$button = '<input type="submit" value="' . $lbl . '" onclick="' . htmlspecialchars($onClick) . '">';
 
 		return $button;
@@ -323,7 +323,7 @@ class ext_update {
 	function parseFlexformXML() {
 
 		foreach ($this->contentElements as $id => $row) {
-			$tmpArr = t3lib_div::xml2array($row['ff']);
+			$tmpArr = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($row['ff']);
 			$this->contentElements[$id]['ff_parsed'] = $tmpArr;
 			$this->getMovedFfFields($tmpArr, $id);
 			$this->getMissingHtmlTemplates($tmpArr, $id);
@@ -406,7 +406,7 @@ class ext_update {
 		$tmpP = explode('/', $path);
 		if (substr($tmpP[0], 0, 4) === 'EXT:') {
 			$tt = explode(':', $tmpP[0]);
-			$tmpP[0] = substr(t3lib_extMgm::siteRelPath($tt[1]), 0, - 1);
+			$tmpP[0] = substr(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath($tt[1]), 0, - 1);
 			$iconPath = implode('/', $tmpP);
 		} else {
 			$iconPath = $path;
@@ -438,4 +438,3 @@ class ext_update {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/class.ext_update.php']) {
 	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/class.ext_update.php']);
 }
-?>

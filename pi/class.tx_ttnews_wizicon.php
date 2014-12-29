@@ -66,7 +66,7 @@ class tx_ttnews_wizicon {
 		$LL = $this->includeLocalLang();
 
 		$wizardItems['plugins_tx_ttnews_pi'] = array(
-			'icon'=>t3lib_extMgm::extRelPath('tt_news').'pi/ce_wiz.gif',
+			'icon'=>TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'pi/ce_wiz.gif',
 			'title'=>$LANG->getLLL('pi_title',$LL),
 			'description'=>$LANG->getLLL('pi_plus_wiz_description',$LL),
 			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=9'
@@ -81,7 +81,7 @@ class tx_ttnews_wizicon {
 	 * @return	array		The LOCAL_LANG array
 	 */
 	function includeLocalLang()	{
-		$llFile = t3lib_extMgm::extPath('tt_news').'locallang.xml';
+		$llFile = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'locallang.xml';
 		$LOCAL_LANG = tx_ttnews_compatibility::getInstance()->readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
 		return $LOCAL_LANG;
 	}

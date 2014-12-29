@@ -550,7 +550,6 @@ $TCA['tt_news_cat'] = Array (
 			'label' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news_cat.parent_category',
 			'config' => Array (
 				'type' => 'select',
-				'type' => 'select',
 				'form_type' => 'user',
 				'userFunc' => 'tx_ttnews_TCAform_selectTree->renderCategoryFields',
 				'treeView' => 1,

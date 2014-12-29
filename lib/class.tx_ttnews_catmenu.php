@@ -34,7 +34,7 @@
  * @author Rupert Germann <rupi@gmx.li>
  */
 
-require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_categorytree.php');
+require_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_categorytree.php');
 
 class tx_ttnews_catmenu {
 	var $titleLen = 60;
@@ -51,7 +51,7 @@ class tx_ttnews_catmenu {
 	function init(&$pObj) {
 
 		$lConf = $pObj->conf['displayCatMenu.'];
-		$this->treeObj = t3lib_div::makeInstance('tx_ttnews_FEtreeview');
+		$this->treeObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_FEtreeview');
 		$this->treeObj->tt_news_obj = &$pObj;
 		$this->treeObj->category = $pObj->piVars_catSelection;
 		$this->treeObj->table = 'tt_news_cat';
@@ -170,14 +170,14 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 			 */
 
 
-			$L = intval(t3lib_div::_GP('L'));
+			$L = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L'));
 			if ($L > 0 && !$GLOBALS['TSFE']->linkVars) {
 				$GLOBALS['TSFE']->linkVars = '&L='.$L;
 			}
 
 			if ($GLOBALS['TSFE']->sys_language_content && $v['uid']) {
 				// get translations of category titles
-				$catTitleArr = t3lib_div::trimExplode('|', $v['title_lang_ol']);
+				$catTitleArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $v['title_lang_ol']);
 				$syslang = $GLOBALS['TSFE']->sys_language_content-1;
 				$title = $catTitleArr[$syslang]?$catTitleArr[$syslang]:$title;
 			}
@@ -232,7 +232,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 			$iconConf['image.']['file.'] = $lConf['catmenuRootIconFile.'];
 			$icon = $GLOBALS['TSFE']->cObj->IMAGE($iconConf['image.']);
 		}
-		return $icon?$icon:$this->wrapIcon('<img'.t3lib_iconWorks::skinImg($this->backPath,'gfx/i/_icon_website.gif','width="18" height="16"').' alt="" />',$rec);
+		return $icon?$icon:$this->wrapIcon('<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,'gfx/i/_icon_website.gif','width="18" height="16"').' alt="" />',$rec);
 	}
 
 
@@ -248,7 +248,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 		$lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
 		$catIconMode = intval($lConf['catmenuIconMode']);
 		if ($this->iconPath && $this->iconName) {
-			$icon = '<img'.t3lib_iconWorks::skinImg('',$this->iconPath.$this->iconName,'width="18" height="16"').' alt="" />';
+			$icon = '<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',$this->iconPath.$this->iconName,'width="18" height="16"').' alt="" />';
 		} else  {
 			switch($catIconMode) {
 				case 1: // icon from cat db-record
@@ -269,7 +269,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 			}
 		}
 		if (!$icon && !$catIconMode) {
-			$icon = t3lib_iconWorks::getIconImage($this->table,$row,$this->backPath,' class="c-recIcon"');
+			$icon = \TYPO3\CMS\Backend\Utility\IconUtility::getIconImage($this->table,$row,$this->backPath,' class="c-recIcon"');
 		}
 		return $this->wrapIcon($icon,$row);
 	}
@@ -301,7 +301,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 			if ($this->useAjax) {
 				// activate dynamic ajax-based tree
 				$js = htmlspecialchars('categoryTree.load(\'' . $cmd . '\', ' . intval($isExpand) . ', this, \'' .
-					rawurlencode($catSelLinkParams) . '\', ' . $this->cObjUid . ', ' . intval(t3lib_div::_GP('L')) . ')');
+					rawurlencode($catSelLinkParams) . '\', ' . $this->cObjUid . ', ' . intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L')) . ')');
 				return '<a class="pm" onclick="'.$js.'">'.$icon.'</a>';
 			} else {
 //
@@ -312,7 +312,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 //				}
 				$anchor = '';
 				$name = '';
-//				debug(t3lib_div::getIndpEnv('TYPO3_SITE_SCRIPT'));
+//				debug(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'));
 
 				$aUrl = $this->tt_news_obj->pi_linkTP_keepPIvars_url(array(), $this->tt_news_obj->allowCaching, 0, $catSelLinkParams).'&PM='.$cmd.$anchor;
 				return '<a class="pm" href="'.htmlspecialchars($aUrl).'"'.$name.'>'.$icon.'</a>';
@@ -343,7 +343,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 
 		// PM action
 		// (If an plus/minus icon has been clicked, the PM GET var is sent and we must update the stored positions in the tree):
-		$PM = explode('_',t3lib_div::_GP('PM'));	// 0: mount key, 1: set/clear boolean, 2: item ID (cannot contain "_"), 3: treeName
+		$PM = explode('_',\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('PM'));	// 0: mount key, 1: set/clear boolean, 2: item ID (cannot contain "_"), 3: treeName
 //		debug($PM,'$PM');
 
 		if (count($PM)==4 && $PM[3]==$this->treeName)	{
@@ -383,7 +383,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 	 * @return	[type]		...
 	 */
 	function getTitleStr($row,$titleLen=30)	{
-		$title = htmlspecialchars(t3lib_div::fixed_lgd_cs($row['title'],$titleLen));
+		$title = htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs($row['title'],$titleLen));
 
 		return $title;
 	}

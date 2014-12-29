@@ -43,13 +43,13 @@ $TCA['tt_news'] = array (
 		),
 		'typeicon_column' => 'type',
 		'typeicons' => array (
-			'1' => t3lib_extMgm::extRelPath($_EXTKEY).'res/gfx/tt_news_article.gif',
-			'2' => t3lib_extMgm::extRelPath($_EXTKEY).'res/gfx/tt_news_exturl.gif',
+			'1' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/tt_news_article.gif',
+			'2' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/tt_news_exturl.gif',
 		),
 //		'mainpalette' => '10',
 		'thumbnail' => 'image',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'res/gfx/ext_icon.gif',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php'
+		'iconfile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/ext_icon.gif',
+		'dynamicConfigFile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'tca.php'
 	)
 );
 
@@ -74,21 +74,20 @@ $TCA['tt_news_cat'] = array (
 		'hideAtCopy' => true,
 		'mainpalette' => '2,10',
 		'crdate' => 'crdate',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'res/gfx/tt_news_cat.gif',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php'
+		'iconfile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/tt_news_cat.gif',
+		'dynamicConfigFile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'tca.php'
 	)
 );
 
-	// load tt_content to $TCA array
-t3lib_div::loadTCA('tt_content');
+
 	// remove some fields from the tt_content content element
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][9] = 'layout,select_key,pages,recursive';
 	// add FlexForm field to tt_content
 $TCA['tt_content']['types']['list']['subtypes_addlist'][9] = 'pi_flexform';
 	// add tt_news to the "insert plugin" content element (list_type = 9)
-t3lib_extMgm::addPlugin(array('LLL:EXT:tt_news/locallang_tca.xml:tt_news', 9));
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array('LLL:EXT:tt_news/locallang_tca.xml:tt_news', 9));
 
-t3lib_extMgm::addTypoScriptSetup('
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
   includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
   plugin.tt_news = USER
   plugin.tt_news {
@@ -100,26 +99,26 @@ t3lib_extMgm::addTypoScriptSetup('
 ');
 
 	// initialize static extension templates
-t3lib_extMgm::addStaticFile($_EXTKEY,'pi/static/ts_new/','News settings');
-t3lib_extMgm::addStaticFile($_EXTKEY,'pi/static/css/','News CSS-styles');
-//t3lib_extMgm::addStaticFile($_EXTKEY,'pi/static/ts_old/','table-based tmpl');
-t3lib_extMgm::addStaticFile($_EXTKEY,'pi/static/rss_feed/','News feeds (RSS,RDF,ATOM)');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY,'pi/static/ts_new/','News settings');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY,'pi/static/css/','News CSS-styles');
+//TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY,'pi/static/ts_old/','table-based tmpl');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY,'pi/static/rss_feed/','News feeds (RSS,RDF,ATOM)');
 
 	// allow news and news-category records on normal pages
-t3lib_extMgm::allowTableOnStandardPages('tt_news_cat');
-t3lib_extMgm::allowTableOnStandardPages('tt_news');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_news_cat');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_news');
 	// add the tt_news record to the insert records content element
-t3lib_extMgm::addToInsertRecords('tt_news');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords('tt_news');
 
 	// switch the XML files for the FlexForm depending on if "use StoragePid"(general record Storage Page) is set or not.
 if ($confArr['useStoragePid']) {
-	t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
+	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
 } else {
-	t3lib_extMgm::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds_no_sPID.xml');
+	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds_no_sPID.xml');
 }
 
 
-t3lib_extMgm::addPageTSConfig('
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
 	# RTE mode in table "tt_news"
 	RTE.config.tt_news.bodytext.proc.overruleMode = ts_css
 
@@ -172,20 +171,19 @@ mod.web_txttnewsM1 {
 
 
 	// initalize "context sensitive help" (csh)
-t3lib_extMgm::addLLrefForTCAdescr('tt_news','EXT:tt_news/csh/locallang_csh_ttnews.php');
-t3lib_extMgm::addLLrefForTCAdescr('tt_news_cat','EXT:tt_news/csh/locallang_csh_ttnewscat.php');
-t3lib_extMgm::addLLrefForTCAdescr('xEXT_tt_news','EXT:tt_news/csh/locallang_csh_manual.xml');
-t3lib_extMgm::addLLrefForTCAdescr('_MOD_web_txttnewsM1','EXT:tt_news/csh/locallang_csh_mod_newsadmin.xml');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tt_news','EXT:tt_news/csh/locallang_csh_ttnews.php');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tt_news_cat','EXT:tt_news/csh/locallang_csh_ttnewscat.php');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('xEXT_tt_news','EXT:tt_news/csh/locallang_csh_manual.xml');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('_MOD_web_txttnewsM1','EXT:tt_news/csh/locallang_csh_mod_newsadmin.xml');
 
-//TODO how to insert CSH to the be_users table ???
 
 	// adds processing for extra "codes" that have been added to the "what to display" selector in the content element by other extensions
-include_once(t3lib_extMgm::extPath($_EXTKEY).'lib/class.tx_ttnews_itemsProcFunc.php');
+include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'lib/class.tx_ttnews_itemsProcFunc.php');
 	// class for displaying the category tree in BE forms.
-include_once(t3lib_extMgm::extPath($_EXTKEY).'lib/class.tx_ttnews_TCAform_selectTree.php');
+include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'lib/class.tx_ttnews_TCAform_selectTree.php');
 	// class that uses hooks in class.t3lib_tcemain.php (processDatamapClass and processCmdmapClass)
 	// to prevent not allowed "commands" (copy,delete,...) for a certain BE usergroup
-include_once(t3lib_extMgm::extPath($_EXTKEY).'lib/class.tx_ttnews_tcemain.php');
+include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'lib/class.tx_ttnews_tcemain.php');
 
 
 
@@ -222,64 +220,48 @@ $tempColumns = array (
 );
 
 
-t3lib_div::loadTCA('be_groups');
-t3lib_extMgm::addTCAcolumns('be_groups',$tempColumns,1);
-t3lib_extMgm::addToAllTCAtypes('be_groups','tt_news_categorymounts;;;;1-1-1');
+
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups',$tempColumns,1);
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups','tt_news_categorymounts;;;;1-1-1');
 
 $tempColumns['tt_news_categorymounts']['displayCond'] = 'FIELD:admin:=:0';
 // $tempColumns['tt_news_cmounts_usesubcats']['displayCond'] = 'FIELD:admin:=:0';
 
 
-t3lib_div::loadTCA('be_users');
-t3lib_extMgm::addTCAcolumns('be_users',$tempColumns,1);
-t3lib_extMgm::addToAllTCAtypes('be_users','tt_news_categorymounts;;;;1-1-1');
+
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_users',$tempColumns,1);
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users','tt_news_categorymounts;;;;1-1-1');
 
 
 if (TYPO3_MODE == 'BE')	{
-// 	if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4000000) {
-// 		if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4002000) {
-			t3lib_extMgm::addModule('web','txttnewsM1','',t3lib_extMgm::extPath($_EXTKEY).'mod1/');
 
-			$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
-			$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['icon'] = TRUE;
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule('web','txttnewsM1','',TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'mod1/');
+
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['icon'] = TRUE;
 
 
-// 		}
-		// register contextmenu for the tt_news category manager
-		$GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][] = array(
-			'name' => 'tx_ttnewscatmanager_cm1',
-			'path' => t3lib_extMgm::extPath($_EXTKEY).'cm1/class.tx_ttnewscatmanager_cm1.php'
-		);
-// 	}
+
+// register contextmenu for the tt_news category manager
+$GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][] = array(
+	'name' => 'tx_ttnewscatmanager_cm1',
+	'path' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'cm1/class.tx_ttnewscatmanager_cm1.php'
+);
+
 		// Adds a tt_news wizard icon to the content element wizard.
-	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'pi/class.tx_ttnews_wizicon.php';
+$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'pi/class.tx_ttnews_wizicon.php';
 
-		// add folder icon
-// 	if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 4004000) {
-// 		$ICON_TYPES['news'] = array('icon' => t3lib_extMgm::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');
-// 	} else {
-		t3lib_SpriteManager::addTcaTypeIcon('pages', 'contains-news', t3lib_extMgm::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');
-// 	}
+			// add folder icon
+\TYPO3\CMS\Backend\Sprite\SpriteManager::addTcaTypeIcon('pages', 'contains-news', TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');
 
-	if (TYPO3_UseCachingFramework || tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 6000000) {
-		// register the cache in BE so it will be cleared with "clear all caches"
-		try {
-			$GLOBALS['typo3CacheFactory']->create(
-				'tt_news_cache',
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['frontend'],
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['backend'],
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['options']);
-		} catch (t3lib_cache_exception_DuplicateIdentifier $e) {
-			// do nothing, a tt_news_cache cache already exists
-		}
-	}
+
+
 
 }
 
 	// register HTML template for the tt_news BackEnd Module
-$GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = t3lib_extMgm::extRelPath('tt_news').'mod1/mod_ttnews_admin.html';
+$GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'mod1/mod_ttnews_admin.html';
 
 
 
 
-?>

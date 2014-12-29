@@ -88,7 +88,7 @@ class tx_ttnews_cache {
 				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['frontend'],
 				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['backend'],
 				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['options']);
-		} catch (t3lib_cache_exception_DuplicateIdentifier $e) {
+		} catch (\TYPO3\CMS\Core\Cache\Exception\DuplicateIdentifierException $e) {
 			// do nothing, a tt_news_cache cache already exists
 		}
 
@@ -142,4 +142,3 @@ class tx_ttnews_cache {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_cache.php']) {
 	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_cache.php']);
 }
-?>

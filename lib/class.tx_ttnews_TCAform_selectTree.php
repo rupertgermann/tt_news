@@ -66,8 +66,8 @@
  * (This index is automatically created/updated by the extension "extdeveval")
  *
  */
-require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_categorytree.php');
-require_once(t3lib_extMgm::extPath('tt_news').'lib/class.tx_ttnews_div.php');
+require_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_categorytree.php');
+require_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_div.php');
 	/**
 	 * this class displays a tree selector with nested tt_news categories.
 	 *
@@ -100,7 +100,7 @@ class tx_ttnews_TCAform_selectTree {
 	 */
 	function setDefVals() {
 		if (!is_int($this->row['uid'])) { // defVals only for new records
-			$defVals = t3lib_div::_GP('defVals');
+			$defVals = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('defVals');
 
 			if (is_array($defVals) && $defVals[$this->table][$this->field]) {
 				$defCat = intval($defVals[$this->table][$this->field]);
@@ -109,8 +109,8 @@ class tx_ttnews_TCAform_selectTree {
 				 * check for allowed categories
 				 */
 				if ($defCat) {
-					$row = t3lib_BEfunc::getRecord('tt_news_cat', $defCat);
-					$title = t3lib_BEfunc::getRecordTitle($this->table,$row);
+					$row = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('tt_news_cat', $defCat);
+					$title = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordTitle($this->table,$row);
 
 					$this->PA['itemFormElValue'] = $defCat.'|'.$title;
 					$this->row['category'] = $this->PA['itemFormElValue'];
@@ -136,7 +136,7 @@ class tx_ttnews_TCAform_selectTree {
 			// expand/collapse is disabled
 
 			$fobj->additionalCode_pre[] = '
-				<link rel="stylesheet" type="text/css" href="'.t3lib_extMgm::extRelPath('tt_news').'compat/tree_styles_for_4.0.css" />';
+				<link rel="stylesheet" type="text/css" href="'.TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'compat/tree_styles_for_4.0.css" />';
 
 		} else { // enable ajax expand/collapse for TYPO3 versions > 4.1
 			if ($this->intT3ver >= 4002000) {
@@ -146,7 +146,7 @@ class tx_ttnews_TCAform_selectTree {
 			}
 			$this->useAjax = TRUE;
 			$fobj->additionalCode_pre[] = '
-				<script src="'.t3lib_extMgm::extRelPath('tt_news').$jsFile.'" type="text/javascript"></script>';
+				<script src="'.TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').$jsFile.'" type="text/javascript"></script>';
 
 		}
 
@@ -168,7 +168,7 @@ class tx_ttnews_TCAform_selectTree {
 		$selItems = $fobj->addItems($selItems,$this->PA['fieldTSConfig']['addItems.']);
 
 			// Possibly remove some items:
-		$removeItems=t3lib_div::trimExplode(',',$this->PA['fieldTSConfig']['removeItems'],1);
+		$removeItems=\TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',',$this->PA['fieldTSConfig']['removeItems'],1);
 
 		foreach($selItems as $tk => $p)	{
 			if (in_array($p[1],$removeItems))	{
@@ -281,7 +281,7 @@ class tx_ttnews_TCAform_selectTree {
 				}
 
 					// Perform modification of the selected items array:
-				$itemArray = t3lib_div::trimExplode(',',$this->PA['itemFormElValue'],1);
+				$itemArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',',$this->PA['itemFormElValue'],1);
 				foreach($itemArray as $tk => $tv) {
 					$tvP = explode('|',$tv,2);
 					$evalValue = rawurldecode($tvP[0]);
@@ -338,7 +338,7 @@ class tx_ttnews_TCAform_selectTree {
 	function setSelectedItems() {
 		if ($this->table == 'tt_content') {
 			if ($this->row['pi_flexform']) {
-				$cfgArr = t3lib_div::xml2array($this->row['pi_flexform']);
+				$cfgArr = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($this->row['pi_flexform']);
 				if (is_array($cfgArr) && is_array($cfgArr['data']['sDEF']['lDEF']) && is_array($cfgArr['data']['sDEF']['lDEF']['categorySelection'])) {
 					$selectedCategories = $cfgArr['data']['sDEF']['lDEF']['categorySelection']['vDEF'];
 				}
@@ -423,11 +423,11 @@ class tx_ttnews_TCAform_selectTree {
 				</div>';
 
 				// add flashmessages styles to older TYPO3 versions
-			$cssPath = $GLOBALS['BACK_PATH'] . t3lib_extMgm::extRelPath('tt_news');
+			$cssPath = $GLOBALS['BACK_PATH'] . TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news');
 			$msg = '<link rel="stylesheet" type="text/css" href="' . $cssPath . 'compat/flashmessages.css" media="screen" />' . $msg;
 		} else {
 				// in TYPO3 4.3 or higher we use flashmessages to display the message
-			$flashMessage = t3lib_div::makeInstance(
+			$flashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 						't3lib_FlashMessage',
 						$msgBody,
 						$msgHeader,
@@ -435,7 +435,7 @@ class tx_ttnews_TCAform_selectTree {
 				);
 			t3lib_FlashMessageQueue::addMessage($flashMessage);
 
-			$inlineFlashMessage = t3lib_div::makeInstance(
+			$inlineFlashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 						't3lib_FlashMessage',
 						$msgBody,
 						'',
@@ -458,7 +458,7 @@ class tx_ttnews_TCAform_selectTree {
 	function printMsg($msgLbl, $sev) {
 
 		$content = '<div style="padding:10px;">
-			<img'.t3lib_iconWorks::skinImg($GLOBALS['BACK_PATH'],'gfx/icon_'.$sev.'.gif','width="18" height="16"').' title="" alt="" />';
+			<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($GLOBALS['BACK_PATH'],'gfx/icon_'.$sev.'.gif','width="18" height="16"').' title="" alt="" />';
 		$content .= $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.msg_'.$msgLbl);
 		$content .= '</div>';
 
@@ -479,11 +479,11 @@ class tx_ttnews_TCAform_selectTree {
 		$this->confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
 
-		$this->table = trim(t3lib_div::_GP('tceFormsTable'));
-		$this->storagePidFromAjax = intval(t3lib_div::_GP('storagePid'));
-		$this->recID = trim(t3lib_div::_GP('recID')); // no intval() here because it might be a new record
+		$this->table = trim(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('tceFormsTable'));
+		$this->storagePidFromAjax = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('storagePid'));
+		$this->recID = trim(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('recID')); // no intval() here because it might be a new record
 		if (intval($this->recID) == $this->recID) {
-			$this->row = t3lib_BEfunc::getRecord($this->table,$this->recID);
+			$this->row = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($this->table,$this->recID);
 		}
 
 		// set selected items
@@ -544,7 +544,7 @@ class tx_ttnews_TCAform_selectTree {
 				if ($this->storagePidFromAjax) {
 					$this->storagePid = $this->storagePidFromAjax;
 				} else {
-					$TSconfig = t3lib_BEfunc::getTCEFORM_TSconfig($this->table,$this->row);
+					$TSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getTCEFORM_TSconfig($this->table,$this->row);
 					$this->storagePid = ($TSconfig['_STORAGE_PID']?$TSconfig['_STORAGE_PID']:intval($this->row['pid']));
 				}
 				$SPaddWhere = ' AND tt_news_cat.pid IN (' . $this->storagePid . ')';
@@ -566,7 +566,7 @@ class tx_ttnews_TCAform_selectTree {
 		$treeOrderBy = $this->confArr['treeOrderBy']?$this->confArr['treeOrderBy']:'uid';
 
 		// instantiate tree object
-		$treeViewObj = t3lib_div::makeInstance('tx_ttnews_tceforms_categorytree');
+		$treeViewObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_tceforms_categorytree');
 
 		$treeViewObj->treeName = $this->table.'_tree';
 		$treeViewObj->table = 'tt_news_cat';
@@ -645,7 +645,7 @@ class tx_ttnews_TCAform_selectTree {
 			}
 			// get selected categories from be user/group without subcategories
 			$tmpsc = tx_ttnews_div::getBeUserCatMounts(FALSE);
-			$beUserSelCatArr = t3lib_div::intExplode(',',$tmpsc);
+			$beUserSelCatArr = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$tmpsc);
 			$includeListArr = tx_ttnews_div::getIncludeCatArray();
 			$subcatArr = array_diff($includeListArr,$beUserSelCatArr);
 
@@ -655,7 +655,7 @@ class tx_ttnews_TCAform_selectTree {
 			$cMounts = array();
 			$nonRootMounts = FALSE;
 			foreach ($beUserSelCatArr as $catID) {
-				$tmpR = t3lib_BEfunc::getRecord('tt_news_cat',$catID,'parent_category,hidden',$addWhere);
+				$tmpR = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('tt_news_cat',$catID,'parent_category,hidden',$addWhere);
 				if (is_array($tmpR) && !in_array($catID,$subcatArr)) {
 					if ($tmpR['parent_category'] > 0) {
 						$nonRootMounts = TRUE;
@@ -724,7 +724,7 @@ class tx_ttnews_TCAform_selectTree {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 					'pid',
 					'tt_news_cat',
-					'pid>=0'.$where.t3lib_BEfunc::deleteClause('tt_news_cat'),
+					'pid>=0'.$where.\TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('tt_news_cat'),
 					'pid'
 				);
 		$list = array();
@@ -755,7 +755,7 @@ class tx_ttnews_TCAform_selectTree {
 			$catRootline = array();
 			while ($uid!=0 && $loopCheck>0)	{
 				$loopCheck--;
-				$row = t3lib_BEfunc::getRecord('tt_news_cat', $uid, 'parent_category', $SPaddWhere);
+				$row = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('tt_news_cat', $uid, 'parent_category', $SPaddWhere);
 				if (is_array($row) && $row['parent_category'] > 0)	{
 					$uid = $row['parent_category'];
 					$catRootline[] = $uid;
@@ -793,7 +793,7 @@ class tx_ttnews_TCAform_selectTree {
 				// get all categories
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', $fTable, '1=1' .$SPaddWhere. ' AND deleted=0');
 			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-				if (!t3lib_div::inList($allowedItemsList,$row['uid'])) { // remove all allowed categories from the category result
+				if (!\TYPO3\CMS\Core\Utility\GeneralUtility::inList($allowedItemsList,$row['uid'])) { // remove all allowed categories from the category result
 					$itemArr[]=$row['uid'];
 				}
 			}
@@ -802,7 +802,7 @@ class tx_ttnews_TCAform_selectTree {
 				$notAllowedCats = array();
 				foreach ($catvals as $k) {
 					$c = explode('|',$k);
-					if($c[0] && !t3lib_div::inList($allowedItemsList,$c[0])) {
+					if($c[0] && !\TYPO3\CMS\Core\Utility\GeneralUtility::inList($allowedItemsList,$c[0])) {
 						$notAllowedCats[]= '<p style="padding:0px;color:red;font-weight:bold;">- '.$c[1].' <span class="typo3-dimmed"><em>['.$c[0].']</em></span></p>';
 					}
 				}
@@ -876,7 +876,7 @@ class tx_ttnews_tceforms_categorytree extends tx_ttnews_categorytree {
 				$style = $this->getTitleStyles($v,$hrefTitle);
 				return '<a href="#" title="'.$hrefTitle.'"><span style="color:#999;cursor:default;'.$style.'">'.$title.'</span></a>';
 			} else {
-				$aOnClick = 'setFormValueFromBrowseWin(\''.$this->TCEforms_itemFormElName.'\','.$v['uid'].',\''.t3lib_div::slashJS($title).'\'); return false;';
+				$aOnClick = 'setFormValueFromBrowseWin(\''.$this->TCEforms_itemFormElName.'\','.$v['uid'].',\''.\TYPO3\CMS\Core\Utility\GeneralUtility::slashJS($title).'\'); return false;';
 				$style = $this->getTitleStyles($v,$hrefTitle);
 				return '<a href="#" onclick="'.htmlspecialchars($aOnClick).'" title="'.$hrefTitle.'"><span style="'.$style.'">'.$title.'</span></a>';
 			}

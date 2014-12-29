@@ -107,9 +107,9 @@ class tx_ttnews_tcemain {
 			$newParent = intval($fieldArray['parent_category']);
 			if ($newParent) {
 				$subcategories = tx_ttnews_div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields);
-				if (t3lib_div::inList($subcategories, $newParent)) {
-					$sourceRec = t3lib_BEfunc::getRecord($table, $id, 'title');
-					$targetRec = t3lib_BEfunc::getRecord($table, $fieldArray['parent_category'], 'title');
+				if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($subcategories, $newParent)) {
+					$sourceRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $id, 'title');
+					$targetRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
 
 
 					/**
@@ -129,7 +129,7 @@ class tx_ttnews_tcemain {
 
 				// copy "type" field in localized records
 			if (!is_int($id) && $fieldArray['l18n_parent']) { // record is a new localization
-				$rec = t3lib_BEfunc::getRecord($table, $fieldArray['l18n_parent'], 'type'); // get "type" from parent record
+				$rec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $fieldArray['l18n_parent'], 'type'); // get "type" from parent record
 				$fieldArray['type'] = $rec['type']; // set type of current record
 			}
 
@@ -154,7 +154,7 @@ class tx_ttnews_tcemain {
 					if (count($treeIDs)) {
 						$allowedItems = $treeIDs;
 					} else {
-						$allowedItems = t3lib_div::intExplode(',', $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
+						$allowedItems = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
 					}
 					foreach ($categories as $k) {
 						if (!in_array($k, $allowedItems)) {
@@ -182,7 +182,7 @@ class tx_ttnews_tcemain {
 			if (isset($GLOBALS['_POST']['_savedokview_x']) && !$fieldArray['type'] && !$GLOBALS['BE_USER']->workspace) {
 					// if "savedokview" has been pressed and current article has "type" 0 (= normal news article)
 					// and the beUser works in the LIVE workspace open current record in single view
-				$pagesTSC = t3lib_BEfunc::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
+				$pagesTSC = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
 				if ($pagesTSC['tx_ttnews.']['singlePid']) {
 					$GLOBALS['_POST']['popViewId_addParams'] = ($fieldArray['sys_language_uid'] > 0 ?
 						'&L=' . $fieldArray['sys_language_uid'] : '') . '&no_cache=1&tx_ttnews[tt_news]=' . $id;
@@ -218,7 +218,7 @@ class tx_ttnews_tcemain_cmdmap {
 	function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj) {
 
 		if ($table == 'tt_news' && !$GLOBALS['BE_USER']->isAdmin()) {
-			$rec = t3lib_BEfunc::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
+			$rec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
 			if ($rec['editlock']) {
 				$pObj->log($table, $id, 2, 0, 1, "processCmdmap [editlock]: Attempt to " . $command . " a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).", 1, array($table));
 				$error = true;
@@ -232,7 +232,7 @@ class tx_ttnews_tcemain_cmdmap {
 						'tt_news',
 						'tt_news_cat_mm',
 						'tt_news_cat',
-					' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . t3lib_BEfunc::BEenableFields('tt_news_cat'));
+					' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields('tt_news_cat'));
 				$categories = array();
 				while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 					$categories[] = $row['uid'];
@@ -245,7 +245,7 @@ class tx_ttnews_tcemain_cmdmap {
 					if (count($treeIDs)) {
 						$allowedItems = $treeIDs;
 					} else {
-						$allowedItems = t3lib_div::intExplode(',', $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
+						$allowedItems = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
 					}
 					foreach ($categories as $k) {
 						if (!in_array($k, $allowedItems)) {
@@ -281,7 +281,7 @@ class tx_ttnews_tcemain_cmdmap {
 
 			// copy records recursively from Drag&Drop in the category manager
 		if ($table == 'tt_news_cat' && $command == 'DDcopy') {
-			$srcRec = t3lib_BEfunc::getRecordWSOL('tt_news_cat', $srcId);
+			$srcRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordWSOL('tt_news_cat', $srcId);
 			$overrideValues = array('parent_category' => $destId, 'hidden' => 1);
 			$newRecID = $pObj->copyRecord($table, $srcId, $srcRec['pid'], 1, $overrideValues);
 			$CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $newRecID, $table, $pObj);

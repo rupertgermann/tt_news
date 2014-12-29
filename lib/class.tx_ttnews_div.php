@@ -36,35 +36,6 @@
  */
 class tx_ttnews_div {
 
-//	var $allowedItemsFromTreeSelector = false;
-
-
-//	function useAllowedCategories() {
-//		global $BE_USER;
-//		if (!$BE_USER->isAdmin()) {
-//			if ($BE_USER->user['tt_news_categorymounts']) {
-//				$this->allowedItemsFromTreeSelector = TRUE;
-//				return TRUE;
-//			} else { // no categorymounts set in be_user record - check groups
-//				if (is_array($BE_USER->userGroups)) {
-//					$cmounts = array();
-//					foreach ($BE_USER->userGroups as $group) {
-//						if ($group['tt_news_categorymounts']) {
-//							$cmounts[] = $group['tt_news_categorymounts'];
-//						}
-//					}
-//					$cMountList = implode(',',$cmounts);
-//					if ($cMountList) {
-//						$this->allowedItemsFromTreeSelector = TRUE;
-//						return TRUE;
-//					}
-//				}
-//			}
-//			if ($BE_USER->getTSConfigVal('options.useListOfAllowedItems')) {
-//				return TRUE;
-//			}
-//		}
-//	}
 
 	/**
 	 * [Describe function...]
@@ -107,7 +78,7 @@ class tx_ttnews_div {
 	function getSubCategories($catlist,$addWhere='', $cc = 0) {
 
 		if (!$catlist) {
-			t3lib_div::devLog('EMPTY $catlist ('.__CLASS__.'::'.__FUNCTION__.')', 'tt_news', 3, array());
+			\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('EMPTY $catlist ('.__CLASS__.'::'.__FUNCTION__.')', 'tt_news', 3, array());
 		}
 
 
@@ -218,7 +189,7 @@ class tx_ttnews_div {
 			$includeCatArray = tx_ttnews_div::getIncludeCatArray();
 
 			if ($excludeList) {
-				$catlistWhere .= ' AND tt_news_cat.uid NOT IN ('.implode(t3lib_div::intExplode(',',$excludeList),',').')';
+				$catlistWhere .= ' AND tt_news_cat.uid NOT IN ('.implode(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$excludeList),',').')';
 			}
 			if (count($includeCatArray)) {
 				$catlistWhere .= ' AND tt_news_cat.uid IN ('.implode(',',$includeCatArray).')';
@@ -241,7 +212,7 @@ class tx_ttnews_div {
 			$includeList = $catmounts;
 		}
 
-		return t3lib_div::intExplode(',',$includeList, 1);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$includeList, 1);
 	}
 
 

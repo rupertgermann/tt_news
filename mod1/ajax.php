@@ -44,19 +44,19 @@ if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 600200
 	require_once(PATH_typo3.'sysext/lang/lang.php');
 }
 
-$GLOBALS['LANG'] = t3lib_div::makeInstance('language');
+$GLOBALS['LANG'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('language');
 $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
 
 	// finding the script path from the variable
-$ajaxID = (string) t3lib_div::_GP('ajaxID');
+$ajaxID = (string) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('ajaxID');
 $ajaxScript = $TYPO3_CONF_VARS['BE']['AJAX'][$ajaxID];
 
 
 	// instantiating the AJAX object
 //if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4003000) {
-	$ajaxObj = t3lib_div::makeInstance('TYPO3AJAX', $ajaxID);
+	$ajaxObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3AJAX', $ajaxID);
 //} else {
-//	$ajaxClassName = t3lib_div::makeInstanceClassName('TYPO3AJAX');
+//	$ajaxClassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstanceClassName('TYPO3AJAX');
 //	$ajaxObj = new $ajaxClassName($ajaxID);
 //}
 
@@ -71,7 +71,7 @@ if (empty($ajaxID)) {
 } else if (empty($ajaxScript)) {
 	$ajaxObj->setError('Registered backend function for ajaxID "'.$ajaxID.'" was not found.');
 } else {
-	$ret = t3lib_div::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
+	$ret = \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
 	if ($ret === false) {
 		$ajaxObj->setError('Registered backend function for ajaxID "'.$ajaxID.'" was not found.');
 	}
