@@ -80,10 +80,10 @@ class tx_ttnews_wizicon {
 	 *
 	 * @return	array		The LOCAL_LANG array
 	 */
-	function includeLocalLang()	{
-		$llFile = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'locallang.xml';
-		$LOCAL_LANG = tx_ttnews_compatibility::getInstance()->readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
-		return $LOCAL_LANG;
+	public function includeLocalLang()    {
+		$llFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'locallang.xml';
+		$parser = new \TYPO3\CMS\Core\Localization\Parser\LocallangXmlParser();
+		return $parser->getParsedData($llFile, $GLOBALS['LANG']->lang);
 	}
 }
 
