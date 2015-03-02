@@ -1510,7 +1510,6 @@ if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news
 if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_AJAX)) {
 	$SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_module1');
 	$SOBE->init();
-	foreach($SOBE->include_once as $INC_FILE)	include_once($INC_FILE);
 
 	$SOBE->main();
 	$SOBE->printContent();
