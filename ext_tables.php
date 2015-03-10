@@ -49,8 +49,9 @@ $TCA['tt_news'] = array (
 //		'mainpalette' => '10',
 		'thumbnail' => 'image',
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'res/gfx/ext_icon.gif',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php'
-	)
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
+        'searchFields' => 'uid,title,short,bodytext'
+    )
 );
 
 
@@ -75,7 +76,8 @@ $TCA['tt_news_cat'] = array (
 		'mainpalette' => '2,10',
 		'crdate' => 'crdate',
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'res/gfx/tt_news_cat.gif',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php'
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
+        'searchFields' => 'uid,title'
 	)
 );
 
