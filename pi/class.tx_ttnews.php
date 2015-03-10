@@ -4179,6 +4179,8 @@ class tx_ttnews extends tslib_pibase {
 	 * @return tx_ttnews_compatibility
 	 */
 	protected function compatibility() {
+		require_once (t3lib_extMgm::extPath('tt_news').'class.tx_ttnews_compatibility.php');
+
 		return tx_ttnews_compatibility::getInstance();
 	}
 }
