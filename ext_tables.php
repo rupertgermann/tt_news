@@ -243,32 +243,29 @@ if (TYPO3_MODE == 'BE')	{
         TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule('web','txttnewsM1','',TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'mod1/');
     }
 
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule('web','txttnewsM1','',TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'mod1/');
-
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['icon'] = TRUE;
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['icon'] = TRUE;
 
 
 
-// register contextmenu for the tt_news category manager
-$GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][] = array(
-	'name' => 'tx_ttnewscatmanager_cm1',
-	'path' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'cm1/class.tx_ttnewscatmanager_cm1.php'
-);
+    // register contextmenu for the tt_news category manager
+    $GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][] = array(
+        'name' => 'tx_ttnewscatmanager_cm1',
+        'path' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'cm1/class.tx_ttnewscatmanager_cm1.php'
+    );
 
-		// Adds a tt_news wizard icon to the content element wizard.
-$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'pi/class.tx_ttnews_wizicon.php';
+            // Adds a tt_news wizard icon to the content element wizard.
+    $TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'pi/class.tx_ttnews_wizicon.php';
 
-			// add folder icon
-\TYPO3\CMS\Backend\Sprite\SpriteManager::addTcaTypeIcon('pages', 'contains-news', TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');
+                // add folder icon
+    \TYPO3\CMS\Backend\Sprite\SpriteManager::addTcaTypeIcon('pages', 'contains-news', TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'res/gfx/ext_icon_ttnews_folder.gif');
 
 
-
+    // register HTML template for the tt_news BackEnd Module
+    $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'mod1/mod_ttnews_admin.html';
 
 }
 
-	// register HTML template for the tt_news BackEnd Module
-$GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'mod1/mod_ttnews_admin.html';
 
 
 

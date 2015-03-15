@@ -55,10 +55,3 @@ writeParseTimesToDevlog = 0
 parsetimeThreshold = 0.1
 
 
-
-
-
-/*
-  ### CVS id ###
-  $Id$
-*/
