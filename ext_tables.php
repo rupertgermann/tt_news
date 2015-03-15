@@ -239,6 +239,9 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users','
 
 
 if (TYPO3_MODE == 'BE')	{
+    if ($confArr['showBackEndModule']) {
+        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule('web','txttnewsM1','',TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'mod1/');
+    }
 
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule('web','txttnewsM1','',TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'mod1/');
 
