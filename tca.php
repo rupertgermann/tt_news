@@ -297,19 +297,25 @@ $TCA['tt_news'] = Array (
 		),
 		'category' => Array (
 			'exclude' => 1,
-		#	'l10n_mode' => 'exclude', // the localizalion mode will be handled by the userfunction
+			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news.category',
 			'config' => Array (
-				'type' => 'select',
-				'form_type' => 'user',
-				'userFunc' => 'tx_ttnews_TCAform_selectTree->renderCategoryFields',
-				'treeView' => 1,
-				'foreign_table' => 'tt_news_cat',
-				'autoSizeMax' => 50,
-				'minitems' => $confArr['requireCategories'] ? 1 : 0,
-				'maxitems' => 500,
-				'MM' => 'tt_news_cat_mm',
-
+                'type' => 'select',
+                'foreign_table' => 'tt_news_cat',
+                'MM' => 'tt_news_cat_mm',
+                'size' => 10,
+                'autoSizeMax' => 50,
+                'minitems' => $confArr['requireCategories'] ? 1 : 0,
+                'maxitems' => 500,
+                'renderMode' => 'tree',
+                'treeConfig' => array(
+                    'expandAll' => true,
+                    'parentField' => 'parent_category',
+                    'appearance' => array(
+                        'showHeader' => TRUE,
+                        'width' => 400
+                    ),
+                )
 			)
 		),
 		'page' => Array (
@@ -546,49 +552,22 @@ $TCA['tt_news_cat'] = Array (
 		),
 		'parent_category' => Array (
 			'exclude' => 1,
-
 			'label' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news_cat.parent_category',
 			'config' => Array (
-				'type' => 'select',
-				'form_type' => 'user',
-				'userFunc' => 'tx_ttnews_TCAform_selectTree->renderCategoryFields',
-				'treeView' => 1,
-				'size' => 1,
-				'minitems' => 0,
-/**
- * FIXME actually maxitems is '1' but somehow the '2' is needed here
- * @see lib/class.tx_ttnews_TCAform_selectTree.php
- *
- */
-
-				'maxitems' => 2,
-				'foreign_table' => 'tt_news_cat',
-//				'wizards' => Array(
-//					'_PADDING' => 2,
-//					'_VERTICAL' => 1,
-////					'add' => Array(
-////						'type' => 'script',
-////						'title' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news_cat.createNewParentCategory',
-////						'icon' => 'EXT:tt_news/res/add_cat.gif',
-////						'params' => Array(
-////							'table'=>'tt_news_cat',
-////							'pid' => $sPid,
-////							'setValue' => 'set'
-////						),
-////						'script' => 'wizard_add.php',
-////					),
-//					'list' => Array(
-//						'type' => 'script',
-//						'title' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news_cat.listCategories',
-//						'icon' => 'list.gif',
-//						'params' => Array(
-//							'table'=>'tt_news_cat',
-//							'pid' => $sPid,
-//						),
-//						'script' => 'wizard_list.php',
-//					),
-//				),
-
+                'type' => 'select',
+                'foreign_table' => 'tt_news_cat',
+                'size' => 10,
+                'minitems' => 0,
+                'maxitems' => 1,
+                'renderMode' => 'tree',
+                'treeConfig' => array(
+                    'expandAll' => true,
+                    'parentField' => 'parent_category',
+                    'appearance' => array(
+                        'showHeader' => TRUE,
+                        'width' => 400
+                    ),
+                )
 			)
 		),
 		'image' => Array (

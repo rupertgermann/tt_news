@@ -192,22 +192,24 @@ include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY
 $tempColumns = array (
 		'tt_news_categorymounts' => array (
 			'exclude' => 1,
-		#	'l10n_mode' => 'exclude', // the localizalion mode will be handled by the userfunction
+			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news.categorymounts',
 			'config' => array (
-
-
-				'type' => 'select',
-				'form_type' => 'user',
-				'userFunc' => 'tx_ttnews_TCAform_selectTree->renderCategoryFields',
-				'treeView' => 1,
-				'foreign_table' => 'tt_news_cat',
-				#'foreign_table_where' => $fTableWhere.'ORDER BY tt_news_cat.'.$confArr['category_OrderBy'],
-				'size' => 3,
-				'minitems' => 0,
-				'maxitems' => 500,
-// 				'MM' => 'tt_news_cat_mm',
-
+                'type' => 'select',
+                'foreign_table' => 'tt_news_cat',
+                'size' => 10,
+                'autoSizeMax' => 50,
+                'minitems' => 0,
+                'maxitems' => 500,
+                'renderMode' => 'tree',
+                'treeConfig' => array(
+                    'expandAll' => true,
+                    'parentField' => 'parent_category',
+                    'appearance' => array(
+                        'showHeader' => TRUE,
+                        'width' => 400
+                    ),
+                )
 			)
 		),
 // 		'tt_news_cmounts_usesubcats' => array (
@@ -224,6 +226,7 @@ $tempColumns = array (
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups',$tempColumns,1);
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups','tt_news_categorymounts;;;;1-1-1');
 
+// show the category selection only in non-admin be_users records
 $tempColumns['tt_news_categorymounts']['displayCond'] = 'FIELD:admin:=:0';
 // $tempColumns['tt_news_cmounts_usesubcats']['displayCond'] = 'FIELD:admin:=:0';
 
