@@ -94,17 +94,13 @@
 				for debugging).</label>
 			<label index="extmng.cacheLifetime">Cache lifetime: lifetime in seconds of the internal cache entries (if "cachingMode" is set to "lifetime"). example: 86400 (a day), 604800 (a week)</label>
 			<label index="extmng.cachingEngine">Caching engine: where should the cache entries from tt_news be stored. "internal": store cache records directly in the database using internal methods. "cachingFramework" Requires at least TYPO3 4.3: store cache records in the TYPO3 caching framework (in the default configuration tt_news uses the DB backend of the caching framework).</label>
-			
-			
-			
-			<label index="extmng.treeOrderBy">Category ordering in BackEnd trees: Here you can configure the the ordering of categories in category trees in BackEnd forms.</label>
+			<label index="extmng.showBackEndModule">Show BackEnd Module: Show or hide the "News Admin" backEnd Module.</label>
+
 			<label index="extmng.prependAtCopy">Prepend at Copy: Here you can disable adding of the text "(copy [#])" to titles of copied records.</label>
 			<label index="extmng.label">News Label in List-Module: Defines which field is displayed in the title column in the web/list module.</label>
 			<label index="extmng.label_alt">Alternative Label: Defines which field is displayed in the title column in lists if the field is empty, that is configured as label. If no alternative label is defined and the label field is empty the text [No title] will be shown.</label>
 			<label index="extmng.label_alt2">Alternative Label 2: see "Alternative label."</label>
 			<label index="extmng.label_alt_force">Force alternative label: If this is activated the alternative label will be always shown behind the label.</label>
-			<label index="extmng.categoryTreeWidth">Width of the right category field: This field shows the category tree in the tt_news db-record (or in the category db-record). If "categoryTreeWidth" is set to 0 (zero) the default width (=350px) will be taken.</label>
-			<label index="extmng.categorySelectedWidth">Width of the left category field: This field shows the selected categories in the tt_news db-record (or parent categories in the category db-record). If "categorySelectedWidth" is set to 0 (zero) the default width (=200px) will be taken.</label>
 			<label index="extmng.l10n_mode_prefixLangTitle">Localization mode for text fields: By default, all text fields (text, subheader, imagecaption ...) from a new localized news article will be prepended with "[translate to ...]". If this is not wanted you can disable it here. If "l10n_mode_prefixLangTitle" is disabled the text "(copy [#])" will be added to the titles of this records unless "prependAtCopy" is disabled (see "prependAtCopy").</label>
 			<label index="extmng.l10n_mode_imageExclude">Localization mode for images: The image field of a localized news article is excluded by default (images are alwas taken from the record in the default language). If you need localized images (f.e. if the images show texts) you can enable the "image" field in translated news by setting "l10n_mode_imageExclude" to 0.</label>
 			<label index="extmng.hideNewLocalizations">Hide new localizations: Here you choose if new localizations of news articles should be hidden or not. By default new localizations are visible. If this is not wanted set "hideNewLocalizations" to 1.</label>
@@ -290,14 +286,11 @@
 
 
 
-			<label index="extmng.treeOrderBy">Tri des catégories dans les arborescences du Back Office : Ici vous pouvez configurer la clé de tri des arborescences de catégories dans les formulaires back office.</label>
 			<label index="extmng.prependAtCopy">Préfixer lors de la copie : Ici vous pouvez désactiver l'ajout de texte"(copy [#])" dans les titres des enregistrements copiés.</label>
 			<label index="extmng.label">Libellé des actualités en mode liste : Définit quel champ sera affiché dans la colonne titre dans le module web/liste.</label>
 			<label index="extmng.label_alt">Libellé alternatif : Définit quel champ sera affiché dans la colonne titre en mode liste si le libellé par défaut est vide. Si aucun libellé alternatif n'est défini et que le libellé est vide, le texte [sans titre] sera affiché.</label>
 			<label index="extmng.label_alt2">Libellé alternatif 2: Libellé alternatif."</label>
 			<label index="extmng.label_alt_force">Forcer les libellés alternatifs : Si cette option est activée les libellés alternatifs seront toujours affichés derrière le libellé par défaut.</label>
-			<label index="extmng.categoryTreeWidth">Largeur de la zone de droite du champ catégorie : Cette zone affiche l'arborescence des catégories dans les formulaires back office des enregistrements d'actualité (ou des enregistrements de catégories). Si cette option est paramétrée à 0  (zero) la largeur par défaut (=350px) sera utilisée.</label>
-			<label index="extmng.categorySelectedWidth">Largeur de la zone de gauche du champ catégorie : Cette zone affiche les catégories sélectionnées dans le champ catégories des formulaires back office des enregistrements d'actualités (ou des enregistrements de catégories). Si cette option est paramétrée à 0  (zero) la largeur par défaut (=200px) sera utilisée.</label>
 			<label index="extmng.l10n_mode_prefixLangTitle">Mode de traduction pour les champs texte : Par défaut, tous les champs texte (texte, titre, étiquette d'image...) dans une nouvelle traduction d'actualité seront préfixés avec "[translate to ...]". Si ce n'est pas souhaité, vous pouvez désactiver cela ici. Si "l10n_mode_prefixLangTitle" est désactivé, le texte "(copy [#])" sera ajouté aux titres des enregistrements même si "prependAtCopy" est désactivé (voir "prependAtCopy").</label>
 			<label index="extmng.l10n_mode_imageExclude">Mode de traduction pour les images : Le champ image d'une actualité traduite est exclu par défaut (les images sont toujours récupérées à partir de l'enregistrement de la langue par défaut). Si vous souhaitez traduire les images (ex: si une images contient des textes) vous pouvez activer le champ image dans les actualités traduites en paramétrant "l10n_mode_imageExclude" à 0.</label>
 			<label index="extmng.hideNewLocalizations">Cacher les nouvelles traductions : Ici vous pouvez choisir si les nouvelles traductions d'actualité doivent être cachées par défaut ou pas. Par défaut les nouvelles traductions sont visibles. Si ce n'est pas souhaité, paramétrer "hideNewLocalizations" à 1.</label>

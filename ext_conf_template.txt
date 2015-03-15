@@ -18,9 +18,6 @@ cacheLifetime = 0
 cachingEngine = internal
 
 
-  # cat=basic//15; type=options[title,uid]; label=LLL:EXT:tt_news/locallang.xml:extmng.treeOrderBy
-treeOrderBy = uid
-
   # cat=basic//20; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.prependAtCopy
 prependAtCopy = 1
 
@@ -35,12 +32,6 @@ label_alt2 =
 
   # cat=basic//50; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.label_alt_force
 label_alt_force = 0
-
-  # cat=basic/dims/60; type=int [0-600]; label=LLL:EXT:tt_news/locallang.xml:extmng.categorySelectedWidth
-categorySelectedWidth =
-
-  # cat=basic/dims/70; type=int [0-600]; label=LLL:EXT:tt_news/locallang.xml:extmng.categoryTreeWidth
-categoryTreeWidth =
 
   # cat=basic/language/130; type=boolean; label=LLL:EXT:tt_news/locallang.xml:extmng.l10n_mode_prefixLangTitle
 l10n_mode_prefixLangTitle = 1
