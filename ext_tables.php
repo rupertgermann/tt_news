@@ -199,6 +199,7 @@ $tempColumns = array (
 			'config' => array (
                 'type' => 'select',
                 'foreign_table' => 'tt_news_cat',
+                'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
                 'size' => 10,
                 'autoSizeMax' => 50,
                 'minitems' => 0,
