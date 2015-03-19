@@ -455,7 +455,7 @@ $TCA['tt_news'] = Array (
 		'2' => Array('showitem' => 'no_auto_pb'),
 		'3' => Array('showitem' => 'author_email'),
 //		'4' => Array('showitem' => 'keywords'),
-		'5' => Array('showitem' => 'imagealttext,imagetitletext'),
+		'5' => Array('showitem' => 'imagealttext,--linebreak--,imagetitletext'),
 
 
 	)
