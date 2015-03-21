@@ -307,7 +307,8 @@ class tx_ttnews_TCAform_selectTree {
 						'items' => $fobj->getLL('l_items').':<br />'
 					),
 					'noBrowser' => 1,
-					'thumbnails' => $thumbnails
+					'thumbnails' => $thumbnails,
+                    'size' => 3
 				);
 				$item.= $fobj->dbFileIcons($itemFormElName,'','',$itemArray,'',$params,$this->PA['onFocus']);
 				// Wizards:
