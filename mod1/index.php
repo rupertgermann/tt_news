@@ -594,7 +594,7 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 	 *
 	 * @return	[type]		...
 	 */
-	function displayNewsList()	{
+	function displayNewsList($ajax=false)	{
 		$content = '';
 
 		$this->initSubCategories();
@@ -660,7 +660,7 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 			$content .= '<div style="float:right;">'.$search.'</div>';
 		}
 
-		$content .= $this->renderListCheckBoxes();
+		$content .= $this->renderListCheckBoxes($ajax);
 		$content .= $this->getListHeaderMsg($dblist);
 		$content .= $dblist->HTMLcode;
 
@@ -717,7 +717,7 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 	function ajaxLoadList($params, &$ajaxObj) {
 		$this->processAjaxRequestConstruct();
 		$this->init();
-		$list = $this->displayNewsList();
+		$list = $this->displayNewsList(true);
 		$ajaxObj->addContent('ttnewslist', $list);
 	}
 
@@ -895,7 +895,7 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 	 *
 	 * @return	[type]		...
 	 */
-	function renderListCheckBoxes() {
+	function renderListCheckBoxes($ajax=false) {
 		$show = array();
 		if (is_array($this->TSprop['list.']['show.'])) {
 			$show = $this->TSprop['list.']['show.'];
@@ -907,12 +907,18 @@ class tx_ttnews_module1 extends t3lib_SCbase {
 		if (!$this->isAdmin) {
 			$allowedCbNames[] = 'showOnlyEditable';
 		}
+
+        $script = '';
+        if($ajax == true) {
+            $script = 'mod.php';
+        }
+
 		$params = $this->getLinkParams();
 		$out = array();
 		foreach ($allowedCbNames as $n) {
 			if ((bool)$show['cb_'.$n]) {
 				$out[] = '<span class="list-cb">' .
-						t3lib_BEfunc::getFuncCheck($params, 'SET['.$n.']', $this->MOD_SETTINGS[$n], '', '', 'id="cb-' . $n . '"') .
+						t3lib_BEfunc::getFuncCheck($params, 'SET['.$n.']', $this->MOD_SETTINGS[$n], $script, '', 'id="cb-' . $n . '"') .
 					' <label for="cb-'.$n.'">'.$GLOBALS['LANG']->getLL($n,1).'</label></span>';
 			}
 		}
