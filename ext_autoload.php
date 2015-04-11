@@ -24,6 +24,7 @@ return array(
 	'tx_ttnews_tsparserext' => $extensionPath . 'lib/class.tx_ttnews_tsparserext.php',
 	'tx_ttnews_typo3ajax' => $extensionPath . 'lib/class.tx_ttnews_typo3ajax.php',
 	'tx_ttnews_wizicon' => $extensionPath . 'pi/class.tx_ttnews_wizicon.php',
+	'tx_ttnewscatmanager_cm1' => $extensionPath . 'cm1/class.tx_ttnewscatmanager_cm1.php',
 
 );
 ?>
