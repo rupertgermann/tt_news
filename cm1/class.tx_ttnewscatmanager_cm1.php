@@ -205,7 +205,7 @@ class tx_ttnewscatmanager_cm1 {
 	function DB_delete($table,$uid,$elInfo)	{
 		$loc='top.content.list_frame';
 		if($GLOBALS['BE_USER']->jsConfirmation(4))	{
-			$conf = "confirm(".$GLOBALS['LANG']->JScharCode(sprintf($GLOBALS['LANG']->sL('LLL:EXT:lang/locallang_core.php:mess.delete'),$elInfo[0]).
+			$conf = "confirm(".\TYPO3\CMS\Core\Utility\GeneralUtility::quoteJSvalue(sprintf($GLOBALS['LANG']->sL('LLL:EXT:lang/locallang_core.php:mess.delete'),$elInfo[0]).
 				\TYPO3\CMS\Backend\Utility\BackendUtility::referenceCount($table,$uid,' (There are %s reference(s) to this record!)')).")";
 		} else {
 			$conf = '1==1';
