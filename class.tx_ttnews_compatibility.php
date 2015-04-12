@@ -121,4 +121,4 @@ class tx_ttnews_compatibility implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 }
-?>
+

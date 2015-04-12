@@ -245,4 +245,3 @@ function user_substPageBrowser2 ($markerArray, $conf) {
 }
 
 
-?>

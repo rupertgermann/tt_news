@@ -89,5 +89,3 @@ function user_processAmenu($amenuItemsArr, $conf){
 }
 
 
-
-?>

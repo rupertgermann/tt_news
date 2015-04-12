@@ -346,8 +346,3 @@ class tx_ttnews_tcemain_cmdmap {
 
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_tcemain.php'])    {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_tcemain.php']);
-}
-
-?>

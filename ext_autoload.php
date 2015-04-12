@@ -27,4 +27,5 @@ return array(
 	'tx_ttnewscatmanager_cm1' => $extensionPath . 'cm1/class.tx_ttnewscatmanager_cm1.php',
 
 );
-?>
+
+

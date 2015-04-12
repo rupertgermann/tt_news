@@ -4237,6 +4237,5 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_news/pi/class.tx_ttnews.php']) {
-	include_once ($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_news/pi/class.tx_ttnews.php']);
-}
+
+

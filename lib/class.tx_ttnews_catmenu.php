@@ -390,7 +390,4 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 
 
 }
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_catmenu.php'])    {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_catmenu.php']);
-}
-?>
+

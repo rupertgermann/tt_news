@@ -1512,9 +1512,7 @@ class tx_ttnewscatmanager_treeView extends tx_ttnews_categorytree {
 }
 
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/mod1/index.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/mod1/index.php']);
-}
+
 
 if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_AJAX)) {
 	$SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_module1');

@@ -86,4 +86,3 @@ function user_displayFileLinks($markerArray, $conf){
 
 
 
-?>

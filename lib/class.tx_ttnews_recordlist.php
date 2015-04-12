@@ -719,11 +719,3 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 
 
 
-
-
-
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_recordlist.php'])    {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/tt_news/lib/class.tx_ttnews_recordlist.php']);
-}
-?>

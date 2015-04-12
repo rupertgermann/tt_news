@@ -82,4 +82,3 @@ if (empty($ajaxID)) {
 
 $ajaxObj->render();
 
-?>
