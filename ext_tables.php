@@ -49,7 +49,7 @@ $TCA['tt_news'] = array (
 //		'mainpalette' => '10',
 		'thumbnail' => 'image',
 		'iconfile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/ext_icon.gif',
-		'dynamicConfigFile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'tca.php',
+		'dynamicConfigFile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'Configuration/TCA/tt_news.php',
         'searchFields' => 'uid,title,short,bodytext'
     )
 );
@@ -76,7 +76,7 @@ $TCA['tt_news_cat'] = array (
 		'mainpalette' => '2,10',
 		'crdate' => 'crdate',
 		'iconfile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/tt_news_cat.gif',
-		'dynamicConfigFile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'tca.php',
+		'dynamicConfigFile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'Configuration/TCA/tt_news_cat.php',
         'searchFields' => 'uid,title'
 	)
 );
