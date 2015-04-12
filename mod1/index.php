@@ -1009,15 +1009,15 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 
 //			if ($this->table) {
 					// Export
-				if (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('impexp')) {
-					$modUrl = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('impexp') . 'app/index.php';
-					$params = $modUrl . '?tx_impexp[action]=export&tx_impexp[list][]=';
-					$params .= rawurlencode('tt_news:' . $this->id).'&tx_impexp[list][]=';
-					$params .= rawurlencode('tt_news_cat:' . $this->id);
-					$buttons['export'] = '<a href="' . htmlspecialchars($backPath.$params).'">' .
-									'<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($backPath, TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('impexp') . 'export.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:rm.export', 1) . '" alt="" />' .
-									'</a>';
-				}
+//				if (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('impexp')) {
+//					$modUrl = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('impexp') . 'app/index.php';
+//					$params = $modUrl . '?tx_impexp[action]=export&tx_impexp[list][]=';
+//					$params .= rawurlencode('tt_news:' . $this->id).'&tx_impexp[list][]=';
+//					$params .= rawurlencode('tt_news_cat:' . $this->id);
+//					$buttons['export'] = '<a href="' . htmlspecialchars($backPath.$params).'">' .
+//									'<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($backPath, TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('impexp') . 'export.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:rm.export', 1) . '" alt="" />' .
+//									'</a>';
+//				}
 //			}
 
 				// Reload
