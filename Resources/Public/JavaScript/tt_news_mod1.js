@@ -1,6 +1,7 @@
 /***************************************************************
  *
- *  javascript functions for the tt_news category tree in tceforms
+ *  javascript functions for the tt_news category tree in the 
+ *  "news admin" module.
  *  relies on the javascript library "prototype"
  *
  *
@@ -31,19 +32,18 @@
  * $Id$
  *
  */
- 
-var tceFormsCategoryTree = {
+
+var txttnewsM1js = {
 	thisScript: 'ajax.php',
-	ajaxID: 'tceFormsCategoryTree::expandCollapse',
-	frameSetModule: null,
-	activateDragDrop: true,
+	activateDragDrop: false,
 	highlightClass: 'active',
 
 	// reloads a part of the page tree (useful when "expand" / "collapse")
-	load: function(params, isExpand, obj, tceFormsTable, recID, storagePid) {
+	load: function(params, isExpand, obj, pid) {
+		var ajaxID = 'txttnewsM1::expandCollapse';
 			// fallback if AJAX is not possible (e.g. IE < 6)
 		if (typeof Ajax.getTransport() != 'object') {
-			window.location.href = this.thisScript + '?ajaxID=' + this.ajaxID + '&PM=' + params;
+			window.location.href = this.thisScript + '?ajaxID=' + ajaxID + '&PM=' + params;
 			return;
 		}
 
@@ -63,13 +63,11 @@ var tceFormsCategoryTree = {
 		}
 
 		new Ajax.Request(this.thisScript, {
-			//method: 'get',
-			parameters: 'ajaxID=' + this.ajaxID + '&PM=' + params + '&tceFormsTable=' + tceFormsTable + '&recID=' + recID  + '&storagePid=' + storagePid ,
+			parameters: 'ajaxID=' + ajaxID + '&PM=' + params + '&id=' + pid,
 			onComplete: function(xhr) {
 				// the parent node needs to be overwritten, not the object
 				$(obj.parentNode).replace(xhr.responseText);
 				this.registerDragDropHandlers();
-				//this.reSelectActiveItem();
 				//filter($('_livesearch').value);
 			}.bind(this),
 			onT3Error: function(xhr) {
@@ -78,6 +76,38 @@ var tceFormsCategoryTree = {
 			}.bind(this)
 		});
 	},
+
+
+	// reloads the news list
+	loadList: function(category, obj, pid) {
+		var ajaxID = 'txttnewsM1::loadList';
+			// fallback if AJAX is not possible (e.g. IE < 6)
+		if (typeof Ajax.getTransport() != 'object') {
+			window.location.href = this.thisScript + '?ajaxID=' + ajaxID + '&category=' + category + '&M=web_txttnewsM1';
+			return;
+		}
+
+		new Ajax.Request(this.thisScript, {
+			parameters: 'ajaxID=' + ajaxID + '&category=' + category + '&id=' + pid + '&M=web_txttnewsM1',
+            method: 'get',
+			onComplete: function(xhr) {
+				$(obj).replace(xhr.responseText);
+				this.highlightActiveItem(category);
+				//filter($('_livesearch').value);
+			}.bind(this),
+			onT3Error: function(xhr) {
+				// if this is not a valid ajax response, the whole page gets refreshed
+				this.refresh();
+			}.bind(this)
+		});
+	},
+	highlightActiveItem: function(category) {
+		var highlightID = 'row' + category + '_0'; 
+		// Remove all items that are already highlighted
+		$$('ul#treeRoot li').invoke('removeClassName', this.highlightClass);
+		// Set the new item
+		if ($(highlightID)) Element.addClassName(highlightID, this.highlightClass);
+	},	
 
 	// does the complete page refresh (previously known as "_refresh_nav()")
 	refresh: function() {
@@ -103,6 +133,3 @@ var tceFormsCategoryTree = {
 		}
 	}
 };
-
-
-
