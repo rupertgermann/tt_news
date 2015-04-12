@@ -252,11 +252,11 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 					float:left;
 					overflow-x: auto;
 					overflow-y: auto;
-					width:230px;
+					width: 253px;
 					border-right: 1px solid #ccc;
 				}
 				#ttnews-cat-tree { margin-bottom: 15px; }
-				#ttnewsadmin-list {  padding: 0 10px 0 240px; }
+				#ttnewsadmin-list {  padding: 0 10px 0 263px; }
 				#togglesubcats { background:#ddd; padding: 2px; cursor: pointer; font-style:italic; }
 				#newssubcats { background:#f8f9fa; padding: 2px; border:1px solid #ddd; }
 				#resetcatselection { float:right; font-style:italic; }
@@ -270,9 +270,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 					width: 18px;
 					display: inline;
 				}
-				div.docheader-row2-right {
-					margin-top: -3px;
-				}
+
 				div.ttnewsadmin-pagination {
 					padding: 5px 0;
 					white-space: nowrap;
@@ -283,6 +281,12 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 				div.ttnewsadmin-pagination img {
 					vertical-align: bottom;
 					padding-bottom: 2px;
+				}
+				#ttnewsadmin-tree .checkbox {
+				    display:inline;
+				}
+				#ttnews-cat-tree ul.tree {
+				    margin:16px 0 0 0;
 				}
 
 
