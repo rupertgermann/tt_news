@@ -4,7 +4,7 @@
 		<description>language labels for tt_news BE forms</description>
 		<type>database</type>
 		<csh_table></csh_table>
-		<fileId>EXT:tt_news/locallang_tca.xml</fileId>
+		<fileId>EXT:tt_news/Resources/Private/Language/locallang_tca.xml</fileId>
 		<labelContext type="array">
 		</labelContext>
 	</meta>

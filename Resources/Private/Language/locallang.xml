@@ -4,7 +4,7 @@
 		<description>language labels for tt_news</description>
 		<type>module</type>
 		<csh_table></csh_table>
-		<fileId>EXT:tt_news/locallang.xml</fileId>
+		<fileId>EXT:tt_news/Resources/Private/Language/locallang.xml</fileId>
 		<labelContext type="array">
 			<label index="pi_title"></label>
 			<label index="pi_plus_wiz_description"></label>

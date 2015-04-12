@@ -13,7 +13,7 @@ $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news'])
 
 $TCA['tt_news'] = array (
 	'ctrl' => array (
-		'title' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news',
+		'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news',
 		'label' => ($confArr['label']) ? $confArr['label'] : 'title',
 		'label_alt' => $confArr['label_alt'] . ($confArr['label_alt2'] ? ',' . $confArr['label_alt2'] : ''),
 		'label_alt_force' => $confArr['label_alt_force'],
@@ -58,7 +58,7 @@ $TCA['tt_news'] = array (
 #$category_OrderBy = $confArr['category_OrderBy'];
 $TCA['tt_news_cat'] = array (
 	'ctrl' => array (
-		'title' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news_cat',
+		'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat',
 		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
@@ -87,7 +87,7 @@ $TCA['tt_content']['types']['list']['subtypes_excludelist'][9] = 'layout,select_
 	// add FlexForm field to tt_content
 $TCA['tt_content']['types']['list']['subtypes_addlist'][9] = 'pi_flexform';
 	// add tt_news to the "insert plugin" content element (list_type = 9)
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array('LLL:EXT:tt_news/locallang_tca.xml:tt_news', 9));
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news', 9));
 
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
   includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
@@ -195,7 +195,7 @@ $tempColumns = array (
 		'tt_news_categorymounts' => array (
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news.categorymounts',
+			'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.categorymounts',
 			'config' => array (
                 'type' => 'select',
                 'foreign_table' => 'tt_news_cat',
@@ -217,7 +217,7 @@ $tempColumns = array (
 		),
 // 		'tt_news_cmounts_usesubcats' => array (
 // 			'exclude' => 1,
-// 			'label' => 'LLL:EXT:tt_news/locallang_tca.xml:tt_news.cmounts_usesubcats',
+// 			'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.cmounts_usesubcats',
 // 			'config' => array (
 // 				'type' => 'check'
 // 			)

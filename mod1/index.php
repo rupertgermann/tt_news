@@ -566,11 +566,11 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 			$rootRec = $this->treeObj->getRecord($this->storagePid);
 			$icon = $this->treeObj->getIcon($rootRec);
 			$this->treeObj->table = $tmpt;
-			$pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),$this->storagePid);
+			$pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),$this->storagePid);
 		} else {
 			$rootRec = $this->treeObj->getRootRecord($this->storagePid);
 			$icon = $this->treeObj->getRootIcon($rootRec);
-			$pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
+			$pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
 		}
 		$pidLbl = ' <span class="typo3-dimmed"><em>'.$pidLbl.'</em></span>';
 		$hrefTitle = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:showAllResetSel');
@@ -1426,9 +1426,9 @@ class tx_ttnewscatmanager_treeView extends tx_ttnews_categorytree {
 				$grsp = ' GRSP';
 			}
 			if ($this->useStoragePid) {
-				$pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),$this->storagePid.$grsp);
+				$pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),$this->storagePid.$grsp);
 			} else {
-				$pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
+				$pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
 
 			}
 			$pidLbl = ' <span class="typo3-dimmed"><em>'.$pidLbl.'</em></span>';

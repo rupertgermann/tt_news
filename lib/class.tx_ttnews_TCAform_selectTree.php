@@ -230,9 +230,9 @@ class tx_ttnews_TCAform_selectTree {
 
 
 				if ($item) {
-					$item = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.translOrgCat').'<br />'.$item;
+					$item = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.translOrgCat').'<br />'.$item;
 				} else {
-					$item = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.translOrgNoCat').'<br />';
+					$item = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.translOrgNoCat').'<br />';
 				}
 				$item = '<div class="typo3-TCEforms-originalLanguageValue">'.$item.'</div>';
 
@@ -459,7 +459,7 @@ class tx_ttnews_TCAform_selectTree {
 
 		$content = '<div style="padding:10px;">
 			<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($GLOBALS['BACK_PATH'],'gfx/icon_'.$sev.'.gif','width="18" height="16"').' title="" alt="" />';
-		$content .= $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.msg_'.$msgLbl);
+		$content .= $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.msg_'.$msgLbl);
 		$content .= '</div>';
 
 		return $content;
@@ -588,7 +588,7 @@ class tx_ttnews_TCAform_selectTree {
 		$treeViewObj->titleLen = 60;
 		$treeViewObj->disableAll = $notInGRSP;
 		$treeViewObj->ext_IconMode = '1'; // no context menu on icons
-		$treeViewObj->title = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.treeTitle');
+		$treeViewObj->title = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.treeTitle');
 
 
 
@@ -700,12 +700,12 @@ class tx_ttnews_TCAform_selectTree {
 			$rootRec = $treeObj->getRecord($this->storagePid);
 			$icon = $treeObj->getIcon($rootRec);
 			$treeObj->table = $tmpt;
-			$pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),intval($this->storagePid));
+			$pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),intval($this->storagePid));
 
 		} else {
 			$rootRec = $treeObj->getRootRecord($this->storagePid);
 			$icon = $treeObj->getRootIcon($rootRec);
-			$pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
+			$pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
 
 		}
 
@@ -883,9 +883,9 @@ class tx_ttnews_tceforms_categorytree extends tx_ttnews_categorytree {
 		} else {
 			if ($this->useStoragePid || isset($v['doktype'])) {
 				$pid = ($this->storagePid ? $this->storagePid : $v['pid']);
-				$pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),$pid);
+				$pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),$pid);
 			} else {
-				$pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
+				$pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
 			}
 			$pidLbl = ' <span class="typo3-dimmed"><em>'.$pidLbl.'</em></span>';
 

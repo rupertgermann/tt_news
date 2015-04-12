@@ -62,11 +62,11 @@ class tx_ttnews_tsparserext {
 		$out .= '
 		<div style="position:absolute;top:10px;right:10px; width:300px;">
 			<div class="typo3-message message-information">
-   				<div class="message-header">' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:extmng.updatermsgHeader') . '</div>
+   				<div class="message-header">' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.updatermsgHeader') . '</div>
   				<div class="message-body">
-  					' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:extmng.updatermsg') . '<br />
+  					' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.updatermsg') . '<br />
   					<a style="text-decoration:underline;" href="' . $link . '">
-  					' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:extmng.updatermsgLink') . '</a>
+  					' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.updatermsgLink') . '</a>
   				</div>
   			</div>
   		</div>

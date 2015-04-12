@@ -43,7 +43,7 @@ class ext_update {
 	var $missingHtmlTemplates = array();
 	var $movedFields = array();
 	var $flexObj;
-	var $ll = 'LLL:EXT:tt_news/locallang.xml:updater.';
+	var $ll = 'LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:updater.';
 
 	var $checkMovedFields = array(
 			'pages' => array(
@@ -87,7 +87,7 @@ class ext_update {
 				$out .= '
 				<div style="padding:15px 15px 20px 0;">
 				<div class="typo3-message message-ok">
-   				<div class="message-header">' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:updater.updateresults') . '</div>
+   				<div class="message-header">' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:updater.updateresults') . '</div>
   				<div class="message-body">
 				' . $this->$func() . '
 				</div>
@@ -156,7 +156,7 @@ class ext_update {
 			$msg .=  '<p style="margin-bottom:10px;"><em>'.$GLOBALS['LANG']->sL($this->ll . 'questionInfo_' . $k) . '</em><p>';
 			$msg .= $this->getButton($func);
 		} else {
-			$msg .= '<br>' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:updater.nothingtodo');
+			$msg .= '<br>' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:updater.nothingtodo');
 
 		}
 
@@ -171,9 +171,9 @@ class ext_update {
 		$out = '
 		<div style="padding:15px 15px 20px 0;">
 			<div class="typo3-message message-warning">
-   				<div class="message-header">' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:updater.warningHeader') . '</div>
+   				<div class="message-header">' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:updater.warningHeader') . '</div>
   				<div class="message-body">
-					' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/locallang.xml:updater.warningMsg') . '
+					' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:updater.warningMsg') . '
 				</div>
 			</div>
 		</div>';
