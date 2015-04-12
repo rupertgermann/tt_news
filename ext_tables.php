@@ -114,9 +114,9 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords('tt_news')
 
 	// switch the XML files for the FlexForm depending on if "use StoragePid"(general record Storage Page) is set or not.
 if ($confArr['useStoragePid']) {
-	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds.xml');
+	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(9, 'FILE:EXT:tt_news/Resources/Private/Flexform/flexform_ds.xml.xml');
 } else {
-	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(9, 'FILE:EXT:tt_news/flexform_ds_no_sPID.xml');
+	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(9, 'FILE:EXT:tt_news/Resources/Private/Flexform/flexform_ds_no_sPID.xml');
 }
 
 
