@@ -363,12 +363,15 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 				}
 				if (!$error) {
 					$this->doc->JScodeLibArray['txttnewsM1'] = '
-						<script src="'.$GLOBALS['BACK_PATH'].TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'js/tt_news_mod1.js" type="text/javascript"></script>
+					    <script src="contrib/prototype/prototype.js" type="text/javascript"></script>
+						<script src="'.$GLOBALS['BACK_PATH'].TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'Resources/Public/JavaScript/tt_news_mod1.js" type="text/javascript"></script>
 						';
-					$this->doc->getDragDropCode('tt_news_cat');
-					$this->doc->postCode=$this->doc->wrapScriptTags('
-							txttnewsM1js.registerDragDropHandlers();
-					');
+
+                    // fixme: throws JS errors, commented out
+//					$this->doc->getDragDropCode('tt_news_cat');
+//					$this->doc->postCode=$this->doc->wrapScriptTags('
+//							txttnewsM1js.registerDragDropHandlers();
+//					');
 					$this->doc->getContextMenuCode();
 
 					$this->treeContent = $this->displayCategoryTree();
