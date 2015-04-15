@@ -269,7 +269,9 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree {
 			}
 		}
 		if (!$icon && !$catIconMode) {
-			$icon = \TYPO3\CMS\Backend\Utility\IconUtility::getIconImage($this->table,$row,$this->backPath,' class="c-recIcon"');
+            $icon = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord($this->table, $row, array(
+                'class' => 'c-recIcon'
+            ));
 		}
 		return $this->wrapIcon($icon,$row);
 	}
