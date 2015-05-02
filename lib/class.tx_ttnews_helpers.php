@@ -273,7 +273,7 @@ class tx_ttnews_helpers {
 					$cc = 0;
 					$pArr[] = $w;
 					$isfirst = false;
-				} elseif ($cc >= $this->compatibility()->intInRange($wc, 0, $this->pObj->config['maxWordsInSingleView'])) { // more words than maxWordsInSingleView
+				} elseif ($cc >= \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($wc, 0, $this->pObj->config['maxWordsInSingleView'])) { // more words than maxWordsInSingleView
 					if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('.,!,?', substr($w, - 1))) {
 						if ($this->pObj->conf['useParagraphAsPagebreak']) { // break at paragraph
 							$break = true;
@@ -462,13 +462,6 @@ class tx_ttnews_helpers {
 			$offset = '+' . $offset;
 		}
 		return strftime('%Y-%m-%dT%H:%M:%S', $datetime) . $offset . ':00';
-	}
-
-	/**
-	 * @return tx_ttnews_compatibility
-	 */
-	protected function compatibility() {
-		return tx_ttnews_compatibility::getInstance();
 	}
 }
 

@@ -129,27 +129,11 @@ class tx_ttnews_TCAform_selectTree {
 	 * @return	string		the HTML code for the field
 	 */
 	function renderCategoryFields(&$PA, &$fobj)    {
+        $jsFile = 'js/tceformsCategoryTree.js';
 
-		$this->intT3ver = $this->compatibility()->int_from_ver(TYPO3_version);
-		if ($this->intT3ver < 4001000) {
-			// load some additional styles for the BE trees in TYPO3 version lower that 4.1
-			// expand/collapse is disabled
-
-			$fobj->additionalCode_pre[] = '
-				<link rel="stylesheet" type="text/css" href="'.TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'compat/tree_styles_for_4.0.css" />';
-
-		} else { // enable ajax expand/collapse for TYPO3 versions > 4.1
-			if ($this->intT3ver >= 4002000) {
-				$jsFile = 'js/tceformsCategoryTree.js';
-			} else {
-				$jsFile = 'compat/tceformsCategoryTree_for_4.1.js';
-			}
-			$this->useAjax = TRUE;
-			$fobj->additionalCode_pre[] = '
+		$this->useAjax = TRUE;
+		$fobj->additionalCode_pre[] = '
 				<script src="'.TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').$jsFile.'" type="text/javascript"></script>';
-
-		}
-
 
 
 		$this->init($PA);
@@ -185,9 +169,9 @@ class tx_ttnews_TCAform_selectTree {
 		$nMV_label = @sprintf($nMV_label, $this->PA['itemFormElValue']);
 
 					// Set max and min items:
-		$maxitems = $this->compatibility()->intInRange($this->fieldConfig['maxitems'],0);
+		$maxitems = MathU($this->fieldConfig['maxitems'],0);
 		if (!$maxitems)	$maxitems = 1000;
-		$minitems = $this->compatibility()->intInRange($this->fieldConfig['minitems'],0);
+		$minitems = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($this->fieldConfig['minitems'],0);
 
 
 
@@ -271,7 +255,7 @@ class tx_ttnews_TCAform_selectTree {
 
 					$width = 350; // default width for the field with the category tree
 					if (intval($this->confArr['categoryTreeWidth'])) { // if a value is set in extConf take this one.
-						$width = $this->compatibility()->intInRange($this->confArr['categoryTreeWidth'],1,600);
+						$width = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($this->confArr['categoryTreeWidth'],1,600);
 					}
 
 					$divStyle = 'position:relative; left:0px; top:0px; width:'.$width.'px; border:solid 1px #999;background:#fff;margin-bottom:5px;padding: 0 10px 10px 0;';
@@ -294,7 +278,7 @@ class tx_ttnews_TCAform_selectTree {
 				}
 				$sWidth = 200; // default width for the left field of the category select
 				if (intval($this->confArr['categorySelectedWidth'])) {
-					$sWidth = $this->compatibility()->intInRange($this->confArr['categorySelectedWidth'],1,600);
+					$sWidth = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($this->confArr['categorySelectedWidth'],1,600);
 				}
 				$params = array(
 					'autoSizeMax' => $this->fieldConfig['autoSizeMax'],
@@ -413,38 +397,26 @@ class tx_ttnews_TCAform_selectTree {
 					' record has the following categories assigned that are not defined in your BE usergroup: ' .
 					urldecode(implode($NACats, chr(10)));
 
-		if ($this->compatibility()->int_from_ver(TYPO3_version) < 4003000) {
-			$msg = '
-				<div style="padding:15px 15px 20px 0;">
-					<div class="typo3-message message-warning">
-						<div class="message-header">' . $msgHeader . '</div>
-						<div class="message-body">' . $msgBody . '</div>
-					</div>
-				</div>';
 
-				// add flashmessages styles to older TYPO3 versions
-			$cssPath = $GLOBALS['BACK_PATH'] . TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news');
-			$msg = '<link rel="stylesheet" type="text/css" href="' . $cssPath . 'compat/flashmessages.css" media="screen" />' . $msg;
-		} else {
-				// in TYPO3 4.3 or higher we use flashmessages to display the message
-			$flashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-						't3lib_FlashMessage',
-						$msgBody,
-						$msgHeader,
-						t3lib_FlashMessage::WARNING
-				);
-			t3lib_FlashMessageQueue::addMessage($flashMessage);
+            // in TYPO3 4.3 or higher we use flashmessages to display the message
+        $flashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+                    't3lib_FlashMessage',
+                    $msgBody,
+                    $msgHeader,
+                    t3lib_FlashMessage::WARNING
+            );
+        t3lib_FlashMessageQueue::addMessage($flashMessage);
 
-			$inlineFlashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-						't3lib_FlashMessage',
-						$msgBody,
-						'',
-						t3lib_FlashMessage::WARNING
-				);
+        $inlineFlashMessage = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+                    't3lib_FlashMessage',
+                    $msgBody,
+                    '',
+                    t3lib_FlashMessage::WARNING
+            );
 
-			$msg = $inlineFlashMessage->render();
+        $msg = $inlineFlashMessage->render();
 
-		}
+
 		return $msg;
 	}
 
@@ -840,12 +812,7 @@ class tx_ttnews_TCAform_selectTree {
 		}
 	}
 
-	/**
-	 * @return tx_ttnews_compatibility
-	 */
-	protected function compatibility() {
-		return tx_ttnews_compatibility::getInstance();
-	}
+
 }
 
 

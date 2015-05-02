@@ -180,7 +180,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		// leave early if USER_INT
 		$this->convertToUserIntObject = $this->conf['convertToUserIntObject'] ? 1 : 0;
-		if ($this->compatibility()->int_from_ver(TYPO3_version) >= 4003000 && $this->convertToUserIntObject
+		if ($this->convertToUserIntObject
 				&& $this->cObj->getUserObjectType() == \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::OBJECTTYPE_USER) {
 			$this->cObj->convertToUserIntObject();
 			return '';
@@ -402,13 +402,13 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$this->config['backPid'] = $backPid;
 
 		// max items per page
-		$FFlimit = $this->compatibility()->intInRange($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'listLimit', 's_template'), 0, 1000);
+		$FFlimit = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'listLimit', 's_template'), 0, 1000);
 
-		$limit = $this->compatibility()->intInRange($this->cObj->stdWrap($this->conf['limit'], $this->conf['limit.']), 0, 1000);
+		$limit = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($this->cObj->stdWrap($this->conf['limit'], $this->conf['limit.']), 0, 1000);
 		$limit = $limit ? $limit : 50;
 		$this->config['limit'] = $FFlimit ? $FFlimit : $limit;
 
-		$latestLimit = $this->compatibility()->intInRange($this->cObj->stdWrap($this->conf['latestLimit'], $this->conf['latestLimit.']), 0, 1000);
+		$latestLimit = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($this->cObj->stdWrap($this->conf['latestLimit'], $this->conf['latestLimit.']), 0, 1000);
 		$latestLimit = $latestLimit ? $latestLimit : 10;
 		$this->config['latestLimit'] = $FFlimit ? $FFlimit : $latestLimit;
 
@@ -2243,7 +2243,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$markerArray = $this->userProcess('imageMarkerFunc', array($markerArray, $lConf));
 		} else {
 			$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount'] : 1;
-			$imageNum = $this->compatibility()->intInRange($imageNum, 0, 100);
+			$imageNum = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($imageNum, 0, 100);
 			$theImgCode = '';
 			$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
 			$imgsCaptions = explode(chr(10), $row['imagecaption']);
@@ -2979,9 +2979,9 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		// Initializing variables:
 		$pointer = $this->piVars[$pointerName];
 		$count = $this->internal['res_count'];
-		$results_at_a_time = $this->compatibility()->intInRange($this->internal['results_at_a_time'], 1, 1000);
-		$maxPages = $this->compatibility()->intInRange($this->internal['maxPages'], 1, 100);
-		$max = $this->compatibility()->intInRange(ceil($count / $results_at_a_time), 1, $maxPages);
+		$results_at_a_time = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($this->internal['results_at_a_time'], 1, 1000);
+		$maxPages = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($this->internal['maxPages'], 1, 100);
+		$max = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange(ceil($count / $results_at_a_time), 1, $maxPages);
 		$pointer = intval($pointer);
 		$links = array();
 
@@ -3540,7 +3540,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		// Setting LIMIT:
 		if ($conf['max'] || $conf['begin']) {
 			if (! $error) {
-				$conf['begin'] = $this->compatibility()->intInRange(ceil($this->cObj->calc($conf['begin'])), 0);
+				$conf['begin'] = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange(ceil($this->cObj->calc($conf['begin'])), 0);
 				if ($conf['begin'] && ! $conf['max']) {
 					$conf['max'] = 100000;
 				}
@@ -4225,15 +4225,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 		return $mimeType;
-	}
-
-	/**
-	 * @return tx_ttnews_compatibility
-	 */
-	protected function compatibility() {
-		require_once (t3lib_extMgm::extPath('tt_news').'class.tx_ttnews_compatibility.php');
-
-		return tx_ttnews_compatibility::getInstance();
 	}
 }
 

@@ -1162,7 +1162,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	 * @return	[type]		...
 	 */
 	function initGPvars() {
-		$this->pointer = $this->compatibility()->intInRange(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('pointer'),0,100000);
+		$this->pointer = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('pointer'),0,100000);
 		$this->category = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('category'));
 		$this->search_field = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('search_field');
 
@@ -1351,12 +1351,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		return $params;
 	}
 
-	/**
-	 * @return tx_ttnews_compatibility
-	 */
-	protected function compatibility() {
-		return tx_ttnews_compatibility::getInstance();
-	}
+
 }
 
 

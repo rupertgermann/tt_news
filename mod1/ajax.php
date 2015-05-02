@@ -38,11 +38,6 @@
 $TYPO3_AJAX = true;
 require('conf.php');
 require($BACK_PATH.'init.php');
-if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) < 6002000) {
-
-	require_once(PATH_typo3.'classes/class.typo3ajax.php');
-	require_once(PATH_typo3.'sysext/lang/lang.php');
-}
 
 $GLOBALS['LANG'] = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('language');
 $GLOBALS['LANG']->init($GLOBALS['BE_USER']->uc['lang']);
@@ -52,16 +47,11 @@ $ajaxID = (string) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('ajaxID');
 $ajaxScript = $TYPO3_CONF_VARS['BE']['AJAX'][$ajaxID];
 
 
-	// instantiating the AJAX object
-//if (tx_ttnews_compatibility::getInstance()->int_from_ver(TYPO3_version) >= 4003000) {
-	$ajaxObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3AJAX', $ajaxID);
-//} else {
-//	$ajaxClassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstanceClassName('TYPO3AJAX');
-//	$ajaxObj = new $ajaxClassName($ajaxID);
-//}
+
+$ajaxObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3AJAX', $ajaxID);
+
 
 $ajaxParams = array();
-//print_r(array($_GET, $_POST, $ajaxID, $ajaxScript, $ajaxParams));
 
 
 

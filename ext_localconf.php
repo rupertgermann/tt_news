@@ -36,9 +36,6 @@ $TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::expandCollapse'] = TYPO3\CMS\Core\Ut
 $TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::loadList'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxLoadList';
 $TYPO3_CONF_VARS['BE']['AJAX']['tceFormsCategoryTree::expandCollapse'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_TCAform_selectTree.php:tx_ttnews_TCAform_selectTree->ajaxExpandCollapse';
 
-require_once (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'class.tx_ttnews_compatibility.php');
-
-
 
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {
 	$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = array(
