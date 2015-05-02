@@ -24,6 +24,8 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * script which receives ajax calls from tt_news
@@ -44,57 +46,59 @@ $TYPO3_AJAX = true;
 
 //print_r(array(TYPO3_REQUESTTYPE_AJAX,TYPO3_REQUESTTYPE,TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_AJAX));
 
-$L = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L'));
+$L = intval(GeneralUtility::_GP('L'));
 if ($L > 0) {
-	\TYPO3\CMS\Core\Utility\GeneralUtility::_GETset(array('L' => $L));
+	GeneralUtility::_GETset(array('L' => $L));
 }
 
 
-$idAndTarget = rawurldecode(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id'));
-$idParts = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(' ',$idAndTarget,1);
+$idAndTarget = rawurldecode(GeneralUtility::_GP('id'));
+$idParts = GeneralUtility::trimExplode(' ',$idAndTarget,1);
 $id = intval($idParts[0]);
 
 // Make new instance of TSFE
 //$temp_TSFEclassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstanceClassName('tslib_fe');
-$TSFE = new \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController (
-	$GLOBALS['TYPO3_CONF_VARS'],
-	$id,
-	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('type'),
-	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('no_cache'),
-	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('cHash'),
-	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('jumpurl'),
-	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('MP'),
-	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('RDCT')
-);
-
-
-
+//$GLOBALS['TSFE'] = new \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController (
+//	$GLOBALS['TYPO3_CONF_VARS'],
+//	$id,
+//	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('type'),
+//	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('no_cache'),
+//	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('cHash'),
+//	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('jumpurl'),
+//	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('MP'),
+//	\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('RDCT')
+//);
+//
+//
+$GLOBALS['TSFE'] = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController',
+    $GLOBALS['TYPO3_CONF_VARS'], $id, \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('type'));
+\TYPO3\CMS\Frontend\Utility\EidUtility::initTCA();
 
 // don't cache ajax responses
-$TSFE->no_cache = true;
+$GLOBALS['TSFE']->no_cache = true;
 
-$TSFE->connectToDB();
-$TSFE->initFEuser();
-$TSFE->checkAlternativeIdMethods();
-$TSFE->clear_preview();
-$TSFE->determineId();
-$TSFE->initTemplate();
-$TSFE->getConfigArray();
+$GLOBALS['TSFE']->connectToDB();
+$GLOBALS['TSFE']->initFEuser();
+//$GLOBALS['TSFE']->checkAlternativeIdMethods();
+//$GLOBALS['TSFE']->clear_preview();
+$GLOBALS['TSFE']->determineId();
+$GLOBALS['TSFE']->initTemplate();
+//$GLOBALS['TSFE']->getConfigArray();
 
 if ($L > 0) {
-	$TSFE->settingLanguage();
-	$TSFE->settingLocale();
+	$GLOBALS['TSFE']->settingLanguage();
+	$GLOBALS['TSFE']->settingLocale();
 }
 
 
 
 // finding the script path from the variable
-$ajaxID = (string) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('ajaxID');
+$ajaxID = (string) GeneralUtility::_GP('ajaxID');
 
 
-require_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'pi/class.tx_ttnews.php');
-require_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
-require_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_typo3ajax.php');
+require_once(ExtensionManagementUtility::extPath('tt_news').'pi/class.tx_ttnews.php');
+require_once(ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
+require_once(ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_typo3ajax.php');
 /**
  * TODO: 24.11.2009
  *
@@ -110,13 +114,13 @@ $ajaxParams = array();
 
 $tt_newsObj = new tx_ttnews();
 $tt_newsObj->hObj = new tx_ttnews_helpers($tt_newsObj);
-$tt_newsObj->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
+$tt_newsObj->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 $tt_newsObj->local_cObj = &$tt_newsObj->cObj;
 
-$cObjUid = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('cObjUid'));
-$tt_newsObj->cObj->data = $TSFE->sys_page->checkRecord('tt_content',$cObjUid,1);
+$cObjUid = intval(GeneralUtility::_GP('cObjUid'));
+$tt_newsObj->cObj->data = $GLOBALS['TSFE']->sys_page->checkRecord('tt_content',$cObjUid,1);
 $tt_newsObj->pi_initPIflexForm();
-$tt_newsObj->conf = &$TSFE->tmpl->setup['plugin.']['tt_news.'];
+$tt_newsObj->conf = &$GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_news.'];
 
 // variables needed to get the newscount per category
 if (! $tt_newsObj->conf['dontUsePidList']) {
@@ -156,9 +160,9 @@ $tt_newsObj->initCatmenuEnv($tt_newsObj->conf['displayCatMenu.']);
 
 
 $ajaxParams['tt_newsObj'] = &$tt_newsObj;
-$ajaxParams['feUserObj'] = &$TSFE->fe_user;
+$ajaxParams['feUserObj'] = &$GLOBALS['TSFE']->fe_user;
 
-$ajaxScript = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_catmenu.php:tx_ttnews_catmenu->ajaxExpandCollapse';
+$ajaxScript = ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_catmenu.php:tx_ttnews_catmenu->ajaxExpandCollapse';
 
 
 // evaluating the arguments and calling the AJAX method/function
@@ -167,7 +171,7 @@ if (empty($ajaxID)) {
 } else if (empty($ajaxScript)) {
 	$ajaxObj->setError('Registered backend function for ajaxID "'.$ajaxID.'" was not found.');
 } else {
-	$ret = \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
+	$ret = GeneralUtility::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
 	//	if ($ret === false) {
 	//		$ajaxObj->setError('Registered backend function for ajaxID "'.$ajaxID.'" was not found.');
 	//	}
