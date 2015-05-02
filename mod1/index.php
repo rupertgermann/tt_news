@@ -369,7 +369,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 				}
 				if (!$error) {
 					$this->doc->JScodeLibArray['txttnewsM1'] = '
-					    <script src="contrib/prototype/prototype.js" type="text/javascript"></script>
+					    <script src="' . TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news'). 'Resources/Public/JavaScript/compat/prototype/prototype.js" type="text/javascript"></script>
 						<script src="'.$GLOBALS['BACK_PATH'].TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'Resources/Public/JavaScript/tt_news_mod1.js" type="text/javascript"></script>
 						';
 
