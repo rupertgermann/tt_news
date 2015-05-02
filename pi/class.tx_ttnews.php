@@ -322,7 +322,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		$this->initCaching();
 
-		$this->local_cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class); // Local cObj.
+		$this->local_cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'); // Local cObj.
 		$this->enableFields = $this->getEnableFields('tt_news');
 
 		if ($this->tt_news_uid === 0) { // no tt_news_uid set by displayCurrentRecord
@@ -1366,7 +1366,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$tCount = count($t['item']);
 			$cc = 0;
 
-			$veryLocal_cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+			$veryLocal_cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 			// reverse amenu order if 'reverseAMenu' is given
 			if ($this->conf['reverseAMenu']) {
 				arsort($periodAccum);
@@ -2854,7 +2854,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					'year' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['year'] ? $this->piVars['year'] : null)),
 					'month' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['month'] ? $this->piVars['month'] : null)));
 
-			$veryLocal_cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class); // Local cObj.
+			$veryLocal_cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'); // Local cObj.
 			$lines = array();
 
 			// save current realUrl state

@@ -203,7 +203,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	function main()	{
 		global $LANG;
 
-		$this->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Template\DocumentTemplate::class);
+		$this->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
 		$this->doc->backPath = $GLOBALS['BACK_PATH'];
 		$this->doc->setModuleTemplate('mod_ttnews_admin.html');
 		$this->doc->docType = 'xhtml_trans';
@@ -736,7 +736,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 			// Create a new anonymous object:
 		$SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_module1');
 			// Create an instance of the document template object
-		$SOBE->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Template\DocumentTemplate::class);
+		$SOBE->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
 		$SOBE->doc->backPath = $GLOBALS['BACK_PATH'];
 		$SOBE->doc->docType = 'xhtml_trans';
 
