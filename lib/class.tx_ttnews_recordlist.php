@@ -404,7 +404,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		$params = '&edit['.$table.']['.$this->newRecPid.']=new'.$addP;
 		$onclick = htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl));
 		$button = '<a href="#" onclick="'.$onclick.'">'.
-			'<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,'gfx/new_el.gif').' title="'.$GLOBALS['LANG']->getLL('createArticle'.$addLbl,1).'" alt="" /> '.
+            \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('actions-document-new').
 			($withLabel?$GLOBALS['LANG']->getLL('createArticle'.$addLbl):'').
 			'</a>';
 		return $button;

@@ -26,6 +26,8 @@
 
 	// DEFAULT initialization of a module [BEGIN]
 
+use TYPO3\CMS\Backend\Utility\IconUtility;
+
 if (!isset($MCONF)) {
 	require('conf.php');
 }
@@ -397,7 +399,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	function displayOverview() {
 		$tRows = array();
 		$tRows[] = '<tr>
-				<td colspan="2" valign="top"><p><img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->doc->backPath,'gfx/icon_note.gif','width="18" height="16"').' title="" alt="" />
+				<td colspan="2" valign="top"><p><img'. IconUtility::skinImg($this->doc->backPath,'gfx/icon_note.gif','width="18" height="16"').' title="" alt="" />
 				'.$GLOBALS['LANG']->getLL('nothingfound').'
 				</p><br></td>
 				</tr>';
@@ -769,7 +771,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$noCatSelMsg = false;
 		if (!$this->selectedCategories)  {
 			if ($this->TSprop['list.']['noListWithoutCatSelection']) {
-				$content = '<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($GLOBALS['BACK_PATH'],'gfx/icon_note.gif','width="18" height="16"').' title="" alt="" />'.$LANG->getLL('selectCategory');
+				$content = '<img'. IconUtility::skinImg($GLOBALS['BACK_PATH'],'gfx/icon_note.gif','width="18" height="16"').' title="" alt="" />'.$LANG->getLL('selectCategory');
 				$noCatSelMsg = true;
 			} else {
 				$content = $LANG->getLL('showingAll');
@@ -846,7 +848,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$tRows = array();
 		if (!$noCatSelMsg) {
 				$tRows[] = '<tr>
-					<td valign="top"><p><img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($GLOBALS['BACK_PATH'],'gfx/icon_note.gif','width="18" height="16"').' title="" alt="" />
+					<td valign="top"><p><img'. IconUtility::skinImg($GLOBALS['BACK_PATH'],'gfx/icon_note.gif','width="18" height="16"').' title="" alt="" />
 					'.$GLOBALS['LANG']->getLL('noNewsFound').'
 					</p></td>
 					</tr>';
@@ -947,7 +949,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 			$params = '&edit[tt_news_cat]['.$this->storagePid.']=new';
 			$onclick = htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$GLOBALS['BACK_PATH'],$this->returnUrl));
 			$button = '<a href="#" onclick="'.$onclick.'">'.
-				'<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($GLOBALS['BACK_PATH'],'gfx/new_el.gif').' title="'.$GLOBALS['LANG']->getLL('createCategory',1).'" alt="" /> '.
+                IconUtility::getSpriteIcon('actions-document-new').
 			$GLOBALS['LANG']->getLL('createCategory').
 				'</a>';
 		}
@@ -999,13 +1001,13 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 
 
 				$buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '">' .
-						'<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($backPath, 'gfx/list.gif', 'width="11" height="11"') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.showList', 1) . '" alt="" />' .
+						'<img' . IconUtility::skinImg($backPath, 'gfx/list.gif', 'width="11" height="11"') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.showList', 1) . '" alt="" />' .
 						'</a>';
 			}
 
 				// View
 			$buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::viewOnClick($this->id, $backPath, \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($this->id))) . '">' .
-							'<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($backPath, 'gfx/zoom.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.showPage', 1) . '" alt="" />' .
+							'<img' . IconUtility::skinImg($backPath, 'gfx/zoom.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.showPage', 1) . '" alt="" />' .
 							'</a>';
 
 				// If edit permissions are set (see class.t3lib_userauthgroup.php)
@@ -1013,7 +1015,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 					// Edit
 				$params = '&edit[pages][' . $this->pageinfo['uid'] . ']=edit';
 				$buttons['edit'] = '<a href="#" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params, $backPath, -1)) . '">' .
-								'<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($backPath, 'gfx/edit2.gif') . ' title="' . $LANG->getLL('editPage', 1) . '" alt="" />' .
+								'<img' . IconUtility::skinImg($backPath, 'gfx/edit2.gif') . ' title="' . $LANG->getLL('editPage', 1) . '" alt="" />' .
 								'</a>';
 			}
 
@@ -1032,7 +1034,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 
 				// Reload
 			$buttons['reload'] = '<a href="' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::linkThisScript()) . '">' .
-							'<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($backPath, 'gfx/refresh_n.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.reload', 1) . '" alt="" />' .
+							'<img' . IconUtility::skinImg($backPath, 'gfx/refresh_n.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.reload', 1) . '" alt="" />' .
 							'</a>';
 
 				// Shortcut
@@ -1043,7 +1045,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 				// Back
 			if ($this->returnUrl) {
 				$buttons['back'] = '<a href="' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::linkThisUrl($this->returnUrl, array('id' => $this->id))) . '" class="typo3-goBack">' .
-								'<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($backPath, 'gfx/goback.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.goBack', 1) . '" alt="" />' .
+								'<img' . IconUtility::skinImg($backPath, 'gfx/goback.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.goBack', 1) . '" alt="" />' .
 								'</a>';
 			}
 		}
@@ -1456,7 +1458,7 @@ class tx_ttnewscatmanager_treeView extends tx_ttnews_categorytree {
 		if ($this->mayUserEditCategories)	{
 			$params='&edit['.$table.']['.$row['uid'].']=edit';
 			$cells[]='<a href="#" onclick="'.htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl)).'">'.
-					'<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,'gfx/edit2'.(!$TCA[$table]['ctrl']['readOnly']?'':'_d').'.gif',
+					'<img'. IconUtility::skinImg($this->backPath,'gfx/edit2'.(!$TCA[$table]['ctrl']['readOnly']?'':'_d').'.gif',
 						'width="11" height="12"').' title="'.$LANG->getLLL('edit',$this->LL).'" alt="" />'.
 					'</a>';
 		}
@@ -1473,14 +1475,12 @@ class tx_ttnewscatmanager_treeView extends tx_ttnews_categorytree {
 			if ($row[$hiddenField])	{
 				$params='&data['.$table.']['.$row['uid'].']['.$hiddenField.']=0';
 				$cells[]='<a href="#" onclick="'.htmlspecialchars('return jumpToUrl(\''.$this->issueCommand($params,$this->returnUrl).'\');').'">'.
-						'<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,'gfx/button_unhide.gif',
-							'width="11" height="10"').' title="'.$LANG->getLLL('unHide',$this->LL).'" alt="" />'.
+                    IconUtility::getSpriteIcon('actions-edit-unhide').
 						'</a>';
 			} else {
 				$params='&data['.$table.']['.$row['uid'].']['.$hiddenField.']=1';
 				$cells[]='<a href="#" onclick="'.htmlspecialchars('return jumpToUrl(\''.$this->issueCommand($params,$this->returnUrl).'\');').'">'.
-						'<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,'gfx/button_hide.gif',
-							'width="11" height="10"').' title="'.$LANG->getLLL('hide',$this->LL).'" alt="" />'.
+                        IconUtility::getSpriteIcon('actions-edit-hide').
 						'</a>';
 			}
 		}
