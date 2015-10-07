@@ -101,6 +101,12 @@ $TCA['tt_news'] = Array (
 						'title' => 'Link',
 						'icon' => 'link_popup.gif',
 						'script' => 'browse_links.php?mode=wizard',
+						'module' => array(
+							'name' => 'wizard_element_browser',
+							'urlParameters' => array(
+								'mode' => 'wizard'
+							)
+						),
 						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
 					)
 				)
@@ -123,6 +129,9 @@ $TCA['tt_news'] = Array (
 						'title' => 'LLL:EXT:cms/locallang_ttc.php:bodytext.W.RTE',
 						'icon' => 'wizard_rte2.gif',
 						'script' => 'wizard_rte.php',
+						'module' => array(
+							'name' => 'wizard_rte'
+						)
 					),
 				)
 			)
