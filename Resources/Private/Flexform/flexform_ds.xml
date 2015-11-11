@@ -17,6 +17,7 @@
 				<label>LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.what_to_display</label>
 				<config>
 					<type>select</type>
+					<renderType>selectSingle</renderType>
 					<items type="array">
 												<numIndex index="0" type="array">
 							<numIndex index="0">LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.codeFromTS</numIndex>
@@ -78,7 +79,7 @@
 				<label>LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.listOrderby</label>
 				<config>
 					<type>select</type>
-					
+					<renderType>selectSingle</renderType>
 					<items type="array">
 						<numIndex index="0" type="array">
 							<numIndex index="0"></numIndex>
@@ -119,6 +120,7 @@
 				<label>LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.ascDesc</label>
 				<config>
 					<type>select</type>
+					<renderType>selectSingle</renderType>
 					<items type="array">
 					<numIndex index="0" type="array">
 							<numIndex index="0"></numIndex>
@@ -143,6 +145,7 @@
 				<label>LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.select_deselect_categories</label>
 				<config>
 					<type>select</type>
+					<renderType>selectSingle</renderType>
 					<items type="array">
 						<numIndex index="0" type="array">
 							<numIndex index="0">LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.category_selection_showAll</numIndex>
@@ -176,7 +179,7 @@
 				<config>
 					<type>select</type>
 					<foreign_table>tt_news_cat</foreign_table>
-					<renderMode>tree</renderMode>
+					<renderType>selectTree</renderType>
 					<treeConfig type="array">
 						<expandAll>1</expandAll>
 						<parentField>parent_category</parentField>
@@ -200,6 +203,7 @@
 				<label>LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.useSubCategories</label>
 				<config>
 					<type>select</type>
+					<renderType>selectSingle</renderType>
 					<items type="array">
 						<numIndex index="0" type="array">
 							<numIndex index="0">LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.useSubCategories_TS</numIndex>
@@ -225,6 +229,7 @@
 				<label>LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.archive</label>
 				<config>
 					<type>select</type>
+					<renderType>selectSingle</renderType>
 					<items type="array">
 						<numIndex index="0" type="array">
 							<numIndex index="0">LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.archive_dontcare</numIndex>
@@ -268,7 +273,12 @@
 							<type>popup</type>
 							<title>Link</title>
 							<icon>link_popup.gif</icon>
-							<script>browse_links.php?mode=wizard&amp;act=file</script>
+							<module>
+								<name>wizard_link</name>
+								<urlParameters>
+									<mode>wizard</mode>
+								</urlParameters>
+							</module>
 							<params type="array">
 								<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
 								<allowedExtensions>htm,html,tmpl,tpl</allowedExtensions>

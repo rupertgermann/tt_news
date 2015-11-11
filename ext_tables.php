@@ -8,80 +8,6 @@ if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
 
-
-
-
-$TCA['tt_news'] = array (
-	'ctrl' => array (
-		'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news',
-		'label' => ($confArr['label']) ? $confArr['label'] : 'title',
-		'label_alt' => $confArr['label_alt'] . ($confArr['label_alt2'] ? ',' . $confArr['label_alt2'] : ''),
-		'label_alt_force' => $confArr['label_alt_force'],
-		'default_sortby' => 'ORDER BY datetime DESC',
-		'prependAtCopy' => $confArr['prependAtCopy'] ? 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy' : '',
- 		'versioningWS' => TRUE,
-		'versioning_followPages' => TRUE,
-		'origUid' => 't3_origuid',
-		'shadowColumnsForNewPlaceholders' => 'sys_language_uid,l18n_parent,starttime,endtime,fe_group',
-
-		'dividers2tabs' => TRUE,
-		'useColumnsForDefaultValues' => 'type',
-		'transOrigPointerField' => 'l18n_parent',
-		'transOrigDiffSourceField' => 'l18n_diffsource',
-		'languageField' => 'sys_language_uid',
-		'crdate' => 'crdate',
-		'tstamp' => 'tstamp',
-		'delete' => 'deleted',
-		'type' => 'type',
-		'cruser_id' => 'cruser_id',
-		'editlock' => 'editlock',
-		'enablecolumns' => array (
-			'disabled' => 'hidden',
-			'starttime' => 'starttime',
-			'endtime' => 'endtime',
-			'fe_group' => 'fe_group',
-		),
-		'typeicon_column' => 'type',
-		'typeicons' => array (
-			'1' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/tt_news_article.gif',
-			'2' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/tt_news_exturl.gif',
-		),
-//		'mainpalette' => '10',
-		'thumbnail' => 'image',
-		'iconfile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/ext_icon.gif',
-		'dynamicConfigFile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'Configuration/TCA/tt_news.php',
-        'searchFields' => 'uid,title,short,bodytext'
-    )
-);
-
-
-#$category_OrderBy = $confArr['category_OrderBy'];
-$TCA['tt_news_cat'] = array (
-	'ctrl' => array (
-		'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat',
-		'label' => 'title',
-		'tstamp' => 'tstamp',
-		'delete' => 'deleted',
-		'default_sortby' => 'ORDER BY uid',
-		'treeParentField' => 'parent_category',
-		'dividers2tabs' => TRUE,
-		'enablecolumns' => array (
-			'disabled' => 'hidden',
-			'starttime' => 'starttime',
-			'endtime' => 'endtime',
-			'fe_group' => 'fe_group',
-		),
-// 		'prependAtCopy' => 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy',
-		'hideAtCopy' => true,
-		'mainpalette' => '2,10',
-		'crdate' => 'crdate',
-		'iconfile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'res/gfx/tt_news_cat.gif',
-		'dynamicConfigFile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'Configuration/TCA/tt_news_cat.php',
-        'searchFields' => 'uid,title'
-	)
-);
-
-
 	// remove some fields from the tt_content content element
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][9] = 'layout,select_key,pages,recursive';
 	// add FlexForm field to tt_content
@@ -194,7 +120,9 @@ $tempColumns = array (
 			'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.categorymounts',
 			'config' => array (
                 'type' => 'select',
-                'foreign_table' => 'tt_news_cat',
+				'renderType' => 'selectTree',
+
+				'foreign_table' => 'tt_news_cat',
                 'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
                 'size' => 10,
                 'autoSizeMax' => 50,

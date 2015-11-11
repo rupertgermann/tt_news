@@ -2,8 +2,28 @@
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************
-$TCA['tt_news_cat'] = Array (
-	'ctrl' => $TCA['tt_news_cat']['ctrl'],
+return array (
+	'ctrl' => array (
+		'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat',
+		'label' => 'title',
+		'tstamp' => 'tstamp',
+		'delete' => 'deleted',
+		'default_sortby' => 'ORDER BY uid',
+		'treeParentField' => 'parent_category',
+		'dividers2tabs' => TRUE,
+		'enablecolumns' => array (
+			'disabled' => 'hidden',
+			'starttime' => 'starttime',
+			'endtime' => 'endtime',
+			'fe_group' => 'fe_group',
+		),
+// 		'prependAtCopy' => 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy',
+		'hideAtCopy' => true,
+		'mainpalette' => '2,10',
+		'crdate' => 'crdate',
+		'iconfile' => 'EXT:tt_news/res/gfx/tt_news_cat.gif',
+		'searchFields' => 'uid,title'
+	),
 	'interface' => Array (
 		'showRecordFieldList' => 'title,image,shortcut,shortcut_target'
 	),
@@ -36,9 +56,10 @@ $TCA['tt_news_cat'] = Array (
 		'fe_group' => Array (
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.fe_group',
-			'config' => Array (
-				'type' => 'select',
+			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.fe_group',
+            'config' => array(
+                'type' => 'select',
+                'renderType' => 'selectMultipleSideBySide',
 				'size' => 5,
 				'maxitems' => 20,
 				'items' => Array (
@@ -91,7 +112,7 @@ $TCA['tt_news_cat'] = Array (
                 'autoSizeMax' => 50,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'renderMode' => 'tree',
+				'renderType' => 'selectTree',
                 'treeConfig' => array(
                     'expandAll' => true,
                     'parentField' => 'parent_category',
