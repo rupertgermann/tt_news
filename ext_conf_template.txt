@@ -1,7 +1,4 @@
 
-  # cat=basic/11; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.useStoragePid
-useStoragePid=1
-
   # cat=basic/enable/100; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.requireCategories
 requireCategories = 0
 
