@@ -20,8 +20,6 @@ $EM_CONF[$_EXTKEY] = array(
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
-	'TYPO3_version' => '7.6.0-7.6.99',
-	'PHP_version' => '5.4.0-5.6.99',
 	'module' => 'mod1',
 	'state' => 'beta',
 	'uploadfolder' => 1,
@@ -34,6 +32,11 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => 'www.wmdb.de',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
+	'constraints' => array(
+		'depends' => array(
+			'typo3' => '7.6.0-7.6.99',
+		),
+		'conflicts' => array(),
+		'suggests' => array(),
+	),
 );
-
-
