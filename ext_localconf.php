@@ -34,7 +34,6 @@ $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_ttnews_templateeval'] = '
 $TYPO3_CONF_VARS['FE']['eID_include']['tt_news'] = 'EXT:tt_news/pi/fe_index.php';
 $TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::expandCollapse'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxExpandCollapse';
 $TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::loadList'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxLoadList';
-$TYPO3_CONF_VARS['BE']['AJAX']['tceFormsCategoryTree::expandCollapse'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'lib/class.tx_ttnews_TCAform_selectTree.php:tx_ttnews_TCAform_selectTree->ajaxExpandCollapse';
 
 
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {

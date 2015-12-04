@@ -103,8 +103,6 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('_MOD_web
 
 	// adds processing for extra "codes" that have been added to the "what to display" selector in the content element by other extensions
 include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'lib/class.tx_ttnews_itemsProcFunc.php');
-	// class for displaying the category tree in BE forms.
-include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'lib/class.tx_ttnews_TCAform_selectTree.php');
 	// class that uses hooks in class.t3lib_tcemain.php (processDatamapClass and processCmdmapClass)
 	// to prevent not allowed "commands" (copy,delete,...) for a certain BE usergroup
 include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'lib/class.tx_ttnews_tcemain.php');

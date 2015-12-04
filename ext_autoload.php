@@ -16,8 +16,6 @@ return array(
 	'tx_ttnews_module1' => $extensionPath . 'mod1/index.php',
 	'tx_ttnews_realurl' => $extensionPath . 'lib/class.tx_ttnews_realurl.php',
 	'tx_ttnews_recordlist' => $extensionPath . 'lib/class.tx_ttnews_recordlist.php',
-	'tx_ttnews_tcaform_selecttree' => $extensionPath . 'lib/class.tx_ttnews_TCAform_selectTree.php',
-	'tx_ttnews_tceforms_categorytree' => $extensionPath . 'lib/class.tx_ttnews_TCAform_selectTree.php',
 	'tx_ttnews_tcemain' => $extensionPath . 'lib/class.tx_ttnews_tcemain.php',
 	'tx_ttnews_tcemain_cmdmap' => $extensionPath . 'lib/class.tx_ttnews_tcemain.php',
 	'tx_ttnews_templateeval' => $extensionPath . 'lib/class.tx_ttnews_templateeval.php',
