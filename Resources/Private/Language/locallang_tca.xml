@@ -64,8 +64,7 @@
 			<label index="tt_news.pi_flexform.AMENU">Archive menu (AMENU)</label>
 			<label index="tt_news.pi_flexform.SEARCH">Searchform with result list (SEARCH)</label>
 			<label index="tt_news.pi_flexform.CATMENU">Category menu (CATMENU)</label>
-			<label index="tt_news.pi_flexform.VERSION_PREVIEW">Preview of not published versions of news records (VERSION_PREVIEW)</label>
-			
+
 			<label index="tt_news.pi_flexform.listOrderby">&quot;Order by&quot; this field (LIST &amp; LATEST):</label>
 			<label index="tt_news.pi_flexform.ascDesc">Ascending or Descending (LIST &amp; LATEST):</label>
 			<label index="tt_news.pi_flexform.ascDesc_asc">Ascending</label>

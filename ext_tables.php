@@ -29,7 +29,6 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
 	// initialize static extension templates
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY,'pi/static/ts_new/','News settings');
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY,'pi/static/css/','News CSS-styles');
-//TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY,'pi/static/ts_old/','table-based tmpl');
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY,'pi/static/rss_feed/','News feeds (RSS,RDF,ATOM)');
 
 	// allow news and news-category records on normal pages
@@ -148,7 +147,7 @@ $tempColumns = array (
 
 
 
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups',$tempColumns,1);
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups',$tempColumns);
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups','tt_news_categorymounts;;;;1-1-1');
 
 // show the category selection only in non-admin be_users records
@@ -157,7 +156,7 @@ $tempColumns['tt_news_categorymounts']['displayCond'] = 'FIELD:admin:=:0';
 
 
 
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_users',$tempColumns,1);
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_users',$tempColumns);
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users','tt_news_categorymounts;;;;1-1-1');
 
 

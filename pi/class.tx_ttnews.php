@@ -25,6 +25,10 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 /**
  * class.tx_ttnews.php
  *
@@ -112,11 +116,11 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	var $cache_categoryCount = FALSE;
 	var $cache_categories = FALSE;
 	/**
-	 * @var t3lib_DB
+	 * @var DatabaseConnection
 	 */
 	var $db;
 	/**
-	 * @var tslib_fe
+	 * @var TypoScriptFrontendController
 	 */
 	var $tsfe;
 	// Declaration Marathon by Mattes
@@ -207,9 +211,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				case 'SINGLE' :
 				case 'SINGLE2' :
 					$content .= $this->displaySingle();
-					break;
-				case 'VERSION_PREVIEW' :
-					$content .= $this->displayVersionPreview();
 					break;
 				case 'LATEST' :
 				case 'LIST' :
@@ -1545,58 +1546,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		return $this->local_cObj->stdWrap($content, $lConf['catmenu_stdWrap.']);
 	}
 
-
-	/**
-	 * Displays the "versioning preview".
-	 * The functions checks:
-	 * - if the extension "version" is loaded
-	 * - if a BE_user is logged in
-	 * - the plausibility of the requested "version preview".
-	 * If this is all OK, "displaySingle()" is executed to display the "versioning preview".
-	 *
-	 * @return	string		html code for the "versioning preview"
-	 */
-	function displayVersionPreview() {
-		$piADMCMD = FALSE;
-		$content = '';
-		if ($this->versioningEnabled) {
-			$vPrev = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('ADMCMD_vPrev');
-			if ($this->piVars['ADMCMD_vPrev']) {
-				$piADMCMD = unserialize(rawurldecode($this->piVars['ADMCMD_vPrev']));
-			}
-			if ((is_array($vPrev) || is_array($piADMCMD)) && is_object($GLOBALS['BE_USER'])) { // check if ADMCMD_vPrev is set and if a BE_user is logged in. $this->piVars['ADMCMD_vPrev'] is needed for previewing a "single view with pagebrowser"
-				if (! is_array($vPrev)) {
-					$vPrev = $piADMCMD;
-				}
-				list($table, $t3ver_oid) = explode(':', key($vPrev));
-				if ($table == 'tt_news') {
-					if (($testrec = $this->pi_getRecord('tt_news', intval($vPrev[key($vPrev)])))) { // check if record exists before doing anything
-						if ($testrec['t3ver_oid'] == intval($t3ver_oid) && $testrec['pid'] == - 1) { // check if requested t3ver_oid is the t3ver_oid of the requested tt_news record, and if the pid of the record is -1 (=non-plublic version)
-							$this->tsfe->set_no_cache(); // version preview will never be cached
-							// make version preview message with a link to the public version of hte record which is previewed
-							$vPrevHeader = $this->local_cObj->stdWrap($this->pi_getLL('versionPreviewMessage') . $this->local_cObj->typolink($this->local_cObj->stdWrap($this->pi_getLL('versionPreviewMessageLinkToOriginal'), $this->conf['versionPreviewMessageLinkToOriginal_stdWrap.']), array(
-									'parameter' => $this->config['singlePid'] . ' _blank',
-									'additionalParams' => '&tx_ttnews[tt_news]=' . $t3ver_oid, 'no_cache' => 1)), $this->conf['versionPreviewMessage_stdWrap.']);
-							$this->tt_news_uid = intval($vPrev[key($vPrev)]);
-							$this->piVars['tt_news'] = $this->tt_news_uid;
-							$this->piVars['ADMCMD_vPrev'] = rawurlencode(serialize(array($table . ':' . $t3ver_oid => $this->tt_news_uid)));
-							$this->theCode = 'SINGLE';
-							$this->vPrev = true;
-							$content = $vPrevHeader . $this->displaySingle();
-						} else { // error: t3ver_oid mismatch
-							$GLOBALS['TT']->setTSlogMessage('tt_news: ERROR! The "t3ver_oid" of requested tt_news record and the "t3ver_oid" from GPvars doesn\'t match.');
-						}
-					}
-				}
-			}
-		}
-
-		if ($this->debugTimes) {
-			$this->hObj->getParsetime(__METHOD__);
-		}
-
-		return $content;
-	}
 
 
 	/**********************************************************************************************
