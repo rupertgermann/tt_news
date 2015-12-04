@@ -877,13 +877,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 
-		if ($wrapArr['showResultsNumbersWrap'] && strpos($this->pi_getLL('pi_list_browseresults_displays'), '%s') !== FALSE) {
-			// if the advanced pagebrowser is enabled and the "pi_list_browseresults_displays" label contains %s it will be replaced with the content of the label "pi_list_browseresults_displays_advanced"
-			$this->overrideLL(
-				'pi_list_browseresults_displays',
-				$this->pi_getLL('pi_list_browseresults_displays_advanced')
-			);
-		}
 		$tmpPS = FALSE;
 		$tmpPL = FALSE;
 		if ($this->conf['useHRDates']) {
