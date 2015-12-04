@@ -275,7 +275,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		$flexformTyposcript = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'myTS','s_misc');
 		if ($flexformTyposcript) {
-			$tsparser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_tsparser');
+			$tsparser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\TypoScript\\Parser\\TypoScriptParser');
 			// Copy conf into existing setup
 			$tsparser->setup = $this->conf;
 			// Parse the new Typoscript
