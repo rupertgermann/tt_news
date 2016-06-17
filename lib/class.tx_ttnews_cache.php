@@ -53,7 +53,7 @@ class tx_ttnews_cache {
 	 *
 	 * @return	[type]		...
 	 */
-	function tx_ttnews_cache($cachingEngine) {
+	function __construct($cachingEngine) {
 
 		$this->cachingEngine = $cachingEngine;
 
