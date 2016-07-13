@@ -59,4 +59,11 @@ if ($_COOKIE[$configuredCookieName]) {
 }
 
 
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord']['tx_ttnews_record_init_new'] = array(
+	'depends' => array(
+		\TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew::class,
+	)
+);
+
+
 
