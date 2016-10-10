@@ -178,7 +178,7 @@ class tx_ttnews_helpers {
 			$this->pObj->internal['results_at_a_time'] = 1;
 			$this->pObj->internal['maxPages'] = $this->pObj->conf['pageBrowser.']['maxPages'];
 			if (! $this->pObj->conf['pageBrowser.']['showPBrowserText']) {
-				$this->pObj->LOCAL_LANG[$this->pObj->LLkey]['pi_list_browseresults_page'] = '';
+				$this->pObj->LOCAL_LANG[$this->pObj->LLkey]['pi_list_browseresults_page'] = ' ';
 			}
 			$pbConf = $this->pObj->conf['singleViewPageBrowser.'];
 			$markerArray = array();
