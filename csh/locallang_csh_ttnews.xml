@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <description>CSH for table tt_news</description>
+        <type>CSH</type>
+        <csh_table>tt_news</csh_table>
+        <fileId>EXT:tt_news/locallang_csh_ttnews.xml</fileId>
+        <labelContext type="array">
+            <label index=".description"></label>
+            <label index=".details"></label>
+            <label index="_.seeAlso"></label>
+            <label index="title.description"></label>
+            <label index="title.details"></label>
+            <label index="type.description"></label>
+            <label index="type.details"></label>
+            <label index="hidden.description"></label>
+            <label index="hidden.details"></label>
+            <label index="_hidden.seeAlso"></label>
+            <label index="starttime.description"></label>
+            <label index="_starttime.seeAlso"></label>
+            <label index="endtime.description"></label>
+            <label index="_endtime.seeAlso"></label>
+            <label index="editlock.description"></label>
+            <label index="_editlock.seeAlso"></label>
+            <label index="fe_group.description"></label>
+            <label index="_fe_group.seeAlso"></label>
+            <label index="datetime.description"></label>
+            <label index="datetime.details"></label>
+            <label index="_datetime.seeAlso"></label>
+            <label index="archivedate.description"></label>
+            <label index="archivedate.details"></label>
+            <label index="_archivedate.seeAlso"></label>
+            <label index="sys_language_uid.description"></label>
+            <label index="sys_language_uid.details"></label>
+            <label index="_sys_language_uid.seeAlso"></label>
+            <label index="l18n_parent.description"></label>
+            <label index="l18n_parent.details"></label>
+            <label index="author.description"></label>
+            <label index="author.details"></label>
+            <label index="_author.seeAlso"></label>
+            <label index="t3ver_label.description"></label>
+            <label index="t3ver_label.details"></label>
+            <label index="author_email.description"></label>
+            <label index="author_email.details"></label>
+            <label index="_author_email.seeAlso"></label>
+            <label index="short.description"></label>
+            <label index="short.details"></label>
+            <label index="_short.seeAlso"></label>
+            <label index="bodytext.description"></label>
+            <label index="bodytext.details"></label>
+            <label index="_bodytext.seeAlso"></label>
+            <label index="keywords.description"></label>
+            <label index="keywords.details"></label>
+            <label index="_keywords.seeAlso"></label>
+            <label index="no_auto_pb.description"></label>
+            <label index="no_auto_pb.details"></label>
+            <label index="_no_auto_pb.seeAlso"></label>
+            <label index="category.description"></label>
+            <label index="category.details"></label>
+            <label index="_category.image"></label>
+            <label index="category.image_descr"></label>
+            <label index="_category.seeAlso"></label>
+            <label index="image.description"></label>
+            <label index="image.details"></label>
+            <label index="imagecaption.description"></label>
+            <label index="imagecaption.details"></label>
+            <label index="_imagecaption.seeAlso"></label>
+            <label index="imagealttext.description"></label>
+            <label index="imagealttext.details"></label>
+            <label index="_imagealttext.seeAlso"></label>
+            <label index="imagetitletext.description"></label>
+            <label index="imagetitletext.details"></label>
+            <label index="_imagetitletext.seeAlso"></label>
+            <label index="links.description"></label>
+            <label index="links.details"></label>
+            <label index="_links.seeAlso"></label>
+            <label index="related.description"></label>
+            <label index="related.details"></label>
+            <label index="news_files.description"></label>
+            <label index="news_files.details"></label>
+        </labelContext>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index=".description">Versatile news system for TYPO3.</label>
+            <label index=".details">&quot;News&quot; items are typically those which goes on your frontpage on the websites and allows you to link down to a page with the full story (the &quot;single view&quot;). They may also represent links to internal pages in the system or links to external pages.</label>
+            <label index="_.seeAlso">tt_news_cat,tt_news manual | http://typo3.org/documentation/document-library/tt_news/</label>
+            <label index="title.description">Enter a headline for the tt_news db-record.</label>
+            <label index="title.details">The value inserted here will substitute the marker ###NEWS_TITLE### in the html template. If &quot;substitutePageTitle&quot; is enabled in TS setup the title of the page with the single view on it will be set to the title of the news article (the title of the indexed search result will also show the title of the news article).</label>
+            <label index="type.description">Here you can define the &quot;type&quot; of the newsitem (normal news article, link to internal page, link to external page).</label>
+            <label index="type.details">Possible types are:
+- News: This type is used for normal news articles. Only these news will have a link to a SINGLE view.
+- Link External page: These news records are only showing in list views (= LIST and LATEST). The links from these news records will point directly to the URL which is configured in the field &quot;External URL&quot;.
+- Link internal page: This news records are also showing only in lists (list, latest, search). The target for these links is configured globally in the Constant editor (advanced-&gt;target for internal links).</label>
+            <label index="hidden.description">Use this to temporarily exclude this tt_news db-record from display.</label>
+            <label index="hidden.details">Setting this option is practical while editing a new tt_news db-record. When it is set, the newsitem will not be displayed unless you - if you're logged in as backend user - enable the Admin Panel&amp;gt;Preview&amp;gt;Show hidden records option.</label>
+            <label index="_hidden.seeAlso">tt_news:starttime,tt_news:endtime,tt_news:fe_group</label>
+            <label index="starttime.description">The &quot;Start&quot; time determines the date from which the tt_news db-record will be available online.</label>
+            <label index="_starttime.seeAlso">tt_news:endtime,tt_news:hidden,tt_news:fe_group</label>
+            <label index="endtime.description">The &quot;End&quot; time determines the date from which the tt_news db-record will NOT be available online anymore.</label>
+            <label index="_endtime.seeAlso">tt_news:starttime,tt_news:hidden,tt_news:fe_group</label>
+            <label index="editlock.description">If this is enabled non-admin users can't open the record anymore.</label>
+            <label index="_editlock.seeAlso">pages:editlock</label>
+            <label index="fe_group.description">If &quot;Access&quot; is set to a usergroup name, only website users which are members of the selected usergroup will be able to view the news article when they are logged in. The special option &quot;Hide at login&quot; means the news article will &amp;lt;em&amp;gt;not&amp;lt;/em&amp;gt; be visible for website users that are logged in. Likewise &amp;quot;Show at login&amp;quot; will make the news article visible for any logged in frontend user.</label>
+            <label index="_fe_group.seeAlso">tt_news:starttime,tt_news:endtime,tt_news:hidden</label>
+            <label index="datetime.description">The value entered here will be shown as date and/or time in news articles.</label>
+            <label index="datetime.details">The value of this field affects several things:
+
+- newsitems in lists and in the archivemenu are ordered by this field by default.
+- if a value for &quot;datetimeDaysToArchive&quot; is set, this value is added to the value of the datetime field and handled as archivedate. (see section &quot;The archive&quot; in the tt_news manual)
+- the value of these field is taken for the html-template markers ###NEWS_DATE###, ###NEWS_TIME### and ###NEWS_AGE###. (all parsed through the stdWrap function &quot;strftime&quot;)
+For new created records the current time is automatically inserted as datetime.</label>
+            <label index="_datetime.seeAlso">tt_news:archivedate</label>
+            <label index="archivedate.description">The date entered in this field will determine if news are handled as &quot;archived&quot; or not.</label>
+            <label index="archivedate.details">If archivedate shows a value in the past, the news record will be shown in lists showing only archived news. Of course it will disappear from lists showing only non-archived news.</label>
+            <label index="_archivedate.seeAlso">tt_news:datetime</label>
+            <label index="sys_language_uid.description">The language of the news record.</label>
+            <label index="sys_language_uid.details">This should be the default language unless this record is a translation of another record.</label>
+            <label index="_sys_language_uid.seeAlso">tt_content:sys_language_uid,pages:sys_language_uid,pages_language_overlay:sys_language_uid</label>
+            <label index="l18n_parent.description">The news record in the default language where the current record is a translation from.</label>
+            <label index="l18n_parent.details">You should not change this field manually because it is handled by the TYPO3 localization system.</label>
+            <label index="author.description">The author of the news record.</label>
+            <label index="author.details">The value of this field will substitute the html-template marker ###NEWS_AUTHOR###. In the default TS setup the author name will be linked to the author's email address.</label>
+            <label index="_author.seeAlso">tt_news:email</label>
+            <label index="t3ver_label.description">The versioning label of this record.</label>
+            <label index="t3ver_label.details">You can edit this field in the versioning module or in the workspaces module. This field appears only if it has a value.</label>
+            <label index="author_email.description">The email address of the news author.</label>
+            <label index="author_email.details">In the default TS setup the value of this field will be taken as typolink parameter for the author name (if it is a valid email address). The value of this field will substitute the html-template marker ###NEWS_EMAIL###.</label>
+            <label index="_author_email.seeAlso">tt_news:email</label>
+            <label index="short.description">A short teaser text for the news article.</label>
+            <label index="short.details">The value of this field will substitute the html-template marker ###NEWS_SUBHEADER###. If this field is empty the value of the field &quot;Text&quot; is taken instead.
+The conten of subheader is also written to a TypoScript register (&quot;newsSubheader&quot;) which can be used to insert the subheader as &quot;&amp;lt;meta&amp;gt; description&quot; to the page header (plugin &quot;metatags&quot; required)</label>
+            <label index="_short.seeAlso">tt_news:bodytext,tt_news:keywords,section &quot;Registers&quot; from tt_news manual | http://typo3.org/documentation/document-library/tt_news/</label>
+            <label index="bodytext.description">This is the main text for the news article.</label>
+            <label index="bodytext.details">With the type &quot;news&quot; the Rich Text editor (RTE) is used for editing this field (if your browser supports it and a RTE is generally enabled in the system). Be aware that the content is &quot;cleaned&quot; before it goes into the database.
+The content of this field will substite the html-template marker ###NEWS_CONTENT###.
+
+In the news &quot;single view&quot; the content of the field &quot;Text&quot; can be divided to multiple pages with a pagebrowser.</label>
+            <label index="_bodytext.seeAlso">section &quot;the Rich-Text-editor&quot; from tt_news manual | http://typo3.org/documentation/document-library/tt_news/,section &quot;The SINGLE view&quot; from tt_news manual | http://typo3.org/documentation/document-library/tt_news/,tt_news:no_auto_pb</label>
+            <label index="keywords.description">Here you can enter some keywords that will be inserted as &amp;lt;meta&amp;gt; keywords in the page header (plugin &quot;metatags&quot; required).</label>
+            <label index="keywords.details">The content of this field is written to a TypoScript register (&quot;newsKeywords&quot;) which can be used to insert the keywords as &quot;&amp;lt;meta&amp;gt; keywords&quot; to the page header (plugin &quot;metatags&quot; required).
+If you don't need this field for &quot;&amp;lt;meta&amp;gt; keywords&quot; you can use it as a second &quot;subheader&quot; field (it will substitute the template marker ###NEWS_KEYWORDS###).</label>
+            <label index="_keywords.seeAlso">tt_news:short,section &quot;Registers&quot; from tt_news manual | http://typo3.org/documentation/document-library/tt_news/</label>
+            <label index="no_auto_pb.description">Here you can disable &quot;automatic pagebreaks&quot; for this record.</label>
+            <label index="no_auto_pb.details">Pagebreaks can be inserted automatically in the single view (if a value for &quot;maxWordsInSIngleView&quot; is set in TS setup). If this is not wanted for the current news article you can disable it here.</label>
+            <label index="_no_auto_pb.seeAlso">tt_news:bodytext,section &quot;The SINGLE view&quot; from tt_news manual | http://typo3.org/documentation/document-library/tt_news/</label>
+            <label index="category.description">Here you can assign categories to the current news record (if this record is no translation of another record).</label>
+            <label index="category.details">You can assign categories to news records that are not translations of other records. That allows you to select newsitems for display by their assigned categories or subcategories. A tt_news record can be member of multiple categories.
+If the current record is a translation (if it has a &quot;translation original&quot; and a non-default syslanguage) the categories are not editable, they will only be listed in the tt_news form.
+
+Categories can have parent categories. F.e the category &quot;FrontEnd plugins&quot; in the screenshot below does have category &quot;Extensions&quot; selected as &quot;parent category&quot;, so &quot;FrontEnd plugins&quot; is a subcategory of &quot;Extensions&quot;. That has the result, that the record in this example which has category &quot;FrontEnd plugins&quot; will also appear in a list that shows only category &quot;Extensions&quot;.
+
+The titles of the assigned categories will substite the html-template marker ###NEWS_CATEGORY###, the category images will be written to the marker ###NEWS_CATEGORY_IMAGE###.
+
+&lt;strong&gt;Note:&lt;/strong&gt;
+The use of subcategories has to be enabled in the TypoScript setup:
+&lt;em&gt;
+plugin.tt_news.useSubCategories = 1&lt;/em&gt;
+
+&lt;strong&gt;Controlling editing permissions with assigned categories:&lt;/strong&gt;
+It's possible to control the editing permissions of news records with the assigned categories. If this feature is enabled a BE user can only change news records that have categories assigned that are defined in the list of allowed categories for this BE-user. If a BE-user performs any action (move,delete,hide,localize,copy,version,modify) with a record that has non-allowed categories assigned an error message will be displayed and the action will be ignored. Another message will be displayed in the news record above the fields &quot;Title&quot; and &quot;Category&quot;. Non-selectable categories will be displayed in grey text and not linked. See second screenshot below.
+
+The size of both fields for the category selection can be configured in the extension manager.
+</label>
+            <label index="_category.image">EXT:tt_news/csh/tt_news_categoy.png,EXT:tt_news/csh/tt_news_categoy_msg.png</label>
+            <label index="category.image_descr">the field &quot;Category&quot; in the tt_news db-record.
+		If a BE-user opens a record that has non-allowed categories assigned this message will be displayed.</label>
+            <label index="_category.seeAlso">tt_news_cat:parent_category,section &quot;Categories&quot; from tt_news manual | http://typo3.org/documentation/document-library/tt_news/</label>
+            <label index="image.description">Here you can assign images that will be shown in the news record.</label>
+            <label index="image.details">All assigned images will be rendered to the template marker ###NEWS_IMAGE###.
+The images will be uploaded/copied to the folder uploads/pics/.
+The amount of images that are shown in a certain view (single,list,latest) can be controlled with the TS property &quot;imageCount&quot;.</label>
+            <label index="imagecaption.description">The caption which is shown under the image(s).</label>
+            <label index="imagecaption.details">The field will be split by linebreaks.</label>
+            <label index="_imagecaption.seeAlso">tt_news:image</label>
+            <label index="imagealttext.description">The text entered here will be inserted as &quot;alt&quot; attribure of the image HTML-tag.</label>
+            <label index="imagealttext.details">The field will be split by linebreaks.</label>
+            <label index="_imagealttext.seeAlso">tt_news:imagetitletext,tt_news:image</label>
+            <label index="imagetitletext.description">The text entered here will be inserted as &quot;title&quot; attribure of the image HTML-tag.</label>
+            <label index="imagetitletext.details">The field will be split by linebreaks.</label>
+            <label index="_imagetitletext.seeAlso">tt_news:imagealttext,tt_news:image</label>
+            <label index="links.description">The links that are inserted here will be displayed under the &quot;bodytext&quot; in the news single view.</label>
+            <label index="links.details">This field is parsed through the stdWrap function &quot;parseFunc&quot; so it will be possible to enter links as typolink.
+F.e.: &lt;em&gt;&amp;lt;LINK http://typo3.org _blank&amp;gt;open typo3.org&amp;lt;/LINK&amp;gt;&lt;/em&gt;</label>
+            <label index="_links.seeAlso"></label>
+            <label index="related.description">Related news articles or pages.</label>
+            <label index="related.details">In this field you can select news records or pages that will be displayed as related news. Related news with type &quot;news&quot; will point to the single view of the related news item. Related news with type &quot;External URL&quot; or &quot;internal Link&quot; will point to the url or page id that is inserted in the newsrecord. Related pages will be handled as news with type link to internal pages.
+
+tt_news can be configured to insert the link which points back from the related record to this record automatically. To enable this &quot;bi-directional relations&quot; set &quot;useBidirectionalRelations&quot; to 1 in  the constant editor or by TS.</label>
+            <label index="news_files.description">Here you can attach files to a news record.</label>
+            <label index="news_files.details">The atached files will be rendered through the stdWrap function &quot;filelink&quot;. See default TS setup for an example.</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+            <label index=".description">Indbygget nyhedssystem</label>
+            <label index=".details">'Nyheds' elementer er typisk dem som vises på forsiden af din hjemmeside og giver mulighed for at linke til en side med den komplette historie. De kan også repræsentere artikler(link til en komplet side) i systemet.</label>
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index=".description">News System</label>
+            <label index=".details">Normalerweise werden 'News'-Meldungen auf der Startseite ihrer Website angezeigt und sind mit einem Link auf den Volltext der Meldung versehen. Sie können aber auch Links zu anderen Artikeln (Seiten innerhalb der Website) darstellen.</label>
+        </languageKey>
+        <languageKey index="no" type="array">
+            <label index=".description">Innebygget nyhetsystem</label>
+            <label index=".details">Nyheter er typisk saker som vises på forsiden og hvor det er en link til hele saken. Det kan også være artikler (linker til hele sider) i systemet.</label>
+        </languageKey>
+        <languageKey index="it" type="array">
+            <label index=".description">News integrate al sito.</label>
+            <label index=".details">Le 'News' solitamente sono pubblicate nelle homepages dei siti e ti collegano a delle pagine interne per leggere tutto l'articolo. Possono anche puntare a delle pagine già esistenti all'interno del sito.</label>
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+            <label index=".description">Sistema de noticias.</label>
+            <label index=".details">Los elementos de &quot;noticias&quot; son aquellos que típicamente van en las páginas de los sitios web y contienen un enlace a una página con la historia completa. Además, pueden representar artículos (enlaces a páginas completas) del sistema.</label>
+        </languageKey>
+        <languageKey index="nl" type="array">
+            <label index=".description">Ingebouwd nieuwssysteem</label>
+            <label index=".details">'Nieuws'items zijn typische deze die op de voorpagina getoond worden en het je mogelijk maken door te klikken naar het volledige verhaal. Ze kunnen ook artikelen representeren (links naar volledige pagina's) in het systeem.</label>
+        </languageKey>
+        <languageKey index="cz" type="array">
+            <label index=".description">Vestavěný systém zpráv</label>
+            <label index=".details">'Zprávy' jsou typicky na homepage webu a dovolují prokliknout na stránku s celým textem. Také mohou reprezentovat články (odkazy na úplné strany) v systému.</label>
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+            <label index=".description">Sisäänrakennettu uutisjärjestelmä.</label>
+            <label index=".details">Uutis tapahtumat ovat tyypillisesti web-sivustosi etusivun materiaalia, joista on linkki uutisjutun kokonaisuuteen. Ne voivat olla myös linkkejä sivustosi johonkin artikkeliin.</label>
+        </languageKey>
+        <languageKey index="tr" type="array">
+            <label index=".description">Haberler sistemde yapılandırılıyor</label>
+            <label index=".details">&quot;Haberler&quot; nesnesi websitenizin önsayfanıza ve tüm haberler bölümüne link sağlar.Sistemde ayrıca Başlıklar sunar(linkler tüm sayfaya yönlendirir)</label>
+        </languageKey>
+        <languageKey index="se" type="array">
+            <label index=".description">Ett inbyggt nyhetssystem.</label>
+            <label index=".details">'Nyheter' är ofta små notiser på webbplatsens första sida som sedan länkar vidare till en sida med hela nyheten. De kan också presentera artiklar (sidor) som finns längre in på webbplatsen.</label>
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+            <label index=".description">Встроенная система новостей</label>
+            <label index=".details">&quot;Новости&quot; - это записи, обычно помещаемые на главную страницу веб-сайта и имеющие ссылки на страницу с полным текстом. Они могут также представлять статьи (ссылки на целые страницы) в системе.</label>
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+            <label index=".description">Ugrađeni sustav novosti</label>
+            <label index=".details">&quot;Novosti&quot; su oni elementi koji idu na početnu stranicu i omogućavaju da se povezuje na stranice dublje u stablu koje sadrže potpuni sadržaj. Može ih se koristiti i za predstavljanje članaka u sustavu.</label>
+        </languageKey>
+        <languageKey index="hu" type="array">
+            <label index=".description">Beépített hír modul</label>
+            <label index=".details">A hírelemek általában azok, melyek a címlapon megjelennek és egy link a teljes történetre mutat.</label>
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+            <label index=".description">Sistema de notícias.</label>
+            <label index=".details">Os elementos de &quot;notícias&quot; são aqueles que tipicamente vão nas páginas iniciais e lhe permitem ligar com uma página que contém a história completa. Também podem representar artigos (ligação a páginas completas) do sistema.</label>
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+        <languageKey index="hi" type="array">
+        </languageKey>
+    </data>
+    <orig_hash type="array">
+        <languageKey index="default" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+            <label index="_.seeAlso" type="integer">258052028</label>
+            <label index="title.description" type="integer">56318264</label>
+            <label index="title.details" type="integer">22231131</label>
+            <label index="type.description" type="integer">149265505</label>
+            <label index="type.details" type="integer">82927742</label>
+            <label index="hidden.description" type="integer">6132646</label>
+            <label index="hidden.details" type="integer">223516146</label>
+            <label index="_hidden.seeAlso" type="integer">45461726</label>
+            <label index="starttime.description" type="integer">24586625</label>
+            <label index="_starttime.seeAlso" type="integer">116515062</label>
+            <label index="endtime.description" type="integer">130304282</label>
+            <label index="_endtime.seeAlso" type="integer">115556950</label>
+            <label index="editlock.description" type="integer">215647851</label>
+            <label index="_editlock.seeAlso" type="integer">6683730</label>
+            <label index="fe_group.description" type="integer">156697366</label>
+            <label index="_fe_group.seeAlso" type="integer">244264000</label>
+            <label index="datetime.description" type="integer">47151714</label>
+            <label index="datetime.details" type="integer">76934079</label>
+            <label index="_datetime.seeAlso" type="integer">101666908</label>
+            <label index="archivedate.description" type="integer">172799812</label>
+            <label index="archivedate.details" type="integer">230982094</label>
+            <label index="_archivedate.seeAlso" type="integer">132350289</label>
+            <label index="sys_language_uid.description" type="integer">165373654</label>
+            <label index="sys_language_uid.details" type="integer">74726112</label>
+            <label index="_sys_language_uid.seeAlso" type="integer">43438891</label>
+            <label index="l18n_parent.description" type="integer">137796876</label>
+            <label index="l18n_parent.details" type="integer">110456952</label>
+            <label index="author.description" type="integer">121595033</label>
+            <label index="author.details" type="integer">75819042</label>
+            <label index="_author.seeAlso" type="integer">34307144</label>
+            <label index="t3ver_label.description" type="integer">230424280</label>
+            <label index="t3ver_label.details" type="integer">47443713</label>
+            <label index="author_email.description" type="integer">221235019</label>
+            <label index="author_email.details" type="integer">87660660</label>
+            <label index="_author_email.seeAlso" type="integer">34307144</label>
+            <label index="short.description" type="integer">221863442</label>
+            <label index="short.details" type="integer">208233905</label>
+            <label index="_short.seeAlso" type="integer">135763513</label>
+            <label index="bodytext.description" type="integer">138969162</label>
+            <label index="bodytext.details" type="integer">40946248</label>
+            <label index="_bodytext.seeAlso" type="integer">107844510</label>
+            <label index="keywords.description" type="integer">198346701</label>
+            <label index="keywords.details" type="integer">245660226</label>
+            <label index="_keywords.seeAlso" type="integer">239855875</label>
+            <label index="no_auto_pb.description" type="integer">140470210</label>
+            <label index="no_auto_pb.details" type="integer">149670211</label>
+            <label index="_no_auto_pb.seeAlso" type="integer">219745540</label>
+            <label index="category.description" type="integer">202103109</label>
+            <label index="category.details" type="integer">130215619</label>
+            <label index="_category.image" type="integer">87893122</label>
+            <label index="category.image_descr" type="integer">126622122</label>
+            <label index="_category.seeAlso" type="integer">99789088</label>
+            <label index="image.description" type="integer">164360171</label>
+            <label index="image.details" type="integer">103102892</label>
+            <label index="imagecaption.description" type="integer">75144587</label>
+            <label index="imagecaption.details" type="integer">265539770</label>
+            <label index="_imagecaption.seeAlso" type="integer">83402425</label>
+            <label index="imagealttext.description" type="integer">218565992</label>
+            <label index="imagealttext.details" type="integer">265539770</label>
+            <label index="_imagealttext.seeAlso" type="integer">48182454</label>
+            <label index="imagetitletext.description" type="integer">54171941</label>
+            <label index="imagetitletext.details" type="integer">265539770</label>
+            <label index="_imagetitletext.seeAlso" type="integer">73933365</label>
+            <label index="links.description" type="integer">30750913</label>
+            <label index="links.details" type="integer">95884505</label>
+            <label index="_links.seeAlso" type="integer">222419149</label>
+            <label index="related.description" type="integer">14923382</label>
+            <label index="related.details" type="integer">142131449</label>
+            <label index="news_files.description" type="integer">22096386</label>
+            <label index="news_files.details" type="integer">190461475</label>
+        </languageKey>
+        <languageKey index="dk" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="de" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="no" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="it" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="nl" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="cz" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="tr" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="se" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="hu" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+            <label index=".description" type="integer">175288138</label>
+            <label index=".details" type="integer">202181729</label>
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+        <languageKey index="hi" type="array">
+        </languageKey>
+    </orig_hash>
+    <orig_text type="array">
+        <languageKey index="default" type="array">
+        </languageKey>
+        <languageKey index="dk" type="array">
+        </languageKey>
+        <languageKey index="de" type="array">
+        </languageKey>
+        <languageKey index="no" type="array">
+        </languageKey>
+        <languageKey index="it" type="array">
+        </languageKey>
+        <languageKey index="fr" type="array">
+        </languageKey>
+        <languageKey index="es" type="array">
+        </languageKey>
+        <languageKey index="nl" type="array">
+        </languageKey>
+        <languageKey index="cz" type="array">
+        </languageKey>
+        <languageKey index="pl" type="array">
+        </languageKey>
+        <languageKey index="si" type="array">
+        </languageKey>
+        <languageKey index="fi" type="array">
+        </languageKey>
+        <languageKey index="tr" type="array">
+        </languageKey>
+        <languageKey index="se" type="array">
+        </languageKey>
+        <languageKey index="pt" type="array">
+        </languageKey>
+        <languageKey index="ru" type="array">
+        </languageKey>
+        <languageKey index="ro" type="array">
+        </languageKey>
+        <languageKey index="ch" type="array">
+        </languageKey>
+        <languageKey index="sk" type="array">
+        </languageKey>
+        <languageKey index="lt" type="array">
+        </languageKey>
+        <languageKey index="is" type="array">
+        </languageKey>
+        <languageKey index="hr" type="array">
+        </languageKey>
+        <languageKey index="hu" type="array">
+        </languageKey>
+        <languageKey index="gl" type="array">
+        </languageKey>
+        <languageKey index="th" type="array">
+        </languageKey>
+        <languageKey index="gr" type="array">
+        </languageKey>
+        <languageKey index="hk" type="array">
+        </languageKey>
+        <languageKey index="eu" type="array">
+        </languageKey>
+        <languageKey index="bg" type="array">
+        </languageKey>
+        <languageKey index="br" type="array">
+        </languageKey>
+        <languageKey index="et" type="array">
+        </languageKey>
+        <languageKey index="ar" type="array">
+        </languageKey>
+        <languageKey index="he" type="array">
+        </languageKey>
+        <languageKey index="ua" type="array">
+        </languageKey>
+        <languageKey index="lv" type="array">
+        </languageKey>
+        <languageKey index="jp" type="array">
+        </languageKey>
+        <languageKey index="vn" type="array">
+        </languageKey>
+        <languageKey index="ca" type="array">
+        </languageKey>
+        <languageKey index="ba" type="array">
+        </languageKey>
+        <languageKey index="kr" type="array">
+        </languageKey>
+        <languageKey index="eo" type="array">
+        </languageKey>
+        <languageKey index="my" type="array">
+        </languageKey>
+        <languageKey index="hi" type="array">
+        </languageKey>
+    </orig_text>
+</T3locallang>

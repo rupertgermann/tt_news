@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>CSH for the tt_news BackEnd module</description>
+		<type>CSH</type>
+		<csh_table>_MOD_web_txttnewsM1</csh_table>
+		<labelContext type="array">
+		</labelContext>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index=".alttitle">Web &gt; News admin module</label>
+			<label index="list_module.alttitle">News admin module</label>
+			<label index="list_module.description">Provides a news list-module and the tt_news category manager</label>
+			
+			
+		</languageKey>
+	</data>
+</T3locallang>

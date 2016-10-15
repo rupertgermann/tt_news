@@ -1,0 +1,30 @@
+<!-- ###TEMPLATE_ATOM03### begin -->###XML_DECLARATION###
+<feed version="0.3" xmlns="http://purl.org/atom/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"###SITE_LANG###>
+	<!-- ###HEADER### begin -->
+	<title>###SITE_TITLE###</title>
+	<link rel="alternate" type="text/html" href="###SITE_LINK###" />
+	<modified>###NEWS_LASTBUILD###</modified>
+	<generator url="http://www.typo3.com" version="###TYPO3_VERSION###">TYPO3 - get.content.right</generator>
+	###SITE_DESCRIPTION###
+	###NEWS_COPYRIGHT###	
+	<!-- ###HEADER### end -->
+	<!-- ###CONTENT### begin -->
+	<!-- ###NEWS### begin -->	
+	<entry>
+		<title>###NEWS_TITLE###</title>
+		<link rel="alternate" type="text/html" href="###NEWS_LINK###"/>
+		<modified>###NEWS_MODIFIED###</modified>
+		<issued>###NEWS_CREATED###</issued>
+		<created>###NEWS_DATE###</created>
+		<id>###NEWS_ATOM_ENTRY_ID###</id>
+		<author>
+			<name>###NEWS_AUTHOR###</name>
+		</author>
+		<content type="text/html" mode="escaped"###SITE_LANG### xml:base="###SITE_LINK###">
+			<![CDATA[###NEWS_SUBHEADER###]]>
+		</content>
+	</entry>
+	<!-- ###NEWS### end -->
+	<!-- ###CONTENT### end -->
+</feed>
+<!-- ###TEMPLATE_ATOM03### end -->

@@ -1,0 +1,72 @@
+###
+# This is the default TS-setup RSS feed from tt_news
+# this template has to be included after the tt_news main TS-setup because it depends on some settings from there
+#
+# (see Section Reference in the manual for more options & parameters)
+#
+# tt_news v 2.x
+###
+
+
+
+
+# - - - - - - - - - - - - - -  render XML news   - - - - - - - - - - - - -  #
+ 
+# point your RSS reader to: http://your-server.org/index.php?type=100
+
+plugin.tt_news {
+  displayXML {
+    rss091_tmplFile = {$plugin.tt_news.displayXML.rss091_tmplFile}
+    rss2_tmplFile = {$plugin.tt_news.displayXML.rss2_tmplFile}
+    rdf_tmplFile = {$plugin.tt_news.displayXML.rdf_tmplFile}
+    atom03_tmplFile = {$plugin.tt_news.displayXML.atom03_tmplFile}
+    atom1_tmplFile = {$plugin.tt_news.displayXML.atom1_tmplFile}
+
+    # possibile values: rss091 / rss2 / rdf / atom03
+    xmlFormat = {$plugin.tt_news.displayXML.xmlFormat}
+
+    xmlTitle = {$plugin.tt_news.displayXML.xmlTitle}
+    xmlLink = {$plugin.tt_news.displayXML.xmlLink}
+    xmlDesc = {$plugin.tt_news.displayXML.xmlDesc}
+    xmlLang = {$plugin.tt_news.displayXML.xmlLang}
+    xmlIcon = {$plugin.tt_news.displayXML.xmlIcon}
+    xmlLimit = {$plugin.tt_news.displayXML.xmlLimit}
+    xmlCaching = {$plugin.tt_news.displayXML.xmlCaching}
+
+    title_stdWrap.htmlSpecialChars = 1
+    title_stdWrap.htmlSpecialChars.preserveEntities = 1
+    subheader_stdWrap.stripHtml = 1
+    subheader_stdWrap.htmlSpecialChars = 1
+    subheader_stdWrap.htmlSpecialChars.preserveEntities = 1
+    subheader_stdWrap.crop = 100 | ... | 1 
+    subheader_stdWrap.ifEmpty.field = bodytext
+    xmlLastBuildDate = 1
+  }
+}
+
+
+## This enables the xml news feed
+xmlnews = PAGE
+xmlnews {
+  typeNum = 100
+
+  10 < plugin.tt_news
+  10.pid_list >
+  10.pid_list = {$plugin.tt_news.pid_list}
+  10.singlePid = {$plugin.tt_news.singlePid}
+  10.defaultCode = XML
+  10.catTextMode = 1
+  10.catImageMode = 0
+
+
+  config {
+    disableAllHeaderCode = 1
+    additionalHeaders = Content-type:application/xml
+    xhtml_cleaning = 0
+    admPanel = 0
+  }
+}
+
+
+### CVS id ###
+# $Id$

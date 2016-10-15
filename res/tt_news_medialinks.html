@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>new News example template</title>
+    <link href="tt_news_styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+
+
+
+
+
+<br />
+<br />
+<br />
+<h1>NEWS TEMPLATES</h1>
+<h2>EXAMPLE</h2>
+
+
+
+
+
+
+<br />
+<br />
+<br />
+<pre>
+
+<strong>Common markers:</strong>
+These are substituted in all news item displaying templates:
+
+<em>Markers:</em>
+NEWS_UID - ID number (uid) of the news item
+NEWS_TITLE - News item title
+NEWS_AUTHOR - name of author
+NEWS_EMAIL - email of author
+NEWS_DATE - date
+NEWS_TIME - time
+NEWS_AGE - age of news item in minutes, hours, days or years
+NEWS_SUBHEADER - subheader, if empty main content is inserted here in LIST and LATEST
+NEWS_CONTENT - main content
+NEWS_LINKS - news links
+NEWS_CATEGORY - news item category
+NEWS_CATEGORY_IMAGE - news item category image
+NEWS_RELATED - links to related news
+NEWS_IMAGE - news item images
+
+PAGE_UID - Page id of the parent page (pid)
+PAGE_TITLE - Title of the parent page of the news item
+PAGE_AUTHOR - Page author, if any
+PAGE_AUTHOR_EMAIL - Page author email, if any
+
+<em>News Language Markers (see pi/locallang.php):</em>
+LATEST_HEADER - header for the LATEST element
+GOTOARCHIVE - link to archive page in latest template
+ARCHIVE_HEADER - same for AMENU
+MORE - more ;-)
+TEXT_CAT - text output before categories and category images in LIST view (eg: 'categories:')
+TEXT_CAT_LATEST - the same in a shorter form for the LATEST element (eg: 'cat:')
+BACK_TO_LIST - link back to list-view in single-view template
+ARCHIVE_EMPTY_MSG - no items in archive
+SEARCH_EMPTY_MSG - message for empty search results
+TEXT_NEWS_AGE - text inserted before the age of the news item 
+
+
+<em>Wrapped Subparts:</em>
+LINK_ITEM - link to the news item single display
+LINK_PREV - used in the pagebrowser
+BROWSE_LINKS - used in the pagebrowser
+LINK_NEXT - used in the pagebrowser
+</pre>
+
+
+<br />
+<br />
+<br />
+<br />
+<hr />
+<br />
+<br />
+<br />
+<h3>TEMPLATE_LATEST</h3>
+<em>This is the template for the latest news, typically displayed on a frontpage.</em>
+<br />
+<br />
+<br />
+<br />
+
+
+
+<!-- ###TEMPLATE_LATEST### begin
+	This is the template for the latest news, typically displayed on a frontpage 
+-->
+<div class="news-latest-container">
+	<h2>###LATEST_HEADER###</h2>
+	<!-- ###CONTENT### begin
+		  This is the part of the template substituted with the list of news: 
+	-->
+		<!-- ###NEWS### begin 
+			Template for a single item 
+		-->
+			  <div class="news-latest-item">
+
+				<span class="news-latest-date"><!--###LINK_ITEM###-->###NEWS_DATE### ###NEWS_TIME###<!--###LINK_ITEM###--></span>
+				<h3><!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></h3>
+				<!--###LINK_ITEM###-->###NEWS_IMAGE###<!--###LINK_ITEM###-->
+				###NEWS_SUBHEADER###
+				###CATWRAP_B### ###TEXT_CAT_LATEST### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E### 
+                <div class="news-latest-morelink"><!--###LINK_ITEM###-->###MORE###<!--###LINK_ITEM###--></div>
+			  </div>
+
+		<!-- ###NEWS### end-->		
+	<!-- ###CONTENT###  end -->
+<div class="news-latest-gotoarchive"><!--###LINK_ARCHIVE###-->###GOTOARCHIVE###<!--###LINK_ARCHIVE###--></div>
+</div>
+<!-- ###TEMPLATE_LATEST### end -->
+
+
+
+
+
+
+
+<br />
+<br />
+<br />
+<br />
+<hr />
+<br />
+<br />
+<br />
+<h3>TEMPLATE_LIST</h3>
+<em>This is the template for the list of news in the archive or news page or search.</em>
+<br />
+<br />
+<br />
+<br />
+<!-- ###TEMPLATE_LIST### begin
+	This is the template for the list of news in the archive or news page or search
+-->
+<div class="news-list-container">
+	<!-- ###CONTENT### begin
+		  This is the part of the template substituted with the list of news: 
+	-->
+
+		<!-- ###NEWS### begin 
+			Template for a single item 
+		-->
+			<div class="news-list-item">				
+			  <h3>
+<span class="news-list-date">###NEWS_DATE###</span>
+<!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></h3>
+			  <!--###LINK_ITEM###-->###NEWS_IMAGE###<!--###LINK_ITEM###-->
+			 <h4>###NEWS_SUBHEADER###</h4>
+			###CATWRAP_B### ###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E###
+			<div class="news-list-morelink"><!--###LINK_ITEM###-->###MORE###<!--###LINK_ITEM###--></div>
+			</div>
+
+		<!-- ###NEWS### end-->
+	<!-- ###CONTENT###  end -->
+	<div class="news-list-browse">###BROWSE_LINKS###</div>
+</div>
+<!-- ###TEMPLATE_LIST### end -->
+
+
+
+
+
+
+
+<br />
+<br />
+<br />
+<br />
+<hr />
+<br />
+<br />
+<br />
+<h3>TEMPLATE_SINGLE</h3>
+<em>This subpart is used to display single news items</em><br />
+<br />
+<br />
+
+<!-- ###TEMPLATE_SINGLE### begin
+	This subpart is used to display single news items
+-->
+
+<div class="news-single-item">
+			<div class="news-single-timedata">###NEWS_DATE### ###NEWS_TIME### ###TEXT_NEWS_AGE### ###NEWS_AGE###</div>
+			<h2>###NEWS_TITLE###</h2>
+			###CATWRAP_B### ###TEXT_CAT### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE### ###CATWRAP_E###<p class="news-single-author">###NEWS_AUTHOR###</p>		
+			
+			
+			
+			<h3>###NEWS_SUBHEADER###</h3>
+			
+			###NEWS_IMAGE### 
+			###NEWS_CONTENT###
+
+			<div class="news-single-additional-info">			  
+			    <dl class="news-single-related">
+				  	<dt class="news-single-related-header">###TEXT_RELATED###</dt>
+				 	<dd class="news-single-related-items">###NEWS_RELATED###</dd>
+			   </dl>
+				 <dl class="news-single-files">
+				  	<dt class="news-single-files-header">###TEXT_FILES###</dt>
+				 	<dd class="news-single-files-items">###FILE_LINK###</dd>				  
+				</dl>
+				<dl class="news-single-links">
+  		 			<dt class="news-single-links-header">###TEXT_LINKS###</dt>
+				 	<dd class="news-single-links-items">###NEWS_LINKS###</dd>					
+				</dl>
+			</div>			
+
+<div class="news-single-backlink">	
+<!--###LINK_ITEM###-->###BACK_TO_LIST###<!--###LINK_ITEM###-->
+</div>			</div>		
+<!-- ###TEMPLATE_SINGLE### end -->
+
+
+
+
+
+
+
+
+
+
+
+
+<br />
+<br />
+<br />
+<br />
+<hr />
+<br />
+<br />
+<br />
+<h3>TEMPLATE_ARCHIVE</h3>
+<em>Subpart for the news archive menu.</em><br />
+<br />
+<br />
+<!-- ###TEMPLATE_ARCHIVE### begin
+	Subpart for the news archive menu
+--><div class="news-amenu-container">
+		<h2>###ARCHIVE_HEADER###</h2>
+	<ul>
+	<!-- ###CONTENT### begin
+		  This is the part of the template substituted with the list of items: 
+	-->
+		<!-- ###MENUITEM### begin 
+			Template for a single item 
+		-->
+			<li><!--###LINK_ITEM###-->###ARCHIVE_TITLE###: ###ARCHIVE_COUNT### ###ARCHIVE_ITEMS###<!--###LINK_ITEM###--></li>
+		<!-- ###MENUITEM### end-->
+	<!-- ###CONTENT###  end -->
+</ul>
+</div>
+<!-- ###TEMPLATE_ARCHIVE### end -->
+
+
+
+
+
+
+<br />
+<br />
+<br />
+<br />
+<hr />
+<br />
+<br />
+<br />
+<h3>TEMPLATE_ARCHIVE_NOITEMS</h3>
+<em>Shown if the archive has no items!</em><br />
+<br />
+<br />
+<!-- ###TEMPLATE_ARCHIVE_NOITEMS### begin
+	Shown if the archive has no items!
+-->
+		<div class="news-archive-top">###ARCHIVE_HEADER###</div>
+	    <div class="news-archive-item">###ARCHIVE_EMPTY_MSG###</div>		
+<!-- ###TEMPLATE_ARCHIVE_NOITEMS### end -->
+
+
+
+
+
+
+<br />
+<br />
+<br />
+<br />
+<hr />
+<br />
+<br />
+<br />
+<h3>TEMPLATE_SEARCH</h3>
+<em>Subpart for the search-form.</em><br />
+<br />
+<br />
+
+<!-- ###TEMPLATE_SEARCH### begin
+	Subpart for the search-form
+-->
+<div class="news-search-form">
+<form method="post" action="###FORM_URL###">
+	<input size="30" maxlength="100" type="text" name="tx_ttnews[swords]" value="###SWORDS###" />
+	<span class="news-search-form-submit"><input type="submit" name="search" value="###SEARCH_BUTTON###" /></span>
+</form></div>
+<!-- ###TEMPLATE_SEARCH### end -->
+
+
+this is shown if the search result is empty 
+
+   
+<!-- ###TEMPLATE_SEARCH_EMPTY### begin -->
+<div class="news-search-emptyMsg">###SEARCH_EMPTY_MSG###</div> 
+<!-- ###TEMPLATE_SEARCH_EMPTY### end -->
+
+<br /><br /><br /><br /><hr /><br />
+<h3>TEMPLATE_HEADER_LIST</h3>
+<em>shows a list of news titles</em><br />
+
+<br />
+<!-- ###TEMPLATE_HEADER_LIST### begin -->
+
+	<!-- ###CONTENT### begin
+		  This is the part of the template substituted with the list of news: 
+	-->
+		<!-- ###NEWS### begin 
+			Template for a single item 
+		-->
+			<div class="news-header-list-container">
+					<div class="news-header-list-title"> <!--###LINK_ITEM###-->###NEWS_TITLE###<!--###LINK_ITEM###--></div>
+					<div class="news-header-list-time"> ###NEWS_TIME###</div>
+					<div class="news-header-list-categories">###TEXT_CAT_LATEST### ###NEWS_CATEGORY### ###NEWS_CATEGORY_IMAGE###</div>
+					
+			</div>
+
+		<!-- ###NEWS### end-->
+		
+	<!-- ###CONTENT###  end -->
+ ###BROWSE_LINKS###
+
+<!-- ###TEMPLATE_HEADER_LIST### end -->
+
+
+<br />
+<br />
+<br />
+
+
+
+
+</body>
+</html>

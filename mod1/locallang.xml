@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for module &quot;web_txttnewsM1&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="title">News Admin</label>
+			
+			<label index="title">News Admin</label>
+			<label index="function1">News category manager</label>
+			<label index="function2"></label>
+			
+			<label index="nothingfound">This page contains no tt_news categories. Please select a page with categories from the list below:</label>
+			<label index="noNewsFound">There are no news matching the current selection.</label>
+			
+			
+			<label index="showSubcatgories">Show subcategories</label>
+			<label index="hideSubcatgories">Hide subcategories</label>
+			<label index="path">Path:</label>
+			<label index="categories">Categories:</label>
+			
+			<label index="showOnlyEditable">Show only editable records</label>
+			<label index="showThumbs">Show images</label>
+			
+			
+			<label index="defaultLangLabel">Default</label>
+			
+			
+			<label index="allPages">all pages</label>
+			<label index="thisPage">this page</label>
+			<label index="oneLevel">this page and 1 level down</label>
+			<label index="twoLevels">this page and 2 levels down</label>
+			<label index="threeLevels">this page and 3 levels down</label>
+			<label index="fourLevels">this page and 4 levels down</label>
+			<label index="enterSearchLevels">Show news from:</label>
+			
+			<label index="showingAll">Showing news from all categories.</label>
+			<label index="showingOnlyCat">Showing news from category: </label>
+			
+			<label index="selectCategory">Please select a category </label>
+
+			<label index="showEditIcons">Show edit icons in tree</label>
+			<label index="expandAll">Expand all</label>
+			<label index="showHiddenCategories">Show hidden categories</label>
+			
+			
+			<label index="treeTitle">News categories</label>
+			
+			<label index="resetCatSelection">[reset selection]</label>
+			<label index="showAllResetSel">Reset current category selection</label>
+			
+
+			<label index="moveCategoryinto">Move category into</label>
+			<label index="copyCategoryinto">Copy category into</label>
+			<label index="copyCategoryafter">Copy category after</label>
+
+
+			<label index="createCategory">Create new category</label>
+			<label index="createArticle">Create new article</label>
+			<label index="createArticleInCategory">Create new article in this category</label>
+			<label index="edit">Edit record</label>
+			<label index="showInfo">Show information</label>
+			<label index="unHide">Unhide Record</label>
+			<label index="hide">Hide Record</label>
+			<label index="deleteWarning">Are you sure you want to delete this record?</label>
+			<label index="delete">Delete record (!)</label>
+			<label index="openFePreview">Open preview</label>
+			
+			
+			<label index="noEditPagePerms">You're not allowed to edit content in the page where this record is located.</label>
+			<label index="noEditCategories">You're not allowed to edit this record because it has disallowed categories assigned.</label>
+			
+			
+			<label index="first">First</label>
+			<label index="last">Last</label>		
+			<label index="reload">Reload</label>
+			<label index="next">Next</label>
+			<label index="previous">Previous</label>
+			<label index="pageIndicator">Page %1$s of %2$d</label>
+			<label index="rangeIndicator">Records %1$d - %2$d of %3$d</label>
+			
+		</languageKey>
+
+		<languageKey index="de" type="array">
+			
+
+		</languageKey>
+		
+	</data>
+</T3locallang>
