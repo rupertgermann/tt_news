@@ -132,7 +132,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 						if (!$noEdit)	{
 							$params = '&edit['.$table.']['.$row['uid'].']=edit';
 							$NrowIcon .= '<a href="#" onclick="'.htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl)).'">'.
-											'<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,'gfx/edit2.gif','width="11" height="12"').' title="'.$GLOBALS['LANG']->getLL('edit',1).'" alt="" />'.
+											'<img'.\WMDB\TtNews\Utility\IconUtility::skinImg($this->backPath,'gfx/edit2.gif','width="11" height="12"').' title="'.$GLOBALS['LANG']->getLL('edit',1).'" alt="" />'.
 											'</a>';
 						} else {
 							$NrowIcon .= $this->noEditIcon($noEdit);
@@ -423,11 +423,15 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	function getIcon($table,$row,$noEdit)	{
 
 			// Initialization
-		$alttext = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordIconAltText($row,$table);
-		$iconImg = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg(
+		/*$alttext = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordIconAltText($row,$table);
+		$iconImg = '<img' . \WMDB\TtNews\Utility\IconUtility::skinImg(
 					$this->backPath, \TYPO3\CMS\Backend\Utility\IconUtility::getIcon($table, $row), 'width="18" height="16"') . 'title="'.$alttext.'"';
 
-		$iconImg .= ' />';
+		$iconImg .= ' />';*/
+
+		// wolo: new way (7.6) - is also deprecated, but works in 7
+		$iconImg = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord('tt_news', $row);
+
 		$this->counter++;
 
 		$disableList = '';
