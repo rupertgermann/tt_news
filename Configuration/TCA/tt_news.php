@@ -53,7 +53,8 @@ return Array (
 		),
 //		'mainpalette' => '10',
 		'thumbnail' => 'image',
-		'iconfile' => 'EXT:tt_news/res/gfx/ext_icon.gif',
+		//'iconfile' => 'EXT:tt_news/res/gfx/ext_icon.gif',
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'ext_icon.gif',
 		'searchFields' => 'uid,title,short,bodytext'),
 	'interface' => Array (
 		'showRecordFieldList' => 'title,hidden,datetime,starttime,archivedate,category,author,author_email,short,image,imagecaption,links,related,news_files'

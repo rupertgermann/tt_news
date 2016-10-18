@@ -26,7 +26,8 @@
 
 	// DEFAULT initialization of a module [BEGIN]
 
-use TYPO3\CMS\Backend\Utility\IconUtility;
+//use TYPO3\CMS\Backend\Utility\IconUtility;
+use WMDB\TtNews\Utility\IconUtility;
 
 if (!isset($MCONF)) {
 	require('conf.php');
@@ -272,7 +273,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 					width: 18px;
 					display: inline;
 				}
-
+				table.typo3-dblist tr td    {
+					padding: 6px 10px;
+				}
 				div.ttnewsadmin-pagination {
 					padding: 5px 0;
 					white-space: nowrap;
@@ -290,7 +293,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 				#ttnews-cat-tree ul.tree {
 				    margin:16px 0 0 0;
 				}
-
+				#ttnewsadmin-tree .icon-actions-document-new {
+				    margin-right: 5px;
+				}
 
 			';
 

@@ -669,10 +669,14 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$countSelConf = $selectConf;
 			unset($countSelConf['orderBy']);
 
+			//$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
+
 			if (($res = $this->exec_getQuery('tt_news', $countSelConf))) {
 				list($newsCount) = $this->db->sql_fetch_row($res);
 				$this->db->sql_free_result($res);
 			}
+			//if (isset($GLOBALS['w_ttnews_showSQL']) && $GLOBALS['w_ttnews_showSQL'])
+			//	var_dump($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery);
 			$this->newsCount = $newsCount;
 
 
@@ -692,6 +696,8 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				// build query for display:
 				if ($selectConf['leftjoin'] || ($this->theCode == 'RELATED' && $this->relNewsUid)) {
 					$selectConf['selectFields'] = 'DISTINCT tt_news.uid, tt_news.*';
+					// wolo mod: selectFieldsFromJoin
+					//$selectConf['selectFields'] = 'DISTINCT tt_news.uid, tt_news.*'  . ($selectConf['selectFieldsFromJoin'] ? ', '. $selectConf['selectFieldsFromJoin'] : '');
 				} else {
 					$selectConf['selectFields'] = 'tt_news.*';
 				}
@@ -893,6 +899,9 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 
 			$this->pi_isOnlyFields = $pointerName . ',tt_news,year,month,day,pS,pL,arc,cat';
+			// wolo mod - allow caching on tag_list
+			// todo: this has to be configurable or modificable from hook
+			//$this->pi_isOnlyFields = $pointerName . ',tt_news,year,month,day,pS,pL,arc,cat,tag';
 
 			// pi_lowerThan limits the amount of cached pageversions for the list view. Caching will be disabled if one of the vars in $this->pi_isOnlyFields has a value greater than $this->pi_lowerThan
 			// 							$this->pi_lowerThan = ceil($this->internal['res_count']/$this->internal['results_at_a_time']);
@@ -939,12 +948,17 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 
 		$limit = $this->config['limit'];
+		//$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = 1;
+
 
 		$lConf = $this->conf[$prefix_display . '.'];
 		$res = $this->exec_getQuery('tt_news', $selectConf); //get query for list contents
 
 //				debug($selectConf, $this->theCode.' final $selectConf (' . __CLASS__ . '::' . __FUNCTION__ . ')', __LINE__, __FILE__, 3);
 
+        // wolo mod
+        //if (isset($GLOBALS['w_ttnews_showSQL']) && $GLOBALS['w_ttnews_showSQL'])
+        //    debug($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery);
 
 		// make some final config manipulations
 		// overwrite image sizes from TS with the values from content-element if they exist.
@@ -1143,6 +1157,18 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
 			$row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->tsfe->sys_language_content, $OLmode);
 		}
+
+		// wolo mod
+		// Adds hook for processing of extra item array
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'])) {
+			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'] as $_classRef) {
+				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$row = $_procObj->extraItemArrayProcessor($row, $lConf, $this);
+			}
+		}
+		// wolo mod end.
+
+
 			// Register displayed news item globally:
 		$GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'];
 		$markerArray = array();
@@ -1533,7 +1559,13 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['userDisplayCatmenuHook'])) {
 					foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['userDisplayCatmenuHook'] as $_classRef) {
 						$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
-						$content = $_procObj->userDisplayCatmenu($lConf, $this);
+						//$content = $_procObj->userDisplayCatmenu($lConf, $this);
+
+						// wolo mod
+						// bug, if more hooks of that kind it renders only one usercatmenu (from last loaded ext)
+						// must try to render all of them and in all hooks check displayCatMenu.mode
+						//$content = $_procObj->userDisplayCatmenu($lConf, $this);
+						$content .= $_procObj->userDisplayCatmenu($lConf, $this);
 					}
 				}
 				break;
@@ -3153,7 +3185,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 
 		if (! $this->externalCategorySelection) {
-
 			// exclude LATEST and AMENU from changing their contents with the catmenu. This can be overridden by setting the TSvars 'latestWithCatSelector' or 'amenuWithCatSelector'
 			if ($this->config['catSelection'] && (($this->theCode == 'LATEST' && $this->conf['latestWithCatSelector']) || ($this->theCode == 'AMENU' && $this->conf['amenuWithCatSelector']) || (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('LIST,LIST2,LIST3,HEADER_LIST,SEARCH,XML', $this->theCode)))) {
 				// force 'select categories' mode if cat is given in GPvars

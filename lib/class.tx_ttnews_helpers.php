@@ -406,7 +406,7 @@ class tx_ttnews_helpers {
 		if (count($this->pObj->errors) >= 2) {
 			$msg = '--> Did you include the static TypoScript template (\'News settings\') for tt_news?';
 		}
-		return '<div style="border:2px solid red; padding:10px; margin:10px;"><img src="typo3/gfx/icon_warning2.gif" />
+		return '<div style="border:2px solid red; padding:10px; margin:10px;"><img src="typo3conf/ext/tt_news/Resources/Public/Icons/warning.png" />
 				<strong>plugin.tt_news ERROR:</strong><br />' . implode('<br /> ', $this->pObj->errors) . '<br />' . $msg . '</div>';
 	}
 
