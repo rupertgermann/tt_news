@@ -4,7 +4,9 @@
  * $Id$
  */
 
-if (!defined ("TYPO3_MODE")) 	die ("Access denied.");
+if (!defined ("TYPO3_MODE")) 	{
+    die ("Access denied.");
+}
 
 /**
 * Register hooks in TCEmain:
@@ -19,8 +21,6 @@ $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['pro
 	// it checks if the record has an editlock. If true, nothing will not be saved.
 $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] = 'EXT:tt_news/lib/class.tx_ttnews_tcemain.php:tx_ttnews_tcemain_cmdmap';
 
-
-
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
 // Page module hook
@@ -29,11 +29,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php'][
 // Fix for template file name created with older versions
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_ttnews_templateeval'] = 'EXT:tt_news/lib/class.tx_ttnews_templateeval.php';
 
-
 // register Ajax scripts
 $TYPO3_CONF_VARS['FE']['eID_include']['tt_news'] = 'EXT:tt_news/pi/fe_index.php';
-//$TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::expandCollapse'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxExpandCollapse';
-//$TYPO3_CONF_VARS['BE']['AJAX']['txttnewsM1::loadList'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxLoadList';
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler (
 	'txttnewsM1::expandCollapse',
@@ -45,7 +42,6 @@ $TYPO3_CONF_VARS['FE']['eID_include']['tt_news'] = 'EXT:tt_news/pi/fe_index.php'
 	TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news').'mod1/index.php:tx_ttnews_module1->ajaxLoadList',
 	false
 );
-
 
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {
 	$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = array(
@@ -68,6 +64,3 @@ if (empty($configuredCookieName)) {
 if ($_COOKIE[$configuredCookieName]) {
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = 0;
 }
-
-
-

@@ -82,86 +82,82 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		$out = '';
 		$queryParts = $this->makeQueryArray($table, $id, $addWhere);
 		$this->setTotalItems($queryParts);
-//		$dbCount = 0;
 		$this->eCounter = 0;
 
 			// Make query for records if there were any records found in the count operation:
 		if ($this->totalItems)	{
 			$result = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
-//			$dbCount = $GLOBALS['TYPO3_DB']->sql_num_rows($result);
 		}
 
 			// If records were found, render the list:
-		if ($this->totalItems)	{
-				// Set fields
-			$this->fieldArray = explode(',',$fList);
+		if ($this->totalItems) {
+            return $out;
+        }
 
-				// Header line is drawn
-			$theData = array();
-			$theData = $this->headerFields($this->fieldArray,$table,$theData);
-			if ($this->doEdit)	{
-				$newRecIcon = $this->getNewRecordButton($table);
-			}
+            // Set fields
+        $this->fieldArray = explode(',',$fList);
 
-			$out.= $this->addelement(1,$newRecIcon,$theData,' class="c-headLineTable"');
+            // Header line is drawn
+        $theData = array();
+        $theData = $this->headerFields($this->fieldArray,$table,$theData);
+        if ($this->doEdit)	{
+            $newRecIcon = $this->getNewRecordButton($table);
+        }
 
-			$checkCategories = false;
-			if (count($this->includeCats) || count($this->excludeCats)) {
-				$checkCategories = true;
-			}
+        $out.= $this->addelement(1,$newRecIcon,$theData,' class="c-headLineTable"');
 
+        $checkCategories = false;
+        if (count($this->includeCats) || count($this->excludeCats)) {
+            $checkCategories = true;
+        }
 
-				// Render Items
-			$this->eCounter = $this->firstElementNumber;
-			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result)))	{
-				\TYPO3\CMS\Backend\Utility\BackendUtility::workspaceOL($table, $row);
+            // Render Items
+        $this->eCounter = $this->firstElementNumber;
+        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result)))	{
+            \TYPO3\CMS\Backend\Utility\BackendUtility::workspaceOL($table, $row);
 
-				if (is_array($row))	{
-//					list($flag,$code) = $this->fwd_rwd_nav();
-//					$out.= $code;
-					if (1)	{
-						$Nrow = array();
-						$NrowIcon = '';
-						$noEdit = $this->checkRecordPerms($row,$checkCategories);
+            if (!is_array($row)) {
+                continue;
+            }
 
-							// Setting icons/edit links:
-						if ($icon)	{
-							$NrowIcon = $this->getIcon($table,$row,$noEdit);
-						}
+            $Nrow = array();
+            $NrowIcon = '';
+            $noEdit = $this->checkRecordPerms($row,$checkCategories);
 
-						if (!$noEdit)	{
-							$params = '&edit['.$table.']['.$row['uid'].']=edit';
-							$NrowIcon .= '<a href="#" onclick="'.htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl)).'">'.
-											'<img'.\WMDB\TtNews\Utility\IconUtility::skinImg($this->backPath,'gfx/edit2.gif','width="11" height="12"').' title="'.$GLOBALS['LANG']->getLL('edit',1).'" alt="" />'.
-											'</a>';
-						} else {
-							$NrowIcon .= $this->noEditIcon($noEdit);
-						}
+                // Setting icons/edit links:
+            if ($icon)	{
+                $NrowIcon = $this->getIcon($table,$row,$noEdit);
+            }
 
-							// Get values:
-						$Nrow = $this->dataFields($this->fieldArray,$table,$row,$Nrow,$noEdit);
-						$tdparams = $this->eCounter%2 ? ' class="bgColor4"' : ' class="bgColor4-20"';
-						$out.= $this->addelement(1,$NrowIcon,$Nrow,$tdparams);
-					}
-					$this->eCounter++;
-				}
-			}
+            if (!$noEdit)	{
+                $params = '&edit['.$table.']['.$row['uid'].']=edit';
+                $NrowIcon .= '<a href="#" onclick="'.htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl)).'">'.
+                                '<img'.\WMDB\TtNews\Utility\IconUtility::skinImg($this->backPath,'gfx/edit2.gif','width="11" height="12"').' title="'.$GLOBALS['LANG']->getLL('edit',1).'" alt="" />'.
+                                '</a>';
+            } else {
+                $NrowIcon .= $this->noEditIcon($noEdit);
+            }
 
-				// Wrap it all in a table:
-			$out='
-				<table border="0" cellpadding="1" cellspacing="1" class="typo3-dblist">
-					'.$out.'
-				</table>';
+                // Get values:
+            $Nrow = $this->dataFields($this->fieldArray,$table,$row,$Nrow,$noEdit);
+            $tdparams = $this->eCounter%2 ? ' class="bgColor4"' : ' class="bgColor4-20"';
+            $out.= $this->addelement(1,$NrowIcon,$Nrow,$tdparams);
+            $this->eCounter++;
+        }
 
-						// Record navigation is added to the beginning and end of the table if in single table mode
-				if ($table) {
-					$pageNavigation = $this->renderListNavigation();
-					$out = $pageNavigation . $out . $pageNavigation;
-				}
+            // Wrap it all in a table:
+        $out='
+            <table border="0" cellpadding="1" cellspacing="1" class="typo3-dblist">
+                '.$out.'
+            </table>';
 
+                    // Record navigation is added to the beginning and end of the table if in single table mode
+            if ($table) {
+                $pageNavigation = $this->renderListNavigation();
+                $out = $pageNavigation . $out . $pageNavigation;
+            }
 
-		}
-		return $out;
+        return $out;
 	}
 	/**
 	 * Creates a page browser for tables with many records
@@ -230,42 +226,6 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 				$last = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('', TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/gfx/control_last_disabled.gif') . 'alt="" title="" />';
 			}
 
-//			$reload = '<a href="#" onclick="document.dblistForm.action=\''
-//				. $listURL . '&pointer=\'+calculatePointer(); document.dblistForm.submit(); return true;">
-//				<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath, 'gfx/refresh_n.gif')
-//				. 'alt="' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:reload')
-//				. '" title="' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:reload')
-//				. '" /></a>';
-
-			// Add js to traverse a page select input to a pointer value
-//			$content = '
-//<script type="text/JavaScript">
-///*<![CDATA[*/
-//
-//	function calculatePointer(){
-//		page = document.getElementById(\'jumpPage\').value;
-//
-//		if (page > ' . $totalPages . ') {
-//			page = ' . $totalPages . ';
-//		}
-//
-//		if (page < 1) {
-//			page = 1;
-//		}
-//
-//		pointer = (page - 1) * ' . $this->iLimit . ';
-//
-//		return pointer;
-//	}
-//
-///*]]>*/
-//</script>
-//';
-
-//			$pageNumberInput = '<span>
-//				<input type="text" value="' . $currentPage
-//				. '" size="3" id="jumpPage" name="jumpPage" onkeyup="if (event.keyCode == Event.KEY_RETURN) { document.dblistForm.action=\'' . $listURL . '&pointer=\'+calculatePointer(); document.dblistForm.submit(); } return true;" />
-//				</span>';
 			$pageIndicator = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:pageIndicator'), $currentPage, $totalPages);
 
 			if ($this->totalItems > ($this->firstElementNumber + $this->iLimit)) {
@@ -293,8 +253,6 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		return ($this->addElement(1, '', $data));
 	}
 
-
-
 	/**
 	 * Adds content to all data fields in $out array
 	 *
@@ -310,62 +268,65 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		global $TCA;
 
 			// Check table validity:
-		if ($TCA[$table])	{
-			$thumbsCol = $TCA[$table]['ctrl']['thumbnail'];
-			$url = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL').'index.php';
-			$thumbsize = $this->lTSprop['imageSize'];
-				// Traverse fields:
-			foreach($fieldArr as $fieldName)	{
+		if (!$TCA[$table]) {
+            return $out;
+        }
 
-				if ($TCA[$table]['columns'][$fieldName])	{	// Each field has its own cell (if configured in TCA)
-					if ($fieldName==$thumbsCol)	{	// If the column is a thumbnail column:
-						if ($this->thumbs) {
-							$val = \TYPO3\CMS\Backend\Utility\BackendUtility::thumbCode($row,$table,$fieldName,$this->backPath,$this->thumbScript,NULL,0,'',$thumbsize);
-						} else {
-							$val = str_replace(',',', ',basename($row[$fieldName]));
-						}
+        $thumbsCol = $TCA[$table]['ctrl']['thumbnail'];
+        $url = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL').'index.php';
+        $thumbsize = $this->lTSprop['imageSize'];
 
+        // Traverse fields:
+        foreach($fieldArr as $fieldName)	{
 
-					} else {	// ... otherwise just render the output:
-						$val = nl2br(htmlspecialchars(trim(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,$fieldName,$row[$fieldName],0,0,0,$row['uid']),250))));
+            if ($TCA[$table]['columns'][$fieldName])	{
+                // Each field has its own cell (if configured in TCA)
+                if ($fieldName==$thumbsCol)	{
+                    // If the column is a thumbnail column:
+                    if ($this->thumbs) {
+                        $val = \TYPO3\CMS\Backend\Utility\BackendUtility::thumbCode($row,$table,$fieldName,$this->backPath,$this->thumbScript,NULL,0,'',$thumbsize);
+                    } else {
+                        $val = str_replace(',',', ',basename($row[$fieldName]));
+                    }
+                } else {
+                    // ... otherwise just render the output:
+                    $val = nl2br(htmlspecialchars(trim(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,$fieldName,$row[$fieldName],0,0,0,$row['uid']),250))));
 
-						if ($this->lTSprop['clickTitleMode'] == 'view') {
-							if ($this->singlePid) {
-								$val = $this->linkSingleView($url,$val,$row['uid']);
-							}
-						} elseif ($this->lTSprop['clickTitleMode'] == 'edit') {
-							if (!$noEdit)	{
-								$params = '&edit['.$table.']['.$row['uid'].']=edit';
-								$lTitle = ' title="'.$GLOBALS['LANG']->getLL('edit',1).'"';
-								$val = '<a href="#" onclick="'.htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl)).'"'.$lTitle.'>'.$val.'</a>';
-							}
-						}
+                    if ($this->lTSprop['clickTitleMode'] == 'view' && $this->singlePid) {
+                        $val = $this->linkSingleView($url,$val,$row['uid']);
+                    } elseif ($this->lTSprop['clickTitleMode'] == 'edit' && !$noEdit) {
+                        $params = '&edit['.$table.']['.$row['uid'].']=edit';
+                        $lTitle = ' title="'.$GLOBALS['LANG']->getLL('edit',1).'"';
+                        $val = '<a href="#" onclick="'.htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl)).'"'.$lTitle.'>'.$val.'</a>';
+                    }
+                }
+                $out[$fieldName] = $val;
+            } else {
+                // Each field is separated by <br /> and shown in the same cell (If not a TCA field, then explode the field name with ";" and check each value there as a TCA configured field)
+                $theFields = explode(';',$fieldName);
 
+                // Traverse fields, separated by ";" (displayed in a single cell).
+                foreach($theFields as $fName2)	{
+                    if ($TCA[$table]['columns'][$fName2])	{
+                         $out[$fieldName].= '<b>'.$GLOBALS['LANG']->sL($TCA[$table]['columns'][$fName2]['label'],1).'</b>'.
+                                            '&nbsp;&nbsp;'.
+                                            htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,$fName2,$row[$fName2],0,0,0,$row['uid']),25)).
+                                            '<br />';
+                    }
+                }
+            }
 
-					}
-					$out[$fieldName] = $val;
-				} else {	// Each field is separated by <br /> and shown in the same cell (If not a TCA field, then explode the field name with ";" and check each value there as a TCA configured field)
-					$theFields = explode(';',$fieldName);
+            // If no value, add a nbsp.
+            if (!$out[$fieldName])	{
+                $out[$fieldName]='&nbsp;';
+            }
 
-						// Traverse fields, separated by ";" (displayed in a single cell).
-					foreach($theFields as $fName2)	{
-						if ($TCA[$table]['columns'][$fName2])	{
-							 $out[$fieldName].= '<b>'.$GLOBALS['LANG']->sL($TCA[$table]['columns'][$fName2]['label'],1).'</b>'.
-							 					'&nbsp;&nbsp;'.
-												htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,$fName2,$row[$fName2],0,0,0,$row['uid']),25)).
-												'<br />';
-						}
-					}
-				}
-					// If no value, add a nbsp.
-				if (!$out[$fieldName])	$out[$fieldName]='&nbsp;';
+            // Wrap in dimmed-span tags if record is "disabled"
+            if ($this->isDisabled($table,$row))	{
+                $out[$fieldName] = $GLOBALS['TBE_TEMPLATE']->dfw($out[$fieldName]);
+            }
+        }
 
-					// Wrap in dimmed-span tags if record is "disabled"
-				if ($this->isDisabled($table,$row))	{
-					$out[$fieldName] = $GLOBALS['TBE_TEMPLATE']->dfw($out[$fieldName]);
-				}
-			}
-		}
 		return $out;
 	}
 
@@ -385,8 +346,8 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		$linkedurl = \TYPO3\CMS\Core\Utility\GeneralUtility::linkThisUrl($url,$params);
 		$onclick = 'openFePreview(\''.htmlspecialchars($linkedurl).'\');';
 		$lTitle = $GLOBALS['LANG']->getLL('openFePreview',1);
-		$link = '<a href="#" onclick="'.$onclick.'" title="'.$lTitle.'">'.$val.'</a>';
-		return $link;
+
+        return '<a href="#" onclick="'.$onclick.'" title="'.$lTitle.'">'.$val.'</a>';
 	}
 
 	/**
@@ -401,13 +362,14 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 			$addP = '&defVals['.$table.'][category]='.$this->category;
 			$addLbl = 'InCategory';
 		}
+
 		$params = '&edit['.$table.']['.$this->newRecPid.']=new'.$addP;
 		$onclick = htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl));
-		$button = '<a href="#" onclick="'.$onclick.'">'.
+
+        return '<a href="#" onclick="'.$onclick.'">'.
             \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('actions-document-new').
 			($withLabel?$GLOBALS['LANG']->getLL('createArticle'.$addLbl):'').
 			'</a>';
-		return $button;
 	}
 
 
@@ -421,16 +383,9 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	 * @return	string		HTML for the icon
 	 */
 	function getIcon($table,$row,$noEdit)	{
-
 			// Initialization
-		/*$alttext = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordIconAltText($row,$table);
-		$iconImg = '<img' . \WMDB\TtNews\Utility\IconUtility::skinImg(
-					$this->backPath, \TYPO3\CMS\Backend\Utility\IconUtility::getIcon($table, $row), 'width="18" height="16"') . 'title="'.$alttext.'"';
-
-		$iconImg .= ' />';*/
-
-		// wolo: new way (7.6) - is also deprecated, but works in 7
-		$iconImg = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord('tt_news', $row);
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+        $iconImg = $iconFactory->getIconForRecord('tt_news', $row, Icon::SIZE_SMALL)->render();
 
 		$this->counter++;
 
@@ -438,11 +393,10 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		if ($noEdit) {
 			$disableList = '+info,copy';
 		}
-			// The icon with link
-		$theIcon = $GLOBALS['SOBE']->doc->wrapClickMenuOnIcon($iconImg,$table,$row['uid'],'','',$disableList);
 
-		return $theIcon;
-	}
+			// The icon with link
+		return $GLOBALS['SOBE']->doc->wrapClickMenuOnIcon($iconImg,$table,$row['uid'],'','',$disableList);
+    }
 
 	/**
 	 * [Describe function...]
@@ -453,23 +407,30 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	 */
 	function checkRecordPerms(&$row,$checkCategories)	{
 		$noEdit = 1;
-		if ($this->pObj->checkPageAccess($row['pid'])) { // user is allowed to edit page content
-			$noEdit = 0;
-			if ($checkCategories) {
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery (
-					'tt_news_cat_mm.*',
-					'tt_news_cat_mm, tt_news_cat',
-					'tt_news_cat_mm.uid_foreign=tt_news_cat.uid AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local='.$row['uid']);
 
-				while (($mmrow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-					if (!in_array($mmrow['uid_foreign'],$this->includeCats) || in_array($mmrow['uid_foreign'],$this->excludeCats)) {
-						$noEdit = 2;
-						break;
-					}
-				}
-				$GLOBALS['TYPO3_DB']->sql_free_result($res);
-			}
-		}
+        if (!$this->pObj->checkPageAccess($row['pid'])) {
+            return $noEdit;
+        }
+
+        // user is allowed to edit page content
+        $noEdit = 0;
+        if (!$checkCategories) {
+            return $noEdit;
+        }
+
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery (
+            'tt_news_cat_mm.*',
+            'tt_news_cat_mm, tt_news_cat',
+            'tt_news_cat_mm.uid_foreign=tt_news_cat.uid AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local='.$row['uid']);
+
+        while (($mmrow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+            if (!in_array($mmrow['uid_foreign'],$this->includeCats) || in_array($mmrow['uid_foreign'],$this->excludeCats)) {
+                $noEdit = 2;
+                break;
+            }
+        }
+        $GLOBALS['TYPO3_DB']->sql_free_result($res);
+
 		return $noEdit;
 	}
 
@@ -489,12 +450,14 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 			case 2:
 				$label = $GLOBALS['LANG']->getLL('noEditCategories',1);
 			break;
+            default:
+                $label = '';
+                break;
 		}
-		$img = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'res/noedit_'.$reason.'.gif';
-		$icon = '<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,$img).' title="'.$label.'" alt="" />';
 
-		return $icon;
-	}
+		$img = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news').'res/noedit_'.$reason.'.gif';
+		return '<img'.\TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,$img).' title="'.$label.'" alt="" />';
+    }
 
 
 	/**
@@ -531,10 +494,14 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	function addSortLink($code,$field,$table)	{
 
 			// Certain circumstances just return string right away (no links):
-		if ($field=='_CONTROL_' || $field=='_LOCALIZATION_' || $field=='_CLIPBOARD_' || $field=='_REF_' || $this->disableSingleTableView)	return $code;
+		if ($field=='_CONTROL_' || $field=='_LOCALIZATION_' || $field=='_CLIPBOARD_' || $field=='_REF_' || $this->disableSingleTableView)	{
+            return $code;
+        }
 
 			// If "_PATH_" (showing record path) is selected, force sorting by pid field (will at least group the records!)
-		if ($field=='_PATH_')	$field=pid;
+		if ($field=='_PATH_')	{
+            $field=pid;
+        }
 
 			//	 Create the sort link:
 		$sortUrl = $this->listURL('',FALSE,'sortField,sortRev').'&sortField='.$field.'&sortRev='.($this->sortRev || ($this->sortField!=$field)?0:1);
@@ -559,17 +526,14 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	function listURL($altId='',$table='',$exclList='')	{
 		return \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('web_txttnewsM1').
 			'&id='.(strcmp($altId,'')?$altId:$this->id).
-//			($table!==FALSE?'&table='.rawurlencode($table==-1?$this->table:$table):'').
 			($this->thumbs?'&showThumbs='.$this->thumbs:'').
-//			($this->returnUrl?'&returnUrl='.rawurlencode($this->returnUrl):'').
 			($this->searchString?'&search_field='.rawurlencode($this->searchString):'').
 			($this->searchLevels?'&searchLevels='.rawurlencode($this->searchLevels):'').
 			($this->showLimit?'&showLimit='.rawurlencode($this->showLimit):'').
 			($this->firstElementNumber?'&pointer='.rawurlencode($this->firstElementNumber):'').
 			((!$exclList || !\TYPO3\CMS\Core\Utility\GeneralUtility::inList($exclList,'sortField')) && $this->sortField?'&sortField='.rawurlencode($this->sortField):'').
 			((!$exclList || !\TYPO3\CMS\Core\Utility\GeneralUtility::inList($exclList,'sortRev')) && $this->sortRev?'&sortRev='.rawurlencode($this->sortRev):'').
-			($this->category?'&category='.$this->category:'')
-			;
+			($this->category?'&category='.$this->category:'');
 	}
 
 	/**
@@ -589,11 +553,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 
 			// Set ORDER BY:
 		$orderBy = ($TCA[$table]['ctrl']['sortby']) ? 'ORDER BY '.$TCA[$table]['ctrl']['sortby'] : $TCA[$table]['ctrl']['default_sortby'];
-		if ($this->sortField)	{
-			if (in_array($this->sortField,$this->makeFieldList($table,1)))	{
-				$orderBy = 'ORDER BY '.$this->sortField;
-				if ($this->sortRev)	$orderBy.=' DESC';
-			}
+		if ($this->sortField && in_array($this->sortField,$this->makeFieldList($table,1)))	{
+            $orderBy = 'ORDER BY '.$this->sortField;
+
+            if ($this->sortRev) {
+                $orderBy .= ' DESC';
+            }
 		}
 
 			// Set LIMIT:
@@ -668,16 +633,19 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 			unset($queryParts['LIMIT']);
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
 			$results = array();
-			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+
+            while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 				$results[$row['uid']] = $row['uid'];
 			}
+
 			array_unique($results);
 			foreach ($results as $uid) {
 				$currentCats = $this->getCategories($uid);
 				foreach ($currentCats as $cat) {
 					if (!in_array($cat,$this->includeCats) || in_array($cat,$this->excludeCats)) {
 						unset($results[$uid]);
-						break; // break after one disallowed category was found
+                        // break after one disallowed category was found
+                        break;
 					}
 				}
 			}
@@ -691,6 +659,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 
 			$queryParts['LIMIT'] = $tmpLimit;
 		}
+
 		return $queryParts;
 	}
 
@@ -710,6 +679,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 			$categories[] = $row['uid'];
 		}
+
 		return $categories;
 	}
 
