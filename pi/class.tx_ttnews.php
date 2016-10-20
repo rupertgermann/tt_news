@@ -758,12 +758,11 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
                 $this->internal['maxPages'] = $pbConf['maxPages'];
 
                 if (! $pbConf['showPBrowserText']) {
-                    $this->overrideLL('pi_list_browseresults_page', '');
+                    $this->overrideLL('pi_list_browseresults_page', ' ');
                 }
                 if ($this->conf['userPageBrowserFunc']) {
                     $markerArray = $this->userProcess('userPageBrowserFunc', $markerArray);
                 } else {
-
                     $this->pi_alwaysPrev = $pbConf['alwaysPrev'];
                     if ($this->conf['usePiBasePagebrowser'] && $this->isRenderMarker('###BROWSE_LINKS###')) {
 
