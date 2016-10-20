@@ -211,8 +211,7 @@ return Array (
 				'type' => 'input',
 				'size' => '10',
 				'max' => '20',
-				'eval' => 'datetime',
-				'default' => mktime(date("H"),date("i"),0,date("m"),date("d"),date("Y"))
+				'eval' => 'datetime'
 				)
 		),
 		'archivedate' => Array (

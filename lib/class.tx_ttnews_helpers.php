@@ -43,7 +43,7 @@ class tx_ttnews_helpers {
 	var $pObj;
 
 
-	function tx_ttnews_helpers(&$pObj) {
+	function __construct(&$pObj) {
 		$this->pObj = &$pObj;
 	}
 
