@@ -48,7 +48,7 @@ class tx_ttnews_typo3ajax {
 	 * @param	string		the AJAX id
 	 * @return	void
 	 */
-	function tx_ttnews_typo3ajax($ajaxId) {
+	function __construct($ajaxId) {
 		global $LANG;
 
 		if (TYPO3_MODE == 'FE') {
