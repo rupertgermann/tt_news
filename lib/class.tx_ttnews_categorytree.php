@@ -110,8 +110,8 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 			// Set PM icon for root of mount:
 			$cmd = $this->bank . '_' . ($isOpen ? "0_" : "1_") . $uid . '_' . $this->treeName;
 
-			$icon = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath, 'gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
-			if ($PMWrap) {
+			$icon = '<img' . \WMDB\TtNews\Utility\IconUtility::skinImg($this->backPath, 'gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
+			if ($this->expandable && ! $this->expandFirst) {
 				$firstHtml = $this->PMiconATagWrap($icon, $cmd);
 			} else {
 				$firstHtml = $icon;
