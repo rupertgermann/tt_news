@@ -90,7 +90,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		}
 
 			// If records were found, render the list:
-		if ($this->totalItems) {
+		if (!$this->totalItems) {
             return $out;
         }
 

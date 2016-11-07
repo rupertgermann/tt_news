@@ -47,6 +47,33 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 
 	var $expandable;
 
+    protected function handleCache() {
+        $storeKey = '';
+
+        if ($this->tt_news_obj->cache_categoryCount) {
+            $storeKey = md5(serialize(array($this->stored,$this->MOUNTS,
+                $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause)));
+
+            $tmpCCC = $this->tt_news_obj->cache->get($storeKey);
+            if ($tmpCCC) {
+                if ($this->tt_news_obj->writeCachingInfoToDevlog>1) {
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
+                }
+
+                $this->categoryCountCache = unserialize($tmpCCC);
+                $this->cacheHit = TRUE;
+            } else {
+                if ($this->tt_news_obj->writeCachingInfoToDevlog) {
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array($this->stored,$this->MOUNTS,
+                        $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause));
+                }
+            }
+
+        }
+
+        return $storeKey;
+    }
+
 	/**
 	 * Will create and return the HTML code for a browsable tree
 	 * Is based on the mounts found in the internal array ->MOUNTS (set in the constructor)
@@ -64,29 +91,9 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 		$tmpClause = $this->clause;
 		$savedTable = $this->table;
 
-		$this->tmpC = 0;
+        $storeKey = $this->handleCache();
 
-		if ($this->tt_news_obj->cache_categoryCount) {
-			$storeKey = md5(serialize(array($this->stored,$this->MOUNTS,
-					$this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause)));
-
-//			$tmpCCC = $GLOBALS['TSFE']->sys_page->getHash($storeKey);
-			$tmpCCC = $this->tt_news_obj->cache->get($storeKey);
-			if ($tmpCCC) {
-				if ($this->tt_news_obj->writeCachingInfoToDevlog>1) {
-					\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
-				}
-
-				$this->categoryCountCache = unserialize($tmpCCC);
-				$this->cacheHit = TRUE;
-			} else {
-				if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-					\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array($this->stored,$this->MOUNTS,
-					$this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause));
-				}
-			}
-
-		}
+		$PMWrap = $this->expandable && ! $this->expandFirst;
 
 		// Traverse mounts:
 		foreach ($this->MOUNTS as $idx => $uid) {
@@ -115,7 +122,6 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 			// Preparing rootRec for the mount
 			if ($groupByPages) {
 				$this->table = 'pages';
-				//				$this->addStyle = ' style="margin-bottom:10px;"';
 			}
 
 			if ($uid) {
@@ -137,6 +143,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 					$firstHtml .= $this->getRootIcon($rootRec);
 				}
 			}
+
 			if ($groupByPages) {
 				$this->clause = $tmpClause . ' AND tt_news_cat.pid=' . $uid;
 				$rootRec['uid'] = 0;
@@ -145,29 +152,30 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 			// restore $this->table
 			$this->table = $savedTable;
 
-			if (is_array($rootRec)) {
-				// In case it was swapped inside getRecord due to workspaces.
-				$uid = $rootRec['uid'];
-
-				// Add the root of the mount to ->tree
-				$this->tree[] = array('HTML' => $firstHtml, 'row' => $rootRec, 'bank' => $this->bank, 'hasSub' => true,
-						'invertedDepth' => 1000);
-
-				// If the mount is expanded, go down:
-				if ($isOpen) {
-					// Set depth:
-					if ($this->addSelfId) {
-						$this->ids[] = $uid;
-					}
-					$this->getTree($uid, 999, '', $rootRec['_SUBCSSCLASS']);
-				}
-				// Add tree:
-				$treeArr = array_merge($treeArr, $this->tree);
+			if (!is_array($rootRec)) {
+                continue;
 			}
+
+            // In case it was swapped inside getRecord due to workspaces.
+            $uid = $rootRec['uid'];
+
+            // Add the root of the mount to ->tree
+            $this->tree[] = array('HTML' => $firstHtml, 'row' => $rootRec, 'bank' => $this->bank, 'hasSub' => true,
+                    'invertedDepth' => 1000);
+
+            // If the mount is expanded, go down:
+            if ($isOpen) {
+                // Set depth:
+                if ($this->addSelfId) {
+                    $this->ids[] = $uid;
+                }
+                $this->getNewsCategoryTree($uid, 999, '', $rootRec['_SUBCSSCLASS']);
+            }
+            // Add tree:
+            $treeArr = array_merge($treeArr, $this->tree);
 		}
 
 		if ($this->tt_news_obj->cache_categoryCount && count($this->categoryCountCache) && !$this->cacheHit) {
-//			$GLOBALS['TSFE']->sys_page->storeHash($storeKey, serialize($this->categoryCountCache), 'news_categoryCountCache');
 			$this->tt_news_obj->cache->set($storeKey,serialize($this->categoryCountCache),'categoryCounts');
 		}
 
@@ -183,40 +191,38 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 		}
 
 		if ($sum !== false) {
-			//			\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
-		} else {
-			if ($this->tt_news_obj->cache_categoryCount) {
-				$hash = \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause), 30);
-				$sum = $this->tt_news_obj->cache->get($hash);
-
-			}
-
-			if ($sum === false) {
-				if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-					\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
-				}
-
-				$result = array();
-				$result['sum'] = 0;
-
-				$news_clause = '';
-				if (is_object($this->tt_news_obj)) {
-					$news_clause .= ' AND ' . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields;
-					if ($this->newsSelConf['pidInList']) {
-						$news_clause .= ' AND tt_news.pid IN (' . $this->newsSelConf['pidInList'] . ') ';
-					}
-				}
-
-				tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
-				$sum = $result['sum'];
-
-			}
-			$this->categoryCountCache[$catID] = (int) $sum;
-			if ($this->tt_news_obj->cache_categoryCount) {
-				$this->tt_news_obj->cache->set($hash, (string)$sum,'categoryCounts');
-			}
-
+			return sum;
 		}
+
+        if ($this->tt_news_obj->cache_categoryCount) {
+            $hash = \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause), 30);
+            $sum = $this->tt_news_obj->cache->get($hash);
+        }
+
+        if ($sum === false) {
+            if ($this->tt_news_obj->writeCachingInfoToDevlog) {
+                \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
+            }
+
+            $result = array();
+            $result['sum'] = 0;
+
+            $news_clause = '';
+            if (is_object($this->tt_news_obj)) {
+                $news_clause .= ' AND ' . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields;
+                if ($this->newsSelConf['pidInList']) {
+                    $news_clause .= ' AND tt_news.pid IN (' . $this->newsSelConf['pidInList'] . ') ';
+                }
+            }
+
+            tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
+            $sum = $result['sum'];
+
+        }
+        $this->categoryCountCache[$catID] = (int) $sum;
+        if ($this->tt_news_obj->cache_categoryCount) {
+            $this->tt_news_obj->cache->set($hash, (string)$sum,'categoryCounts');
+        }
 
 		return $sum;
 	}
@@ -231,11 +237,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 	 * @param	[type]		$subCSSclass: ...
 	 * @return	integer		The count of items on the level
 	 */
-	function getTree($uid, $depth = 999, $blankLineCode = '', $subCSSclass = '') {
-
-		//		echo $this->tmpC++."\n";
-
-
+	protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '', $subCSSclass = '') {
 		// Buffer for id hierarchy is reset:
 		$this->buffer_idH = array();
 
@@ -253,15 +255,9 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 				$row['newsCount'] = $this->getNewsCountForCategory($row['uid']);
 			}
 
-			//debug($this->tmpC++, '$this->tmpC ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 3);
-
-
 			$crazyRecursionLimiter--;
 			$allRows[] = $row;
 		}
-
-		//debug($allRows, ' ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 3);
-
 
 		// Traverse the records:
 		foreach ($allRows as $row) {
@@ -284,7 +280,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 
 			// Make a recursive call to the next level
 			if ($depth > 1 && $this->expandNext($newID)) {
-				$nextCount = $this->getTree($newID, $depth - 1, $blankLineCode . ',' . $LN, $row['_SUBCSSCLASS']);
+				$nextCount = $this->getNewsCategoryTree($newID, $depth - 1, $blankLineCode . ',' . $LN, $row['_SUBCSSCLASS']);
 				if (count($this->buffer_idH)) {
 					$idH[$row['uid']]['subrow'] = $this->buffer_idH;
 				}
@@ -312,9 +308,63 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 
 		$this->getDataFree($res);
 		$this->buffer_idH = $idH;
+
 		return $c;
 	}
 
+	protected function addItem(&$itemHTML, $v, $classAttr, $uid, $idAttr, $titleLen) {
+        // add CSS classes to the list item
+        if ($v['hasSub']) {
+            $classAttr .= ($classAttr ? ' ' : '') . 'expanded';
+        }
+        if ($v['isLast']) {
+            $classAttr .= ($classAttr ? ' ' : '') . 'last';
+        }
+        if ($uid && $uid == $this->category) {
+            $classAttr .= ($classAttr ? ' ' : '') . 'active';
+        }
+
+        $itemHTML .= '
+				<li id="' . $idAttr . '"' . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr($v['row'], $titleLen), $v['row'], $v['bank']) . "\n";
+
+        if (! $v['hasSub']) {
+            $itemHTML .= '</li>';
+        }
+    }
+
+    protected function closeTree(&$itemHTML, $v, $doCollapse, $doExpand, $expandedPageUid, $uid, &$closeDepth) {
+        // if this is the last one and does not have subitems, we need to close
+        // the tree as long as the upper levels have last items too
+        if ($v['isLast'] && ! $v['hasSub'] && ! $doCollapse && ! ($doExpand && $expandedPageUid == $uid)) {
+            for ($i = $v['invertedDepth']; $closeDepth[$i] == 1; $i++) {
+                $closeDepth[$i] = 0;
+                $itemHTML .= '</ul></li>';
+            }
+        }
+    }
+
+    protected function evaluateAJAXRequest(&$doExpand, &$expandedPageUid, &$collapsedPageUid, &$doCollapse, &$ajaxOutput, &$invertedDepthOfAjaxRequestedItem) {
+        // IE takes anchor as parameter
+        $PM = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('PM');
+
+        if (($PMpos = strpos($PM, '#')) !== false) {
+            $PM = substr($PM, 0, $PMpos);
+        }
+        $PM = explode('_', $PM);
+        if (is_array($PM) && count($PM) == 4 && $this->useAjax) {
+
+            if ($PM[1]) {
+                $expandedPageUid = $PM[2];
+                $ajaxOutput = '';
+                // We don't know yet. Will be set later.
+                $invertedDepthOfAjaxRequestedItem = 0;
+                $doExpand = true;
+            } else {
+                $collapsedPageUid = $PM[2];
+                $doCollapse = true;
+            }
+        }
+    }
 
 	/**
 	 * Compiles the HTML code for displaying the structure found inside the ->tree array
@@ -323,9 +373,14 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 	 * @return	string		The HTML code for the tree
 	 */
 	function printTree($treeArr = '') {
-		$titleLen = $this->titleLen;
+        $doExpand = false;
+        $expandedPageUid = 0;
+        $collapsedPageUid = 0;
+        $doCollapse = false;
+        $ajaxOutput = '';
+        $invertedDepthOfAjaxRequestedItem = 0;
 
-		if (! is_array($treeArr)) {
+        if (! is_array($treeArr)) {
 			$treeArr = $this->tree;
 		}
 
@@ -334,37 +389,15 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 			<ul class="tree" id="treeRoot">
 		';
 
-		// -- evaluate AJAX request
-		// IE takes anchor as parameter
-		$PM = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('PM');
-
-		if (($PMpos = strpos($PM, '#')) !== false) {
-			$PM = substr($PM, 0, $PMpos);
-		}
-		$PM = explode('_', $PM);
-		if (is_array($PM) && count($PM) == 4 && $this->useAjax) {
-
-			if ($PM[1]) {
-				$expandedPageUid = $PM[2];
-				$ajaxOutput = '';
-				$invertedDepthOfAjaxRequestedItem = 0; // We don't know yet. Will be set later.
-				$doExpand = true;
-			} else {
-				$collapsedPageUid = $PM[2];
-				$doCollapse = true;
-			}
-		}
+        $this->evaluateAJAXRequest($doExpand, $expandedPageUid, $collapsedPageUid, $doCollapse, $ajaxOutput, $invertedDepthOfAjaxRequestedItem);
 
 		// we need to count the opened <ul>'s every time we dig into another level,
 		// so we know how many we have to close when all children are done rendering
 		$closeDepth = array();
 
 		foreach ($treeArr as $v) {
-			$classAttr = $v['row']['_CSSCLASS'];
 			$uid = $v['row']['uid'];
-			$idAttr = htmlspecialchars($this->domIdPrefix . $this->getId($v['row']) . '_' . $v['bank']);
 			$itemHTML = '';
-			$addStyle = '';
 
 			// if this item is the start of a new level,
 			// then a new level <ul> is needed, but not in ajax mode
@@ -372,24 +405,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 				$itemHTML = '<ul>';
 			}
 
-			// add CSS classes to the list item
-			if ($v['hasSub']) {
-				$classAttr .= ($classAttr ? ' ' : '') . 'expanded';
-			}
-			if ($v['isLast']) {
-				$classAttr .= ($classAttr ? ' ' : '') . 'last';
-				//				$addStyle = $this->addStyle;
-			}
-			if ($uid && $uid == $this->category) {
-				$classAttr .= ($classAttr ? ' ' : '') . 'active';
-			}
-
-			$itemHTML .= '
-				<li id="' . $idAttr . '"' . $addStyle . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr($v['row'], $titleLen), $v['row'], $v['bank']) . "\n";
-
-			if (! $v['hasSub']) {
-				$itemHTML .= '</li>';
-			}
+			$this->addItem($itemHTML, $v, $v['row']['_CSSCLASS'], $uid, htmlspecialchars($this->domIdPrefix . $this->getId($v['row']) . '_' . $v['bank']), $this->titleLen);
 
 			// we have to remember if this is the last one
 			// on level X so the last child on level X+1 closes the <ul>-tag
@@ -397,14 +413,8 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 				$closeDepth[$v['invertedDepth']] = 1;
 			}
 
-			// if this is the last one and does not have subitems, we need to close
-			// the tree as long as the upper levels have last items too
-			if ($v['isLast'] && ! $v['hasSub'] && ! $doCollapse && ! ($doExpand && $expandedPageUid == $uid)) {
-				for ($i = $v['invertedDepth']; $closeDepth[$i] == 1; $i++) {
-					$closeDepth[$i] = 0;
-					$itemHTML .= '</ul></li>';
-				}
-			}
+			$this->closeTree($itemHTML, $v, $doCollapse, $doExpand, $expandedPageUid, $uid, $closeDepth);
+
 			// ajax request: collapse
 			if ($doCollapse && $collapsedPageUid == $uid) {
 				$this->ajaxStatus = true;
@@ -432,8 +442,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 		}
 
 		// finally close the first ul
-		$out .= '</ul>';
-		return $out;
+		return $out.'</ul>';
 	}
 
 
