@@ -24,6 +24,9 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * generates the list view for the 'news admin' module
@@ -273,7 +276,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
         }
 
         $thumbsCol = $TCA[$table]['ctrl']['thumbnail'];
-        $url = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL').'index.php';
+        $url = GeneralUtility::getIndpEnv('TYPO3_SITE_URL').'index.php';
         $thumbsize = $this->lTSprop['imageSize'];
 
         // Traverse fields:
@@ -290,7 +293,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
                     }
                 } else {
                     // ... otherwise just render the output:
-                    $val = nl2br(htmlspecialchars(trim(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,$fieldName,$row[$fieldName],0,0,0,$row['uid']),250))));
+                    $val = nl2br(htmlspecialchars(trim(GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,$fieldName,$row[$fieldName],0,0,0,$row['uid']),250))));
 
                     if ($this->lTSprop['clickTitleMode'] == 'view' && $this->singlePid) {
                         $val = $this->linkSingleView($url,$val,$row['uid']);
@@ -310,7 +313,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
                     if ($TCA[$table]['columns'][$fName2])	{
                          $out[$fieldName].= '<b>'.$GLOBALS['LANG']->sL($TCA[$table]['columns'][$fName2]['label'],1).'</b>'.
                                             '&nbsp;&nbsp;'.
-                                            htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,$fName2,$row[$fName2],0,0,0,$row['uid']),25)).
+                                            htmlspecialchars(GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,$fName2,$row[$fName2],0,0,0,$row['uid']),25)).
                                             '<br />';
                     }
                 }
@@ -343,7 +346,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 				'id' => $this->singlePid,
 				'tx_ttnews[tt_news]' => $uid,
 				'no_cache' => 1);
-		$linkedurl = \TYPO3\CMS\Core\Utility\GeneralUtility::linkThisUrl($url,$params);
+		$linkedurl = GeneralUtility::linkThisUrl($url,$params);
 		$onclick = 'openFePreview(\''.htmlspecialchars($linkedurl).'\');';
 		$lTitle = $GLOBALS['LANG']->getLL('openFePreview',1);
 
@@ -531,8 +534,8 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 			($this->searchLevels?'&searchLevels='.rawurlencode($this->searchLevels):'').
 			($this->showLimit?'&showLimit='.rawurlencode($this->showLimit):'').
 			($this->firstElementNumber?'&pointer='.rawurlencode($this->firstElementNumber):'').
-			((!$exclList || !\TYPO3\CMS\Core\Utility\GeneralUtility::inList($exclList,'sortField')) && $this->sortField?'&sortField='.rawurlencode($this->sortField):'').
-			((!$exclList || !\TYPO3\CMS\Core\Utility\GeneralUtility::inList($exclList,'sortRev')) && $this->sortRev?'&sortRev='.rawurlencode($this->sortRev):'').
+			((!$exclList || !GeneralUtility::inList($exclList,'sortField')) && $this->sortField?'&sortField='.rawurlencode($this->sortField):'').
+			((!$exclList || !GeneralUtility::inList($exclList,'sortRev')) && $this->sortRev?'&sortRev='.rawurlencode($this->sortRev):'').
 			($this->category?'&category='.$this->category:'');
 	}
 
