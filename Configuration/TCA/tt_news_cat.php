@@ -130,7 +130,7 @@ return array (
 				'type' => 'group',
 				'internal_type' => 'file',
 				'allowed' => 'gif,png,jpeg,jpg',
-				'max_size' => 100,
+				'max_size' => 1024,
 				'uploadfolder' => 'uploads/pics',
 				'show_thumbs' => 1,
 				'size' => 1,
