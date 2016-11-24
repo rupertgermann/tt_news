@@ -5,17 +5,11 @@ requireCategories = 0
   # cat=basic/enable/150; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.useInternalCaching
 useInternalCaching = 1
 
-  # cat=basic/enable/155; type=options[normal,lifetime,static]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.cachingMode
-cachingMode = normal
-
   # cat=basic/enable/157; type=int; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.cacheLifetime
 cacheLifetime = 0
 
-  # cat=basic/enable/170; type=options[internal,cachingFramework]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.cachingEngine
-cachingEngine = internal
-
   # cat=basic/enable/170; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.showBackEndModule
-  showBackEndModule = 0
+showBackEndModule = 0
 
   # cat=basic//20; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.prependAtCopy
 prependAtCopy = 1

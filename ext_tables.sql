@@ -126,34 +126,3 @@ CREATE TABLE be_groups (
 CREATE TABLE be_users (
 	tt_news_categorymounts varchar(255) DEFAULT '' NOT NULL,
 );
-
-
-#
-# Table structure for table 'tt_news_cache'
-#
-CREATE TABLE tt_news_cache (
-    id int(11) unsigned NOT NULL auto_increment,
-    identifier varchar(32) DEFAULT '' NOT NULL,
-    content text NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	lifetime int(11) DEFAULT '0' NOT NULL,
-	tags varchar(255) DEFAULT '' NOT NULL,
-  	PRIMARY KEY (id),
-  	KEY cache_id (identifier),
-  	KEY tags (tags)
-) ENGINE=InnoDB;
-
-
-#
-# Table structure for table 'tt_news_cache_tags'
-#
-CREATE TABLE tt_news_cache_tags (
-  id int(11) unsigned NOT NULL auto_increment,
-  identifier varchar(128) DEFAULT '' NOT NULL,
-  tag varchar(128) DEFAULT '' NOT NULL,
-  PRIMARY KEY (id),
-  KEY cache_id (identifier),
-  KEY cache_tag (tag)
-) ENGINE=InnoDB;
-
-
