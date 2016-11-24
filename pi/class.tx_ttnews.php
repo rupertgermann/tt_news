@@ -2326,6 +2326,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$theImgCode .= $imgHtml;
 				}
 			}
+            $GLOBALS['TSFE']->register['IMAGE_NUM_CURRENT'] = $cc + 1;
 			$cc++;
 		}
 
