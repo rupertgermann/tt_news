@@ -1192,6 +1192,12 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		} elseif ($this->sys_language_mode == 'strict' && $this->tt_news_uid && $this->tsfe->sys_language_content) {
             // not existing translation
+            if($this->conf['redirectNoTranslToList']) {
+                // redirect to list page
+				$this->pi_linkToPage(' ', $this->conf['backPid']);
+                \TYPO3\CMS\Core\Utility\HttpUtility::redirect($this->cObj->lastTypoLinkUrl);
+			}
+
 			$this->upstreamVars['mode'] = 'noTranslation';
 			$noTranslMsg = $this->local_cObj->stdWrap($this->pi_getLL('noTranslMsg'), $this->conf['noNewsIdMsg_stdWrap.']);
 			$content = $noTranslMsg;
