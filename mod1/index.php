@@ -114,6 +114,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 				$this->MCONF = $MCONF;
 			}
 		}
+
 		$this->isAdmin = $GLOBALS['BE_USER']->isAdmin();
 
 		$this->id = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id'));
@@ -134,8 +135,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 
 		$this->script = 'mod.php?M=web_txttnewsM1';
 
-		if (($fieldList = $this->TSprop['list.']['fList'])) {
-			$this->fieldList = $fieldList;
+		if (($fieldListProperty = $this->TSprop['list.']['fList'])) {
+			$this->fieldList = $fieldListProperty;
 		}
 
 		// get pageinfo array for the current page
@@ -157,8 +158,6 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 			$this->singlePid = intval($pagesTSC['tx_ttnews.']['singlePid']);
 		}
 
-
-
 		$this->initCategories();
 
 		$this->setPidList();
@@ -166,8 +165,6 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		if ($this->pidList) {
 			$this->setEditablePages($this->pidList);
 		}
-
-
 
 		$this->menuConfig();
 		$this->mData = $GLOBALS['BE_USER']->uc['moduleData']['web_txttnewsM1'];
@@ -177,9 +174,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$this->searchLevels = intval($this->MOD_SETTINGS['searchLevels']);
 		$this->thumbs = intval($this->MOD_SETTINGS['showThumbs']);
 
-		$limit = intval($this->MOD_SETTINGS['showLimit']);
-		if ($limit) {
-			$this->showLimit = $limit;
+		$showLimit = intval($this->MOD_SETTINGS['showLimit']);
+		if ($showLimit) {
+			$this->showLimit = $showLimit;
 		} else {
 			$this->showLimit = intval($this->TSprop['list.']['limit']);
 		}
@@ -468,9 +465,6 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	function getTreeObj() {
 		$addWhere = '';
 
-
-
-
 		if ($this->confArr['useStoragePid']) {
 			$addWhere .= ' AND tt_news_cat.pid=' . $this->storagePid;
 		}
@@ -515,11 +509,6 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$beUserSelCatArr = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$tmpsc);
 		$includeListArr = tx_ttnews_div::getIncludeCatArray();
 		$subcatArr = array_diff($includeListArr,$beUserSelCatArr);
-
-		/**
-		 * TODO:
-		 * filter out double mounts
-		 */
 
 		// get all selected category records from the current storagePid which are not 'root' categories
 		// and add them as tree mounts. Subcategories of selected categories will be excluded.
@@ -866,9 +855,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 			$allowedCbNames[] = 'showOnlyEditable';
 		}
 
-        $script = '';
+        $scriptFileName = '';
         if($ajax) {
-            $script = 'mod.php';
+            $scriptFileName = 'mod.php';
         }
 
 		$params = $this->getLinkParams();
@@ -876,7 +865,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		foreach ($allowedCbNames as $n) {
 			if ((bool)$show['cb_'.$n]) {
 				$out[] = '<span class="list-cb">' .
-						\TYPO3\CMS\Backend\Utility\BackendUtility::getFuncCheck($params, 'SET['.$n.']', $this->MOD_SETTINGS[$n], $script, '', 'id="cb-' . $n . '"') .
+						\TYPO3\CMS\Backend\Utility\BackendUtility::getFuncCheck($params, 'SET['.$n.']', $this->MOD_SETTINGS[$n], $scriptFileName, '', 'id="cb-' . $n . '"') .
 					' <label for="cb-'.$n.'">'.$GLOBALS['LANG']->getLL($n,1).'</label></span>';
 			}
 		}
@@ -1154,7 +1143,10 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 			}
 		}
 
-			// Setting alternative default label:
+        // add "all" language
+        $this->MOD_MENU['language'][-1] = $GLOBALS['LANG']->getLL('allLanguages');
+
+        // Setting alternative default label:
 		$dl = trim($this->TSprop['defaultLanguageLabel']);
 		if ($dl && isset($this->MOD_MENU['language'][0]))	{
 			$this->MOD_MENU['language'][0] = $dl;
@@ -1213,13 +1205,14 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	 */
 	function getPageInfoForOverview($pid)	{
 		$out = array();
-		$pageinfo = \TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($pid,$this->perms_clause);
-		$out['path'] = $pageinfo['_thePath'];
+		$pageInfoArray = \TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($pid,$this->perms_clause);
+		$out['path'] = $pageInfoArray['_thePath'];
 
-		$calcPerms = $GLOBALS['BE_USER']->calcPerms($pageinfo);
+		$calcPerms = $GLOBALS['BE_USER']->calcPerms($pageInfoArray);
 		if (($calcPerms&16)) {
 			$out['edit'] = TRUE;
 		}
+
 		return $out;
 	}
 
@@ -1228,8 +1221,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
             return $this->permsCache[$pid];
 		}
 
-        $pageinfo = \TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($pid,$this->perms_clause);
-        $calcPerms = $GLOBALS['BE_USER']->calcPerms($pageinfo);
+        $calcPerms = $GLOBALS['BE_USER']->calcPerms(\TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($pid,$this->perms_clause));
         if (($calcPerms&16)) {
             $this->permsCache[$pid] = TRUE;
         } else {

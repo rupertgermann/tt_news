@@ -1117,7 +1117,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		// Adds hook for processing of extra item array
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'] as $_classRef) {
-				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$_procObj = & \TYPO3\CMS\Core\Utility\GeneralUtility::getUserObj($_classRef);
 				$row = $_procObj->extraItemArrayProcessor($row, $lConf, $this);
 			}
 		}
@@ -1269,9 +1269,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$this->hObj->getParsetime(__METHOD__ . ' $dateArr');
 			}
 
-			//			$selectConf['where'] .= $this->enableFields;
-
-
 			if ($selectConf['pidInList']) {
 				$selectConf['where'] .= ' AND tt_news.pid IN (' . $selectConf['pidInList'] . ')';
 			}
@@ -1281,7 +1278,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			if ($this->cache_amenuPeriods) {
 				$storeKey = md5(serialize(array($this->catExclusive, $this->config['catSelection'], $this->tsfe->sys_language_content,
 						$selectConf['pidInList'], $arcMode)));
-				//				$cachedPeriodAccum = $this->tsfe->sys_page->getHash($storeKey);
 				$cachedPeriodAccum = $this->cache->get($storeKey);
 			}
 
