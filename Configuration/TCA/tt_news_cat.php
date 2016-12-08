@@ -77,7 +77,7 @@ return array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.starttime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '10',
+				'size' => '13',
 				'max' => '20',
 				'eval' => 'datetime',
 				'checkbox' => '0',
@@ -90,7 +90,7 @@ return array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.endtime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '8',
+				'size' => '13',
 				'max' => '20',
 				'eval' => 'datetime',
 				'checkbox' => '0',
