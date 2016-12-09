@@ -220,7 +220,7 @@ return Array (
 			'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.archivedate',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '10',
+				'size' => '13',
 				'max' => '20',
 				'eval' => 'date',
 				'default' => '0'
