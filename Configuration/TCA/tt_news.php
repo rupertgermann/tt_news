@@ -64,7 +64,7 @@ return Array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.starttime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '10',
+				'size' => '13',
 				'max' => '20',
 				'eval' => 'datetime',
 				'checkbox' => '0',
@@ -77,7 +77,7 @@ return Array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.endtime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '8',
+				'size' => '13',
 				'max' => '20',
 				'eval' => 'datetime',
 				'checkbox' => '0',
@@ -209,7 +209,7 @@ return Array (
 			'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.datetime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '10',
+				'size' => '13',
 				'max' => '20',
 				'eval' => 'datetime'
 				)
@@ -220,7 +220,7 @@ return Array (
 			'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.archivedate',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '10',
+				'size' => '13',
 				'max' => '20',
 				'eval' => 'date',
 				'default' => '0'
