@@ -114,7 +114,6 @@ return array (
                 'maxitems' => 1,
 				'renderType' => 'selectTree',
                 'treeConfig' => array(
-                    'expandAll' => true,
                     'parentField' => 'parent_category',
                     'appearance' => array(
                         'showHeader' => TRUE,

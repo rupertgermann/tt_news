@@ -352,7 +352,6 @@ return Array (
                 'maxitems' => 500,
                 'renderMode' => 'tree',
                 'treeConfig' => array(
-                    'expandAll' => true,
                     'parentField' => 'parent_category',
                     'appearance' => array(
                         'showHeader' => TRUE,
