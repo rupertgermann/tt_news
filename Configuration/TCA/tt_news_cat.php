@@ -116,6 +116,7 @@ return array (
                 'treeConfig' => array(
                     'expandAll' => true,
                     'parentField' => 'parent_category',
+                    'dataProvider' => \WMDB\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
                     'appearance' => array(
                         'showHeader' => TRUE,
                         'width' => 400
