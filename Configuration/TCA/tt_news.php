@@ -353,6 +353,7 @@ return Array (
                 'renderMode' => 'tree',
                 'treeConfig' => array(
                     'expandAll' => true,
+                    'dataProvider' => \WMDB\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
                     'parentField' => 'parent_category',
                     'appearance' => array(
                         'showHeader' => TRUE,
