@@ -78,7 +78,7 @@ class tx_ttnews_tcemain {
 		    // prevent moving of categories into their rootline
 			$newParent = intval($fieldArray['parent_category']);
 
-			if ($newParent && \TYPO3\CMS\Core\Utility\GeneralUtility::inList(tx_ttnews_div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields), $newParent)) {
+			if ($newParent && \TYPO3\CMS\Core\Utility\GeneralUtility::inList(\WMDB\TtNews\Lib\tx_ttnews_div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields), $newParent)) {
                 $sourceRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $id, 'title');
                 $targetRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
 
@@ -134,7 +134,7 @@ class tx_ttnews_tcemain {
             $notAllowedItems = array();
 
             $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
-            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : tx_ttnews_div::getAllowedTreeIDs();
+            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \WMDB\TtNews\Lib\tx_ttnews_div::getAllowedTreeIDs();
 
             $wantedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $fieldArray['category']);
 
@@ -252,7 +252,7 @@ class tx_ttnews_tcemain_cmdmap {
             $notAllowedItems = array();
 
             $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
-            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : tx_ttnews_div::getAllowedTreeIDs();
+            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \WMDB\TtNews\Lib\tx_ttnews_div::getAllowedTreeIDs();
 
             foreach ($categories as $k) {
                 $categoryId = intval($k, 10);
