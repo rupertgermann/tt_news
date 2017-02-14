@@ -1004,7 +1004,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$wrappedSubpartArray['###LINK_ITEM###'] = $this->local_cObj->typolinkWrap($this->conf['pageTypoLink.']);
 
 				// fill the link string in a register to access it from TS
-				$this->local_cObj->LOAD_REGISTER(array(
+                $this->local_cObj->cObjGetSingle('LOAD_REGISTER', array(
 						'newsMoreLink' => $this->local_cObj->typolink($this->pi_getLL('more'), $this->conf['pageTypoLink.'])), '');
 			} else {
 				//  Overwrite the singlePid from config-array with a singlePid given from the first entry in $this->categories
@@ -1584,7 +1584,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$fImgFile = ($this->conf['flagPath'] ? $this->conf['flagPath'] : 'media/flags/flag_') . $this->langArr[$row['sys_language_uid']]['flag'];
 				$fImgConf = $this->conf['flagImage.'];
 				$fImgConf['file'] = $fImgFile;
-				$flagImg = $this->local_cObj->IMAGE($fImgConf);
+                $flagImg = $this->local_cObj->cObjGetSingle('IMAGE', $fImgConf);
 				$markerArray['###NEWS_LANGUAGE###'] .= $flagImg;
 			}
 		}
@@ -1624,7 +1624,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		if (! $this->piVars[$this->config['singleViewPointerName']] && $textRenderObj == 'displaySingle') {
             // load the keywords in the register 'newsKeywords' to access it from TS
-            $this->local_cObj->LOAD_REGISTER(array('newsKeywords' => $row['keywords'], 'newsSubheader' => $row['short']), '');
+            $this->local_cObj->cObjGetSingle('LOAD_REGISTER', array('newsKeywords' => $row['keywords'], 'newsSubheader' => $row['short']), '');
 		}
 
 		$sViewPagebrowser = FALSE;
@@ -2101,13 +2101,13 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					}
 
 					// add linked category image to output array
-					$img = $this->local_cObj->IMAGE($catPicConf['image.']);
+                    $img = $this->local_cObj->cObjGetSingle('IMAGE', $catPicConf['image.']);
 					$swrap = ($val['parent_category'] > 0 ? 'subCategoryImgItem_stdWrap.' : 'categoryImgItem_stdWrap.');
 					$theCatImgCodeArray[] = $this->local_cObj->stdWrap($img, $lConf[$swrap]);
 				}
 				if (! $wroteRegister) {
 					// Load the uid of the first assigned category to the register 'newsCategoryUid'
-					$this->local_cObj->LOAD_REGISTER(array('newsCategoryUid' => $val['catid']), '');
+                    $this->local_cObj->cObjGetSingle('LOAD_REGISTER', array('newsCategoryUid' => $val['catid']), '');
 					$wroteRegister = true;
 				}
 			}
@@ -2216,7 +2216,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 						$lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
 						$lConf['image.']['file'] = 'uploads/pics/' . $val;
 
-						$theImgCode .= $this->local_cObj->IMAGE($lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
+                        $theImgCode .= $this->local_cObj->cObjGetSingle('IMAGE', $lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
 					}
 
 					$cc++;
@@ -2311,7 +2311,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
 				$lConf['image.']['file'] = 'uploads/pics/' . $val;
 
-				$imgHtml = $this->local_cObj->IMAGE($lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
+                $imgHtml = $this->local_cObj->cObjGetSingle('IMAGE', $lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
 
 				if ($osCount) {
 					if ($iC > 1) {
@@ -2795,7 +2795,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					}
 
 					// load the parameter string into the register 'newsAddParams' to access it from TS
-					$veryLocal_cObj->LOAD_REGISTER(array('newsAddParams' => $newsAddParams, 'newsSinglePid' => $sPid), '');
+                    $veryLocal_cObj->cObjGetSingle('LOAD_REGISTER', array('newsAddParams' => $newsAddParams, 'newsSinglePid' => $sPid), '');
 
 					if (! $this->conf['getRelatedCObject.']['10.']['default.']['10.']['typolink.']['parameter'] || $catSPid) {
 						$this->conf['getRelatedCObject.']['10.']['default.']['10.']['typolink.']['parameter'] = $sPid;
@@ -4050,7 +4050,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$_procObj->processSingleViewLink($linkWrap, $url, $params, $this);
 			}
 		}
-		$this->local_cObj->LOAD_REGISTER(array('newsMoreLink' => $linkWrap[0] . $this->pi_getLL('more') . $linkWrap[1], 'newsMoreLink_url' => $url), '');
+        $this->local_cObj->cObjGetSingle('LOAD_REGISTER', array('newsMoreLink' => $linkWrap[0] . $this->pi_getLL('more') . $linkWrap[1], 'newsMoreLink_url' => $url), '');
 
 		if ($this->conf['useHRDates'] && $this->conf['useHRDatesSingle']) {
 			$this->piVars['year'] = $tmpY;
