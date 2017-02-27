@@ -136,13 +136,6 @@ $tempColumns = array (
                 )
 			)
 		),
-// 		'tt_news_cmounts_usesubcats' => array (
-// 			'exclude' => 1,
-// 			'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.cmounts_usesubcats',
-// 			'config' => array (
-// 				'type' => 'check'
-// 			)
-// 		),
 );
 
 
