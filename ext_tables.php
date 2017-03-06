@@ -3,7 +3,10 @@
  * $Id$
  */
 
-if (!defined('TYPO3_MODE')) die ('Access denied.');
+if (!defined('TYPO3_MODE')) {
+    die ('Access denied.');
+}
+
 // get extension configuration
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
