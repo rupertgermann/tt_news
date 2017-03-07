@@ -218,7 +218,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree
         if ($lConf['catmenuRootIconFile']) {
             $iconConf['image.']['file'] = $lConf['catmenuIconPath'] . $lConf['catmenuRootIconFile'];
             $iconConf['image.']['file.'] = $lConf['catmenuRootIconFile.'];
-            $icon = $GLOBALS['TSFE']->cObj->IMAGE($iconConf['image.']);
+            $icon = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMAGE', $iconConf['image.']);
         }
 
         return $icon ? $icon : $this->wrapIcon('<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath, 'gfx/i/_icon_website.gif', 'width="18" height="16"') . ' alt="" />', $rec);
@@ -260,7 +260,7 @@ class tx_ttnews_FEtreeview extends tx_ttnews_categorytree
 
             if ($iconConf['image.']['file']) {
                 $iconConf['image.']['file.'] = $lConf['catmenuIconFile.'];
-                $icon = $GLOBALS['TSFE']->cObj->IMAGE($iconConf['image.']);
+                $icon = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMAGE', $iconConf['image.']);
             }
         }
 
