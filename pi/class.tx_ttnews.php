@@ -1269,9 +1269,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$this->hObj->getParsetime(__METHOD__ . ' $dateArr');
 			}
 
-			//			$selectConf['where'] .= $this->enableFields;
-
-
 			if ($selectConf['pidInList']) {
 				$selectConf['where'] .= ' AND tt_news.pid IN (' . $selectConf['pidInList'] . ')';
 			}
@@ -1281,7 +1278,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			if ($this->cache_amenuPeriods) {
 				$storeKey = md5(serialize(array($this->catExclusive, $this->config['catSelection'], $this->tsfe->sys_language_content,
 						$selectConf['pidInList'], $arcMode)));
-				//				$cachedPeriodAccum = $this->tsfe->sys_page->getHash($storeKey);
 				$cachedPeriodAccum = $this->cache->get($storeKey);
 			}
 
@@ -1321,7 +1317,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					if ($this->writeCachingInfoToDevlog) {
 						\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
 					}
-					//					$this->tsfe->sys_page->storeHash($storeKey, serialize($periodAccum), 'news_amenuPeriodsCache');
 					$this->cache->set($storeKey, serialize($periodAccum), __FUNCTION__);
 				}
 

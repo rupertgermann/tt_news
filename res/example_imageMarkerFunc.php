@@ -79,7 +79,7 @@ function user_imageMarkerFunc($paramArray,$conf){
 	$row = $pObj->local_cObj->data;
 
 	$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount']:1;
-	$imageNum = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($imageNum, 0, 100);
+	$imageNum = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($imageNum, 0, 100);
 	$theImgCode = '';
 	$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
 	$imgsCaptions = explode(chr(10), $row['imagecaption']);
@@ -164,7 +164,7 @@ function user_maskImages($paramArray,$conf){
 	$row = $pObj->local_cObj->data; // get current $row
 
 	$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount']:1;
-	$imageNum = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($imageNum, 0, 100);
+	$imageNum = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($imageNum, 0, 100);
 	$theImgCode = '';
 	$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
 	$imgsCaptions = explode(chr(10), $row['imagecaption']);
