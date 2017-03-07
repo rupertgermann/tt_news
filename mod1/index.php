@@ -157,6 +157,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 			$this->singlePid = intval($pagesTSC['tx_ttnews.']['singlePid']);
 		}
 
+
+
 		$this->initCategories();
 
 		$this->setPidList();
@@ -164,6 +166,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		if ($this->pidList) {
 			$this->setEditablePages($this->pidList);
 		}
+
+
 
 		$this->menuConfig();
 		$this->mData = $GLOBALS['BE_USER']->uc['moduleData']['web_txttnewsM1'];
@@ -183,6 +187,10 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$this->initGPvars();
 	}
 
+
+
+
+
 	/**
 	 * Main function of the module. Write the content to $this->content
 	 * If you chose "web" as main module, you will need to consider the $this->id parameter which will contain the uid-number of the page clicked in the page tree
@@ -197,6 +205,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$this->doc->setModuleTemplate('mod_ttnews_admin.html');
 		$this->doc->docType = 'xhtml_trans';
 
+
+
 		if (!$this->doc->moduleTemplate) {
 			\TYPO3\CMS\Core\Utility\GeneralUtility::devLog('cannot set moduleTemplate', 'tt_news', 2, array(
 					'backpath' => $this->doc->backPath,
@@ -206,6 +216,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 			$tfile = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('tt_news').'mod1/mod_ttnews_admin.html';
 			$this->doc->moduleTemplate = @file_get_contents(PATH_site.$tfile);
 		}
+
+
 
 		// Access check!
 		// The page will show only if there is a valid page and if this page may be viewed by the user
@@ -315,6 +327,22 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		echo $this->content;
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/*************************************************************************
 	 *
 	 * 		Module content
@@ -356,6 +384,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 
         }
 	}
+
 
 
 	/**
@@ -427,6 +456,10 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		return $content.'<div id="ttnews-cat-tree">'.$this->sPageIcon.$this->treeObj->getBrowsableTree().'</div>';
 	}
 
+
+
+
+
 	/**
 	 * [Describe function...]
 	 *
@@ -434,6 +467,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	 */
 	function getTreeObj() {
 		$addWhere = '';
+
+
+
 
 		if ($this->confArr['useStoragePid']) {
 			$addWhere .= ' AND tt_news_cat.pid=' . $this->storagePid;
