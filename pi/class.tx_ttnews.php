@@ -992,10 +992,8 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$this->config['catOrderBy'] = $this->conf[$prefix_display . '.']['catOrderBy'];
 			}
 
-			//			if ($this->isRenderMarker('###NEWS_CATEGORY_ROOTLINE###')) {
 			$this->categories = array();
 			$this->categories[$row['uid']] = $this->getCategories($row['uid']);
-			//			}
 
 			$catSPid = FALSE;
 			if ($row['type'] == 1 || $row['type'] == 2) {
@@ -2175,7 +2173,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$markerArray = $this->getSingleViewImages($lConf, $imgs, $imgsCaptions, $imgsAltTexts, $imgsTitleTexts, $imageNum, $markerArray);
 			} else {
 
-				$imageMode = (strpos($textRenderObj, 'LATEST') ? $lConf['latestImageMode'] : $lConf['listImageMode']);
+				$imageMode = $textRenderObj == 'displayLatest' ? $lConf['latestImageMode'] : $lConf['listImageMode']);
 
 				$suf = '';
 				if (is_numeric(substr($lConf['image.']['file.']['maxW'], - 1)) && $imageMode) {
