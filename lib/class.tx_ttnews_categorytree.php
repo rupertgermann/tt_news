@@ -215,7 +215,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
                 }
             }
 
-            tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
+            \WMDB\TtNews\Lib\tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
             $sum = $result['sum'];
 
         }

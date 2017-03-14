@@ -62,35 +62,6 @@
 class tx_ttnews_tcemain {
 
 	/**
-	 * extends a given list of categories by their subcategories
-	 *
-	 * @param	string		$catlist: list of categories which will be extended by subcategories
-	 * @param	integer		$cc: counter to detect recursion in nested categories
-	 * @return	string		extended $catlist
-	 */
-//	function getSubCategories($catlist, $cc = 0) {
-//		$pcatArr = array();
-//
-//		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-//			'uid',
-//			'tt_news_cat',
-//			'tt_news_cat.parent_category IN ('.$catlist.')'.$this->SPaddWhere.$this->enableCatFields);
-//
-//		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-//			$cc++;
-//			if ($cc > 10000) { // more than 10k subcategories? looks like a recursion
-//				return implode(',', $pcatArr);
-//			}
-//			$subcats = $this->getSubCategories($row['uid'], $cc);
-//			$subcats = $subcats?','.$subcats:'';
-//			$pcatArr[] = $row['uid'].$subcats;
-//		}
-//
-//		$catlist = implode(',', $pcatArr);
-//		return $catlist;
-//	}
-
-	/**
 	 * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a record is saved. We use it to disable saving of the current record if it has categories assigned that are not allowed for the BE user.
 	 *
 	 * @param	array		$fieldArray: The field names and their values to be processed (passed by reference)
@@ -103,27 +74,36 @@ class tx_ttnews_tcemain {
 	function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj) {
 
 
-		if ($table == 'tt_news_cat' && is_int($id)) { // prevent moving of categories into their rootline
+		if ($table == 'tt_news_cat' && is_int($id)) {
+		    // prevent moving of categories into their rootline
 			$newParent = intval($fieldArray['parent_category']);
-			if ($newParent) {
-				$subcategories = tx_ttnews_div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields);
-				if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($subcategories, $newParent)) {
-					$sourceRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $id, 'title');
-					$targetRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
 
+			if ($newParent && \TYPO3\CMS\Core\Utility\GeneralUtility::inList(\WMDB\TtNews\Lib\tx_ttnews_div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields), $newParent)) {
+                $sourceRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $id, 'title');
+                $targetRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
 
-					/**
-					 * TODO: 19.05.2009
-					 * localize
-					 */
+                /**
+                 * TODO: 19.05.2009
+                 * localize
+                 */
 
-					$pObj->log($table, $id, 2, 0, 1, "processDatamap: Attempt to move category '%s' (%s) to inside of its own rootline (at category '%s' (%s)).", 1, array($sourceRec['title'], $id, $targetRec['title'], $newParent));
-						// unset fieldArray to prevent saving of the record
-					$fieldArray = array();
-				}
+                $messageString = "Attempt to move category '".$sourceRec['title']."' ($id) to inside of its own rootline (at category '".$targetRec['title']."' ($newParent)).";
+
+                $pObj->log($table, $id, 2, 0, 1, "processDatamap: $messageString", 1);
+
+                $message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+                    $messageString,
+                    'ERROR', // the header is optional
+                    \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    TRUE // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
+                );
+                $this->enqueueFlashMessage($message);
+
+                // unset fieldArray to prevent saving of the record
+                $fieldArray = array();
+                return;
 			}
 		}
-
 
 		if ($table == 'tt_news') {
 
@@ -134,62 +114,87 @@ class tx_ttnews_tcemain {
 			}
 
 			// check permissions of assigned categories
-			if (is_int($id) && !$GLOBALS['BE_USER']->isAdmin()) {
-				$categories = array();
-				$recID = (($fieldArray['l18n_parent'] > 0) ? $fieldArray['l18n_parent'] : $id);
-					// get categories from the tt_news record in db
-				$cRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-						'uid_foreign, deleted',
-						'tt_news_cat_mm, tt_news_cat',
-						'uid_foreign=uid AND deleted=0 AND uid_local=' . $recID);
-
-				while (($cRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($cRes))) {
-					$categories[] = $cRow['uid_foreign'];
-				}
-				$GLOBALS['TYPO3_DB']->sql_free_result($cRes);
-
-				$notAllowedItems = array();
-				if ($categories[0]) { // original record has no categories
-					$treeIDs = tx_ttnews_div::getAllowedTreeIDs();
-					if (count($treeIDs)) {
-						$allowedItems = $treeIDs;
-					} else {
-						$allowedItems = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
-					}
-					foreach ($categories as $k) {
-						if (!in_array($k, $allowedItems)) {
-							$notAllowedItems[] = $k;
-						}
-					}
-				}
-				if ($notAllowedItems[0]) {
-
-					$pObj->log($table, $id, 2, 0, 1, "processDatamap: Attempt to modify a record from table '%s' without permission. Reason: the record has one or more categories assigned that are not defined in your BE usergroup (" . implode($notAllowedItems, ',') . ").", 1, array($table));
-						// unset fieldArray to prevent saving of the record
-					$fieldArray = array();
-				}
-
+			if (!is_int($id) || $GLOBALS['BE_USER']->isAdmin()) {
+                return;
 			}
+
+            $categories = array();
+            $recID = (($fieldArray['l18n_parent'] > 0) ? $fieldArray['l18n_parent'] : $id);
+                // get categories from the tt_news record in db
+            $cRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                    'uid_foreign',
+                    'tt_news_cat_mm, tt_news_cat',
+                    'uid_foreign=uid AND deleted=0 AND uid_local=' . $recID);
+
+            while (($cRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($cRes))) {
+                $categories[] = $cRow['uid_foreign'];
+            }
+            $GLOBALS['TYPO3_DB']->sql_free_result($cRes);
+
+            $notAllowedItems = array();
+
+            $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
+            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \WMDB\TtNews\Lib\tx_ttnews_div::getAllowedTreeIDs();
+
+            $wantedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $fieldArray['category']);
+
+            foreach (array_unique(array_merge($categories, $wantedCategories)) as $k) {
+                $categoryId = intval($k, 10);
+                if (!in_array($categoryId, $allowedItems)) {
+                    $notAllowedItems[] = $categoryId;
+                }
+            }
+
+            if ($notAllowedItems[0]) {
+                $messageString = 'Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems).').';
+
+                $pObj->log($table, $id, 2, 0, 1, "processDatamap: $messageString", 1);
+
+                // unset fieldArray to prevent saving of the record
+                $fieldArray = array();
+
+                $message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+                    $messageString,
+                    'ERROR', // the header is optional
+                    \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    TRUE // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
+                );
+
+                $this->enqueueFlashMessage($message);
+            }
 		}
 	}
 
+	protected function enqueueFlashMessage($message)
+    {
+        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+        $flashMessageService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+        /** @var $defaultFlashMessageQueue FlashMessageQueue */
+        $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
+        $defaultFlashMessageQueue->enqueue($message);
+    }
+
 	function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj) {
-		if ($table == 'tt_news') {
-				// direct preview
-			if (!is_numeric($id)) {
-				$id = $pObj->substNEWwithIDs[$id];
-			}
-			if (isset($GLOBALS['_POST']['_savedokview_x']) && !$fieldArray['type'] && !$GLOBALS['BE_USER']->workspace) {
-					// if "savedokview" has been pressed and current article has "type" 0 (= normal news article)
-					// and the beUser works in the LIVE workspace open current record in single view
-				$pagesTSC = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
-				if ($pagesTSC['tx_ttnews.']['singlePid']) {
-					$GLOBALS['_POST']['popViewId_addParams'] = ($fieldArray['sys_language_uid'] > 0 ?
-						'&L=' . $fieldArray['sys_language_uid'] : '') . '&no_cache=1&tx_ttnews[tt_news]=' . $id;
-					$GLOBALS['_POST']['popViewId'] = $pagesTSC['tx_ttnews.']['singlePid'];
-				}
-			}
-		}
+		if ($table != 'tt_news') {
+            return;
+        }
+
+        // direct preview
+        if (!is_numeric($id)) {
+            $id = $pObj->substNEWwithIDs[$id];
+        }
+
+        if (isset($GLOBALS['_POST']['_savedokview_x']) && !$fieldArray['type'] && !$GLOBALS['BE_USER']->workspace) {
+                // if "savedokview" has been pressed and current article has "type" 0 (= normal news article)
+                // and the beUser works in the LIVE workspace open current record in single view
+            $pagesTSC = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
+
+            if ($pagesTSC['tx_ttnews.']['singlePid']) {
+                $GLOBALS['_POST']['popViewId_addParams'] = ($fieldArray['sys_language_uid'] > 0 ?
+                    '&L=' . $fieldArray['sys_language_uid'] : '') . '&no_cache=1&tx_ttnews[tt_news]=' . $id;
+                $GLOBALS['_POST']['popViewId'] = $pagesTSC['tx_ttnews.']['singlePid'];
+            }
+        }
 	}
 
 }
@@ -221,49 +226,57 @@ class tx_ttnews_tcemain_cmdmap {
 			$rec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
 			if ($rec['editlock']) {
 				$pObj->log($table, $id, 2, 0, 1, "processCmdmap [editlock]: Attempt to " . $command . " a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).", 1, array($table));
-				$error = true;
+                // unset table to prevent saving
+				$table = '';
+
+				return;
 			}
 
+			if (!is_int($id)) {
+                return;
+            }
 
-			if (is_int($id)) {
-					// get categories from the (untranslated) record in db
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query(
-						'tt_news_cat.uid, tt_news_cat.deleted, tt_news_cat_mm.sorting AS mmsorting',
-						'tt_news',
-						'tt_news_cat_mm',
-						'tt_news_cat',
-					' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields('tt_news_cat'));
-				$categories = array();
-				while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-					$categories[] = $row['uid'];
-				}
-				$GLOBALS['TYPO3_DB']->sql_free_result($res);
+            // get categories from the (untranslated) record in db
+            $res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query(
+                    'tt_news_cat.uid',
+                    'tt_news',
+                    'tt_news_cat_mm',
+                    'tt_news_cat',
+                ' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields('tt_news_cat'));
+            $categories = array();
+            while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+                $categories[] = $row['uid'];
+            }
+            $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
-				$notAllowedItems = array();
-				if ($categories[0]) { // original record has no categories
-					$treeIDs = tx_ttnews_div::getAllowedTreeIDs();
-					if (count($treeIDs)) {
-						$allowedItems = $treeIDs;
-					} else {
-						$allowedItems = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems'));
-					}
-					foreach ($categories as $k) {
-						if (!in_array($k, $allowedItems)) {
-							$notAllowedItems[] = $k;
-						}
-					}
-				}
+            $notAllowedItems = array();
 
-				if ($notAllowedItems[0]) {
-					$pObj->log($table, $id, 2, 0, 1, "tt_news processCmdmap: Attempt to " . $command . " a record from table '%s' without permission. Reason: the record has one or more categories assigned that are not defined in your BE usergroup (tablename.allowedItems).", 1, array($table));
-					$error = true;
+            $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
+            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \WMDB\TtNews\Lib\tx_ttnews_div::getAllowedTreeIDs();
 
+            foreach ($categories as $k) {
+                $categoryId = intval($k, 10);
+                if (!in_array($categoryId, $allowedItems)) {
+                    $notAllowedItems[] = $categoryId;
+                }
+            }
 
-				}
-				if ($error) {
-					$table = ''; // unset table to prevent saving
-				}
-			}
+            if ($notAllowedItems[0]) {
+                $messageString = 'Attempt to '.$command.' a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems).').';
+
+                $pObj->log($table, $id, 2, 0, 1, "processCmdmap: $messageString", 1);
+
+                $message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+                    $messageString,
+                    'ERROR', // the header is optional
+                    \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    TRUE // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
+                );
+
+                $this->enqueueFlashMessage($message);
+
+                $table = ''; // unset table to prevent saving
+            }
 		}
 	}
 
@@ -325,19 +338,26 @@ class tx_ttnews_tcemain_cmdmap {
 	 * @return	[type]		...
 	 */
 	function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)	{
-		if ($counter)	{
-			$addW = !$pObj->admin ? ' AND ' . $pObj->BE_USER->getPagePermsClause($pObj->pMap['show']) : '';
-			$mres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', $table, 'parent_category=' . intval($srcId) . $pObj->deleteClause($table) . $addW, '', '');
-			while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($mres))) {
-				if ($row['uid'] != $rootID) {
-					$CPtable[$row['uid']] = $srcId;
-					if ($counter - 1) { // If the uid is NOT the rootID of the copyaction and if we are supposed to walk further down
-						$CPtable = $this->int_recordTreeInfo($CPtable, $row['uid'], $counter - 1, $rootID, $table, $pObj);
-					}
-				}
-			}
-			$GLOBALS['TYPO3_DB']->sql_free_result($mres);
+		if (!$counter) {
+            return $CPtable;
 		}
+
+        $addW = !$pObj->admin ? ' AND ' . $pObj->BE_USER->getPagePermsClause($pObj->pMap['show']) : '';
+        $mres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', $table, 'parent_category=' . intval($srcId) . $pObj->deleteClause($table) . $addW, '', '');
+
+        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($mres))) {
+            if ($row['uid'] == $rootID) {
+                continue;
+            }
+
+            $CPtable[$row['uid']] = $srcId;
+            if ($counter - 1) { // If the uid is NOT the rootID of the copyaction and if we are supposed to walk further down
+                $CPtable = $this->int_recordTreeInfo($CPtable, $row['uid'], $counter - 1, $rootID, $table, $pObj);
+            }
+        }
+
+        $GLOBALS['TYPO3_DB']->sql_free_result($mres);
+
 		return $CPtable;
 	}
 
