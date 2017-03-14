@@ -27,6 +27,8 @@
 
 namespace WMDB\TtNews\Lib;
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+
 /**
  * tt_news misc functions
  *
@@ -154,11 +156,13 @@ class tx_ttnews_div {
 	 * returns a list of all allowed categories for the current user.
 	 * Subcategories are included, categories from "tt_newsPerms.tt_news_cat.excludeList" are excluded
 	 *
+	 * @param integer $storagePid
+	 *
 	 * @return array tree IDs
 	 */
-	static public function getAllowedTreeIDs() {
+	static public function getAllowedTreeIDs($storagePid = -1) {
 
-		$catlistWhere = tx_ttnews_div::getCatlistWhere();
+		$catlistWhere = tx_ttnews_div::getCatlistWhere($storagePid);
 		$treeIDs = array();
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_news_cat', '1=1' . $catlistWhere . ' AND deleted=0');
 		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
@@ -171,10 +175,17 @@ class tx_ttnews_div {
 	/**
 	 * Get WHERE restrictions for the category list query of the current user
 	 *
+	 * @param integer $storagePid
+	 *
 	 * @return string WHERE query part
 	 */
-	static public function getCatlistWhere() {
+	static public function getCatlistWhere($storagePid = -1) {
 		$catlistWhere = '';
+
+		if($storagePid > 0) {
+			$catlistWhere .= ' AND tt_news_cat.pid = ' . (int)$storagePid;
+		}
+
 		if (!$GLOBALS['BE_USER']->isAdmin()) {
 			// get include/exclude items
 			$excludeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.excludeList');
@@ -205,5 +216,24 @@ class tx_ttnews_div {
 
 		return \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$includeList, 1);
 	}
+
+    /**
+     * @param int $pageId
+     *
+     * @return int
+     */
+    public static function getStoragePid($pageId)
+    {
+        $rootLine = BackendUtility::BEgetRootLine($pageId, '', true);
+        foreach ($rootLine as $rC) {
+
+            $record = BackendUtility::getRecord('pages', $rC['uid'], 'storage_pid');
+            if((int)$record['storage_pid']) {
+                return (int)$record['storage_pid'];
+            }
+        }
+
+        return -1;
+    }
 
 }
