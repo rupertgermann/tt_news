@@ -2196,11 +2196,11 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				}
 
 				// only insert width/height if it is not given by TS and width/height is empty
-				if ($lConf['image.']['file.']['maxW'] && ! $lConf['image.']['file.']['width']) {
+				if ($suf && $lConf['image.']['file.']['maxW'] && ! $lConf['image.']['file.']['width']) {
 					$lConf['image.']['file.']['width'] = $lConf['image.']['file.']['maxW'] . $suf;
 					unset($lConf['image.']['file.']['maxW']);
 				}
-				if ($lConf['image.']['file.']['maxH'] && ! $lConf['image.']['file.']['height']) {
+				if ($suf && $lConf['image.']['file.']['maxH'] && ! $lConf['image.']['file.']['height']) {
 					$lConf['image.']['file.']['height'] = $lConf['image.']['file.']['maxH'] . $suf;
 					unset($lConf['image.']['file.']['maxH']);
 				}
