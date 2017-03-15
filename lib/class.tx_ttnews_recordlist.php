@@ -641,7 +641,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 				$results[$row['uid']] = $row['uid'];
 			}
 
-			array_unique($results);
+            $results = array_unique($results);
 			foreach ($results as $uid) {
 				$currentCats = $this->getCategories($uid);
 				foreach ($currentCats as $cat) {
