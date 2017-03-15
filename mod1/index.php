@@ -196,7 +196,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         $this->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
         $this->doc->backPath = $GLOBALS['BACK_PATH'];
-        $this->doc->setModuleTemplate('mod_ttnews_admin.html');
+        $this->doc->setModuleTemplate('EXT:tt_news/mod1/mod_ttnews_admin.html');
         $this->doc->docType = 'xhtml_trans';
 
         if (!$this->doc->moduleTemplate) {
@@ -211,10 +211,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         // Access check!
         // The page will show only if there is a valid page and if this page may be viewed by the user
-
         $access = (is_array($this->pageinfo) ? 1 : 0);
         $this->markers['MOD_INFO'] = '';
-
 
         if ($this->id && $access) {
             // JavaScript
