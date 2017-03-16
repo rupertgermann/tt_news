@@ -28,7 +28,6 @@
 namespace WMDB\TtNews\Lib;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * tt_news misc functions

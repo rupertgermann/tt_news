@@ -333,7 +333,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 		$this->token = md5(microtime());
 
-		if (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('version')) {
+		if (ExtensionManagementUtility::isLoaded('version')) {
 			$this->versioningEnabled = true;
 		}
 		// load available syslanguages
@@ -1498,8 +1498,8 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				if ($mode == 'ajaxtree') {
 					// todo use pagerenderer
 					$this->tsfe->additionalHeaderData['tt_news_categorytree'] = '
-						' . ($lConf['includePrototypeJS'] ? '<script type="text/javascript" src="'.TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news'). 'Resources/Public/JavaScript/compat/prototype/prototype.js"></script>' : '') . '
-						<script type="text/javascript" src="' . TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/JavaScript/tt_news_catmenu.js"></script>
+						' . ($lConf['includePrototypeJS'] ? '<script type="text/javascript" src="'. ExtensionManagementUtility::extRelPath('tt_news'). 'Resources/Public/JavaScript/compat/prototype/prototype.js"></script>' : '') . '
+						<script type="text/javascript" src="' . ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/JavaScript/tt_news_catmenu.js"></script>
 					';
 
 				}
