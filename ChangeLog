@@ -1,5 +1,12 @@
 
 2017-03-16  Leonie Philine Bitto <leonie@netcreators.nl>
+	* version 7.6.3~netcreators_0.0.2
+	* Now defining our own News Category Record Storage Page field.
+	* Thus, tt_news can now be used with extConf-switch 'useStoragePid' without requiring EXT:compatibility6.
+	* [DB UPDATE] Run this file to migrate your legacy 'General Record Storage Page' configuration:
+		ext_tables-migration-7.6.3~netcreators_0.0.2.sql
+
+2017-03-16  Leonie Philine Bitto <leonie@netcreators.nl>
 	* version 7.6.3~netcreators_0.0.1
 	* Fixed 'General Record Storage' (for News Categories) feature toggled by the extConf-switch 'useStoragePid':
 		- Needs EXT:compatibility6 or an alternative way of defining and configuring the DB field pages.storage_pid.

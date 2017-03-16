@@ -25,17 +25,14 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      */
     public function __construct(array $tcaConfiguration, $table, $field, array $currentValue)
     {
-        // NOTE: Enabling useStoragePid means you need to have compatibility6 installed!
-        // @see https://docs.typo3.org/typo3cms/extensions/core/Changelog/7.4/Deprecation-65790-PagesStoragePidDeprecated.html
-
         $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
         if ($confArr['useStoragePid']) {
 
-            $tceTSCStoragePid = tx_ttnews_div::getStoragePid((int)$currentValue['pid']);
+            $storagePid = tx_ttnews_div::getStoragePid((int)$currentValue['pid']);
 
-            $this->storagePid = $tceTSCStoragePid > 0
-                ? $tceTSCStoragePid
+            $this->storagePid = $storagePid > 0
+                ? $storagePid
                 : (int)$currentValue['pid'];
         }
     }

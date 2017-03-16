@@ -124,12 +124,12 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$this->TSprop = $this->modTSconfig['properties'];
 		$this->confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
-		$tsConfigStoragePid = -1;
+		$storagePid = -1;
 		if ($this->confArr['useStoragePid']) {
-			$tsConfigStoragePid = tx_ttnews_div::getStoragePid($this->id);
+			$storagePid = tx_ttnews_div::getStoragePid($this->id);
 		}
-		$this->storagePid = $tsConfigStoragePid > 0
-			? $tsConfigStoragePid
+		$this->storagePid = $storagePid > 0
+			? $storagePid
 			: $this->id;
 
 		$newArticlePid = intval($this->TSprop['list.']['pidForNewArticles']);

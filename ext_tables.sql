@@ -156,4 +156,10 @@ CREATE TABLE tt_news_cache_tags (
   KEY cache_tag (tag)
 ) ENGINE=InnoDB;
 
+#
+# Table structure for table 'pages'
+#
+CREATE TABLE pages (
+	tx_ttnews_cat_storage_pid int(11) DEFAULT '0' NOT NULL
+);
 
