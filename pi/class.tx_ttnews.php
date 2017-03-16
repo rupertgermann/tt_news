@@ -27,7 +27,9 @@
  ***************************************************************/
 
 use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use WMDB\TtNews\Lib\tx_ttnews_div;
 
 /**
  * class.tx_ttnews.php
@@ -2406,7 +2408,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$rows = array($row);
 				if ($this->conf['displaySubCategories'] && $this->config['useSubCategories']) {
 					$subCategories = array();
-					$subcats = implode(',', array_unique(explode(',', \WMDB\TtNews\Lib\tx_ttnews_div::getSubCategories($rows[0]['uid'], $addWhere))));
+					$subcats = implode(',', array_unique(explode(',', tx_ttnews_div::getSubCategories($rows[0]['uid'], $addWhere))));
 
 					$subres = $this->db->exec_SELECTquery('tt_news_cat.*', 'tt_news_cat', 'tt_news_cat.uid IN (' . ($subcats ? $subcats : 0) . ')' . $addWhere, '', 'tt_news_cat.' . $this->config['catOrderBy']);
 
@@ -3590,8 +3592,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	function initCategoryVars() {
 		$storagePid = FALSE;
 		if ($this->confArr['useStoragePid']) {
-			$sParr = $this->tsfe->getStorageSiterootPids();
-			$storagePid = $sParr['_STORAGE_PID'];
+            $storagePid = tx_ttnews_div::getStoragePid((int)$this->tsfe->id);
 		}
 
 		$lc = $this->conf['displayCatMenu.'];
@@ -3644,7 +3645,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 			if ($this->config['useSubCategories'] && $this->config['catSelection']) {
 				// get subcategories for selection from getVars
-				$subcats = \WMDB\TtNews\Lib\tx_ttnews_div::getSubCategories($this->config['catSelection'], $addWhere);
+				$subcats = tx_ttnews_div::getSubCategories($this->config['catSelection'], $addWhere);
 				$this->config['catSelection'] = implode(',', array_unique(explode(',', $this->config['catSelection'] . ($subcats ? ',' . $subcats : ''))));
 			}
 		}
@@ -3659,7 +3660,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		// get subcategories
 		if ($this->config['useSubCategories'] && $this->catExclusive) {
-			$subcats = \WMDB\TtNews\Lib\tx_ttnews_div::getSubCategories($this->catExclusive, $addWhere);
+			$subcats = tx_ttnews_div::getSubCategories($this->catExclusive, $addWhere);
 			$this->catExclusive = implode(',', array_unique(explode(',', $this->catExclusive . ($subcats ? ',' . $subcats : ''))));
 
 		}

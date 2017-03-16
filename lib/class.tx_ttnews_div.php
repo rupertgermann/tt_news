@@ -28,6 +28,7 @@
 namespace WMDB\TtNews\Lib;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * tt_news misc functions
@@ -220,15 +221,22 @@ class tx_ttnews_div {
     /**
      * @param int $pageId
      *
+     * @throws \RuntimeException
      * @return int
      */
     public static function getStoragePid($pageId)
     {
+        if (!ExtensionManagementUtility::isLoaded('compatibility6') // Use EXT:compatibility6
+            || !isset($GLOBALS['TCA']['pages']['columns']['storage_pid']) // or an alternative way to define the field pages.storage_pid.
+        ) {
+            throw new \RuntimeException('To use the storage pid feature on TYPO3 7.6, you must have EXT:compatibility6 installed.');
+        }
+
         $rootLine = BackendUtility::BEgetRootLine($pageId, '', true);
         foreach ($rootLine as $rC) {
 
             $record = BackendUtility::getRecord('pages', $rC['uid'], 'storage_pid');
-            if((int)$record['storage_pid']) {
+            if ((int)$record['storage_pid']) {
                 return (int)$record['storage_pid'];
             }
         }
