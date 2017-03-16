@@ -185,11 +185,12 @@ class tx_ttnews_div
     static public function getCatlistWhere($storagePid = -1)
     {
         $catlistWhere = '';
-        if (!$GLOBALS['BE_USER']->isAdmin()) {
-            if ($storagePid > 0) {
-                $catlistWhere .= ' AND tt_news_cat.pid = ' . (int)$storagePid;
-            }
 
+        if ($storagePid > 0) {
+            $catlistWhere .= ' AND tt_news_cat.pid = ' . (int)$storagePid;
+        }
+
+        if (!$GLOBALS['BE_USER']->isAdmin()) {
             // get include/exclude items
             $excludeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.excludeList');
             $includeCatArray = tx_ttnews_div::getIncludeCatArray();
