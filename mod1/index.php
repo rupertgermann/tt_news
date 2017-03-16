@@ -26,7 +26,6 @@
 
 	// DEFAULT initialization of a module [BEGIN]
 
-use WMDB\TtNews\Lib\tx_ttnews_div;
 use WMDB\TtNews\Utility\IconUtility;
 
 if (!isset($MCONF)) {
@@ -124,13 +123,11 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$this->TSprop = $this->modTSconfig['properties'];
 		$this->confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
-		$tsConfigStoragePid = -1;
+		$tceTSC = array();
 		if ($this->confArr['useStoragePid']) {
-			$tsConfigStoragePid = tx_ttnews_div::getStoragePid($this->id);
+			$tceTSC = \TYPO3\CMS\Backend\Utility\BackendUtility::getTCEFORM_TSconfig('tt_news_cat',array('pid'=>$this->id));
 		}
-		$this->storagePid = $tsConfigStoragePid > 0
-			? $tsConfigStoragePid
-			: $this->id;
+		$this->storagePid = $tceTSC['_STORAGE_PID']?$tceTSC['_STORAGE_PID']:$this->id;
 
 		$newArticlePid = intval($this->TSprop['list.']['pidForNewArticles']);
 		$this->newArticlePid = ($newArticlePid?$newArticlePid:$this->id);
@@ -438,6 +435,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	function getTreeObj() {
 		$addWhere = '';
 
+		if ($this->confArr['useStoragePid']) {
+			$addWhere .= ' AND tt_news_cat.pid=' . $this->storagePid;
+		}
 		if (!$this->mData['showHiddenCategories']) {
 			$addWhere .= ' AND tt_news_cat.hidden=0';
 		}
@@ -475,9 +475,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$this->treeObj->current_sys_language = $this->current_sys_language;
 
 		// get selected categories from be user/group without subcategories
-		$tmpsc = tx_ttnews_div::getBeUserCatMounts(FALSE);
+		$tmpsc = \WMDB\TtNews\Lib\tx_ttnews_div::getBeUserCatMounts(FALSE);
 		$beUserSelCatArr = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$tmpsc);
-		$includeListArr = tx_ttnews_div::getIncludeCatArray();
+		$includeListArr = \WMDB\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
 		$subcatArr = array_diff($includeListArr,$beUserSelCatArr);
 
 		/**
@@ -1128,18 +1128,17 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 
 
 	function initCategories() {
+		if ($this->isAdmin) {
+            return;
+        }
 
         // get include/exclude items
         if (($excludeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.excludeList'))) {
             $this->excludeCats = $this->posIntExplode($excludeList);
         }
 
-        $this->includeCats = tx_ttnews_div::getIncludeCatArray();
-        $this->catlistWhere = tx_ttnews_div::getCatlistWhere(
-            $this->confArr['useStoragePid']
-                ? $this->storagePid
-                : -1
-        );
+        $this->includeCats = \WMDB\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
+        $this->catlistWhere = \WMDB\TtNews\Lib\tx_ttnews_div::getCatlistWhere();
 	}
 
 	function posIntExplode($list) {
@@ -1162,7 +1161,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	 */
 	function initSubCategories() {
 		if ($this->useSubCategories && $this->category) {
-			$subcats = tx_ttnews_div::getSubCategories($this->category);
+			$subcats = \WMDB\TtNews\Lib\tx_ttnews_div::getSubCategories($this->category);
 			$this->selectedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::uniqueList($this->category.($subcats?','.$subcats:''));
 		} else {
 			$this->selectedCategories = $this->category;
