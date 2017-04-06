@@ -52,7 +52,7 @@ return Array (
 			'2' => 'EXT:tt_news/res/gfx/tt_news_exturl.gif',
 		),
 		'thumbnail' => 'image',
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'ext_icon.gif',
+		'iconfile' => 'EXT:tt_news/ext_icon.gif',
 		'searchFields' => 'uid,title,short,bodytext'),
 	'interface' => Array (
 		'showRecordFieldList' => 'title,hidden,datetime,starttime,archivedate,category,author,author_email,short,image,imagecaption,links,related,news_files'
@@ -136,7 +136,7 @@ return Array (
 					'link' => Array(
 						'type' => 'popup',
 						'title' => 'Link',
-						'icon' => 'link_popup.gif',
+						'icon' => 'actions-wizard-link',
 						'module' => array(
 							'name' => 'wizard_link',
 							'urlParameters' => array(
@@ -163,7 +163,7 @@ return Array (
 						'RTEonly' => 1,
 						'type' => 'script',
 						'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext.W.RTE',
-						'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_rte.gif',
+						'icon' => 'actions-wizard-rte',
 						'module' => array(
 							'name' => 'wizard_rte'
 						)
