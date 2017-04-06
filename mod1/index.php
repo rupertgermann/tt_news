@@ -578,7 +578,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 		$dblist->doEdit = $this->mayUserEditArticles;
 		$dblist->ext_CALC_PERMS = $this->newArticleCalcPerms;
 		$dblist->perms_clause = $this->perms_clause;
-		$dblist->agePrefixes = $GLOBALS['LANG']->sL('LLL:EXT:lang/locallang_core.php:labels.minutesHoursDaysYears');
+		$dblist->agePrefixes = $GLOBALS['LANG']->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_core', 'labels.minutesHoursDaysYears'));
 		$dblist->id = $this->id;
 		$dblist->newRecPid = $this->newArticlePid;
 		$dblist->singlePid = $this->singlePid;
@@ -751,9 +751,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 				-->
 				<table border="0" cellpadding="0" cellspacing="0" id="ttnewsadmin-search">
 					<tr>
-						<td>'.$GLOBALS['LANG']->sL('LLL:EXT:lang/locallang_core.php:labels.enterSearchString',1).'<input type="text" name="search_field" value="'.htmlspecialchars($this->search_field).'"'.$GLOBALS['TBE_TEMPLATE']->formWidth(10).' /></td>
-						<td>'.$GLOBALS['LANG']->sL('LLL:EXT:lang/locallang_core.php:labels.showRecords',1).':<input type="text" name="SET[showLimit]" value="'.htmlspecialchars($this->showLimit?$this->showLimit:'').'"'.$GLOBALS['TBE_TEMPLATE']->formWidth(4).' /></td>
-						<td><input type="submit" name="search" value="'.$GLOBALS['LANG']->sL('LLL:EXT:lang/locallang_core.php:labels.search',1).'" /></td>
+						<td>'.$GLOBALS['LANG']->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_core' ,'labels.enterSearchString'), 1).'<input type="text" name="search_field" value="'.htmlspecialchars($this->search_field).'"'.$GLOBALS['TBE_TEMPLATE']->formWidth(10).' /></td>
+						<td>'.$GLOBALS['LANG']->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_core', 'labels.showRecords'), 1).':<input type="text" name="SET[showLimit]" value="'.htmlspecialchars($this->showLimit?$this->showLimit:'').'"'.$GLOBALS['TBE_TEMPLATE']->formWidth(4).' /></td>
+						<td><input type="submit" name="search" value="'.$GLOBALS['LANG']->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_core', 'labels.search'), 1).'" /></td>
 
 					</tr>
 				</table>
@@ -900,13 +900,13 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
                 $href = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('web_list', array ('id' => $this->pageinfo['uid'], 'returnUrl' => \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI')) );
 
 				$buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '">' .
-						'<img' . IconUtility::skinImg($backPath, 'gfx/list.gif', 'width="11" height="11"') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.showList', 1) . '" alt="" />' .
+						'<img' . IconUtility::skinImg($backPath, 'gfx/list.gif', 'width="11" height="11"') . ' title="' . $LANG->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_core', 'labels.showList'), 1) . '" alt="" />' .
 						'</a>';
 			}
 
 				// View
 			$buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::viewOnClick($this->id, $backPath, \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($this->id))) . '">' .
-							'<img' . IconUtility::skinImg($backPath, 'gfx/zoom.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.showPage', 1) . '" alt="" />' .
+							'<img' . IconUtility::skinImg($backPath, 'gfx/zoom.gif') . ' title="' . $LANG->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_core', 'labels.showPage'), 1) . '" alt="" />' .
 							'</a>';
 
 				// If edit permissions are set (see class.t3lib_userauthgroup.php)
@@ -920,7 +920,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 
 				// Reload
 			$buttons['reload'] = '<a href="' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::linkThisScript()) . '">' .
-							'<img' . IconUtility::skinImg($backPath, 'gfx/refresh_n.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.reload', 1) . '" alt="" />' .
+							'<img' . IconUtility::skinImg($backPath, 'gfx/refresh_n.gif') . ' title="' . $LANG->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_core', 'labels.reload'), 1) . '" alt="" />' .
 							'</a>';
 
 				// Shortcut
@@ -931,7 +931,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 				// Back
 			if ($this->returnUrl) {
 				$buttons['back'] = '<a href="' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::linkThisUrl($this->returnUrl, array('id' => $this->id))) . '" class="typo3-goBack">' .
-								'<img' . IconUtility::skinImg($backPath, 'gfx/goback.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/locallang_core.php:labels.goBack', 1) . '" alt="" />' .
+								'<img' . IconUtility::skinImg($backPath, 'gfx/goback.gif') . ' title="' . $LANG->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_core', 'labels.goBack'), 1) . '" alt="" />' .
 								'</a>';
 			}
 		}
@@ -943,7 +943,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	function getLangMenu() {
 		$menu = '';
 		if (count($this->MOD_MENU['language'])>1) {
-			$menu = $GLOBALS['LANG']->sL('LLL:EXT:lang/locallang_general.xml:LGL.language',1) .
+			$menu = $GLOBALS['LANG']->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.language'), 1) .
 				\TYPO3\CMS\Backend\Utility\BackendUtility::getFuncMenu($this->id,'SET[language]',$this->current_sys_language,$this->MOD_MENU['language']);
 		}
 		return $menu;

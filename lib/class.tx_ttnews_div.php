@@ -206,4 +206,41 @@ class tx_ttnews_div {
 		return \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$includeList, 1);
 	}
 
+	/**
+	 * Returns the correct splitLabel string for a locallang file in EXT:lang,
+	 * respecting the current TYPO3 version.
+	 *
+	 * Example:
+	 *
+	 * $fileNameWithoutExtension = 'locallang_general';
+	 * $key = 'LGL.hidden';
+	 * Would return:
+	 * - 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden' (TYPO3 < 8) or
+	 * - 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hidden' (TYPO3 >= 8)
+	 *
+	 * @param string $fileNameWithoutExtension
+	 * @param string $key
+	 * @throws \InvalidArgumentException
+	 * @return string
+	 */
+	public static function getLocallangSplitLabelForExtLang($fileNameWithoutExtension, $key)
+	{
+	    if (!\is_string($fileNameWithoutExtension) || empty($fileNameWithoutExtension)) {
+	        throw new \InvalidArgumentException('$fileNameWithoutExtension must be not empty string', 1491496347);
+	    } elseif (!\is_string($key) || empty($key)) {
+	        throw new \InvalidArgumentException('$key must be not empty string', 1491496368);
+	    }
+
+	    static $useV8Style = null;
+	    if ($useV8Style === null) {
+	        $useV8Style = \version_compare(TYPO3_version, '8', '>=');
+	    }
+
+	    $splitLabel = 'LLL:EXT:lang/';
+	    if ($useV8Style) {
+	        $splitLabel .= 'Resources/Private/Language/';
+	    }
+
+	    return $splitLabel . $fileNameWithoutExtension . '.xlf:' . $key;
+	}
 }
