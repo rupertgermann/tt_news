@@ -189,17 +189,21 @@ return array (
 
 	'types' => Array (
 		'0' => Array('showitem' => '
-			title;;2;;1-1-1,parent_category;;;;1-1-1,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, image;;;;1-1-1,shortcut;;1;;1-1-1,single_pid;;;;1-1-1,description;;;;1-1-1,
+			--palette--;;title,parent_category,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, image,--palette--;;shortcut,single_pid,description,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.access, hidden,starttime,endtime,fe_group,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.extended,
 		'),
 
 	),
 	'palettes' => Array (
-		'1' => Array('showitem' => 'shortcut_target'),
-		'2' => Array('showitem' => 'title_lang_ol'),
-//		'10' => Array('showitem' => 'fe_group'),
+        'title' => [
+            'showitem' => 'title,--linebreak--,title_lang_ol'
+        ],
+        'shortcut' => [
+            'showitem' => 'shortcut,--linebreak--,shortcut_target'
+        ],
+
 	)
 );
 

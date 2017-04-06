@@ -474,43 +474,45 @@ return Array (
 	),
 	'types' => Array (
 		'0' => Array('showitem' =>
-			'hidden, type;;;;1-1-1,title;;;;2-2-2,short,bodytext,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, datetime;;;;2-2-2,archivedate,author;;3;; ;;;;2-2-2,
-				keywords;;;;2-2-2,sys_language_uid;;1;;3-3-3,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.media, image;;;;1-1-1,imagecaption;;5;;,links;;;;2-2-2,news_files;;;;4-4-4,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.catAndRels, category;;;;3-3-3,related;;;;3-3-3,
+			'hidden, type,title,short,bodytext,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, datetime,archivedate,--palette--;;author,
+				keywords,--palette--;;language,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.media, image,--palette--;;imagetexts,links,news_files,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.catAndRels, category,related,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.extended,
 			'),
 
 		'1' => Array('showitem' =>
-			'hidden, type;;;;1-1-1,title;;;;2-2-2,page,short,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, datetime;;;;2-2-2,archivedate,author;;3;; ;;;;2-2-2,
-				keywords;;;;2-2-2,sys_language_uid;;1;;3-3-3,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.media, image;;;;1-1-1,imagecaption;;5;;,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.categories, category;;;;3-3-3,
+			'hidden, type,title,page,short,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, datetime,archivedate,--palette--;;author,
+				keywords,--palette--;;language,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.media, image,--palette--;;imagetexts,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.categories, category,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.extended,
 			'),
 
 		'2' => Array('showitem' =>
-			'hidden, type;;;;1-1-1,title;;;;2-2-2,ext_url,short,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, datetime;;;;2-2-2,archivedate,author;;3;; ;;;;2-2-2,
-				keywords;;;;2-2-2,sys_language_uid;;1;;3-3-3,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.media, image;;;;1-1-1,imagecaption;;5;;,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.categories, category;;;;3-3-3,
+			'hidden, type,title,ext_url,short,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, datetime,archivedate,--palette--;;author,
+				keywords,--palette--;;language,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.media, image,--palette--;;imagetexts,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.categories, category,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.extended,
 			')
 	),
 	'palettes' => Array (
-		'1' => Array('showitem' => 't3ver_label,l18n_parent'),
-//		'10' => Array('showitem' => 'fe_group'),
 		'2' => Array('showitem' => 'no_auto_pb'),
-		'3' => Array('showitem' => 'author_email'),
-//		'4' => Array('showitem' => 'keywords'),
-		'5' => Array('showitem' => 'imagealttext,imagetitletext'),
-
-
+	    'author' => [
+	        'showitem' => 'author,author_email'
+	    ],
+	    'language' =>  [
+	        'showitem' => 'sys_language_uid,--linebreak--,t3ver_label,l18n_parent'
+	    ],
+        'imagetexts' =>  [
+	        'showitem' => 'imagecaption,--linebreak--,imagealttext,imagetitletext'
+	    ],
 	)
 );
