@@ -137,7 +137,20 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users', 
 
 if (TYPO3_MODE == 'BE') {
     if ($confArr['showBackEndModule']) {
-        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule('web', 'txttnewsM1', '', TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'mod1/');
+        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
+            'web',
+            'txttnewsM1',
+            '',
+            '',
+            [
+                'routeTarget' => \tx_ttnews_module1::class . '::mainAction',
+                'access' => 'user,group',
+                'name' => 'web_txttnewsM1',
+                'icon' => 'EXT:tt_news/mod1/moduleicon.gif',
+                'navigationComponentId' => 'typo3-pagetree',
+                'labels' => 'LLL:EXT:tt_news/mod1/locallang_mod.xml'
+            ]
+        );
         $GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][] = array(
             'name' => 'tx_ttnewscatmanager_cm1'
         );
@@ -151,14 +164,8 @@ if (TYPO3_MODE == 'BE') {
     // Adds a tt_news wizard icon to the content element wizard.
     $TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'pi/class.tx_ttnews_wizicon.php';
 
-    // add folder icon
-    $iconRegistry
-        = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class)->registerIcon(
-        'tcarecords-pages-contains-news',
-        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-        ['source' => 'EXT:tt_news/res/gfx/ext_icon_ttnews_folder.gif']
-    );
+    // Register all icons
+    \WMDB\TtNews\Utility\IconUtility::registerAllIconIdentifiers();
 
     $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-news']
         = 'tcarecords-pages-contains-news';

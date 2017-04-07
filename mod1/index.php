@@ -22,21 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-
-	// DEFAULT initialization of a module [BEGIN]
-
 use WMDB\TtNews\Utility\IconUtility;
-
-if (!isset($MCONF)) {
-	require('conf.php');
-}
-
-$GLOBALS['LANG']->includeLLFile('EXT:tt_news/mod1/locallang.xml');
-// This checks permissions and exits if the users has no permission for entry.
-$GLOBALS['BE_USER']->modAccess($MCONF,1);
-// DEFAULT initialization of a module [END]
-
 
 /**
  * Module 'News Admin' for the 'tt_news' extension.
@@ -99,6 +85,24 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	var $search_field;
 	var $catlistWhere;
 	var $sPageIcon;
+
+	/**
+	 * Main module action
+	 *
+	 * @param \Psr\Http\Message\ServerRequestInterface $request
+	 * @param \Psr\Http\Message\ResponseInterface $response
+	 * @return \Psr\Http\Message\ResponseInterface
+	 */
+	public function mainAction(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)
+	{
+	    $GLOBALS['LANG']->includeLLFile('EXT:tt_news/mod1/locallang.xml');
+
+	    $GLOBALS['SOBE'] = $this;
+	    $this->init();
+	    $this->main();
+	    $response->getBody()->write($this->printContent());
+	    return $response;
+	}
 
 	/**
 	 * Initializes the Module
@@ -312,7 +316,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass {
 	 * @return	void
 	 */
 	function printContent()	{
-		echo $this->content;
+		return $this->content;
 	}
 
 	/*************************************************************************
@@ -1263,7 +1267,7 @@ class tx_ttnewscatmanager_treeView extends tx_ttnews_categorytree {
 
 		if($row['uid']>0 && !isset($row['doktype'])) {
             // no clickmenu for pages
-			$theIcon = $GLOBALS['TBE_TEMPLATE']->wrapClickMenuOnIcon($theIcon,'tt_news_cat_CM',$row['uid'],0,'&bank='.$this->bank);
+		    $theIcon =\TYPO3\CMS\Backend\Utility\BackendUtility::wrapClickMenuOnIcon($theIcon,'tt_news_cat_CM',$row['uid'],0,'&bank='.$this->bank);
 			$theIcon = '<span class="dragIcon" id="dragIconID_'.$row['uid'].'">'.$theIcon.'</span>';
 		} else {
 			$theIcon = '<span class="dragIcon" id="dragIconID_0">'.$theIcon.'</span>';
@@ -1365,19 +1369,16 @@ class tx_ttnewscatmanager_treeView extends tx_ttnews_categorytree {
 	 * @return	[type]		...
 	 */
 	function issueCommand($params,$rUrl='')	{
-		$rUrl = $rUrl ? $rUrl : \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI');
-		return $this->backPath.'tce_db.php?'.
-				$params.
-				'&redirect='.($rUrl==-1?"'+T3_THIS_LOCATION+'":rawurlencode($rUrl)).
-				'&vC='.rawurlencode($GLOBALS['BE_USER']->veriCode()).
-				'&prErr=1&uPT=1'.\TYPO3\CMS\Backend\Utility\BackendUtility::getUrlToken('tceAction');
+	    $rUrl = $rUrl ? $rUrl : \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI');
+
+	    $urlParameters = \TYPO3\CMS\Core\Utility\GeneralUtility::explodeUrl2Array($params, true);
+	    $urlParameters['vC'] = \rawurlencode($GLOBALS['BE_USER']->veriCode());
+	    $urlParameters['prErr'] = '1';
+	    $urlParameters['uPT'] = '1';
+
+	    $url = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('tce_db', $urlParameters);
+	    $url .= '&redirect=' . ($rUrl==-1?"'+T3_THIS_LOCATION+'":rawurlencode($rUrl));
+
+	    return $url;
 	}
-}
-
-if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_AJAX)) {
-	$SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_module1');
-	$SOBE->init();
-
-	$SOBE->main();
-	$SOBE->printContent();
 }
