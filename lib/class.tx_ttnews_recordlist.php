@@ -385,7 +385,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	 * @param	string		Record title (NOT USED)
 	 * @return	string		HTML for the icon
 	 */
-	function getIcon($table,$row,$noEdit)	{
+	function getIcon($table,$row,$noEdit = '')	{
 			// Initialization
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $iconImg = $iconFactory->getIconForRecord('tt_news', $row, Icon::SIZE_SMALL)->render();
@@ -444,7 +444,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	 * @param	string		Label key from LOCAL_LANG
 	 * @return	string		IMG tag for icon.
 	 */
-	function noEditIcon($reason)	{
+	function noEditIcon($reason = 'noEditItems')	{
 		switch ($reason) {
 			case 1:
 				$label = $GLOBALS['LANG']->getLL('noEditPagePerms',1);
