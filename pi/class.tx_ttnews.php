@@ -358,7 +358,8 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$this->arcExclusive = $arcExclusive ? $arcExclusive : intval($this->conf['archive']);
 
 		$this->config['datetimeDaysToArchive'] = intval($this->conf['datetimeDaysToArchive']);
-		$this->config['datetimeHoursToArchive'] = intval($this->conf['datetimeHoursToArchive']);
+        $this->config['datetimeDaysToArchive'] = $this->config['datetimeDaysToArchive'] ? $this->config['datetimeDaysToArchive'] : $this->cObj->stdWrap($this->conf['datetimeDaysToArchive'], $this->conf['datetimeDaysToArchive.']);
+        $this->config['datetimeHoursToArchive'] = intval($this->conf['datetimeHoursToArchive']);
 		$this->config['datetimeMinutesToArchive'] = intval($this->conf['datetimeMinutesToArchive']);
 
 		if ($this->conf['useHRDates']) {
@@ -1584,7 +1585,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$fImgFile = ($this->conf['flagPath'] ? $this->conf['flagPath'] : 'media/flags/flag_') . $this->langArr[$row['sys_language_uid']]['flag'];
 				$fImgConf = $this->conf['flagImage.'];
 				$fImgConf['file'] = $fImgFile;
-				$flagImg = $this->local_cObj->IMAGE($fImgConf);
+				$flagImg = $this->local_cObj->cObjGetSingle('IMAGE', $fImgConf);
 				$markerArray['###NEWS_LANGUAGE###'] .= $flagImg;
 			}
 		}
@@ -2101,7 +2102,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					}
 
 					// add linked category image to output array
-					$img = $this->local_cObj->IMAGE($catPicConf['image.']);
+					$img = $this->local_cObj->cObjGetSingle('IMAGE', $catPicConf['image.']);
 					$swrap = ($val['parent_category'] > 0 ? 'subCategoryImgItem_stdWrap.' : 'categoryImgItem_stdWrap.');
 					$theCatImgCodeArray[] = $this->local_cObj->stdWrap($img, $lConf[$swrap]);
 				}
@@ -2216,7 +2217,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 						$lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
 						$lConf['image.']['file'] = 'uploads/pics/' . $val;
 
-						$theImgCode .= $this->local_cObj->IMAGE($lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
+						$theImgCode .= $this->local_cObj->cObjGetSingle('IMAGE', $lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
 					}
 
 					$cc++;
@@ -2311,7 +2312,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
 				$lConf['image.']['file'] = 'uploads/pics/' . $val;
 
-				$imgHtml = $this->local_cObj->IMAGE($lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
+				$imgHtml = $this->local_cObj->cObjGetSingle('IMAGE', $lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
 
 				if ($osCount) {
 					if ($iC > 1) {
