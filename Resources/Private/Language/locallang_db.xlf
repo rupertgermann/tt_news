@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0" xmlns:t3="http://typo3.org/schemas/xliff">
+	<file t3:id="1489674349" source-language="en" datatype="plaintext" original="messages" date="2017-03-16T14:25:32Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id="tx_ttnews_cat_storage_pid">
+				<source>News Category Record Storage page:</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_ttnews_cat_storage_pid_formlabel" xml:space="preserve">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="pages.palettes.tx_ttnews_cat_storage" xml:space="preserve">
+				<source>News Category Record Storage Page</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

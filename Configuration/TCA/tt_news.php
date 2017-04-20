@@ -2,10 +2,6 @@
 
 	// get extension confArr
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
-	// switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
-$fTableWhere = ($confArr['useStoragePid'] ? 'AND tt_news_cat.pid=###STORAGE_PID### ' : '');
-	// page where records will be stored in that have been created with a wizard
-$sPid = ($fTableWhere ? '###STORAGE_PID###' : '###CURRENT_PID###');
 	// l10n_mode for text fields
 $l10n_mode = ($confArr['l10n_mode_prefixLangTitle'] ? 'prefixLangTitle' : '');
 $l10n_mode_author = ($confArr['l10n_mode_prefixLangTitle'] ? 'mergeIfNotBlank' : '');

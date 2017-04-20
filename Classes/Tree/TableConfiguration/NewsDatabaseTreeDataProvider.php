@@ -7,10 +7,37 @@ use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 use WMDB\TtNews\Lib\tx_ttnews_div;
 
 /**
- * TCA tree data provider
+ * TCA tree data provider - respects storagePid if configured to do so in EXTCONF.
  */
 class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
 {
+    /**
+     * @var int
+     */
+    protected $storagePid = -1;
+
+
+    /**
+     * @param array $tcaConfiguration
+     * @param string $table
+     * @param string $field
+     * @param array $currentValue
+     */
+    public function __construct(array $tcaConfiguration, $table, $field, array $currentValue)
+    {
+        $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+
+        if ($confArr['useStoragePid']) {
+
+            $storagePid = tx_ttnews_div::getStoragePid((int)$currentValue['pid']);
+
+            $this->storagePid = $storagePid > 0
+                ? $storagePid
+                : (int)$currentValue['pid'];
+        }
+    }
+
+
     /**
      * Gets node children
      *
@@ -21,7 +48,9 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
     protected function getChildrenOf(\TYPO3\CMS\Backend\Tree\TreeNode $node, $level)
     {
         $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
-        $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : tx_ttnews_div::getAllowedTreeIDs();
+        $allowedItems = $allowedItems
+            ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems)
+            : tx_ttnews_div::getAllowedTreeIDs($this->storagePid);
 
         $storage = null;
         
