@@ -1,3 +1,10 @@
+
+2017-03-16  Leonie Philine Bitto <leonie@netcreators.nl>
+	* version 7.6.3~netcreators_0.0.1
+	* Fixed 'General Record Storage' (for News Categories) feature toggled by the extConf-switch 'useStoragePid':
+		- Needs EXT:compatibility6 or an alternative way of defining and configuring the DB field pages.storage_pid.
+		- Needs useStoragePid enabled in extension configuration.
+
 2012-05-22  Oliver Hader <oliver.hader@typo3.org>
 	* Raised version to 3.3.0
 	* Added compatibility layer for removed methods in TYPO3 6.0
