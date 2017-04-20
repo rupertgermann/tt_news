@@ -77,11 +77,9 @@ return array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.starttime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '13',
-				'max' => '20',
 				'eval' => 'datetime',
-				'checkbox' => '0',
-				'default' => '0'
+				'default' => '0',
+                'renderType' => 'inputDateTime'
 			)
 		),
 		'endtime' => Array (
@@ -90,11 +88,9 @@ return array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.endtime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '13',
-				'max' => '20',
 				'eval' => 'datetime',
-				'checkbox' => '0',
 				'default' => '0',
+                'renderType' => 'inputDateTime',
 				'range' => Array (
 					'upper' => mktime(0,0,0,12,31,2020),
 					'lower' => mktime(0,0,0,date('m')-1,date('d'),date('Y'))

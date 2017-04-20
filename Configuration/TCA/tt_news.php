@@ -64,12 +64,10 @@ return Array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.starttime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '13',
-				'max' => '20',
 				'eval' => 'datetime',
-				'checkbox' => '0',
-				'default' => '0'
-			)
+				'default' => '0',
+                'renderType' => 'inputDateTime'
+            )
 		),
 		'endtime' => Array (
 			'exclude' => 1,
@@ -77,11 +75,9 @@ return Array (
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.endtime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '13',
-				'max' => '20',
 				'eval' => 'datetime',
 				'checkbox' => '0',
-				'default' => '0',
+                'renderType' => 'inputDateTime',
 				'range' => Array (
 					'upper' => mktime(0,0,0,12,31,2020),
 					'lower' => mktime(0,0,0,date('m')-1,date('d'),date('Y'))
@@ -209,10 +205,9 @@ return Array (
 			'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.datetime',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '13',
-				'max' => '20',
-				'eval' => 'datetime'
-				)
+				'eval' => 'datetime',
+                'renderType' => 'inputDateTime'
+            )
 		),
 		'archivedate' => Array (
 			'l10n_mode' => 'mergeIfNotBlank',
@@ -220,10 +215,9 @@ return Array (
 			'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.archivedate',
 			'config' => Array (
 				'type' => 'input',
-				'size' => '13',
-				'max' => '20',
 				'eval' => 'date',
-				'default' => '0'
+				'default' => '0',
+                'renderType' => 'inputDateTime'
 			)
 		),
 		'image' => Array (
