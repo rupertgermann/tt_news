@@ -70,6 +70,16 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	 *
 	 **********************************/
 
+	protected function setTotalItemsGateway($queryArray)
+	{
+	    if (\version_compare(TYPO3_version, '8', '<')) {
+	        $this->setTotalItems($queryArray);
+	    } else {
+	        // implement the old way
+	        $this->totalItems = $GLOBALS['TYPO3_DB']->exec_SELECTcountRows('*', $queryArray['FROM'], $queryArray['WHERE']);
+	    }
+	}
+
 	/**
 	 * Creates a standard list of elements from a table.
 	 *
@@ -84,7 +94,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 			// Initialize:
 		$out = '';
 		$queryParts = $this->makeQueryArray($table, $id, $addWhere);
-		$this->setTotalItems($queryParts);
+		$this->setTotalItemsGateway($queryParts);
 		$this->eCounter = 0;
 
 			// Make query for records if there were any records found in the count operation:
@@ -370,7 +380,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		$onclick = htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl));
 
         return '<a href="#" onclick="'.$onclick.'">'.
-            \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('actions-document-new').
+            \WMDB\TtNews\Utility\IconUtility::getIconByIdentifier('actions-document-new').
 			($withLabel?$GLOBALS['LANG']->getLL('createArticle'.$addLbl):'').
 			'</a>';
 	}
@@ -385,7 +395,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	 * @param	string		Record title (NOT USED)
 	 * @return	string		HTML for the icon
 	 */
-	function getIcon($table,$row,$noEdit)	{
+	function getIcon($table,$row,$noEdit = '')	{
 			// Initialization
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $iconImg = $iconFactory->getIconForRecord('tt_news', $row, Icon::SIZE_SMALL)->render();
@@ -398,7 +408,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		}
 
 			// The icon with link
-		return $GLOBALS['SOBE']->doc->wrapClickMenuOnIcon($iconImg,$table,$row['uid'],'','',$disableList);
+		return \TYPO3\CMS\Backend\Utility\BackendUtility::wrapClickMenuOnIcon($iconImg,$table,$row['uid'],'','',$disableList);
     }
 
 	/**
@@ -444,7 +454,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	 * @param	string		Label key from LOCAL_LANG
 	 * @return	string		IMG tag for icon.
 	 */
-	function noEditIcon($reason)	{
+	function noEditIcon($reason = 'noEditItems')	{
 		switch ($reason) {
 			case 1:
 				$label = $GLOBALS['LANG']->getLL('noEditPagePerms',1);
