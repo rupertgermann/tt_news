@@ -17,7 +17,7 @@ return array (
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group',
 		),
-// 		'prependAtCopy' => 'LLL:EXT:lang/locallang_general.php:LGL.prependAtCopy',
+// 		'prependAtCopy' => \WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.prependAtCopy'),
 		'hideAtCopy' => true,
 		'mainpalette' => '2,10',
 		'crdate' => 'crdate',
@@ -29,7 +29,7 @@ return array (
 	),
 	'columns' => Array (
 		'title' => Array (
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.title',
+			'label' => \WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.title'),
 			'config' => Array (
 				'type' => 'input',
 				'size' => '40',
@@ -48,7 +48,7 @@ return array (
 		),
 		'hidden' => Array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.hidden',
+			'label' => \WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.hidden'),
 			'config' => Array (
 				'type' => 'check',
 			)
@@ -56,16 +56,16 @@ return array (
 		'fe_group' => Array (
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.fe_group',
+			'label' => \WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.fe_group'),
             'config' => array(
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
 				'size' => 5,
 				'maxitems' => 20,
 				'items' => Array (
-					Array('LLL:EXT:lang/locallang_general.php:LGL.hide_at_login', -1),
-					Array('LLL:EXT:lang/locallang_general.php:LGL.any_login', -2),
-					Array('LLL:EXT:lang/locallang_general.php:LGL.usergroups', '--div--')
+					Array(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.hide_at_login'), -1),
+					Array(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.any_login'), -2),
+					Array(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.usergroups'), '--div--')
 				),
 				'exclusiveKeys' => '-1,-2',
 				'foreign_table' => 'fe_groups'
@@ -74,7 +74,7 @@ return array (
 		'starttime' => Array (
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.starttime',
+			'label' => \WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.starttime'),
 			'config' => Array (
 				'type' => 'input',
 				'eval' => 'datetime',
@@ -85,7 +85,7 @@ return array (
 		'endtime' => Array (
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.endtime',
+			'label' => \WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_general', 'LGL.endtime'),
 			'config' => Array (
 				'type' => 'input',
 				'eval' => 'datetime',
@@ -185,17 +185,21 @@ return array (
 
 	'types' => Array (
 		'0' => Array('showitem' => '
-			title;;2;;1-1-1,parent_category;;;;1-1-1,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, image;;;;1-1-1,shortcut;;1;;1-1-1,single_pid;;;;1-1-1,description;;;;1-1-1,
+			--palette--;;title,parent_category,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, image,--palette--;;shortcut,single_pid,description,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.access, hidden,starttime,endtime,fe_group,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.extended,
 		'),
 
 	),
 	'palettes' => Array (
-		'1' => Array('showitem' => 'shortcut_target'),
-		'2' => Array('showitem' => 'title_lang_ol'),
-//		'10' => Array('showitem' => 'fe_group'),
+        'title' => [
+            'showitem' => 'title,--linebreak--,title_lang_ol'
+        ],
+        'shortcut' => [
+            'showitem' => 'shortcut,--linebreak--,shortcut_target'
+        ],
+
 	)
 );
 

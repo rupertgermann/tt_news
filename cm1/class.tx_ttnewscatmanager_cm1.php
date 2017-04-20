@@ -192,7 +192,7 @@ class tx_ttnewscatmanager_cm1 {
 	function DB_delete($table,$uid,$elInfo)	{
 		$loc='top.content.list_frame';
 		if($this->beUser->jsConfirmation(4))	{
-			$conf = "confirm(". GeneralUtility::quoteJSvalue(sprintf($this->LANG->sL('LLL:EXT:lang/locallang_core.php:mess.delete'),$elInfo[0]).
+			$conf = "confirm(". GeneralUtility::quoteJSvalue(sprintf($this->LANG->sL(\WMDB\TtNews\Lib\tx_ttnews_div::getLocallangSplitLabelForExtLang('locallang_core', 'mess.delete')),$elInfo[0]).
 				BackendUtility::referenceCount($table,$uid,' (There are %s reference(s) to this record!)')).")";
 		} else {
 			$conf = '1==1';

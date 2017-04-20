@@ -10,13 +10,6 @@ if (!defined('TYPO3_MODE')) {
 // get extension configuration
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
-// remove some fields from the tt_content content element
-$TCA['tt_content']['types']['list']['subtypes_excludelist'][9] = 'layout,select_key,pages,recursive';
-// add FlexForm field to tt_content
-$TCA['tt_content']['types']['list']['subtypes_addlist'][9] = 'pi_flexform';
-// add tt_news to the "insert plugin" content element (list_type = 9)
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news', 9));
-
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
   includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
   plugin.tt_news = USER
@@ -28,18 +21,9 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
   }
 ');
 
-// initialize static extension templates
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'pi/static/ts_new/', 'News settings');
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'pi/static/css/', 'News CSS-styles');
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'pi/static/rss_feed/', 'News feeds (RSS,RDF,ATOM)');
-
 // allow news and news-category records on normal pages
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_news_cat');
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_news');
-// add the tt_news record to the insert records content element
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords('tt_news');
-
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue(9, 'FILE:EXT:tt_news/Resources/Private/Flexform/flexform_ds.xml');
 
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
 	# RTE mode in table "tt_news"
@@ -98,43 +82,6 @@ include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY
 // to prevent not allowed "commands" (copy,delete,...) for a certain BE usergroup
 include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'lib/class.tx_ttnews_tcemain.php');
 
-$tempColumns = array(
-    'tt_news_categorymounts' => array(
-        'exclude' => 1,
-        'l10n_mode' => 'exclude',
-        'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.categorymounts',
-        'config' => array(
-            'type' => 'select',
-            'renderType' => 'selectTree',
-
-            'foreign_table' => 'tt_news_cat',
-            'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
-            'size' => 10,
-            'autoSizeMax' => 50,
-            'minitems' => 0,
-            'maxitems' => 500,
-            'renderMode' => 'tree',
-            'treeConfig' => array(
-                'expandAll' => true,
-                'parentField' => 'parent_category',
-                'appearance' => array(
-                    'showHeader' => TRUE,
-                    'width' => 400
-                ),
-            )
-        )
-    ),
-);
-
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups', $tempColumns);
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups', 'tt_news_categorymounts;;;;1-1-1');
-
-// show the category selection only in non-admin be_users records
-$tempColumns['tt_news_categorymounts']['displayCond'] = 'FIELD:admin:=:0';
-
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_users', $tempColumns);
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tt_news_categorymounts;;;;1-1-1');
-
 if (TYPO3_MODE == 'BE') {
     if ($confArr['showBackEndModule']) {
         TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule('web', 'txttnewsM1', '', TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'mod1/');
@@ -159,9 +106,6 @@ if (TYPO3_MODE == 'BE') {
         \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
         ['source' => 'EXT:tt_news/res/gfx/ext_icon_ttnews_folder.gif']
     );
-
-    $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-news']
-        = 'tcarecords-pages-contains-news';
 
     // register HTML template for the tt_news BackEnd Module
     $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'mod1/mod_ttnews_admin.html';
