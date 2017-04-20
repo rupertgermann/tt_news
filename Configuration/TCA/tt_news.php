@@ -176,13 +176,26 @@ return Array (
 			)
 		),
 		'short' => Array (
-			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.subheader',
+			'defaultExtras' => 'richtext:rte_transform[mode=ts_css]',
 			'l10n_mode' => $l10n_mode,
 			'config' => Array (
 				'type' => 'text',
-				'cols' => '40',
-				'rows' => '3'
+				'cols' => '48',
+				'rows' => '5',
+				'softref' => 'typolink_tag,images,email[subst],url',
+				'wizards' => Array(
+					'RTE' => array(
+						'notNewRecords' => 1,
+						'RTEonly' => 1,
+						'type' => 'script',
+						'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext.W.RTE',
+						'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_rte.gif',
+						'module' => array(
+							'name' => 'wizard_rte'
+						)
+					)
+				)
 			)
 		),
 		'type' => Array (
