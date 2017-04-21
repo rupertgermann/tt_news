@@ -8,7 +8,7 @@
     "news",
     "extension"
   ],
-  "version": "7.6.3",
+  "version": "8.7.0",
   "license": "GNU General Public License version 2",
   "authors": [
     {
@@ -42,5 +42,22 @@
   ],
   "require": {
     "typo3/cms-core": "*"
+  },
+  "replace": {
+    "tt_news": "self.version",
+    "typo3-ter/tt_news": "self.version",
+    "typo3-ter/tt-news": "self.version",
+    "tt-news": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "WMDB\\TtNews\\": "Classes"
+    },
+    "classmap": [
+      "pi",
+      "lib",
+      "mod1",
+      "cm1"
+    ]
   }
 }
