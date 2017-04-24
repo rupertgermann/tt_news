@@ -1973,30 +1973,26 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 	/**
 	 * @param $getPrev
-	 * @param $selectConf
-	 * @param $fN
-	 * @param $fV
+	 * @param array $selectConf
+	 * @param string $fN
+	 * @param mixed $fV
 	 * @return mixed
 	 */
 	function getPrevNextRec($getPrev, $selectConf, $fN, $fV) {
 
-		$select_fields = 'tt_news.uid, tt_news.title, tt_news.' . $fN;
-		$from_table = 'tt_news' . ($selectConf['leftjoin'] ? ' LEFT JOIN ' . $selectConf['leftjoin'] : '');
-		$where = $selectConf['where'];
-		$where .= ' AND tt_news.' . $fN . ($getPrev ? '<' : '>') . (int) $fV;
-
-		$groupBy = '';
-		$orderBy = 'tt_news.' . $fN . ($getPrev ? ' DESC' : ' ASC');
-		$limit = 1;
-
-		$rows = $this->db->exec_SELECTgetRows($select_fields, $from_table, $where, $groupBy, $orderBy, $limit);
+        $row = $this->db->exec_SELECTgetSingleRow(
+            'tt_news.uid, tt_news.title, tt_news.' . $fN.($fN == 'datetime' ? '' : ', tt_news.datetime'),
+            'tt_news' . ($selectConf['leftjoin'] ? ' LEFT JOIN ' . $selectConf['leftjoin'] : ''),
+            $selectConf['where'] . ' AND tt_news.' . $fN . ($getPrev ? '<' : '>') . '"'.$fV.'"',
+            '',
+            'tt_news.' . $fN . ($getPrev ? ' DESC' : ' ASC'));
 
 		/**
 		 * TODO: 05.05.2009
 		 * lang overlay
 		 */
 
-		return $rows[0];
+		return $row;
 	}
 
 
@@ -3547,7 +3543,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
         if (!$cachingEngine) {
             $cachingEngine = 'internal';
         }
-        
+
         $this->cache_amenuPeriods = true;
         $this->cache_categoryCount = true;
         $this->cache_categories = true;
