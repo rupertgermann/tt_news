@@ -93,8 +93,6 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 
         $storeKey = $this->handleCache();
 
-		$PMWrap = $this->expandable && ! $this->expandFirst;
-
 		// Traverse mounts:
 		foreach ($this->MOUNTS as $idx => $uid) {
 

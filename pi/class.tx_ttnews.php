@@ -1146,7 +1146,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$renderMarkers = $this->getMarkers($item);
 				$this->renderMarkers = array_unique($renderMarkers);
 
-
 				// build the backToList link
 				if ($this->conf['useHRDates']) {
 					$wrappedSubpartArray['###LINK_ITEM###'] = explode('|', $this->pi_linkTP_keepPIvars('|', array('tt_news' => null, 'backPid' => null,
@@ -1156,7 +1155,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 						$this->config['singleViewPointerName'] => null), $this->allowCaching, ($this->conf['dontUseBackPid'] ? 1 : 0), $this->config['backPid']));
 				}
 			}
-
 
 			// set the title of the single view page to the title of the news record
 			if ($this->conf['substitutePagetitle']) {
@@ -3132,62 +3130,13 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 			// if categoryMode is 'show items AND' it's required to check if the records in the result do actually have the same number of categories as in $this->catExclusive
 			if ($this->catExclusive && $this->config['categoryMode'] == 2) {
-				$tmpCatExclusive = $this->catExclusive;
-				$res = $this->exec_getQuery('tt_news', $selectConf);
-
-				$results = array();
-				$resultsCount = array();
-				while (($row = $this->db->sql_fetch_assoc($res))) {
-					$results[] = $row['uid'];
-					if (in_array($row['uid'], $results)) {
-						$resultsCount[$row['uid']]++;
-					}
-				}
-
-				$catCount = count(explode(',', $tmpCatExclusive));
-
-				$cleanedResultsCount = array();
-				foreach ($resultsCount as $uid => $hits) {
-					if ($hits == $catCount) {
-						$cleanedResultsCount[] = $uid;
-					}
-				}
-
-				$matchlist = implode(',', $cleanedResultsCount);
-				if ($matchlist) {
-					$selectConf['where'] .= ' AND tt_news.uid IN (' . $matchlist . ')';
-				} else {
-					$selectConf['where'] .= ' AND tt_news.uid IN (0)';
-				}
+				$selectConf['where'] .= ' AND tt_news.category = '.count(explode(',', $this->catExclusive));
 			}
 
 			// if categoryMode is 'don't show items OR' we check if each found record does not have any of the deselected categories assigned
 			if ($this->catExclusive && $this->config['categoryMode'] == - 2) {
-				$res = $this->exec_getQuery('tt_news', $selectConf);
-
-				$results = array();
-				while (($row = $this->db->sql_fetch_assoc($res))) {
-					$results[$row['uid']] = $row['uid'];
-				}
-				array_unique($results);
-				foreach ($results as $uid) {
-					$currentCats = $this->getCategories($uid);
-					foreach ($currentCats as $v) {
-						if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($this->catExclusive, $v['catid'])) {
-							unset($results[$uid]);
-                            // break after one deselected category was found
-							break;
-						}
-					}
-				}
-
-				$matchlist = implode(',', $results);
-				if ($matchlist) {
-					$selectConf['where'] .= ' AND tt_news.uid IN (' . $matchlist . ')';
-				} else {
-					$selectConf['where'] .= ' AND tt_news.uid IN (0)';
-				}
-			}
+                $selectConf['where'] .= ' AND tt_news.uid NOT IN (SELECT uid from tt_news LEFT JOIN tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local WHERE tt_news_cat_mm.uid_foreign IN ('.$this->catExclusive.'))';
+            }
 		}
 
 		if ($this->debugTimes) {
@@ -3485,19 +3434,16 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		// MAKE WHERE:
 		if ($query) {
 			$queryParts['WHERE'] = trim(substr($query, 4)); // Stripping of " AND"...
-		//			$query = 'WHERE ' . $queryParts['WHERE'];
 		}
 
 		// GROUP BY
 		if (trim($conf['groupBy'])) {
 			$queryParts['GROUPBY'] = trim($conf['groupBy']);
-			//			$query .= ' GROUP BY ' . $queryParts['GROUPBY'];
 		}
 
 		// ORDER BY
 		if (trim($conf['orderBy'])) {
 			$queryParts['ORDERBY'] = trim($conf['orderBy']);
-			//			$query .= ' ORDER BY ' . $queryParts['ORDERBY'];
 		}
 
 		// Return result:
