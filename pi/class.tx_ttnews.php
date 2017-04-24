@@ -2911,7 +2911,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			List browsing box:
 		-->
 		<div' . $this->pi_classParam('browsebox') . '>' . ($showResultCount ? '
-			<p>' . ($this->internal['res_count'] ? sprintf(str_replace('###SPAN_BEGIN###', '<span' . $this->pi_classParam('browsebox-strong') . '>', $this->pi_getLL('pi_list_browseresults_displays', 'Displaying results ###SPAN_BEGIN###%s to %s</span> out of ###SPAN_BEGIN###%s</span>')), $this->internal['res_count'] > 0 ? $pR1 : 0, min(array(
+			<p>' . ($this->internal['res_count'] ? sprintf(str_replace('###SPAN_BEGIN###', '<span' . $this->pi_classParam('browsebox-strong') . '>', $this->pi_getLL('pi_list_browseresults_displays', 'Displaying results ###FROM### to ###TO### out of ###OUT_OF###')), $this->internal['res_count'] > 0 ? $pR1 : 0, min(array(
 				$this->internal['res_count'], $pR2)), $this->internal['res_count']) : $this->pi_getLL('pi_list_browseresults_noResults', 'Sorry, no items were found.')) . '</p>' : '') . '
 
 			<' . trim('table ' . $tableParams) . '>

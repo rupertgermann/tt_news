@@ -122,7 +122,7 @@ function user_substPageBrowser($markerArray, $conf) {
 			<p>' .
 		($pObj->internal['res_count'] ?
 			sprintf(
-				str_replace('###SPAN_BEGIN###', '<span' . $pObj->pi_classParam('browsebox-strong') . '>', $pObj->pi_getLL('pi_list_browseresults_displays', 'Displaying results ###SPAN_BEGIN###%s to %s</span> out of ###SPAN_BEGIN###%s</span>')),
+				str_replace('###SPAN_BEGIN###', '<span' . $pObj->pi_classParam('browsebox-strong') . '>', $pObj->pi_getLL('pi_list_browseresults_displays', 'Displaying results ###FROM### to ###TO### out of ###OUT_OF###')),
 				$pObj->internal['res_count'] > 0 ? $pR1 : 0,
 				min(array($pObj->internal['res_count'], $pR2)),
 				$pObj->internal['res_count']
