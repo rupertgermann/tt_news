@@ -43,8 +43,6 @@ if (!defined('PATH_typo3conf')) {
 
 $TYPO3_AJAX = true;
 
-//print_r(array(TYPO3_REQUESTTYPE_AJAX,TYPO3_REQUESTTYPE,TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_AJAX));
-
 $L = intval(GeneralUtility::_GP('L'));
 if ($L > 0) {
     GeneralUtility::_GETset(array('L' => $L));
@@ -76,6 +74,7 @@ $ajaxID = (string)GeneralUtility::_GP('ajaxID');
 require_once(ExtensionManagementUtility::extPath('tt_news') . 'pi/class.tx_ttnews.php');
 require_once(ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
 require_once(ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_typo3ajax.php');
+
 /**
  * TODO: 24.11.2009
  *
@@ -83,9 +82,7 @@ require_once(ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttne
  * use \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance
  */
 
-
 // instantiating the AJAX object
-//$ajaxClassName = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstanceClassName('tx_ttnews_typo3ajax');
 $ajaxObj = new tx_ttnews_typo3ajax($ajaxID);
 $ajaxParams = array();
 
@@ -103,12 +100,14 @@ $tt_newsObj->conf = &$GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_news.'];
 if (!$tt_newsObj->conf['dontUsePidList']) {
     $tt_newsObj->initPidList();
 }
+
 /**
  * For some reasons this is needed for TYPO3 6.1
  *
  * FIXME: there must be a proper way to do this
  *
  */
+
 $TCA['tt_news'] = array(
     'ctrl' => array(
         'enablecolumns' => array(
@@ -119,6 +118,7 @@ $TCA['tt_news'] = array(
         ),
     )
 );
+
 $TCA['tt_news_cat'] = array(
     'ctrl' => array(
         'enablecolumns' => array(
@@ -131,7 +131,6 @@ $TCA['tt_news_cat'] = array(
 );
 
 $tt_newsObj->enableFields = $tt_newsObj->getEnableFields('tt_news');
-
 $tt_newsObj->initCategoryVars();
 $tt_newsObj->initCatmenuEnv($tt_newsObj->conf['displayCatMenu.']);
 
@@ -141,7 +140,6 @@ $ajaxParams['feUserObj'] = &$GLOBALS['TSFE']->fe_user;
 $ajaxScript = ExtensionManagementUtility::extPath('tt_news')
     . 'lib/class.tx_ttnews_catmenu.php:tx_ttnews_catmenu->ajaxExpandCollapse';
 
-
 // evaluating the arguments and calling the AJAX method/function
 if (empty($ajaxID)) {
     $ajaxObj->setError('No valid ajaxID parameter given.');
@@ -150,6 +148,7 @@ if (empty($ajaxID)) {
         $ajaxObj->setError('Registered backend function for ajaxID "' . $ajaxID . '" was not found.');
     } else {
         $ret = GeneralUtility::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
+
         if ($ret === false) {
             $ajaxObj->setError('Registered backend function for ajaxID "' . $ajaxID . '" was not found.');
         }

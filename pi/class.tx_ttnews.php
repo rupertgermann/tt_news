@@ -151,8 +151,18 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 	private $listData;
 
+	public function __construct(DatabaseConnection $databaseConnection = null, TypoScriptFrontendController $frontendController = null)
+    {
+        //if search => disable cache hash check to avoid pageNotFoundOnCHashError, see \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::reqCHash
+        if(\TYPO3\CMS\Core\Utility\GeneralUtility::_GPmerged($this->prefixId)['swords'])
+        {
+            $this->pi_checkCHash = false;
+        }
 
-	/**
+        parent::__construct($databaseConnection, $frontendController);
+    }
+
+    /**
 	 * Main news function: calls the init_news() function and decides by the given CODEs which of the
 	 * functions to display news should by called.
 	 *
@@ -176,7 +186,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 
 		$this->conf = $conf; //store configuration
-
 
 		if ($this->conf['upstreamRendererFunc']) {
 			$this->useUpstreamRenderer = true;
@@ -550,6 +559,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$this->renderMarkers = array_unique($renderMarkers);
 
 				$content .= $this->cObj->substituteMarkerArray($searchSub, $searchMarkers);
+
 				unset($searchSub);
 				unset($searchMarkers);
 

@@ -1,7 +1,6 @@
 <T3DataStructure>
 	<meta>
 	<langDisable>1</langDisable>
-	<!--  <langChildren>1</langChildren>!-->
 		</meta>
 <sheets>
 	<sDEF>
@@ -68,9 +67,6 @@
 					<itemsProcFunc>tx_ttnews_itemsProcFunc->user_insertExtraCodes</itemsProcFunc>
 					<maxitems>1</maxitems>
 					<size>1</size>
-					
-					<!-- <multiple>0</multiple><selectedListStyle>width:150px</selectedListStyle>
-					<itemListStyle>width:150px</itemListStyle> -->
 				</config>
 			</TCEforms>
 		</what_to_display>
@@ -288,19 +284,6 @@
 						</link>
 					</wizards>
 				</config>
-<!-- pre-2.5.2 version
-				<label>LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.template_file</label>
-				<config>
-					<type>group</type>
-					<internal_type>file</internal_type>
-					<allowed>tmpl,html,htm</allowed>
-					<max_size>100</max_size>
-					<uploadfolder>uploads/tx_ttnews</uploadfolder>
-					<maxitems>1</maxitems>
-					<size>1</size>
-					<selectedListStyle>Width:180px</selectedListStyle>
-				</config>
--->
 			</TCEforms>
 		</template_file>
 		<imageMaxWidth>
@@ -619,18 +602,6 @@
 				</config>
 			</TCEforms>
 		</forceFirstImageIsPreview>
-	<!--  	<listStartId>
-				<TCEforms>
-				<label>LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.listStartId</label>
-				<config>
-					<type>input</type>
-					<eval>num</eval>
-					<checkbox></checkbox>
-					<size>3</size>
-				</config>
-				</TCEforms>
-			</listStartId> -->
-
 			<maxWordsInSingleView>
 				<TCEforms>
 				<label>LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.pi_flexform.maxWordsInSingleView</label>
