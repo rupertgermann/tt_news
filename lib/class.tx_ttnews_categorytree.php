@@ -93,8 +93,6 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 
         $storeKey = $this->handleCache();
 
-		$PMWrap = $this->expandable && ! $this->expandFirst;
-
 		// Traverse mounts:
 		foreach ($this->MOUNTS as $idx => $uid) {
 
@@ -110,7 +108,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 			// Set PM icon for root of mount:
 			$cmd = $this->bank . '_' . ($isOpen ? "0_" : "1_") . $uid . '_' . $this->treeName;
 
-			$icon = '<img' . \WMDB\TtNews\Utility\IconUtility::skinImg($this->backPath, 'gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
+			$icon = '<img' . \WMDB\TtNews\Utility\IconFactory::skinImg('gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
 			if ($this->expandable && ! $this->expandFirst) {
 				$firstHtml = $this->PMiconATagWrap($icon, $cmd);
 			} else {
@@ -466,7 +464,11 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 		}
 
 		$BTM = ($a == $c) ? 'bottom' : '';
-		$icon = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath, 'gfx/ol/' . $PM . $BTM . '.gif', 'width="18" height="16"') . ' alt="" />';
+        /**
+         * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
+         */
+        $iconFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
+		$icon = $iconFactory->getIcon('ttnews-gfx-ol-'.$PM.$BTM)->render();
 
 		if ($nextCount) {
 			$cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;

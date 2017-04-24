@@ -48,7 +48,6 @@ if ($L > 0) {
     GeneralUtility::_GETset(array('L' => $L));
 }
 
-
 $idAndTarget = rawurldecode(GeneralUtility::_GP('id'));
 $idParts = GeneralUtility::trimExplode(' ', $idAndTarget, 1);
 $id = intval($idParts[0]);
@@ -59,7 +58,6 @@ $GLOBALS['TSFE'] = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\T
 
 // don't cache ajax responses
 $GLOBALS['TSFE']->no_cache = true;
-
 $GLOBALS['TSFE']->connectToDB();
 $GLOBALS['TSFE']->initFEuser();
 $GLOBALS['TSFE']->determineId();
@@ -72,7 +70,6 @@ if ($L > 0) {
 
 // finding the script path from the variable
 $ajaxID = (string)GeneralUtility::_GP('ajaxID');
-
 
 require_once(ExtensionManagementUtility::extPath('tt_news') . 'pi/class.tx_ttnews.php');
 require_once(ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_helpers.php');
@@ -151,6 +148,10 @@ if (empty($ajaxID)) {
         $ajaxObj->setError('Registered backend function for ajaxID "' . $ajaxID . '" was not found.');
     } else {
         $ret = GeneralUtility::callUserFunction($ajaxScript, $ajaxParams, $ajaxObj, false, true);
+
+        if ($ret === false) {
+            $ajaxObj->setError('Registered backend function for ajaxID "' . $ajaxID . '" was not found.');
+        }
     }
 }
 

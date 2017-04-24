@@ -84,8 +84,9 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 			// Initialize:
 		$out = '';
 		$queryParts = $this->makeQueryArray($table, $id, $addWhere);
-		$this->setTotalItems($queryParts);
-		$this->eCounter = 0;
+		//TODO: Make use of $this->setTotalItems instead of this "plain" query!
+        $this->totalItems = $GLOBALS['TYPO3_DB']->exec_SELECTcountRows('*', $queryParts['FROM'], $queryParts['WHERE']);
+        $this->eCounter = 0;
 
 			// Make query for records if there were any records found in the count operation:
 		if ($this->totalItems)	{
@@ -135,7 +136,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
             if (!$noEdit)	{
                 $params = '&edit['.$table.']['.$row['uid'].']=edit';
                 $NrowIcon .= '<a href="#" onclick="'.htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl)).'">'.
-                                '<img'.\WMDB\TtNews\Utility\IconUtility::skinImg($this->backPath,'gfx/edit2.gif','width="11" height="12"').' title="'.$GLOBALS['LANG']->getLL('edit',1).'" alt="" />'.
+                                '<img'.\WMDB\TtNews\Utility\IconFactory::skinImg('gfx/edit2.gif','width="11" height="12"').' title="'.$GLOBALS['LANG']->getLL('edit',1).'" alt="" />'.
                                 '</a>';
             } else {
                 $NrowIcon .= $this->noEditIcon($noEdit);
@@ -326,7 +327,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 
             // Wrap in dimmed-span tags if record is "disabled"
             if ($this->isDisabled($table,$row))	{
-                $out[$fieldName] = $GLOBALS['TBE_TEMPLATE']->dfw($out[$fieldName]);
+                $out[$fieldName] = $out[$fieldName];
             }
         }
 
@@ -369,8 +370,13 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 		$params = '&edit['.$table.']['.$this->newRecPid.']=new'.$addP;
 		$onclick = htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,$this->backPath,$this->returnUrl));
 
+        /**
+         * @var IconFactory $iconFactory
+         */
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+
         return '<a href="#" onclick="'.$onclick.'">'.
-            \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon('actions-document-new').
+            $iconFactory->getIcon('actions-document-new')->render().
 			($withLabel?$GLOBALS['LANG']->getLL('createArticle'.$addLbl):'').
 			'</a>';
 	}
@@ -385,8 +391,13 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	 * @param	string		Record title (NOT USED)
 	 * @return	string		HTML for the icon
 	 */
-	function getIcon($table,$row,$noEdit)	{
-			// Initialization
+    function getIcon($table, $row, $noEdit = '')
+    {
+        // Initialization
+
+        /**
+         * @var IconFactory $iconFactory
+         */
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $iconImg = $iconFactory->getIconForRecord('tt_news', $row, Icon::SIZE_SMALL)->render();
 
@@ -397,8 +408,8 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 			$disableList = '+info,copy';
 		}
 
-			// The icon with link
-		return $GLOBALS['SOBE']->doc->wrapClickMenuOnIcon($iconImg,$table,$row['uid'],'','',$disableList);
+        // The icon with link
+		return \TYPO3\CMS\Backend\Utility\BackendUtility::wrapClickMenuOnIcon($iconImg,$table,$row['uid'],'','',$disableList);
     }
 
 	/**
@@ -444,7 +455,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 	 * @param	string		Label key from LOCAL_LANG
 	 * @return	string		IMG tag for icon.
 	 */
-	function noEditIcon($reason)	{
+	function noEditIcon($reason = 'noEditItems')	{
 		switch ($reason) {
 			case 1:
 				$label = $GLOBALS['LANG']->getLL('noEditPagePerms',1);
@@ -641,7 +652,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView {
 				$results[$row['uid']] = $row['uid'];
 			}
 
-			array_unique($results);
+            $results = array_unique($results);
 			foreach ($results as $uid) {
 				$currentCats = $this->getCategories($uid);
 				foreach ($currentCats as $cat) {
