@@ -1116,6 +1116,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
                 $this->MOD_MENU['language'][$lrow['uid']] = ($lrow['hidden'] ? '(' . $lrow['title'] . ')' : $lrow['title']);
             }
         }
+      
+        // add "all" language
+        $this->MOD_MENU['language'][-1] = $GLOBALS['LANG']->getLL('allLanguages');
 
         // Setting alternative default label:
         $dl = trim($this->TSprop['defaultLanguageLabel']);

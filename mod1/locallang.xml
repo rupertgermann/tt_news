@@ -26,8 +26,9 @@
 			
 			
 			<label index="defaultLangLabel">Default</label>
-			
-			
+
+			<label index="allLanguages">All languages</label>
+
 			<label index="allPages">all pages</label>
 			<label index="thisPage">this page</label>
 			<label index="oneLevel">this page and 1 level down</label>

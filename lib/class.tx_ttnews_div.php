@@ -57,15 +57,18 @@ class tx_ttnews_div {
 				}
 			}
 		}
+
 		if ($BE_USER->user['tt_news_categorymounts']) {
 			$cmounts[] = $BE_USER->user['tt_news_categorymounts'];
 		}
-		$categoryMounts = implode(',',$cmounts);
+
+		$categoryMounts = implode(',', array_unique($cmounts));
 
 		if ($withSub && $categoryMounts) {
 			$subcats = tx_ttnews_div::getSubCategories($categoryMounts);
 			$categoryMounts = implode(',', array_unique(explode(',', $categoryMounts.($subcats?','.$subcats:''))));
 		}
+
 		return $categoryMounts;
 	}
 
