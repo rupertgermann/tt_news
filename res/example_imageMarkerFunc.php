@@ -79,7 +79,7 @@ function user_imageMarkerFunc($paramArray,$conf){
 	$row = $pObj->local_cObj->data;
 
 	$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount']:1;
-	$imageNum = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($imageNum, 0, 100);
+	$imageNum = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($imageNum, 0, 100);
 	$theImgCode = '';
 	$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
 	$imgsCaptions = explode(chr(10), $row['imagecaption']);
@@ -103,7 +103,7 @@ function user_imageMarkerFunc($paramArray,$conf){
 					$lConf['image.']['altText'] .= $row[$lConf['imgAltTextField']];
 			}
 		}
-		$theImgCode .= $pObj->local_cObj->wrap($pObj->local_cObj->IMAGE($lConf['image.']).$pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']),$lConf['imageWrapIfAny_'.$cc]);
+        $theImgCode .= $pObj->local_cObj->wrap($pObj->local_cObj->cObjGetSingle('IMAGE', $lConf['image.']).$pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']),$lConf['imageWrapIfAny_'.$cc]);
 		$cc++;
 	}
 	$markerArray['###NEWS_IMAGE###'] = '';
@@ -164,7 +164,7 @@ function user_maskImages($paramArray,$conf){
 	$row = $pObj->local_cObj->data; // get current $row
 
 	$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount']:1;
-	$imageNum = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($imageNum, 0, 100);
+	$imageNum = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($imageNum, 0, 100);
 	$theImgCode = '';
 	$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
 	$imgsCaptions = explode(chr(10), $row['imagecaption']);
@@ -213,7 +213,7 @@ function user_maskImages($paramArray,$conf){
 
 		$lConf['image.']['file'] = $imgInfo[3]; // set the masked image as filename for the IMAGE object
 
-		$theImgCode .= $pObj->local_cObj->IMAGE($lConf['image.']).$pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
+            $theImgCode .= $pObj->local_cObj->cObjGetSingle('IMAGE', $lConf['image.']).$pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
 
 			// the next line can be used instead of the line above if you don't want to render the image trough a cObject
 			// $theImgCode.= '<img src="'. $imgInfo[3] .'" border="0">'.$pObj->local_cObj->stdWrap($imgsCaptions[$cc],$lConf['caption_stdWrap.']);

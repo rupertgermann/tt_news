@@ -25,6 +25,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+namespace WMDB\TtNews\Lib;
+
 /**
  * tt_news misc functions
  *
@@ -103,8 +105,8 @@ class tx_ttnews_div {
 			$sCatArr[] = $row['uid'].$subcats;
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($res);
-		$catlist = implode(',', $sCatArr);
-		return $catlist;
+
+		return implode(',', $sCatArr);
 	}
 
 	static public function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause) {
@@ -123,18 +125,12 @@ class tx_ttnews_div {
 		$where_clause .= $news_clause;
 		$where_clause .= $catclause;
 
-
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select_fields, $from_table, $where_clause);
-
 		$cRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
-
-
-//		debug($cRow, ' ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 3);
 
 		$GLOBALS['TYPO3_DB']->sql_free_result($res);
 
 		$result['sum'] += $cRow[0];
-//		$result[$cat] = $cRow[0];
 
 		// get subcategories
 		$select_fields = 'tt_news_cat.uid';
@@ -151,9 +147,6 @@ class tx_ttnews_div {
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			tx_ttnews_div::getNewsCountForSubcategory($result, $row['uid'], $news_clause,$catclause);
-
-//			debug($result, '$result cat: '.$row['uid'].' ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 3);
-
 		}
 
 		$GLOBALS['TYPO3_DB']->sql_free_result($res);
