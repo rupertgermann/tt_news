@@ -1,0 +1,63 @@
+{
+  "name": "rupertgermann/tt_news",
+  "type": "typo3-cms-extension",
+  "description": "Website news with front page teasers and article handling inside.",
+  "homepage": "https://typo3.org/extensions/repository/view/tt_news",
+  "keywords": [
+    "TYPO3",
+    "news",
+    "extension"
+  ],
+  "version": "8.7.0",
+  "license": "GNU General Public License version 2",
+  "authors": [
+    {
+      "name": "Rupert Germann",
+      "email": "rupi@gmx.li",
+      "role": "Lead"
+    },
+    {
+      "name": "Ben van 't Ende",
+      "email": "ben@vantende.net",
+      "role": "Member"
+    },
+    {
+      "name": "Dan Osipov",
+      "role": "Member"
+    },
+    {
+      "name": "Dmitry Dulepov",
+      "role": "Member"
+    },
+    {
+      "name": "Jakob Berlin",
+      "email": "jakob@ybals.de",
+      "role": "Member"
+    },
+    {
+      "name": "Oliver Hader",
+      "email": "oliver.hader@typo3.org",
+      "role": "Member"
+    }
+  ],
+  "require": {
+    "typo3/cms-core": "*"
+  },
+  "replace": {
+    "tt_news": "self.version",
+    "typo3-ter/tt_news": "self.version",
+    "typo3-ter/tt-news": "self.version",
+    "tt-news": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "WMDB\\TtNews\\": "Classes"
+    },
+    "classmap": [
+      "pi",
+      "lib",
+      "mod1",
+      "cm1"
+    ]
+  }
+}

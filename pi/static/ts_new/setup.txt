@@ -591,6 +591,9 @@ plugin.tt_news {
   # don't display empty periods in archive menu
   archiveMenuNoEmpty = 1
 
+  # fallback to new liste page when strict translation mode and no translation is available instead of showing no translation message
+  redirectNoTranslToList = 0
+
   # news with zero datetime will cause the amenu to search all periods starting from 1970. Disabling this is not recommanded.
   ignoreNewsWithoutDatetimeInAmenu = 1
 
