@@ -28,7 +28,6 @@ return Array(
         'versioning_followPages' => TRUE,
         'origUid' => 't3_origuid',
         'shadowColumnsForNewPlaceholders' => 'sys_language_uid,l18n_parent,starttime,endtime,fe_group',
-
         'dividers2tabs' => TRUE,
         'useColumnsForDefaultValues' => 'type',
         'transOrigPointerField' => 'l18n_parent',
@@ -108,7 +107,8 @@ return Array(
                     Array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.usergroups', '--div--')
                 ),
                 'exclusiveKeys' => '-1,-2',
-                'foreign_table' => 'fe_groups'
+                'foreign_table' => 'fe_groups',
+                'foreign_table_where' => 'ORDER BY fe_groups.title',
             )
         ),
         'title' => Array(
