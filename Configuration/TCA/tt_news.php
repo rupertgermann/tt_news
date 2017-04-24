@@ -346,7 +346,6 @@ return Array(
                 'maxitems' => 500,
                 'renderMode' => 'tree',
                 'treeConfig' => array(
-                    'expandAll' => true,
                     'dataProvider' => \WMDB\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
                     'parentField' => 'parent_category',
                     'appearance' => array(

@@ -109,7 +109,6 @@ return array (
                 'maxitems' => 1,
 				'renderType' => 'selectTree',
                 'treeConfig' => array(
-                    'expandAll' => true,
                     'parentField' => 'parent_category',
                     'dataProvider' => \WMDB\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
                     'appearance' => array(
