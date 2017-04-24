@@ -555,8 +555,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				// Add to content
 				$searchSub = $this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_SEARCH###'));
 
-				$renderMarkers = $this->getMarkers($searchSub);
-				$this->renderMarkers = array_unique($renderMarkers);
+                $this->renderMarkers = $this->getMarkers($searchSub);
 
 				$content .= $this->cObj->substituteMarkerArray($searchSub, $searchMarkers);
 
@@ -693,8 +692,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
             $t['item'] = $this->getLayouts($t['total'], $this->alternatingLayouts, 'NEWS');
 
             // Parse out markers in the templates to prevent unnecessary queries and code from executing
-            $renderMarkers = $this->getMarkers($t['total']);
-            $this->renderMarkers = array_unique($renderMarkers);
+            $this->renderMarkers = $this->getMarkers($t['total']);
 
             // build query for display:
             if ($selectConf['leftjoin'] || ($this->theCode == 'RELATED' && $this->relNewsUid)) {
@@ -756,7 +754,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
             $markerArray['###BROWSE_LINKS###'] = '';
 
             // get generic markers
-            $this->getGenericMarkers($markerArray, null);
+            $this->getGenericMarkers($markerArray);
 
             // render a pagebrowser if needed
             if ($newsCount > $this->config['limit'] && ! $this->config['noPageBrowser']) {
@@ -811,8 +809,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
             $t = array();
             $t['total'] = $this->getNewsSubpart($this->templateCode, $this->spMarker('###' . $templateName . '###'));
 
-            $renderMarkers = $this->getMarkers($t['total']);
-            $this->renderMarkers = array_unique($renderMarkers);
+            $this->renderMarkers = $this->getMarkers($t['total']);
 
             // Reset:
             $subpartArray = array();
@@ -1153,8 +1150,8 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				if (! $item) {
 					$item = $this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_' . $this->theCode . '###'), $row);
 				}
-				$renderMarkers = $this->getMarkers($item);
-				$this->renderMarkers = array_unique($renderMarkers);
+
+        $this->renderMarkers = $this->getMarkers($item);
 
 				// build the backToList link
 				if ($this->conf['useHRDates']) {
@@ -1336,8 +1333,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$t['total'] = $this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_ARCHIVE###'));
 			$t['item'] = $this->getLayouts($t['total'], $this->alternatingLayouts, 'MENUITEM');
 
-			$renderMarkers = $this->getMarkers($t['total']);
-			$this->renderMarkers = array_unique($renderMarkers);
+            $this->renderMarkers = $this->getMarkers($t['total']);
 
 			$tCount = count($t['item']);
 			$cc = 0;
@@ -1735,10 +1731,8 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$this->getXmlMarkers($markerArray, $row, $lConf);
 		}
 
-		$this->getGenericMarkers($markerArray, $row);
-
+		$this->getGenericMarkers($markerArray);
 		//		debug($markerArray, ' ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 3);
-
 
 		// Adds hook for processing of extra item markers
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemMarkerHook'])) {
@@ -1884,20 +1878,24 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		unset($confSave, $configSave, $local_cObjSave);
 	}
 
+    function getGenericMarkers(&$markerArray)
+    {
+        $lConf = $this->genericMarkerConf;
 
-	function getGenericMarkers(&$markerArray, $row) {
-		$lConf = $this->genericMarkerConf;
-		if (! is_array($lConf)) {
-			return;
-		} else {
-			while (list($mName) = each($lConf)) {
-				if (is_array($lConf[$mName . '.'])) {
-					$markerArray['###GENERIC_' . strtoupper($mName) . '###'] = $this->local_cObj->cObjGetSingle($lConf[$mName], $lConf[$mName . '.'], 'tt_news generic marker: ' . $mName);
-				}
-			}
-		}
-	}
+        if (!is_array($lConf)) {
+            return;
+        } else {
+            while (list($mName) = each($lConf)) {
+                $genericMarker = '###GENERIC_' . strtoupper($mName) . '###';
 
+                if (!is_array($lConf[$mName . '.']) || !$this->isRenderMarker($genericMarker)) {
+                    continue;
+                }
+
+                $markerArray[$genericMarker] = $this->local_cObj->cObjGetSingle($lConf[$mName], $lConf[$mName . '.'], 'tt_news generic marker: ' . $mName);
+            }
+        }
+    }
 
 	function initGenericMarkers() {
 		if (is_array($this->conf['genericmarkers.'])) {
@@ -1909,7 +1907,6 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 	}
-
 
 	/**
 	 * [Describe function...]
@@ -3842,17 +3839,17 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		return false;
 	}
 
+    /**
+     * @param $template
+     * @return mixed
+     */
+    function getMarkers($template)
+    {
+        $matches = array();
+        preg_match_all('/###(.+)###/Us', $template, $matches);
 
-	/**
-	 * @param $template
-	 * @return mixed
-	 */
-	function getMarkers($template) {
-		$matches = array();
-		preg_match_all('/###(.+)###/Us', $template, $matches);
-		return $matches[0];
-	}
-
+        return array_unique($matches[0]);
+    }
 
 	/**
 	 * converts the datetime of a record into variables you can use in realurl
