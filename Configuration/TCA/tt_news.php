@@ -351,7 +351,8 @@ return Array(
                     'parentField' => 'parent_category',
                     'appearance' => array(
                         'showHeader' => TRUE,
-                        'width' => 400
+                        'width' => 400,
+                        'maxLevels' => 99,
                     ),
                 )
             )

@@ -186,6 +186,7 @@
 						<appearance type="array">
 							<showHeader>1</showHeader>
 							<width>400</width>
+							<maxLevels>99</maxLevels>
 						</appearance>
 					</treeConfig>
 					<foreign_table_where>ORDER BY tt_news_cat.title</foreign_table_where>
