@@ -975,12 +975,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 				// Then get localization of record:
 			if ($this->tsfe->sys_language_content) {
-				// prevent link targets from being changed in localized records
-				$tmpPage = $row['page'];
-				$tmpExtURL = $row['ext_url'];
 				$row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->tsfe->sys_language_content, $this->tsfe->sys_language_contentOL, '');
-				$row['page'] = $tmpPage;
-				$row['ext_url'] = $tmpExtURL;
 			}
 
 				// Register displayed news item globally:
