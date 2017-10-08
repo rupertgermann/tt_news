@@ -110,7 +110,7 @@ return array (
 				'renderType' => 'selectTree',
                 'treeConfig' => array(
                     'parentField' => 'parent_category',
-                    'dataProvider' => \WMDB\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
+                    'dataProvider' => \RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
                     'appearance' => array(
                         'showHeader' => TRUE,
                         'width' => 400

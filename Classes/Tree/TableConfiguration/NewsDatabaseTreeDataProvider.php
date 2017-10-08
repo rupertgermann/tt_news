@@ -1,10 +1,10 @@
 <?php
-namespace WMDB\TtNews\Tree\TableConfiguration;
+namespace RG\TtNews\Tree\TableConfiguration;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 
-use WMDB\TtNews\Lib\tx_ttnews_div;
+use RG\TtNews\tx_ttnews_div;
 
 /**
  * TCA tree data provider

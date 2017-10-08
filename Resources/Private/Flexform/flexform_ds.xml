@@ -64,7 +64,7 @@
 						</numIndex>
 
 					</items>
-					<itemsProcFunc>tx_ttnews_itemsProcFunc->user_insertExtraCodes</itemsProcFunc>
+					<itemsProcFunc>RG\TtNews\ItemsProcFunc->user_insertExtraCodes</itemsProcFunc>
 					<maxitems>1</maxitems>
 					<size>1</size>
 				</config>

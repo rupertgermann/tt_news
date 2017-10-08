@@ -11,7 +11,6 @@ if (!defined('TYPO3_MODE')) {
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
-  includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
   plugin.tt_news = USER
   plugin.tt_news {
     userFunc = tx_ttnews->main_news
@@ -76,11 +75,6 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tt_news_
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('xEXT_tt_news', 'EXT:tt_news/csh/locallang_csh_manual.xml');
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('_MOD_web_txttnewsM1', 'EXT:tt_news/csh/locallang_csh_mod_newsadmin.xml');
 
-// adds processing for extra "codes" that have been added to the "what to display" selector in the content element by other extensions
-include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'lib/class.tx_ttnews_itemsProcFunc.php');
-// class that uses hooks in class.t3lib_tcemain.php (processDatamapClass and processCmdmapClass)
-// to prevent not allowed "commands" (copy,delete,...) for a certain BE usergroup
-include_once(TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'lib/class.tx_ttnews_tcemain.php');
 
 if (TYPO3_MODE == 'BE') {
     if ($confArr['showBackEndModule']) {
@@ -109,7 +103,7 @@ if (TYPO3_MODE == 'BE') {
     $TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'pi/class.tx_ttnews_wizicon.php';
 
     // Register all icons
-    \WMDB\TtNews\Utility\IconFactory::registerAllIconIdentifiers();
+//    RG\TtNews\Utility\IconFactory::registerAllIconIdentifiers();
 
     // register HTML template for the tt_news BackEnd Module
     $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'mod1/mod_ttnews_admin.html';

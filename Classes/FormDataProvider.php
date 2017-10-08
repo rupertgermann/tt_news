@@ -1,4 +1,5 @@
 <?php
+namespace RG\TtNews;
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -18,7 +19,7 @@
  * Fill the news records with default values
  * taken from the News extension by Georg Ringer
  */
-class tx_ttnews_record_init_new implements \TYPO3\CMS\Backend\Form\FormDataProviderInterface
+class FormDataProvider implements \TYPO3\CMS\Backend\Form\FormDataProviderInterface
 {
 
     /**

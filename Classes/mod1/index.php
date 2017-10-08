@@ -22,7 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use WMDB\TtNews\Utility\IconFactory;
+use RG\TtNews\Utility\IconFactory;
 
 /**
  * Module 'News Admin' for the 'tt_news' extension.
@@ -494,9 +494,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $this->treeObj->current_sys_language = $this->current_sys_language;
 
         // get selected categories from be user/group without subcategories
-        $tmpsc = \WMDB\TtNews\Lib\tx_ttnews_div::getBeUserCatMounts(FALSE);
+        $tmpsc = \RG\TtNews\Lib\tx_ttnews_div::getBeUserCatMounts(FALSE);
         $beUserSelCatArr = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $tmpsc);
-        $includeListArr = \WMDB\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
+        $includeListArr = \RG\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
         $subcatArr = array_diff($includeListArr, $beUserSelCatArr);
 
         /**
@@ -1139,8 +1139,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             $this->excludeCats = $this->posIntExplode($excludeList);
         }
 
-        $this->includeCats = \WMDB\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
-        $this->catlistWhere = \WMDB\TtNews\Lib\tx_ttnews_div::getCatlistWhere();
+        $this->includeCats = \RG\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
+        $this->catlistWhere = \RG\TtNews\Lib\tx_ttnews_div::getCatlistWhere();
     }
 
     function posIntExplode($list)
@@ -1165,7 +1165,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     function initSubCategories()
     {
         if ($this->useSubCategories && $this->category) {
-            $subcats = \WMDB\TtNews\Lib\tx_ttnews_div::getSubCategories($this->category);
+            $subcats = \RG\TtNews\Lib\tx_ttnews_div::getSubCategories($this->category);
             $this->selectedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::uniqueList($this->category . ($subcats ? ',' . $subcats : ''));
         } else {
             $this->selectedCategories = $this->category;

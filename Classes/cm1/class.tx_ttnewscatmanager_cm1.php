@@ -1,4 +1,5 @@
 <?php
+namespace RG\TtNews\cm1;
 /***************************************************************
  *  Copyright notice
  *

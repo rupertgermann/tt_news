@@ -51,13 +51,7 @@
   },
   "autoload": {
     "psr-4": {
-      "WMDB\\TtNews\\": "Classes"
-    },
-    "classmap": [
-      "pi",
-      "lib",
-      "mod1",
-      "cm1"
-    ]
+      "RG\\TtNews\\": "Classes/"
+    }
   }
 }

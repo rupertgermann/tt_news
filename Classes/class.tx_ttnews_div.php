@@ -25,7 +25,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-namespace WMDB\TtNews\Lib;
+namespace RG\TtNews;
 
 /**
  * tt_news misc functions

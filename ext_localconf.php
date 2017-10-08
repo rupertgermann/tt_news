@@ -14,11 +14,11 @@ if (!defined ("TYPO3_MODE")) 	{
 
 	// this hook is used to prevent saving of news or category records which have categories assigned that are not allowed for the current BE user.
 	// The list of allowed categories can be set with 'tt_news_cat.allowedItems' in user/group TSconfig.
-$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['tt_news'] = 'EXT:tt_news/lib/class.tx_ttnews_tcemain.php:tx_ttnews_tcemain';
+$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['tt_news'] = \RG\TtNews\DatahandlerHook::class;
 
 	// this hook is used to prevent saving of a news record that has non-allowed categories assigned when a command is executed (modify,copy,move,delete...).
 	// it checks if the record has an editlock. If true, nothing will not be saved.
-$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] = 'EXT:tt_news/lib/class.tx_ttnews_tcemain.php:tx_ttnews_tcemain_cmdmap';
+$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] = \RG\TtNews\DatahandlerHook::class;
 
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
@@ -64,7 +64,7 @@ if ($_COOKIE[$configuredCookieName]) {
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = 0;
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord']['tx_ttnews_record_init_new'] = array(
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\RG\TtNews\FormDataProvider::class] = array(
 	'depends' => array(
 		\TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew::class,
 	)

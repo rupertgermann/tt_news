@@ -1,4 +1,5 @@
 <?php
+namespace RG\TtNews;
 /***************************************************************
  *  Copyright notice
  *
@@ -32,25 +33,10 @@
  *
  * @author     Rupert Germann <rupi@gmx.li>
  */
-/**
- * [CLASS/FUNCTION INDEX of SCRIPT]
- *
- *
- *
- *   64: class tx_ttnews_tcemain
- *   73:     function getSubCategories($catlist, $cc = 0)
- *  105:     function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
- *
- *
- *  187: class tx_ttnews_tcemain_cmdmap
- *  201:     function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj)
- *  263:     function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj)
- *  310:     function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)
- *
- * TOTAL FUNCTIONS: 5
- * (This index is automatically created/updated by the extension "extdeveval")
- *
- */
+
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
+
 
 /**
  * Class being included by TCEmain using a hook
@@ -59,9 +45,11 @@
  * @package TYPO3
  * @subpackage tt_news
  */
-class tx_ttnews_tcemain {
+class DatahandlerHook {
+    protected $SPaddWhere;
+    protected $enableCatFields;
 
-	/**
+    /**
 	 * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a record is saved. We use it to disable saving of the current record if it has categories assigned that are not allowed for the BE user.
 	 *
 	 * @param	array		$fieldArray: The field names and their values to be processed (passed by reference)
@@ -78,14 +66,10 @@ class tx_ttnews_tcemain {
 		    // prevent moving of categories into their rootline
 			$newParent = intval($fieldArray['parent_category']);
 
-			if ($newParent && \TYPO3\CMS\Core\Utility\GeneralUtility::inList(\WMDB\TtNews\Lib\tx_ttnews_div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields), $newParent)) {
+			if ($newParent && \TYPO3\CMS\Core\Utility\GeneralUtility::inList(\RG\TtNews\tx_ttnews_div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields), $newParent)) {
                 $sourceRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $id, 'title');
                 $targetRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
 
-                /**
-                 * TODO: 19.05.2009
-                 * localize
-                 */
 
                 $messageString = "Attempt to move category '".$sourceRec['title']."' ($id) to inside of its own rootline (at category '".$targetRec['title']."' ($newParent)).";
 
@@ -134,7 +118,7 @@ class tx_ttnews_tcemain {
             $notAllowedItems = array();
 
             $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
-            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \WMDB\TtNews\Lib\tx_ttnews_div::getAllowedTreeIDs();
+            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \RG\TtNews\tx_ttnews_div::getAllowedTreeIDs();
 
             $wantedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $fieldArray['category']);
 
@@ -197,16 +181,9 @@ class tx_ttnews_tcemain {
         }
 	}
 
-}
 
-/**
- * Class being included by TCEmain using a hook
- *
- * @author	Rupert Germann <rupi@gmx.li>
- * @package TYPO3
- * @subpackage tt_news
- */
-class tx_ttnews_tcemain_cmdmap {
+
+
 
 	/**
 	 * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a command was executed (copy,move,delete...).
@@ -252,7 +229,7 @@ class tx_ttnews_tcemain_cmdmap {
             $notAllowedItems = array();
 
             $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
-            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \WMDB\TtNews\Lib\tx_ttnews_div::getAllowedTreeIDs();
+            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \RG\TtNews\tx_ttnews_div::getAllowedTreeIDs();
 
             foreach ($categories as $k) {
                 $categoryId = intval($k, 10);
@@ -280,16 +257,13 @@ class tx_ttnews_tcemain_cmdmap {
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$command: ...
-	 * @param	[type]		$table: ...
-	 * @param	[type]		$srcId: ...
-	 * @param	[type]		$destId: ...
-	 * @param	[type]		$pObj: ...
-	 * @return	[type]		...
-	 */
+    /**
+     * @param $command
+     * @param $table
+     * @param $srcId
+     * @param $destId
+     * @param DataHandler $pObj
+     */
 	function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj) {
 
 			// copy records recursively from Drag&Drop in the category manager
@@ -326,17 +300,16 @@ class tx_ttnews_tcemain_cmdmap {
 		}
 	}
 
-	/**
-	 * [Describe function...]
-	 *
-	 * @param	[type]		$CPtable: ...
-	 * @param	[type]		$srcId: ...
-	 * @param	[type]		$counter: ...
-	 * @param	[type]		$rootID: ...
-	 * @param	[type]		$table: ...
-	 * @param	[type]		$pObj: ...
-	 * @return	[type]		...
-	 */
+    /**
+     * @param $CPtable
+     * @param $srcId
+     * @param $counter
+     * @param $rootID
+     * @param $table
+     * @param DataHandler $pObj
+     *
+     * @return mixed
+     */
 	function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)	{
 		if (!$counter) {
             return $CPtable;

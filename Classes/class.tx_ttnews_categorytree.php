@@ -1,4 +1,5 @@
 <?php
+namespace RG\TtNews;
 /***************************************************************
  *  Copyright notice
  *
@@ -108,7 +109,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
 			// Set PM icon for root of mount:
 			$cmd = $this->bank . '_' . ($isOpen ? "0_" : "1_") . $uid . '_' . $this->treeName;
 
-			$icon = '<img' . \WMDB\TtNews\Utility\IconFactory::skinImg('gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
+			$icon = '<img' . \RG\TtNews\Utility\IconFactory::skinImg('gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
 			if ($this->expandable && ! $this->expandFirst) {
 				$firstHtml = $this->PMiconATagWrap($icon, $cmd);
 			} else {
@@ -213,7 +214,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
                 }
             }
 
-            \WMDB\TtNews\Lib\tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
+            \RG\TtNews\Lib\tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
             $sum = $result['sum'];
 
         }

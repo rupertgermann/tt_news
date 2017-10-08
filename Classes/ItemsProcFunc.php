@@ -1,4 +1,5 @@
 <?php
+namespace RG\TtNews;
 /***************************************************************
 *  Copyright notice
 *
@@ -54,7 +55,7 @@
   * @package TYPO3
   * @subpackage tt_news
   */
-class tx_ttnews_itemsProcFunc {
+class ItemsProcFunc {
 /**
  * insert 'codes', found in the ['what_to_display'] array to the selector in the BE.
  *

@@ -1,6 +1,6 @@
 <?php
 
-namespace WMDB\TtNews\Utility;
+namespace RG\TtNews\Utility;
 
 /*
  * wolo.pl '.' studio 2016
