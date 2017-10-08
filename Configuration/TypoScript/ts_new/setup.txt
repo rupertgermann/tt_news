@@ -6,8 +6,6 @@
 # tt_news v 3.0.0
 ###
 
-# Includes the newsLib:
-includeLibs.ts_news = EXT:tt_news/pi/class.tx_ttnews.php
 
 # Fix for TYPO3 4.6:
 tt_content.list.20.9 = CASE
@@ -791,9 +789,7 @@ plugin.tt_news {
   /********************************************************************************
    *    other settings:
    */
-
-  userFunc = tx_ttnews->main_news
-
+  
 
 
   # Example for overriding values from locallang.php with other values

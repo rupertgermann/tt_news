@@ -95,10 +95,10 @@ if (TYPO3_MODE == 'BE') {
     // register contextmenu for the tt_news category manager
 
     // Adds a tt_news wizard icon to the content element wizard.
-    $TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_ttnews_wizicon'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'pi/class.tx_ttnews_wizicon.php';
+    $TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses'][TtNewsWizicon::class] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Classes/Plugin/TtNewsWizicon.php';
 
     // Register all icons
-//    RG\TtNews\Utility\IconFactory::registerAllIconIdentifiers();
+    RG\TtNews\Utility\IconFactory::registerAllIconIdentifiers();
 
     // register HTML template for the tt_news BackEnd Module
     $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'mod1/mod_ttnews_admin.html';
