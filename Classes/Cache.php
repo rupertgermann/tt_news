@@ -40,11 +40,14 @@ namespace RG\TtNews;
  * @package	TYPO3
  * @subpackage
  */
-class tx_ttnews_cache {
+class Cache {
 
 
 	var $cachingEngine;
 
+    /**
+     * @var \memcache
+     */
 	var $tt_news_cache;
 	var $lifetime = 0;
 	var $ACCESS_TIME = 0;
@@ -75,7 +78,7 @@ class tx_ttnews_cache {
 	}
 
 	function initMemcached() {
-		$this->tt_news_cache = new Memcache;
+		$this->tt_news_cache = new \Memcache;
 		$this->tt_news_cache->connect('localhost', 11211);
 	}
 

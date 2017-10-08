@@ -36,7 +36,7 @@ namespace RG\TtNews;
  * @package TYPO3
  * @subpackage tt_news
  */
-class tx_ttnews_div {
+class Div {
 
 
 	/**
@@ -65,7 +65,7 @@ class tx_ttnews_div {
 		$categoryMounts = implode(',', array_unique($cmounts));
 
 		if ($withSub && $categoryMounts) {
-			$subcats = tx_ttnews_div::getSubCategories($categoryMounts);
+			$subcats = self::getSubCategories($categoryMounts);
 			$categoryMounts = implode(',', array_unique(explode(',', $categoryMounts.($subcats?','.$subcats:''))));
 		}
 
@@ -100,7 +100,7 @@ class tx_ttnews_div {
 				$GLOBALS['TT']->setTSlogMessage('tt_news: one or more recursive categories where found');
 				return implode(',', $sCatArr);
 			}
-			$subcats = tx_ttnews_div::getSubCategories($row['uid'],$addWhere, $cc);
+			$subcats = self::getSubCategories($row['uid'],$addWhere, $cc);
 			$subcats = $subcats ? ',' . $subcats : '';
 			$sCatArr[] = $row['uid'].$subcats;
 		}
@@ -146,7 +146,7 @@ class tx_ttnews_div {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select_fields, $from_table, $where_clause);
 
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			tx_ttnews_div::getNewsCountForSubcategory($result, $row['uid'], $news_clause,$catclause);
+			self::getNewsCountForSubcategory($result, $row['uid'], $news_clause,$catclause);
 		}
 
 		$GLOBALS['TYPO3_DB']->sql_free_result($res);
@@ -161,7 +161,7 @@ class tx_ttnews_div {
 	 */
 	static public function getAllowedTreeIDs() {
 
-		$catlistWhere = tx_ttnews_div::getCatlistWhere();
+		$catlistWhere = self::getCatlistWhere();
 		$treeIDs = array();
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_news_cat', '1=1' . $catlistWhere . ' AND deleted=0');
 		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
@@ -181,7 +181,7 @@ class tx_ttnews_div {
 		if (!$GLOBALS['BE_USER']->isAdmin()) {
 			// get include/exclude items
 			$excludeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.excludeList');
-			$includeCatArray = tx_ttnews_div::getIncludeCatArray();
+			$includeCatArray = self::getIncludeCatArray();
 
 			if ($excludeList) {
 				$catlistWhere .= ' AND tt_news_cat.uid NOT IN ('.implode(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',$excludeList),',').')';
@@ -201,7 +201,7 @@ class tx_ttnews_div {
 	 */
 	static public function getIncludeCatArray() {
 		$includeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.includeList');
-		$catmounts = tx_ttnews_div::getBeUserCatMounts();
+		$catmounts = self::getBeUserCatMounts();
 		if ($catmounts) {
 			$includeList = $catmounts;
 		}

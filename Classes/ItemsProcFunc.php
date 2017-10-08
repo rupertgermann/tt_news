@@ -34,18 +34,6 @@ namespace RG\TtNews;
  * @author	Mathias Bolt Lesniak <mathias@lilio.com>
  * @author Rupert Germann <rupi@gmx.li>
  */
-/**
- * [CLASS/FUNCTION INDEX of SCRIPT]
- *
- *
- *
- *   57: class tx_ttnews_itemsProcFunc
- *   64:     function user_insertExtraCodes($config)
- *
- * TOTAL FUNCTIONS: 1
- * (This index is automatically created/updated by the extension "extdeveval")
- *
- */
 
  /**
   * 'itemsProcFunc' for the 'tt_news' extension.

@@ -36,12 +36,12 @@ namespace RG\TtNews;
  * @subpackage tt_news
  */
 
-require_once (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_div.php');
+require_once (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_div.php');
 /**
  * extend class t3lib_treeview to change function wrapTitle().
  *
  */
-class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
+class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
 
 	var $categoryCountCache = array();
 	var $cacheHit = false;
@@ -214,7 +214,7 @@ class tx_ttnews_categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeVi
                 }
             }
 
-            \RG\TtNews\Lib\tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
+            \RG\TtNews\tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
             $sum = $result['sum'];
 
         }

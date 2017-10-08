@@ -13,13 +13,14 @@ namespace RG\TtNews;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 
 
 /**
  * Fill the news records with default values
  * taken from the News extension by Georg Ringer
  */
-class FormDataProvider implements \TYPO3\CMS\Backend\Form\FormDataProviderInterface
+class FormDataProvider implements FormDataProviderInterface
 {
 
     /**

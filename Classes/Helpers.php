@@ -26,6 +26,8 @@ namespace RG\TtNews;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use RG\TtNews\Plugin\TtNews;
+
 /**
  * tt_news helper functions
  *
@@ -35,10 +37,10 @@ namespace RG\TtNews;
  * @package TYPO3
  * @subpackage tt_news
  */
-class tx_ttnews_helpers {
+class Helpers {
 
 	/**
-	 * @var \tx_ttnews
+	 * @var TtNews
 	 */
 	var $pObj;
 
@@ -161,9 +163,9 @@ class tx_ttnews_helpers {
 	 * divides the bodytext field of a news single view to pages and returns the part of the bodytext
 	 * that is choosen by piVars[$pointerName]
 	 *
-	 * @param	string		the text with 'pageBreakTokens' in it
-	 * @param	array		config array for the single view
-	 * @return	string		the current bodytext part wrapped with stdWrap
+	 * @param	string	$bodytext	the text with 'pageBreakTokens' in it
+	 * @param	array	$lConf	config array for the single view
+	 * @return	array		the current bodytext part wrapped with stdWrap
 	 */
 	function makeMultiPageSView($bodytext, $lConf) {
 		$pointerName = $this->pObj->config['singleViewPointerName'];
@@ -433,7 +435,7 @@ class tx_ttnews_helpers {
 	function getCurrentVersion() {
 		$_EXTKEY = $this->pObj->extKey;
 		// require_once fails if the plugin is executed multiple times
-		require (TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY, 'ext_emconf.php'));
+		require (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY, 'ext_emconf.php'));
 		return isset($EM_CONF[$_EXTKEY]['version']) ? $EM_CONF[$_EXTKEY]['version'] : null;
 	}
 

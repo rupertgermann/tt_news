@@ -29,21 +29,6 @@
  *
 * @author Rupert Germann <rupi@gmx.li>
  */
-/**
- * [CLASS/FUNCTION INDEX of SCRIPT]
- *
- *
- *
- *   55: class tx_ttnews_wizicon
- *   63:     function proc($wizardItems)
- *   83:     function includeLocalLang()
- *
- * TOTAL FUNCTIONS: 2
- * (This index is automatically created/updated by the extension "extdeveval")
- *
- */
-
-
 
 
 
@@ -52,7 +37,7 @@
  *
  * @author Rupert Germann <rupi@gmx.li>
  */
-class tx_ttnews_wizicon {
+class TtNewsWizicon {
 
 	/**
 	 * Adds the newloginbox wizard icon

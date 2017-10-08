@@ -10,15 +10,7 @@ if (!defined('TYPO3_MODE')) {
 // get extension configuration
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
-  plugin.tt_news = USER
-  plugin.tt_news {
-    userFunc = tx_ttnews->main_news
 
-    # validate some configuration values and display a message if errors have been found
-    enableConfigValidation = 1
-  }
-');
 
 // allow news and news-category records on normal pages
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_news_cat');

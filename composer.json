@@ -1,5 +1,5 @@
 {
-  "name": "rupertgermann/tt_news",
+  "name": "rupertgermann/tt-news",
   "type": "typo3-cms-extension",
   "description": "Website news with front page teasers and article handling inside.",
   "homepage": "https://typo3.org/extensions/repository/view/tt_news",
@@ -51,7 +51,7 @@
   },
   "autoload": {
     "psr-4": {
-      "RG\\TtNews\\": "Classes/"
+      "RG\\TtNews\\": "Classes"
     }
   }
 }

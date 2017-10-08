@@ -34,8 +34,12 @@ namespace RG\TtNews;
  * @author     Rupert Germann <rupi@gmx.li>
  */
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
@@ -66,19 +70,19 @@ class DatahandlerHook {
 		    // prevent moving of categories into their rootline
 			$newParent = intval($fieldArray['parent_category']);
 
-			if ($newParent && \TYPO3\CMS\Core\Utility\GeneralUtility::inList(\RG\TtNews\tx_ttnews_div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields), $newParent)) {
-                $sourceRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $id, 'title');
-                $targetRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
+			if ($newParent && GeneralUtility::inList(Div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields), $newParent)) {
+                $sourceRec = BackendUtility::getRecord($table, $id, 'title');
+                $targetRec = BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
 
 
                 $messageString = "Attempt to move category '".$sourceRec['title']."' ($id) to inside of its own rootline (at category '".$targetRec['title']."' ($newParent)).";
 
                 $pObj->log($table, $id, 2, 0, 1, "processDatamap: $messageString", 1);
 
-                $message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+                $message = GeneralUtility::makeInstance(FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     TRUE // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );
                 $this->enqueueFlashMessage($message);
@@ -93,7 +97,7 @@ class DatahandlerHook {
 
 				// copy "type" field in localized records
 			if (!is_int($id) && $fieldArray['l18n_parent']) { // record is a new localization
-				$rec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $fieldArray['l18n_parent'], 'type'); // get "type" from parent record
+				$rec = BackendUtility::getRecord($table, $fieldArray['l18n_parent'], 'type'); // get "type" from parent record
 				$fieldArray['type'] = $rec['type']; // set type of current record
 			}
 
@@ -118,9 +122,9 @@ class DatahandlerHook {
             $notAllowedItems = array();
 
             $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
-            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \RG\TtNews\tx_ttnews_div::getAllowedTreeIDs();
+            $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
-            $wantedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $fieldArray['category']);
+            $wantedCategories = GeneralUtility::intExplode(',', $fieldArray['category']);
 
             foreach (array_unique(array_merge($categories, $wantedCategories)) as $k) {
                 $categoryId = intval($k, 10);
@@ -137,10 +141,10 @@ class DatahandlerHook {
                 // unset fieldArray to prevent saving of the record
                 $fieldArray = array();
 
-                $message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+                $message = GeneralUtility::makeInstance(FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     TRUE // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );
 
@@ -151,8 +155,8 @@ class DatahandlerHook {
 
 	protected function enqueueFlashMessage($message)
     {
-        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-        $flashMessageService = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Messaging\FlashMessageService::class);
+        /** @var $flashMessageService FlashMessageService */
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         /** @var $defaultFlashMessageQueue FlashMessageQueue */
         $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
         $defaultFlashMessageQueue->enqueue($message);
@@ -171,7 +175,7 @@ class DatahandlerHook {
         if (isset($GLOBALS['_POST']['_savedokview_x']) && !$fieldArray['type'] && !$GLOBALS['BE_USER']->workspace) {
                 // if "savedokview" has been pressed and current article has "type" 0 (= normal news article)
                 // and the beUser works in the LIVE workspace open current record in single view
-            $pagesTSC = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
+            $pagesTSC = BackendUtility::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
 
             if ($pagesTSC['tx_ttnews.']['singlePid']) {
                 $GLOBALS['_POST']['popViewId_addParams'] = ($fieldArray['sys_language_uid'] > 0 ?
@@ -200,7 +204,7 @@ class DatahandlerHook {
 	function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj) {
 
 		if ($table == 'tt_news' && !$GLOBALS['BE_USER']->isAdmin()) {
-			$rec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
+			$rec = BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
 			if ($rec['editlock']) {
 				$pObj->log($table, $id, 2, 0, 1, "processCmdmap [editlock]: Attempt to " . $command . " a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).", 1, array($table));
                 // unset table to prevent saving
@@ -219,7 +223,7 @@ class DatahandlerHook {
                     'tt_news',
                     'tt_news_cat_mm',
                     'tt_news_cat',
-                ' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields('tt_news_cat'));
+                ' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . BackendUtility::BEenableFields('tt_news_cat'));
             $categories = array();
             while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
                 $categories[] = $row['uid'];
@@ -229,7 +233,7 @@ class DatahandlerHook {
             $notAllowedItems = array();
 
             $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
-            $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : \RG\TtNews\tx_ttnews_div::getAllowedTreeIDs();
+            $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
             foreach ($categories as $k) {
                 $categoryId = intval($k, 10);
@@ -243,10 +247,10 @@ class DatahandlerHook {
 
                 $pObj->log($table, $id, 2, 0, 1, "processCmdmap: $messageString", 1);
 
-                $message = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+                $message = GeneralUtility::makeInstance(FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    \TYPO3\CMS\Core\Messaging\FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     TRUE // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );
 
@@ -268,7 +272,7 @@ class DatahandlerHook {
 
 			// copy records recursively from Drag&Drop in the category manager
 		if ($table == 'tt_news_cat' && $command == 'DDcopy') {
-			$srcRec = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordWSOL('tt_news_cat', $srcId);
+			$srcRec = BackendUtility::getRecordWSOL('tt_news_cat', $srcId);
 			$overrideValues = array('parent_category' => $destId, 'hidden' => 1);
 			$newRecID = $pObj->copyRecord($table, $srcId, $srcRec['pid'], 1, $overrideValues);
 			$CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $newRecID, $table, $pObj);

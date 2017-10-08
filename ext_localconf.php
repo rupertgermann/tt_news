@@ -21,12 +21,27 @@ $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['pro
 $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] = \RG\TtNews\DatahandlerHook::class;
 
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
+  plugin.tt_news = USER
+  plugin.tt_news {
+    userFunc = ' . \RG\TtNews\Plugin\TtNews::class . '->main_news
+
+    # validate some configuration values and display a message if errors have been found
+    enableConfigValidation = 1
+  }
+');
+
+// add default rendering for pi_layout plugin
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+    'tt_news',
+    'setup',
+    'tt_content.list.20.9 =< plugin.tt_news',
+    'defaultContentRendering'
+);
 
 // Page module hook
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['9']['tt_news'] = 'EXT:tt_news/lib/class.tx_ttnews_cms_layout.php:tx_ttnews_cms_layout->getExtensionSummary';
 
-// Fix for template file name created with older versions
-$TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_ttnews_templateeval'] = 'EXT:tt_news/lib/class.tx_ttnews_templateeval.php';
 
 // register Ajax scripts
 $TYPO3_CONF_VARS['FE']['eID_include']['tt_news'] = 'EXT:tt_news/pi/fe_index.php';
@@ -64,8 +79,8 @@ if ($_COOKIE[$configuredCookieName]) {
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = 0;
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\RG\TtNews\FormDataProvider::class] = array(
-	'depends' => array(
-		\TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew::class,
-	)
-);
+//$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\RG\TtNews\FormDataProvider::class] = array(
+//	'depends' => array(
+//		\TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew::class,
+//	)
+//);
