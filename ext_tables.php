@@ -11,7 +11,6 @@ if (!defined('TYPO3_MODE')) {
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
 
-
 // allow news and news-category records on normal pages
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_news_cat');
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_news');
@@ -62,10 +61,14 @@ mod.web_txttnewsM1 {
 ');
 
 // initalize "context sensitive help" (csh)
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tt_news', 'EXT:tt_news/csh/locallang_csh_ttnews.php');
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tt_news_cat', 'EXT:tt_news/csh/locallang_csh_ttnewscat.php');
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('xEXT_tt_news', 'EXT:tt_news/csh/locallang_csh_manual.xml');
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('_MOD_web_txttnewsM1', 'EXT:tt_news/csh/locallang_csh_mod_newsadmin.xml');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tt_news',
+    'EXT:tt_news/csh/locallang_csh_ttnews.php');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tt_news_cat',
+    'EXT:tt_news/csh/locallang_csh_ttnewscat.php');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('xEXT_tt_news',
+    'EXT:tt_news/csh/locallang_csh_manual.xml');
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('_MOD_web_txttnewsM1',
+    'EXT:tt_news/csh/locallang_csh_mod_newsadmin.xml');
 
 
 if (TYPO3_MODE == 'BE') {
@@ -87,7 +90,7 @@ if (TYPO3_MODE == 'BE') {
     }
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['icon'] = TRUE;
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['icon'] = true;
 
     // register contextmenu for the tt_news category manager
 

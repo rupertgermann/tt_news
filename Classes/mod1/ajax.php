@@ -27,8 +27,8 @@
 /**
  * AJAX dispatcher
  *
- * @author  Rupert Germann <rupi@gmx.li>
- * @author    Benjamin Mack <mack@xnos.org>
+ * @author     Rupert Germann <rupi@gmx.li>
+ * @author     Benjamin Mack <mack@xnos.org>
  * @package    TYPO3
  *
  * $Id$

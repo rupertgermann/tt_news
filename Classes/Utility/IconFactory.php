@@ -14,10 +14,12 @@ class IconFactory extends \TYPO3\CMS\Core\Imaging\IconFactory
 {
 
     /**
-     * @param string $backPath Current backpath to PATH_typo3 folder
-     * @param string $src Icon file name relative to PATH_typo3 folder
-     * @param string $wHattribs Default width/height, defined like 'width="12" height="14"'
-     * @param int $outputMode Mode: 0 (zero) is default and returns src/width/height. 1 returns value of src+backpath, 2 returns value of w/h.
+     * @param string $backPath   Current backpath to PATH_typo3 folder
+     * @param string $src        Icon file name relative to PATH_typo3 folder
+     * @param string $wHattribs  Default width/height, defined like 'width="12" height="14"'
+     * @param int    $outputMode Mode: 0 (zero) is default and returns src/width/height. 1 returns value of
+     *                           src+backpath, 2 returns value of w/h.
+     *
      * @return string Returns ' src="[backPath][src]" [wHattribs]'
      * @see skinImgFile()
      */

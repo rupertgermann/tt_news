@@ -1,5 +1,7 @@
 <?php
+
 namespace RG\TtNews;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -45,74 +47,82 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Class being included by TCEmain using a hook
  *
- * @author	Rupert Germann <rupi@gmx.li>
- * @package TYPO3
+ * @author     Rupert Germann <rupi@gmx.li>
+ * @package    TYPO3
  * @subpackage tt_news
  */
-class DatahandlerHook {
+class DatahandlerHook
+{
     protected $SPaddWhere;
     protected $enableCatFields;
 
     /**
-	 * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a record is saved. We use it to disable saving of the current record if it has categories assigned that are not allowed for the BE user.
-	 *
-	 * @param	array		$fieldArray: The field names and their values to be processed (passed by reference)
-	 * @param	string		$table: The table TCEmain is currently processing
-	 * @param	string		$id: The records id (if any)
-	 * @param	object		$pObj: Reference to the parent object (TCEmain)
-	 * @return	void
-	 * @access public
-	 */
-	function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj) {
+     * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a record is saved. We use it to disable
+     * saving of the current record if it has categories assigned that are not allowed for the BE user.
+     *
+     * @param    array  $fieldArray : The field names and their values to be processed (passed by reference)
+     * @param    string $table      : The table TCEmain is currently processing
+     * @param    string $id         : The records id (if any)
+     * @param    object $pObj       : Reference to the parent object (TCEmain)
+     *
+     * @return    void
+     * @access public
+     */
+    function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
+    {
 
 
-		if ($table == 'tt_news_cat' && is_int($id)) {
-		    // prevent moving of categories into their rootline
-			$newParent = intval($fieldArray['parent_category']);
+        if ($table == 'tt_news_cat' && is_int($id)) {
+            // prevent moving of categories into their rootline
+            $newParent = intval($fieldArray['parent_category']);
 
-			if ($newParent && GeneralUtility::inList(Div::getSubCategories($id, $this->SPaddWhere . $this->enableCatFields), $newParent)) {
+            if ($newParent && GeneralUtility::inList(Div::getSubCategories($id,
+                    $this->SPaddWhere . $this->enableCatFields), $newParent)) {
                 $sourceRec = BackendUtility::getRecord($table, $id, 'title');
                 $targetRec = BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
 
 
-                $messageString = "Attempt to move category '".$sourceRec['title']."' ($id) to inside of its own rootline (at category '".$targetRec['title']."' ($newParent)).";
+                $messageString = "Attempt to move category '" . $sourceRec['title'] . "' ($id) to inside of its own rootline (at category '" . $targetRec['title'] . "' ($newParent)).";
 
                 $pObj->log($table, $id, 2, 0, 1, "processDatamap: $messageString", 1);
 
                 $message = GeneralUtility::makeInstance(FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
-                    TRUE // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
+                    FlashMessage::ERROR,
+                    // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );
                 $this->enqueueFlashMessage($message);
 
                 // unset fieldArray to prevent saving of the record
                 $fieldArray = array();
+
                 return;
-			}
-		}
+            }
+        }
 
-		if ($table == 'tt_news') {
+        if ($table == 'tt_news') {
 
-				// copy "type" field in localized records
-			if (!is_int($id) && $fieldArray['l18n_parent']) { // record is a new localization
-				$rec = BackendUtility::getRecord($table, $fieldArray['l18n_parent'], 'type'); // get "type" from parent record
-				$fieldArray['type'] = $rec['type']; // set type of current record
-			}
+            // copy "type" field in localized records
+            if (!is_int($id) && $fieldArray['l18n_parent']) { // record is a new localization
+                $rec = BackendUtility::getRecord($table, $fieldArray['l18n_parent'],
+                    'type'); // get "type" from parent record
+                $fieldArray['type'] = $rec['type']; // set type of current record
+            }
 
-			// check permissions of assigned categories
-			if (!is_int($id) || $GLOBALS['BE_USER']->isAdmin()) {
+            // check permissions of assigned categories
+            if (!is_int($id) || $GLOBALS['BE_USER']->isAdmin()) {
                 return;
-			}
+            }
 
             $categories = array();
             $recID = (($fieldArray['l18n_parent'] > 0) ? $fieldArray['l18n_parent'] : $id);
-                // get categories from the tt_news record in db
+            // get categories from the tt_news record in db
             $cRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-                    'uid_foreign',
-                    'tt_news_cat_mm, tt_news_cat',
-                    'uid_foreign=uid AND deleted=0 AND uid_local=' . $recID);
+                'uid_foreign',
+                'tt_news_cat_mm, tt_news_cat',
+                'uid_foreign=uid AND deleted=0 AND uid_local=' . $recID);
 
             while (($cRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($cRes))) {
                 $categories[] = $cRow['uid_foreign'];
@@ -134,7 +144,7 @@ class DatahandlerHook {
             }
 
             if ($notAllowedItems[0]) {
-                $messageString = 'Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems).').';
+                $messageString = 'Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems) . ').';
 
                 $pObj->log($table, $id, 2, 0, 1, "processDatamap: $messageString", 1);
 
@@ -144,16 +154,17 @@ class DatahandlerHook {
                 $message = GeneralUtility::makeInstance(FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
-                    TRUE // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
+                    FlashMessage::ERROR,
+                    // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );
 
                 $this->enqueueFlashMessage($message);
             }
-		}
-	}
+        }
+    }
 
-	protected function enqueueFlashMessage($message)
+    protected function enqueueFlashMessage($message)
     {
         /** @var $flashMessageService FlashMessageService */
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
@@ -162,8 +173,9 @@ class DatahandlerHook {
         $defaultFlashMessageQueue->enqueue($message);
     }
 
-	function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj) {
-		if ($table != 'tt_news') {
+    function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj)
+    {
+        if ($table != 'tt_news') {
             return;
         }
 
@@ -173,56 +185,58 @@ class DatahandlerHook {
         }
 
         if (isset($GLOBALS['_POST']['_savedokview_x']) && !$fieldArray['type'] && !$GLOBALS['BE_USER']->workspace) {
-                // if "savedokview" has been pressed and current article has "type" 0 (= normal news article)
-                // and the beUser works in the LIVE workspace open current record in single view
+            // if "savedokview" has been pressed and current article has "type" 0 (= normal news article)
+            // and the beUser works in the LIVE workspace open current record in single view
             $pagesTSC = BackendUtility::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
 
             if ($pagesTSC['tx_ttnews.']['singlePid']) {
                 $GLOBALS['_POST']['popViewId_addParams'] = ($fieldArray['sys_language_uid'] > 0 ?
-                    '&L=' . $fieldArray['sys_language_uid'] : '') . '&no_cache=1&tx_ttnews[tt_news]=' . $id;
+                        '&L=' . $fieldArray['sys_language_uid'] : '') . '&no_cache=1&tx_ttnews[tt_news]=' . $id;
                 $GLOBALS['_POST']['popViewId'] = $pagesTSC['tx_ttnews.']['singlePid'];
             }
         }
-	}
+    }
 
 
+    /**
+     * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a command was executed
+     * (copy,move,delete...). For tt_news it is used to disable saving of the current record if it has an editlock or
+     * if it has categories assigned that are not allowed for the current BE user.
+     *
+     * @param    string $command : The TCEmain command, fx. 'delete'
+     * @param    string $table   : The table TCEmain is currently processing
+     * @param    string $id      : The records id (if any)
+     * @param    array  $value   : The new value of the field which has been changed
+     * @param    object $pObj    : Reference to the parent object (TCEmain)
+     *
+     * @return    void
+     * @access public
+     */
+    function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj)
+    {
 
-
-
-	/**
-	 * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a command was executed (copy,move,delete...).
-	 * For tt_news it is used to disable saving of the current record if it has an editlock or if it has categories assigned that are not allowed for the current BE user.
-	 *
-	 * @param	string		$command: The TCEmain command, fx. 'delete'
-	 * @param	string		$table: The table TCEmain is currently processing
-	 * @param	string		$id: The records id (if any)
-	 * @param	array		$value: The new value of the field which has been changed
-	 * @param	object		$pObj: Reference to the parent object (TCEmain)
-	 * @return	void
-	 * @access public
-	 */
-	function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj) {
-
-		if ($table == 'tt_news' && !$GLOBALS['BE_USER']->isAdmin()) {
-			$rec = BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
-			if ($rec['editlock']) {
-				$pObj->log($table, $id, 2, 0, 1, "processCmdmap [editlock]: Attempt to " . $command . " a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).", 1, array($table));
+        if ($table == 'tt_news' && !$GLOBALS['BE_USER']->isAdmin()) {
+            $rec = BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
+            if ($rec['editlock']) {
+                $pObj->log($table, $id, 2, 0, 1,
+                    "processCmdmap [editlock]: Attempt to " . $command . " a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).",
+                    1, array($table));
                 // unset table to prevent saving
-				$table = '';
+                $table = '';
 
-				return;
-			}
+                return;
+            }
 
-			if (!is_int($id)) {
+            if (!is_int($id)) {
                 return;
             }
 
             // get categories from the (untranslated) record in db
             $res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query(
-                    'tt_news_cat.uid',
-                    'tt_news',
-                    'tt_news_cat_mm',
-                    'tt_news_cat',
+                'tt_news_cat.uid',
+                'tt_news',
+                'tt_news_cat_mm',
+                'tt_news_cat',
                 ' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . BackendUtility::BEenableFields('tt_news_cat'));
             $categories = array();
             while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
@@ -243,84 +257,88 @@ class DatahandlerHook {
             }
 
             if ($notAllowedItems[0]) {
-                $messageString = 'Attempt to '.$command.' a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems).').';
+                $messageString = 'Attempt to ' . $command . ' a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems) . ').';
 
                 $pObj->log($table, $id, 2, 0, 1, "processCmdmap: $messageString", 1);
 
                 $message = GeneralUtility::makeInstance(FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    FlashMessage::ERROR, // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
-                    TRUE // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
+                    FlashMessage::ERROR,
+                    // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );
 
                 $this->enqueueFlashMessage($message);
 
                 $table = ''; // unset table to prevent saving
             }
-		}
-	}
+        }
+    }
 
     /**
-     * @param $command
-     * @param $table
-     * @param $srcId
-     * @param $destId
+     * @param             $command
+     * @param             $table
+     * @param             $srcId
+     * @param             $destId
      * @param DataHandler $pObj
      */
-	function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj) {
+    function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj)
+    {
 
-			// copy records recursively from Drag&Drop in the category manager
-		if ($table == 'tt_news_cat' && $command == 'DDcopy') {
-			$srcRec = BackendUtility::getRecordWSOL('tt_news_cat', $srcId);
-			$overrideValues = array('parent_category' => $destId, 'hidden' => 1);
-			$newRecID = $pObj->copyRecord($table, $srcId, $srcRec['pid'], 1, $overrideValues);
-			$CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $newRecID, $table, $pObj);
+        // copy records recursively from Drag&Drop in the category manager
+        if ($table == 'tt_news_cat' && $command == 'DDcopy') {
+            $srcRec = BackendUtility::getRecordWSOL('tt_news_cat', $srcId);
+            $overrideValues = array('parent_category' => $destId, 'hidden' => 1);
+            $newRecID = $pObj->copyRecord($table, $srcId, $srcRec['pid'], 1, $overrideValues);
+            $CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $newRecID, $table, $pObj);
 
-			foreach ($CPtable as $recUid => $recParent) {
-				$newParent = $pObj->copyMappingArray[$table][$recParent];
-				if (isset($newParent))	{
-					$overrideValues = array('parent_category' => $newParent, 'hidden' => 1);
-					$pObj->copyRecord($table, $recUid, $srcRec['pid'], 1, $overrideValues);
-				} else {
-					$pObj->log($table, $srcId, 5, 0, 1, 'Something went wrong during copying branch');
-					break;
-				}
-			}
-		}
-			// delete records recursively from Context Menu in the category manager
-		if ($table == 'tt_news_cat' && $command == 'DDdelete') {
-			$pObj->deleteRecord($table, $srcId, FALSE);
-			$CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $srcId, $table, $pObj);
+            foreach ($CPtable as $recUid => $recParent) {
+                $newParent = $pObj->copyMappingArray[$table][$recParent];
+                if (isset($newParent)) {
+                    $overrideValues = array('parent_category' => $newParent, 'hidden' => 1);
+                    $pObj->copyRecord($table, $recUid, $srcRec['pid'], 1, $overrideValues);
+                } else {
+                    $pObj->log($table, $srcId, 5, 0, 1, 'Something went wrong during copying branch');
+                    break;
+                }
+            }
+        }
+        // delete records recursively from Context Menu in the category manager
+        if ($table == 'tt_news_cat' && $command == 'DDdelete') {
+            $pObj->deleteRecord($table, $srcId, false);
+            $CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $srcId, $table, $pObj);
 
-			foreach ($CPtable as $recUid => $p) {
-				if (isset($recUid))	{
-					$pObj->deleteRecord($table, $recUid, FALSE);
-				} else {
-					$pObj->log($table, $recUid, 5, 0, 1, 'Something went wrong during deleting branch');
-					break;
-				}
-			}
-		}
-	}
+            foreach ($CPtable as $recUid => $p) {
+                if (isset($recUid)) {
+                    $pObj->deleteRecord($table, $recUid, false);
+                } else {
+                    $pObj->log($table, $recUid, 5, 0, 1, 'Something went wrong during deleting branch');
+                    break;
+                }
+            }
+        }
+    }
 
     /**
-     * @param $CPtable
-     * @param $srcId
-     * @param $counter
-     * @param $rootID
-     * @param $table
+     * @param             $CPtable
+     * @param             $srcId
+     * @param             $counter
+     * @param             $rootID
+     * @param             $table
      * @param DataHandler $pObj
      *
      * @return mixed
      */
-	function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)	{
-		if (!$counter) {
+    function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)
+    {
+        if (!$counter) {
             return $CPtable;
-		}
+        }
 
         $addW = !$pObj->admin ? ' AND ' . $pObj->BE_USER->getPagePermsClause($pObj->pMap['show']) : '';
-        $mres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', $table, 'parent_category=' . intval($srcId) . $pObj->deleteClause($table) . $addW, '', '');
+        $mres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', $table,
+            'parent_category=' . intval($srcId) . $pObj->deleteClause($table) . $addW, '', '');
 
         while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($mres))) {
             if ($row['uid'] == $rootID) {
@@ -335,8 +353,8 @@ class DatahandlerHook {
 
         $GLOBALS['TYPO3_DB']->sql_free_result($mres);
 
-		return $CPtable;
-	}
+        return $CPtable;
+    }
 
 }
 

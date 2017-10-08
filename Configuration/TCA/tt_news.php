@@ -24,11 +24,11 @@ return Array(
         'label_alt_force' => $confArr['label_alt_force'],
         'default_sortby' => 'ORDER BY datetime DESC',
         'prependAtCopy' => $confArr['prependAtCopy'] ? 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.prependAtCopy' : '',
-        'versioningWS' => TRUE,
-        'versioning_followPages' => TRUE,
+        'versioningWS' => true,
+        'versioning_followPages' => true,
         'origUid' => 't3_origuid',
         'shadowColumnsForNewPlaceholders' => 'sys_language_uid,l18n_parent,starttime,endtime,fe_group',
-        'dividers2tabs' => TRUE,
+        'dividers2tabs' => true,
         'useColumnsForDefaultValues' => 'type',
         'transOrigPointerField' => 'l18n_parent',
         'transOrigDiffSourceField' => 'l18n_diffsource',
@@ -52,7 +52,8 @@ return Array(
         ),
         'thumbnail' => 'image',
         'iconfile' => 'EXT:tt_news/ext_icon.gif',
-        'searchFields' => 'uid,title,short,bodytext'),
+        'searchFields' => 'uid,title,short,bodytext'
+    ),
     'interface' => Array(
         'showRecordFieldList' => 'title,hidden,datetime,starttime,archivedate,category,author,author_email,short,image,imagecaption,links,related,news_files'
     ),
@@ -349,7 +350,7 @@ return Array(
                     'dataProvider' => \RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
                     'parentField' => 'parent_category',
                     'appearance' => array(
-                        'showHeader' => TRUE,
+                        'showHeader' => true,
                         'width' => 400,
                         'maxLevels' => 99,
                     ),
@@ -421,7 +422,8 @@ return Array(
         ),
         'l18n_diffsource' => Array(
             'config' => array(
-                'type' => 'passthrough')
+                'type' => 'passthrough'
+            )
         ),
         't3ver_label' => Array(
             'displayCond' => 'FIELD:t3ver_label:REQ:true',
@@ -467,32 +469,38 @@ return Array(
         ),
     ),
     'types' => Array(
-        '0' => Array('showitem' =>
-            'hidden, type,title,short,bodytext,
+        '0' => Array(
+            'showitem' =>
+                'hidden, type,title,short,bodytext,
             --div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, datetime,archivedate,--palette--;;author,keywords,--palette--;;language,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.media, image,--palette--;;imagetexts,links,news_files,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.catAndRels, category,related,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.extended,
-			'),
+			'
+        ),
 
-        '1' => Array('showitem' =>
-            'hidden, type,title,page,short,
+        '1' => Array(
+            'showitem' =>
+                'hidden, type,title,page,short,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, datetime,archivedate,--palette--;;author,keywords,--palette--;;language,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.media, image,--palette--;;imagetexts,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.categories, category,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.extended,
-			'),
+			'
+        ),
 
-        '2' => Array('showitem' =>
-            'hidden, type,title,ext_url,short,
+        '2' => Array(
+            'showitem' =>
+                'hidden, type,title,ext_url,short,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, datetime,archivedate,--palette--;;author,keywords,--palette--;;language,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.media, image,--palette--;;imagetexts,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.categories, category,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.extended,
-			')
+			'
+        )
     ),
     'palettes' => Array(
         '2' => Array('showitem' => 'no_auto_pb'),

@@ -18,7 +18,7 @@ return [
             'expandAll' => true,
             'parentField' => 'parent_category',
             'appearance' => [
-                'showHeader' => TRUE,
+                'showHeader' => true,
                 'width' => 400
             ]
         ]

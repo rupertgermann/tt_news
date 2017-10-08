@@ -24,13 +24,14 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * script which receives ajax calls from tt_news
  *
- * @author Rupert Germann <rg@rgdata.de>
+ * @author  Rupert Germann <rg@rgdata.de>
  * Copyright (c) 2009
  *
  * @version $Id$

@@ -1,5 +1,7 @@
 <?php
+
 namespace RG\TtNews;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -31,42 +33,53 @@ namespace RG\TtNews;
  *
  * $Id$
  *
- * @author	Rupert Germann <rupi@gmx.li>
- * @package TYPO3
+ * @author     Rupert Germann <rupi@gmx.li>
+ * @package    TYPO3
  * @subpackage tt_news
  */
 
-require_once (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_div.php');
+require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_div.php');
+
 /**
  * extend class t3lib_treeview to change function wrapTitle().
  *
  */
-class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
+class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
+{
 
-	var $categoryCountCache = array();
-	var $cacheHit = false;
+    var $categoryCountCache = array();
+    var $cacheHit = false;
 
-	var $expandable;
+    var $expandable;
 
-    protected function handleCache() {
+    protected function handleCache()
+    {
         $storeKey = '';
 
         if ($this->tt_news_obj->cache_categoryCount) {
-            $storeKey = md5(serialize(array($this->stored,$this->MOUNTS,
-                $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause)));
+            $storeKey = md5(serialize(array(
+                $this->stored,
+                $this->MOUNTS,
+                $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause
+            )));
 
             $tmpCCC = $this->tt_news_obj->cache->get($storeKey);
             if ($tmpCCC) {
-                if ($this->tt_news_obj->writeCachingInfoToDevlog>1) {
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', - 1, array());
+                if ($this->tt_news_obj->writeCachingInfoToDevlog > 1) {
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                        'tt_news', -1, array());
                 }
 
                 $this->categoryCountCache = unserialize($tmpCCC);
-                $this->cacheHit = TRUE;
+                $this->cacheHit = true;
             } else {
                 if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array($this->stored,$this->MOUNTS,
-                        $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause));
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                        'tt_news', 2, array(
+                            $this->stored,
+                            $this->MOUNTS,
+                            $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause
+                        ));
                 }
             }
 
@@ -75,92 +88,99 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
         return $storeKey;
     }
 
-	/**
-	 * Will create and return the HTML code for a browsable tree
-	 * Is based on the mounts found in the internal array ->MOUNTS (set in the constructor)
-	 *
-	 * @param	[type]		$groupByPages: ...
-	 * @return	string		HTML code for the browsable tree
-	 */
-	function getBrowsableTree($groupByPages = false) {
+    /**
+     * Will create and return the HTML code for a browsable tree
+     * Is based on the mounts found in the internal array ->MOUNTS (set in the constructor)
+     *
+     * @param    [type]        $groupByPages: ...
+     *
+     * @return    string        HTML code for the browsable tree
+     */
+    function getBrowsableTree($groupByPages = false)
+    {
 
-		// Get stored tree structure AND updating it if needed according to incoming PM GET var.
-		$this->initializePositionSaving();
+        // Get stored tree structure AND updating it if needed according to incoming PM GET var.
+        $this->initializePositionSaving();
 
-		// Init done:
-		$treeArr = array();
-		$tmpClause = $this->clause;
-		$savedTable = $this->table;
+        // Init done:
+        $treeArr = array();
+        $tmpClause = $this->clause;
+        $savedTable = $this->table;
 
         $storeKey = $this->handleCache();
 
-		// Traverse mounts:
-		foreach ($this->MOUNTS as $idx => $uid) {
+        // Traverse mounts:
+        foreach ($this->MOUNTS as $idx => $uid) {
 
-			// Set first:
-			$this->bank = $idx;
-			$isOpen = $this->stored[$idx][$uid] || $this->expandFirst;
+            // Set first:
+            $this->bank = $idx;
+            $isOpen = $this->stored[$idx][$uid] || $this->expandFirst;
 
-			// Save ids while resetting everything else.
-			$curIds = $this->ids;
-			$this->reset();
-			$this->ids = $curIds;
+            // Save ids while resetting everything else.
+            $curIds = $this->ids;
+            $this->reset();
+            $this->ids = $curIds;
 
-			// Set PM icon for root of mount:
-			$cmd = $this->bank . '_' . ($isOpen ? "0_" : "1_") . $uid . '_' . $this->treeName;
+            // Set PM icon for root of mount:
+            $cmd = $this->bank . '_' . ($isOpen ? "0_" : "1_") . $uid . '_' . $this->treeName;
 
-			$icon = '<img' . \RG\TtNews\Utility\IconFactory::skinImg('gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
-			if ($this->expandable && ! $this->expandFirst) {
-				$firstHtml = $this->PMiconATagWrap($icon, $cmd);
-			} else {
-				$firstHtml = $icon;
-			}
+            $icon = '<img' . \RG\TtNews\Utility\IconFactory::skinImg('gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
+            if ($this->expandable && !$this->expandFirst) {
+                $firstHtml = $this->PMiconATagWrap($icon, $cmd);
+            } else {
+                $firstHtml = $icon;
+            }
 
-			$this->addStyle = '';
+            $this->addStyle = '';
 
-			// Preparing rootRec for the mount
-			if ($groupByPages) {
-				$this->table = 'pages';
-			}
+            // Preparing rootRec for the mount
+            if ($groupByPages) {
+                $this->table = 'pages';
+            }
 
-			if ($uid) {
-				$rootRec = $this->getRecord($uid);
-				if (is_array($rootRec)) {
-					$firstHtml .= $this->getIcon($rootRec);
-				}
-			} else {
+            if ($uid) {
+                $rootRec = $this->getRecord($uid);
+                if (is_array($rootRec)) {
+                    $firstHtml .= $this->getIcon($rootRec);
+                }
+            } else {
 
-				if ($this->storagePid > 0 && $this->useStoragePid) {
-					// root = page record of current GRSP
-					$this->table = 'pages';
-					$rootRec = $this->getRecord($this->storagePid);
-					$firstHtml .= $this->getIcon($rootRec);
-					$rootRec['uid'] = 0;
-				} else {
-					// Artificial record for the tree root, id=0
-					$rootRec = $this->getRootRecord($uid);
-					$firstHtml .= $this->getRootIcon($rootRec);
-				}
-			}
+                if ($this->storagePid > 0 && $this->useStoragePid) {
+                    // root = page record of current GRSP
+                    $this->table = 'pages';
+                    $rootRec = $this->getRecord($this->storagePid);
+                    $firstHtml .= $this->getIcon($rootRec);
+                    $rootRec['uid'] = 0;
+                } else {
+                    // Artificial record for the tree root, id=0
+                    $rootRec = $this->getRootRecord($uid);
+                    $firstHtml .= $this->getRootIcon($rootRec);
+                }
+            }
 
-			if ($groupByPages) {
-				$this->clause = $tmpClause . ' AND tt_news_cat.pid=' . $uid;
-				$rootRec['uid'] = 0;
-			}
+            if ($groupByPages) {
+                $this->clause = $tmpClause . ' AND tt_news_cat.pid=' . $uid;
+                $rootRec['uid'] = 0;
+            }
 
-			// restore $this->table
-			$this->table = $savedTable;
+            // restore $this->table
+            $this->table = $savedTable;
 
-			if (!is_array($rootRec)) {
+            if (!is_array($rootRec)) {
                 continue;
-			}
+            }
 
             // In case it was swapped inside getRecord due to workspaces.
             $uid = $rootRec['uid'];
 
             // Add the root of the mount to ->tree
-            $this->tree[] = array('HTML' => $firstHtml, 'row' => $rootRec, 'bank' => $this->bank, 'hasSub' => true,
-                    'invertedDepth' => 1000);
+            $this->tree[] = array(
+                'HTML' => $firstHtml,
+                'row' => $rootRec,
+                'bank' => $this->bank,
+                'hasSub' => true,
+                'invertedDepth' => 1000
+            );
 
             // If the mount is expanded, go down:
             if ($isOpen) {
@@ -172,35 +192,38 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
             }
             // Add tree:
             $treeArr = array_merge($treeArr, $this->tree);
-		}
+        }
 
-		if ($this->tt_news_obj->cache_categoryCount && count($this->categoryCountCache) && !$this->cacheHit) {
-			$this->tt_news_obj->cache->set($storeKey,serialize($this->categoryCountCache),'categoryCounts');
-		}
+        if ($this->tt_news_obj->cache_categoryCount && count($this->categoryCountCache) && !$this->cacheHit) {
+            $this->tt_news_obj->cache->set($storeKey, serialize($this->categoryCountCache), 'categoryCounts');
+        }
 
-		return $this->printTree($treeArr);
-	}
+        return $this->printTree($treeArr);
+    }
 
 
-	function getNewsCountForCategory($catID) {
-		$sum = false;
+    function getNewsCountForCategory($catID)
+    {
+        $sum = false;
 
-		if (isset($this->categoryCountCache[$catID])) {
-			$sum = $this->categoryCountCache[$catID];
-		}
+        if (isset($this->categoryCountCache[$catID])) {
+            $sum = $this->categoryCountCache[$catID];
+        }
 
-		if ($sum !== false) {
-			return sum;
-		}
+        if ($sum !== false) {
+            return sum;
+        }
 
         if ($this->tt_news_obj->cache_categoryCount) {
-            $hash = \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause), 30);
+            $hash = \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause),
+                30);
             $sum = $this->tt_news_obj->cache->get($hash);
         }
 
         if ($sum === false) {
             if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-                \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')', 'tt_news', 2, array());
+                \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                    'tt_news', 2, array());
             }
 
             $result = array();
@@ -218,100 +241,112 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
             $sum = $result['sum'];
 
         }
-        $this->categoryCountCache[$catID] = (int) $sum;
+        $this->categoryCountCache[$catID] = (int)$sum;
         if ($this->tt_news_obj->cache_categoryCount) {
-            $this->tt_news_obj->cache->set($hash, (string)$sum,'categoryCounts');
+            $this->tt_news_obj->cache->set($hash, (string)$sum, 'categoryCounts');
         }
 
-		return $sum;
-	}
+        return $sum;
+    }
 
 
-	/**
-	 * Fetches the data for the tree
-	 *
-	 * @param	integer		item id for which to select subitems (parent id)
-	 * @param	integer		Max depth (recursivity limit)
-	 * @param	string		? (internal)
-	 * @param	[type]		$subCSSclass: ...
-	 * @return	integer		The count of items on the level
-	 */
-	protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '', $subCSSclass = '') {
-		// Buffer for id hierarchy is reset:
-		$this->buffer_idH = array();
+    /**
+     * Fetches the data for the tree
+     *
+     * @param    integer        item id for which to select subitems (parent id)
+     * @param    integer        Max depth (recursivity limit)
+     * @param    string         ? (internal)
+     * @param    [type]        $subCSSclass: ...
+     *
+     * @return    integer        The count of items on the level
+     */
+    protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '', $subCSSclass = '')
+    {
+        // Buffer for id hierarchy is reset:
+        $this->buffer_idH = array();
 
-		// Init vars
-		$depth = intval($depth);
-		$HTML = '';
-		$a = 0;
+        // Init vars
+        $depth = intval($depth);
+        $HTML = '';
+        $a = 0;
 
-		$res = $this->getDataInit($uid, $subCSSclass);
-		$c = $this->getDataCount($res);
-		$crazyRecursionLimiter = 999;
-		$allRows = array();
-		while ($crazyRecursionLimiter > 0 && $row = $this->getDataNext($res, $subCSSclass)) {
-			if ($this->getCatNewsCount) {
-				$row['newsCount'] = $this->getNewsCountForCategory($row['uid']);
-			}
+        $res = $this->getDataInit($uid, $subCSSclass);
+        $c = $this->getDataCount($res);
+        $crazyRecursionLimiter = 999;
+        $allRows = array();
+        while ($crazyRecursionLimiter > 0 && $row = $this->getDataNext($res, $subCSSclass)) {
+            if ($this->getCatNewsCount) {
+                $row['newsCount'] = $this->getNewsCountForCategory($row['uid']);
+            }
 
-			$crazyRecursionLimiter--;
-			$allRows[] = $row;
-		}
+            $crazyRecursionLimiter--;
+            $allRows[] = $row;
+        }
 
-		// Traverse the records:
-		foreach ($allRows as $row) {
-			$a++;
+        // Traverse the records:
+        foreach ($allRows as $row) {
+            $a++;
 
-			$newID = $row['uid'];
-			$this->tree[] = array(); // Reserve space.
-			end($this->tree);
-			$treeKey = key($this->tree); // Get the key for this space
-			$LN = ($a == $c) ? 'blank' : 'line';
+            $newID = $row['uid'];
+            $this->tree[] = array(); // Reserve space.
+            end($this->tree);
+            $treeKey = key($this->tree); // Get the key for this space
+            $LN = ($a == $c) ? 'blank' : 'line';
 
-			// If records should be accumulated, do so
-			if ($this->setRecs) {
-				$this->recs[$row['uid']] = $row;
-			}
+            // If records should be accumulated, do so
+            if ($this->setRecs) {
+                $this->recs[$row['uid']] = $row;
+            }
 
-			// Accumulate the id of the element in the internal arrays
-			$this->ids[] = $idH[$row['uid']]['uid'] = $row['uid'];
-			$this->ids_hierarchy[$depth][] = $row['uid'];
+            // Accumulate the id of the element in the internal arrays
+            $this->ids[] = $idH[$row['uid']]['uid'] = $row['uid'];
+            $this->ids_hierarchy[$depth][] = $row['uid'];
 
-			// Make a recursive call to the next level
-			if ($depth > 1 && $this->expandNext($newID)) {
-				$nextCount = $this->getNewsCategoryTree($newID, $depth - 1, $blankLineCode . ',' . $LN, $row['_SUBCSSCLASS']);
-				if (count($this->buffer_idH)) {
-					$idH[$row['uid']]['subrow'] = $this->buffer_idH;
-				}
-				$exp = 1; // Set "did expand" flag
-			} else {
-				$nextCount = $this->getCount($newID);
-				$exp = 0; // Clear "did expand" flag
-			}
+            // Make a recursive call to the next level
+            if ($depth > 1 && $this->expandNext($newID)) {
+                $nextCount = $this->getNewsCategoryTree($newID, $depth - 1, $blankLineCode . ',' . $LN,
+                    $row['_SUBCSSCLASS']);
+                if (count($this->buffer_idH)) {
+                    $idH[$row['uid']]['subrow'] = $this->buffer_idH;
+                }
+                $exp = 1; // Set "did expand" flag
+            } else {
+                $nextCount = $this->getCount($newID);
+                $exp = 0; // Clear "did expand" flag
+            }
 
-			// Set HTML-icons, if any:
-			if ($this->makeHTML) {
-				$HTML = '';
-				$HTML .= $this->PMicon($row, $a, $c, $nextCount, $exp);
-				$HTML .= $this->wrapStop($this->getIcon($row), $row);
-			}
+            // Set HTML-icons, if any:
+            if ($this->makeHTML) {
+                $HTML = '';
+                $HTML .= $this->PMicon($row, $a, $c, $nextCount, $exp);
+                $HTML .= $this->wrapStop($this->getIcon($row), $row);
+            }
 
-			// Finally, add the row/HTML content to the ->tree array in the reserved key.
-			$this->tree[$treeKey] = array('row' => $row, 'HTML' => $HTML, 'hasSub' => $nextCount && $this->expandNext($newID),
-					'isFirst' => $a == 1, 'isLast' => false, 'invertedDepth' => $depth, 'blankLineCode' => $blankLineCode, 'bank' => $this->bank);
-		}
+            // Finally, add the row/HTML content to the ->tree array in the reserved key.
+            $this->tree[$treeKey] = array(
+                'row' => $row,
+                'HTML' => $HTML,
+                'hasSub' => $nextCount && $this->expandNext($newID),
+                'isFirst' => $a == 1,
+                'isLast' => false,
+                'invertedDepth' => $depth,
+                'blankLineCode' => $blankLineCode,
+                'bank' => $this->bank
+            );
+        }
 
-		if ($a) {
-			$this->tree[$treeKey]['isLast'] = true;
-		}
+        if ($a) {
+            $this->tree[$treeKey]['isLast'] = true;
+        }
 
-		$this->getDataFree($res);
-		$this->buffer_idH = $idH;
+        $this->getDataFree($res);
+        $this->buffer_idH = $idH;
 
-		return $c;
-	}
+        return $c;
+    }
 
-	protected function addItem(&$itemHTML, $v, $classAttr, $uid, $idAttr, $titleLen) {
+    protected function addItem(&$itemHTML, $v, $classAttr, $uid, $idAttr, $titleLen)
+    {
         // add CSS classes to the list item
         if ($v['hasSub']) {
             $classAttr .= ($classAttr ? ' ' : '') . 'expanded';
@@ -324,17 +359,19 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
         }
 
         $itemHTML .= '
-				<li id="' . $idAttr . '"' . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr($v['row'], $titleLen), $v['row'], $v['bank']) . "\n";
+				<li id="' . $idAttr . '"' . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr($v['row'],
+                $titleLen), $v['row'], $v['bank']) . "\n";
 
-        if (! $v['hasSub']) {
+        if (!$v['hasSub']) {
             $itemHTML .= '</li>';
         }
     }
 
-    protected function closeTree(&$itemHTML, $v, $doCollapse, $doExpand, $expandedPageUid, $uid, &$closeDepth) {
+    protected function closeTree(&$itemHTML, $v, $doCollapse, $doExpand, $expandedPageUid, $uid, &$closeDepth)
+    {
         // if this is the last one and does not have subitems, we need to close
         // the tree as long as the upper levels have last items too
-        if ($v['isLast'] && ! $v['hasSub'] && ! $doCollapse && ! ($doExpand && $expandedPageUid == $uid)) {
+        if ($v['isLast'] && !$v['hasSub'] && !$doCollapse && !($doExpand && $expandedPageUid == $uid)) {
             for ($i = $v['invertedDepth']; $closeDepth[$i] == 1; $i++) {
                 $closeDepth[$i] = 0;
                 $itemHTML .= '</ul></li>';
@@ -342,7 +379,14 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
         }
     }
 
-    protected function evaluateAJAXRequest(&$doExpand, &$expandedPageUid, &$collapsedPageUid, &$doCollapse, &$ajaxOutput, &$invertedDepthOfAjaxRequestedItem) {
+    protected function evaluateAJAXRequest(
+        &$doExpand,
+        &$expandedPageUid,
+        &$collapsedPageUid,
+        &$doCollapse,
+        &$ajaxOutput,
+        &$invertedDepthOfAjaxRequestedItem
+    ) {
         // IE takes anchor as parameter
         $PM = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('PM');
 
@@ -365,13 +409,15 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
         }
     }
 
-	/**
-	 * Compiles the HTML code for displaying the structure found inside the ->tree array
-	 *
-	 * @param	array		"tree-array" - if blank string, the internal ->tree array is used.
-	 * @return	string		The HTML code for the tree
-	 */
-	function printTree($treeArr = '') {
+    /**
+     * Compiles the HTML code for displaying the structure found inside the ->tree array
+     *
+     * @param    array "tree-array" - if blank string, the internal ->tree array is used.
+     *
+     * @return    string        The HTML code for the tree
+     */
+    function printTree($treeArr = '')
+    {
         $doExpand = false;
         $expandedPageUid = 0;
         $collapsedPageUid = 0;
@@ -379,124 +425,135 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView {
         $ajaxOutput = '';
         $invertedDepthOfAjaxRequestedItem = 0;
 
-        if (! is_array($treeArr)) {
-			$treeArr = $this->tree;
-		}
+        if (!is_array($treeArr)) {
+            $treeArr = $this->tree;
+        }
 
-		$out = '
+        $out = '
 			<!-- TYPO3 tree structure. -->
 			<ul class="tree" id="treeRoot">
 		';
 
-        $this->evaluateAJAXRequest($doExpand, $expandedPageUid, $collapsedPageUid, $doCollapse, $ajaxOutput, $invertedDepthOfAjaxRequestedItem);
+        $this->evaluateAJAXRequest($doExpand, $expandedPageUid, $collapsedPageUid, $doCollapse, $ajaxOutput,
+            $invertedDepthOfAjaxRequestedItem);
 
-		// we need to count the opened <ul>'s every time we dig into another level,
-		// so we know how many we have to close when all children are done rendering
-		$closeDepth = array();
+        // we need to count the opened <ul>'s every time we dig into another level,
+        // so we know how many we have to close when all children are done rendering
+        $closeDepth = array();
 
-		foreach ($treeArr as $v) {
-			$uid = $v['row']['uid'];
-			$itemHTML = '';
+        foreach ($treeArr as $v) {
+            $uid = $v['row']['uid'];
+            $itemHTML = '';
 
-			// if this item is the start of a new level,
-			// then a new level <ul> is needed, but not in ajax mode
-			if ($v['isFirst'] && ! ($doCollapse) && ! ($doExpand && $expandedPageUid == $uid)) {
-				$itemHTML = '<ul>';
-			}
+            // if this item is the start of a new level,
+            // then a new level <ul> is needed, but not in ajax mode
+            if ($v['isFirst'] && !($doCollapse) && !($doExpand && $expandedPageUid == $uid)) {
+                $itemHTML = '<ul>';
+            }
 
-			$this->addItem($itemHTML, $v, $v['row']['_CSSCLASS'], $uid, htmlspecialchars($this->domIdPrefix . $this->getId($v['row']) . '_' . $v['bank']), $this->titleLen);
+            $this->addItem($itemHTML, $v, $v['row']['_CSSCLASS'], $uid,
+                htmlspecialchars($this->domIdPrefix . $this->getId($v['row']) . '_' . $v['bank']), $this->titleLen);
 
-			// we have to remember if this is the last one
-			// on level X so the last child on level X+1 closes the <ul>-tag
-			if ($v['isLast'] && ! ($doExpand && $expandedPageUid == $uid)) {
-				$closeDepth[$v['invertedDepth']] = 1;
-			}
+            // we have to remember if this is the last one
+            // on level X so the last child on level X+1 closes the <ul>-tag
+            if ($v['isLast'] && !($doExpand && $expandedPageUid == $uid)) {
+                $closeDepth[$v['invertedDepth']] = 1;
+            }
 
-			$this->closeTree($itemHTML, $v, $doCollapse, $doExpand, $expandedPageUid, $uid, $closeDepth);
+            $this->closeTree($itemHTML, $v, $doCollapse, $doExpand, $expandedPageUid, $uid, $closeDepth);
 
-			// ajax request: collapse
-			if ($doCollapse && $collapsedPageUid == $uid) {
-				$this->ajaxStatus = true;
-				return $itemHTML;
-			}
+            // ajax request: collapse
+            if ($doCollapse && $collapsedPageUid == $uid) {
+                $this->ajaxStatus = true;
 
-			// ajax request: expand
-			if ($doExpand && $expandedPageUid == $uid) {
-				$ajaxOutput .= $itemHTML;
-				$invertedDepthOfAjaxRequestedItem = $v['invertedDepth'];
-			} elseif ($invertedDepthOfAjaxRequestedItem) {
-				if ($v['invertedDepth'] < $invertedDepthOfAjaxRequestedItem) {
-					$ajaxOutput .= $itemHTML;
-				} else {
-					$this->ajaxStatus = true;
-					return $ajaxOutput;
-				}
-			}
-			$out .= $itemHTML;
-		}
+                return $itemHTML;
+            }
 
-		if ($ajaxOutput) {
-			$this->ajaxStatus = true;
-			return $ajaxOutput;
-		}
+            // ajax request: expand
+            if ($doExpand && $expandedPageUid == $uid) {
+                $ajaxOutput .= $itemHTML;
+                $invertedDepthOfAjaxRequestedItem = $v['invertedDepth'];
+            } elseif ($invertedDepthOfAjaxRequestedItem) {
+                if ($v['invertedDepth'] < $invertedDepthOfAjaxRequestedItem) {
+                    $ajaxOutput .= $itemHTML;
+                } else {
+                    $this->ajaxStatus = true;
 
-		// finally close the first ul
-		return $out.'</ul>';
-	}
+                    return $ajaxOutput;
+                }
+            }
+            $out .= $itemHTML;
+        }
+
+        if ($ajaxOutput) {
+            $this->ajaxStatus = true;
+
+            return $ajaxOutput;
+        }
+
+        // finally close the first ul
+        return $out . '</ul>';
+    }
 
 
-	/**
-	 * Generate the plus/minus icon for the browsable tree.
-	 *
-	 * @param	array		record for the entry
-	 * @param	integer		The current entry number
-	 * @param	integer		The total number of entries. If equal to $a, a "bottom" element is returned.
-	 * @param	integer		The number of sub-elements to the current element.
-	 * @param	boolean		The element was expanded to render subelements if this flag is set.
-	 * @return	string		Image tag with the plus/minus icon.
-	 * @access private
-	 * @see t3lib_pageTree::PMicon()
-	 */
-	function PMicon($row, $a, $c, $nextCount, $exp) {
-		if ($this->expandable) {
-			$PM = $nextCount ? ($exp ? 'minus' : 'plus') : 'join';
-		} else {
-			$PM = 'join';
-		}
+    /**
+     * Generate the plus/minus icon for the browsable tree.
+     *
+     * @param    array          record for the entry
+     * @param    integer        The current entry number
+     * @param    integer        The total number of entries. If equal to $a, a "bottom" element is returned.
+     * @param    integer        The number of sub-elements to the current element.
+     * @param    boolean        The element was expanded to render subelements if this flag is set.
+     *
+     * @return    string        Image tag with the plus/minus icon.
+     * @access private
+     * @see    t3lib_pageTree::PMicon()
+     */
+    function PMicon($row, $a, $c, $nextCount, $exp)
+    {
+        if ($this->expandable) {
+            $PM = $nextCount ? ($exp ? 'minus' : 'plus') : 'join';
+        } else {
+            $PM = 'join';
+        }
 
-		$BTM = ($a == $c) ? 'bottom' : '';
+        $BTM = ($a == $c) ? 'bottom' : '';
         /**
          * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
          */
         $iconFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
-		$icon = $iconFactory->getIcon('ttnews-gfx-ol-'.$PM.$BTM)->render();
+        $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM)->render();
 
-		if ($nextCount) {
-			$cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
-			$icon = $this->PMiconATagWrap($icon, $cmd, ! $exp);
-		}
-		return $icon;
-	}
+        if ($nextCount) {
+            $cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
+            $icon = $this->PMiconATagWrap($icon, $cmd, !$exp);
+        }
+
+        return $icon;
+    }
 
 
-	/**
-	 * Wrap the plus/minus icon in a link
-	 *
-	 * @param	string		HTML string to wrap, probably an image tag.
-	 * @param	string		Command for 'PM' get var
-	 * @param	[type]		$isExpand: ...
-	 * @return	string		Link-wrapped input string
-	 * @access private
-	 */
-	function PMiconATagWrap($icon, $cmd, $isExpand = true) {
-		if ($this->thisScript && $this->expandable) {
-			// activate dynamic ajax-based tree
-			$js = htmlspecialchars('txttnewsM1js.load(\'' . $cmd . '\', ' . intval($isExpand) . ', this, \'' . intval($this->pageID) . '\');');
-			return '<a class="pm" onclick="' . $js . '">' . $icon . '</a>';
-		} else {
-			return $icon;
-		}
-	}
+    /**
+     * Wrap the plus/minus icon in a link
+     *
+     * @param    string        HTML string to wrap, probably an image tag.
+     * @param    string        Command for 'PM' get var
+     * @param    [type]        $isExpand: ...
+     *
+     * @return    string        Link-wrapped input string
+     * @access   private
+     */
+    function PMiconATagWrap($icon, $cmd, $isExpand = true)
+    {
+        if ($this->thisScript && $this->expandable) {
+            // activate dynamic ajax-based tree
+            $js = htmlspecialchars('txttnewsM1js.load(\'' . $cmd . '\', ' . intval($isExpand) . ', this, \'' . intval($this->pageID) . '\');');
+
+            return '<a class="pm" onclick="' . $js . '">' . $icon . '</a>';
+        } else {
+            return $icon;
+        }
+    }
 
 }
 

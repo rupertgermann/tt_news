@@ -1,5 +1,7 @@
 <?php
+
 namespace RG\TtNews;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -25,9 +27,11 @@ class FormDataProvider implements FormDataProviderInterface
 
     /**
      * @param array $result
+     *
      * @return array
      */
-    public function addData(array $result) {
+    public function addData(array $result)
+    {
         if ($result['command'] !== 'new' || $result['tableName'] !== 'tt_news') {
             return $result;
         }

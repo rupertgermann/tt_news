@@ -1,5 +1,7 @@
 <?php
+
 namespace RG\TtNews\cm1;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -32,8 +34,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * $Id$
  *
- * @author  Rupert Germann <rupi@gmx.li>
- * @package TYPO3
+ * @author     Rupert Germann <rupi@gmx.li>
+ * @package    TYPO3
  * @subpackage tt_news
  */
 class tx_ttnewscatmanager_cm1
@@ -80,7 +82,10 @@ class tx_ttnewscatmanager_cm1
 
                 if ($doEdit) {
                     $menuItems['hide'] = $this->DB_hideUnhide($table, $rec, 'hidden');
-                    $elInfo = array(GeneralUtility::fixed_lgd_cs(BackendUtility::getRecordTitle('tt_news_cat', $rec), $this->beUser->uc['titleLen']));
+                    $elInfo = array(
+                        GeneralUtility::fixed_lgd_cs(BackendUtility::getRecordTitle('tt_news_cat', $rec),
+                            $this->beUser->uc['titleLen'])
+                    );
                     $menuItems['spacer2'] = 'spacer';
                     $menuItems['delete'] = $this->DB_delete($table, $srcId, $elInfo);
                 }
@@ -93,6 +98,7 @@ class tx_ttnewscatmanager_cm1
     /**
      * @param $table
      * @param $uid
+     *
      * @return array
      */
     function DB_edit($table, $uid)
@@ -109,9 +115,10 @@ class tx_ttnewscatmanager_cm1
     }
 
     /**
-     * @param $table
-     * @param $rec
+     * @param      $table
+     * @param      $rec
      * @param bool $newsub
+     *
      * @return array
      */
     function DB_new($table, $rec, $newsub = false)
@@ -143,25 +150,28 @@ class tx_ttnewscatmanager_cm1
     /**
      * Adding CM element for hide/unhide of the input record
      *
-     * @param    string $table Table name
-     * @param    array $rec Record array
+     * @param    string $table     Table name
+     * @param    array  $rec       Record array
      * @param    string $hideField Name of the hide field
+     *
      * @return    array        Item array, element in $menuItems
      * @internal
      */
     function DB_hideUnhide($table, $rec, $hideField)
     {
-        return $this->DB_changeFlag($table, $rec, $hideField, $this->backRef->label(($rec[$hideField] ? 'un' : '') . 'hide'), 'hide');
+        return $this->DB_changeFlag($table, $rec, $hideField,
+            $this->backRef->label(($rec[$hideField] ? 'un' : '') . 'hide'), 'hide');
     }
 
     /**
      * Adding CM element for a flag field of the input record
      *
-     * @param    string $table Table name
-     * @param    array $rec Record array
+     * @param    string $table     Table name
+     * @param    array  $rec       Record array
      * @param    string $flagField Name of the flag field
-     * @param    string $title Menu item Title
-     * @param    string $name Name of the item used for icons and labels
+     * @param    string $title     Menu item Title
+     * @param    string $name      Name of the item used for icons and labels
+     *
      * @return    array        Item array, element in $menuItems
      */
     function DB_changeFlag($table, $rec, $flagField, $title)
@@ -182,9 +192,11 @@ class tx_ttnewscatmanager_cm1
     /**
      * Adding CM element for Delete
      *
-     * @param    string $table Table name
-     * @param    integer $uid UID for the current record.
-     * @param    array $elInfo Label for including in the confirmation message, EXT:lang/locallang_core.php:mess.delete
+     * @param    string  $table  Table name
+     * @param    integer $uid    UID for the current record.
+     * @param    array   $elInfo Label for including in the confirmation message,
+     *                           EXT:lang/locallang_core.php:mess.delete
+     *
      * @return    array        Item array, element in $menuItems
      * @internal
      */
@@ -192,7 +204,8 @@ class tx_ttnewscatmanager_cm1
     {
         $loc = 'top.content.list_frame';
         if ($this->beUser->jsConfirmation(4)) {
-            $conf = "confirm(" . GeneralUtility::quoteJSvalue(sprintf($this->LANG->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:mess.delete'), $elInfo[0]) .
+            $conf = "confirm(" . GeneralUtility::quoteJSvalue(sprintf($this->LANG->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:mess.delete'),
+                        $elInfo[0]) .
                     BackendUtility::referenceCount($table, $uid, ' (There are %s reference(s) to this record!)')) . ")";
         } else {
             $conf = '1==1';

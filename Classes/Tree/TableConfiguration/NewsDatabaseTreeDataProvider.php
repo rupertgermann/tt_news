@@ -1,4 +1,5 @@
 <?php
+
 namespace RG\TtNews\Tree\TableConfiguration;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -15,18 +16,19 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      * Gets node children
      *
      * @param \TYPO3\CMS\Backend\Tree\TreeNode $node
-     * @param int $level
+     * @param int                              $level
+     *
      * @return NULL|\TYPO3\CMS\Backend\Tree\TreeNodeCollection
      */
     protected function getChildrenOf(\TYPO3\CMS\Backend\Tree\TreeNode $node, $level)
     {
         $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
-        $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $allowedItems) : tx_ttnews_div::getAllowedTreeIDs();
+        $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',
+            $allowedItems) : tx_ttnews_div::getAllowedTreeIDs();
 
         $storage = null;
-        
-        if ($node->getId() !== 0 && !in_array($node->getId(), $allowedItems))
-        {
+
+        if ($node->getId() !== 0 && !in_array($node->getId(), $allowedItems)) {
             return $storage;
         }
 
@@ -52,8 +54,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         foreach ($children as $child) {
             $node = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Tree\TreeNode::class);
 
-            if (!in_array($child, $allowedItems))
-            {
+            if (!in_array($child, $allowedItems)) {
                 continue;
             }
 

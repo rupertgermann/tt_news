@@ -1,5 +1,7 @@
 <?php
+
 namespace RG\TtNews;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -28,7 +30,8 @@ namespace RG\TtNews;
 /**
  * class.tx_ttnews_catmenu.php
  *
- * renders the tt_news CATMENU content element - inspired by class.webpagetree.php which renders the pagetree in the TYPO3 BackEnd
+ * renders the tt_news CATMENU content element - inspired by class.webpagetree.php which renders the pagetree in the
+ * TYPO3 BackEnd
  *
  * $Id$
  *
@@ -53,12 +56,19 @@ class Catmenu
         $this->treeObj->tt_news_obj = &$pObj;
         $this->treeObj->category = $pObj->piVars_catSelection;
         $this->treeObj->table = 'tt_news_cat';
-        $this->treeObj->init($pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere, $pObj->config['catOrderBy']);
+        $this->treeObj->init($pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere,
+            $pObj->config['catOrderBy']);
         $this->treeObj->backPath = TYPO3_mainDir;
         $this->treeObj->parentField = 'parent_category';
         $this->treeObj->thisScript = 'index.php?eID=tt_news';
         $this->treeObj->cObjUid = intval($pObj->cObj->data['uid']);
-        $this->treeObj->fieldArray = array('uid', 'title', 'title_lang_ol', 'description', 'image'); // those fields will be filled to the array $this->treeObj->tree
+        $this->treeObj->fieldArray = array(
+            'uid',
+            'title',
+            'title_lang_ol',
+            'description',
+            'image'
+        ); // those fields will be filled to the array $this->treeObj->tree
         $this->treeObj->ext_IconMode = '1'; // no context menu on icons
 
         $expandable = $lConf['expandable'];
@@ -83,12 +93,13 @@ class Catmenu
         // get all selected category records from the current storagePid which are not 'root' categories
         // and add them as tree mounts. Subcategories of selected categories will be excluded.
         $cMounts = array();
-        $nonRootMounts = FALSE;
+        $nonRootMounts = false;
         foreach ($selcatArr as $catID) {
-            $tmpR = $GLOBALS['TSFE']->sys_page->getRecordsByField('tt_news_cat', 'uid', $catID, $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere);
+            $tmpR = $GLOBALS['TSFE']->sys_page->getRecordsByField('tt_news_cat', 'uid', $catID,
+                $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere);
             if (is_array($tmpR[0]) && !in_array($catID, $subcatArr)) {
                 if ($tmpR[0]['parent_category'] > 0) {
-                    $nonRootMounts = TRUE;
+                    $nonRootMounts = true;
                 }
                 $cMounts[] = $catID;
             }
@@ -102,8 +113,9 @@ class Catmenu
     /**
      * [Describe function...]
      *
-     * @param    [type]        $$params: ...
-     * @param    [type]        $ajaxObj: ...
+     * @param     [type]        $$params: ...
+     * @param     [type]        $ajaxObj: ...
+     *
      * @return    [type]        ...
      */
     function ajaxExpandCollapse(&$params, &$ajaxObj)
