@@ -484,7 +484,7 @@ plugin.tt_news {
     catmenuIconPath =
 
     # icon for all categories if "catmenuIconMode" = 2
-    catmenuIconFile = EXT:tt_news/res/arrow.gif
+    catmenuIconFile = EXT:tt_news/Resources/res/arrow.gif
 
 
     catmenuIconFile {
@@ -712,7 +712,7 @@ plugin.tt_news {
     10.1 {
       wrap = <dd> | </dd>
       5 < plugin.tt_news.tmp.5
-      5.file=EXT:tt_news/res/tt_news_article.gif
+      5.file=EXT:tt_news/Resources/res/tt_news_article.gif
       10 = TEXT
       10.field = title
       10.typolink.parameter.field = page
@@ -723,7 +723,7 @@ plugin.tt_news {
     10.2 {
       wrap = <dd> | </dd>
       5 < plugin.tt_news.tmp.5
-      5.file=EXT:tt_news/res/tt_news_exturl.gif
+      5.file=EXT:tt_news/Resources/res/tt_news_exturl.gif
       10 = TEXT
       10.field = title
       10.typolink.parameter.field = ext_url

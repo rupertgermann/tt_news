@@ -60,7 +60,7 @@ class IconFactory extends \TYPO3\CMS\Core\Imaging\IconFactory
         $iconRegistry->registerIcon(
             'tcarecords-pages-contains-news',
             \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-            ['source' => 'EXT:tt_news/res/gfx/ext_icon_ttnews_folder.gif']
+            ['source' => 'EXT:tt_news/Resources/res/gfx/ext_icon_ttnews_folder.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-icon_note',
