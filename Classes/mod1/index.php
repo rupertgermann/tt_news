@@ -507,9 +507,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $this->treeObj->current_sys_language = $this->current_sys_language;
 
         // get selected categories from be user/group without subcategories
-        $tmpsc = \RG\TtNews\Lib\tx_ttnews_div::getBeUserCatMounts(false);
+        $tmpsc = \RG\TtNews\Div::getBeUserCatMounts(false);
         $beUserSelCatArr = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $tmpsc);
-        $includeListArr = \RG\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
+        $includeListArr = \RG\TtNews\Div::getIncludeCatArray();
         $subcatArr = array_diff($includeListArr, $beUserSelCatArr);
 
         /**
@@ -1189,8 +1189,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             $this->excludeCats = $this->posIntExplode($excludeList);
         }
 
-        $this->includeCats = \RG\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
-        $this->catlistWhere = \RG\TtNews\Lib\tx_ttnews_div::getCatlistWhere();
+        $this->includeCats = \RG\TtNews\Div::getIncludeCatArray();
+        $this->catlistWhere = \RG\TtNews\Div::getCatlistWhere();
     }
 
     function posIntExplode($list)
@@ -1215,7 +1215,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     function initSubCategories()
     {
         if ($this->useSubCategories && $this->category) {
-            $subcats = \RG\TtNews\Lib\tx_ttnews_div::getSubCategories($this->category);
+            $subcats = \RG\TtNews\Div::getSubCategories($this->category);
             $this->selectedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::uniqueList($this->category . ($subcats ? ',' . $subcats : ''));
         } else {
             $this->selectedCategories = $this->category;
