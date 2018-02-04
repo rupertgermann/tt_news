@@ -1,6 +1,6 @@
 <?php
 
-namespace RG\TtNews;
+namespace RG\TtNews\Hooks;
 
 /***************************************************************
  *  Copyright notice
@@ -25,18 +25,8 @@ namespace RG\TtNews;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-/**
- * [CLASS/FUNCTION INDEX of SCRIPT]
- *
- *
- *
- *   46: class tx_ttnews_cms_layout
- *   54:     function getExtensionSummary($params, &$pObj)
- *
- * TOTAL FUNCTIONS: 1
- * (This index is automatically created/updated by the extension "extdeveval")
- *
- */
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
@@ -46,7 +36,7 @@ namespace RG\TtNews;
  * @package       TYPO3
  * @subpackage    tx_tt_news
  */
-class tx_ttnews_cms_layout
+class PageModuleHook
 {
     /**
      * Returns information about this extension's pi1 plugin
@@ -58,8 +48,9 @@ class tx_ttnews_cms_layout
      */
     function getExtensionSummary($params, &$pObj)
     {
+        $result = '';
         if ($params['row']['list_type'] == 9) {
-            $data = \TYPO3\CMS\Core\Utility\GeneralUtility::xml2array($params['row']['pi_flexform']);
+            $data = GeneralUtility::xml2array($params['row']['pi_flexform']);
             if (is_array($data) && $data['data']['sDEF']['lDEF']['what_to_display']['vDEF']) {
                 $result = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:cms_layout.mode'),
                     $data['data']['sDEF']['lDEF']['what_to_display']['vDEF']);
