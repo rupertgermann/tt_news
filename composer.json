@@ -20,7 +20,7 @@
       "name": "Jakob Berlin",
       "email": "jakob@ybals.de",
       "role": "Member"
-    },
+    }
   ],
   "require": {
     "typo3/cms-core": "*"
