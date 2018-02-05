@@ -2,6 +2,15 @@
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************
+
+if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version(), '8.7.10', '<')) {
+    $llFile = 'LLL:EXT:lang/';
+    $dateFieldRenderType = '';
+} else {
+    $llFile = 'LLL:EXT:lang/Resources/Private/Language/';
+    $dateFieldRenderType = 'inputDateTime';
+}
+
 return array (
 	'ctrl' => array (
 		'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat',
@@ -28,7 +37,7 @@ return array (
 	),
 	'columns' => Array (
 		'title' => Array (
-			'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.title',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.title',
 			'config' => Array (
 				'type' => 'input',
 				'size' => '40',
@@ -47,7 +56,7 @@ return array (
 		),
 		'hidden' => Array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
+			'label' => $llFile . 'locallang_general.xlf:LGL.hidden',
 			'config' => Array (
 				'type' => 'check',
 			)
@@ -55,16 +64,16 @@ return array (
 		'fe_group' => Array (
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.fe_group',
+			'label' => $llFile . 'locallang_general.xlf:LGL.fe_group',
             'config' => array(
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
 				'size' => 5,
 				'maxitems' => 20,
 				'items' => Array (
-					Array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login', -1),
-					Array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.any_login', -2),
-					Array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.usergroups', '--div--')
+					Array($llFile . 'locallang_general.xlf:LGL.hide_at_login', -1),
+					Array($llFile . 'locallang_general.xlf:LGL.any_login', -2),
+					Array($llFile . 'locallang_general.xlf:LGL.usergroups', '--div--')
 				),
 				'exclusiveKeys' => '-1,-2',
 				'foreign_table' => 'fe_groups'
@@ -73,23 +82,23 @@ return array (
 		'starttime' => Array (
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+			'label' => $llFile . 'locallang_general.xlf:LGL.starttime',
 			'config' => Array (
 				'type' => 'input',
 				'eval' => 'datetime',
 				'default' => '0',
-                'renderType' => 'inputDateTime'
+                'renderType' => $dateFieldRenderType
 			)
 		),
 		'endtime' => Array (
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+			'label' => $llFile . 'locallang_general.xlf:LGL.endtime',
 			'config' => Array (
 				'type' => 'input',
 				'eval' => 'datetime',
 				'default' => '0',
-                'renderType' => 'inputDateTime',
+                'renderType' => $dateFieldRenderType,
 				'range' => Array (
 					'upper' => mktime(0,0,0,12,31,2020),
 					'lower' => mktime(0,0,0,date('m')-1,date('d'),date('Y'))

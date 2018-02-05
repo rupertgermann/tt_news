@@ -16,6 +16,16 @@ $hideNewLocalizations = ($confArr['hideNewLocalizations'] ? 'mergeIfNotBlank' : 
 // ******************************************************************
 // This is the standard TypoScript news table, tt_news
 // ******************************************************************
+
+
+if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version(), '8.7.10', '<')) {
+    $llFile = 'LLL:EXT:lang/';
+    $dateFieldRenderType = '';
+} else {
+    $llFile = 'LLL:EXT:lang/Resources/Private/Language/';
+    $dateFieldRenderType = 'inputDateTime';
+}
+
 return Array(
     'ctrl' => array(
         'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news',
@@ -23,7 +33,7 @@ return Array(
         'label_alt' => $confArr['label_alt'] . ($confArr['label_alt2'] ? ',' . $confArr['label_alt2'] : ''),
         'label_alt_force' => $confArr['label_alt_force'],
         'default_sortby' => 'ORDER BY datetime DESC',
-        'prependAtCopy' => $confArr['prependAtCopy'] ? 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.prependAtCopy' : '',
+        'prependAtCopy' => $confArr['prependAtCopy'] ? $llFile . 'locallang_general.xlf:LGL.prependAtCopy' : '',
         'versioningWS' => TRUE,
         'versioning_followPages' => TRUE,
         'origUid' => 't3_origuid',
@@ -60,23 +70,23 @@ return Array(
         'starttime' => Array(
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'label' => $llFile . 'locallang_general.xlf:LGL.starttime',
             'config' => Array(
                 'type' => 'input',
                 'eval' => 'datetime',
                 'default' => '0',
-                'renderType' => 'inputDateTime'
+                'renderType' => $dateFieldRenderType
             )
         ),
         'endtime' => Array(
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'label' => $llFile . 'locallang_general.xlf:LGL.endtime',
             'config' => Array(
                 'type' => 'input',
                 'eval' => 'datetime',
                 'checkbox' => '0',
-                'renderType' => 'inputDateTime',
+                'renderType' => $dateFieldRenderType,
                 'range' => Array(
                     'upper' => mktime(0, 0, 0, 12, 31, 2020),
                     'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y'))
@@ -86,7 +96,7 @@ return Array(
         'hidden' => Array(
             'l10n_mode' => $hideNewLocalizations,
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
+            'label' => $llFile . 'locallang_general.xlf:LGL.hidden',
             'config' => Array(
                 'type' => 'check',
                 'default' => '1'
@@ -95,16 +105,16 @@ return Array(
         'fe_group' => Array(
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.fe_group',
+            'label' => $llFile . 'locallang_general.xlf:LGL.fe_group',
             'config' => array(
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => Array(
-                    Array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login', -1),
-                    Array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.any_login', -2),
-                    Array('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.usergroups', '--div--')
+                    Array($llFile . 'locallang_general.xlf:LGL.hide_at_login', -1),
+                    Array($llFile . 'locallang_general.xlf:LGL.any_login', -2),
+                    Array($llFile . 'locallang_general.xlf:LGL.usergroups', '--div--')
                 ),
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
@@ -112,7 +122,7 @@ return Array(
             )
         ),
         'title' => Array(
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.title',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.title',
             'l10n_mode' => $l10n_mode,
             'config' => Array(
                 'type' => 'input',
@@ -122,7 +132,7 @@ return Array(
         ),
         'ext_url' => Array(
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.external',
+            'label' => $llFile . 'locallang_general.xlf:LGL.external',
             'config' => Array(
                 'type' => 'input',
                 'size' => '40',
@@ -145,7 +155,7 @@ return Array(
             )
         ),
         'bodytext' => Array(
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.text',
+            'label' => $llFile . 'locallang_general.xlf:LGL.text',
             'defaultExtras' => 'richtext:rte_transform[mode=ts_css]',
             'l10n_mode' => $l10n_mode,
             'config' => Array(
@@ -177,7 +187,7 @@ return Array(
         ),
         'short' => Array(
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.subheader',
+            'label' => $llFile . 'locallang_general.xlf:LGL.subheader',
             'l10n_mode' => $l10n_mode,
             'config' => Array(
                 'type' => 'text',
@@ -187,7 +197,7 @@ return Array(
         ),
         'type' => Array(
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.type',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.type',
             'config' => Array(
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -206,7 +216,7 @@ return Array(
             'config' => Array(
                 'type' => 'input',
                 'eval' => 'datetime',
-                'renderType' => 'inputDateTime'
+                'renderType' => $dateFieldRenderType
             )
         ),
         'archivedate' => Array(
@@ -217,13 +227,13 @@ return Array(
                 'type' => 'input',
                 'eval' => 'date',
                 'default' => '0',
-                'renderType' => 'inputDateTime'
+                'renderType' => $dateFieldRenderType
             )
         ),
         'image' => Array(
             'exclude' => 1,
             'l10n_mode' => $l10n_mode_image,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.images',
+            'label' => $llFile . 'locallang_general.xlf:LGL.images',
             'config' => Array(
                 'type' => 'group',
                 'internal_type' => 'file',
@@ -239,7 +249,7 @@ return Array(
         ),
         'imagecaption' => Array(
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.caption',
+            'label' => $llFile . 'locallang_general.xlf:LGL.caption',
             'l10n_mode' => $l10n_mode,
             'config' => Array(
                 'type' => 'text',
@@ -270,7 +280,7 @@ return Array(
         'author' => Array(
             'exclude' => 1,
             'l10n_mode' => $l10n_mode_author,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.author',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.author',
             'config' => Array(
                 'type' => 'input',
                 'size' => '20',
@@ -281,7 +291,7 @@ return Array(
         'author_email' => Array(
             'exclude' => 1,
             'l10n_mode' => $l10n_mode_author,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.email',
+            'label' => $llFile . 'locallang_general.xlf:LGL.email',
             'config' => Array(
                 'type' => 'input',
                 'size' => '20',
@@ -313,7 +323,7 @@ return Array(
         'keywords' => Array(
             'l10n_mode' => 'mergeIfNotBlank',
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.keywords',
+            'label' => $llFile . 'locallang_general.xlf:LGL.keywords',
             'config' => Array(
                 'type' => 'text',
                 'cols' => '40',
@@ -323,7 +333,7 @@ return Array(
         'links' => Array(
             'l10n_mode' => $l10n_mode_author,
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.links',
+            'label' => $llFile . 'locallang_general.xlf:LGL.links',
             'config' => Array(
                 'type' => 'text',
                 'cols' => '40',
@@ -359,7 +369,7 @@ return Array(
         'page' => Array(
             'exclude' => 1,
             'l10n_mode' => 'exclude',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.shortcut_page',
+            'label' => $llFile . 'locallang_general.xlf:LGL.shortcut_page',
             'config' => Array(
                 'type' => 'group',
                 'internal_type' => 'db',
@@ -390,14 +400,14 @@ return Array(
         ),
         'sys_language_uid' => array(
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.language',
+            'label' => $llFile . 'locallang_general.xlf:LGL.language',
             'config' => array(
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'special' => 'languages',
                 'items' => array(
                     array(
-                        'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
+                        $llFile . 'locallang_general.xlf:LGL.allLanguages',
                         -1,
                         'flags-multiple'
                     ),
@@ -408,7 +418,7 @@ return Array(
         'l18n_parent' => Array(
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
+            'label' => $llFile . 'locallang_general.xlf:LGL.l18n_parent',
             'config' => Array(
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -425,7 +435,7 @@ return Array(
         ),
         't3ver_label' => Array(
             'displayCond' => 'FIELD:t3ver_label:REQ:true',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.versionLabel',
+            'label' => $llFile . 'locallang_general.xlf:LGL.versionLabel',
             'config' => Array(
                 'type' => 'none',
                 'cols' => 27
@@ -435,7 +445,7 @@ return Array(
         'editlock' => Array(
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_tca.xlf:editlock',
+            'label' => $llFile . 'locallang_tca.xlf:editlock',
             'config' => Array(
                 'type' => 'check'
             )
@@ -508,3 +518,4 @@ return Array(
         ],
     )
 );
+

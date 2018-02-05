@@ -21,7 +21,9 @@
 			<label index="tt_news.uid">ID:</label>
 			<label index="tt_news.tstamp">Last change:</label>
 			<label index="tt_news.pid">Page:</label>
-			
+			<label index="tt_news.title">Title:</label>
+			<label index="tt_news.author">Author:</label>
+			<label index="tt_news.type">Type:</label>
 			<label index="tt_news.type.I.0">News</label>
 			<label index="tt_news.type.I.1">Link internal Page</label>
 			<label index="tt_news.type.I.2">Link external URL</label>
@@ -193,6 +195,9 @@
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="tt_news">News</label>
+			<label index="tt_news.title">Titel:</label>
+			<label index="tt_news.author">Autor:</label>
+			<label index="tt_news.type">Typ:</label>
 			<label index="tt_news.type.I.0">News</label>
 			<label index="tt_news.type.I.1">Link zu interner Seite</label>
 			<label index="tt_news.type.I.2">Link zu externer URL</label>
