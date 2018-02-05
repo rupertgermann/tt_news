@@ -6,3 +6,5 @@ $tempColumns['tt_news_categorymounts'] = require TYPO3\CMS\Core\Utility\Extensio
                                                  . 'Configuration/TCA/Shared/categorymounts.php';
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups', $tempColumns);
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups', 'tt_news_categorymounts');
+
+unset($tempColumns);

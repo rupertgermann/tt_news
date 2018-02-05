@@ -55,7 +55,6 @@ if ($confArr['cachingMode']=='normal') {
 }
 
 // in order to make "direct Preview links" for tt_news work again in TYPO3 >= 6, unset pageNotFoundOnCHashError if a BE_USER is logged in
-// todo: check if still needed
 $configuredCookieName = trim($GLOBALS['TYPO3_CONF_VARS']['BE']['cookieName']);
 if (empty($configuredCookieName)) {
 	$configuredCookieName = 'be_typo_user';
