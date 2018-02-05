@@ -29,7 +29,7 @@ class IconFactory extends \TYPO3\CMS\Core\Imaging\IconFactory
     {
 
         // simply return the new path from Resources
-        $newBackPath = ExtensionManagementUtility::extRelPath('tt_news') . 'Resources/Public/Icons/';
+        $newBackPath = ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/Icons/';
         $newSrc = str_replace('gfx/', '', $src);
 
         switch ($outputMode) {

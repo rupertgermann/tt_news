@@ -1597,7 +1597,7 @@ class TtNews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
                 if ($mode == 'ajaxtree') {
                     // todo use pagerenderer
                     $this->tsfe->additionalHeaderData['tt_news_categorytree'] = '
-						' . ($lConf['includePrototypeJS'] ? '<script type="text/javascript" src="' . ExtensionManagementUtility::extRelPath('tt_news') . 'Resources/Public/JavaScript/compat/prototype/prototype.js"></script>' : '') . '
+						' . ($lConf['includePrototypeJS'] ? '<script type="text/javascript" src="' . ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/JavaScript/compat/prototype/prototype.js"></script>' : '') . '
 						<script type="text/javascript" src="' . ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/JavaScript/tt_news_catmenu.js"></script>
 					';
 
