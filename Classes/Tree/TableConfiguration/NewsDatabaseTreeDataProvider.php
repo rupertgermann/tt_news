@@ -5,7 +5,7 @@ namespace RG\TtNews\Tree\TableConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 
-use RG\TtNews\tx_ttnews_div;
+use RG\TtNews\Div;
 
 /**
  * TCA tree data provider
@@ -24,7 +24,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
     {
         $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
         $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',
-            $allowedItems) : tx_ttnews_div::getAllowedTreeIDs();
+            $allowedItems) : Div::getAllowedTreeIDs();
 
         $storage = null;
 
