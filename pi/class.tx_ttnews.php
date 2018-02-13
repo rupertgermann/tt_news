@@ -1547,7 +1547,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		$markerArray = array_flip($this->renderMarkers);
 
-		while (list($mName) = each($markerArray)) {
+		foreach ($markerArray as $mName => $val) {
 			$markerArray[$mName] = '';
 		}
 
