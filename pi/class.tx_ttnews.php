@@ -1885,7 +1885,7 @@ class tx_ttnews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
         if (!is_array($lConf)) {
             return;
         } else {
-            while (list($mName) = each($lConf)) {
+            foreach ($lConf as $mName => $val) {
                 $genericMarker = '###GENERIC_' . strtoupper($mName) . '###';
 
                 if (!is_array($lConf[$mName . '.']) || !$this->isRenderMarker($genericMarker)) {
