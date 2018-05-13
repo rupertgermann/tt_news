@@ -331,7 +331,7 @@ plugin.tt_news {
     showRange = 1
     hscText = 1
 
-    showResultsNumbersWrap = |
+    showResultsNumbersWrap >
     browseBoxWrap = <div class="news-list-browse">|</div>
     showResultsWrap = <div class="showResultsWrap">|</div>
     browseLinksWrap = <div class="browseLinksWrap">|</div>
@@ -355,7 +355,7 @@ plugin.tt_news {
     showRange = 0
     hscText = 1
 
-    showResultsNumbersWrap = |
+    showResultsNumbersWrap >
     browseBoxWrap = <div class="news-single-browse">|</div>
     showResultsWrap = <div class="showResultsWrap">|</div>
     browseLinksWrap = <div class="browseLinksWrap">|</div>
