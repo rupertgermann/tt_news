@@ -2,10 +2,10 @@
 
 namespace RG\TtNews\Tree\TableConfiguration;
 
+use RG\TtNews\Div;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 
-use RG\TtNews\Div;
 
 /**
  * TCA tree data provider
