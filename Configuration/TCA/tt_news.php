@@ -47,11 +47,11 @@ return Array(
         ),
         'typeicon_column' => 'type',
         'typeicons' => array(
-            '1' => 'EXT:tt_news/Resources/res/gfx/tt_news_article.gif',
-            '2' => 'EXT:tt_news/Resources/res/gfx/tt_news_exturl.gif',
+            '1' => 'EXT:tt_news/Resources/Public/Icons/tt_news_article.gif',
+            '2' => 'EXT:tt_news/Resources/Public/Icons/tt_news_exturl.gif',
         ),
         'thumbnail' => 'image',
-        'iconfile' => 'EXT:tt_news/ext_icon.gif',
+        'iconfile' => 'EXT:tt_news/Resources/Public/Icons/ext_icon.gif',
         'searchFields' => 'uid,title,short,bodytext'
     ),
     'interface' => Array(

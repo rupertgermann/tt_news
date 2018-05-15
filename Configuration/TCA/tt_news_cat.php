@@ -20,7 +20,7 @@ return array(
         'hideAtCopy' => true,
         'mainpalette' => '2,10',
         'crdate' => 'crdate',
-        'iconfile' => 'EXT:tt_news/Resources/res/gfx/tt_news_cat.gif',
+        'iconfile' => 'EXT:tt_news/Resources/Public/Icons/tt_news_cat.gif',
         'searchFields' => 'uid,title'
     ),
     'interface' => Array(

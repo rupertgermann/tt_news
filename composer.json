@@ -8,8 +8,8 @@
     "news",
     "extension"
   ],
-  "version": "8.7.0",
-  "license": "GNU General Public License version 2",
+  "version": "8.7.6",
+  "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "Rupert Germann",
@@ -17,26 +17,8 @@
       "role": "Lead"
     },
     {
-      "name": "Ben van 't Ende",
-      "email": "ben@vantende.net",
-      "role": "Member"
-    },
-    {
-      "name": "Dan Osipov",
-      "role": "Member"
-    },
-    {
-      "name": "Dmitry Dulepov",
-      "role": "Member"
-    },
-    {
       "name": "Jakob Berlin",
       "email": "jakob@ybals.de",
-      "role": "Member"
-    },
-    {
-      "name": "Oliver Hader",
-      "email": "oliver.hader@typo3.org",
       "role": "Member"
     }
   ],
@@ -45,7 +27,7 @@
   },
   "replace": {
     "tt_news": "self.version",
-    "typo3-ter/tt-news": "self.version"
+    "typo3-ter/tt_news": "self.version"
   },
   "autoload": {
     "psr-4": {

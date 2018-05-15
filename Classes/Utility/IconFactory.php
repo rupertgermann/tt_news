@@ -7,8 +7,10 @@ namespace RG\TtNews\Utility;
  *
  * Simple adapter for routing old Typo's icons path to tt_news icons
  */
+use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class IconFactory extends \TYPO3\CMS\Core\Imaging\IconFactory
 {
@@ -55,76 +57,76 @@ class IconFactory extends \TYPO3\CMS\Core\Imaging\IconFactory
          * @var IconRegistry $iconRegistry
          */
         $iconRegistry
-            = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+            = GeneralUtility::makeInstance(IconRegistry::class);
 
         $iconRegistry->registerIcon(
             'tcarecords-pages-contains-news',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
-            ['source' => 'EXT:tt_news/Resources/res/gfx/ext_icon_ttnews_folder.gif']
+            BitmapIconProvider::class,
+            ['source' => 'EXT:tt_news/Resources/Public/Icons/ext_icon_ttnews_folder.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-icon_note',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/icon_note.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-list',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/list.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-zoom',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/zoom.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-refresh_n',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/refresh_n.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-edit2',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/edit2.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-ol-minusonly',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/ol/minusonly.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-ol-plusonly',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/ol/plusonly.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-ol-join',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/ol/join.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-ol-joinbottom',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/ol/joinbottom.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-ol-minus',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/ol/minus.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-ol-minusbottom',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/ol/minusbottom.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-ol-plus',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/ol/plus.gif']
         );
         $iconRegistry->registerIcon(
             'ttnews-gfx-ol-plusbottom',
-            \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+            BitmapIconProvider::class,
             ['source' => 'EXT:tt_news/Resources/Public/Icons/ol/plusbottom.gif']
         );
     }
