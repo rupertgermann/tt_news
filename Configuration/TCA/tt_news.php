@@ -348,7 +348,7 @@ return Array(
                 'type' => 'select',
                 'renderType' => 'selectTree',
                 'foreign_table' => 'tt_news_cat',
-                'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
+                'foreign_table_where' => ' tt_news_cat.hidden="0" ORDER BY tt_news_cat.title ASC',
                 'MM' => 'tt_news_cat_mm',
                 'size' => 10,
                 'autoSizeMax' => 50,
