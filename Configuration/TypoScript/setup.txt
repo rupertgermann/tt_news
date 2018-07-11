@@ -1,5 +1,5 @@
 ###
-# This is the default TS-setup for the new tt_news standard html template: EXT:tt_news/pi/res/tt_news_v3_template.html
+# This is the default TS-setup for the new tt_news standard html template: EXT:tt_news/Resources/Private/Templates/tt_news_v3_template.html
 #
 # (see Section Reference in the manual for more options & parameters)
 #

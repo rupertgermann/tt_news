@@ -1,5 +1,5 @@
 ###
-# These are the default CSS Styles for the new tt_news standard template: EXT:tt_news/pi/tt_news_v2_template.html
+# These are the default CSS Styles for the new tt_news standard template: EXT:tt_news/Resources/Private/Templates/tt_news_v3_template.html
 ##
 
 plugin.tt_news {
