@@ -23,7 +23,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-defined('TYPO3_MODE') or die();
+defined('TYPO3_MODE') || die();
 // remove some fields from the tt_content content element
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][9] = 'layout,select_key,pages,recursive';
 // add FlexForm field to tt_content

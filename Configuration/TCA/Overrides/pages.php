@@ -23,6 +23,6 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-defined('TYPO3_MODE') or die();
+defined('TYPO3_MODE') || die();
 // Register typeicon (the icon itself is registered in ext_tables.php)
 $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-news'] = 'tcarecords-pages-contains-news';

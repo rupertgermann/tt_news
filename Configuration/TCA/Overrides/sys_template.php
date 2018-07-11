@@ -23,7 +23,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-defined('TYPO3_MODE') or die();
+defined('TYPO3_MODE') || die();
 // Add static extension templates
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('tt_news', 'Configuration/TypoScript/', 'News settings');
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('tt_news', 'Configuration/TypoScript/Css/', 'News CSS-styles');

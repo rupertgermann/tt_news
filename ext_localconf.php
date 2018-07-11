@@ -23,9 +23,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
+defined('TYPO3_MODE') || die();
 
 /**
  * Register hooks in TCEmain:

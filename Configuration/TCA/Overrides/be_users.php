@@ -23,7 +23,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-defined('TYPO3_MODE') or die();
+defined('TYPO3_MODE') || die();
 // Load field definition from 'shared' file
 $tempColumns = [];
 $tempColumns['tt_news_categorymounts'] = require TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news')
