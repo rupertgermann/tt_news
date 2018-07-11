@@ -6,4 +6,4 @@ Website news with front page teasers and article handling inside.
 
 see on TER https://typo3.org/extensions/repository/view/tt_news
 
-see for composer https://composer.typo3.org/satis.html#typo3-ter/tt-news
+see for composer https://packagist.org/packages/rupertgermann/tt_news or https://composer.typo3.org/satis.html#typo3-ter/tt-news
