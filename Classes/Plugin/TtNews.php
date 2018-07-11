@@ -40,7 +40,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * TypoScript setup:
  *
- * @See       ext/tt_news/pi/static/ts_new/setup.txt
+ * @See       ext/tt_news/Configuration/TypoScript/setup.txt
  * @See       tt_news Manual:    http://typo3.org/documentation/document-library/extension-manuals/tt_news/current/
  * @See       TSref:            http://typo3.org/documentation/document-library/references/doc_core_tsref/current/
  *
