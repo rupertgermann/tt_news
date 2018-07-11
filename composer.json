@@ -1,5 +1,5 @@
 {
-  "name": "rupertgermann/tt-news",
+  "name": "rupertgermann/tt_news",
   "type": "typo3-cms-extension",
   "description": "Website news with front page teasers and article handling inside.",
   "homepage": "https://typo3.org/extensions/repository/view/tt_news",

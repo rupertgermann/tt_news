@@ -90,15 +90,15 @@
 							<numIndex index="1">archivedate</numIndex>
 						</numIndex>
 						<numIndex index="3" type="array">
-							<numIndex index="0">LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.author</numIndex>
+							<numIndex index="0">LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.author</numIndex>
 							<numIndex index="1">author</numIndex>
 						</numIndex>
 						<numIndex index="4" type="array">
-							<numIndex index="0">LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.title</numIndex>
+							<numIndex index="0">LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.title</numIndex>
 							<numIndex index="1">title</numIndex>
 						</numIndex>
 						<numIndex index="5" type="array">
-							<numIndex index="0">LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.type</numIndex>
+							<numIndex index="0">LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.type</numIndex>
 							<numIndex index="1">type</numIndex>
 						</numIndex>
 						<numIndex index="6" type="array">

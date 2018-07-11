@@ -78,9 +78,13 @@ if (TYPO3_MODE == 'BE') {
                 'routeTarget' => \tx_ttnews_module1::class . '::mainAction',
                 'access' => 'user,group',
                 'name' => 'web_txttnewsM1',
-                'icon' => 'EXT:tt_news/mod1/moduleicon.gif',
                 'navigationComponentId' => 'typo3-pagetree',
-                'labels' => 'LLL:EXT:tt_news/mod1/locallang_mod.xml'
+                'labels' => [
+                    'tabs_images' => [
+                        'tab' => 'EXT:tt_news/mod1/moduleicon.gif',
+                    ],
+                    'll_ref' => 'LLL:EXT:tt_news/mod1/locallang_mod.xml',
+                ],
             ]
         );
     }
