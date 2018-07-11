@@ -39,18 +39,18 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php'][
 
 
 // register Ajax scripts
-$TYPO3_CONF_VARS['FE']['eID_include']['tt_news'] = 'EXT:tt_news/pi/fe_index.php';
-
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler(
-    'txttnewsM1::expandCollapse',
-    TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'mod1/index.php:tx_ttnews_module1->ajaxExpandCollapse',
-    false
-);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler(
-    'txttnewsM1::loadList',
-    TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'mod1/index.php:tx_ttnews_module1->ajaxLoadList',
-    false
-);
+//$TYPO3_CONF_VARS['FE']['eID_include']['tt_news'] = 'EXT:tt_news/pi/fe_index.php';
+//
+//\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler(
+//    'txttnewsM1::expandCollapse',
+//    TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'mod1/index.php:tx_ttnews_module1->ajaxExpandCollapse',
+//    false
+//);
+//\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler(
+//    'txttnewsM1::loadList',
+//    TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'mod1/index.php:tx_ttnews_module1->ajaxLoadList',
+//    false
+//);
 
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = array(

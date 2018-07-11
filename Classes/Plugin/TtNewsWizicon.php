@@ -53,7 +53,7 @@ class TtNewsWizicon
         $LL = $this->includeLocalLang();
 
         $wizardItems['plugins_tx_ttnews_pi'] = array(
-            'icon' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'pi/ce_wiz.gif',
+            'icon' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'pi/ce_wiz.gif',
             'title' => $LANG->getLLL('pi_title', $LL),
             'description' => $LANG->getLLL('pi_plus_wiz_description', $LL),
             'params' => '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=9'

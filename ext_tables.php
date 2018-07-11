@@ -101,5 +101,5 @@ if (TYPO3_MODE == 'BE') {
     RG\TtNews\Utility\IconFactory::registerAllIconIdentifiers();
 
     // register HTML template for the tt_news BackEnd Module
-    $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'mod1/mod_ttnews_admin.html';
+    $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'mod1/mod_ttnews_admin.html';
 }

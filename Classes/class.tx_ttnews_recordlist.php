@@ -199,12 +199,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
                 $first = '<a href="' . $listURL . '&pointer=0">
 					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/gfx/control_first.gif')
+                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first.gif')
                     . 'alt="' . $labelFirst . '" title="' . $labelFirst . '" />
 				</a>';
             } else {
                 $first = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/gfx/control_first_disabled.gif') . 'alt="" title="" />';
+                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first_disabled.gif') . 'alt="" title="" />';
             }
 
             if (($currentPage - 1) > 0) {
@@ -212,12 +212,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
                 $previous = '<a href="' . $listURL . '&pointer=' . (($currentPage - 2) * $this->iLimit) . '">
 					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/gfx/control_previous.gif')
+                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous.gif')
                     . 'alt="' . $labelPrevious . '" title="' . $labelPrevious . '" />
 					</a>';
             } else {
                 $previous = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/gfx/control_previous_disabled.gif') . 'alt="" title="" />';
+                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous_disabled.gif') . 'alt="" title="" />';
             }
 
             if (($currentPage + 1) <= $totalPages) {
@@ -225,12 +225,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
                 $next = '<a href="' . $listURL . '&pointer=' . (($currentPage) * $this->iLimit) . '">
 					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/gfx/control_next.gif')
+                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next.gif')
                     . 'alt="' . $labelNext . '" title="' . $labelNext . '" />
 					</a>';
             } else {
                 $next = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/gfx/control_next_disabled.gif') . 'alt="" title="" />';
+                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next_disabled.gif') . 'alt="" title="" />';
             }
 
             if ($currentPage != $totalPages) {
@@ -238,12 +238,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
                 $last = '<a href="' . $listURL . '&pointer=' . (($totalPages - 1) * $this->iLimit) . '">
 					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/gfx/control_last.gif')
+                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last.gif')
                     . 'alt="' . $labelLast . '" title="' . $labelLast . '" />
 					</a>';
             } else {
                 $last = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/gfx/control_last_disabled.gif') . 'alt="" title="" />';
+                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last_disabled.gif') . 'alt="" title="" />';
             }
 
             $pageIndicator = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:pageIndicator'),
@@ -510,7 +510,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
                 break;
         }
 
-        $img = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('tt_news') . 'res/noedit_' . $reason . '.gif';
+        $img = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/noedit_' . $reason . '.gif';
 
         return '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,
                 $img) . ' title="' . $label . '" alt="" />';
