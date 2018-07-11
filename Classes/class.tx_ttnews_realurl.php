@@ -1,29 +1,29 @@
 <?php
 
-namespace RG\TtNews;
+/*
+ * Copyright notice
+ *
+ * (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ * All rights reserved
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2009 Rupert Germann <rg@rgdata.de>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace RG\TtNews;
 
 /**
  * [CLASS/FUNCTION INDEX of SCRIPT]
@@ -40,20 +40,15 @@ namespace RG\TtNews;
  *
  */
 
-
 /**
  * realUrl userfunction which adds a default value for the GETvar tt_news[cat]
  *
  *
  * $Id: index.php 8910 2008-04-15 07:03:23Z rupertgermann $
  *
- * @author        Rupert Germann <rg@rgdata.de>
- * @package       TYPO3
- * @subpackage    tt_news
  */
 class tx_ttnews_realurl
 {
-
 
     /**
      * Main function, called for both encoding and decoding of URLs.
@@ -65,31 +60,28 @@ class tx_ttnews_realurl
      *
      * @return    mixed        Depends on branching.
      */
-    function main(&$params, &$ref)
+    public function main(&$params, &$ref)
     {
         $this->pObj = &$params['pObj'];
-
 
         /**
          * FIXME:
          * how to get this from realUrl config ?
          * seems not to be possible to detect reliably which part of the postvarset is the current one
          */
-
-
-        $lookUpTableCfg = array(
+        $lookUpTableCfg = [
             'table' => 'tt_news_cat',
             'id_field' => 'uid',
             'alias_field' => 'title',
             'addWhereClause' => ' AND deleted=0',
             'useUniqueCache' => 1,
-            'useUniqueCache_conf' => array(
+            'useUniqueCache_conf' => [
                 'strtolower' => 1,
                 'spaceCharacter' => '-',
-            ),
+            ],
             'autoUpdate' => 1,
             'tx_ttnews_valueDefault' => $this->pObj->extConf['tx_ttnews_valueDefault']
-        );
+        ];
 
         if ($params['decodeAlias']) {
             return $this->alias2id($params['value'], $lookUpTableCfg);
@@ -106,7 +98,7 @@ class tx_ttnews_realurl
      *
      * @return    [type]        ...
      */
-    function id2alias($value, $cfg)
+    public function id2alias($value, $cfg)
     {
         if (!$value) {
             $value = $cfg['tx_ttnews_valueDefault'];
@@ -125,7 +117,7 @@ class tx_ttnews_realurl
      *
      * @return    [type]        ...
      */
-    function alias2id($value, $cfg)
+    public function alias2id($value, $cfg)
     {
         if ($value == $cfg['tx_ttnews_valueDefault']) {
             $value = false;
@@ -135,8 +127,4 @@ class tx_ttnews_realurl
 
         return $value;
     }
-
-
 }
-
-

@@ -1,29 +1,27 @@
 <?php
-/***************************************************************
- *  Copyright notice
+
+/*
+ * Copyright notice
  *
- *  (c) 2004-2009 Rupert Germann <rupi@gmx.li>
- *  All rights reserved
+ * (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *  A copy is found in the textfile GPL.txt and important notices to the license
- *  from the author is found in LICENSE.txt distributed with these scripts.
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
  *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
 
 namespace RG\TtNews;
 
@@ -32,13 +30,9 @@ namespace RG\TtNews;
  *
  * $Id$
  *
- * @author     Rupert Germann <rupi@gmx.li>
- * @package    TYPO3
- * @subpackage tt_news
  */
 class Div
 {
-
 
     /**
      * Get category mounts of the current user
@@ -47,11 +41,11 @@ class Div
      *
      * @return string commeseparated list of mounts
      */
-    static public function getBeUserCatMounts($withSub = true)
+    public static function getBeUserCatMounts($withSub = true)
     {
         global $BE_USER;
 
-        $cmounts = array();
+        $cmounts = [];
 
         if (is_array($BE_USER->userGroups)) {
             foreach ($BE_USER->userGroups as $group) {
@@ -69,13 +63,14 @@ class Div
 
         if ($withSub && $categoryMounts) {
             $subcats = self::getSubCategories($categoryMounts);
-            $categoryMounts = implode(',',
-                array_unique(explode(',', $categoryMounts . ($subcats ? ',' . $subcats : ''))));
+            $categoryMounts = implode(
+                ',',
+                array_unique(explode(',', $categoryMounts . ($subcats ? ',' . $subcats : '')))
+            );
         }
 
         return $categoryMounts;
     }
-
 
     /**
      * Extends a given list of categories by their subcategories
@@ -86,20 +81,23 @@ class Div
      *
      * @return string extended $catlist
      */
-    static public function getSubCategories($catlist, $addWhere = '', $cc = 0)
+    public static function getSubCategories($catlist, $addWhere = '', $cc = 0)
     {
-
         if (!$catlist) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('EMPTY $catlist (' . __CLASS__ . '::' . __FUNCTION__ . ')',
-                'tt_news', 3, array());
+            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(
+                'EMPTY $catlist (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                'tt_news',
+                3,
+                []
+            );
         }
 
-
-        $sCatArr = array();
+        $sCatArr = [];
         $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
             'uid',
             'tt_news_cat',
-            'tt_news_cat.parent_category IN (' . $catlist . ') AND deleted=0 ' . $addWhere);
+            'tt_news_cat.parent_category IN (' . $catlist . ') AND deleted=0 ' . $addWhere
+        );
 
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
             $cc++;
@@ -117,7 +115,7 @@ class Div
         return implode(',', $sCatArr);
     }
 
-    static public function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause)
+    public static function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause)
     {
         // count news in current category
 
@@ -159,7 +157,6 @@ class Div
         }
 
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
-
     }
 
     /**
@@ -168,11 +165,10 @@ class Div
      *
      * @return array tree IDs
      */
-    static public function getAllowedTreeIDs()
+    public static function getAllowedTreeIDs()
     {
-
         $catlistWhere = self::getCatlistWhere();
-        $treeIDs = array();
+        $treeIDs = [];
         $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_news_cat', '1=1' . $catlistWhere . ' AND deleted=0');
         while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
             $treeIDs[] = $row['uid'];
@@ -187,7 +183,7 @@ class Div
      *
      * @return string WHERE query part
      */
-    static public function getCatlistWhere()
+    public static function getCatlistWhere()
     {
         $catlistWhere = '';
         if (!$GLOBALS['BE_USER']->isAdmin()) {
@@ -196,8 +192,10 @@ class Div
             $includeCatArray = self::getIncludeCatArray();
 
             if ($excludeList) {
-                $catlistWhere .= ' AND tt_news_cat.uid NOT IN (' . implode(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',
-                        $excludeList), ',') . ')';
+                $catlistWhere .= ' AND tt_news_cat.uid NOT IN (' . implode(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(
+                    ',',
+                        $excludeList
+                ), ',') . ')';
             }
             if (!empty($includeCatArray)) {
                 $catlistWhere .= ' AND tt_news_cat.uid IN (' . implode(',', $includeCatArray) . ')';
@@ -212,7 +210,7 @@ class Div
      *
      * @return array ids of categories to include
      */
-    static public function getIncludeCatArray()
+    public static function getIncludeCatArray()
     {
         $includeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.includeList');
         $catmounts = self::getBeUserCatMounts();
@@ -222,5 +220,4 @@ class Div
 
         return \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $includeList, 1);
     }
-
 }

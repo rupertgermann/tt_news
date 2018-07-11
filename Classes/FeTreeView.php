@@ -1,13 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rupertgermann
- * Date: 08.10.17
- * Time: 17:59
+
+/*
+ * Copyright notice
+ *
+ * (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ * All rights reserved
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
  */
 
 namespace RG\TtNews;
-
 
 /**
  * [Describe function...]
@@ -15,9 +31,8 @@ namespace RG\TtNews;
  */
 class FeTreeView extends Categorytree
 {
-
-    var $TCEforms_itemFormElName = '';
-    var $TCEforms_nonSelectableItemsArray = array();
+    public $TCEforms_itemFormElName = '';
+    public $TCEforms_nonSelectableItemsArray = [];
 
     /**
      * wraps the record titles in the tree with links or not depending on if they are in the
@@ -28,7 +43,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        the wrapped title
      */
-    function wrapTitle($title, $row, $bank = 0)
+    public function wrapTitle($title, $row, $bank = 0)
     {
         $newsConf = &$this->tt_news_obj->conf;
         if ($newsConf['catSelectorTargetPid']) {
@@ -40,11 +55,15 @@ class FeTreeView extends Categorytree
             $catSelLinkParams = $GLOBALS['TSFE']->id;
         }
 
-
         if ($row['uid'] <= 0) {
             // catmenu Header
-            return $this->tt_news_obj->pi_linkTP_keepPIvars($title, array(), $this->tt_news_obj->allowCaching, 1,
-                $catSelLinkParams);
+            return $this->tt_news_obj->pi_linkTP_keepPIvars(
+                $title,
+                [],
+                $this->tt_news_obj->allowCaching,
+                1,
+                $catSelLinkParams
+            );
         }
 
         /**
@@ -53,7 +72,6 @@ class FeTreeView extends Categorytree
          * this is a "hack" to prevent dropping the "L" parameter during ajax expand/collapse actions
          * --> find out why TSFE->linkVars is empty
          */
-
         $L = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L'));
         if ($L > 0 && !$GLOBALS['TSFE']->linkVars) {
             $GLOBALS['TSFE']->linkVars = '&L=' . $L;
@@ -76,23 +94,22 @@ class FeTreeView extends Categorytree
         }
 
         if ($newsConf['useHRDates']) {
-            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, array(
+            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
                 'cat' => $row['uid'],
                 'year' => ($piVars['year'] && $newsConf['catmenuWithArchiveParams'] ? $piVars['year'] : null),
                 'month' => ($piVars['month'] && $newsConf['catmenuWithArchiveParams'] ? $piVars['month'] : null)
-            ), $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
+            ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
         } else {
-            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, array(
+            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
                 'cat' => $row['uid'],
                 'backPid' => null,
                 'pointer' => null
-            ), $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
+            ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
         }
         $GLOBALS['TSFE']->ATagParams = $pTmp;
 
         return $link;
     }
-
 
     /**
      * Returns the root icon for a tree/mountpoint (defaults to the globe)
@@ -101,7 +118,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Icon image tag.
      */
-    function getRootIcon($rec)
+    public function getRootIcon($rec)
     {
         $lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
 
@@ -115,10 +132,12 @@ class FeTreeView extends Categorytree
             $icon = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMAGE', $iconConf['image.']);
         }
 
-        return $icon ? $icon : $this->wrapIcon('<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,
-                'gfx/i/_icon_website.gif', 'width="18" height="16"') . ' alt="" />', $rec);
+        return $icon ? $icon : $this->wrapIcon('<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg(
+            $this->backPath,
+                'gfx/i/_icon_website.gif',
+            'width="18" height="16"'
+        ) . ' alt="" />', $rec);
     }
-
 
     /**
      * Get icon for the row.
@@ -128,15 +147,18 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Image tag.
      */
-    function getIcon($row)
+    public function getIcon($row)
     {
         $lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
         $catIconMode = intval($lConf['catmenuIconMode']);
         $icon = '';
 
         if ($this->iconPath && $this->iconName) {
-            $icon = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('', $this->iconPath . $this->iconName,
-                    'width="18" height="16"') . ' alt="" />';
+            $icon = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg(
+                '',
+                $this->iconPath . $this->iconName,
+                    'width="18" height="16"'
+            ) . ' alt="" />';
         } else {
             switch ($catIconMode) {
                 // icon from cat db-record
@@ -162,14 +184,13 @@ class FeTreeView extends Categorytree
         }
 
         if (!$icon && !$catIconMode) {
-            $icon = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord($this->table, $row, array(
+            $icon = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord($this->table, $row, [
                 'class' => 'c-recIcon'
-            ));
+            ]);
         }
 
         return $this->wrapIcon($icon, $row);
     }
-
 
     /**
      * Wrap the plus/minus icon in a link
@@ -181,7 +202,7 @@ class FeTreeView extends Categorytree
      * @return    string        Link-wrapped input string
      * @access   private
      */
-    function PMiconATagWrap($icon, $cmd, $isExpand = true)
+    public function PMiconATagWrap($icon, $cmd, $isExpand = true)
     {
         if ($this->thisScript && $this->expandable) {
             $newsConf = &$this->tt_news_obj->conf;
@@ -200,12 +221,15 @@ class FeTreeView extends Categorytree
                 $anchor = '';
                 $name = '';
 
-                $aUrl = $this->tt_news_obj->pi_linkTP_keepPIvars_url(array(), $this->tt_news_obj->allowCaching, 0,
-                        $catSelLinkParams) . '&PM=' . $cmd . $anchor;
+                $aUrl = $this->tt_news_obj->pi_linkTP_keepPIvars_url(
+                    [],
+                    $this->tt_news_obj->allowCaching,
+                    0,
+                        $catSelLinkParams
+                ) . '&PM=' . $cmd . $anchor;
 
                 return '<a class="pm" href="' . htmlspecialchars($aUrl) . '"' . $name . '>' . $icon . '</a>';
             }
-
         } else {
             return $icon;
         }
@@ -216,7 +240,7 @@ class FeTreeView extends Categorytree
      *
      * @return    [type]        ...
      */
-    function initializePositionSaving()
+    public function initializePositionSaving()
     {
         // Get stored tree structure:
         if ($this->FE_USER->user) {
@@ -227,7 +251,7 @@ class FeTreeView extends Categorytree
         }
 
         if (!is_array($this->stored)) {
-            $this->stored = array();
+            $this->stored = [];
         }
 
         // PM action
@@ -255,7 +279,7 @@ class FeTreeView extends Categorytree
      * @return    void
      * @access private
      */
-    function savePosition()
+    public function savePosition()
     {
         if ($this->FE_USER->user) {
             $this->FE_USER->uc['tt_news'][$this->treeName] = serialize($this->stored);
@@ -273,7 +297,7 @@ class FeTreeView extends Categorytree
      *
      * @return    [type]        ...
      */
-    function getTitleStr($row, $titleLen = 30)
+    public function getTitleStr($row, $titleLen = 30)
     {
         return htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs($row['title'], $titleLen));
     }

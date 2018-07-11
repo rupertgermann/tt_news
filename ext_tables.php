@@ -1,11 +1,34 @@
 <?php
+
+/*
+ * Copyright notice
+ *
+ * (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ * All rights reserved
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 if (!defined('TYPO3_MODE')) {
-    die ('Access denied.');
+    die('Access denied.');
 }
 
 // get extension configuration
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
-
 
 // allow news and news-category records on normal pages
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tt_news_cat');
@@ -57,15 +80,22 @@ mod.web_txttnewsM1 {
 ');
 
 // initalize "context sensitive help" (csh)
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tt_news',
-    'EXT:tt_news/csh/locallang_csh_ttnews.php');
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tt_news_cat',
-    'EXT:tt_news/csh/locallang_csh_ttnewscat.php');
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('xEXT_tt_news',
-    'EXT:tt_news/csh/locallang_csh_manual.xml');
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('_MOD_web_txttnewsM1',
-    'EXT:tt_news/csh/locallang_csh_mod_newsadmin.xml');
-
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+    'tt_news',
+    'EXT:tt_news/csh/locallang_csh_ttnews.php'
+);
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+    'tt_news_cat',
+    'EXT:tt_news/csh/locallang_csh_ttnewscat.php'
+);
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+    'xEXT_tt_news',
+    'EXT:tt_news/csh/locallang_csh_manual.xml'
+);
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+    '_MOD_web_txttnewsM1',
+    'EXT:tt_news/csh/locallang_csh_mod_newsadmin.xml'
+);
 
 if (TYPO3_MODE == 'BE') {
     if ($confArr['showBackEndModule']) {

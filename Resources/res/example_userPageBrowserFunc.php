@@ -1,38 +1,35 @@
 <?php
-/**
+
+/*
  * Copyright notice
  *
- *   (c) 1999-2004 Kasper Skaarhoj (kasper@typo3.com)
- *   All rights reserved
+ * (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ * All rights reserved
  *
- *   This script is part of the TYPO3 project. The TYPO3 project is
- *   free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *   The GNU General Public License can be found at
- *   http://www.gnu.org/copyleft/gpl.html.
- *   A copy is found in the textfile GPL.txt and important notices to the license
- *   from the author is found in LICENSE.txt distributed with these scripts.
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
  *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *   This script is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   This copyright notice MUST APPEAR in all copies of the script!
+ * This copyright notice MUST APPEAR in all copies of the script!
  */
+
 /**
  * This example shows, how you can substitute the pageBrowser from tt_news with your own pagebrowser script
  * it uses the function userPageBrowserFunc() from the tt_news class
  *
  * $Id$
  *
- * @author Rupert Germann <rupi@gmx.li>
  */
-
 
 /*
 * This is a changed version of the pagebrowser function from class.pi_base (in TYPO3 version below 3.8.0).
@@ -51,19 +48,19 @@ includeLibs.userPageBrowserFunc = EXT:tt_news/res/example_userPageBrowserFunc.ph
 plugin.tt_news.userPageBrowserFunc = user_substPageBrowser
 
 plugin.tt_news {
-	# Pagebrowser settings
-	pageBrowser {
-	maxPages = 20
-	# set this to '0' if you want the pagebrowser to display only numbers
-	showPBrowserText = 1
-	tableParams = cellpadding=2
-	showResultCount = 1
-	}
-	# Example for overriding values from locallang.php with html-code that displays images
-	_LOCAL_LANG.default {
-	pi_list_browseresults_prev = <img src="typo3/gfx/pil2left.gif" border="0" height="12" width="7" alt="previous" title="previous">
-	pi_list_browseresults_next = <img src="typo3/gfx/pil2right.gif" border="0" height="12" width="7" alt="next" title="next">
-	}
+    # Pagebrowser settings
+    pageBrowser {
+    maxPages = 20
+    # set this to '0' if you want the pagebrowser to display only numbers
+    showPBrowserText = 1
+    tableParams = cellpadding=2
+    showResultCount = 1
+    }
+    # Example for overriding values from locallang.php with html-code that displays images
+    _LOCAL_LANG.default {
+    pi_list_browseresults_prev = <img src="typo3/gfx/pil2left.gif" border="0" height="12" width="7" alt="previous" title="previous">
+    pi_list_browseresults_next = <img src="typo3/gfx/pil2right.gif" border="0" height="12" width="7" alt="next" title="next">
+    }
 }
 
 
@@ -81,41 +78,55 @@ function user_substPageBrowser($markerArray, $conf)
 {
     $pObj = &$conf['parentObj']; // make a reference to the parent object
 
-#debug($pObj->conf);
+    //debug($pObj->conf);
 
     // Initializing variables:
     $showResultCount = $pObj->conf['pageBrowser.']['showResultCount'];
     $tableParams = $pObj->conf['pageBrowser.']['tableParams'];
     $pointer = $pObj->piVars['pointer'];
     $count = $pObj->internal['res_count'];
-    $results_at_a_time = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($pObj->internal['results_at_a_time'],
-        1, 1000);
+    $results_at_a_time = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange(
+        $pObj->internal['results_at_a_time'],
+        1,
+        1000
+    );
     $maxPages = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($pObj->internal['maxPages'], 1, 100);
     $max = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange(ceil($count / $results_at_a_time), 1, $maxPages);
     $pointer = intval($pointer);
-    $links = array();
+    $links = [];
     // Make browse-table/links:
     if ($pObj->pi_alwaysPrev >= 0) {
         if ($pointer > 0) {
             $links[] = '
-					<td nowrap="nowrap"><p>' . $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL('pi_list_browseresults_prev',
-                    '< Previous'), array('pointer' => ($pointer - 1 ? $pointer - 1 : '')),
-                    $pObj->allowCaching) . '</p></td>';
+					<td nowrap="nowrap"><p>' . $pObj->pi_linkTP_keepPIvars(
+                $pObj->pi_getLL(
+                'pi_list_browseresults_prev',
+                    '< Previous'
+            ),
+                ['pointer' => ($pointer - 1 ? $pointer - 1 : '')],
+                    $pObj->allowCaching
+            ) . '</p></td>';
         } elseif ($pObj->pi_alwaysPrev) {
             $links[] = '
-					<td nowrap="nowrap"><p>' . $pObj->pi_getLL('pi_list_browseresults_prev',
-                    '< Previous') . '</p></td>';
+					<td nowrap="nowrap"><p>' . $pObj->pi_getLL(
+                'pi_list_browseresults_prev',
+                    '< Previous'
+            ) . '</p></td>';
         }
     }
     for ($a = 0; $a < $max; $a++) {
         $links[] = '
-					<td' . ($pointer == $a ? $pObj->pi_classParam('browsebox-SCell') : '') . ' nowrap="nowrap"><p>' . $pObj->pi_linkTP_keepPIvars(trim($pObj->pi_getLL('pi_list_browseresults_page',
-                    'Page') . ' ' . ($a + 1)), array('pointer' => ($a ? $a : '')), $pObj->allowCaching) . '</p></td>';
+					<td' . ($pointer == $a ? $pObj->pi_classParam('browsebox-SCell') : '') . ' nowrap="nowrap"><p>' . $pObj->pi_linkTP_keepPIvars(trim($pObj->pi_getLL(
+            'pi_list_browseresults_page',
+                    'Page'
+        ) . ' ' . ($a + 1)), ['pointer' => ($a ? $a : '')], $pObj->allowCaching) . '</p></td>';
     }
     if ($pointer < ceil($count / $results_at_a_time) - 1) {
         $links[] = '
-					<td nowrap="nowrap"><p>' . $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL('pi_list_browseresults_next',
-                'Next >'), array('pointer' => $pointer + 1), $pObj->allowCaching) . '</p></td>';
+					<td nowrap="nowrap"><p>' . $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL(
+            'pi_list_browseresults_next',
+                'Next >'
+        ), ['pointer' => $pointer + 1], $pObj->allowCaching) . '</p></td>';
     }
 
     $pR1 = $pointer * $results_at_a_time + 1;
@@ -126,15 +137,21 @@ function user_substPageBrowser($markerArray, $conf)
 			List browsing box:
 		-->
 		<div' . $pObj->pi_classParam('browsebox') . '>' .
-        ($showResultCount ? '
+        (
+            $showResultCount ? '
 			<p>' .
             ($pObj->internal['res_count'] ?
                 sprintf(
-                    str_replace('###SPAN_BEGIN###', '<span' . $pObj->pi_classParam('browsebox-strong') . '>',
-                        $pObj->pi_getLL('pi_list_browseresults_displays',
-                            'Displaying results ###FROM### to ###TO### out of ###OUT_OF###')),
+                    str_replace(
+                        '###SPAN_BEGIN###',
+                        '<span' . $pObj->pi_classParam('browsebox-strong') . '>',
+                        $pObj->pi_getLL(
+                            'pi_list_browseresults_displays',
+                            'Displaying results ###FROM### to ###TO### out of ###OUT_OF###'
+                        )
+                    ),
                     $pObj->internal['res_count'] > 0 ? $pR1 : 0,
-                    min(array($pObj->internal['res_count'], $pR2)),
+                    min([$pObj->internal['res_count'], $pR2]),
                     $pObj->internal['res_count']
                 ) :
                 $pObj->pi_getLL('pi_list_browseresults_noResults', 'Sorry, no items were found.')) . '</p>' : ''
@@ -169,19 +186,19 @@ includeLibs.userPageBrowserFunc = EXT:tt_news/res/example_userPageBrowserFunc.ph
 plugin.tt_news.userPageBrowserFunc = user_substPageBrowser2
 
 plugin.tt_news {
-	# Pagebrowser settings
-	pageBrowser {
-	maxPages = 10
-	# set this to '0' if you want the pagebrowser to display only numbers
-	showPBrowserText = 0
-	actPage_stdWrap.wrap = <strong>|</strong>
-	page_stdWrap.wrap =
-	}
-	# Example for overriding values from locallang.php with other values
-	_LOCAL_LANG.default {
-	pi_list_browseresults_prev = <img src="typo3/gfx/pil2left.gif" border="0" height="12" width="7" alt="previous" title="previous">
-	pi_list_browseresults_next = <img src="typo3/gfx/pil2right.gif" border="0" height="12" width="7" alt="next" title="next">
-	}
+    # Pagebrowser settings
+    pageBrowser {
+    maxPages = 10
+    # set this to '0' if you want the pagebrowser to display only numbers
+    showPBrowserText = 0
+    actPage_stdWrap.wrap = <strong>|</strong>
+    page_stdWrap.wrap =
+    }
+    # Example for overriding values from locallang.php with other values
+    _LOCAL_LANG.default {
+    pi_list_browseresults_prev = <img src="typo3/gfx/pil2left.gif" border="0" height="12" width="7" alt="previous" title="previous">
+    pi_list_browseresults_next = <img src="typo3/gfx/pil2right.gif" border="0" height="12" width="7" alt="next" title="next">
+    }
 }
 
 */
@@ -204,8 +221,10 @@ function user_substPageBrowser2($markerArray, $conf)
     if ($newsCount > $begin_at + $pObj->config['limit']) {
         $next = ($begin_at + $pObj->config['limit'] > $newsCount) ? $newsCount - $pObj->config['limit'] : $begin_at + $pObj->config['limit'];
         $next = intval($next / $pObj->config['limit']);
-        $markerArray['###LINK_NEXT###'] = $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL('pi_list_browseresults_next',
-            'Next >'), array('pointer' => $next), $pObj->allowCaching);
+        $markerArray['###LINK_NEXT###'] = $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL(
+            'pi_list_browseresults_next',
+            'Next >'
+        ), ['pointer' => $next], $pObj->allowCaching);
     } else {
         $markerArray['###LINK_NEXT###'] = '';
     }
@@ -213,8 +232,10 @@ function user_substPageBrowser2($markerArray, $conf)
     if ($begin_at) {
         $prev = ($begin_at - $pObj->config['limit'] < 0) ? 0 : $begin_at - $pObj->config['limit'];
         $prev = intval($prev / $pObj->config['limit']);
-        $markerArray['###LINK_PREV###'] = $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL('pi_list_browseresults_prev',
-                '< Previous'), array('pointer' => $prev), $pObj->allowCaching) . ' ';
+        $markerArray['###LINK_PREV###'] = $pObj->pi_linkTP_keepPIvars($pObj->pi_getLL(
+            'pi_list_browseresults_prev',
+                '< Previous'
+        ), ['pointer' => $prev], $pObj->allowCaching) . ' ';
     } else {
         $markerArray['###LINK_PREV###'] = '';
     }
@@ -243,24 +264,32 @@ function user_substPageBrowser2($markerArray, $conf)
 
     for ($i = $firstPage; $i < $lastPage; $i++) {
         if (($begin_at >= $i * $pObj->config['limit']) && ($begin_at < $i * $pObj->config['limit'] + $pObj->config['limit'])) {
-            $item = ($pObj->conf['pageBrowser.']['showPBrowserText'] ? $pObj->pi_getLL('pi_list_browseresults_page',
-                    'Page') : '') . (string)($i + 1);
-            $markerArray['###BROWSE_LINKS###'] .= ' ' . $pObj->local_cObj->stdWrap($item,
-                    $pObj->conf['pageBrowser.']['actPage_stdWrap.']) . ' ';
+            $item = ($pObj->conf['pageBrowser.']['showPBrowserText'] ? $pObj->pi_getLL(
+                'pi_list_browseresults_page',
+                    'Page'
+            ) : '') . (string)($i + 1);
+            $markerArray['###BROWSE_LINKS###'] .= ' ' . $pObj->local_cObj->stdWrap(
+                $item,
+                    $pObj->conf['pageBrowser.']['actPage_stdWrap.']
+            ) . ' ';
         } else {
-            $item = ($pObj->conf['pageBrowser.']['showPBrowserText'] ? $pObj->pi_getLL('pi_list_browseresults_page',
-                    'Page') : '') . (string)($i + 1);
+            $item = ($pObj->conf['pageBrowser.']['showPBrowserText'] ? $pObj->pi_getLL(
+                'pi_list_browseresults_page',
+                    'Page'
+            ) : '') . (string)($i + 1);
 
-            $markerArray['###BROWSE_LINKS###'] .= $pObj->pi_linkTP_keepPIvars($pObj->local_cObj->stdWrap($item,
-                        $pObj->conf['pageBrowser.']['page_stdWrap.']) . ' ', array('pointer' => $i),
-                    $pObj->allowCaching) . ' ';
+            $markerArray['###BROWSE_LINKS###'] .= $pObj->pi_linkTP_keepPIvars(
+                $pObj->local_cObj->stdWrap(
+                $item,
+                        $pObj->conf['pageBrowser.']['page_stdWrap.']
+            ) . ' ',
+                ['pointer' => $i],
+                    $pObj->allowCaching
+            ) . ' ';
         }
     }
-
 
     $markerArray['###BROWSE_LINKS###'] = $markerArray['###LINK_PREV###'] . $markerArray['###BROWSE_LINKS###'] . $markerArray['###LINK_NEXT###'];
 
     return $markerArray;
 }
-
-

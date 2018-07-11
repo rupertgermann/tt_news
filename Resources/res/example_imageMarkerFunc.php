@@ -1,35 +1,33 @@
 <?php
-/***************************************************************
- *  Copyright notice
+
+/*
+ * Copyright notice
  *
- *  (c) 1999-2004 Kasper Skaarhoj (kasper@typo3.com)
- *  All rights reserved
+ * (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *  A copy is found in the textfile GPL.txt and important notices to the license
- *  from the author is found in LICENSE.txt distributed with these scripts.
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
  *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
 /**
  * This is an example for processing the news images by a user function.
  *
  * $Id$
  *
- * @author    Rupert Germann <rupi@gmx.li>
  */
 
 /**
@@ -41,27 +39,27 @@
  */
 /*  add this to your TS-setup:
 
-  	# include the php script
+    # include the php script
     includeLibs.imageMarkerFunc = EXT:tt_news/res/example_imageMarkerFunc.php
 
-	plugin.tt_news {
- 		# call user function
- 		imageMarkerFunc = user_imageMarkerFunc
- 		displaySingle {
- 			imageWrapIfAny_0 = <div class='news-single-images-container0'> | </div>
-    		imageWrapIfAny_1 = <div class='news-single-images-container1'> | </div>
-    		imageWrapIfAny_2 = <div class='news-single-images-container2'> | </div>
-    		imageWrapIfAny_3 = <div class='news-single-images-container3'> | </div>
-		}
-		# example styles for the new wraps
-		_CSS_DEFAULT_STYLE (
-		  	.news-single-images-container0, .news-single-images-container1, .news-single-images-container2, .news-single-images-container3 { width: 200px; margin-left: 5px; }
-			.news-single-images-container0 { background-color: #900; }
-			.news-single-images-container1 { background-color: #090; }
-			.news-single-images-container2 { background-color: #009; }
-			.news-single-images-container3 { background-color: #990; }
-		)
- 	}
+    plugin.tt_news {
+        # call user function
+        imageMarkerFunc = user_imageMarkerFunc
+        displaySingle {
+            imageWrapIfAny_0 = <div class='news-single-images-container0'> | </div>
+            imageWrapIfAny_1 = <div class='news-single-images-container1'> | </div>
+            imageWrapIfAny_2 = <div class='news-single-images-container2'> | </div>
+            imageWrapIfAny_3 = <div class='news-single-images-container3'> | </div>
+        }
+        # example styles for the new wraps
+        _CSS_DEFAULT_STYLE (
+              .news-single-images-container0, .news-single-images-container1, .news-single-images-container2, .news-single-images-container3 { width: 200px; margin-left: 5px; }
+            .news-single-images-container0 { background-color: #900; }
+            .news-single-images-container1 { background-color: #090; }
+            .news-single-images-container2 { background-color: #009; }
+            .news-single-images-container3 { background-color: #990; }
+        )
+    }
 
 */
 /**
@@ -74,7 +72,6 @@
  */
 function user_imageMarkerFunc($paramArray, $conf)
 {
-
     $markerArray = $paramArray[0];
     $lConf = $paramArray[1];
     $pObj = &$conf['parentObj']; // make a reference to the parent-object
@@ -107,19 +104,21 @@ function user_imageMarkerFunc($paramArray, $conf)
                     $lConf['image.']['altText'] .= $row[$lConf['imgAltTextField']];
             }
         }
-        $theImgCode .= $pObj->local_cObj->wrap($pObj->local_cObj->cObjGetSingle('IMAGE',
-                $lConf['image.']) . $pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']),
-            $lConf['imageWrapIfAny_' . $cc]);
+        $theImgCode .= $pObj->local_cObj->wrap(
+            $pObj->local_cObj->cObjGetSingle(
+            'IMAGE',
+                $lConf['image.']
+        ) . $pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']),
+            $lConf['imageWrapIfAny_' . $cc]
+        );
         $cc++;
     }
     $markerArray['###NEWS_IMAGE###'] = '';
     if ($cc) {
         $markerArray['###NEWS_IMAGE###'] = $pObj->local_cObj->wrap(trim($theImgCode), $lConf['imageWrapIfAny']);
-
     }
 
     return $markerArray;
-
 }
 
 /**
@@ -148,8 +147,8 @@ plugin.tt_news {
   # If this is not wanted it can be disabled or changed by overwriting the values from "displaySingle".
   displayList.image {
     backgroundFile = media/frames/darkroom2_bottom.jpg
-	maskFile = media/frames/darkroom2_mask.jpg
-	noImgFile >
+    maskFile = media/frames/darkroom2_mask.jpg
+    noImgFile >
   }
 }
 
@@ -209,13 +208,26 @@ function user_maskImages($paramArray, $conf)
 
         $imgObj->init();
 
-        $imgInfo = $imgObj->imageMagickConvert($lConf['image.']['file'], '', $lConf['image.']['file.']['maxW'],
-            $lConf['image.']['file']['maxH'], '-quality 100', '0', '');
+        $imgInfo = $imgObj->imageMagickConvert(
+            $lConf['image.']['file'],
+            '',
+            $lConf['image.']['file.']['maxW'],
+            $lConf['image.']['file']['maxH'],
+            '-quality 100',
+            '0',
+            ''
+        );
         if ($imgInfo[3]) {
-
             $bgFile = $lConf['image.']['backgroundFile'] ? $lConf['image.']['backgroundFile'] : 'media/frames/darkroom8_bottom.jpg';
-            $bgInfo = $imgObj->imageMagickConvert($bgFile, '', $imgInfo[0], $imgInfo[1], '-quality 100 -negate', '0',
-                '');
+            $bgInfo = $imgObj->imageMagickConvert(
+                $bgFile,
+                '',
+                $imgInfo[0],
+                $imgInfo[1],
+                '-quality 100 -negate',
+                '0',
+                ''
+            );
 
             $mFile = $lConf['image.']['maskFile'] ? $lConf['image.']['maskFile'] : 'media/frames/darkroom8_mask.jpg';
             $mInfo = $imgObj->imageMagickConvert($mFile, '', $imgInfo[0], $imgInfo[1], '-quality 100 -negate', '0', '');
@@ -226,16 +238,20 @@ function user_maskImages($paramArray, $conf)
 
             $lConf['image.']['file'] = $imgInfo[3]; // set the masked image as filename for the IMAGE object
 
-            $theImgCode .= $pObj->local_cObj->cObjGetSingle('IMAGE',
-                    $lConf['image.']) . $pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
+            $theImgCode .= $pObj->local_cObj->cObjGetSingle(
+                'IMAGE',
+                    $lConf['image.']
+            ) . $pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
 
             // the next line can be used instead of the line above if you don't want to render the image trough a cObject
             // $theImgCode.= '<img src="'. $imgInfo[3] .'" border="0">'.$pObj->local_cObj->stdWrap($imgsCaptions[$cc],$lConf['caption_stdWrap.']);
 
             $cc++;
         } elseif ($lConf['image.']['noImgFile']) {
-            $theImgCode .= '<img src="' . $lConf['image.']['noImgFile'] . '" border="0">' . $pObj->local_cObj->stdWrap($imgsCaptions[$cc],
-                    $lConf['caption_stdWrap.']);
+            $theImgCode .= '<img src="' . $lConf['image.']['noImgFile'] . '" border="0">' . $pObj->local_cObj->stdWrap(
+                $imgsCaptions[$cc],
+                    $lConf['caption_stdWrap.']
+            );
             $cc++;
         }
     }
@@ -245,6 +261,4 @@ function user_maskImages($paramArray, $conf)
     }
 
     return $markerArray;
-
 }
-

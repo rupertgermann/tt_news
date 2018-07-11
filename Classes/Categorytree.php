@@ -1,43 +1,36 @@
 <?php
 
-namespace RG\TtNews;
+/*
+ * Copyright notice
+ *
+ * (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ * All rights reserved
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2005-2009 Rupert Germann <rupi@gmx.li>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *  A copy is found in the textfile GPL.txt and important notices to the license
- *  from the author is found in LICENSE.txt distributed with these scripts.
- *
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace RG\TtNews;
 
 /**
  * generates a tree from tt_news categories.
  *
  * $Id$
  *
- * @author     Rupert Germann <rupi@gmx.li>
- * @package    TYPO3
- * @subpackage tt_news
  */
-
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_div.php');
 
 /**
@@ -46,43 +39,49 @@ require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_new
  */
 class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
 {
+    public $categoryCountCache = [];
+    public $cacheHit = false;
 
-    var $categoryCountCache = array();
-    var $cacheHit = false;
-
-    var $expandable;
+    public $expandable;
 
     protected function handleCache()
     {
         $storeKey = '';
 
         if ($this->tt_news_obj->cache_categoryCount) {
-            $storeKey = md5(serialize(array(
+            $storeKey = md5(serialize([
                 $this->stored,
                 $this->MOUNTS,
                 $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause
-            )));
+            ]));
 
             $tmpCCC = $this->tt_news_obj->cache->get($storeKey);
             if ($tmpCCC) {
                 if ($this->tt_news_obj->writeCachingInfoToDevlog > 1) {
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')',
-                        'tt_news', -1, array());
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(
+                        'categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                        'tt_news',
+                        -1,
+                        []
+                    );
                 }
 
                 $this->categoryCountCache = unserialize($tmpCCC);
                 $this->cacheHit = true;
             } else {
                 if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')',
-                        'tt_news', 2, array(
+                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(
+                        'categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                        'tt_news',
+                        2,
+                        [
                             $this->stored,
                             $this->MOUNTS,
                             $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause
-                        ));
+                        ]
+                    );
                 }
             }
-
         }
 
         return $storeKey;
@@ -96,14 +95,14 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
      *
      * @return    string        HTML code for the browsable tree
      */
-    function getBrowsableTree($groupByPages = false)
+    public function getBrowsableTree($groupByPages = false)
     {
 
         // Get stored tree structure AND updating it if needed according to incoming PM GET var.
         $this->initializePositionSaving();
 
         // Init done:
-        $treeArr = array();
+        $treeArr = [];
         $tmpClause = $this->clause;
         $savedTable = $this->table;
 
@@ -122,7 +121,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
             $this->ids = $curIds;
 
             // Set PM icon for root of mount:
-            $cmd = $this->bank . '_' . ($isOpen ? "0_" : "1_") . $uid . '_' . $this->treeName;
+            $cmd = $this->bank . '_' . ($isOpen ? '0_' : '1_') . $uid . '_' . $this->treeName;
 
             $icon = '<img' . \RG\TtNews\Utility\IconFactory::skinImg('gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
             if ($this->expandable && !$this->expandFirst) {
@@ -144,7 +143,6 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
                     $firstHtml .= $this->getIcon($rootRec);
                 }
             } else {
-
                 if ($this->storagePid > 0 && $this->useStoragePid) {
                     // root = page record of current GRSP
                     $this->table = 'pages';
@@ -174,13 +172,13 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
             $uid = $rootRec['uid'];
 
             // Add the root of the mount to ->tree
-            $this->tree[] = array(
+            $this->tree[] = [
                 'HTML' => $firstHtml,
                 'row' => $rootRec,
                 'bank' => $this->bank,
                 'hasSub' => true,
                 'invertedDepth' => 1000
-            );
+            ];
 
             // If the mount is expanded, go down:
             if ($isOpen) {
@@ -201,8 +199,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         return $this->printTree($treeArr);
     }
 
-
-    function getNewsCountForCategory($catID)
+    public function getNewsCountForCategory($catID)
     {
         $sum = false;
 
@@ -215,18 +212,24 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         }
 
         if ($this->tt_news_obj->cache_categoryCount) {
-            $hash = \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause),
-                30);
+            $hash = \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(
+                serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause),
+                30
+            );
             $sum = $this->tt_news_obj->cache->get($hash);
         }
 
         if ($sum === false) {
             if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-                \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')',
-                    'tt_news', 2, array());
+                \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(
+                    'CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                    'tt_news',
+                    2,
+                    []
+                );
             }
 
-            $result = array();
+            $result = [];
             $result['sum'] = 0;
 
             $news_clause = '';
@@ -239,7 +242,6 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
 
             \RG\TtNews\tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
             $sum = $result['sum'];
-
         }
         $this->categoryCountCache[$catID] = (int)$sum;
         if ($this->tt_news_obj->cache_categoryCount) {
@@ -249,21 +251,20 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         return $sum;
     }
 
-
     /**
      * Fetches the data for the tree
      *
-     * @param    integer        item id for which to select subitems (parent id)
-     * @param    integer        Max depth (recursivity limit)
+     * @param    int        item id for which to select subitems (parent id)
+     * @param    int        Max depth (recursivity limit)
      * @param    string         ? (internal)
      * @param    [type]        $subCSSclass: ...
      *
-     * @return    integer        The count of items on the level
+     * @return    int        The count of items on the level
      */
     protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '', $subCSSclass = '')
     {
         // Buffer for id hierarchy is reset:
-        $this->buffer_idH = array();
+        $this->buffer_idH = [];
 
         // Init vars
         $depth = intval($depth);
@@ -273,7 +274,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         $res = $this->getDataInit($uid, $subCSSclass);
         $c = $this->getDataCount($res);
         $crazyRecursionLimiter = 999;
-        $allRows = array();
+        $allRows = [];
         while ($crazyRecursionLimiter > 0 && $row = $this->getDataNext($res, $subCSSclass)) {
             if ($this->getCatNewsCount) {
                 $row['newsCount'] = $this->getNewsCountForCategory($row['uid']);
@@ -288,7 +289,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
             $a++;
 
             $newID = $row['uid'];
-            $this->tree[] = array(); // Reserve space.
+            $this->tree[] = []; // Reserve space.
             end($this->tree);
             $treeKey = key($this->tree); // Get the key for this space
             $LN = ($a == $c) ? 'blank' : 'line';
@@ -304,8 +305,12 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
 
             // Make a recursive call to the next level
             if ($depth > 1 && $this->expandNext($newID)) {
-                $nextCount = $this->getNewsCategoryTree($newID, $depth - 1, $blankLineCode . ',' . $LN,
-                    $row['_SUBCSSCLASS']);
+                $nextCount = $this->getNewsCategoryTree(
+                    $newID,
+                    $depth - 1,
+                    $blankLineCode . ',' . $LN,
+                    $row['_SUBCSSCLASS']
+                );
                 if (count($this->buffer_idH)) {
                     $idH[$row['uid']]['subrow'] = $this->buffer_idH;
                 }
@@ -323,7 +328,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
             }
 
             // Finally, add the row/HTML content to the ->tree array in the reserved key.
-            $this->tree[$treeKey] = array(
+            $this->tree[$treeKey] = [
                 'row' => $row,
                 'HTML' => $HTML,
                 'hasSub' => $nextCount && $this->expandNext($newID),
@@ -332,7 +337,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
                 'invertedDepth' => $depth,
                 'blankLineCode' => $blankLineCode,
                 'bank' => $this->bank
-            );
+            ];
         }
 
         if ($a) {
@@ -359,8 +364,10 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         }
 
         $itemHTML .= '
-				<li id="' . $idAttr . '"' . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr($v['row'],
-                $titleLen), $v['row'], $v['bank']) . "\n";
+				<li id="' . $idAttr . '"' . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr(
+            $v['row'],
+                $titleLen
+        ), $v['row'], $v['bank']) . "\n";
 
         if (!$v['hasSub']) {
             $itemHTML .= '</li>';
@@ -395,7 +402,6 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         }
         $PM = explode('_', $PM);
         if (is_array($PM) && count($PM) == 4 && $this->useAjax) {
-
             if ($PM[1]) {
                 $expandedPageUid = $PM[2];
                 $ajaxOutput = '';
@@ -416,7 +422,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
      *
      * @return    string        The HTML code for the tree
      */
-    function printTree($treeArr = '')
+    public function printTree($treeArr = '')
     {
         $doExpand = false;
         $expandedPageUid = 0;
@@ -434,12 +440,18 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
 			<ul class="tree" id="treeRoot">
 		';
 
-        $this->evaluateAJAXRequest($doExpand, $expandedPageUid, $collapsedPageUid, $doCollapse, $ajaxOutput,
-            $invertedDepthOfAjaxRequestedItem);
+        $this->evaluateAJAXRequest(
+            $doExpand,
+            $expandedPageUid,
+            $collapsedPageUid,
+            $doCollapse,
+            $ajaxOutput,
+            $invertedDepthOfAjaxRequestedItem
+        );
 
         // we need to count the opened <ul>'s every time we dig into another level,
         // so we know how many we have to close when all children are done rendering
-        $closeDepth = array();
+        $closeDepth = [];
 
         foreach ($treeArr as $v) {
             $uid = $v['row']['uid'];
@@ -451,8 +463,14 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
                 $itemHTML = '<ul>';
             }
 
-            $this->addItem($itemHTML, $v, $v['row']['_CSSCLASS'], $uid,
-                htmlspecialchars($this->domIdPrefix . $this->getId($v['row']) . '_' . $v['bank']), $this->titleLen);
+            $this->addItem(
+                $itemHTML,
+                $v,
+                $v['row']['_CSSCLASS'],
+                $uid,
+                htmlspecialchars($this->domIdPrefix . $this->getId($v['row']) . '_' . $v['bank']),
+                $this->titleLen
+            );
 
             // we have to remember if this is the last one
             // on level X so the last child on level X+1 closes the <ul>-tag
@@ -495,21 +513,20 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         return $out . '</ul>';
     }
 
-
     /**
      * Generate the plus/minus icon for the browsable tree.
      *
      * @param    array          record for the entry
-     * @param    integer        The current entry number
-     * @param    integer        The total number of entries. If equal to $a, a "bottom" element is returned.
-     * @param    integer        The number of sub-elements to the current element.
-     * @param    boolean        The element was expanded to render subelements if this flag is set.
+     * @param    int        The current entry number
+     * @param    int        The total number of entries. If equal to $a, a "bottom" element is returned.
+     * @param    int        The number of sub-elements to the current element.
+     * @param    bool        The element was expanded to render subelements if this flag is set.
      *
      * @return    string        Image tag with the plus/minus icon.
      * @access private
      * @see    t3lib_pageTree::PMicon()
      */
-    function PMicon($row, $a, $c, $nextCount, $exp)
+    public function PMicon($row, $a, $c, $nextCount, $exp)
     {
         if ($this->expandable) {
             $PM = $nextCount ? ($exp ? 'minus' : 'plus') : 'join';
@@ -532,7 +549,6 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         return $icon;
     }
 
-
     /**
      * Wrap the plus/minus icon in a link
      *
@@ -543,7 +559,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
      * @return    string        Link-wrapped input string
      * @access   private
      */
-    function PMiconATagWrap($icon, $cmd, $isExpand = true)
+    public function PMiconATagWrap($icon, $cmd, $isExpand = true)
     {
         if ($this->thisScript && $this->expandable) {
             // activate dynamic ajax-based tree
@@ -554,6 +570,4 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
             return $icon;
         }
     }
-
 }
-

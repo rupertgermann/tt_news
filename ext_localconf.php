@@ -1,6 +1,30 @@
 <?php
-if (!defined("TYPO3_MODE")) {
-    die ("Access denied.");
+
+/*
+ * Copyright notice
+ *
+ * (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ * All rights reserved
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
+
+if (!defined('TYPO3_MODE')) {
+    die('Access denied.');
 }
 
 /**
@@ -37,7 +61,6 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
 // Page module hook
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['9']['tt_news'] = \RG\TtNews\Hooks\PageModuleHook::class . '->getExtensionSummary';
 
-
 // register Ajax scripts
 //$TYPO3_CONF_VARS['FE']['eID_include']['tt_news'] = 'EXT:tt_news/pi/fe_index.php';
 //
@@ -53,10 +76,10 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php'][
 //);
 
 if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = array(
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = [
         'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\Typo3DatabaseBackend',
         'frontend' => 'TYPO3\\CMS\\Core\\Cache\\Frontend\\VariableFrontend',
-    );
+    ];
 }
 
 // register news cache table for "clear all caches"
@@ -73,8 +96,8 @@ if ($_COOKIE[$configuredCookieName]) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = 0;
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\RG\TtNews\FormDataProvider::class] = array(
-	'depends' => array(
-		\TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew::class,
-	)
-);
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\RG\TtNews\FormDataProvider::class] = [
+    'depends' => [
+        \TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew::class,
+    ]
+];

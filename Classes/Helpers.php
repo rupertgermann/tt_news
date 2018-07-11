@@ -1,32 +1,29 @@
 <?php
 
-namespace RG\TtNews;
+/*
+ * Copyright notice
+ *
+ * (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ * All rights reserved
+ *
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ *
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * This copyright notice MUST APPEAR in all copies of the script!
+ */
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2004-2009 Rupert Germann <rupi@gmx.li>
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *  A copy is found in the textfile GPL.txt and important notices to the license
- *  from the author is found in LICENSE.txt distributed with these scripts.
- *
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace RG\TtNews;
 
 use RG\TtNews\Plugin\TtNews;
 
@@ -35,9 +32,6 @@ use RG\TtNews\Plugin\TtNews;
  *
  * $Id: class.tx_ttnews_div.php 8958 2008-04-20 14:11:42Z rupertgermann $
  *
- * @author     Rupert Germann <rupi@gmx.li>
- * @package    TYPO3
- * @subpackage tt_news
  */
 class Helpers
 {
@@ -45,14 +39,12 @@ class Helpers
     /**
      * @var TtNews
      */
-    var $pObj;
+    public $pObj;
 
-
-    function __construct(&$pObj)
+    public function __construct(&$pObj)
     {
         $this->pObj = &$pObj;
     }
-
 
     /**
      * checks for each field of a list of items if it exists in the tt_news table and returns the validated fields
@@ -61,9 +53,9 @@ class Helpers
      *
      * @return    string        the list of validated fields
      */
-    function validateFields($fieldlist, $existingFields)
+    public function validateFields($fieldlist, $existingFields)
     {
-        $checkedFields = array();
+        $checkedFields = [];
         $fArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldlist, 1);
         foreach ($fArr as $fN) {
             if (in_array($fN, $existingFields)) {
@@ -75,7 +67,6 @@ class Helpers
         return $checkedFieldlist;
     }
 
-
     /**
      * Checks the visibility of a list of category-records
      *
@@ -83,20 +74,23 @@ class Helpers
      *
      * @return    string        $clearedlist: the cleared list
      */
-    function checkRecords($recordlist)
+    public function checkRecords($recordlist)
     {
         if ($recordlist) {
             $tempRecs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $recordlist, 1);
             // debug($temp);
-            $newtemp = array();
+            $newtemp = [];
             foreach ($tempRecs as $val) {
                 if ($val === '0') {
                     $this->pObj->nocat = true;
                 }
                 $val = intval($val);
                 if ($val) {
-                    $test = $GLOBALS['TSFE']->sys_page->checkRecord('tt_news_cat', $val,
-                        1); // test, if the record is visible
+                    $test = $GLOBALS['TSFE']->sys_page->checkRecord(
+                        'tt_news_cat',
+                        $val,
+                        1
+                    ); // test, if the record is visible
                     if ($test) {
                         $newtemp[] = $val;
                     }
@@ -111,9 +105,7 @@ class Helpers
 
             return $clearedlist;
         }
-
     }
-
 
     /**
      * Searches the category rootline (up) for a single view pid. If nothing is found in the current
@@ -123,10 +115,13 @@ class Helpers
      *
      * @return int first found single view pid
      */
-    function getRecursiveCategorySinglePid($currentCategory)
+    public function getRecursiveCategorySinglePid($currentCategory)
     {
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,parent_category,single_pid', 'tt_news_cat',
-            'tt_news_cat.uid=' . $currentCategory . $this->pObj->SPaddWhere . $this->pObj->enableCatFields);
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+            'uid,parent_category,single_pid',
+            'tt_news_cat',
+            'tt_news_cat.uid=' . $currentCategory . $this->pObj->SPaddWhere . $this->pObj->enableCatFields
+        );
         $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
         if ($row['single_pid'] > 0) {
@@ -136,21 +131,20 @@ class Helpers
         }
     }
 
-
     /**
      * extends a given list of categories by their subcategories. This function returns a nested array with
      * subcategories (the function getSubCategories() return only a commaseparated list of category UIDs)
      *
      * @param    string  $catlist : list of categories which will be extended by subcategories
      * @param    string  $fields  : list of fields for the query
-     * @param    integer $cc      : counter to detect recursion in nested categories
+     * @param    int $cc      : counter to detect recursion in nested categories
      * @param    [type]        $cc: ...
      *
      * @return    array        all categories in a nested array
      */
-    function getSubCategoriesForMenu($catlist, $fields, $addWhere, $cc = 0)
+    public function getSubCategoriesForMenu($catlist, $fields, $addWhere, $cc = 0)
     {
-        $pcatArr = array();
+        $pcatArr = [];
 
         $from_table = 'tt_news_cat';
         $where_clause = 'tt_news_cat.parent_category IN (' . $catlist . ')' . $this->pObj->SPaddWhere . $this->pObj->enableCatFields;
@@ -160,7 +154,9 @@ class Helpers
             $fields,
             $from_table,
             $where_clause,
-            '', $orderBy);
+            '',
+            $orderBy
+        );
 
         while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
             $cc++;
@@ -177,7 +173,6 @@ class Helpers
         return $pcatArr;
     }
 
-
     /**
      * divides the bodytext field of a news single view to pages and returns the part of the bodytext
      * that is choosen by piVars[$pointerName]
@@ -187,12 +182,15 @@ class Helpers
      *
      * @return    array        the current bodytext part wrapped with stdWrap
      */
-    function makeMultiPageSView($bodytext, $lConf)
+    public function makeMultiPageSView($bodytext, $lConf)
     {
         $pointerName = $this->pObj->config['singleViewPointerName'];
         $pagenum = $this->pObj->piVars[$pointerName] ? $this->pObj->piVars[$pointerName] : 0;
-        $textArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($this->pObj->config['pageBreakToken'], $bodytext,
-            1);
+        $textArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(
+            $this->pObj->config['pageBreakToken'],
+            $bodytext,
+            1
+        );
         $pagecount = count($textArr);
         $pagebrowser = '';
         // render a pagebrowser for the single view
@@ -205,17 +203,16 @@ class Helpers
                 $this->pObj->LOCAL_LANG[$this->pObj->LLkey]['pi_list_browseresults_page'] = ' ';
             }
             $pbConf = $this->pObj->conf['singleViewPageBrowser.'];
-            $markerArray = array();
+            $markerArray = [];
             $markerArray = $this->pObj->getPagebrowserContent($markerArray, $pbConf, $pointerName);
             $pagebrowser = $markerArray['###BROWSE_LINKS###'];
         }
 
-        return array(
+        return [
             $this->pObj->formatStr($this->pObj->local_cObj->stdWrap($textArr[$pagenum], $lConf['content_stdWrap.'])),
             $pagebrowser
-        );
+        ];
     }
-
 
     /**
      * Converts the piVars 'pS' and 'pL' to a human readable format which will be filled to
@@ -223,7 +220,7 @@ class Helpers
      *
      * @return    void
      */
-    function convertDates()
+    public function convertDates()
     {
         //readable archivedates
         if ($this->pObj->piVars['year'] || $this->pObj->piVars['month']) {
@@ -245,47 +242,62 @@ class Helpers
             $this->pObj->piVars['pS'] = mktime(0, 0, 0, $mon, $day, (int)$this->pObj->piVars['year']);
 
             switch ($this->pObj->config['archiveMode']) {
-                case 'month' :
-                    $this->pObj->piVars['pL'] = mktime(0, 0, 0, $mon + 1, 1,
-                            (int)$this->pObj->piVars['year']) - (int)$this->pObj->piVars['pS'] - 1;
+                case 'month':
+                    $this->pObj->piVars['pL'] = mktime(
+                        0,
+                        0,
+                        0,
+                        $mon + 1,
+                        1,
+                            (int)$this->pObj->piVars['year']
+                    ) - (int)$this->pObj->piVars['pS'] - 1;
                     break;
-                case 'quarter' :
-                    $this->pObj->piVars['pL'] = mktime(0, 0, 0, $mon + 3, 1,
-                            (int)$this->pObj->piVars['year']) - (int)$this->pObj->piVars['pS'] - 1;
+                case 'quarter':
+                    $this->pObj->piVars['pL'] = mktime(
+                        0,
+                        0,
+                        0,
+                        $mon + 3,
+                        1,
+                            (int)$this->pObj->piVars['year']
+                    ) - (int)$this->pObj->piVars['pS'] - 1;
                     break;
-                case 'year' :
-                    $this->pObj->piVars['pL'] = mktime(0, 0, 0, 1, 1,
-                            (int)$this->pObj->piVars['year'] + 1) - (int)$this->pObj->piVars['pS'] - 1;
+                case 'year':
+                    $this->pObj->piVars['pL'] = mktime(
+                        0,
+                        0,
+                        0,
+                        1,
+                        1,
+                            (int)$this->pObj->piVars['year'] + 1
+                    ) - (int)$this->pObj->piVars['pS'] - 1;
                     unset($this->pObj->piVars['month']);
                     break;
             }
         }
     }
 
-
     /**
      * inserts pagebreaks after a certain amount of words
      *
      * @param    string  $text              text which can contain manully inserted 'pageBreakTokens'
-     * @param    integer $firstPageWordCrop amount of words in the subheader (short). The length of the first page will
+     * @param    int $firstPageWordCrop amount of words in the subheader (short). The length of the first page will
      *                                      be reduced by that amount of words added to the value of
      *                                      $this->conf['cropWordsFromFirstPage'].
      *
      * @return    string        the processed text
      */
-    function insertPagebreaks($text, $firstPageWordCrop)
+    public function insertPagebreaks($text, $firstPageWordCrop)
     {
-
-        $text = str_replace(array('</p>'), array('</p>' . chr(10)), $text);
+        $text = str_replace(['</p>'], ['</p>' . chr(10)], $text);
         $paragraphToken = chr(10);
 
         $paragraphs = explode($paragraphToken, $text); // get paragraphs
-        $wtmp = array();
+        $wtmp = [];
         $firstPageCrop = $firstPageWordCrop + intval($this->pObj->conf['cropWordsFromFirstPage']);
         $cc = 0; // wordcount
         $isfirst = true; // first paragraph
         foreach ($paragraphs as $k => $p) {
-
             if (trim($paragraphs[$k + 1]) == '&nbsp;') {
                 unset($paragraphs[$k + 1]);
             }
@@ -299,7 +311,7 @@ class Helpers
             }
 
             $words = explode(' ', $p); // get words
-            $pArr = array();
+            $pArr = [];
             $break = false;
 
             foreach ($words as $w) {
@@ -309,13 +321,16 @@ class Helpers
                     $cc = 0;
                     $pArr[] = $w;
                     $isfirst = false;
-                } elseif ($cc >= \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($wc, 0,
-                        $this->pObj->config['maxWordsInSingleView'])) { // more words than maxWordsInSingleView
+                } elseif ($cc >= \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange(
+                    $wc,
+                    0,
+                        $this->pObj->config['maxWordsInSingleView']
+                )) { // more words than maxWordsInSingleView
                     if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('.,!,?', substr($w, -1))) {
                         if ($this->pObj->conf['useParagraphAsPagebreak']) { // break at paragraph
                             $break = true;
                             $pArr[] = $w;
-                            //							$pArr[] = '<b> '.$cc.' </b>';
+                        //							$pArr[] = '<b> '.$cc.' </b>';
                         } else { // break at dot and ? and !
                             $pArr[] = $w . $this->pObj->config['pageBreakToken'];
                             //							$pArr[] = '<b> '.$cc.' </b>';
@@ -340,7 +355,6 @@ class Helpers
         return $processedText;
     }
 
-
     /**
      * [Describe function...]
      *
@@ -349,7 +363,7 @@ class Helpers
      *
      * @return    [type]        ...
      */
-    function getParsetime($caller = '', $getGlobalTime = false)
+    public function getParsetime($caller = '', $getGlobalTime = false)
     {
         $currentTime = time() + microtime();
         $tmpCI = debug_backtrace();
@@ -357,11 +371,10 @@ class Helpers
 
         //		debug($call_info, ' ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 1);
 
-
         $code_line = $call_info['line'];
         $file = array_pop(explode('/', $tmpCI[0]['file']));
         $lbl = $caller;
-        $msg = array();
+        $msg = [];
         if ($this->pObj->start_time === null) {
             $lbl = 'START: ' . basename($file);
             $msg['INITIALIZE'] = $caller;
@@ -398,7 +411,6 @@ class Helpers
         }
     }
 
-
     /**
      * [Describe function...]
      *
@@ -409,9 +421,8 @@ class Helpers
      *
      * @return    [type]        ...
      */
-    function writelog($msg, $lbl, $code_line, $sev)
+    public function writelog($msg, $lbl, $code_line, $sev)
     {
-
         if ($this->pObj->useDevlog) {
             $time = $msg['time:'];
             if ($time > 0) {
@@ -426,20 +437,23 @@ class Helpers
                     }
                 }
             }
-            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog($lbl . ($time ? ' time: ' . $time . ' s' : ''),
-                $this->pObj->extKey, (int)$sev, $msg);
+            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(
+                $lbl . ($time ? ' time: ' . $time . ' s' : ''),
+                $this->pObj->extKey,
+                (int)$sev,
+                $msg
+            );
         } else {
             debug($msg, $lbl, $code_line, $msg['file:'], 3);
         }
     }
-
 
     /**
      * returns an error message if some important settings are missing (template file, singlePid, pidList, code)
      *
      * @return    string        the error message
      */
-    function displayErrors()
+    public function displayErrors()
     {
 
         /**
@@ -452,10 +466,11 @@ class Helpers
         }
 
         return '<div style="border:2px solid red; padding:10px; margin:10px;"><img src="typo3conf/ext/tt_news/Resources/Public/Icons/warning.png" />
-				<strong>plugin.tt_news ERROR:</strong><br />' . implode('<br /> ',
-                $this->pObj->errors) . '<br />' . $msg . '</div>';
+				<strong>plugin.tt_news ERROR:</strong><br />' . implode(
+            '<br /> ',
+                $this->pObj->errors
+        ) . '<br />' . $msg . '</div>';
     }
-
 
     /**
      * cleans the content for rss feeds. removes '&nbsp;' and '?;' (dont't know if the scond one matters in real-life).
@@ -466,20 +481,19 @@ class Helpers
      *
      * @return    string        the cleaned string
      */
-    function cleanXML($str)
+    public function cleanXML($str)
     {
-        $cleanedStr = preg_replace(array('/&nbsp;/', '/&;/', '/</', '/>/'), array(' ', '&amp;;', '&lt;', '&gt;'), $str);
+        $cleanedStr = preg_replace(['/&nbsp;/', '/&;/', '/</', '/>/'], [' ', '&amp;;', '&lt;', '&gt;'], $str);
 
         return $cleanedStr;
     }
-
 
     /**
      * Obtains current extension version (for use with compatVersion)
      *
      * @return    string        Extension version (for example, '2.5.1')
      */
-    function getCurrentVersion()
+    public function getCurrentVersion()
     {
         $_EXTKEY = $this->pObj->extKey;
         // require_once fails if the plugin is executed multiple times
@@ -488,17 +502,16 @@ class Helpers
         return isset($EM_CONF[$_EXTKEY]['version']) ? $EM_CONF[$_EXTKEY]['version'] : null;
     }
 
-
     /**
      * Generates the date format needed for Atom feeds
      * see: http://www.w3.org/TR/NOTE-datetime (same as ISO 8601)
      * in php5 it would be so easy: date('c', $row['datetime']);
      *
-     * @param    integer $datetime the datetime value to be converted to w3c format
+     * @param    int $datetime the datetime value to be converted to w3c format
      *
      * @return    string        datetime in w3c format
      */
-    function getW3cDate($datetime)
+    public function getW3cDate($datetime)
     {
         $offset = date('Z', $datetime) / 3600;
         if ($offset < 0) {
@@ -518,4 +531,3 @@ class Helpers
         return strftime('%Y-%m-%dT%H:%M:%S', $datetime) . $offset . ':00';
     }
 }
-
