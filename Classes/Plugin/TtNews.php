@@ -1766,7 +1766,7 @@ class TtNews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 
         $markerArray = array_flip($this->renderMarkers);
 
-        while (list($mName) = each($markerArray)) {
+        foreach ($markerArray as $mName => $val) {
             $markerArray[$mName] = '';
         }
 
@@ -2174,7 +2174,7 @@ class TtNews extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
         if (!is_array($lConf)) {
             return;
         } else {
-            while (list($mName) = each($lConf)) {
+            foreach ($lConf as $mName => $val) {
                 $genericMarker = '###GENERIC_' . strtoupper($mName) . '###';
 
                 if (!is_array($lConf[$mName . '.']) || !$this->isRenderMarker($genericMarker)) {
