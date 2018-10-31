@@ -22,6 +22,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use RG\TtNews\Database;
 use RG\TtNews\Utility\IconFactory;
 
 /**
@@ -348,7 +349,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         $this->table = 'tt_news_cat';
         if ($this->confArr['useStoragePid']) {
-            $catRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid', 'tt_news_cat',
+            $catRows = Database::getInstance()->exec_SELECTgetRows('uid', 'tt_news_cat',
                 'pid=' . $this->storagePid . $this->catlistWhere . ' AND deleted=0');
 
             if (empty($catRows)) {
@@ -378,6 +379,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      * [Describe function...]
      *
      * @return    [type]        ...
+     * @throws \Doctrine\DBAL\DBALException
      */
     function displayOverview()
     {
@@ -389,17 +391,16 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 				</p><br></td>
 				</tr>';
 
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+        $res = Database::getInstance()->exec_SELECTquery(
             'pid,count(uid)',
             'tt_news_cat',
             'pid>=0' . $this->catlistWhere . \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('tt_news_cat'),
             'pid'
         );
         $list = array();
-        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+        while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $list[$row['pid']]['count'] = $row['count(uid)'];
         }
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
         $tRows[] = '
 			<tr>
@@ -507,9 +508,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $this->treeObj->current_sys_language = $this->current_sys_language;
 
         // get selected categories from be user/group without subcategories
-        $tmpsc = \RG\TtNews\Lib\tx_ttnews_div::getBeUserCatMounts(false);
+        $tmpsc = \RG\TtNews\Div::getBeUserCatMounts(false);
         $beUserSelCatArr = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $tmpsc);
-        $includeListArr = \RG\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
+        $includeListArr = \RG\TtNews\Div::getIncludeCatArray();
         $subcatArr = array_diff($includeListArr, $beUserSelCatArr);
 
         /**
@@ -1059,12 +1060,12 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     function getSubPages($pages, $cc = 0)
     {
         $pArr = array();
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+        $res = Database::getInstance()->exec_SELECTquery(
             'uid',
             'pages',
             'pages.pid IN (' . $pages . ') AND pages.deleted=0 AND ' . $this->perms_clause);
 
-        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+        while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $cc++;
 
             //check if max. number of sub pages reached
@@ -1143,7 +1144,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     function initLanguageMenu()
     {
         if ($this->isAdmin) {
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+            $res = Database::getInstance()->exec_SELECTquery(
                 'sys_language.*',
                 'sys_language',
                 'sys_language.hidden=0',
@@ -1152,7 +1153,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             );
         } else {
             $exQ = \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('pages_language_overlay');
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+            $res = Database::getInstance()->exec_SELECTquery(
                 'sys_language.*',
                 'pages_language_overlay,sys_language',
                 'pages_language_overlay.sys_language_uid=sys_language.uid AND pages_language_overlay.pid IN (' . $this->pidList . ')' . $exQ,
@@ -1161,7 +1162,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             );
         }
 
-        while (($lrow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+        while (($lrow = Database::getInstance()->sql_fetch_assoc($res))) {
             if ($GLOBALS['BE_USER']->checkLanguageAccess($lrow['uid'])) {
                 $this->MOD_MENU['language'][$lrow['uid']] = ($lrow['hidden'] ? '(' . $lrow['title'] . ')' : $lrow['title']);
             }
@@ -1189,8 +1190,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             $this->excludeCats = $this->posIntExplode($excludeList);
         }
 
-        $this->includeCats = \RG\TtNews\Lib\tx_ttnews_div::getIncludeCatArray();
-        $this->catlistWhere = \RG\TtNews\Lib\tx_ttnews_div::getCatlistWhere();
+        $this->includeCats = \RG\TtNews\Div::getIncludeCatArray();
+        $this->catlistWhere = \RG\TtNews\Div::getCatlistWhere();
     }
 
     function posIntExplode($list)
@@ -1211,11 +1212,12 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      * [Describe function...]
      *
      * @return    [type]        ...
+     * @throws \Doctrine\DBAL\DBALException
      */
     function initSubCategories()
     {
         if ($this->useSubCategories && $this->category) {
-            $subcats = \RG\TtNews\Lib\tx_ttnews_div::getSubCategories($this->category);
+            $subcats = \RG\TtNews\Div::getSubCategories($this->category);
             $this->selectedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::uniqueList($this->category . ($subcats ? ',' . $subcats : ''));
         } else {
             $this->selectedCategories = $this->category;
@@ -1304,7 +1306,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         if ($this->useSubCategories && ($subCats = \TYPO3\CMS\Core\Utility\GeneralUtility::rmFromList($this->category,
                 $this->selectedCategories))) {
-            $scRows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid,title,hidden', $table,
+            $scRows = Database::getInstance()->exec_SELECTgetRows('uid,title,hidden', $table,
                 'uid IN (' . $subCats . ')' . !$this->mData['showHiddenCategories'] ? ' AND hidden=0' : '');
             $scTitles = array();
             foreach ($scRows as $scRow) {

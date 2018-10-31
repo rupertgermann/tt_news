@@ -1,6 +1,6 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = [
+$EM_CONF['tt_news'] = [
     'title' => 'News',
     'description' => 'Website news with front page teasers and article handling inside.',
     'category' => 'plugin',
@@ -16,7 +16,7 @@ $EM_CONF[$_EXTKEY] = [
     'author_company' => 'www.noerdisch.de',
     'constraints' => [
         'depends' => [
-            'typo3' => '8.7.0-8.7.99',
+            'typo3' => '8.7.0-9.5.99',
         ],
         'conflicts' => [],
         'suggests' => [],

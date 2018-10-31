@@ -67,6 +67,7 @@ class DatahandlerHook
      *
      * @return    void
      * @access public
+     * @throws \Doctrine\DBAL\DBALException
      */
     function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
     {
@@ -119,15 +120,14 @@ class DatahandlerHook
             $categories = array();
             $recID = (($fieldArray['l18n_parent'] > 0) ? $fieldArray['l18n_parent'] : $id);
             // get categories from the tt_news record in db
-            $cRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+            $cRes = Database::getInstance()->exec_SELECTquery(
                 'uid_foreign',
                 'tt_news_cat_mm, tt_news_cat',
                 'uid_foreign=uid AND deleted=0 AND uid_local=' . $recID);
 
-            while (($cRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($cRes))) {
+            while (($cRow = Database::getInstance()->sql_fetch_assoc($cRes))) {
                 $categories[] = $cRow['uid_foreign'];
             }
-            $GLOBALS['TYPO3_DB']->sql_free_result($cRes);
 
             $notAllowedItems = array();
 
@@ -232,17 +232,16 @@ class DatahandlerHook
             }
 
             // get categories from the (untranslated) record in db
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query(
+            $res = Database::getInstance()->exec_SELECT_mm_query(
                 'tt_news_cat.uid',
                 'tt_news',
                 'tt_news_cat_mm',
                 'tt_news_cat',
                 ' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . BackendUtility::BEenableFields('tt_news_cat'));
             $categories = array();
-            while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+            while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
                 $categories[] = $row['uid'];
             }
-            $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
             $notAllowedItems = array();
 
@@ -329,6 +328,7 @@ class DatahandlerHook
      * @param DataHandler $pObj
      *
      * @return mixed
+     * @throws \Doctrine\DBAL\DBALException
      */
     function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)
     {
@@ -337,10 +337,10 @@ class DatahandlerHook
         }
 
         $addW = !$pObj->admin ? ' AND ' . $pObj->BE_USER->getPagePermsClause($pObj->pMap['show']) : '';
-        $mres = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', $table,
+        $mres = Database::getInstance()->exec_SELECTquery('uid', $table,
             'parent_category=' . intval($srcId) . $pObj->deleteClause($table) . $addW, '', '');
 
-        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($mres))) {
+        while (($row = Database::getInstance()->sql_fetch_assoc($mres))) {
             if ($row['uid'] == $rootID) {
                 continue;
             }
@@ -351,7 +351,6 @@ class DatahandlerHook
             }
         }
 
-        $GLOBALS['TYPO3_DB']->sql_free_result($mres);
 
         return $CPtable;
     }

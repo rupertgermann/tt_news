@@ -33,7 +33,6 @@ use RG\TtNews\Plugin\TtNews;
 /**
  * tt_news helper functions
  *
- * $Id: class.tx_ttnews_div.php 8958 2008-04-20 14:11:42Z rupertgermann $
  *
  * @author     Rupert Germann <rupi@gmx.li>
  * @package    TYPO3
@@ -122,13 +121,13 @@ class Helpers
      * @param int $currentCategory : Uid of the current category
      *
      * @return int first found single view pid
+     * @throws \Doctrine\DBAL\DBALException
      */
     function getRecursiveCategorySinglePid($currentCategory)
     {
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,parent_category,single_pid', 'tt_news_cat',
+        $res = Database::getInstance()->exec_SELECTquery('uid,parent_category,single_pid', 'tt_news_cat',
             'tt_news_cat.uid=' . $currentCategory . $this->pObj->SPaddWhere . $this->pObj->enableCatFields);
-        $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
+        $row = Database::getInstance()->sql_fetch_assoc($res);
         if ($row['single_pid'] > 0) {
             return $row['single_pid'];
         } elseif ($row['parent_category'] > 0) {
@@ -147,6 +146,7 @@ class Helpers
      * @param    [type]        $cc: ...
      *
      * @return    array        all categories in a nested array
+     * @throws \Doctrine\DBAL\DBALException
      */
     function getSubCategoriesForMenu($catlist, $fields, $addWhere, $cc = 0)
     {
@@ -156,13 +156,13 @@ class Helpers
         $where_clause = 'tt_news_cat.parent_category IN (' . $catlist . ')' . $this->pObj->SPaddWhere . $this->pObj->enableCatFields;
         $orderBy = 'tt_news_cat.' . $this->pObj->config['catOrderBy'];
 
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+        $res = Database::getInstance()->exec_SELECTquery(
             $fields,
             $from_table,
             $where_clause,
             '', $orderBy);
 
-        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+        while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $cc++;
             if ($cc > 10000) {
                 $GLOBALS['TT']->setTSlogMessage('tt_news: one or more recursive categories where found');
@@ -172,7 +172,6 @@ class Helpers
             $subcats = $this->getSubCategoriesForMenu($row['uid'], $fields, $addWhere, $cc);
             $pcatArr[] = is_array($subcats) ? array_merge($row, $subcats) : '';
         }
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
         return $pcatArr;
     }
@@ -474,19 +473,7 @@ class Helpers
     }
 
 
-    /**
-     * Obtains current extension version (for use with compatVersion)
-     *
-     * @return    string        Extension version (for example, '2.5.1')
-     */
-    function getCurrentVersion()
-    {
-        $_EXTKEY = $this->pObj->extKey;
-        // require_once fails if the plugin is executed multiple times
-        require(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY, 'ext_emconf.php'));
 
-        return isset($EM_CONF[$_EXTKEY]['version']) ? $EM_CONF[$_EXTKEY]['version'] : null;
-    }
 
 
     /**

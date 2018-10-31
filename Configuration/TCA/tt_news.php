@@ -78,10 +78,7 @@ return Array(
                 'eval' => 'datetime',
                 'checkbox' => '0',
                 'renderType' => 'inputDateTime',
-                'range' => Array(
-                    'upper' => mktime(0, 0, 0, 12, 31, 2020),
-                    'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y'))
-                )
+
             )
         ),
         'hidden' => Array(

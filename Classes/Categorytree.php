@@ -38,7 +38,6 @@ namespace RG\TtNews;
  * @subpackage tt_news
  */
 
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_div.php');
 
 /**
  * extend class t3lib_treeview to change function wrapTitle().
@@ -51,6 +50,8 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
     var $cacheHit = false;
 
     var $expandable;
+    protected $tt_news_obj;
+    protected $newsSelConf;
 
     protected function handleCache()
     {
@@ -211,7 +212,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         }
 
         if ($sum !== false) {
-            return sum;
+            return $sum;
         }
 
         if ($this->tt_news_obj->cache_categoryCount) {
@@ -237,7 +238,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
                 }
             }
 
-            \RG\TtNews\tx_ttnews_div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
+            \RG\TtNews\Div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
             $sum = $result['sum'];
 
         }

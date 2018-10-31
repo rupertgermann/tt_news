@@ -104,6 +104,11 @@ class Cache
     }
 
 
+    /**
+     * @param $hash
+     * @param $content
+     * @param $ident
+     */
     function set($hash, $content, $ident)
     {
         if ($this->cachingEngine == 'cachingFramework') {
@@ -121,14 +126,20 @@ class Cache
                 'tags' => $ident,
                 'lifetime' => $this->lifetime
             );
-            $GLOBALS['TYPO3_DB']->exec_DELETEquery($table,
-                'identifier=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($hash, $table));
-            $GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $fields_values);
+//            Database::getInstance()->exec_DELETEquery($table,
+//                'identifier=' . Database::getInstance()->fullQuoteStr($hash, $table));
+//            Database::getInstance()->exec_INSERTquery($table, $fields_values);
         }
 
     }
 
 
+    /**
+     * @param $hash
+     *
+     * @return array|bool|mixed|string
+     * @throws \Doctrine\DBAL\DBALException
+     */
     function get($hash)
     {
         $cacheEntry = false;
@@ -137,13 +148,13 @@ class Cache
         } else {
             $select_fields = 'content';
             $from_table = 'tt_news_cache';
-            $where_clause = 'identifier=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($hash, $from_table);
+            $where_clause = 'identifier=' . Database::getInstance()->fullQuoteStr($hash, $from_table);
 
 //			if ($period > 0) {
             $where_clause .= ' AND (crdate+lifetime>' . $this->ACCESS_TIME . ' OR lifetime=0)';
 //			}
 
-            $cRec = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($select_fields, $from_table, $where_clause);
+            $cRec = Database::getInstance()->exec_SELECTgetRows($select_fields, $from_table, $where_clause);
 
             if (is_array($cRec[0]) && $cRec[0]['content'] != '') {
                 $cacheEntry = $cRec[0]['content'];

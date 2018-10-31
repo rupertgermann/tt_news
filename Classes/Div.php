@@ -46,6 +46,7 @@ class Div
      * @param bool $withSub Also return subcategories
      *
      * @return string commeseparated list of mounts
+     * @throws \Doctrine\DBAL\DBALException
      */
     static public function getBeUserCatMounts($withSub = true)
     {
@@ -85,6 +86,7 @@ class Div
      * @param int    $cc       counter to detect recursion in nested categories
      *
      * @return string extended $catlist
+     * @throws \Doctrine\DBAL\DBALException
      */
     static public function getSubCategories($catlist, $addWhere = '', $cc = 0)
     {
@@ -96,12 +98,12 @@ class Div
 
 
         $sCatArr = array();
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+        $res = Database::getInstance()->exec_SELECTquery(
             'uid',
             'tt_news_cat',
             'tt_news_cat.parent_category IN (' . $catlist . ') AND deleted=0 ' . $addWhere);
 
-        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+        while ($row = Database::getInstance()->sql_fetch_assoc($res)) {
             $cc++;
             if ($cc > 10000) {
                 $GLOBALS['TT']->setTSlogMessage('tt_news: one or more recursive categories where found');
@@ -112,11 +114,18 @@ class Div
             $subcats = $subcats ? ',' . $subcats : '';
             $sCatArr[] = $row['uid'] . $subcats;
         }
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
         return implode(',', $sCatArr);
     }
 
+    /**
+     * @param $result
+     * @param $cat
+     * @param $news_clause
+     * @param $catclause
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
     static public function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause)
     {
         // count news in current category
@@ -134,10 +143,9 @@ class Div
         $where_clause .= $news_clause;
         $where_clause .= $catclause;
 
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select_fields, $from_table, $where_clause);
-        $cRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
+        $res = Database::getInstance()->exec_SELECTquery($select_fields, $from_table, $where_clause);
+        $cRow = Database::getInstance()->sql_fetch_row($res);
 
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
         $result['sum'] += $cRow[0];
 
@@ -152,13 +160,12 @@ class Div
 		';
         $where_clause .= $catclause;
 
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select_fields, $from_table, $where_clause);
+        $res = Database::getInstance()->exec_SELECTquery($select_fields, $from_table, $where_clause);
 
-        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+        while ($row = Database::getInstance()->sql_fetch_assoc($res)) {
             self::getNewsCountForSubcategory($result, $row['uid'], $news_clause, $catclause);
         }
 
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
     }
 
@@ -167,17 +174,17 @@ class Div
      * Subcategories are included, categories from "tt_newsPerms.tt_news_cat.excludeList" are excluded
      *
      * @return array tree IDs
+     * @throws \Doctrine\DBAL\DBALException
      */
     static public function getAllowedTreeIDs()
     {
 
         $catlistWhere = self::getCatlistWhere();
         $treeIDs = array();
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_news_cat', '1=1' . $catlistWhere . ' AND deleted=0');
-        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+        $res = Database::getInstance()->exec_SELECTquery('uid', 'tt_news_cat', '1=1' . $catlistWhere . ' AND deleted=0');
+        while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $treeIDs[] = $row['uid'];
         }
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
         return $treeIDs;
     }
@@ -186,6 +193,7 @@ class Div
      * Get WHERE restrictions for the category list query of the current user
      *
      * @return string WHERE query part
+     * @throws \Doctrine\DBAL\DBALException
      */
     static public function getCatlistWhere()
     {
@@ -211,6 +219,7 @@ class Div
      * Get categories to include for the current user
      *
      * @return array ids of categories to include
+     * @throws \Doctrine\DBAL\DBALException
      */
     static public function getIncludeCatArray()
     {

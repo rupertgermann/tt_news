@@ -2,10 +2,11 @@
 
 namespace RG\TtNews\Tree\TableConfiguration;
 
+use RG\TtNews\Database;
+use RG\TtNews\Div;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 
-use RG\TtNews\tx_ttnews_div;
 
 /**
  * TCA tree data provider
@@ -19,12 +20,13 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      * @param int                              $level
      *
      * @return NULL|\TYPO3\CMS\Backend\Tree\TreeNodeCollection
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getChildrenOf(\TYPO3\CMS\Backend\Tree\TreeNode $node, $level)
     {
         $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
         $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',
-            $allowedItems) : tx_ttnews_div::getAllowedTreeIDs();
+            $allowedItems) : Div::getAllowedTreeIDs();
 
         $storage = null;
 
@@ -34,7 +36,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
 
         $nodeData = null;
         if ($node->getId() !== 0) {
-            $nodeData = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', $this->tableName, 'uid=' . $node->getId());
+            $nodeData = Database::getInstance()->exec_SELECTgetSingleRow('*', $this->tableName, 'uid=' . $node->getId());
         }
 
         if ($nodeData == null) {

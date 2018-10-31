@@ -29,6 +29,7 @@ namespace RG\TtNews;
  ***************************************************************/
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -89,12 +90,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
         $out = '';
         $queryParts = $this->makeQueryArray($table, $id, $addWhere);
         //TODO: Make use of $this->setTotalItems instead of this "plain" query!
-        $this->totalItems = $GLOBALS['TYPO3_DB']->exec_SELECTcountRows('*', $queryParts['FROM'], $queryParts['WHERE']);
+        $this->totalItems = Database::getInstance()->exec_SELECTcountRows('*', $queryParts['FROM'], $queryParts['WHERE']);
         $this->eCounter = 0;
 
         // Make query for records if there were any records found in the count operation:
         if ($this->totalItems) {
-            $result = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
+            $result = Database::getInstance()->exec_SELECT_queryArray($queryParts);
         }
 
         // If records were found, render the list:
@@ -121,7 +122,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
         // Render Items
         $this->eCounter = $this->firstElementNumber;
-        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($result))) {
+        while (($row = Database::getInstance()->sql_fetch_assoc($result))) {
             \TYPO3\CMS\Backend\Utility\BackendUtility::workspaceOL($table, $row);
 
             if (!is_array($row)) {
@@ -199,12 +200,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
                 $first = '<a href="' . $listURL . '&pointer=0">
 					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first.gif')
+                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first.gif')
                     . 'alt="' . $labelFirst . '" title="' . $labelFirst . '" />
 				</a>';
             } else {
                 $first = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first_disabled.gif') . 'alt="" title="" />';
+                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first_disabled.gif') . 'alt="" title="" />';
             }
 
             if (($currentPage - 1) > 0) {
@@ -212,12 +213,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
                 $previous = '<a href="' . $listURL . '&pointer=' . (($currentPage - 2) * $this->iLimit) . '">
 					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous.gif')
+                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous.gif')
                     . 'alt="' . $labelPrevious . '" title="' . $labelPrevious . '" />
 					</a>';
             } else {
                 $previous = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous_disabled.gif') . 'alt="" title="" />';
+                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous_disabled.gif') . 'alt="" title="" />';
             }
 
             if (($currentPage + 1) <= $totalPages) {
@@ -225,12 +226,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
                 $next = '<a href="' . $listURL . '&pointer=' . (($currentPage) * $this->iLimit) . '">
 					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next.gif')
+                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next.gif')
                     . 'alt="' . $labelNext . '" title="' . $labelNext . '" />
 					</a>';
             } else {
                 $next = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next_disabled.gif') . 'alt="" title="" />';
+                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next_disabled.gif') . 'alt="" title="" />';
             }
 
             if ($currentPage != $totalPages) {
@@ -238,12 +239,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
                 $last = '<a href="' . $listURL . '&pointer=' . (($totalPages - 1) * $this->iLimit) . '">
 					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last.gif')
+                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last.gif')
                     . 'alt="' . $labelLast . '" title="' . $labelLast . '" />
 					</a>';
             } else {
                 $last = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
-                        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last_disabled.gif') . 'alt="" title="" />';
+                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last_disabled.gif') . 'alt="" title="" />';
             }
 
             $pageIndicator = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:pageIndicator'),
@@ -454,6 +455,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
      * @param     [type]        $checkCategories: ...
      *
      * @return    [type]        ...
+     * @throws \Doctrine\DBAL\DBALException
      */
     function checkRecordPerms(&$row, $checkCategories)
     {
@@ -469,19 +471,18 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
             return $noEdit;
         }
 
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+        $res = Database::getInstance()->exec_SELECTquery(
             'tt_news_cat_mm.*',
             'tt_news_cat_mm, tt_news_cat',
             'tt_news_cat_mm.uid_foreign=tt_news_cat.uid AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . $row['uid']);
 
-        while (($mmrow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+        while (($mmrow = Database::getInstance()->sql_fetch_assoc($res))) {
             if (!in_array($mmrow['uid_foreign'], $this->includeCats) || in_array($mmrow['uid_foreign'],
                     $this->excludeCats)) {
                 $noEdit = 2;
                 break;
             }
         }
-        $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
         return $noEdit;
     }
@@ -510,7 +511,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
                 break;
         }
 
-        $img = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/noedit_' . $reason . '.gif';
+        $img = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/noedit_' . $reason . '.gif';
 
         return '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,
                 $img) . ' title="' . $label . '" alt="" />';
@@ -678,7 +679,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
                 ' ' . $addWhere .
                 ' ' . $search . $catWhere,
             'GROUPBY' => '',//$table.'.uid',
-            'ORDERBY' => $GLOBALS['TYPO3_DB']->stripOrderBy($orderBy),
+            'ORDERBY' => Database::getInstance()->stripOrderBy($orderBy),
             'LIMIT' => $limit
         );
 
@@ -703,10 +704,10 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
             // if showOnlyEditable is set, we check for each found record if it has any disallowed category assigned
             $tmpLimit = $queryParts['LIMIT'];
             unset($queryParts['LIMIT']);
-            $res = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryParts);
+            $res = Database::getInstance()->exec_SELECT_queryArray($queryParts);
             $results = array();
 
-            while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+            while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
                 $results[$row['uid']] = $row['uid'];
             }
 
@@ -744,13 +745,13 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
      */
     function getCategories($uid)
     {
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+        $res = Database::getInstance()->exec_SELECTquery(
             'tt_news_cat.uid',
             'tt_news_cat LEFT JOIN tt_news_cat_mm AS mm ON tt_news_cat.uid=mm.uid_foreign',
             'tt_news_cat.deleted=0 AND mm.uid_local=' . $uid);
 
         $categories = array();
-        while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+        while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $categories[] = $row['uid'];
         }
 
