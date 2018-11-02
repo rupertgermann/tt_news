@@ -8,7 +8,7 @@
     "news",
     "extension"
   ],
-  "version": "8.7.0",
+  "version": "8.7.6",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
@@ -27,7 +27,7 @@
   },
   "replace": {
     "tt_news": "self.version",
-    "typo3-ter/tt-news": "self.version"
+    "typo3-ter/tt_news": "self.version"
   },
   "autoload": {
     "psr-4": {
