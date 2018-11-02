@@ -12,7 +12,7 @@ namespace RG\TtNews;
 use RG\TtNews\Trais\DatabaseTrait;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\Query;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
  * Class Database
@@ -220,7 +220,56 @@ class Database implements SingletonInterface {
         return $output;
     }
 
+    /**
+     * @param        $select
+     * @param        $local_table
+     * @param        $mm_table
+     * @param        $foreign_table
+     * @param string $whereClause
+     * @param string $groupBy
+     * @param string $orderBy
+     * @param string $limit
+     *
+     * @return array
+     */
+    protected function getSelectMmQueryParts($select, $local_table, $mm_table, $foreign_table, $whereClause = '', $groupBy = '', $orderBy = '', $limit = '')
+    {
+        $foreign_table_as = $foreign_table == $local_table ? $foreign_table . StringUtility::getUniqueId('_join') : '';
+        $mmWhere = $local_table ? $local_table . '.uid=' . $mm_table . '.uid_local' : '';
+        $mmWhere .= ($local_table and $foreign_table) ? ' AND ' : '';
+        $tables = ($local_table ? $local_table . ',' : '') . $mm_table;
+        if ($foreign_table) {
+            $mmWhere .= ($foreign_table_as ?: $foreign_table) . '.uid=' . $mm_table . '.uid_foreign';
+            $tables .= ',' . $foreign_table . ($foreign_table_as ? ' AS ' . $foreign_table_as : '');
+        }
+        return [
+            'SELECT' => $select,
+            'FROM' => $tables,
+            'WHERE' => $mmWhere . ' ' . $whereClause,
+            'GROUPBY' => $groupBy,
+            'ORDERBY' => $orderBy,
+            'LIMIT' => $limit
+        ];
+    }
 
+    /**
+     * @param        $select
+     * @param        $local_table
+     * @param        $mm_table
+     * @param        $foreign_table
+     * @param string $whereClause
+     * @param string $groupBy
+     * @param string $orderBy
+     * @param string $limit
+     *
+     * @return \Doctrine\DBAL\Driver\Statement
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function exec_SELECT_mm_query($select, $local_table, $mm_table, $foreign_table, $whereClause = '', $groupBy = '', $orderBy = '', $limit = '')
+    {
+        $queryParts = $this->getSelectMmQueryParts($select, $local_table, $mm_table, $foreign_table, $whereClause, $groupBy, $orderBy, $limit);
+        return $this->exec_SELECT_queryArray($queryParts);
+    }
 
     /**
      * @return object|Database

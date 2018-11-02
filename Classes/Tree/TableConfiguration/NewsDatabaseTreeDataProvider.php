@@ -4,6 +4,7 @@ namespace RG\TtNews\Tree\TableConfiguration;
 
 use RG\TtNews\Database;
 use RG\TtNews\Div;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 
@@ -24,7 +25,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      */
     protected function getChildrenOf(\TYPO3\CMS\Backend\Tree\TreeNode $node, $level)
     {
-        $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
+        $allowedItems = $this->getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
         $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',
             $allowedItems) : Div::getAllowedTreeIDs();
 
@@ -36,7 +37,8 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
 
         $nodeData = null;
         if ($node->getId() !== 0) {
-            $nodeData = Database::getInstance()->exec_SELECTgetSingleRow('*', $this->tableName, 'uid=' . $node->getId());
+            $nodeData = Database::getInstance()->exec_SELECTgetSingleRow('*', $this->tableName,
+                'uid=' . $node->getId());
         }
 
         if ($nodeData == null) {
@@ -74,5 +76,13 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         }
 
         return $storage;
+    }
+
+    /**
+     * @return BackendUserAuthentication
+     */
+    protected function getBeUser()
+    {
+        return $GLOBALS['BE_USER'];
     }
 }

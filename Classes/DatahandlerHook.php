@@ -5,7 +5,7 @@ namespace RG\TtNews;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2011 Rupert Germann (rupi@gmx.li)
+ *  (c) 2005-2018 Rupert Germann (rupi@gmx.li)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,6 +37,7 @@ namespace RG\TtNews;
  */
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
@@ -53,7 +54,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DatahandlerHook
 {
+    /**
+     * @var
+     */
     protected $SPaddWhere;
+    /**
+     * @var
+     */
     protected $enableCatFields;
 
     /**
@@ -68,6 +75,7 @@ class DatahandlerHook
      * @return    void
      * @access public
      * @throws \Doctrine\DBAL\DBALException
+     * @throws \TYPO3\CMS\Core\Exception
      */
     function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
     {
@@ -113,7 +121,7 @@ class DatahandlerHook
             }
 
             // check permissions of assigned categories
-            if (!is_int($id) || $GLOBALS['BE_USER']->isAdmin()) {
+            if (!is_int($id) || $this->getBeUser()->isAdmin()) {
                 return;
             }
 
@@ -131,7 +139,7 @@ class DatahandlerHook
 
             $notAllowedItems = array();
 
-            $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
+            $allowedItems = $this->getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
             $wantedCategories = GeneralUtility::intExplode(',', $fieldArray['category']);
@@ -164,6 +172,12 @@ class DatahandlerHook
         }
     }
 
+
+    /**
+     * @param $message
+     *
+     * @throws \TYPO3\CMS\Core\Exception
+     */
     protected function enqueueFlashMessage($message)
     {
         /** @var $flashMessageService FlashMessageService */
@@ -173,6 +187,13 @@ class DatahandlerHook
         $defaultFlashMessageQueue->enqueue($message);
     }
 
+    /**
+     * @param $status
+     * @param $table
+     * @param $id
+     * @param $fieldArray
+     * @param $pObj
+     */
     function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj)
     {
         if ($table != 'tt_news') {
@@ -184,7 +205,7 @@ class DatahandlerHook
             $id = $pObj->substNEWwithIDs[$id];
         }
 
-        if (isset($GLOBALS['_POST']['_savedokview_x']) && !$fieldArray['type'] && !$GLOBALS['BE_USER']->workspace) {
+        if (isset($GLOBALS['_POST']['_savedokview_x']) && !$fieldArray['type'] && !$this->getBeUser()->workspace) {
             // if "savedokview" has been pressed and current article has "type" 0 (= normal news article)
             // and the beUser works in the LIVE workspace open current record in single view
             $pagesTSC = BackendUtility::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
@@ -211,11 +232,13 @@ class DatahandlerHook
      *
      * @return    void
      * @access public
+     * @throws \Doctrine\DBAL\DBALException
+     * @throws \TYPO3\CMS\Core\Exception
      */
     function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj)
     {
 
-        if ($table == 'tt_news' && !$GLOBALS['BE_USER']->isAdmin()) {
+        if ($table == 'tt_news' && !$this->getBeUser()->isAdmin()) {
             $rec = BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
             if ($rec['editlock']) {
                 $pObj->log($table, $id, 2, 0, 1,
@@ -245,7 +268,7 @@ class DatahandlerHook
 
             $notAllowedItems = array();
 
-            $allowedItems = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
+            $allowedItems = $this->getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
             foreach ($categories as $k) {
@@ -281,6 +304,8 @@ class DatahandlerHook
      * @param             $srcId
      * @param             $destId
      * @param DataHandler $pObj
+     *
+     * @throws \Doctrine\DBAL\DBALException
      */
     function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj)
     {
@@ -355,6 +380,13 @@ class DatahandlerHook
         return $CPtable;
     }
 
+    /**
+     * @return BackendUserAuthentication
+     */
+    protected function getBeUser()
+    {
+        return $GLOBALS['BE_USER'];
+    }
 }
 
 

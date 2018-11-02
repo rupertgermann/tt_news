@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2004-2009 Rupert Germann <rupi@gmx.li>
+ *  (c) 2004-2018 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,6 +26,9 @@
  ***************************************************************/
 
 namespace RG\TtNews;
+
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * tt_news misc functions
@@ -92,7 +95,7 @@ class Div
     {
 
         if (!$catlist) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('EMPTY $catlist (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+            GeneralUtility::devLog('EMPTY $catlist (' . __CLASS__ . '::' . __FUNCTION__ . ')',
                 'tt_news', 3, array());
         }
 
@@ -181,7 +184,8 @@ class Div
 
         $catlistWhere = self::getCatlistWhere();
         $treeIDs = array();
-        $res = Database::getInstance()->exec_SELECTquery('uid', 'tt_news_cat', '1=1' . $catlistWhere . ' AND deleted=0');
+        $res = Database::getInstance()->exec_SELECTquery('uid', 'tt_news_cat',
+            '1=1' . $catlistWhere . ' AND deleted=0');
         while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $treeIDs[] = $row['uid'];
         }
@@ -198,13 +202,13 @@ class Div
     static public function getCatlistWhere()
     {
         $catlistWhere = '';
-        if (!$GLOBALS['BE_USER']->isAdmin()) {
+        if (!self::getBeUser()->isAdmin()) {
             // get include/exclude items
-            $excludeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.excludeList');
+            $excludeList = self::getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.excludeList');
             $includeCatArray = self::getIncludeCatArray();
 
             if ($excludeList) {
-                $catlistWhere .= ' AND tt_news_cat.uid NOT IN (' . implode(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',
+                $catlistWhere .= ' AND tt_news_cat.uid NOT IN (' . implode(GeneralUtility::intExplode(',',
                         $excludeList), ',') . ')';
             }
             if (!empty($includeCatArray)) {
@@ -223,13 +227,20 @@ class Div
      */
     static public function getIncludeCatArray()
     {
-        $includeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.includeList');
+        $includeList = self::getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.includeList');
         $catmounts = self::getBeUserCatMounts();
         if ($catmounts) {
             $includeList = $catmounts;
         }
 
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $includeList, 1);
+        return GeneralUtility::intExplode(',', $includeList, 1);
     }
 
+    /**
+     * @return BackendUserAuthentication
+     */
+    protected static function getBeUser()
+    {
+        return $GLOBALS['BE_USER'];
+    }
 }

@@ -5,7 +5,7 @@ namespace RG\TtNews;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2004-2009 Rupert Germann <rupi@gmx.li>
+ *  (c) 2004-2018 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -428,7 +428,7 @@ class Helpers
             \TYPO3\CMS\Core\Utility\GeneralUtility::devLog($lbl . ($time ? ' time: ' . $time . ' s' : ''),
                 $this->pObj->extKey, (int)$sev, $msg);
         } else {
-            debug($msg, $lbl, $code_line, $msg['file:'], 3);
+            \debug($msg, $lbl, $code_line, $msg['file:'], 3);
         }
     }
 
