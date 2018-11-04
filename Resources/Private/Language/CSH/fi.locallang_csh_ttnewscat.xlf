@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="fi" datatype="plaintext" original="messages" date="2016-05-06T09:01:48Z" product-name="">
+		<header/>
+		<body>
+			<trans-unit id=".description" xml:space="preserve" approved="yes">
+				<source>tt_news categories.</source>
+				<target>Sisäänrakennetun uutisjärjestelmän luokat</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

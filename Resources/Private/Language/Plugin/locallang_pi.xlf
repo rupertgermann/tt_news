@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-06T08:23:47Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id="latestHeader" xml:space="preserve">
+				<source>Breaking News:</source>
+			</trans-unit>
+			<trans-unit id="textCatLatest" xml:space="preserve">
+				<source>Cat:</source>
+			</trans-unit>
+			<trans-unit id="textCat" xml:space="preserve">
+				<source>Category:</source>
+			</trans-unit>
+			<trans-unit id="textNewsAge" xml:space="preserve">
+				<source>Age:</source>
+			</trans-unit>
+			<trans-unit id="more" xml:space="preserve">
+				<source>[more]</source>
+			</trans-unit>
+			<trans-unit id="preAuthor" xml:space="preserve">
+				<source>By:</source>
+			</trans-unit>
+			<trans-unit id="backToList" xml:space="preserve">
+				<source>&lt;- Back to: %s</source>
+			</trans-unit>
+			<trans-unit id="goToArchive" xml:space="preserve">
+				<source>go to Archive -></source>
+			</trans-unit>
+			<trans-unit id="archiveHeader" xml:space="preserve">
+				<source>ARCHIVE:</source>
+			</trans-unit>
+			<trans-unit id="archiveItems" xml:space="preserve">
+				<source>items</source>
+			</trans-unit>
+			<trans-unit id="archiveItem" xml:space="preserve">
+				<source>item</source>
+			</trans-unit>
+			<trans-unit id="archiveEmptyMsg" xml:space="preserve">
+				<source>Sorry, Archive contains no items</source>
+			</trans-unit>
+			<trans-unit id="noResultsMsg" xml:space="preserve">
+				<source>nothing found</source>
+			</trans-unit>
+			<trans-unit id="searchEmptyMsg" xml:space="preserve">
+				<source>Please enter a searchword.</source>
+			</trans-unit>
+			<trans-unit id="noNewsToListMsg" xml:space="preserve">
+				<source>no news in this list.</source>
+			</trans-unit>
+			<trans-unit id="versionPreviewMessage" xml:space="preserve">
+				<source>Version preview !</source>
+			</trans-unit>
+			<trans-unit id="versionPreviewMessageLinkToOriginal" xml:space="preserve">
+				<source>(click here to see the public version of this record)</source>
+			</trans-unit>
+			<trans-unit id="nonPlublicVersionMsg" xml:space="preserve">
+				<source>Error! You requested a non-public version of a tt_news article.</source>
+			</trans-unit>
+			<trans-unit id="noNewsIdMsg" xml:space="preserve">
+				<source>no news_id given</source>
+			</trans-unit>
+			<trans-unit id="noTranslMsg" xml:space="preserve">
+				<source>Sorry, there is no translation for this news-article.</source>
+			</trans-unit>
+			<trans-unit id="noNewsForArchPeriod" xml:space="preserve">
+				<source>Sorry, there are no translated news-articles in this Archive period.</source>
+			</trans-unit>
+			<trans-unit id="textRelated" xml:space="preserve">
+				<source>Related News:</source>
+			</trans-unit>
+			<trans-unit id="textLinks" xml:space="preserve">
+				<source>Links:</source>
+			</trans-unit>
+			<trans-unit id="textFiles" xml:space="preserve">
+				<source>Files:</source>
+			</trans-unit>
+			<trans-unit id="textRelatedByCategory" xml:space="preserve">
+				<source>Other news from this category:</source>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_prev" xml:space="preserve">
+				<source>&lt; Previous</source>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_page" xml:space="preserve">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_next" xml:space="preserve">
+				<source>Next &gt;</source>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_first" xml:space="preserve">
+				<source>&lt;&lt; First</source>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_last" xml:space="preserve">
+				<source>Last &gt;&gt;</source>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_displays" xml:space="preserve">
+				<source>Displaying results ###FROM### to ###TO### out of ###OUT_OF###</source>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_displays_advanced" xml:space="preserve">
+				<source>Displaying results ###FROM### to ###TO### out of ###OUT_OF###</source>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_to" xml:space="preserve">
+				<source>to</source>
+			</trans-unit>
+			<trans-unit id="searchButtonLabel" xml:space="preserve">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="altTextCatSelector" xml:space="preserve">
+				<source>Display only category:</source>
+			</trans-unit>
+			<trans-unit id="altTextCatShortcut" xml:space="preserve">
+				<source>Go to:</source>
+			</trans-unit>
+			<trans-unit id="catmenuHeader" xml:space="preserve">
+				<source>Select a category:</source>
+			</trans-unit>
+			<trans-unit id="nextArticle" xml:space="preserve">
+				<source>Next article</source>
+			</trans-unit>
+			<trans-unit id="prevArticle" xml:space="preserve">
+				<source>Previous article</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

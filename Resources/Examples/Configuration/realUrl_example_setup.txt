@@ -16,7 +16,7 @@
 *
 */
 
-$TYPO3_CONF_VARS['EXTCONF']['realurl'] = array(
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl'] = array(
 	'_DEFAULT' => array(
 		'init' => array(
 			'enableCHashCache' => 1,

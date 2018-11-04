@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="hr" datatype="plaintext" original="messages" date="2016-05-06T08:23:47Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id="latestHeader">
+				<source>Breaking News:</source>
+				<target>Zadnje novosti</target>
+			</trans-unit>
+			<trans-unit id="textCatLatest">
+				<source>Cat:</source>
+				<target>Kat:</target>
+			</trans-unit>
+			<trans-unit id="textCat">
+				<source>Category:</source>
+				<target>Kategorija:</target>
+			</trans-unit>
+			<trans-unit id="textNewsAge">
+				<source>Age:</source>
+				<target>Starost:</target>
+			</trans-unit>
+			<trans-unit id="more">
+				<source>[more]</source>
+				<target>[više]</target>
+			</trans-unit>
+			<trans-unit id="preAuthor">
+				<source>By:</source>
+				<target>Autor/ica:</target>
+			</trans-unit>
+			<trans-unit id="backToList">
+				<source><![CDATA[<- Back to: %s]]></source>
+				<target><![CDATA[<- povratak na popis novosti]]></target>
+			</trans-unit>
+			<trans-unit id="goToArchive">
+				<source>go to Archive -></source>
+				<target>u arhivu -></target>
+			</trans-unit>
+			<trans-unit id="archiveHeader">
+				<source>ARCHIVE:</source>
+				<target>ARHIVA</target>
+			</trans-unit>
+			<trans-unit id="archiveItems">
+				<source>items</source>
+				<target>elementi</target>
+			</trans-unit>
+			<trans-unit id="archiveEmptyMsg">
+				<source>Sorry, Archive contains no items</source>
+				<target>Arhiva je nažalost prazna</target>
+			</trans-unit>
+			<trans-unit id="noResultsMsg">
+				<source>nothing found</source>
+				<target>ništa nije pronađeno</target>
+			</trans-unit>
+			<trans-unit id="searchEmptyMsg">
+				<source>Please enter a searchword.</source>
+				<target>Molimo unesite traženu riječ.</target>
+			</trans-unit>
+			<trans-unit id="noNewsToListMsg">
+				<source>no news in this list.</source>
+				<target>nema novosti u popisu.</target>
+			</trans-unit>
+			<trans-unit id="textRelated">
+				<source>Related News:</source>
+				<target>povezane novosti</target>
+			</trans-unit>
+			<trans-unit id="textLinks">
+				<source>Links:</source>
+				<target>Linkovi:</target>
+			</trans-unit>
+			<trans-unit id="textFiles">
+				<source>Files:</source>
+				<target>Datoteke:</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_prev">
+				<source>&lt; Previous</source>
+				<target>&lt; Prethodna</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_page">
+				<source>Page</source>
+				<target>Stranica</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_next">
+				<source>Next ></source>
+				<target>Sljedeća ></target>
+			</trans-unit>
+			<trans-unit id="noNewsIdMsg">
+				<source>no news_id given</source>
+				<target>nije zadan ID novosti</target>
+			</trans-unit>
+			<trans-unit id="searchButtonLabel">
+				<source>Search</source>
+				<target>Traži</target>
+			</trans-unit>
+			<trans-unit id="altTextCatSelector">
+				<source>Display only category:</source>
+				<target>Prikaži samo kategoriju:</target>
+			</trans-unit>
+			<trans-unit id="altTextCatShortcut">
+				<source>Go to:</source>
+				<target>Idi na:</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

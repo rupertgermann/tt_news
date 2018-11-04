@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-06T08:55:03Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id=".alttitle">
+				<source>News</source>
+			</trans-unit>
+			<trans-unit id=".description">
+				<source> news description</source>
+			</trans-unit>
+			<trans-unit id="_.seeAlso">
+				<source>tt_news manual | http://typo3.org/documentation/document-library/extension-manuals/tt_news/current/</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

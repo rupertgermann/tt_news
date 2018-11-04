@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="nl" datatype="plaintext" original="messages" date="2016-05-06T08:23:47Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id="latestHeader" xml:space="preserve" approved="yes">
+				<source>Breaking News:</source>
+				<target>Laatste Nieuws:</target>
+			</trans-unit>
+			<trans-unit id="textCatLatest" xml:space="preserve" approved="yes">
+				<source>Cat:</source>
+				<target>Cat:</target>
+			</trans-unit>
+			<trans-unit id="textCat" xml:space="preserve" approved="yes">
+				<source>Category:</source>
+				<target>Categorie:</target>
+			</trans-unit>
+			<trans-unit id="textNewsAge" xml:space="preserve" approved="yes">
+				<source>Age:</source>
+				<target>Leeftijd:</target>
+			</trans-unit>
+			<trans-unit id="more" xml:space="preserve" approved="yes">
+				<source>[more]</source>
+				<target>[meer...]</target>
+			</trans-unit>
+			<trans-unit id="preAuthor" xml:space="preserve" approved="yes">
+				<source>By:</source>
+				<target>Door:</target>
+			</trans-unit>
+			<trans-unit id="backToList" xml:space="preserve" approved="yes">
+				<source>&lt;- Back to: %s</source>
+				<target>nieuwslijst</target>
+			</trans-unit>
+			<trans-unit id="goToArchive" xml:space="preserve" approved="yes">
+				<source>go to Archive -></source>
+				<target>archief</target>
+			</trans-unit>
+			<trans-unit id="archiveHeader" xml:space="preserve" approved="yes">
+				<source>ARCHIVE:</source>
+				<target>ARCHIEF:</target>
+			</trans-unit>
+			<trans-unit id="archiveItems" xml:space="preserve" approved="yes">
+				<source>items</source>
+				<target>items</target>
+			</trans-unit>
+			<trans-unit id="archiveEmptyMsg" xml:space="preserve" approved="yes">
+				<source>Sorry, Archive contains no items</source>
+				<target>Sorry, Archief bevat geen items</target>
+			</trans-unit>
+			<trans-unit id="noResultsMsg" xml:space="preserve" approved="yes">
+				<source>nothing found</source>
+				<target>niets gevonden</target>
+			</trans-unit>
+			<trans-unit id="searchEmptyMsg" xml:space="preserve" approved="yes">
+				<source>Please enter a searchword.</source>
+				<target>Vul een zoekterm in.</target>
+			</trans-unit>
+			<trans-unit id="noNewsToListMsg" xml:space="preserve" approved="yes">
+				<source>no news in this list.</source>
+				<target>Geen nieuws in deze lijst:</target>
+			</trans-unit>
+			<trans-unit id="textRelated" xml:space="preserve" approved="yes">
+				<source>Related News:</source>
+				<target>Gerelateerd nieuws</target>
+			</trans-unit>
+			<trans-unit id="textLinks" xml:space="preserve" approved="yes">
+				<source>Links:</source>
+				<target>Links:</target>
+			</trans-unit>
+			<trans-unit id="textFiles" xml:space="preserve" approved="yes">
+				<source>Files:</source>
+				<target>Bestanden:</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_prev" xml:space="preserve" approved="yes">
+				<source>&lt; Previous</source>
+				<target>&lt; Vorige</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_page" xml:space="preserve" approved="yes">
+				<source>Page</source>
+				<target>Pag.</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_next" xml:space="preserve" approved="yes">
+				<source>Next &gt;</source>
+				<target>Volgende &gt;</target>
+			</trans-unit>
+			<trans-unit id="noNewsIdMsg" xml:space="preserve" approved="yes">
+				<source>no news_id given</source>
+				<target>geen news_id ingevoerd</target>
+			</trans-unit>
+			<trans-unit id="searchButtonLabel" xml:space="preserve" approved="yes">
+				<source>Search</source>
+				<target>Zoek</target>
+			</trans-unit>
+			<trans-unit id="altTextCatSelector" xml:space="preserve" approved="yes">
+				<source>Display only category:</source>
+				<target>Toon één categorie</target>
+			</trans-unit>
+			<trans-unit id="altTextCatShortcut" xml:space="preserve" approved="yes">
+				<source>Go to:</source>
+				<target>Ga naar:</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

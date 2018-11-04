@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-06T08:23:47Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id="latestHeader">
+				<source>Breaking News:</source>
+				<target>Aktuelles:</target>
+			</trans-unit>
+			<trans-unit id="textCatLatest">
+				<source>Cat:</source>
+				<target>Kat:</target>
+			</trans-unit>
+			<trans-unit id="textCat">
+				<source>Category:</source>
+				<target>Kategorie:</target>
+			</trans-unit>
+			<trans-unit id="textNewsAge">
+				<source>Age:</source>
+				<target>Alter:</target>
+			</trans-unit>
+			<trans-unit id="more">
+				<source>[more]</source>
+				<target>[mehr]</target>
+			</trans-unit>
+			<trans-unit id="preAuthor">
+				<source>By:</source>
+				<target>Von:</target>
+			</trans-unit>
+			<trans-unit id="backToList">
+				<source><![CDATA[<- Back to: %s]]></source>
+				<target><![CDATA[<- Zurück zu: %s]]></target>
+			</trans-unit>
+			<trans-unit id="goToArchive">
+				<source>go to Archive -></source>
+				<target>zum Archiv -></target>
+			</trans-unit>
+			<trans-unit id="archiveHeader">
+				<source>ARCHIVE:</source>
+				<target>Nachrichten Archiv:</target>
+			</trans-unit>
+			<trans-unit id="archiveItems">
+				<source>items</source>
+				<target>Einträge</target>
+			</trans-unit>
+			<trans-unit id="archiveItem">
+				<source>item</source>
+				<target>Eintrag</target>
+			</trans-unit>
+			<trans-unit id="archiveEmptyMsg">
+				<source>Sorry, Archive contains no items</source>
+				<target>Leider keine Einträge im Archiv vorhanden.</target>
+			</trans-unit>
+			<trans-unit id="noResultsMsg">
+				<source>nothing found</source>
+				<target>Keine Ergebnisse</target>
+			</trans-unit>
+			<trans-unit id="searchEmptyMsg">
+				<source>Please enter a searchword.</source>
+				<target>Bitte geben Sie einen Suchbegriff ein.</target>
+			</trans-unit>
+			<trans-unit id="noNewsToListMsg">
+				<source>no news in this list.</source>
+				<target>Keine News in dieser Ansicht.</target>
+			</trans-unit>
+			<trans-unit id="versionPreviewMessage">
+				<source>Version preview !</source>
+				<target>Versions Vorschau !</target>
+			</trans-unit>
+			<trans-unit id="versionPreviewMessageLinkToOriginal">
+				<source>(click here to see the public version of this record)</source>
+				<target>(Klicken Sie hier um die öffentliche Version dieses Artikels zu sehen)</target>
+			</trans-unit>
+			<trans-unit id="nonPlublicVersionMsg">
+				<source>Error! You requested a non-public version of a tt_news article.</source>
+				<target>Fehler! Sie haben eine nicht-öffentliche Version eines News-Artikels aufgerufen.</target>
+			</trans-unit>
+			<trans-unit id="noNewsIdMsg">
+				<source>no news_id given</source>
+				<target>Keine news_id übergeben.</target>
+			</trans-unit>
+			<trans-unit id="noTranslMsg">
+				<source>Sorry, there is no translation for this news-article.</source>
+				<target>Leider gibt es für diesen Artikel keine Übersetzung</target>
+			</trans-unit>
+			<trans-unit id="noNewsForArchPeriod">
+				<source>Sorry, there are no translated news-articles in this Archive period.</source>
+				<target>Leider gibts es für diesen Archiv Zeitraum keine übersetzten News-Artikel</target>
+			</trans-unit>
+			<trans-unit id="textRelated">
+				<source>Related News:</source>
+				<target>In Verbindung stehende Artikel</target>
+			</trans-unit>
+			<trans-unit id="textLinks">
+				<source>Links:</source>
+				<target>Links:</target>
+			</trans-unit>
+			<trans-unit id="textFiles">
+				<source>Files:</source>
+				<target>Dateien:</target>
+			</trans-unit>
+			<trans-unit id="textRelatedByCategory">
+				<source>Other news from this category:</source>
+				<target>Weitere News in dieser Kategorie</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_prev">
+				<source><![CDATA[< Previous]]></source>
+				<target><![CDATA[< zurück]]></target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_page">
+				<source>Page</source>
+				<target>Seite</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_next">
+				<source>Next ></source>
+				<target>vor ></target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_first">
+				<source><![CDATA[<< First]]></source>
+				<target><![CDATA[<< Erste]]></target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_last">
+				<source>Last >></source>
+				<target>Letzte >></target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_displays">
+				<source>Displaying results ###FROM### to ###TO### out of ###OUT_OF###</source>
+				<target>News ###FROM### bis ###TO### von ###OUT_OF###</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_displays_advanced">
+				<source>Displaying results ###FROM### to ###TO### out of ###OUT_OF###</source>
+				<target>News ###FROM### bis ###TO### von ###OUT_OF###</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_to">
+				<source>to</source>
+				<target>bis</target>
+			</trans-unit>
+			<trans-unit id="searchButtonLabel">
+				<source>Search</source>
+				<target>Suchen</target>
+			</trans-unit>
+			<trans-unit id="altTextCatSelector">
+				<source>Display only category:</source>
+				<target>Nur diese Kategorie anzeigen:</target>
+			</trans-unit>
+			<trans-unit id="altTextCatShortcut">
+				<source>Go to:</source>
+				<target>Gehe zu:</target>
+			</trans-unit>
+			<trans-unit id="catmenuHeader">
+				<source>Select a category:</source>
+				<target>Kategorieauswahl:</target>
+			</trans-unit>
+			<trans-unit id="nextArticle">
+				<source>Next article</source>
+				<target>Nächste Nachricht</target>
+			</trans-unit>
+			<trans-unit id="prevArticle">
+				<source>Previous article</source>
+				<target>Vorige Nachricht</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

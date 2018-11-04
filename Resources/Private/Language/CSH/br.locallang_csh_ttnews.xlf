@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="br" datatype="plaintext" original="messages" date="2016-05-06T08:57:02Z" product-name="">
+		<header/>
+		<body>
+			<trans-unit id=".description" xml:space="preserve" approved="yes">
+				<source>Versatile news system for TYPO3.</source>
+				<target>Sistema de notícias.</target>
+			</trans-unit>
+			<trans-unit id=".details" xml:space="preserve" approved="yes">
+				<source>"News" items are typically those which goes on your frontpage on the websites and allows you to link down to a page with the full story (the "single view"). They may also represent links to internal pages in the system or links to external pages.</source>
+				<target>Os elementos de "notícias" são aqueles que tipicamente vão nas páginas iniciais e lhe permitem ligar com uma página que contém a história completa. Também podem representar artigos (ligação a páginas completas) do sistema.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

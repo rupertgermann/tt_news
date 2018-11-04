@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-04T15:30:48Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id="title">
+				<source>News category manager</source>
+			</trans-unit>
+			<trans-unit id="moveCategoryinto">
+				<source>move category into</source>
+			</trans-unit>
+			<trans-unit id="copyCategoryinto">
+				<source>copy category into</source>
+			</trans-unit>
+			<trans-unit id="copyCategoryafter">
+				<source>copy category after</source>
+			</trans-unit>
+			<trans-unit id="edit">
+				<source>Edit record</source>
+			</trans-unit>
+			<trans-unit id="showInfo">
+				<source>Show information</source>
+			</trans-unit>
+			<trans-unit id="unHide">
+				<source>Unhide Record</source>
+			</trans-unit>
+			<trans-unit id="hide">
+				<source>Hide Record</source>
+			</trans-unit>
+			<trans-unit id="deleteWarning">
+				<source>Are you sure you want to delete this record?</source>
+			</trans-unit>
+			<trans-unit id="delete">
+				<source>Delete record (!)</source>
+			</trans-unit>
+			<trans-unit id="new">
+				<source>Create new category on this level</source>
+			</trans-unit>
+			<trans-unit id="newsub">
+				<source>Create new subcategory</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
