@@ -52,11 +52,11 @@ class PageModuleHook
         if ($params['row']['list_type'] == 9) {
             $data = GeneralUtility::xml2array($params['row']['pi_flexform']);
             if (is_array($data) && $data['data']['sDEF']['lDEF']['what_to_display']['vDEF']) {
-                $result = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:cms_layout.mode'),
+                $result = 'tt_news: ' . sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:cms_layout.mode'),
                     $data['data']['sDEF']['lDEF']['what_to_display']['vDEF']);
             }
             if (!$result) {
-                $result = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:cms_layout.not_configured');
+                $result = 'tt_news: ' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:cms_layout.not_configured');
             }
         }
 

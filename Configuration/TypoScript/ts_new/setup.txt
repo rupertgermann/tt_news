@@ -837,9 +837,6 @@ plugin.tt_news {
   # show only the search form when the search is displayed without searching anything
   emptySearchAtStart = 1
 
-  # parse the 'back to list' link through htmlspecialchars()
-  hscBackLink = 1
-
   # substitute pagetitle in single view with title of news article
   substitutePagetitle = 1
 

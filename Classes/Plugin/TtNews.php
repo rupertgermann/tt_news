@@ -29,34 +29,23 @@ namespace RG\TtNews\Plugin;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use RG\TtNews\Cache;
 use RG\TtNews\Database;
 use RG\TtNews\Div;
 use RG\TtNews\Helpers;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
-/**
- * class.tx_ttnews.php
- *
- * versatile news system for TYPO3.
- * $Id$
- *
- * TypoScript setup:
- *
- * @See       ext/tt_news/pi/static/ts_new/setup.txt
- * @See       tt_news Manual:    http://typo3.org/documentation/document-library/extension-manuals/tt_news/current/
- * @See       TSref:            http://typo3.org/documentation/document-library/references/doc_core_tsref/current/
- *
- * @author    Rupert Germann <rupi@gmx.li>
- */
 
 
 /**
@@ -71,66 +60,201 @@ class TtNews extends AbstractPlugin
 
 
     // Default plugin variables:
+    /**
+     * @var string
+     */
     public $prefixId = 'tx_ttnews'; // Same as class name
+    /**
+     * @var string
+     */
     public $scriptRelPath = 'pi/class.tx_ttnews.php'; // Path to this script relative to the extension dir.
+    /**
+     * @var string
+     */
     public $extKey = 'tt_news'; // The extension key.
+    /**
+     * @var bool
+     */
     public $pi_checkCHash = true;
 
     /**
      * @var Helpers
      */
-    public $hObj; // class with helper functions
+    public $helpers; // class with helper functions
+    /**
+     * @var int
+     */
     public $tt_news_uid = 0; // the uid of the current news record in SINGLE view
+    /**
+     * @var int
+     */
     public $pid_list = 0;
+    /**
+     * @var array
+     */
     public $config = array(); // the processed TypoScript configuration array
+    /**
+     * @var
+     */
     public $confArr; // extension config from extmanager
+    /**
+     * @var
+     */
     public $genericMarkerConf;
+    /**
+     * @var array
+     */
     public $sViewSplitLConf = array();
+    /**
+     * @var array
+     */
     public $langArr = array(); // the languages found in the tt_news sysfolder
+    /**
+     * @var string
+     */
     public $sys_language_mode = '';
+    /**
+     * @var int
+     */
     public $alternatingLayouts = 0;
+    /**
+     * @var int
+     */
     public $allowCaching = 1;
+    /**
+     * @var string
+     */
     public $catExclusive = '';
+    /**
+     * @var string
+     */
     public $actuallySelectedCategories = '';
+    /**
+     * @var int
+     */
     public $arcExclusive = 0;
+    /**
+     * @var array
+     */
     public $fieldNames = array();
+    /**
+     * @var string
+     */
     public $searchFieldList = 'short,bodytext,author,keywords,links,imagecaption,title';
+    /**
+     * @var string
+     */
     public $theCode = ''; // the current code
+    /**
+     * @var
+     */
     public $codes; // list of all codes
+    /**
+     * @var string
+     */
     public $rdfToc = '';
+    /**
+     * @var string
+     */
     public $templateCode = '';
 
+    /**
+     * @var bool
+     */
     public $versioningEnabled = false; // is the extension 'version' loaded
+    /**
+     * @var bool
+     */
     public $vPrev = false; // do we display a versioning preview
+    /**
+     * @var array
+     */
     public $categories = array();
+    /**
+     * @var array
+     */
     public $pageArray = array(); // internal cache with an array of the pages in the pid-list
+    /**
+     * @var string
+     */
     public $pointerName = 'pointer';
+    /**
+     * @var int
+     */
     public $SIM_ACCESS_TIME = 0;
     //	public $renderFields = array();
+    /**
+     * @var array
+     */
     public $errors = array();
 
+    /**
+     * @var string
+     */
     public $enableFields = '';
+    /**
+     * @var string
+     */
     public $enableCatFields = '';
+    /**
+     * @var string
+     */
     public $SPaddWhere = '';
+    /**
+     * @var string
+     */
     public $catlistWhere = '';
 
+    /**
+     * @var string
+     */
     public $token = '';
 
+    /**
+     * @var bool
+     */
     public $debugTimes = false; // debug parsetimes
+    /**
+     * @var bool
+     */
     public $useDevlog = true; // write parsetimes to devlog instead printing debug messages
+    /**
+     * @var float
+     */
     public $parsetimeThreshold = 0.1; // log only functions which need more than x.xx seconds
+    /**
+     * @var bool
+     */
     public $writeCachingInfoToDevlog = false; // 1 = write only cache misses to devlog, 2 = write cache hit info, too
 
 
+    /**
+     * @var null
+     */
     public $start_time = null;
+    /**
+     * @var int
+     */
     public $global_start_time = 0;
+    /**
+     * @var int
+     */
     public $start_code_line = 0;
     /**
-     * @var Cache
+     * @var FrontendInterface
      */
     public $cache;
+    /**
+     * @var bool
+     */
     public $cache_amenuPeriods = false;
+    /**
+     * @var bool
+     */
     public $cache_categoryCount = false;
+    /**
+     * @var bool
+     */
     public $cache_categories = false;
     /**
      * @var Database
@@ -141,16 +265,46 @@ class TtNews extends AbstractPlugin
      */
     public $tsfe;
 
+    /**
+     * @var
+     */
     public $convertToUserIntObject;
+    /**
+     * @var
+     */
     public $splitLConf;
+    /**
+     * @var
+     */
     public $piVars_catSelection;
+    /**
+     * @var
+     */
     public $dontStartFromRootRecord;
+    /**
+     * @var
+     */
     public $cleanedCategoryMounts;
+    /**
+     * @var
+     */
     public $renderMarkers;
+    /**
+     * @var
+     */
     public $addFromTable;
+    /**
+     * @var
+     */
     public $relNewsUid;
+    /**
+     * @var
+     */
     public $externalCategorySelection;
 
+    /**
+     * @var
+     */
     public $newsCount;
     /**
      * @var ContentObjectRenderer
@@ -169,10 +323,19 @@ class TtNews extends AbstractPlugin
      */
     private $useUpstreamRenderer = false;
 
+    /**
+     * @var array
+     */
     public $upstreamVars = array();
 
+    /**
+     * @var
+     */
     private $listData;
 
+    /**
+     * TtNews constructor.
+     */
     public function __construct()
     {
         //if search => disable cache hash check to avoid pageNotFoundOnCHashError, see \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::reqCHash
@@ -204,10 +367,10 @@ class TtNews extends AbstractPlugin
             $this->parsetimeThreshold = floatval(trim($this->confArr['parsetimeThreshold']));
         }
 
-        $this->hObj = new Helpers($this);
+        $this->helpers = new Helpers($this);
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         $this->conf = $conf; //store configuration
@@ -228,7 +391,7 @@ class TtNews extends AbstractPlugin
         $this->preInit();
 
         if ($this->conf['enableConfigValidation'] && count($this->errors)) {
-            return $this->hObj->displayErrors();
+            return $this->helpers->displayErrors();
         }
 
         $this->init();
@@ -263,7 +426,7 @@ class TtNews extends AbstractPlugin
                 default :
 
                     if ($this->debugTimes) {
-                        $this->hObj->getParsetime(__METHOD__ . ' extraCodesHook start');
+                        $this->helpers->getParsetime(__METHOD__ . ' extraCodesHook start');
                     }
 
                     // hook for processing of extra codes
@@ -277,7 +440,7 @@ class TtNews extends AbstractPlugin
                     }
 
                     if ($this->debugTimes) {
-                        $this->hObj->getParsetime(__METHOD__ . ' extraCodesHook end');
+                        $this->helpers->getParsetime(__METHOD__ . ' extraCodesHook end');
                     }
 
                     break;
@@ -286,11 +449,11 @@ class TtNews extends AbstractPlugin
 
         // check errors array again
         if ($this->conf['enableConfigValidation'] && count($this->errors)) {
-            return $this->hObj->displayErrors();
+            return $this->helpers->displayErrors();
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__FUNCTION__, true);
+            $this->helpers->getParsetime(__FUNCTION__, true);
         }
 
         return $this->cObj->stdWrap($content, $this->conf['stdWrap.']);
@@ -308,7 +471,7 @@ class TtNews extends AbstractPlugin
 
         $flexformTyposcript = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'myTS', 's_misc');
         if ($flexformTyposcript) {
-            $tsparser = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\TypoScript\\Parser\\TypoScriptParser');
+            $tsparser = GeneralUtility::makeInstance(TypoScriptParser::class);
             // Copy conf into existing setup
             $tsparser->setup = $this->conf;
             // Parse the new Typoscript
@@ -380,7 +543,7 @@ class TtNews extends AbstractPlugin
         if ($this->conf['searchFieldList']) {
             // get fieldnames from the tt_news db-table
             $this->fieldNames = array_keys($this->db->admin_get_fields('tt_news'));
-            $searchFieldList = $this->hObj->validateFields($this->conf['searchFieldList'], $this->fieldNames);
+            $searchFieldList = $this->helpers->validateFields($this->conf['searchFieldList'], $this->fieldNames);
             if ($searchFieldList) {
                 $this->searchFieldList = $searchFieldList;
             }
@@ -398,7 +561,7 @@ class TtNews extends AbstractPlugin
         $this->config['datetimeMinutesToArchive'] = intval($this->conf['datetimeMinutesToArchive']);
 
         if ($this->conf['useHRDates']) {
-            $this->hObj->convertDates();
+            $this->helpers->convertDates();
         }
 
         // list of pages where news records will be taken from
@@ -519,7 +682,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
     }
@@ -547,7 +710,7 @@ class TtNews extends AbstractPlugin
     {
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         $theCode = $this->theCode;
@@ -656,7 +819,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         // process extra codes from $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']
@@ -672,7 +835,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         // used to call getSelectConf without a period length (pL) at the first archive page
@@ -757,14 +920,14 @@ class TtNews extends AbstractPlugin
             $markerArray = array();
 
             if ($this->debugTimes) {
-                $this->hObj->getParsetime(__METHOD__);
+                $this->helpers->getParsetime(__METHOD__);
             }
 
             // get the list of news items and fill them in the CONTENT subpart
             $subpartArray['###CONTENT###'] = $this->getListContent($t['item'], $selectConf, $prefix_display);
 
             if ($this->debugTimes) {
-                $this->hObj->getParsetime(__METHOD__);
+                $this->helpers->getParsetime(__METHOD__);
             }
 
             if ($this->isRenderMarker('###NEWS_CATEGORY_ROOTLINE###')) {
@@ -902,13 +1065,20 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         return $content;
     }
 
 
+    /**
+     * @param $markerArray
+     * @param $pbConf
+     * @param $pointerName
+     *
+     * @return mixed
+     */
     function getPagebrowserContent($markerArray, $pbConf, $pointerName)
     {
         $this->internal['pagefloat'] = $pbConf['pagefloat'];
@@ -982,7 +1152,7 @@ class TtNews extends AbstractPlugin
     {
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         $limit = $this->config['limit'];
@@ -1140,7 +1310,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         return $itemsOut;
@@ -1212,7 +1382,7 @@ class TtNews extends AbstractPlugin
                 $redirectUrl = $this->local_cObj->getTypoLink_URL(
                     $row['type'] == 1 ? $row['page'] : $row['ext_url']
                 );
-                \TYPO3\CMS\Core\Utility\HttpUtility::redirect($redirectUrl);
+                HttpUtility::redirect($redirectUrl);
             }
             $item = false;
             // reset marker array
@@ -1281,7 +1451,7 @@ class TtNews extends AbstractPlugin
             if ($this->conf['redirectNoTranslToList']) {
                 // redirect to list page
                 $this->pi_linkToPage(' ', $this->conf['backPid']);
-                \TYPO3\CMS\Core\Utility\HttpUtility::redirect($this->cObj->lastTypoLinkUrl);
+                HttpUtility::redirect($this->cObj->lastTypoLinkUrl);
             }
 
             $this->upstreamVars['mode'] = 'noTranslation';
@@ -1309,7 +1479,7 @@ class TtNews extends AbstractPlugin
 
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         return $content;
@@ -1325,7 +1495,7 @@ class TtNews extends AbstractPlugin
     function displayArchiveMenu()
     {
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__ . ' start');
+            $this->helpers->getParsetime(__METHOD__ . ' start');
         }
 
         $this->arcExclusive = 1;
@@ -1365,7 +1535,7 @@ class TtNews extends AbstractPlugin
             }
 
             if ($this->debugTimes) {
-                $this->hObj->getParsetime(__METHOD__ . ' $dateArr');
+                $this->helpers->getParsetime(__METHOD__ . ' $dateArr');
             }
 
             if ($selectConf['pidInList']) {
@@ -1390,7 +1560,7 @@ class TtNews extends AbstractPlugin
                     GeneralUtility::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')',
                         'tt_news', -1, array());
                 }
-                $periodAccum = unserialize($cachedPeriodAccum);
+                $periodAccum = $cachedPeriodAccum;
             } else {
 
                 $periodAccum = array();
@@ -1422,12 +1592,12 @@ class TtNews extends AbstractPlugin
                         GeneralUtility::devLog('CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')',
                             'tt_news', 2, array());
                     }
-                    $this->cache->set($storeKey, serialize($periodAccum), __FUNCTION__);
+                    $this->cache->set($storeKey, $periodAccum, [__FUNCTION__]);
                 }
 
             }
             if ($this->debugTimes) {
-                $this->hObj->getParsetime(__METHOD__ . ' periodAccum');
+                $this->helpers->getParsetime(__METHOD__ . ' periodAccum');
             }
 
             // get template subpart
@@ -1439,7 +1609,7 @@ class TtNews extends AbstractPlugin
             $tCount = count($t['item']);
             $cc = 0;
 
-            $veryLocal_cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+            $veryLocal_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             // reverse amenu order if 'reverseAMenu' is given
             if ($this->conf['reverseAMenu']) {
                 arsort($periodAccum);
@@ -1560,7 +1730,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         return $content;
@@ -1601,7 +1771,7 @@ class TtNews extends AbstractPlugin
                 }
                 while (($row = $this->db->sql_fetch_assoc($res))) {
                     $cArr[] = $row;
-                    $subcats = $this->hObj->getSubCategoriesForMenu($row['uid'], $fields, $this->catlistWhere);
+                    $subcats = $this->helpers->getSubCategoriesForMenu($row['uid'], $fields, $this->catlistWhere);
                     if (count($subcats)) {
                         $cArr[] = $subcats;
                     }
@@ -1637,7 +1807,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         return $this->local_cObj->stdWrap($content, $lConf['catmenu_stdWrap.']);
@@ -1665,7 +1835,7 @@ class TtNews extends AbstractPlugin
     {
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         $this->local_cObj->start($row, 'tt_news');
@@ -1761,13 +1931,13 @@ class TtNews extends AbstractPlugin
         $newscontent = false;
         if ($this->isRenderMarker('###NEWS_CONTENT###')) {
             if ($textRenderObj == 'displaySingle' && !$row['no_auto_pb'] && $this->config['maxWordsInSingleView'] > 1 && $this->config['useMultiPageSingleView']) {
-                $row['bodytext'] = $this->hObj->insertPagebreaks($row['bodytext'],
+                $row['bodytext'] = $this->helpers->insertPagebreaks($row['bodytext'],
                     count(GeneralUtility::trimExplode(' ', $row['short'], 1)));
             }
 
             if (strpos($row['bodytext'], $this->config['pageBreakToken'])) {
                 if ($this->config['useMultiPageSingleView'] && $textRenderObj == 'displaySingle') {
-                    $tmp = $this->hObj->makeMultiPageSView($row['bodytext'], $lConf);
+                    $tmp = $this->helpers->makeMultiPageSView($row['bodytext'], $lConf);
                     $newscontent = $tmp[0];
                     $sViewPagebrowser = $tmp[1];
                 } else {
@@ -1793,9 +1963,8 @@ class TtNews extends AbstractPlugin
         // get title (or its language overlay) of the page where the backLink points to (this is done only in single view)
         if ($this->config['backPid'] && $textRenderObj == 'displaySingle' && $this->isRenderMarker('###BACK_TO_LIST###')) {
             $backPtitle = $this->getPageArrayEntry($this->config['backPid'], 'title');
-            // generate the string for the backLink. By setting the conf-parameter 'hscBackLink',
-            // you can switch whether the string is parsed through htmlspecialchars() or not.
-            $markerArray['###BACK_TO_LIST###'] = sprintf($this->pi_getLL('backToList', '', $this->conf['hscBackLink']),
+
+            $markerArray['###BACK_TO_LIST###'] = sprintf($this->pi_getLL('backToList', ''),
                 $backPtitle);
         }
 
@@ -1889,16 +2058,21 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__ . ' OUT');
+            $this->helpers->getParsetime(__METHOD__ . ' OUT');
         }
 
         return $markerArray;
     }
 
 
+    /**
+     * @param $markerArray
+     * @param $row
+     * @param $lConf
+     */
     function getXmlMarkers(&$markerArray, $row, $lConf)
     {
-        $markerArray['###NEWS_TITLE###'] = $this->hObj->cleanXML($this->local_cObj->stdWrap($row['title'],
+        $markerArray['###NEWS_TITLE###'] = $this->helpers->cleanXML($this->local_cObj->stdWrap($row['title'],
             $lConf['title_stdWrap.']));
         $markerArray['###NEWS_AUTHOR###'] = $row['author_email'] ? '<author>' . $row['author_email'] . '</author>' : '';
         if ($this->conf['displayXML.']['xmlFormat'] == 'atom03' || $this->conf['displayXML.']['xmlFormat'] == 'atom1') {
@@ -1906,7 +2080,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->conf['displayXML.']['xmlFormat'] == 'rss2' || $this->conf['displayXML.']['xmlFormat'] == 'rss091') {
-            $markerArray['###NEWS_SUBHEADER###'] = $this->hObj->cleanXML($this->local_cObj->stdWrap($row['short'],
+            $markerArray['###NEWS_SUBHEADER###'] = $this->helpers->cleanXML($this->local_cObj->stdWrap($row['short'],
                 $lConf['subheader_stdWrap.']));
         } elseif ($this->conf['displayXML.']['xmlFormat'] == 'atom03' || $this->conf['displayXML.']['xmlFormat'] == 'atom1') {
             //html doesn't need to be striped off in atom feeds
@@ -1921,11 +2095,11 @@ class TtNews extends AbstractPlugin
         if ($this->conf['displayXML.']['xmlFormat'] == 'rss2' || $this->conf['displayXML.']['xmlFormat'] == 'rss091') {
             $markerArray['###NEWS_DATE###'] = date('D, d M Y H:i:s O', $row['datetime']);
         } elseif ($this->conf['displayXML.']['xmlFormat'] == 'atom03' || $this->conf['displayXML.']['xmlFormat'] == 'atom1') {
-            $markerArray['###NEWS_DATE###'] = $this->hObj->getW3cDate($row['datetime']);
+            $markerArray['###NEWS_DATE###'] = $this->helpers->getW3cDate($row['datetime']);
         }
         //dates for atom03
-        $markerArray['###NEWS_CREATED###'] = $this->hObj->getW3cDate($row['crdate']);
-        $markerArray['###NEWS_MODIFIED###'] = $this->hObj->getW3cDate($row['tstamp']);
+        $markerArray['###NEWS_CREATED###'] = $this->helpers->getW3cDate($row['crdate']);
+        $markerArray['###NEWS_MODIFIED###'] = $this->helpers->getW3cDate($row['tstamp']);
 
         if ($this->conf['displayXML.']['xmlFormat'] == 'atom03' && !empty($this->conf['displayXML.']['xmlLang'])) {
             $markerArray['###SITE_LANG###'] = ' xml:lang="' . $this->conf['displayXML.']['xmlLang'] . '"';
@@ -1937,6 +2111,10 @@ class TtNews extends AbstractPlugin
     }
 
 
+    /**
+     * @param $markerArray
+     * @param $row
+     */
     function getFileLinks(&$markerArray, $row)
     {
         $files_stdWrap = GeneralUtility::trimExplode('|',
@@ -1971,6 +2149,12 @@ class TtNews extends AbstractPlugin
     }
 
 
+    /**
+     * @param $markerArray
+     * @param $row
+     *
+     * @throws \Doctrine\DBAL\DBALException
+     */
     function getRelatedNewsByCategory(&$markerArray, $row)
     {
         // save some variables which are used to build the backLink to the list view
@@ -1989,7 +2173,7 @@ class TtNews extends AbstractPlugin
         $tmp_renderMarkers = $this->renderMarkers;
         $local_cObjSave = clone $this->local_cObj;
 
-        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($this->conf,
+        ArrayUtility::mergeRecursiveWithOverrule($this->conf,
             $this->conf['relNewsByCategory.'] ? $this->conf['relNewsByCategory.'] : array());
         $this->config = $this->conf;
         $this->config['catOrderBy'] = $configSave['catOrderBy'];
@@ -2033,6 +2217,9 @@ class TtNews extends AbstractPlugin
         unset($confSave, $configSave, $local_cObjSave);
     }
 
+    /**
+     * @param $markerArray
+     */
     function getGenericMarkers(&$markerArray)
     {
         $lConf = $this->genericMarkerConf;
@@ -2056,6 +2243,9 @@ class TtNews extends AbstractPlugin
         }
     }
 
+    /**
+     *
+     */
     function initGenericMarkers()
     {
         if (is_array($this->conf['genericmarkers.'])) {
@@ -2063,7 +2253,7 @@ class TtNews extends AbstractPlugin
 
             // merge with special configuration (based on current CODE [SINGLE, LIST, LATEST]) if this is available
             if (is_array($this->genericMarkerConf[$this->theCode . '.'])) {
-                \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($this->genericMarkerConf,
+                ArrayUtility::mergeRecursiveWithOverrule($this->genericMarkerConf,
                     $this->genericMarkerConf[$this->theCode . '.']);
             }
         }
@@ -2331,7 +2521,7 @@ class TtNews extends AbstractPlugin
         $this->tsfe->ATagParams = $pTmp;
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         return $markerArray;
@@ -2428,7 +2618,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         return $markerArray;
@@ -2586,7 +2776,7 @@ class TtNews extends AbstractPlugin
                 GeneralUtility::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')',
                     'tt_news', -1, array());
             }
-            $categories = unserialize($tmpcat);
+            $categories = $tmpcat;
         } else {
             if ($this->cache_categories && $this->writeCachingInfoToDevlog) {
                 GeneralUtility::devLog('CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')',
@@ -2645,7 +2835,7 @@ class TtNews extends AbstractPlugin
                     $catTitle = $catTitle ? $catTitle : $val['title'];
 
                     if ($this->conf['useSPidFromCategory'] && $this->conf['useSPidFromCategoryRecusive']) {
-                        $parentSP = $this->hObj->getRecursiveCategorySinglePid($val['uid']);
+                        $parentSP = $this->helpers->getRecursiveCategorySinglePid($val['uid']);
                     }
                     $singlePid = ($parentSP ? $parentSP : $val['single_pid']);
 
@@ -2665,11 +2855,11 @@ class TtNews extends AbstractPlugin
                 }
             }
             if ($this->cache_categories && is_array($categories)) {
-                $this->cache->set($hash, serialize($categories), __FUNCTION__);
+                $this->cache->set($hash, $categories, [__FUNCTION__]);
             }
 
             if ($this->debugTimes) {
-                $this->hObj->getParsetime(__METHOD__);
+                $this->helpers->getParsetime(__METHOD__);
             }
         }
 
@@ -2753,7 +2943,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         return $catRootline;
@@ -2827,6 +3017,12 @@ class TtNews extends AbstractPlugin
     }
 
 
+    /**
+     * @param $uid
+     *
+     * @return string
+     * @throws \Doctrine\DBAL\DBALException
+     */
     function getRelatedNewsAsList($uid)
     {
         // save some variables which are used to build the backLink to the list view
@@ -2851,7 +3047,7 @@ class TtNews extends AbstractPlugin
             $this->conf['displayRelated.'] = array();
         }
 
-        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($this->conf, $this->conf['displayRelated.']);
+        ArrayUtility::mergeRecursiveWithOverrule($this->conf, $this->conf['displayRelated.']);
         $this->config = $this->conf;
         $this->arcExclusive = $this->conf['archive'];
         $this->LOCAL_LANG_loaded = false;
@@ -2995,7 +3191,7 @@ class TtNews extends AbstractPlugin
                 'month' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['month'] ? $this->piVars['month'] : null))
             );
 
-            $veryLocal_cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer'); // Local cObj.
+            $veryLocal_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class); // Local cObj.
             $lines = array();
 
             // save current realUrl state
@@ -3054,7 +3250,7 @@ class TtNews extends AbstractPlugin
             $this->tsfe->config['config']['tx_cooluri_enable'] = $tmpCoolUri;
 
             if ($this->debugTimes) {
-                $this->hObj->getParsetime(__METHOD__);
+                $this->helpers->getParsetime(__METHOD__);
             }
 
             return implode('', $lines);
@@ -3270,7 +3466,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($lConf['xmlFormat'] == 'atom03' || $lConf['xmlFormat'] == 'atom1') {
-            $markerArray['###NEWS_LASTBUILD###'] = $this->hObj->getW3cDate($row['maxval']);
+            $markerArray['###NEWS_LASTBUILD###'] = $this->helpers->getW3cDate($row['maxval']);
         }
 
         if ($lConf['xmlWebMaster']) {
@@ -3332,7 +3528,7 @@ class TtNews extends AbstractPlugin
     {
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         // Get news
@@ -3344,7 +3540,7 @@ class TtNews extends AbstractPlugin
         $selectConf['where'] .= ' 1=1 ';
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
 
@@ -3388,7 +3584,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         if (!$this->externalCategorySelection) {
@@ -3440,7 +3636,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         if ($this->arcExclusive > 0) {
@@ -3469,7 +3665,7 @@ class TtNews extends AbstractPlugin
         // Since "enablefields" is ignored in workspace previews it's required to filter out news manually which are not visible in the live version AND the selected workspace.
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         if ($this->conf['excludeAlreadyDisplayedNews'] && $this->theCode != 'SEARCH' && $this->theCode != 'CATMENU' && $this->theCode != 'AMENU') {
@@ -3542,7 +3738,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->debugTimes) {
-            $this->hObj->getParsetime(__METHOD__);
+            $this->helpers->getParsetime(__METHOD__);
         }
 
         return $selectConf;
@@ -3784,47 +3980,17 @@ class TtNews extends AbstractPlugin
     }
 
 
+    /**
+     *
+     */
     function initCaching()
     {
-        if (!$this->confArr['useInternalCaching']) {
-            return;
-        }
-
-        $cachingEngine = $this->confArr['cachingEngine'];
-        if ($cachingEngine == 'cachingFramework' && (!is_object($GLOBALS['typo3CacheFactory']) || !isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache']['backend']))) {
-            // if there's no cacheFactory object fall back to internal caching (TYPO3 < 4.3)
-            $cachingEngine = 'internal';
-        }
-
-        if (!$cachingEngine) {
-            $cachingEngine = 'internal';
-        }
 
         $this->cache_amenuPeriods = true;
         $this->cache_categoryCount = true;
         $this->cache_categories = true;
 
-        if ($this->confArr['writeCachingInfoToDevlog']) {
-            $tmp = GeneralUtility::trimExplode('|', $this->confArr['writeCachingInfoToDevlog'],
-                0);
-            if ($tmp[1]) {
-                $this->writeCachingInfoToDevlog = $tmp[1];
-            }
-        }
-
-        if ($this->confArr['cacheClearMode'] == 'lifetime') {
-            $lifetime = $this->confArr['cacheLifetime'];
-        } elseif (method_exists($this->tsfe, 'get_cache_timeout')) {
-            // TYPO3 >= 4.2
-            // seconds until a cached page is too old
-            $lifetime = $this->tsfe->get_cache_timeout();
-        } else {
-            $lifetime = 86400;
-        }
-
-        $this->cache = new Cache($cachingEngine);
-        $this->cache->lifetime = $lifetime;
-        $this->cache->ACCESS_TIME = $this->SIM_ACCESS_TIME;
+        $this->cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('tt_news_cache');
     }
 
 
@@ -3884,7 +4050,7 @@ class TtNews extends AbstractPlugin
         if ($this->piVars['cat']) {
 
             // catselection holds only the uids of the categories selected by GETvars
-            $this->config['catSelection'] = $this->hObj->checkRecords($this->piVars['cat']);
+            $this->config['catSelection'] = $this->helpers->checkRecords($this->piVars['cat']);
             $this->piVars_catSelection = $this->config['catSelection'];
 
             if ($this->config['useSubCategories'] && $this->config['catSelection']) {
@@ -3900,7 +4066,7 @@ class TtNews extends AbstractPlugin
         // ignore cat selection if categoryMode isn't set
         $this->catExclusive = $this->config['categoryMode'] ? $catExclusive : 0;
 
-        $this->catExclusive = $this->hObj->checkRecords($this->catExclusive);
+        $this->catExclusive = $this->helpers->checkRecords($this->catExclusive);
         // store the actually selected categories because we need them for the comparison in categoryMode 2 and -2
         $this->actuallySelectedCategories = $this->catExclusive;
 

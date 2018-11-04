@@ -1,6 +1,6 @@
 <?php
 
-namespace RG\TtNews;
+namespace RG\TtNews\Hooks;
 
 /***************************************************************
  *  Copyright notice
@@ -30,7 +30,7 @@ namespace RG\TtNews;
  *
  *
  *
- *   51: class tx_ttnews_realurl
+ *   51: class RealUrlHook
  *   62:     function main(&$params, &$ref)
  *  100:     function id2alias($value,$cfg)
  *  116:     function alias2id($value,$cfg)
@@ -51,7 +51,7 @@ namespace RG\TtNews;
  * @package       TYPO3
  * @subpackage    tt_news
  */
-class tx_ttnews_realurl
+class RealUrlHook
 {
 
 

@@ -88,14 +88,30 @@ if (TYPO3_MODE == 'BE') {
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['icon'] = true;
 
-    // register contextmenu for the tt_news category manager
+    // Register context menu for the tt_news category manager
+    $GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][] = array(
+        'name' => \RG\TtNews\ClickMenu::class
+    );
 
-    // Adds a tt_news wizard icon to the content element wizard.
-    $TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses'][TtNewsWizicon::class] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Classes/Plugin/TtNewsWizicon.php';
+    /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+    $iconRegistry->registerIcon(
+        'apps-pagetree-folder-contains-news',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+        array(
+            'source' => 'EXT:tt_news/Resources/Public/Images/Icons/ext_icon_ttnews_folder.gif',
+        )
+    );
 
-    // Register all icons
-    RG\TtNews\Utility\IconFactory::registerAllIconIdentifiers();
+    // add folder icon
+    $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-tt_news'] = 'apps-pagetree-folder-contains-news';
+    $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = array(
+        0 => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news',
+        1 => 'tt_news',
+        2 => 'apps-pagetree-folder-contains-news'
+    );
 
-    // register HTML template for the tt_news BackEnd Module
+    // Register HTML template for the tt_news BackEnd Module
     $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'mod1/mod_ttnews_admin.html';
+
 }
