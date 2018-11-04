@@ -3970,10 +3970,15 @@ class TtNews extends AbstractPlugin
         }
     }
 
+    /**
+     * @param $fileName
+     *
+     * @return bool|string
+     */
     protected function getFileResource($fileName)
     {
         $fileContent = '';
-        $file = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize((string)$fileName);
+        $file = $this->tsfe->tmpl->getFileName($fileName);
         if ($file != '') {
             $fileContent = file_get_contents($file);
         }
