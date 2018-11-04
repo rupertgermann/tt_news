@@ -3832,7 +3832,7 @@ class TtNews extends AbstractPlugin
      * @param $table
      * @param $conf
      *
-     * @return \Doctrine\DBAL\Driver\Statement
+     * @return \Doctrine\DBAL\Driver\Statement|bool
      * @throws \Doctrine\DBAL\DBALException
      */
     function exec_getQuery($table, $conf)
@@ -3998,6 +3998,7 @@ class TtNews extends AbstractPlugin
      * initialize category related vars and add subcategories to the category selection
      *
      * @return    void
+     * @throws \Doctrine\DBAL\DBALException
      */
     function initCategoryVars()
     {
@@ -4278,7 +4279,8 @@ class TtNews extends AbstractPlugin
             $splitCount = $resCount;
         }
 
-        return GeneralUtility::makeInstance(TypoScriptService::class)->explodeConfigurationForOptionSplit($lConf, $splitCount);
+        return GeneralUtility::makeInstance(TypoScriptService::class)->explodeConfigurationForOptionSplit($lConf,
+            $splitCount);
     }
 
 
