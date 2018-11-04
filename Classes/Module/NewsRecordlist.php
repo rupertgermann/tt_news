@@ -1,6 +1,6 @@
 <?php
 
-namespace RG\TtNews;
+namespace RG\TtNews\Module;
 
 /***************************************************************
  *  Copyright notice
@@ -27,10 +27,12 @@ namespace RG\TtNews;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use RG\TtNews\Database;
+use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Core\Imaging\Icon;
-use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use RG\TtNews\Utility\IconFactory;
 
 /**
  * generates the list view for the 'news admin' module
@@ -47,24 +49,79 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * [Describe function...]
  *
  */
-class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
+class NewsRecordlist extends PageLayoutView
 {
 
 
-    var $newRecPid;
-    var $singlePid;
-    var $selectedCategories;
-    var $category;
-    var $excludeCats;
-    var $includeCats;
-    var $isAdmin;
-    var $current_sys_language;
-    var $showOnlyEditable;
-    var $pidList;
-    var $editablePagesList;
-    var $lTSprop;
-    var $pObj;
-    var $searchFields;
+    /**
+     * @var
+     */
+    public $newRecPid;
+    /**
+     * @var
+     */
+    public $singlePid;
+    /**
+     * @var
+     */
+    public $selectedCategories;
+    /**
+     * @var
+     */
+    public $category;
+    /**
+     * @var
+     */
+    public $excludeCats;
+    /**
+     * @var
+     */
+    public $includeCats;
+    /**
+     * @var
+     */
+    public $isAdmin;
+    /**
+     * @var
+     */
+    public $current_sys_language;
+    /**
+     * @var
+     */
+    public $showOnlyEditable;
+    /**
+     * @var
+     */
+    public $pidList;
+    /**
+     * @var
+     */
+    public $editablePagesList;
+    /**
+     * @var
+     */
+    public $lTSprop;
+    /**
+     * @var
+     */
+    public $pObj;
+    /**
+     * @var
+     */
+    public $searchFields;
+    /**
+     * @var
+     */
+    protected $pidSelect;
+    /**
+     * @var
+     */
+    public $backPath;
+    /**
+     * @var
+     */
+    protected $thumbScript;
+    protected $disableSingleTableView;
 
 
     /**********************************
@@ -83,6 +140,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
      * @param    string         Additional WHERE-clauses.
      *
      * @return    string        HTML table
+     * @throws \Doctrine\DBAL\DBALException
      */
     function makeOrdinaryList($table, $id, $fList, $icon = 0, $addWhere = '')
     {
@@ -90,7 +148,8 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
         $out = '';
         $queryParts = $this->makeQueryArray($table, $id, $addWhere);
         //TODO: Make use of $this->setTotalItems instead of this "plain" query!
-        $this->totalItems = Database::getInstance()->exec_SELECTcountRows('*', $queryParts['FROM'], $queryParts['WHERE']);
+        $this->totalItems = Database::getInstance()->exec_SELECTcountRows('*', $queryParts['FROM'],
+            $queryParts['WHERE']);
         $this->eCounter = 0;
 
         // Make query for records if there were any records found in the count operation:
@@ -199,12 +258,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
                 $labelFirst = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:first');
 
                 $first = '<a href="' . $listURL . '&pointer=0">
-					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
+					<img' . IconFactory::skinImg('',
                         ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first.gif')
                     . 'alt="' . $labelFirst . '" title="' . $labelFirst . '" />
 				</a>';
             } else {
-                $first = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
+                $first = '<img' . IconFactory::skinImg('',
                         ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first_disabled.gif') . 'alt="" title="" />';
             }
 
@@ -212,12 +271,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
                 $labelPrevious = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:previous');
 
                 $previous = '<a href="' . $listURL . '&pointer=' . (($currentPage - 2) * $this->iLimit) . '">
-					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
+					<img' . IconFactory::skinImg('',
                         ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous.gif')
                     . 'alt="' . $labelPrevious . '" title="' . $labelPrevious . '" />
 					</a>';
             } else {
-                $previous = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
+                $previous = '<img' . IconFactory::skinImg('',
                         ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous_disabled.gif') . 'alt="" title="" />';
             }
 
@@ -225,12 +284,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
                 $labelNext = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:next');
 
                 $next = '<a href="' . $listURL . '&pointer=' . (($currentPage) * $this->iLimit) . '">
-					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
+					<img' . IconFactory::skinImg('',
                         ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next.gif')
                     . 'alt="' . $labelNext . '" title="' . $labelNext . '" />
 					</a>';
             } else {
-                $next = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
+                $next = '<img' . IconFactory::skinImg('',
                         ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next_disabled.gif') . 'alt="" title="" />';
             }
 
@@ -238,12 +297,12 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
                 $labelLast = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:last');
 
                 $last = '<a href="' . $listURL . '&pointer=' . (($totalPages - 1) * $this->iLimit) . '">
-					<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
+					<img' . IconFactory::skinImg('',
                         ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last.gif')
                     . 'alt="' . $labelLast . '" title="' . $labelLast . '" />
 					</a>';
             } else {
-                $last = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('',
+                $last = '<img' . IconFactory::skinImg('',
                         ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last_disabled.gif') . 'alt="" title="" />';
             }
 
@@ -513,7 +572,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
         $img = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/noedit_' . $reason . '.gif';
 
-        return '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,
+        return '<img' . IconFactory::skinImg($this->backPath,
                 $img) . ' title="' . $label . '" alt="" />';
     }
 
@@ -563,13 +622,13 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
 
         // If "_PATH_" (showing record path) is selected, force sorting by pid field (will at least group the records!)
         if ($field == '_PATH_') {
-            $field = pid;
+            $field = 'pid';
         }
 
         //	 Create the sort link:
         $sortUrl = $this->listURL('', false,
                 'sortField,sortRev') . '&sortField=' . $field . '&sortRev=' . ($this->sortRev || ($this->sortField != $field) ? 0 : 1);
-        $sortArrow = ($this->sortField == $field ? '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,
+        $sortArrow = ($this->sortField == $field ? '<img' . IconFactory::skinImg($this->backPath,
                 'gfx/red' . ($this->sortRev ? 'up' : 'down') . '.gif', 'width="7" height="4"') . ' alt="" />' : '');
 
         // Return linked field:
@@ -614,6 +673,7 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
      * @param     [type]        $fieldList: ...
      *
      * @return    [type]        ...
+     * @throws \Doctrine\DBAL\DBALException
      */
     function makeQueryArray($table, $id, $addWhere = "", $fieldList = '')
     {
@@ -692,11 +752,10 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
     }
 
     /**
-     * [Describe function...]
+     * @param $queryParts
      *
-     * @param     [type]        $queryParts: ...
-     *
-     * @return    [type]        ...
+     * @return
+     * @throws \Doctrine\DBAL\DBALException
      */
     function ckeckDisallowedCategories($queryParts)
     {
@@ -737,11 +796,10 @@ class tx_ttnews_recordlist extends \TYPO3\CMS\Backend\View\PageLayoutView
     }
 
     /**
-     * [Describe function...]
+     * @param $uid
      *
-     * @param     [type]        $uid: ...
-     *
-     * @return    [type]        ...
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
      */
     function getCategories($uid)
     {

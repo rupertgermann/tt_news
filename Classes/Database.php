@@ -246,6 +246,40 @@ class Database implements SingletonInterface {
     }
 
     /**
+     * Removes the prefix "ORDER BY" from the input string.
+     * This function is used when you call the exec_SELECTquery() function and want to pass the ORDER BY parameter by can't guarantee that "ORDER BY" is not prefixed.
+     * Generally; This function provides a work-around to the situation where you cannot pass only the fields by which to order the result.
+     *
+     * @param string $str eg. "ORDER BY title, uid
+     * @return string eg. "title, uid
+     * @see exec_SELECTquery(), stripGroupBy()
+     */
+    public function stripOrderBy($str)
+    {
+        return preg_replace('/^(?:ORDER[[:space:]]*BY[[:space:]]*)+/i', '', trim($str));
+    }
+
+    /**
+     * Counts the number of rows in a table.
+     *
+     * @param string $field Name of the field to use in the COUNT() expression (e.g. '*')
+     * @param string $table Name of the table to count rows for
+     * @param string $where (optional) WHERE statement of the query
+     *
+     * @return mixed Number of rows counter (int) or FALSE if something went wrong (bool)
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function exec_SELECTcountRows($field, $table, $where = '1=1')
+    {
+        $count = false;
+        $resultSet = $this->exec_SELECTquery('COUNT(' . $field . ')', $table, $where);
+        if ($resultSet !== false) {
+            list($count) = $this->sql_fetch_row($resultSet);
+            $count = (int)$count;
+        }
+        return $count;
+    }
+    /**
      * @param        $select
      * @param        $local_table
      * @param        $mm_table

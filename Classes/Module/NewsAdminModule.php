@@ -1,4 +1,7 @@
 <?php
+
+namespace RG\TtNews\Module;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,8 +25,18 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Doctrine\DBAL\DBALException;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use RG\TtNews\Database;
+use RG\TtNews\Div;
 use RG\TtNews\Utility\IconFactory;
+use TYPO3\CMS\Backend\Module\BaseScriptClass;
+use TYPO3\CMS\Backend\Template\DocumentTemplate;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * Module 'News Admin' for the 'tt_news' extension.
@@ -35,72 +48,197 @@ use RG\TtNews\Utility\IconFactory;
  * @package       TYPO3
  * @subpackage    tt_news
  */
-class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
+class NewsAdminModule extends BaseScriptClass
 {
-    var $pageinfo;
-    /*
-     * @var tx_ttnewscatmanager_treeView
+    /**
+     * @var
+     */
+    public $pageinfo;
+
+    /**
+     * @var CategoryManager
      */
     public $treeObj;
-    var $markers = array();
-    var $docHeaderButtons = array();
-    // list of selected category from GETvars extended by subcategories
-    var $selectedCategories;
-    var $useSubCategories = true;
+    /**
+     * @var array
+     */
+    public $markers = array();
+    /**
+     * @var array
+     */
+    public $docHeaderButtons = array();
+    // list of selected category from GETpublics extended by subcategories
+    /**
+     * @var
+     */
+    public $selectedCategories;
+    /**
+     * @var bool
+     */
+    public $useSubCategories = true;
 
-    var $limit = 20;
-    var $TSprop = array();
-    var $fieldList = 'uid,title,datetime,archivedate,tstamp,category;author';
-    var $permsCache = array();
-    var $pidList = 0;
-    var $storagePid = 0;
+    /**
+     * @var int
+     */
+    public $limit = 20;
+    /**
+     * @var array
+     */
+    public $TSprop = array();
+    /**
+     * @var string
+     */
+    public $fieldList = 'uid,title,datetime,archivedate,tstamp,category;author';
+    /**
+     * @var array
+     */
+    public $permsCache = array();
+    /**
+     * @var int
+     */
+    public $pidList = 0;
+    /**
+     * @var int
+     */
+    public $storagePid = 0;
 
     // CALC_PERMS for the current page. Used for the module header.
-    var $localCalcPerms = 0;
+    /**
+     * @var int
+     */
+    public $localCalcPerms = 0;
     // CALC_PERMS for the "general record storage page". Used for categories.
-    var $grspCalcPerms = 0;
+    /**
+     * @var int
+     */
+    public $grspCalcPerms = 0;
     // CALC_PERMS for the page with news articles (newArticlePid).
-    var $newArticleCalcPerms = 0;
+    /**
+     * @var int
+     */
+    public $newArticleCalcPerms = 0;
 
-    var $excludeCats = array();
-    var $includeCats = array();
+    /**
+     * @var array
+     */
+    public $excludeCats = array();
+    /**
+     * @var array
+     */
+    public $includeCats = array();
 
-    var $confArr;
-    var $newArticlePid;
-    var $isAdmin;
-    var $script;
-    var $mayUserEditCategories;
-    var $mayUserEditArticles;
-    var $singlePid;
-    var $mData;
-    var $current_sys_language;
-    var $searchLevels;
-    var $thumbs;
-    var $showLimit;
-    var $treeContent;
-    var $listContent;
-    var $pidChash;
-    var $returnUrl;
-    var $category;
-    var $editablePagesList;
-    var $pointer;
-    var $search_field;
-    var $catlistWhere;
-    var $sPageIcon;
+    /**
+     * @var
+     */
+    public $confArr;
+    /**
+     * @var
+     */
+    public $newArticlePid;
+    /**
+     * @var
+     */
+    public $isAdmin;
+    /**
+     * @var
+     */
+    public $script;
+    /**
+     * @var
+     */
+    public $mayUserEditCategories;
+    /**
+     * @var
+     */
+    public $mayUserEditArticles;
+    /**
+     * @var
+     */
+    public $singlePid;
+    /**
+     * @var
+     */
+    public $mData;
+    /**
+     * @var
+     */
+    public $current_sys_language;
+    /**
+     * @var
+     */
+    public $searchLevels;
+    /**
+     * @var
+     */
+    public $thumbs;
+    /**
+     * @var
+     */
+    public $showLimit;
+    /**
+     * @var
+     */
+    public $treeContent;
+    /**
+     * @var
+     */
+    public $listContent;
+    /**
+     * @var
+     */
+    public $pidChash;
+    /**
+     * @var
+     */
+    public $returnUrl;
+    /**
+     * @var
+     */
+    public $category;
+    /**
+     * @var
+     */
+    public $editablePagesList;
+    /**
+     * @var
+     */
+    public $pointer;
+    /**
+     * @var
+     */
+    public $search_field;
+    /**
+     * @var
+     */
+    public $catlistWhere;
+    /**
+     * @var
+     */
+    public $sPageIcon;
+
+
+    /**
+     * @var array
+     */
+    public $MCONF = [
+        'name' => 'web_txttnewsM1',
+    ];
 
     /**
      * Main module action
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws DBALException
+     * @throws SiteNotFoundException
      */
     public function mainAction(
-        \Psr\Http\Message\ServerRequestInterface $request,
-        \Psr\Http\Message\ResponseInterface $response
+        ServerRequestInterface $request,
+        ResponseInterface $response
     ) {
-        $GLOBALS['LANG']->includeLLFile('EXT:tt_news/mod1/locallang.xml');
+        $this->getLanguageService()->includeLLFile('EXT:tt_news/mod1/locallang.xml');
 
         $GLOBALS['SOBE'] = $this;
         $this->init();
@@ -114,30 +252,27 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      * Initializes the Module
      *
      * @return    void
+     * @throws DBALException
      */
     function init()
     {
         if (!$this->MCONF['name']) {
             $this->MCONF = $GLOBALS['MCONF'];
-            if (!$this->MCONF['name']) {
-                $MCONF = '';
-                require('conf.php');
-                $this->MCONF = $MCONF;
-            }
+
         }
         $this->isAdmin = $GLOBALS['BE_USER']->isAdmin();
 
-        $this->id = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id'));
+        $this->id = intval(GeneralUtility::_GP('id'));
         $this->perms_clause = $GLOBALS['BE_USER']->getPagePermsClause(1);
 
-        $this->modTSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getModTSconfig($this->id,
+        $this->modTSconfig = BackendUtility::getModTSconfig($this->id,
             'mod.' . $this->MCONF['name']);
         $this->TSprop = $this->modTSconfig['properties'];
         $this->confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 
         $tceTSC = array();
         if ($this->confArr['useStoragePid']) {
-            $tceTSC = \TYPO3\CMS\Backend\Utility\BackendUtility::getTCEFORM_TSconfig('tt_news_cat',
+            $tceTSC = BackendUtility::getTCEFORM_TSconfig('tt_news_cat',
                 array('pid' => $this->id));
         }
         $this->storagePid = $tceTSC['_STORAGE_PID'] ? $tceTSC['_STORAGE_PID'] : $this->id;
@@ -152,21 +287,21 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         }
 
         // get pageinfo array for the current page
-        $this->pageinfo = \TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($this->id, $this->perms_clause);
+        $this->pageinfo = BackendUtility::readPageAccess($this->id, $this->perms_clause);
         $this->localCalcPerms = $GLOBALS['BE_USER']->calcPerms($this->pageinfo);
 
         // get pageinfo array for the GRSP
-        $grspPI = \TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($this->storagePid, $this->perms_clause);
+        $grspPI = BackendUtility::readPageAccess($this->storagePid, $this->perms_clause);
         $this->grspCalcPerms = $GLOBALS['BE_USER']->calcPerms($grspPI);
         $this->mayUserEditCategories = $this->grspCalcPerms & 16;
 
         // get pageinfo array for newArticlePid
-        $newArticlePidPI = \TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($this->newArticlePid,
+        $newArticlePidPI = BackendUtility::readPageAccess($this->newArticlePid,
             $this->perms_clause);
         $this->newArticleCalcPerms = $GLOBALS['BE_USER']->calcPerms($newArticlePidPI);
         $this->mayUserEditArticles = $this->newArticleCalcPerms & 16;
 
-        $pagesTSC = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($this->id);
+        $pagesTSC = BackendUtility::getPagesTSconfig($this->id);
         if ($pagesTSC['tx_ttnews.']['singlePid']) {
             $this->singlePid = intval($pagesTSC['tx_ttnews.']['singlePid']);
         }
@@ -202,24 +337,24 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      * If you chose "web" as main module, you will need to consider the $this->id parameter which will contain the
      * uid-number of the page clicked in the page tree
      *
-     * @return    [type]        ...
+     * @throws DBALException
+     * @throws SiteNotFoundException
      */
     function main()
     {
-        global $LANG;
 
-        $this->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
+        $this->doc = GeneralUtility::makeInstance(DocumentTemplate::class);
         $this->doc->backPath = $GLOBALS['BACK_PATH'];
-        $this->doc->setModuleTemplate('EXT:tt_news/mod1/mod_ttnews_admin.html');
+        $this->doc->setModuleTemplate('EXT:tt_news/Classes/Module/mod_ttnews_admin.html');
         $this->doc->docType = 'xhtml_trans';
 
         if (!$this->doc->moduleTemplate) {
-            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('cannot set moduleTemplate', 'tt_news', 2, array(
+            GeneralUtility::devLog('cannot set moduleTemplate', 'tt_news', 2, array(
                 'backpath' => $this->doc->backPath,
                 'filename from TBE_STYLES' => $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'],
                 'full path' => $this->doc->backPath . $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html']
             ));
-            $tfile = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('tt_news') . 'mod1/mod_ttnews_admin.html';
+            $tfile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('tt_news') . 'Classes/Module/mod_ttnews_admin.html';
             $this->doc->moduleTemplate = @file_get_contents(PATH_site . $tfile);
         }
 
@@ -232,7 +367,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         if ($this->id && $access) {
             // JavaScript
-            $this->doc->JScode = $this->doc->wrapScriptTags('
+            $this->doc->JScode = GeneralUtility::wrapJS('
 				script_ended = 0;
 				function jumpToUrl(URL)	{	//
 					window.location.href = URL;
@@ -245,7 +380,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 			} '
                     : '') . $this->doc->redirectUrls());
 
-            $this->doc->postCode = $this->doc->wrapScriptTags('
+            $this->doc->postCode = GeneralUtility::wrapJS('
 					script_ended = 1;
 				');
             $this->doc->inDocStylesArray['tt_news_mod1'] = '
@@ -313,7 +448,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $this->markers['PAGE_SELECT'] = $this->getPageSelector();
 
         // put it all together
-        $this->content = $this->doc->startPage($LANG->getLL('title'));
+        $this->content = $this->doc->startPage($this->getLanguageService()->getLL('title'));
         $this->content .= $this->doc->moduleBody($this->pageinfo, $this->docHeaderButtons, $this->markers);
         $this->content .= $this->doc->endPage();
         $this->content = $this->doc->insertStylesAndJS($this->content);
@@ -342,6 +477,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      * Generates the module content
      *
      * @return    void
+     * @throws DBALException
+     * @throws SiteNotFoundException
      */
     function moduleContent()
     {
@@ -359,16 +496,17 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         if (!$error) {
             $this->getPageRenderer()->addHeaderData('
-                <script src="' . TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/JavaScript/compat/prototype/prototype.js" type="text/javascript"></script>
-                <script src="' . $GLOBALS['BACK_PATH'] . TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/JavaScript/tt_news_mod1.js" type="text/javascript"></script>
+                <script src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/JavaScript/compat/prototype/prototype.js" type="text/javascript"></script>
+                <script src="' . $GLOBALS['BACK_PATH'] . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/JavaScript/tt_news_mod1.js" type="text/javascript"></script>
                 ');
 
             // fixme: throws JS errors, commented out
 //					$this->doc->getDragDropCode('tt_news_cat');
-//					$this->doc->postCode=$this->doc->wrapScriptTags('
+//					$this->doc->postCode=GeneralUtility::wrapJS('
 //							txttnewsM1js.registerDragDropHandlers();
 //					');
-            $this->doc->getContextMenuCode();
+            $this->getPageRenderer()->loadJquery();
+            $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/Backend/ClickMenu');
 
             $this->treeContent = $this->displayCategoryTree();
             $this->listContent .= $this->displayNewsList();
@@ -378,8 +516,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * [Describe function...]
      *
-     * @return    [type]        ...
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     function displayOverview()
     {
@@ -387,14 +524,14 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $tRows[] = '<tr>
 				<td colspan="2" valign="top"><p><img' . IconFactory::skinImg('gfx/icon_note.gif',
                 'width="18" height="16"') . ' title="" alt="" />
-				' . $GLOBALS['LANG']->getLL('nothingfound') . '
+				' . $this->getLanguageService()->getLL('nothingfound') . '
 				</p><br></td>
 				</tr>';
 
         $res = Database::getInstance()->exec_SELECTquery(
             'pid,count(uid)',
             'tt_news_cat',
-            'pid>=0' . $this->catlistWhere . \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('tt_news_cat'),
+            'pid>=0' . $this->catlistWhere . BackendUtility::deleteClause('tt_news_cat'),
             'pid'
         );
         $list = array();
@@ -404,8 +541,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         $tRows[] = '
 			<tr>
-				<td class="c-headLine"><strong>' . $GLOBALS['LANG']->getLL('path') . '</strong></td>
-				<td class="c-headLine"><strong>' . $GLOBALS['LANG']->getLL('categories') . '</strong></td>
+				<td class="c-headLine"><strong>' . $this->getLanguageService()->getLL('path') . '</strong></td>
+				<td class="c-headLine"><strong>' . $this->getLanguageService()->getLL('categories') . '</strong></td>
 
 			</tr>';
 
@@ -414,7 +551,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             if ($pa['path']) {
                 $tRows[] = '
 					<tr class="bgColor4">
-						<td><a href="' . \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('web_txttnewsM1',
+						<td><a href="' . BackendUtility::getModuleUrl('web_txttnewsM1',
                         array('id' => $pid)) . '">' . htmlspecialchars($pa['path']) . '</a></td>
 						<td>' . htmlspecialchars($stat['count']) . '</td>
 
@@ -437,7 +574,6 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * [Describe function...]
      *
-     * @return    [type]        ...
      */
     function displayCategoryTree()
     {
@@ -450,6 +586,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         return $content . '<div id="ttnews-cat-tree">' . $this->sPageIcon . $this->treeObj->getBrowsableTree() . '</div>';
     }
 
+    /**
+     * @return string
+     */
     protected function addWhere(): string
     {
         $addWhere = '';
@@ -468,7 +607,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * [Describe function...]
      *
-     * @return    [type]        ...
+     * @throws DBALException
      */
     function getTreeObj()
     {
@@ -477,7 +616,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $treeOrderBy = $this->confArr['treeOrderBy'] ?: 'uid';
 
         if (!is_object($this->treeObj)) {
-            $this->treeObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnewscatmanager_treeView');
+            $this->treeObj = GeneralUtility::makeInstance(CategoryManager::class);
         }
 
         $urlparams = array('id' => $this->id);
@@ -486,13 +625,13 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $this->treeObj->init($this->catlistWhere . $addWhere, $treeOrderBy);
         $this->treeObj->parentField = 'parent_category';
         $this->treeObj->thisScript = $this->script . '&id=' . $this->id;
-        $this->treeObj->returnUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('web_txttnewsM1',
+        $this->treeObj->returnUrl = BackendUtility::getModuleUrl('web_txttnewsM1',
             $urlparams);
 
         // those fields will be filled to the array $this->treeObj->tree
         $this->treeObj->fieldArray = array('uid', 'title', 'description', 'hidden', 'starttime', 'endtime', 'fe_group');
         $this->treeObj->mayUserEditCategories = $this->mayUserEditCategories;
-        $this->treeObj->title = $GLOBALS['LANG']->getLL('treeTitle');
+        $this->treeObj->title = $this->getLanguageService()->getLL('treeTitle');
         $this->treeObj->pageID = $this->id;
         $this->treeObj->storagePid = $this->storagePid;
         $this->treeObj->useStoragePid = $this->confArr['useStoragePid'];
@@ -508,9 +647,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $this->treeObj->current_sys_language = $this->current_sys_language;
 
         // get selected categories from be user/group without subcategories
-        $tmpsc = \RG\TtNews\Div::getBeUserCatMounts(false);
-        $beUserSelCatArr = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $tmpsc);
-        $includeListArr = \RG\TtNews\Div::getIncludeCatArray();
+        $tmpsc = Div::getBeUserCatMounts(false);
+        $beUserSelCatArr = GeneralUtility::intExplode(',', $tmpsc);
+        $includeListArr = Div::getIncludeCatArray();
         $subcatArr = array_diff($includeListArr, $beUserSelCatArr);
 
         /**
@@ -523,7 +662,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $cMounts = array();
         $nonRootMounts = false;
         foreach ($beUserSelCatArr as $catID) {
-            $tmpR = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('tt_news_cat', $catID,
+            $tmpR = BackendUtility::getRecord('tt_news_cat', $catID,
                 'parent_category,hidden', $addWhere);
             if (is_array($tmpR) && !in_array($catID, $subcatArr)) {
                 if ($tmpR['parent_category'] > 0) {
@@ -545,7 +684,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * returns the root element for a category tree: icon, title and pageID
      *
-     * @return    [type]        ...
+
      */
     function getStoragePageIcon()
     {
@@ -555,20 +694,20 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             $rootRec = $this->treeObj->getRecord($this->storagePid);
             $icon = $this->treeObj->getIcon($rootRec);
             $this->treeObj->table = $tmpt;
-            $pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),
+            $pidLbl = sprintf($this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),
                 $this->storagePid);
         } else {
             $rootRec = $this->treeObj->getRootRecord($this->storagePid);
             $icon = $this->treeObj->getRootIcon($rootRec);
-            $pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
+            $pidLbl = $this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
         }
 
         $pidLbl = ' <span class="typo3-dimmed"><em>' . $pidLbl . '</em></span>';
-        $hrefTitle = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:showAllResetSel');
+        $hrefTitle = $this->getLanguageService()->sL('LLL:EXT:tt_news/mod1/locallang.xml:showAllResetSel');
 
         return '<div style="margin: 2px 0 -5px 0;">'
             . $icon
-            . '<a href="' . \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('web_txttnewsM1') . '&id=' . $this->id . '" title="' . $hrefTitle . '">' . $rootRec['title'] . '</a>'
+            . '<a href="' . BackendUtility::getModuleUrl('web_txttnewsM1') . '&id=' . $this->id . '" title="' . $hrefTitle . '">' . $rootRec['title'] . '</a>'
             . $pidLbl
             . '</div>';
     }
@@ -576,7 +715,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * [Describe function...]
      *
-     * @return    [type]        ...
+     * @throws DBALException
+     * @throws SiteNotFoundException
      */
     function displayNewsList($ajax = false)
     {
@@ -586,24 +726,24 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         $table = 'tt_news';
 
-        /* @var $dblist tx_ttnews_recordlist */
-        $dblist = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_recordlist');
+        /* @var $dblist NewsRecordlist */
+        $dblist = GeneralUtility::makeInstance(NewsRecordlist::class);
 
         $urlparams = array('id' => $this->id);
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('category') != '') {
-            $urlparams['category'] = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('category');
+        if (GeneralUtility::_GP('category') != '') {
+            $urlparams['category'] = GeneralUtility::_GP('category');
         }
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('showThumbs') != '') {
-            $urlparams['showThumbs'] = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('showThumbs');
+        if (GeneralUtility::_GP('showThumbs') != '') {
+            $urlparams['showThumbs'] = GeneralUtility::_GP('showThumbs');
         }
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('searchLevels') != '') {
-            $urlparams['searchLevels'] = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('searchLevels');
+        if (GeneralUtility::_GP('searchLevels') != '') {
+            $urlparams['searchLevels'] = GeneralUtility::_GP('searchLevels');
         }
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('showLimit') != '') {
-            $urlparams['showLimit'] = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('showLimit');
+        if (GeneralUtility::_GP('showLimit') != '') {
+            $urlparams['showLimit'] = GeneralUtility::_GP('showLimit');
         }
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('pointer') != '') {
-            $urlparams['pointer'] = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('pointer');
+        if (GeneralUtility::_GP('pointer') != '') {
+            $urlparams['pointer'] = GeneralUtility::_GP('pointer');
         }
 
         $dblist->backPath = $GLOBALS['BACK_PATH'];
@@ -611,13 +751,13 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $dblist->doEdit = $this->mayUserEditArticles;
         $dblist->ext_CALC_PERMS = $this->newArticleCalcPerms;
         $dblist->perms_clause = $this->perms_clause;
-        $dblist->agePrefixes = $GLOBALS['LANG']->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.minutesHoursDaysYears');
+        $dblist->agePrefixes = $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.minutesHoursDaysYears');
         $dblist->id = $this->id;
         $dblist->newRecPid = $this->newArticlePid;
         $dblist->singlePid = $this->singlePid;
         $dblist->selectedCategories = $this->selectedCategories;
         $dblist->category = $this->category;
-        $dblist->returnUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('web_txttnewsM1', $urlparams);
+        $dblist->returnUrl = BackendUtility::getModuleUrl('web_txttnewsM1', $urlparams);
         $dblist->excludeCats = $this->excludeCats;
         $dblist->includeCats = $this->includeCats;
         $dblist->isAdmin = $this->isAdmin;
@@ -661,12 +801,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      ************************************************************************/
 
     /**
-     * [Describe function...]
      *
-     * @param     [type]        $$params: ...
-     * @param     [type]        $ajaxObj: ...
-     *
-     * @return    [type]        ...
+     * @throws DBALException
      */
     function ajaxExpandCollapse($params, &$ajaxObj)
     {
@@ -682,12 +818,8 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     }
 
     /**
-     * [Describe function...]
-     *
-     * @param     [type]        $$params: ...
-     * @param     [type]        $ajaxObj: ...
-     *
-     * @return    [type]        ...
+     * @throws DBALException
+     * @throws SiteNotFoundException
      */
     function ajaxLoadList($params, &$ajaxObj)
     {
@@ -698,9 +830,6 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     }
 
     /**
-     * [Describe function...]
-     *
-     * @return    [type]        ...
      */
     function processAjaxRequestConstruct()
     {
@@ -708,9 +837,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         global $SOBE;
 
         // Create a new anonymous object:
-        $SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_module1');
+        $SOBE = GeneralUtility::makeInstance(NewsAdminModule::class);
         // Create an instance of the document template object
-        $SOBE->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
+        $SOBE->doc = GeneralUtility::makeInstance(DocumentTemplate::class);
         $SOBE->doc->backPath = $GLOBALS['BACK_PATH'];
         $SOBE->doc->docType = 'xhtml_trans';
     }
@@ -722,25 +851,26 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      ************************************************************************/
 
     /**
-     * [Describe function...]
      *
-     * @return    [type]        ...
+     * @param NewsRecordlist $dblist
+     *
+     * @return string
+     * @throws DBALException
      */
     function getListHeaderMsg(&$dblist): string
     {
-        global $LANG;
 
         $noCatSelMsg = false;
         if (!$this->selectedCategories) {
             if ($this->TSprop['list.']['noListWithoutCatSelection']) {
                 $content = '<img' . IconFactory::skinImg('gfx/icon_note.gif',
-                        'width="18" height="16"') . ' title="" alt="" />' . $LANG->getLL('selectCategory');
+                        'width="18" height="16"') . ' title="" alt="" />' . $this->getLanguageService()->getLL('selectCategory');
                 $noCatSelMsg = true;
             } else {
-                $content = $LANG->getLL('showingAll');
+                $content = $this->getLanguageService()->getLL('showingAll');
             }
         } else {
-            $content = $this->getListHeaderMsgForSelectedCategories($LANG);
+            $content = $this->getListHeaderMsgForSelectedCategories();
         }
 
         if ($dblist->totalItems == 0) {
@@ -750,6 +880,11 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         return '<div style="padding:5px 0;">' . $content . '</div>';
     }
 
+    /**
+     * @param $url
+     *
+     * @return string
+     */
     function displaySearch($url): string
     {
         // Table with the search box:
@@ -759,11 +894,11 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 				-->
 				<table border="0" cellpadding="0" cellspacing="0" id="ttnewsadmin-search">
 					<tr>
-						<td>' . $GLOBALS['LANG']->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString',
-                1) . '<input type="text" name="search_field" value="' . htmlspecialchars($this->search_field) . '"' . $GLOBALS['TBE_TEMPLATE']->formWidth(10) . ' /></td>
-						<td>' . $GLOBALS['LANG']->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showRecords',
-                1) . ':<input type="text" name="SET[showLimit]" value="' . htmlspecialchars($this->showLimit ? $this->showLimit : '') . '"' . $GLOBALS['TBE_TEMPLATE']->formWidth(4) . ' /></td>
-						<td><input type="submit" name="search" value="' . $GLOBALS['LANG']->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.search',
+						<td>' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString',
+                1) . '<input type="text" name="search_field" value="' . htmlspecialchars($this->search_field) . '" ' . $GLOBALS['TBE_TEMPLATE']->formWidth(10) . ' /></td>
+						<td>' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showRecords',
+                1) . ':<input type="text" name="SET[showLimit]" value="' . htmlspecialchars($this->showLimit ? $this->showLimit : '') . '" ' . $GLOBALS['TBE_TEMPLATE']->formWidth(4) . ' /></td>
+						<td><input type="submit" name="search" value="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.search',
                 1) . '" /></td>
 
 					</tr>
@@ -771,6 +906,12 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 			</form>';
     }
 
+    /**
+     * @param NewsRecordlist $listObj
+     * @param $noCatSelMsg
+     *
+     * @return string
+     */
     function getNoResultsMsg(&$listObj, $noCatSelMsg)
     {
         $content = '';
@@ -778,7 +919,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         if (!$noCatSelMsg) {
             $tRows[] = '<tr>
 					<td valign="top"><p><img' . IconFactory::skinImg('gfx/icon_note.gif', 'width="18" height="16"') . ' title="" alt="" />
-					' . $GLOBALS['LANG']->getLL('noNewsFound') . '
+					' . $this->getLanguageService()->getLL('noNewsFound') . '
 					</p></td>
 					</tr>';
         }
@@ -798,7 +939,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * [Describe function...]
      *
-     * @return    [type]        ...
+
      */
     function renderTreeCheckBoxes()
     {
@@ -816,9 +957,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         $out = array();
         foreach ($allowedCbNames as $n) {
             if ((bool)$show['cb_' . $n]) {
-                $out[] = \TYPO3\CMS\Backend\Utility\BackendUtility::getFuncCheck($params, 'SET[' . $n . ']',
+                $out[] = BackendUtility::getFuncCheck($params, 'SET[' . $n . ']',
                         $this->MOD_SETTINGS[$n], '', '', 'id="cb-' . $n . '"') .
-                    ' <label for="cb-' . $n . '">' . $GLOBALS['LANG']->getLL($n, 1) . '</label>';
+                    ' <label for="cb-' . $n . '">' . $this->getLanguageService()->getLL($n, 1) . '</label>';
             }
         }
 
@@ -828,7 +969,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * [Describe function...]
      *
-     * @return    [type]        ...
+
      */
     function renderListCheckBoxes($ajax = false)
     {
@@ -837,7 +978,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             $show = $this->TSprop['list.']['show.'];
         }
         $allowedCbNames = array();
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($this->fieldList, 'image')) {
+        if (GeneralUtility::inList($this->fieldList, 'image')) {
             $allowedCbNames[] = 'showThumbs';
         }
         if (!$this->isAdmin) {
@@ -849,9 +990,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         foreach ($allowedCbNames as $n) {
             if ((bool)$show['cb_' . $n]) {
                 $out[] = '<span class="list-cb">' .
-                    \TYPO3\CMS\Backend\Utility\BackendUtility::getFuncCheck($params, 'SET[' . $n . ']',
+                    BackendUtility::getFuncCheck($params, 'SET[' . $n . ']',
                         $this->MOD_SETTINGS[$n], $ajax ? 'mod.php' : '', '', 'id="cb-' . $n . '"') .
-                    ' <label for="cb-' . $n . '">' . $GLOBALS['LANG']->getLL($n, 1) . '</label></span>';
+                    ' <label for="cb-' . $n . '">' . $this->getLanguageService()->getLL($n, 1) . '</label></span>';
             }
         }
 
@@ -862,7 +1003,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * [Describe function...]
      *
-     * @return    [type]        ...
+
      */
     function renderNewCatButton()
     {
@@ -873,15 +1014,15 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         }
         if ($this->mayUserEditCategories && (bool)$show['btn_newCategory']) {
             $params = '&edit[tt_news_cat][' . $this->storagePid . ']=new';
-            $onclick = htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,
+            $onclick = htmlspecialchars(BackendUtility::editOnClick($params,
                 $GLOBALS['BACK_PATH'], $this->returnUrl));
             /**
              * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
              */
-            $iconFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(IconFactory::class);
+            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
             $button = '<a href="#" onclick="' . $onclick . '">' .
                 $iconFactory->getIcon('actions-document-new')->render() .
-                $GLOBALS['LANG']->getLL('createCategory') .
+                $this->getLanguageService()->getLL('createCategory') .
                 '</a>';
         }
 
@@ -896,7 +1037,6 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      */
     function getHeaderButtons()
     {
-        global $LANG;
 
         $buttons = array(
             'csh' => '',
@@ -915,40 +1055,36 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         if (isset($this->id)) {
             if ($GLOBALS['BE_USER']->check('modules', 'web_list')) {
-                $href = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('web_list', array(
+                $href = BackendUtility::getModuleUrl('web_list', array(
                     'id' => $this->pageinfo['uid'],
-                    'returnUrl' => \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI')
+                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
                 ));
 
                 $buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '">' .
                     '<img' . IconFactory::skinImg('gfx/list.gif',
-                        'width="11" height="11"') . ' title="' . $LANG->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showList',
-                        1) . '" alt="" />' .
+                        'width="11" height="11"') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showList') . '" alt="" />' .
                     '</a>';
             }
 
             // View
-            $buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::viewOnClick($this->id,
-                    $backPath, \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($this->id))) . '">' .
-                '<img' . IconFactory::skinImg('gfx/zoom.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showPage',
-                    1) . '" alt="" />' .
+            $buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::viewOnClick($this->id,
+                    $backPath, BackendUtility::BEgetRootLine($this->id))) . '">' .
+                '<img' . IconFactory::skinImg('gfx/zoom.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showPage') . '" alt="" />' .
                 '</a>';
 
             // If edit permissions are set (see class.t3lib_userauthgroup.php)
             if ($this->localCalcPerms & 2 && !empty($this->id)) {
                 // Edit
                 $params = '&edit[pages][' . $this->pageinfo['uid'] . ']=edit';
-                $buttons['edit'] = '<a href="#" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,
+                $buttons['edit'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
                         $backPath, -1)) . '">' .
-                    '<img' . IconFactory::skinImg('gfx/edit2.gif') . ' title="' . $LANG->getLL('editPage',
-                        1) . '" alt="" />' .
+                    '<img' . IconFactory::skinImg('gfx/edit2.gif') . ' title="' . $this->getLanguageService()->getLL('editPage') . '" alt="" />' .
                     '</a>';
             }
 
             // Reload
-            $buttons['reload'] = '<a href="' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::linkThisScript()) . '">' .
-                '<img' . IconFactory::skinImg('gfx/refresh_n.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.reload',
-                    1) . '" alt="" />' .
+            $buttons['reload'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisScript()) . '">' .
+                '<img' . IconFactory::skinImg('gfx/refresh_n.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.reload') . '" alt="" />' .
                 '</a>';
 
             // Shortcut
@@ -959,10 +1095,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
             // Back
             if ($this->returnUrl) {
-                $buttons['back'] = '<a href="' . htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::linkThisUrl($this->returnUrl,
+                $buttons['back'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisUrl($this->returnUrl,
                         array('id' => $this->id))) . '" class="typo3-goBack">' .
-                    '<img' . IconFactory::skinImg('gfx/goback.gif') . ' title="' . $LANG->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.goBack',
-                        1) . '" alt="" />' .
+                    '<img' . IconFactory::skinImg('gfx/goback.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.goBack') . '" alt="" />' .
                     '</a>';
             }
         }
@@ -971,25 +1106,31 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     }
 
 
+    /**
+     * @return string
+     */
     function getLangMenu()
     {
         $menu = '';
         if (count($this->MOD_MENU['language']) > 1) {
-            $menu = $GLOBALS['LANG']->sL('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.language',
+            $menu = $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.language',
                     1) .
-                \TYPO3\CMS\Backend\Utility\BackendUtility::getFuncMenu($this->id, 'SET[language]',
+                BackendUtility::getFuncMenu($this->id, 'SET[language]',
                     $this->current_sys_language, $this->MOD_MENU['language']);
         }
 
         return $menu;
     }
 
+    /**
+     * @return string
+     */
     function getPageSelector()
     {
         $menu = '';
         if (count($this->MOD_MENU['searchLevels']) > 1) {
-            $menu = $GLOBALS['LANG']->getLL('enterSearchLevels') .
-                \TYPO3\CMS\Backend\Utility\BackendUtility::getFuncMenu($this->id, 'SET[searchLevels]',
+            $menu = $this->getLanguageService()->getLL('enterSearchLevels') .
+                BackendUtility::getFuncMenu($this->id, 'SET[searchLevels]',
                     $this->searchLevels, $this->MOD_MENU['searchLevels']);
         }
 
@@ -1005,7 +1146,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * [Describe function...]
      *
-     * @return    [type]        ...
+     * @throws DBALException
      */
     function setPidList()
     {
@@ -1024,7 +1165,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             $pidList .= ',' . $mount . ',' . $this->getSubPages($mount);
         }
 
-        $pidList = \TYPO3\CMS\Core\Utility\GeneralUtility::uniqueList($pidList);
+        $pidList = GeneralUtility::uniqueList($pidList);
         $this->pidList = ($pidList ? $pidList : 0);
     }
 
@@ -1033,7 +1174,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      *
      * @param     [type]        $pidlist: ...
      *
-     * @return    [type]        ...
+
      */
     function setEditablePages($pidlist)
     {
@@ -1050,12 +1191,12 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     }
 
     /**
-     * [Describe function...]
      *
-     * @param     [type]        $pages: ...
-     * @param     [type]        $cc: ...
+     * @param     $pages
+     * @param int $cc
      *
-     * @return    [type]        ...
+     * @return string
+     * @throws DBALException
      */
     function getSubPages($pages, $cc = 0)
     {
@@ -1083,49 +1224,45 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     }
 
     /**
-     * [Describe function...]
      *
-     * @return    [type]        ...
      */
     function initGPvars()
     {
-        $this->pointer = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('pointer'),
+        $this->pointer = MathUtility::forceIntegerInRange(GeneralUtility::_GP('pointer'),
             0, 100000);
-        $this->category = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('category'));
-        $this->search_field = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('search_field');
+        $this->category = intval(GeneralUtility::_GP('category'));
+        $this->search_field = GeneralUtility::_GP('search_field');
 
     }
 
     /**
      * Adds items to the ->MOD_MENU array. Used for the function menu selector.
      *
-     * @return    void
+     * @throws DBALException
      */
     function menuConfig()
     {
-
-
         $this->MOD_MENU = array(
             'function' => array(
-                '1' => $GLOBALS['LANG']->getLL('function1'),
+                '1' => $this->getLanguageService()->getLL('function1'),
             ),
             'showEditIcons' => 0,
             'expandAll' => 0,
             'showOnlyEditable' => 0,
             'showHiddenCategories' => 0,
             'searchLevels' => array(
-                -1 => $GLOBALS['LANG']->getLL('allPages'),
-                0 => $GLOBALS['LANG']->getLL('thisPage'),
-                1 => $GLOBALS['LANG']->getLL('oneLevel'),
-                2 => $GLOBALS['LANG']->getLL('twoLevels'),
-                3 => $GLOBALS['LANG']->getLL('threeLevels'),
-                4 => $GLOBALS['LANG']->getLL('fourLevels')
+                -1 => $this->getLanguageService()->getLL('allPages'),
+                0 => $this->getLanguageService()->getLL('thisPage'),
+                1 => $this->getLanguageService()->getLL('oneLevel'),
+                2 => $this->getLanguageService()->getLL('twoLevels'),
+                3 => $this->getLanguageService()->getLL('threeLevels'),
+                4 => $this->getLanguageService()->getLL('fourLevels')
 
             ),
             'showThumbs' => 1,
             'showLimit' => 0,
             'language' => array(
-                0 => $GLOBALS['LANG']->getLL('defaultLangLabel')
+                0 => $this->getLanguageService()->getLL('defaultLangLabel')
             )
 
         );
@@ -1133,14 +1270,17 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
 
         $this->MOD_MENU['function'] = $this->mergeExternalItems($this->MCONF['name'], 'function',
             $this->MOD_MENU['function']);
-        $this->MOD_MENU['function'] = \TYPO3\CMS\Backend\Utility\BackendUtility::unsetMenuItems($this->modTSconfig['properties'],
+        $this->MOD_MENU['function'] = BackendUtility::unsetMenuItems($this->modTSconfig['properties'],
             $this->MOD_MENU['function'], 'menu.function');
 
-        $this->MOD_SETTINGS = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleData($this->MOD_MENU,
-            \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('SET'), $this->MCONF['name'], $this->modMenu_type,
+        $this->MOD_SETTINGS = BackendUtility::getModuleData($this->MOD_MENU,
+            GeneralUtility::_GP('SET'), $this->MCONF['name'], $this->modMenu_type,
             $this->modMenu_dontValidateList, $this->modMenu_setDefaultList);
     }
 
+    /**
+     * @throws DBALException
+     */
     function initLanguageMenu()
     {
         if ($this->isAdmin) {
@@ -1152,7 +1292,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
                 'sys_language.title'
             );
         } else {
-            $exQ = \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause('pages_language_overlay');
+            $exQ = BackendUtility::deleteClause('pages_language_overlay');
             $res = Database::getInstance()->exec_SELECTquery(
                 'sys_language.*',
                 'pages_language_overlay,sys_language',
@@ -1169,7 +1309,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         }
 
         // add "all" language
-        $this->MOD_MENU['language'][-1] = $GLOBALS['LANG']->getLL('allLanguages');
+        $this->MOD_MENU['language'][-1] = $this->getLanguageService()->getLL('allLanguages');
 
         // Setting alternative default label:
         $dl = trim($this->TSprop['defaultLanguageLabel']);
@@ -1179,6 +1319,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     }
 
 
+    /**
+     * @throws DBALException
+     */
     function initCategories()
     {
         if ($this->isAdmin) {
@@ -1190,13 +1333,18 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             $this->excludeCats = $this->posIntExplode($excludeList);
         }
 
-        $this->includeCats = \RG\TtNews\Div::getIncludeCatArray();
-        $this->catlistWhere = \RG\TtNews\Div::getCatlistWhere();
+        $this->includeCats = Div::getIncludeCatArray();
+        $this->catlistWhere = Div::getCatlistWhere();
     }
 
+    /**
+     * @param $list
+     *
+     * @return array
+     */
     function posIntExplode($list)
     {
-        $arr = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $list);
+        $arr = GeneralUtility::intExplode(',', $list);
         $out = array();
 
         foreach ($arr as $v) {
@@ -1209,16 +1357,14 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     }
 
     /**
-     * [Describe function...]
      *
-     * @return    [type]        ...
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     function initSubCategories()
     {
         if ($this->useSubCategories && $this->category) {
-            $subcats = \RG\TtNews\Div::getSubCategories($this->category);
-            $this->selectedCategories = \TYPO3\CMS\Core\Utility\GeneralUtility::uniqueList($this->category . ($subcats ? ',' . $subcats : ''));
+            $subcats = Div::getSubCategories($this->category);
+            $this->selectedCategories = GeneralUtility::uniqueList($this->category . ($subcats ? ',' . $subcats : ''));
         } else {
             $this->selectedCategories = $this->category;
         }
@@ -1230,12 +1376,12 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
      *
      * @param    integer        Page id for check
      *
-     * @return    string        Page path of PID if accessible. otherwise zero.
+     * @return    array        Page path of PID if accessible. otherwise zero.
      */
     function getPageInfoForOverview($pid)
     {
         $out = array();
-        $localPageinfo = \TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($pid, $this->perms_clause);
+        $localPageinfo = BackendUtility::readPageAccess($pid, $this->perms_clause);
         $out['path'] = $localPageinfo['_thePath'];
 
         $calcPerms = $GLOBALS['BE_USER']->calcPerms($localPageinfo);
@@ -1246,13 +1392,18 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         return $out;
     }
 
+    /**
+     * @param $pid
+     *
+     * @return mixed
+     */
     function checkPageAccess($pid)
     {
         if (isset($this->permsCache[$pid])) {
             return $this->permsCache[$pid];
         }
 
-        $calcPerms = $GLOBALS['BE_USER']->calcPerms(\TYPO3\CMS\Backend\Utility\BackendUtility::readPageAccess($pid,
+        $calcPerms = $GLOBALS['BE_USER']->calcPerms(BackendUtility::readPageAccess($pid,
             $this->perms_clause));
         if (($calcPerms & 16)) {
             $this->permsCache[$pid] = true;
@@ -1263,6 +1414,9 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
         return $this->permsCache[$pid];
     }
 
+    /**
+     *
+     */
     function initPermsCache()
     {
         if ($this->isAdmin) {
@@ -1279,7 +1433,7 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     /**
      * [Describe function...]
      *
-     * @return    [type]        ...
+
      */
     function getLinkParams()
     {
@@ -1293,24 +1447,24 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     }
 
     /**
-     * @param $LANG
      *
      * @return string
+     * @throws DBALException
      */
-    protected function getListHeaderMsgForSelectedCategories($LANG): string
+    protected function getListHeaderMsgForSelectedCategories(): string
     {
         $table = 'tt_news_cat';
-        $row = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord($table, $this->category);
-        $title = '<strong>' . \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordTitle($table, $row) . '</strong>';
-        $content = '<div id="newscatsmsg">' . $LANG->getLL('showingOnlyCat') . $title . '</div>';
+        $row = BackendUtility::getRecord($table, $this->category);
+        $title = '<strong>' . BackendUtility::getRecordTitle($table, $row) . '</strong>';
+        $content = '<div id="newscatsmsg">' . $this->getLanguageService()->getLL('showingOnlyCat') . $title . '</div>';
 
-        if ($this->useSubCategories && ($subCats = \TYPO3\CMS\Core\Utility\GeneralUtility::rmFromList($this->category,
+        if ($this->useSubCategories && ($subCats = GeneralUtility::rmFromList($this->category,
                 $this->selectedCategories))) {
             $scRows = Database::getInstance()->exec_SELECTgetRows('uid,title,hidden', $table,
                 'uid IN (' . $subCats . ')' . !$this->mData['showHiddenCategories'] ? ' AND hidden=0' : '');
             $scTitles = array();
             foreach ($scRows as $scRow) {
-                $recTitle = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecordTitle($table, $scRow);
+                $recTitle = BackendUtility::getRecordTitle($table, $scRow);
                 if ($scRow['hidden']) {
                     $recTitle = '<span class="hiddencat">' . $recTitle . '</span>';
                 }
@@ -1318,16 +1472,16 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
             }
 
             if (count($scTitles)) {
-                $showLbl = $LANG->getLL('showSubcatgories');
-                $hideLbl = $LANG->getLL('hideSubcatgories');
+                $showLbl = $this->getLanguageService()->getLL('showSubcatgories');
+                $hideLbl = $this->getLanguageService()->getLL('hideSubcatgories');
                 $btnID = 'togglesubcats';
                 $elID = 'newssubcats';
                 $onclick = htmlspecialchars('if
 						($(\'' . $elID . '\').visible()) {
 							$(\'' . $elID . '\').hide();
-							$(\'' . $btnID . '\').update(' . \TYPO3\CMS\Core\Utility\GeneralUtility::quoteJSvalue($showLbl) . ');
+							$(\'' . $btnID . '\').update(' . GeneralUtility::quoteJSvalue($showLbl) . ');
 						} else {
-							$(\'' . $elID . '\').show();$(\'' . $btnID . '\').update(' . \TYPO3\CMS\Core\Utility\GeneralUtility::quoteJSvalue($hideLbl) . ');}');
+							$(\'' . $elID . '\').show();$(\'' . $btnID . '\').update(' . GeneralUtility::quoteJSvalue($hideLbl) . ');}');
                 $content .= '<div id="' . $btnID . '" onclick="' . $onclick . '">' . $showLbl . '</div>';
                 $content .= '<div id="' . $elID . '" style="display:none;">' . implode(', ', $scTitles) . '</div>';
             }
@@ -1337,171 +1491,4 @@ class tx_ttnews_module1 extends \TYPO3\CMS\Backend\Module\BaseScriptClass
     }
 }
 
-/**
- * [Describe function...]
- *
- */
-class tx_ttnewscatmanager_treeView extends tx_ttnews_categorytree
-{
 
-    var $TCEforms_itemFormElName = '';
-    var $TCEforms_nonSelectableItemsArray = array();
-
-    var $returnUrl;
-    var $showEditIcons;
-    var $pageID;
-    var $storagePid;
-    var $useStoragePid;
-    var $mayUserEditCategories;
-    var $LL;
-
-
-    /**
-     * [Describe function...]
-     *
-     * @param     [type]        $icon: ...
-     * @param     [type]        $row: ...
-     *
-     * @return    [type]        ...
-     */
-    function wrapIcon($icon, $row)
-    {
-        $theIcon = $this->addTagAttributes($icon, $this->titleAttrib . '="' . $this->getTitleAttrib($row) . '"');
-
-        if ($row['uid'] > 0 && !isset($row['doktype'])) {
-            // no clickmenu for pages
-            $theIcon = \TYPO3\CMS\Backend\Utility\BackendUtility::wrapClickMenuOnIcon($theIcon, 'tt_news_cat_CM',
-                $row['uid'], 0, '&bank=' . $this->bank);
-            $theIcon = '<span class="dragIcon" id="dragIconID_' . $row['uid'] . '">' . $theIcon . '</span>';
-        } else {
-            $theIcon = '<span class="dragIcon" id="dragIconID_0">' . $theIcon . '</span>';
-        }
-
-        return $theIcon;
-    }
-
-    /**
-     * wraps the record titles in the tree with links or not depending on if they are in the
-     * TCEforms_nonSelectableItemsArray.
-     *
-     * @param    string $title : the title
-     * @param    array  $v     : an array with uid and title of the current item.
-     *
-     * @return    string        the wrapped title
-     */
-    function wrapTitle($title, $v, $bank = 0)
-    {
-
-        // TODO: language overlay
-
-
-        if ($v['uid'] > 0) {
-            $hrefTitle = htmlentities('[id=' . $v['uid'] . '] ' . $v['description']);
-            $js = htmlspecialchars('txttnewsM1js.loadList(\'' . $v['uid'] . '\', $(\'ttnewslist\'), \'' . intval($this->pageID) . '\');');
-            $out = '<a href="#" onclick="' . $js . '" title="' . $hrefTitle . '">' . $title . '</a>';
-
-            // Wrap title in a drag/drop span.
-            $out = '<span class="dragTitle" id="dragTitleID_' . $v['uid'] . '">' . $out . '</span>';
-            if ($this->showEditIcons) {
-                $out .= $this->makeControl('tt_news_cat', $v);
-            }
-        } else {
-            $grsp = '';
-            if ($this->storagePid != $this->pageID) {
-                $grsp = ' GRSP';
-            }
-            if ($this->useStoragePid) {
-                $pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),
-                    $this->storagePid . $grsp);
-            } else {
-                $pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
-
-            }
-            $pidLbl = ' <span class="typo3-dimmed"><em>' . $pidLbl . '</em></span>';
-            $hrefTitle = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:showAllResetSel');
-
-            $out = '<span class="dragTitle" id="dragTitleID_0">
-						<a href="' . \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('web_txttnewsM1') . '&id=' . $this->pageID . '" title="' . $hrefTitle . '">' . $title . '</a>
-					</span>' . $pidLbl;
-        }
-
-        return $out;
-    }
-
-    /**
-     * Creates the control panel for a single record in the listing.
-     *
-     * @param    string        The table
-     * @param    array         The record for which to make the control panel.
-     *
-     * @return    string        HTML table with the control panel (unless disabled)
-     */
-    function makeControl($table, $row)
-    {
-        global $TCA, $LANG;
-
-        // Initialize:
-        $cells = array();
-        // "Edit" link: ( Only if permissions to edit the page-record of the content of the parent page ($this->id)
-        if ($this->mayUserEditCategories) {
-            $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
-            $cells[] = '<a href="#" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,
-                    $this->backPath, $this->returnUrl)) . '">' .
-                '<img' . IconFactory::skinImg('gfx/edit2' . (!$TCA[$table]['ctrl']['readOnly'] ? '' : '_d') . '.gif',
-                    'width="11" height="12"') . ' title="' . $LANG->getLLL('edit', $this->LL) . '" alt="" />' .
-                '</a>';
-        }
-
-        // "Hide/Unhide" links:
-        $hiddenField = $TCA[$table]['ctrl']['enablecolumns']['disabled'];
-        if ($this->mayUserEditCategories && $hiddenField && $TCA[$table]['columns'][$hiddenField] &&
-            (!$TCA[$table]['columns'][$hiddenField]['exclude'] || $GLOBALS['BE_USER']->check('non_exclude_fields',
-                    $table . ':' . $hiddenField))
-        ) {
-            /**
-             * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
-             */
-            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-            if ($row[$hiddenField]) {
-                $params = '&data[' . $table . '][' . $row['uid'] . '][' . $hiddenField . ']=0';
-                $cells[] = '<a href="#" onclick="' . htmlspecialchars('return jumpToUrl(\'' . $this->issueCommand($params,
-                            $this->returnUrl) . '\');') . '">' .
-                    $iconFactory->getIcon('actions-edit-unhide')->render() .
-                    '</a>';
-            } else {
-                $params = '&data[' . $table . '][' . $row['uid'] . '][' . $hiddenField . ']=1';
-                $cells[] = '<a href="#" onclick="' . htmlspecialchars('return jumpToUrl(\'' . $this->issueCommand($params,
-                            $this->returnUrl) . '\');') . '">' .
-                    $iconFactory->getIcon('actions-edit-hide')->render() .
-                    '</a>';
-            }
-        }
-
-        return '
-				<!-- CONTROL PANEL: ' . $table . ':' . $row['uid'] . ' -->
-				<span style="padding:0 0 0 7px;">' . implode('', $cells) . '</span>';
-    }
-
-    /**
-     * [Describe function...]
-     *
-     * @param    [type]        $params: ...
-     * @param    [type]        $rUrl: ...
-     *
-     * @return   string
-     */
-    function issueCommand($params, $rUrl = ''): string
-    {
-        $rUrl = $rUrl ?: \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REQUEST_URI');
-
-        $urlParameters = \TYPO3\CMS\Core\Utility\GeneralUtility::explodeUrl2Array($params, true);
-        $urlParameters['vC'] = \rawurlencode($GLOBALS['BE_USER']->veriCode());
-        $urlParameters['prErr'] = '1';
-        $urlParameters['uPT'] = '1';
-
-        $url = \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('tce_db', $urlParameters);
-        $url .= '&redirect=' . ($rUrl == -1 ? "'+T3_THIS_LOCATION+'" : rawurlencode($rUrl));
-
-        return $url;
-    }
-}

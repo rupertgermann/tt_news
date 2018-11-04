@@ -68,21 +68,25 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('_MOD_web
 
 
 if (TYPO3_MODE == 'BE') {
-    if ($confArr['showBackEndModule']) {
-        TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
-            'web',
-            'txttnewsM1',
-            '',
-            '',
-            [
-                'routeTarget' => \tx_ttnews_module1::class . '::mainAction',
-                'access' => 'user,group',
-                'name' => 'web_txttnewsM1',
-                'icon' => 'EXT:tt_news/mod1/moduleicon.gif',
-                'navigationComponentId' => 'typo3-pagetree',
-                'labels' => 'LLL:EXT:tt_news/mod1/locallang_mod.xml'
-            ]
-        );
+    TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
+        'web',
+        'txttnewsM1',
+        '',
+        null,
+        [
+            'routeTarget' => RG\TtNews\Module\NewsAdminModule::class . '::mainAction',
+            'access' => 'user,group',
+            'name' => 'web_txttnewsM1',
+            'navigationComponentId' => 'typo3-pagetree',
+            'icon' => 'EXT:tt_news/Classes/Module/moduleicon.gif',
+
+            'labels' => [
+
+                'll_ref' => 'LLL:EXT:tt_news/Classes/Module/locallang_mod.xml',
+            ],
+        ]
+    );
+    if (1 || $confArr['showBackEndModule']) {
     }
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables'][$_EXTKEY][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
