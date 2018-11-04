@@ -1,6 +1,6 @@
 <?php
 
-namespace RG\TtNews\Trais;
+namespace RG\TtNews\Traits;
 
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
