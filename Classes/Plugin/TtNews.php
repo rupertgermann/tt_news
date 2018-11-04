@@ -1555,7 +1555,7 @@ class TtNews extends AbstractPlugin
                 $cachedPeriodAccum = $this->cache->get($storeKey);
             }
 
-            if ($cachedPeriodAccum != '') {
+            if (!empty($cachedPeriodAccum)) {
                 if ($this->writeCachingInfoToDevlog > 1) {
                     GeneralUtility::devLog('CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')',
                         'tt_news', -1, array());
