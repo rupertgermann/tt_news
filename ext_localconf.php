@@ -6,14 +6,16 @@ if (!defined("TYPO3_MODE")) {
 /**
  * Register hooks in TCEmain:
  */
-
 // this hook is used to prevent saving of news or category records which have categories assigned that are not allowed for the current BE user.
 // The list of allowed categories can be set with 'tt_news_cat.allowedItems' in user/group TSconfig.
-$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['tt_news'] = \RG\TtNews\DatahandlerHook::class;
+// This check will be disabled until 'options.useListOfAllowedItems' (user/group TSconfig) is set to a value.
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['tt_news'] =
+    \RG\TtNews\Hooks\DataHandlerHook::class;
 
 // this hook is used to prevent saving of a news record that has non-allowed categories assigned when a command is executed (modify,copy,move,delete...).
 // it checks if the record has an editlock. If true, nothing will not be saved.
-$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] = \RG\TtNews\DatahandlerHook::class;
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] =
+    \RG\TtNews\Hooks\DataHandlerHook::class;
 
 $confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('

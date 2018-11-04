@@ -1,6 +1,6 @@
 <?php
 
-namespace RG\TtNews;
+namespace RG\TtNews\Hooks;
 
 /***************************************************************
  *  Copyright notice
@@ -36,6 +36,8 @@ namespace RG\TtNews;
  * @author     Rupert Germann <rupi@gmx.li>
  */
 
+use RG\TtNews\Database;
+use RG\TtNews\Div;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -52,7 +54,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package    TYPO3
  * @subpackage tt_news
  */
-class DatahandlerHook
+class DataHandlerHook
 {
     /**
      * @var
