@@ -67,13 +67,6 @@ class Database implements SingletonInterface {
     public function exec_SELECTquery($select_fields, $from_table, $where_clause, $groupBy = '', $orderBy = '', $limit = '') {
         $query = $this->SELECTquery($select_fields, $from_table, $where_clause, $groupBy, $orderBy, $limit);
 
-        file_put_contents(PATH_site . 'typo3temp/log.log',
-            date('YmdHis', time()) . PHP_EOL . __FILE__ . '::' . __LINE__ . PHP_EOL . print_r(array(
-                __METHOD__,
-                $query
-            ), 1) . PHP_EOL, FILE_APPEND);
-
-
         $res = $columns = $this->getConnection($from_table)->executeQuery($query);
 
         return $res;
