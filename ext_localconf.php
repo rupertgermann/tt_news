@@ -35,10 +35,15 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
     'tt_content.list.20.9 =< plugin.tt_news',
     'defaultContentRendering'
 );
+if (TYPO3_MODE === 'BE') {
+    // Apply PageTSconfig
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tt_news/Configuration/PageTS/modWizards.ts">'
+    );
 
 // Page module hook
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['9']['tt_news'] = \RG\TtNews\Hooks\PageModuleHook::class . '->getExtensionSummary';
-
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['9']['tt_news'] = \RG\TtNews\Hooks\PageModuleHook::class . '->getExtensionSummary';
+}
 
 // register Ajax scripts
 //$TYPO3_CONF_VARS['FE']['eID_include']['tt_news'] = 'EXT:tt_news/pi/fe_index.php';
@@ -63,7 +68,7 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations
 
 // register news cache table for "clear all caches"
 if ($confArr['cachingMode'] == 'normal') {
-    $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['tt_news_cache'] = 'tt_news_cache';
+$GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['tt_news_cache'] = 'tt_news_cache';
 }
 
 // in order to make "direct Preview links" for tt_news work again in TYPO3 >= 6, unset pageNotFoundOnCHashError if a BE_USER is logged in
