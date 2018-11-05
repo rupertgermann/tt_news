@@ -35,6 +35,8 @@ use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -238,8 +240,9 @@ class NewsAdminModule extends BaseScriptClass
         ServerRequestInterface $request,
         ResponseInterface $response
     ) {
-        $this->getLanguageService()->includeLLFile('EXT:tt_news/mod1/locallang.xml');
+        $this->getLanguageService()->includeLLFile('EXT:tt_news/Classes/Module/locallang.xml');
 
+        $GLOBALS['BACK_PATH'] = '../';
         $GLOBALS['SOBE'] = $this;
         $this->init();
         $this->main();
@@ -354,7 +357,7 @@ class NewsAdminModule extends BaseScriptClass
                 'filename from TBE_STYLES' => $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'],
                 'full path' => $this->doc->backPath . $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html']
             ));
-            $tfile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('tt_news') . 'Classes/Module/mod_ttnews_admin.html';
+            $tfile = ExtensionManagementUtility::siteRelPath('tt_news') . 'Classes/Module/mod_ttnews_admin.html';
             $this->doc->moduleTemplate = @file_get_contents(PATH_site . $tfile);
         }
 
@@ -425,6 +428,13 @@ class NewsAdminModule extends BaseScriptClass
 				}
 				#ttnews-cat-tree ul.tree {
 				    margin:16px 0 0 0;
+				    list-style-type: none;
+    		        padding-left: 0em;
+
+				}
+				#ttnews-cat-tree ul.tree li ul {
+				    list-style-type: none;
+                    padding-left: 17px;
 				}
 				#ttnewsadmin-tree .icon-actions-document-new {
 				    margin-right: 5px;
@@ -495,10 +505,10 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         if (!$error) {
-            $this->getPageRenderer()->addHeaderData('
-                <script src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/JavaScript/compat/prototype/prototype.js" type="text/javascript"></script>
-                <script src="' . $GLOBALS['BACK_PATH'] . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/JavaScript/tt_news_mod1.js" type="text/javascript"></script>
-                ');
+//            $this->getPageRenderer()->addHeaderData('
+//                <script src="' . $GLOBALS['BACK_PATH'] . ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/JavaScript/compat/prototype/prototype.js" type="text/javascript"></script>
+//                <script src="' . $GLOBALS['BACK_PATH'] . ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/JavaScript/tt_news_mod1.js" type="text/javascript"></script>
+//                ');
 
             // fixme: throws JS errors, commented out
 //					$this->doc->getDragDropCode('tt_news_cat');
@@ -506,7 +516,8 @@ class NewsAdminModule extends BaseScriptClass
 //							txttnewsM1js.registerDragDropHandlers();
 //					');
             $this->getPageRenderer()->loadJquery();
-            $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/Backend/ClickMenu');
+//            $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/Backend/ClickMenu');
+            $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/TtNews/NewsBackendModule');
 
             $this->treeContent = $this->displayCategoryTree();
             $this->listContent .= $this->displayNewsList();
@@ -522,7 +533,7 @@ class NewsAdminModule extends BaseScriptClass
     {
         $tRows = array();
         $tRows[] = '<tr>
-				<td colspan="2" valign="top"><p><img' . IconFactory::skinImg('gfx/icon_note.gif',
+				<td colspan="2" valign="top"><p><img' . IconFactory::skinImg('icon_note.gif',
                 'width="18" height="16"') . ' title="" alt="" />
 				' . $this->getLanguageService()->getLL('nothingfound') . '
 				</p><br></td>
@@ -574,6 +585,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * [Describe function...]
      *
+     * @throws DBALException
      */
     function displayCategoryTree()
     {
@@ -703,7 +715,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         $pidLbl = ' <span class="typo3-dimmed"><em>' . $pidLbl . '</em></span>';
-        $hrefTitle = $this->getLanguageService()->sL('LLL:EXT:tt_news/mod1/locallang.xml:showAllResetSel');
+        $hrefTitle = $this->getLanguageService()->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:showAllResetSel');
 
         return '<div style="margin: 2px 0 -5px 0;">'
             . $icon
@@ -821,12 +833,12 @@ class NewsAdminModule extends BaseScriptClass
      * @throws DBALException
      * @throws SiteNotFoundException
      */
-    function ajaxLoadList($params, &$ajaxObj)
+    public function ajaxLoadList($params)
     {
         $this->processAjaxRequestConstruct();
         $this->init();
         $list = $this->displayNewsList(true);
-        $ajaxObj->addContent('ttnewslist', $list);
+        return $list;
     }
 
     /**
@@ -836,7 +848,9 @@ class NewsAdminModule extends BaseScriptClass
 
         global $SOBE;
 
-        // Create a new anonymous object:
+        $GLOBALS['BACK_PATH'] = '../';
+        $this->getLanguageService()->includeLLFile('EXT:tt_news/Classes/Module/locallang.xml');
+
         $SOBE = GeneralUtility::makeInstance(NewsAdminModule::class);
         // Create an instance of the document template object
         $SOBE->doc = GeneralUtility::makeInstance(DocumentTemplate::class);
@@ -863,7 +877,7 @@ class NewsAdminModule extends BaseScriptClass
         $noCatSelMsg = false;
         if (!$this->selectedCategories) {
             if ($this->TSprop['list.']['noListWithoutCatSelection']) {
-                $content = '<img' . IconFactory::skinImg('gfx/icon_note.gif',
+                $content = '<img' . IconFactory::skinImg('icon_note.gif',
                         'width="18" height="16"') . ' title="" alt="" />' . $this->getLanguageService()->getLL('selectCategory');
                 $noCatSelMsg = true;
             } else {
@@ -918,7 +932,7 @@ class NewsAdminModule extends BaseScriptClass
         $tRows = array();
         if (!$noCatSelMsg) {
             $tRows[] = '<tr>
-					<td valign="top"><p><img' . IconFactory::skinImg('gfx/icon_note.gif', 'width="18" height="16"') . ' title="" alt="" />
+					<td valign="top"><p><img' . IconFactory::skinImg('icon_note.gif', 'width="18" height="16"') . ' title="" alt="" />
 					' . $this->getLanguageService()->getLL('noNewsFound') . '
 					</p></td>
 					</tr>';
@@ -1021,7 +1035,7 @@ class NewsAdminModule extends BaseScriptClass
              */
             $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
             $button = '<a href="#" onclick="' . $onclick . '">' .
-                $iconFactory->getIcon('actions-document-new')->render() .
+                $iconFactory->getIcon('actions-document-new', Icon::SIZE_SMALL)->render() .
                 $this->getLanguageService()->getLL('createCategory') .
                 '</a>';
         }
@@ -1061,7 +1075,7 @@ class NewsAdminModule extends BaseScriptClass
                 ));
 
                 $buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '">' .
-                    '<img' . IconFactory::skinImg('gfx/list.gif',
+                    '<img' . IconFactory::skinImg('list.gif',
                         'width="11" height="11"') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showList') . '" alt="" />' .
                     '</a>';
             }
@@ -1069,7 +1083,7 @@ class NewsAdminModule extends BaseScriptClass
             // View
             $buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::viewOnClick($this->id,
                     $backPath, BackendUtility::BEgetRootLine($this->id))) . '">' .
-                '<img' . IconFactory::skinImg('gfx/zoom.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showPage') . '" alt="" />' .
+                '<img' . IconFactory::skinImg('zoom.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showPage') . '" alt="" />' .
                 '</a>';
 
             // If edit permissions are set (see class.t3lib_userauthgroup.php)
@@ -1078,13 +1092,13 @@ class NewsAdminModule extends BaseScriptClass
                 $params = '&edit[pages][' . $this->pageinfo['uid'] . ']=edit';
                 $buttons['edit'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
                         $backPath, -1)) . '">' .
-                    '<img' . IconFactory::skinImg('gfx/edit2.gif') . ' title="' . $this->getLanguageService()->getLL('editPage') . '" alt="" />' .
+                    '<img' . IconFactory::skinImg('edit2.gif') . ' title="' . $this->getLanguageService()->getLL('editPage') . '" alt="" />' .
                     '</a>';
             }
 
             // Reload
             $buttons['reload'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisScript()) . '">' .
-                '<img' . IconFactory::skinImg('gfx/refresh_n.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.reload') . '" alt="" />' .
+                '<img' . IconFactory::skinImg('refresh_n.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.reload') . '" alt="" />' .
                 '</a>';
 
             // Shortcut
@@ -1097,7 +1111,7 @@ class NewsAdminModule extends BaseScriptClass
             if ($this->returnUrl) {
                 $buttons['back'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisUrl($this->returnUrl,
                         array('id' => $this->id))) . '" class="typo3-goBack">' .
-                    '<img' . IconFactory::skinImg('gfx/goback.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.goBack') . '" alt="" />' .
+                    '<img' . IconFactory::skinImg('goback.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.goBack') . '" alt="" />' .
                     '</a>';
             }
         }
@@ -1461,7 +1475,7 @@ class NewsAdminModule extends BaseScriptClass
         if ($this->useSubCategories && ($subCats = GeneralUtility::rmFromList($this->category,
                 $this->selectedCategories))) {
             $scRows = Database::getInstance()->exec_SELECTgetRows('uid,title,hidden', $table,
-                'uid IN (' . $subCats . ')' . !$this->mData['showHiddenCategories'] ? ' AND hidden=0' : '');
+                'uid IN (' . $subCats . ')' . (!$this->mData['showHiddenCategories'] ? ' AND hidden=0' : ''));
             $scTitles = array();
             foreach ($scRows as $scRow) {
                 $recTitle = BackendUtility::getRecordTitle($table, $scRow);
@@ -1477,11 +1491,11 @@ class NewsAdminModule extends BaseScriptClass
                 $btnID = 'togglesubcats';
                 $elID = 'newssubcats';
                 $onclick = htmlspecialchars('if
-						($(\'' . $elID . '\').visible()) {
+						($(\'' . $elID . '\').is(":visible")) {
 							$(\'' . $elID . '\').hide();
-							$(\'' . $btnID . '\').update(' . GeneralUtility::quoteJSvalue($showLbl) . ');
+							$(\'' . $btnID . '\').html(' . GeneralUtility::quoteJSvalue($showLbl) . ');
 						} else {
-							$(\'' . $elID . '\').show();$(\'' . $btnID . '\').update(' . GeneralUtility::quoteJSvalue($hideLbl) . ');}');
+							$(\'' . $elID . '\').show();$(\'' . $btnID . '\').html(' . GeneralUtility::quoteJSvalue($hideLbl) . ');}');
                 $content .= '<div id="' . $btnID . '" onclick="' . $onclick . '">' . $showLbl . '</div>';
                 $content .= '<div id="' . $elID . '" style="display:none;">' . implode(', ', $scTitles) . '</div>';
             }

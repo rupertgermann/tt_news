@@ -12,8 +12,8 @@ namespace RG\TtNews\Module;
 use RG\TtNews\Categorytree;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Lang\LanguageService;
 
 class CategoryManager extends Categorytree
 {
@@ -28,6 +28,7 @@ class CategoryManager extends Categorytree
     var $useStoragePid;
     var $mayUserEditCategories;
     var $LL;
+    public $backPath;
 
 
     /**
@@ -71,8 +72,7 @@ class CategoryManager extends Categorytree
 
         if ($v['uid'] > 0) {
             $hrefTitle = htmlentities('[id=' . $v['uid'] . '] ' . $v['description']);
-            $js = htmlspecialchars('txttnewsM1js.loadList(\'' . $v['uid'] . '\', $(\'ttnewslist\'), \'' . intval($this->pageID) . '\');');
-            $out = '<a href="#" onclick="' . $js . '" title="' . $hrefTitle . '">' . $title . '</a>';
+            $out = '<a href="#" class="filter-category" data-category="' . $v['uid'] . '" data-target="ttnewslist" data-pid="' . intval($this->pageID) . '" title="' . $hrefTitle . '">' . $title . '</a>';
 
             // Wrap title in a drag/drop span.
             $out = '<span class="dragTitle" id="dragTitleID_' . $v['uid'] . '">' . $out . '</span>';
@@ -85,14 +85,14 @@ class CategoryManager extends Categorytree
                 $grsp = ' GRSP';
             }
             if ($this->useStoragePid) {
-                $pidLbl = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),
+                $pidLbl = sprintf($this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),
                     $this->storagePid . $grsp);
             } else {
-                $pidLbl = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
+                $pidLbl = $this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
 
             }
             $pidLbl = ' <span class="typo3-dimmed"><em>' . $pidLbl . '</em></span>';
-            $hrefTitle = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:showAllResetSel');
+            $hrefTitle = $this->getLanguageService()->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:showAllResetSel');
 
             $out = '<span class="dragTitle" id="dragTitleID_0">
 						<a href="' . BackendUtility::getModuleUrl('web_txttnewsM1') . '&id=' . $this->pageID . '" title="' . $hrefTitle . '">' . $title . '</a>
@@ -121,7 +121,7 @@ class CategoryManager extends Categorytree
             $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
             $cells[] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
                     $this->backPath, $this->returnUrl)) . '">' .
-                '<img' . IconFactory::skinImg('gfx/edit2' . (!$TCA[$table]['ctrl']['readOnly'] ? '' : '_d') . '.gif',
+                '<img' . IconFactory::skinImg('edit2' . (!$TCA[$table]['ctrl']['readOnly'] ? '' : '_d') . '.gif',
                     'width="11" height="12"') . ' title="' . $this->getLanguageService()->getLLL('edit', $this->LL) . '" alt="" />' .
                 '</a>';
         }
@@ -129,7 +129,7 @@ class CategoryManager extends Categorytree
         // "Hide/Unhide" links:
         $hiddenField = $TCA[$table]['ctrl']['enablecolumns']['disabled'];
         if ($this->mayUserEditCategories && $hiddenField && $TCA[$table]['columns'][$hiddenField] &&
-            (!$TCA[$table]['columns'][$hiddenField]['exclude'] || $GLOBALS['BE_USER']->check('non_exclude_fields',
+            (!$TCA[$table]['columns'][$hiddenField]['exclude'] || $this->getBackendUser()->check('non_exclude_fields',
                     $table . ':' . $hiddenField))
         ) {
             /**
@@ -140,13 +140,13 @@ class CategoryManager extends Categorytree
                 $params = '&data[' . $table . '][' . $row['uid'] . '][' . $hiddenField . ']=0';
                 $cells[] = '<a href="#" onclick="' . htmlspecialchars('return jumpToUrl(\'' . $this->issueCommand($params,
                             $this->returnUrl) . '\');') . '">' .
-                    $iconFactory->getIcon('actions-edit-unhide')->render() .
+                    $iconFactory->getIcon('actions-edit-unhide',Icon::SIZE_SMALL)->render() .
                     '</a>';
             } else {
                 $params = '&data[' . $table . '][' . $row['uid'] . '][' . $hiddenField . ']=1';
                 $cells[] = '<a href="#" onclick="' . htmlspecialchars('return jumpToUrl(\'' . $this->issueCommand($params,
                             $this->returnUrl) . '\');') . '">' .
-                    $iconFactory->getIcon('actions-edit-hide')->render() .
+                    $iconFactory->getIcon('actions-edit-hide',Icon::SIZE_SMALL)->render() .
                     '</a>';
             }
         }
@@ -169,7 +169,6 @@ class CategoryManager extends Categorytree
         $rUrl = $rUrl ?: GeneralUtility::getIndpEnv('REQUEST_URI');
 
         $urlParameters = GeneralUtility::explodeUrl2Array($params, true);
-        $urlParameters['vC'] = \rawurlencode($GLOBALS['BE_USER']->veriCode());
         $urlParameters['prErr'] = '1';
         $urlParameters['uPT'] = '1';
 
@@ -179,12 +178,5 @@ class CategoryManager extends Categorytree
         return $url;
     }
 
-    /**
-     * Returns the Language Service
-     * @return LanguageService
-     */
-    protected function getLanguageService()
-    {
-        return $GLOBALS['LANG'];
-    }
+
 }

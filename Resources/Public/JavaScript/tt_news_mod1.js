@@ -32,6 +32,7 @@
  * $Id$
  *
  */
+var ajaxUrl = TYPO3.settings.ajaxUrls['user_access_permissions'];
 
 var txttnewsM1js = {
 	thisScript: 'ajax.php',
@@ -41,11 +42,7 @@ var txttnewsM1js = {
 	// reloads a part of the page tree (useful when "expand" / "collapse")
 	load: function(params, isExpand, obj, pid) {
 		var ajaxID = 'txttnewsM1::expandCollapse';
-			// fallback if AJAX is not possible (e.g. IE < 6)
-		if (typeof Ajax.getTransport() != 'object') {
-			window.location.href = this.thisScript + '?ajaxID=' + ajaxID + '&PM=' + params;
-			return;
-		}
+
 
 		// immediately collapse the subtree and change the plus to a minus when collapsing
 		// without waiting for the response
@@ -61,8 +58,10 @@ var txttnewsM1js = {
 		} else {
 			obj.style.cursor = 'wait';
 		}
-
+        console.log(this.thisScript);
 		new Ajax.Request(this.thisScript, {
+
+
 			parameters: 'ajaxID=' + ajaxID + '&PM=' + params + '&id=' + pid,
 			onComplete: function(xhr) {
 				// the parent node needs to be overwritten, not the object
@@ -81,12 +80,7 @@ var txttnewsM1js = {
 	// reloads the news list
 	loadList: function(category, obj, pid) {
 		var ajaxID = 'txttnewsM1::loadList';
-			// fallback if AJAX is not possible (e.g. IE < 6)
-		if (typeof Ajax.getTransport() != 'object') {
-			window.location.href = this.thisScript + '?ajaxID=' + ajaxID + '&category=' + category + '&M=web_txttnewsM1';
-			return;
-		}
-
+        console.log(this.thisScript);
 		new Ajax.Request(this.thisScript, {
 			parameters: 'ajaxID=' + ajaxID + '&category=' + category + '&id=' + pid + '&M=web_txttnewsM1',
             method: 'get',

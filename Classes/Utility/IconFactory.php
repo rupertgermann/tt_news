@@ -27,18 +27,18 @@ class IconFactory extends \TYPO3\CMS\Core\Imaging\IconFactory
      */
     public static function skinImg($src, $wHattribs = '', $outputMode = 0)
     {
+        self::registerAllIconIdentifiers();
 
         // simply return the new path from Resources
-        $newBackPath = ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/Icons/';
-        $newSrc = str_replace('gfx/', '', $src);
+        $newBackPath = $GLOBALS['BACK_PATH'] . ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/Icons/';
 
         switch ($outputMode) {
             case 2:
                 return $wHattribs;
             case 1:
-                return $newSrc;
+                return $src;
             default:
-                return ' src="' . $newBackPath . $newSrc . '" ' . $wHattribs;
+                return ' src="' . $newBackPath . $src . '" ' . $wHattribs;
         }
     }
 

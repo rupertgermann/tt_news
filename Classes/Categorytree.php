@@ -38,12 +38,17 @@ namespace RG\TtNews;
  * @subpackage tt_news
  */
 
+use RG\TtNews\Utility\IconFactory;
+use TYPO3\CMS\Backend\Tree\View\AbstractTreeView;
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 /**
  * extend class t3lib_treeview to change function wrapTitle().
  *
  */
-class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
+class Categorytree extends AbstractTreeView
 {
 
     var $categoryCountCache = array();
@@ -52,6 +57,13 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
     var $expandable;
     protected $tt_news_obj;
     protected $newsSelConf;
+    public $category;
+    public $storagePid;
+    public $useStoragePid;
+    public $getCatNewsCount;
+    public $useAjax;
+    public $titleLen;
+    public $pageID;
 
     protected function handleCache()
     {
@@ -67,7 +79,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
             $tmpCCC = $this->tt_news_obj->cache->get($storeKey);
             if ($tmpCCC) {
                 if ($this->tt_news_obj->writeCachingInfoToDevlog > 1) {
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                    GeneralUtility::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')',
                         'tt_news', -1, array());
                 }
 
@@ -75,7 +87,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
                 $this->cacheHit = true;
             } else {
                 if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-                    \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                    GeneralUtility::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')',
                         'tt_news', 2, array(
                             $this->stored,
                             $this->MOUNTS,
@@ -125,7 +137,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
             // Set PM icon for root of mount:
             $cmd = $this->bank . '_' . ($isOpen ? "0_" : "1_") . $uid . '_' . $this->treeName;
 
-            $icon = '<img' . \RG\TtNews\Utility\IconFactory::skinImg('gfx/ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
+            $icon = '<img' . IconFactory::skinImg('ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
             if ($this->expandable && !$this->expandFirst) {
                 $firstHtml = $this->PMiconATagWrap($icon, $cmd);
             } else {
@@ -157,6 +169,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
                     $rootRec = $this->getRootRecord($uid);
                     $firstHtml .= $this->getRootIcon($rootRec);
                 }
+
             }
 
             if ($groupByPages) {
@@ -202,7 +215,12 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         return $this->printTree($treeArr);
     }
 
-
+    /**
+     * @param $catID
+     *
+     * @return bool|int|mixed
+     * @throws \Doctrine\DBAL\DBALException
+     */
     function getNewsCountForCategory($catID)
     {
         $sum = false;
@@ -216,14 +234,14 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         }
 
         if ($this->tt_news_obj->cache_categoryCount) {
-            $hash = \TYPO3\CMS\Core\Utility\GeneralUtility::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause),
+            $hash = GeneralUtility::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause),
                 30);
             $sum = $this->tt_news_obj->cache->get($hash);
         }
 
         if ($sum === false) {
             if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-                \TYPO3\CMS\Core\Utility\GeneralUtility::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')',
+                GeneralUtility::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')',
                     'tt_news', 2, array());
             }
 
@@ -307,7 +325,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
             if ($depth > 1 && $this->expandNext($newID)) {
                 $nextCount = $this->getNewsCategoryTree($newID, $depth - 1, $blankLineCode . ',' . $LN,
                     $row['_SUBCSSCLASS']);
-                if (count($this->buffer_idH)) {
+                if (!empty($this->buffer_idH)) {
                     $idH[$row['uid']]['subrow'] = $this->buffer_idH;
                 }
                 $exp = 1; // Set "did expand" flag
@@ -389,7 +407,7 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         &$invertedDepthOfAjaxRequestedItem
     ) {
         // IE takes anchor as parameter
-        $PM = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('PM');
+        $PM = GeneralUtility::_GP('PM');
 
         if (($PMpos = strpos($PM, '#')) !== false) {
             $PM = substr($PM, 0, $PMpos);
@@ -522,8 +540,8 @@ class Categorytree extends \TYPO3\CMS\Backend\Tree\View\AbstractTreeView
         /**
          * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
          */
-        $iconFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
-        $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM)->render();
+        $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
+        $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, Icon::SIZE_SMALL)->render();
 
         if ($nextCount) {
             $cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;

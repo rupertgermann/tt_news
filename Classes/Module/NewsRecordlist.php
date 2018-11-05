@@ -5,7 +5,7 @@ namespace RG\TtNews\Module;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2009 Rupert Germann <rupi@gmx.li>
+ *  (c) 2005-2018 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,6 +28,7 @@ namespace RG\TtNews\Module;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use RG\TtNews\Database;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -37,22 +38,19 @@ use RG\TtNews\Utility\IconFactory;
 /**
  * generates the list view for the 'news admin' module
  *
- * $Id$
  *
  * @author     Rupert Germann <rupi@gmx.li>
  * @package    TYPO3
  * @subpackage tt_news
  */
 
-
 /**
- * [Describe function...]
+ * Class NewsRecordlist
  *
+ * @package RG\TtNews\Module
  */
 class NewsRecordlist extends PageLayoutView
 {
-
-
     /**
      * @var
      */
@@ -121,6 +119,9 @@ class NewsRecordlist extends PageLayoutView
      * @var
      */
     protected $thumbScript;
+    /**
+     * @var
+     */
     protected $disableSingleTableView;
 
 
@@ -182,7 +183,7 @@ class NewsRecordlist extends PageLayoutView
         // Render Items
         $this->eCounter = $this->firstElementNumber;
         while (($row = Database::getInstance()->sql_fetch_assoc($result))) {
-            \TYPO3\CMS\Backend\Utility\BackendUtility::workspaceOL($table, $row);
+            BackendUtility::workspaceOL($table, $row);
 
             if (!is_array($row)) {
                 continue;
@@ -199,9 +200,9 @@ class NewsRecordlist extends PageLayoutView
 
             if (!$noEdit) {
                 $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
-                $NrowIcon .= '<a href="#" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,
+                $NrowIcon .= '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
                         $this->backPath, $this->returnUrl)) . '">' .
-                    '<img' . \RG\TtNews\Utility\IconFactory::skinImg('gfx/edit2.gif',
+                    '<img' . \RG\TtNews\Utility\IconFactory::skinImg('edit2.gif',
                         'width="11" height="12"') . ' title="' . $GLOBALS['LANG']->getLL('edit', 1) . '" alt="" />' .
                     '</a>';
             } else {
@@ -255,58 +256,58 @@ class NewsRecordlist extends PageLayoutView
 
             // Compile first, previous, next, last and refresh buttons
             if ($currentPage > 1) {
-                $labelFirst = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:first');
+                $labelFirst = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:first');
 
                 $first = '<a href="' . $listURL . '&pointer=0">
 					<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first.gif')
+                        ExtensionManagementUtility::siteRelPath('tt_news') . 'control_first.gif')
                     . 'alt="' . $labelFirst . '" title="' . $labelFirst . '" />
 				</a>';
             } else {
                 $first = '<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_first_disabled.gif') . 'alt="" title="" />';
+                        ExtensionManagementUtility::extPath('tt_news') . 'control_first_disabled.gif') . 'alt="" title="" />';
             }
 
             if (($currentPage - 1) > 0) {
-                $labelPrevious = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:previous');
+                $labelPrevious = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:previous');
 
                 $previous = '<a href="' . $listURL . '&pointer=' . (($currentPage - 2) * $this->iLimit) . '">
 					<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous.gif')
+                        ExtensionManagementUtility::extPath('tt_news') . 'control_previous.gif')
                     . 'alt="' . $labelPrevious . '" title="' . $labelPrevious . '" />
 					</a>';
             } else {
                 $previous = '<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_previous_disabled.gif') . 'alt="" title="" />';
+                        ExtensionManagementUtility::extPath('tt_news') . 'control_previous_disabled.gif') . 'alt="" title="" />';
             }
 
             if (($currentPage + 1) <= $totalPages) {
-                $labelNext = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:next');
+                $labelNext = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:next');
 
                 $next = '<a href="' . $listURL . '&pointer=' . (($currentPage) * $this->iLimit) . '">
 					<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next.gif')
+                        ExtensionManagementUtility::extPath('tt_news') . 'control_next.gif')
                     . 'alt="' . $labelNext . '" title="' . $labelNext . '" />
 					</a>';
             } else {
                 $next = '<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_next_disabled.gif') . 'alt="" title="" />';
+                        ExtensionManagementUtility::extPath('tt_news') . 'control_next_disabled.gif') . 'alt="" title="" />';
             }
 
             if ($currentPage != $totalPages) {
-                $labelLast = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:last');
+                $labelLast = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:last');
 
                 $last = '<a href="' . $listURL . '&pointer=' . (($totalPages - 1) * $this->iLimit) . '">
 					<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last.gif')
+                        ExtensionManagementUtility::extPath('tt_news') . 'control_last.gif')
                     . 'alt="' . $labelLast . '" title="' . $labelLast . '" />
 					</a>';
             } else {
                 $last = '<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'res/gfx/control_last_disabled.gif') . 'alt="" title="" />';
+                        ExtensionManagementUtility::extPath('tt_news') . 'control_last_disabled.gif') . 'alt="" title="" />';
             }
 
-            $pageIndicator = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:pageIndicator'),
+            $pageIndicator = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:pageIndicator'),
                 $currentPage, $totalPages);
 
             if ($this->totalItems > ($this->firstElementNumber + $this->iLimit)) {
@@ -315,7 +316,7 @@ class NewsRecordlist extends PageLayoutView
                 $lastElementNumber = $this->totalItems;
             }
             $rangeIndicator = '<span class="pageIndicator">'
-                . sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/mod1/locallang.xml:rangeIndicator'),
+                . sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:rangeIndicator'),
                     $this->firstElementNumber + 1, $lastElementNumber, $this->totalItems)
                 . '</span>';
 
@@ -371,14 +372,14 @@ class NewsRecordlist extends PageLayoutView
                 if ($fieldName == $thumbsCol) {
                     // If the column is a thumbnail column:
                     if ($this->thumbs) {
-                        $val = \TYPO3\CMS\Backend\Utility\BackendUtility::thumbCode($row, $table, $fieldName,
+                        $val = BackendUtility::thumbCode($row, $table, $fieldName,
                             $this->backPath, $this->thumbScript, null, 0, '', $thumbsize);
                     } else {
                         $val = str_replace(',', ', ', basename($row[$fieldName]));
                     }
                 } else {
                     // ... otherwise just render the output:
-                    $val = nl2br(htmlspecialchars(trim(GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,
+                    $val = nl2br(htmlspecialchars(trim(GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue($table,
                         $fieldName, $row[$fieldName], 0, 0, 0, $row['uid']), 250))));
 
                     if ($this->lTSprop['clickTitleMode'] == 'view' && $this->singlePid) {
@@ -386,7 +387,7 @@ class NewsRecordlist extends PageLayoutView
                     } elseif ($this->lTSprop['clickTitleMode'] == 'edit' && !$noEdit) {
                         $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
                         $lTitle = ' title="' . $GLOBALS['LANG']->getLL('edit', 1) . '"';
-                        $val = '<a href="#" onclick="' . htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params,
+                        $val = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
                                 $this->backPath, $this->returnUrl)) . '"' . $lTitle . '>' . $val . '</a>';
                     }
                 }
@@ -401,7 +402,7 @@ class NewsRecordlist extends PageLayoutView
                         $out[$fieldName] .= '<b>' . $GLOBALS['LANG']->sL($TCA[$table]['columns'][$fName2]['label'],
                                 1) . '</b>' .
                             '&nbsp;&nbsp;' .
-                            htmlspecialchars(GeneralUtility::fixed_lgd_cs(\TYPO3\CMS\Backend\Utility\BackendUtility::getProcessedValue($table,
+                            htmlspecialchars(GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue($table,
                                 $fName2, $row[$fName2], 0, 0, 0, $row['uid']), 25)) .
                             '<br />';
                     }
@@ -461,7 +462,7 @@ class NewsRecordlist extends PageLayoutView
         }
 
         $params = '&edit[' . $table . '][' . $this->newRecPid . ']=new' . $addP;
-        $onclick = htmlspecialchars(\TYPO3\CMS\Backend\Utility\BackendUtility::editOnClick($params, $this->backPath,
+        $onclick = htmlspecialchars(BackendUtility::editOnClick($params, $this->backPath,
             $this->returnUrl));
 
         /**
@@ -470,7 +471,7 @@ class NewsRecordlist extends PageLayoutView
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
         return '<a href="#" onclick="' . $onclick . '">' .
-            $iconFactory->getIcon('actions-document-new')->render() .
+            $iconFactory->getIcon('actions-document-new', Icon::SIZE_SMALL)->render() .
             ($withLabel ? $GLOBALS['LANG']->getLL('createArticle' . $addLbl) : '') .
             '</a>';
     }
@@ -503,7 +504,7 @@ class NewsRecordlist extends PageLayoutView
         }
 
         // The icon with link
-        return \TYPO3\CMS\Backend\Utility\BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid'], '', '',
+        return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid'], '', '',
             $disableList);
     }
 
@@ -650,7 +651,7 @@ class NewsRecordlist extends PageLayoutView
      */
     function listURL($altId = '', $table = '', $exclList = '')
     {
-        return \TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl('web_txttnewsM1') .
+        return BackendUtility::getModuleUrl('web_txttnewsM1') .
             '&id=' . (strcmp($altId, '') ? $altId : $this->id) .
             ($this->thumbs ? '&showThumbs=' . $this->thumbs : '') .
             ($this->searchString ? '&search_field=' . rawurlencode($this->searchString) : '') .
@@ -734,8 +735,8 @@ class NewsRecordlist extends PageLayoutView
             'SELECT' => $fieldList,
             'FROM' => $table . $leftjoin,
             'WHERE' => $this->pidSelect . ' AND ' . $table . '.pid > 0' .
-                \TYPO3\CMS\Backend\Utility\BackendUtility::deleteClause($table) .
-                \TYPO3\CMS\Backend\Utility\BackendUtility::versioningPlaceholderClause($table) .
+                BackendUtility::deleteClause($table) .
+                BackendUtility::versioningPlaceholderClause($table) .
                 ' ' . $addWhere .
                 ' ' . $search . $catWhere,
             'GROUPBY' => '',//$table.'.uid',
