@@ -34,7 +34,6 @@ use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -226,6 +225,10 @@ class NewsAdminModule extends BaseScriptClass
         'name' => 'web_txttnewsM1',
     ];
 
+    /**
+     * NewsAdminModule constructor.
+     * call to parent constructor ist deliberately missing to maintain compatibility with TYPO3 8.7
+     */
     public function __construct()
     {
         $GLOBALS['BACK_PATH'] = '../';
@@ -233,8 +236,8 @@ class NewsAdminModule extends BaseScriptClass
 
         $this->getLanguageService()->includeLLFile('EXT:tt_news/Classes/Module/locallang.xml');
 
-        $this->getPageRenderer()->addCssFile('EXT:tt_news/Resources/Public/Css/BackendModule.css', 'stylesheet', 'screen');
-        parent::__construct();
+        $this->getPageRenderer()->addCssFile('EXT:tt_news/Resources/Public/Css/BackendModule.css', 'stylesheet',
+            'screen');
     }
 
     /**
@@ -245,7 +248,6 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return ResponseInterface
      * @throws DBALException
-     * @throws SiteNotFoundException
      */
     public function mainAction(
         ServerRequestInterface $request,
@@ -348,7 +350,6 @@ class NewsAdminModule extends BaseScriptClass
      * uid-number of the page clicked in the page tree
      *
      * @throws DBALException
-     * @throws SiteNotFoundException
      */
     function main()
     {
@@ -393,7 +394,7 @@ class NewsAdminModule extends BaseScriptClass
             $this->doc->postCode = GeneralUtility::wrapJS('
 					script_ended = 1;
 				');
-           
+
 
             // Render content:
             $this->moduleContent();
@@ -441,7 +442,6 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return    void
      * @throws DBALException
-     * @throws SiteNotFoundException
      */
     function moduleContent()
     {
@@ -681,7 +681,6 @@ class NewsAdminModule extends BaseScriptClass
      * [Describe function...]
      *
      * @throws DBALException
-     * @throws SiteNotFoundException
      */
     function displayNewsList($ajax = false)
     {
@@ -784,13 +783,13 @@ class NewsAdminModule extends BaseScriptClass
 
     /**
      * @throws DBALException
-     * @throws SiteNotFoundException
      */
     public function ajaxLoadList($params)
     {
         $this->processAjaxRequestConstruct();
         $this->init();
         $list = $this->displayNewsList(true);
+
         return $list;
     }
 
@@ -871,7 +870,7 @@ class NewsAdminModule extends BaseScriptClass
 
     /**
      * @param NewsRecordlist $listObj
-     * @param $noCatSelMsg
+     * @param                $noCatSelMsg
      *
      * @return string
      */
