@@ -44,11 +44,12 @@ class NewsBackendAjaxController
      *
      * @param ServerRequestInterface $request
      *
+     * @param ResponseInterface      $response
+     *
      * @return ResponseInterface
      * @throws \Doctrine\DBAL\DBALException
-     * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
      */
-    public function dispatch(ServerRequestInterface $request): ResponseInterface
+    public function dispatch(ServerRequestInterface $request, ResponseInterface $response)
     {
         $parsedBody = $request->getQueryParams();
 
@@ -58,8 +59,14 @@ class NewsBackendAjaxController
             'action' => $parsedBody['action'] ?? null,
         ];
 
-        $response = new HtmlResponse('');
+        $response = $response->withHeader('Content-Type', 'text/html; charset=utf-8');
 
+        // Basic test for required value
+        if ($this->conf['pid'] <= 0) {
+            $response->getBody()->write('This script cannot be called directly');
+            $response = $response->withStatus(500);
+            return $response;
+        }
         $content = '';
 
         // Determine the scripts to execute
@@ -77,9 +84,8 @@ class NewsBackendAjaxController
     }
 
     /**
-     * @return mixed
+     * @return string
      * @throws \Doctrine\DBAL\DBALException
-     * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
      */
     private function loadList()
     {
