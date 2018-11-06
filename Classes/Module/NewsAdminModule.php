@@ -226,6 +226,17 @@ class NewsAdminModule extends BaseScriptClass
         'name' => 'web_txttnewsM1',
     ];
 
+    public function __construct()
+    {
+        $GLOBALS['BACK_PATH'] = '../';
+        $GLOBALS['SOBE'] = $this;
+
+        $this->getLanguageService()->includeLLFile('EXT:tt_news/Classes/Module/locallang.xml');
+
+        $this->getPageRenderer()->addCssFile('EXT:tt_news/Resources/Public/Css/BackendModule.css', 'stylesheet', 'screen');
+        parent::__construct();
+    }
+
     /**
      * Main module action
      *
@@ -240,10 +251,6 @@ class NewsAdminModule extends BaseScriptClass
         ServerRequestInterface $request,
         ResponseInterface $response
     ) {
-        $this->getLanguageService()->includeLLFile('EXT:tt_news/Classes/Module/locallang.xml');
-
-        $GLOBALS['BACK_PATH'] = '../';
-        $GLOBALS['SOBE'] = $this;
         $this->init();
         $this->main();
         $response->getBody()->write($this->printContent());
@@ -386,61 +393,7 @@ class NewsAdminModule extends BaseScriptClass
             $this->doc->postCode = GeneralUtility::wrapJS('
 					script_ended = 1;
 				');
-            $this->doc->inDocStylesArray['tt_news_mod1'] = '
-				#ttnewsadmin-tree {
-					float:left;
-					overflow-x: auto;
-					overflow-y: auto;
-					width: 253px;
-					border-right: 1px solid #ccc;
-				}
-				#ttnews-cat-tree { margin-bottom: 15px; }
-				#ttnewsadmin-list {  padding: 0 10px 0 263px; }
-				#togglesubcats { background:#ddd; padding: 2px; cursor: pointer; font-style:italic; }
-				#newssubcats { background:#f8f9fa; padding: 2px; border:1px solid #ddd; }
-				#resetcatselection { float:right; font-style:italic; }
-				#ttnewsadmin-search {  padding: 0; margin:0; }
-				#ttnewsadmin-search input {  margin: 0 3px; }
-
-				span.hiddencat { color:#999; }
-				span.list-cb { padding-right:15px;}
-
-				table.typo3-dblist tr td.col-icon a {
-					width: 18px;
-					display: inline;
-				}
-				table.typo3-dblist tr td    {
-					padding: 6px 10px;
-				}
-				div.ttnewsadmin-pagination {
-					padding: 5px 0;
-					white-space: nowrap;
-				}
-				div.ttnewsadmin-pagination img, div.ttnewsadmin-pagination span.pageIndicator {
-					margin-right: 6px;
-				}
-				div.ttnewsadmin-pagination img {
-					vertical-align: bottom;
-					padding-bottom: 2px;
-				}
-				#ttnewsadmin-tree .checkbox {
-				    display:inline;
-				}
-				#ttnews-cat-tree ul.tree {
-				    margin:16px 0 0 0;
-				    list-style-type: none;
-    		        padding-left: 0em;
-
-				}
-				#ttnews-cat-tree ul.tree li ul {
-				    list-style-type: none;
-                    padding-left: 17px;
-				}
-				#ttnewsadmin-tree .icon-actions-document-new {
-				    margin-right: 5px;
-				}
-
-			';
+           
 
             // Render content:
             $this->moduleContent();
@@ -845,11 +798,7 @@ class NewsAdminModule extends BaseScriptClass
      */
     function processAjaxRequestConstruct()
     {
-
         global $SOBE;
-
-        $GLOBALS['BACK_PATH'] = '../';
-        $this->getLanguageService()->includeLLFile('EXT:tt_news/Classes/Module/locallang.xml');
 
         $SOBE = GeneralUtility::makeInstance(NewsAdminModule::class);
         // Create an instance of the document template object
