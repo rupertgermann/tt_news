@@ -34,6 +34,7 @@ use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Backend\View\PageTreeView;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -678,6 +679,7 @@ class NewsAdminModule extends BaseScriptClass
      * [Describe function...]
      *
      * @throws DBALException
+     * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
      */
     function displayNewsList($ajax = false)
     {
@@ -729,6 +731,16 @@ class NewsAdminModule extends BaseScriptClass
         $dblist->searchFields = $this->TSprop['list.']['searchFields'];
 
         $dblist->start($this->id, $table, $this->pointer, $this->search_field, $this->searchLevels, $this->showLimit);
+        if ($this->searchLevels > 0) {
+            $allowedMounts = $this->getSearchableWebmounts($this->id, $this->searchLevels, $this->perms_clause);
+            $pidList = implode(',',$allowedMounts);
+            $dblist->pidSelect = 'pid IN (' . $pidList . ')';
+        } elseif ($this->searchLevels < 0) {
+            // Search everywhere
+            $dblist->pidSelect = '1=1';
+        } else {
+            $dblist->pidSelect = 'pid=' . (int)$this->id;
+        }
 
         $externalTables[$table][0]['fList'] = $this->fieldList;
         $externalTables[$table][0]['icon'] = $this->TSprop['list.']['icon'];
@@ -754,7 +766,38 @@ class NewsAdminModule extends BaseScriptClass
 
         return '<div id="ttnewslist">' . $content . '</div>';
     }
+    /**
+     * Get all allowed mount pages to be searched in.
+     *
+     * @param int $id Page id
+     * @param int $depth Depth to go down
+     * @param string $perms_clause select clause
+     * @return int[]
+     */
+    protected function getSearchableWebmounts($id, $depth, $perms_clause)
+    {
+        $backendUser = $this->getBackendUser();
+        /** @var PageTreeView $tree */
+        $tree = GeneralUtility::makeInstance(PageTreeView::class);
+        $tree->init('AND ' . $perms_clause);
+        $tree->makeHTML = 0;
+        $tree->fieldArray = ['uid', 'php_tree_stop'];
+        $idList = [];
 
+        $allowedMounts = !$backendUser->isAdmin() && $id === 0
+            ? $backendUser->returnWebmounts()
+            : [$id];
+
+        foreach ($allowedMounts as $allowedMount) {
+            $idList[] = $allowedMount;
+            if ($depth) {
+                $tree->getTree($allowedMount, $depth, '');
+            }
+            $idList = array_merge($idList, $tree->ids);
+        }
+
+        return $idList;
+    }
     /*************************************************************************
      *
      *        AJAX functions

@@ -110,7 +110,7 @@ class NewsRecordlist extends PageLayoutView
     /**
      * @var
      */
-    protected $pidSelect;
+    public $pidSelect;
     /**
      * @var
      */
@@ -708,7 +708,7 @@ class NewsRecordlist extends PageLayoutView
         if ($this->selectedCategories) {
             $mmTable = 'tt_news_cat_mm';
             $fieldList = 'DISTINCT ' . $table . '.uid, ' . $fieldList;
-            $leftjoin = ' LEFT JOIN ' . $mmTable . ' AS mm1 ON ' . $table . '.uid=mm1.uid_local';
+            $leftjoin = ' INNER JOIN ' . $mmTable . ' AS mm1 ON ' . $table . '.uid=mm1.uid_local';
         }
         $catWhere = '';
         if ($this->selectedCategories) {
