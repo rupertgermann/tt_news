@@ -458,10 +458,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         if (!$error) {
-//            $this->getPageRenderer()->addHeaderData('
-//                <script src="' . $GLOBALS['BACK_PATH'] . ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/JavaScript/compat/prototype/prototype.js" type="text/javascript"></script>
-//                <script src="' . $GLOBALS['BACK_PATH'] . ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/JavaScript/tt_news_mod1.js" type="text/javascript"></script>
-//                ');
+
 
             // fixme: throws JS errors, commented out
 //					$this->doc->getDragDropCode('tt_news_cat');
@@ -469,7 +466,7 @@ class NewsAdminModule extends BaseScriptClass
 //							txttnewsM1js.registerDragDropHandlers();
 //					');
             $this->getPageRenderer()->loadJquery();
-//            $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/Backend/ClickMenu');
+            $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/Backend/ContextMenu');
             $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/TtNews/NewsBackendModule');
 
             $this->treeContent = $this->displayCategoryTree();
@@ -768,17 +765,14 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @throws DBALException
      */
-    function ajaxExpandCollapse($params, &$ajaxObj)
+    function ajaxExpandCollapse($params)
     {
+        $this->processAjaxRequestConstruct();
         $this->init();
         $this->getTreeObj();
         $tree = $this->treeObj->getBrowsableTree();
 
-        if (!$this->treeObj->ajaxStatus) {
-            $ajaxObj->setError($tree);
-        } else {
-            $ajaxObj->addContent('tree', $tree);
-        }
+       return $tree;
     }
 
     /**
@@ -1439,11 +1433,11 @@ class NewsAdminModule extends BaseScriptClass
                 $btnID = 'togglesubcats';
                 $elID = 'newssubcats';
                 $onclick = htmlspecialchars('if
-						($(\'' . $elID . '\').is(":visible")) {
-							$(\'' . $elID . '\').hide();
-							$(\'' . $btnID . '\').html(' . GeneralUtility::quoteJSvalue($showLbl) . ');
+						($(\'#' . $elID . '\').is(\':visible\')) {
+							$(\'#' . $elID . '\').hide();
+							$(\'#' . $btnID . '\').html(' . GeneralUtility::quoteJSvalue($showLbl) . ');
 						} else {
-							$(\'' . $elID . '\').show();$(\'' . $btnID . '\').html(' . GeneralUtility::quoteJSvalue($hideLbl) . ');}');
+							$(\'#' . $elID . '\').show();$(\'' . $btnID . '\').html(' . GeneralUtility::quoteJSvalue($hideLbl) . ');}');
                 $content .= '<div id="' . $btnID . '" onclick="' . $onclick . '">' . $showLbl . '</div>';
                 $content .= '<div id="' . $elID . '" style="display:none;">' . implode(', ', $scTitles) . '</div>';
             }

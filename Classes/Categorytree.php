@@ -166,7 +166,7 @@ class Categorytree extends AbstractTreeView
                     $rootRec['uid'] = 0;
                 } else {
                     // Artificial record for the tree root, id=0
-                    $rootRec = $this->getRootRecord($uid);
+                    $rootRec = $this->getRootRecord();
                     $firstHtml .= $this->getRootIcon($rootRec);
                 }
 
@@ -544,7 +544,7 @@ class Categorytree extends AbstractTreeView
         $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, Icon::SIZE_SMALL)->render();
 
         if ($nextCount) {
-            $cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
+            $cmd = $this->bank . '_' . (!$exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
             $icon = $this->PMiconATagWrap($icon, $cmd, !$exp);
         }
 
@@ -565,10 +565,7 @@ class Categorytree extends AbstractTreeView
     function PMiconATagWrap($icon, $cmd, $isExpand = true)
     {
         if ($this->thisScript && $this->expandable) {
-            // activate dynamic ajax-based tree
-            $js = htmlspecialchars('txttnewsM1js.load(\'' . $cmd . '\', ' . intval($isExpand) . ', this, \'' . intval($this->pageID) . '\');');
-
-            return '<a class="pm" onclick="' . $js . '">' . $icon . '</a>';
+            return '<a class="pm pmiconatag" data-params="' . $cmd . '" data-isexpand="' . intval($isExpand) . '" data-pid="' . intval($this->pageID) . '">' . $icon . '</a>';
         } else {
             return $icon;
         }

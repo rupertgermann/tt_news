@@ -47,6 +47,19 @@ div.ttnewsadmin-pagination img {
 	list-style-type: none;
 	padding-left: 17px;
 }
+
+#ttnews-cat-tree ul.tree li ul li ul {
+	background: url('/typo3conf/ext/tt_news/Resources/Public/Images/Icons/ol/line.gif') repeat-y;
+}
+
+#web-txttnewsM1- .icon-size-small {
+	width:18px !important;
+}
+
 #ttnewsadmin-tree .icon-actions-document-new {
 	margin-right: 5px;
+}
+
+#web-txttnewsM1- .c-headLineTable {
+	background: #eee;
 }

@@ -218,9 +218,11 @@ class NewsRecordlist extends PageLayoutView
 
         // Wrap it all in a table:
         $out = '
-            <table border="0" cellpadding="1" cellspacing="1" class="typo3-dblist">
+<div class="table-fit">
+
+            <table border="0" class="table table-striped table-hover">
                 ' . $out . '
-            </table>';
+            </table></div>';
 
         // Record navigation is added to the beginning and end of the table if in single table mode
         if ($table) {

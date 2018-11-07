@@ -17,9 +17,12 @@ namespace RG\TtNews\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RG\TtNews\Module\NewsAdminModule;
-use TYPO3\CMS\Core\Http\HtmlResponse;
 
-
+/**
+ * Class NewsBackendAjaxController
+ *
+ * @package RG\TtNews\Controller
+ */
 class NewsBackendAjaxController
 {
     /**
@@ -56,13 +59,15 @@ class NewsBackendAjaxController
         $this->conf = [
             'category' => $parsedBody['category'] ?? null,
             'pid' => (int)$parsedBody['pid'] ?? null,
+            'id' => (int)$parsedBody['id'] ?? null,
+            'PM' => (int)$parsedBody['PM'] ?? null,
             'action' => $parsedBody['action'] ?? null,
         ];
 
         $response = $response->withHeader('Content-Type', 'text/html; charset=utf-8');
 
         // Basic test for required value
-        if ($this->conf['pid'] <= 0) {
+        if ($this->conf['action'] === null) {
             $response->getBody()->write('This script cannot be called directly');
             $response = $response->withStatus(500);
             return $response;
@@ -74,7 +79,9 @@ class NewsBackendAjaxController
             case 'loadList':
                 $content .= $this->loadList();
                 break;
-
+            case 'expandTree':
+                $content .= $this->expandTree();
+                break;
             default:
                 $content .= 'no action given';
         }
@@ -91,6 +98,17 @@ class NewsBackendAjaxController
     {
         $module = new NewsAdminModule();
         $content = $module->ajaxLoadList($this->conf);
+        return $content;
+    }
+
+    /**
+     * @return string
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    private function expandTree()
+    {
+        $module = new NewsAdminModule();
+        $content = $module->ajaxExpandCollapse($this->conf);
         return $content;
     }
 
