@@ -740,7 +740,7 @@ class NewsRecordlist extends PageLayoutView
                 BackendUtility::deleteClause($table) .
                 BackendUtility::versioningPlaceholderClause($table) .
                 ' ' . $addWhere .
-                ' ' . $search . $catWhere,
+                ' ' . ($search ? ' AND ' . $search : '') . $catWhere,
             'GROUPBY' => '',//$table.'.uid',
             'ORDERBY' => Database::getInstance()->stripOrderBy($orderBy),
             'LIMIT' => $limit
