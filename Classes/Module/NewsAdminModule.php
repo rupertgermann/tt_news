@@ -692,19 +692,19 @@ class NewsAdminModule extends BaseScriptClass
 
         $urlparams = array('id' => $this->id);
         if (GeneralUtility::_GP('category') != '') {
-            $urlparams['category'] = GeneralUtility::_GP('category');
+            $urlparams['category'] = (int)GeneralUtility::_GP('category');
         }
         if (GeneralUtility::_GP('showThumbs') != '') {
-            $urlparams['showThumbs'] = GeneralUtility::_GP('showThumbs');
+            $urlparams['showThumbs'] = (int)GeneralUtility::_GP('showThumbs');
         }
         if (GeneralUtility::_GP('searchLevels') != '') {
-            $urlparams['searchLevels'] = GeneralUtility::_GP('searchLevels');
+            $urlparams['searchLevels'] = (int)GeneralUtility::_GP('searchLevels');
         }
         if (GeneralUtility::_GP('showLimit') != '') {
-            $urlparams['showLimit'] = GeneralUtility::_GP('showLimit');
+            $urlparams['showLimit'] = (int)GeneralUtility::_GP('showLimit');
         }
         if (GeneralUtility::_GP('pointer') != '') {
-            $urlparams['pointer'] = GeneralUtility::_GP('pointer');
+            $urlparams['pointer'] = (int)GeneralUtility::_GP('pointer');
         }
 
         $dblist->backPath = $GLOBALS['BACK_PATH'];
@@ -782,6 +782,7 @@ class NewsAdminModule extends BaseScriptClass
     {
         $this->processAjaxRequestConstruct();
         $this->init();
+        $this->id = (int)$params['id'];
         $list = $this->displayNewsList(true);
 
         return $list;
@@ -943,13 +944,22 @@ class NewsAdminModule extends BaseScriptClass
 
         $params = $this->getLinkParams();
         $out = array();
+
+        $savedRoute = false;
+        if ($ajax) {
+            $savedRoute = $_GET['route'];
+            $_GET['route'] = '/web/txttnewsM1/';
+        }
         foreach ($allowedCbNames as $n) {
             if ((bool)$show['cb_' . $n]) {
                 $out[] = '<span class="list-cb">' .
                     BackendUtility::getFuncCheck($params, 'SET[' . $n . ']',
-                        $this->MOD_SETTINGS[$n], $ajax ? 'mod.php' : '', '', 'id="cb-' . $n . '"') .
+                        $this->MOD_SETTINGS[$n], '', '', 'id="cb-' . $n . '"') .
                     ' <label for="cb-' . $n . '">' . $this->getLanguageService()->getLL($n, 1) . '</label></span>';
             }
+        }
+        if ($savedRoute) {
+            $_GET['route'] = $savedRoute;
         }
 
         return '<div>' . implode('', $out) . '</div>';

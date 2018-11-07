@@ -13,7 +13,7 @@ define(['jquery'], function ($) {
             cache: false,
             data: {
                 'category': $element.data('category'),
-                'pid': $element.data('pid'),
+                'id': $element.data('pid'),
                 'action': 'loadList'
             }
         }).done(function (response) {

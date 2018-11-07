@@ -58,7 +58,6 @@ class NewsBackendAjaxController
 
         $this->conf = [
             'category' => $parsedBody['category'] ?? null,
-            'pid' => (int)$parsedBody['pid'] ?? null,
             'id' => (int)$parsedBody['id'] ?? null,
             'PM' => (int)$parsedBody['PM'] ?? null,
             'action' => $parsedBody['action'] ?? null,
