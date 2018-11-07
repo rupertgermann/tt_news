@@ -15,7 +15,10 @@
 
 span.hiddencat { color:#999; }
 span.list-cb { padding-right:15px;}
-
+span.list-cb input {
+	float: left;
+	margin-right: 5px;
+}
 table.typo3-dblist tr td.col-icon a {
 	width: 18px;
 	display: inline;
@@ -53,6 +56,9 @@ div.ttnewsadmin-pagination img {
 }
 
 #web-txttnewsM1- .icon-size-small {
+	width:18px !important;
+}
+#web-txttnewsM1 .icon-size-small {
 	width:18px !important;
 }
 
