@@ -32,6 +32,7 @@ use RG\TtNews\Plugin\TtNews;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Frontend\Utility\EidUtility;
 
 /**
  *
@@ -148,23 +149,23 @@ class Catmenu
         $idParts = GeneralUtility::trimExplode(' ', $idAndTarget, 1);
         $id = intval($idParts[0]);
 
+        EidUtility::initTCA();
         /** @var TypoScriptFrontendController $GLOBALS['TSFE'] */
         $GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class,
             $GLOBALS['TYPO3_CONF_VARS'], $id, (int)GeneralUtility::_GP('type'));
-
 
         // don't cache ajax responses
         $GLOBALS['TSFE']->no_cache = true;
         $GLOBALS['TSFE']->connectToDB();
         $GLOBALS['TSFE']->initFEuser();
         $GLOBALS['TSFE']->determineId();
+        $GLOBALS['TSFE']->initTemplate();
         $GLOBALS['TSFE']->getConfigArray();
 
         if ($L > 0) {
             $GLOBALS['TSFE']->settingLanguage();
             $GLOBALS['TSFE']->settingLocale();
         }
-
 
         $ajaxParams = array();
 
@@ -182,28 +183,6 @@ class Catmenu
         if (!$tt_newsObj->conf['dontUsePidList']) {
             $tt_newsObj->initPidList();
         }
-
-        $TCA['tt_news'] = array(
-            'ctrl' => array(
-                'enablecolumns' => array(
-                    'disabled' => 'hidden',
-                    'starttime' => 'starttime',
-                    'endtime' => 'endtime',
-                    'fe_group' => 'fe_group',
-                ),
-            )
-        );
-
-        $TCA['tt_news_cat'] = array(
-            'ctrl' => array(
-                'enablecolumns' => array(
-                    'disabled' => 'hidden',
-                    'starttime' => 'starttime',
-                    'endtime' => 'endtime',
-                    'fe_group' => 'fe_group',
-                ),
-            )
-        );
 
         $tt_newsObj->enableFields = $tt_newsObj->getEnableFields('tt_news');
         $tt_newsObj->initCategoryVars();
