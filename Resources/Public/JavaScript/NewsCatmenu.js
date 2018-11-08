@@ -1,20 +1,13 @@
-define(['jquery'], function ($) {
-
-    var ajaxUrl = TYPO3.settings.ajaxUrls['tt_news_catmenu'];
-
+(function($) {
+    var ajaxUrl = 'index.php?eID=tt_news_catmenu';
     var NewsCatmenu = {};
-
 
     NewsCatmenu.expandCollapse = function ($element) {
         var isExpand = $element.data('isexpand');
         var parent = $element.closest('li');
         var img = parent.find('a.pmiconatag img');
 
-
-        console.log([$element.data('params')]);
-
         parent.find('ul').remove();
-
         $element.data('isexpand', 1);
 
         if (!isExpand) {
@@ -37,17 +30,14 @@ define(['jquery'], function ($) {
                     'L': $element.data('l')
                 }
             }).done(function (response) {
-                $element.closest('li').html(response);
+                $element.closest('li').replaceWith(response);
             });
         }
     };
 
 
-
-
     NewsCatmenu.initializeEvents = function () {
         var tree = $('#ttnews-cat-tree');
-
         tree.on('click', '.pmiconatag', function (evt) {
             evt.preventDefault();
             NewsCatmenu.expandCollapse($(this));
@@ -55,5 +45,5 @@ define(['jquery'], function ($) {
     };
 
     $(NewsCatmenu.initializeEvents);
-});
+})(jQuery);
 

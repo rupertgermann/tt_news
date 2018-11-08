@@ -1789,9 +1789,7 @@ class TtNews extends AbstractPlugin
 
                 $catTreeObj = GeneralUtility::makeInstance(Catmenu::class);
                 if ($mode == 'ajaxtree') {
-                    $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/TtNews/NewsCatmenu');
-
-
+                    $this->getPageRenderer()->addJsFooterFile('/typo3conf/ext/tt_news/Resources/Public/JavaScript/NewsCatmenu.js');
                 }
                 $catTreeObj->init($this);
                 $catTreeObj->treeObj->FE_USER = &$this->tsfe->fe_user;

@@ -57,9 +57,6 @@ class NewsFrontendAjaxController
         $parsedBody = $request->getQueryParams();
 
         $this->conf = [
-            'category' => $parsedBody['category'] ?? null,
-            'id' => (int)$parsedBody['id'] ?? null,
-            'PM' => (int)$parsedBody['PM'] ?? null,
             'action' => $parsedBody['action'] ?? null,
         ];
 
@@ -93,7 +90,7 @@ class NewsFrontendAjaxController
     private function expandTree()
     {
         $module = new Catmenu();
-        $content = $module->ajaxExpandCollapse($this->conf);
+        $content = $module->ajaxExpandCollapse();
         return $content;
     }
 

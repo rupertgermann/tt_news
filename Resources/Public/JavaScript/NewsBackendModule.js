@@ -50,7 +50,7 @@ define(['jquery'], function ($) {
                     'action': 'expandTree'
                 }
             }).done(function (response) {
-                $element.closest('li').html(response);
+                $element.closest('li').replaceWith(response);
             });
         }
     };

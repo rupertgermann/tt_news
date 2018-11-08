@@ -187,6 +187,39 @@ class FeTreeView extends Categorytree
         return $this->wrapIcon($icon, $row);
     }
 
+    /**
+     * Generate the plus/minus icon for the browsable tree.
+     *
+     * @param    array          record for the entry
+     * @param    integer        The current entry number
+     * @param    integer        The total number of entries. If equal to $a, a "bottom" element is returned.
+     * @param    integer        The number of sub-elements to the current element.
+     * @param    boolean        The element was expanded to render subelements if this flag is set.
+     *
+     * @return    string        Image tag with the plus/minus icon.
+     */
+    function PMicon($row, $a, $c, $nextCount, $exp)
+    {
+        if ($this->expandable) {
+            $PM = $nextCount ? ($exp ? 'minus' : 'plus') : 'join';
+        } else {
+            $PM = 'join';
+        }
+
+        $BTM = ($a == $c) ? 'bottom' : '';
+        /**
+         * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
+         */
+        $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
+        $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, Icon::SIZE_SMALL)->render();
+
+        if ($nextCount) {
+            $cmd = $this->bank . '_' . (!$exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
+            $icon = $this->PMiconATagWrap($icon, $cmd, !$exp);
+        }
+
+        return $icon;
+    }
 
     /**
      * Wrap the plus/minus icon in a link

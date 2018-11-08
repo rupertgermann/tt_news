@@ -53,6 +53,9 @@ if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations
     );
 }
 
+$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['tt_news_catmenu'] = RG\TtNews\Controller\NewsFrontendAjaxController::class . '::dispatch';
+
+
 // register news cache table for "clear all caches"
 $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['tt_news_cache'] = 'tt_news_cache';
 
