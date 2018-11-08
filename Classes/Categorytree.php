@@ -38,6 +38,7 @@ namespace RG\TtNews;
  * @subpackage tt_news
  */
 
+use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Tree\View\AbstractTreeView;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -51,20 +52,59 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Categorytree extends AbstractTreeView
 {
 
-    var $categoryCountCache = array();
-    var $cacheHit = false;
+    /**
+     * @var array
+     */
+    public $categoryCountCache = array();
+    /**
+     * @var bool
+     */
+    public $cacheHit = false;
 
-    var $expandable;
-    protected $tt_news_obj;
-    protected $newsSelConf;
+    /**
+     * @var
+     */
+    public $expandable;
+    /**
+     * @var TtNews
+     */
+    public $tt_news_obj;
+    /**
+     * @var
+     */
+    public $newsSelConf;
+    /**
+     * @var
+     */
     public $category;
+    /**
+     * @var
+     */
     public $storagePid;
+    /**
+     * @var
+     */
     public $useStoragePid;
+    /**
+     * @var
+     */
     public $getCatNewsCount;
+    /**
+     * @var
+     */
     public $useAjax;
+    /**
+     * @var
+     */
     public $titleLen;
+    /**
+     * @var
+     */
     public $pageID;
 
+    /**
+     * @return string
+     */
     protected function handleCache()
     {
         $storeKey = '';
@@ -105,9 +145,10 @@ class Categorytree extends AbstractTreeView
      * Will create and return the HTML code for a browsable tree
      * Is based on the mounts found in the internal array ->MOUNTS (set in the constructor)
      *
-     * @param    [type]        $groupByPages: ...
+     * @param bool $groupByPages
      *
      * @return    string        HTML code for the browsable tree
+     * @throws \Doctrine\DBAL\DBALException
      */
     function getBrowsableTree($groupByPages = false)
     {
@@ -272,12 +313,14 @@ class Categorytree extends AbstractTreeView
     /**
      * Fetches the data for the tree
      *
-     * @param    integer        item id for which to select subitems (parent id)
-     * @param    integer        Max depth (recursivity limit)
-     * @param    string         ? (internal)
-     * @param    [type]        $subCSSclass: ...
+     *
+     * @param        $uid
+     * @param int    $depth
+     * @param string $blankLineCode
+     * @param string $subCSSclass
      *
      * @return    integer        The count of items on the level
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '', $subCSSclass = '')
     {
@@ -364,6 +407,15 @@ class Categorytree extends AbstractTreeView
         return $c;
     }
 
+
+    /**
+     * @param $itemHTML
+     * @param $v
+     * @param $classAttr
+     * @param $uid
+     * @param $idAttr
+     * @param $titleLen
+     */
     protected function addItem(&$itemHTML, $v, $classAttr, $uid, $idAttr, $titleLen)
     {
         // add CSS classes to the list item
@@ -386,6 +438,15 @@ class Categorytree extends AbstractTreeView
         }
     }
 
+    /**
+     * @param $itemHTML
+     * @param $v
+     * @param $doCollapse
+     * @param $doExpand
+     * @param $expandedPageUid
+     * @param $uid
+     * @param $closeDepth
+     */
     protected function closeTree(&$itemHTML, $v, $doCollapse, $doExpand, $expandedPageUid, $uid, &$closeDepth)
     {
         // if this is the last one and does not have subitems, we need to close
@@ -398,6 +459,14 @@ class Categorytree extends AbstractTreeView
         }
     }
 
+    /**
+     * @param $doExpand
+     * @param $expandedPageUid
+     * @param $collapsedPageUid
+     * @param $doCollapse
+     * @param $ajaxOutput
+     * @param $invertedDepthOfAjaxRequestedItem
+     */
     protected function evaluateAJAXRequest(
         &$doExpand,
         &$expandedPageUid,
@@ -431,7 +500,7 @@ class Categorytree extends AbstractTreeView
     /**
      * Compiles the HTML code for displaying the structure found inside the ->tree array
      *
-     * @param    array "tree-array" - if blank string, the internal ->tree array is used.
+     * @param string $treeArr
      *
      * @return    string        The HTML code for the tree
      */
@@ -525,8 +594,6 @@ class Categorytree extends AbstractTreeView
      * @param    boolean        The element was expanded to render subelements if this flag is set.
      *
      * @return    string        Image tag with the plus/minus icon.
-     * @access private
-     * @see    t3lib_pageTree::PMicon()
      */
     function PMicon($row, $a, $c, $nextCount, $exp)
     {
@@ -555,9 +622,9 @@ class Categorytree extends AbstractTreeView
     /**
      * Wrap the plus/minus icon in a link
      *
-     * @param    string        HTML string to wrap, probably an image tag.
-     * @param    string        Command for 'PM' get var
-     * @param    [type]        $isExpand: ...
+     * @param      $icon
+     * @param      $cmd
+     * @param bool $isExpand
      *
      * @return    string        Link-wrapped input string
      * @access   private

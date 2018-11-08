@@ -1070,8 +1070,7 @@ class NewsAdminModule extends BaseScriptClass
                 ));
 
                 $buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '">' .
-                    '<img' . IconFactory::skinImg('list.gif',
-                        'width="11" height="11"') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showList') . '" alt="" />' .
+                    '<img' . IconFactory::skinImg('list.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showList') . '" alt="" />' .
                     '</a>';
             }
 

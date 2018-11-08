@@ -9,22 +9,47 @@
 namespace RG\TtNews;
 
 
+use RG\TtNews\Utility\IconFactory;
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+
 /**
- * [Describe function...]
+ * Class FeTreeView
  *
+ * @package RG\TtNews
  */
 class FeTreeView extends Categorytree
 {
 
-    var $TCEforms_itemFormElName = '';
-    var $TCEforms_nonSelectableItemsArray = array();
+    /**
+     * @var string
+     */
+    public $TCEforms_itemFormElName = '';
+    /**
+     * @var array
+     */
+    public $TCEforms_nonSelectableItemsArray = array();
+    /**
+     * @var
+     */
+    public $backPath;
+    /**
+     * @var FrontendUserAuthentication
+     */
+    public $FE_USER;
+    /**
+     * @var
+     */
+    public $cObjUid;
 
     /**
      * wraps the record titles in the tree with links or not depending on if they are in the
      * TCEforms_nonSelectableItemsArray.
      *
      * @param    string $title : the title
-     * @param    array  $v     : an array with uid and title of the current item.
+     * @param           $row
+     * @param int       $bank
      *
      * @return    string        the wrapped title
      */
@@ -47,21 +72,15 @@ class FeTreeView extends Categorytree
                 $catSelLinkParams);
         }
 
-        /**
-         * TODO: 27.11.2009
-         *
-         * this is a "hack" to prevent dropping the "L" parameter during ajax expand/collapse actions
-         * --> find out why TSFE->linkVars is empty
-         */
 
-        $L = intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L'));
+        $L = intval(GeneralUtility::_GP('L'));
         if ($L > 0 && !$GLOBALS['TSFE']->linkVars) {
             $GLOBALS['TSFE']->linkVars = '&L=' . $L;
         }
 
         if ($GLOBALS['TSFE']->sys_language_content && $row['uid']) {
             // get translations of category titles
-            $catTitleArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('|', $row['title_lang_ol']);
+            $catTitleArr = GeneralUtility::trimExplode('|', $row['title_lang_ol']);
             $syslang = $GLOBALS['TSFE']->sys_language_content - 1;
             $title = $catTitleArr[$syslang] ? $catTitleArr[$syslang] : $title;
         }
@@ -104,9 +123,10 @@ class FeTreeView extends Categorytree
     function getRootIcon($rec)
     {
         $lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
+        $icon = '';
 
         if ($lConf['catmenuNoRootIcon']) {
-            return;
+            return '';
         }
 
         if ($lConf['catmenuRootIconFile']) {
@@ -115,16 +135,20 @@ class FeTreeView extends Categorytree
             $icon = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMAGE', $iconConf['image.']);
         }
 
-        return $icon ? $icon : $this->wrapIcon('<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg($this->backPath,
-                'gfx/i/_icon_website.gif', 'width="18" height="16"') . ' alt="" />', $rec);
+        if (!$icon) {
+            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+
+            return $this->wrapIcon($iconFactory->getIcon('apps-pagetree-root', Icon::SIZE_SMALL)->render(), $rec);
+        }
+
+        return $icon;
     }
 
 
     /**
      * Get icon for the row.
-     * If $this->iconPath and $this->iconName is set, try to get icon based on those values.
      *
-     * @param    array        Item row.
+     * @param    array $row Item row.
      *
      * @return    string        Image tag.
      */
@@ -134,37 +158,30 @@ class FeTreeView extends Categorytree
         $catIconMode = intval($lConf['catmenuIconMode']);
         $icon = '';
 
-        if ($this->iconPath && $this->iconName) {
-            $icon = '<img' . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg('', $this->iconPath . $this->iconName,
-                    'width="18" height="16"') . ' alt="" />';
-        } else {
-            switch ($catIconMode) {
-                // icon from cat db-record
-                case 1:
-                    if ($row['image']) {
-                        $iconConf['image.']['file'] = 'uploads/pics/' . $row['image'];
-                    }
-                    break;
-                // own icons
-                case 2:
-                    $iconConf['image.']['file'] = $lConf['catmenuIconPath'] . $lConf['catmenuIconFile'];
-                    break;
-                // no icons (-1, nothing)
-                default:
-                    $iconConf['image.']['file'] = '';
-                    break;
-            }
+        switch ($catIconMode) {
+            // icon from cat db-record
+            case 1:
+                if ($row['image']) {
+                    $iconConf['image.']['file'] = 'uploads/pics/' . $row['image'];
+                }
+                break;
+            // own icons
+            case 2:
+                $iconConf['image.']['file'] = $lConf['catmenuIconPath'] . $lConf['catmenuIconFile'];
+                break;
+            // no icons (-1, nothing)
+            default:
+                $iconConf['image.']['file'] = '';
+                break;
+        }
 
-            if ($iconConf['image.']['file']) {
-                $iconConf['image.']['file.'] = $lConf['catmenuIconFile.'];
-                $icon = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMAGE', $iconConf['image.']);
-            }
+        if ($iconConf['image.']['file']) {
+            $iconConf['image.']['file.'] = $lConf['catmenuIconFile.'];
+            $icon = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMAGE', $iconConf['image.']);
         }
 
         if (!$icon && !$catIconMode) {
-            $icon = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord($this->table, $row, array(
-                'class' => 'c-recIcon'
-            ));
+            $icon = '<img' . IconFactory::skinImg('tt_news_cat.gif', 'width="18" height="16"') . ' alt="" />';;
         }
 
         return $this->wrapIcon($icon, $row);
@@ -174,12 +191,11 @@ class FeTreeView extends Categorytree
     /**
      * Wrap the plus/minus icon in a link
      *
-     * @param    string        HTML string to wrap, probably an image tag.
-     * @param    string        Command for 'PM' get var
-     * @param    [type]        $isExpand: ...
+     * @param      $icon
+     * @param      $cmd
+     * @param bool $isExpand
      *
      * @return    string        Link-wrapped input string
-     * @access   private
      */
     function PMiconATagWrap($icon, $cmd, $isExpand = true)
     {
@@ -191,11 +207,13 @@ class FeTreeView extends Categorytree
                 $catSelLinkParams = $GLOBALS['TSFE']->id;
             }
             if ($this->useAjax) {
-                // activate dynamic ajax-based tree
-                $js = htmlspecialchars('categoryTree.load(\'' . $cmd . '\', ' . intval($isExpand) . ', this, \'' .
-                    rawurlencode($catSelLinkParams) . '\', ' . $this->cObjUid . ', ' . intval(\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('L')) . ')');
 
-                return '<a class="pm" onclick="' . $js . '">' . $icon . '</a>';
+                $icon = '<a class="pm pmiconatag" 
+                        data-params="' . $cmd . '" 
+                        data-isexpand="' . intval($isExpand) . '" 
+                        data-pid="' . rawurlencode($catSelLinkParams) . '" 
+                        data-cobjuid="' . $this->cObjUid . '" 
+                        data-L="' . intval(GeneralUtility::_GP('L')) . '">' . $icon . '</a>';
             } else {
                 $anchor = '';
                 $name = '';
@@ -203,18 +221,16 @@ class FeTreeView extends Categorytree
                 $aUrl = $this->tt_news_obj->pi_linkTP_keepPIvars_url(array(), $this->tt_news_obj->allowCaching, 0,
                         $catSelLinkParams) . '&PM=' . $cmd . $anchor;
 
-                return '<a class="pm" href="' . htmlspecialchars($aUrl) . '"' . $name . '>' . $icon . '</a>';
+                $icon = '<a class="pm" href="' . htmlspecialchars($aUrl) . '" ' . $name . '>' . $icon . '</a>';
             }
 
-        } else {
-            return $icon;
         }
+
+        return $icon;
     }
 
     /**
-     * [Describe function...]
      *
-     * @return    [type]        ...
      */
     function initializePositionSaving()
     {
@@ -233,7 +249,7 @@ class FeTreeView extends Categorytree
         // PM action
         // (If an plus/minus icon has been clicked, the PM GET var is sent and we must update the stored positions in the tree):
         // 0: mount key, 1: set/clear boolean, 2: item ID (cannot contain "_"), 3: treeName
-        $PM = explode('_', \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('PM'));
+        $PM = explode('_', GeneralUtility::_GP('PM'));
 
         if (count($PM) == 4 && $PM[3] == $this->treeName && isset($this->MOUNTS[$PM[0]])) {
             if ($PM[1]) {
@@ -266,15 +282,13 @@ class FeTreeView extends Categorytree
     }
 
     /**
-     * [Describe function...]
+     * @param array $row
+     * @param int   $titleLen
      *
-     * @param     [type]        $row: ...
-     * @param     [type]        $titleLen: ...
-     *
-     * @return    [type]        ...
+     * @return string
      */
     function getTitleStr($row, $titleLen = 30)
     {
-        return htmlspecialchars(\TYPO3\CMS\Core\Utility\GeneralUtility::fixed_lgd_cs($row['title'], $titleLen));
+        return htmlspecialchars(GeneralUtility::fixed_lgd_cs($row['title'], $titleLen));
     }
 }

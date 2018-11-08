@@ -5,7 +5,7 @@ namespace RG\TtNews;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2009 Rupert Germann <rupi@gmx.li>
+ *  (c) 2005-2018 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,32 +27,40 @@ namespace RG\TtNews;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use RG\TtNews\Plugin\TtNews;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
- * class.tx_ttnews_catmenu.php
  *
- * renders the tt_news CATMENU content element - inspired by class.webpagetree.php which renders the pagetree in the
- * TYPO3 BackEnd
- *
- * $Id$
+ * renders the tt_news CATMENU content element
  *
  * @author Rupert Germann <rupi@gmx.li>
  */
-
-require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'lib/class.tx_ttnews_categorytree.php');
-
 class Catmenu
 {
-    var $titleLen = 60;
-    var $treeObj;
-    var $mode = false;
+    /**
+     * @var int
+     */
+    public $titleLen = 60;
+    /**
+     * @var FeTreeView
+     */
+    public $treeObj;
+    /**
+     * @var bool
+     */
+    public $mode = false;
 
     /**
-     * @param tx_ttnews $pObj
+     * @param TtNews $pObj
+     *
+     * @throws \Doctrine\DBAL\DBALException
      */
     function init(&$pObj)
     {
         $lConf = $pObj->conf['displayCatMenu.'];
-        $this->treeObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttnews_FEtreeview');
+        $this->treeObj = GeneralUtility::makeInstance(FeTreeView::class);
         $this->treeObj->tt_news_obj = &$pObj;
         $this->treeObj->category = $pObj->piVars_catSelection;
         $this->treeObj->table = 'tt_news_cat';
@@ -111,23 +119,18 @@ class Catmenu
     }
 
     /**
-     * [Describe function...]
+     * @param $params
      *
-     * @param     [type]        $$params: ...
-     * @param     [type]        $ajaxObj: ...
-     *
-     * @return    [type]        ...
+     * @return string
+     * @throws \Doctrine\DBAL\DBALException
      */
-    function ajaxExpandCollapse(&$params, &$ajaxObj)
+    function ajaxExpandCollapse(&$params)
     {
 
         $this->init($params['tt_newsObj']);
         $this->treeObj->FE_USER = &$params['feUserObj'];
         $tree = $this->treeObj->getBrowsableTree();
-        if (!$this->treeObj->ajaxStatus) {
-            $ajaxObj->setError($tree);
-        } else {
-            $ajaxObj->addContent('tree', $tree);
-        }
+
+        return $tree;
     }
 }

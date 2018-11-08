@@ -29,11 +29,13 @@ namespace RG\TtNews\Plugin;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use RG\TtNews\Catmenu;
 use RG\TtNews\Database;
 use RG\TtNews\Div;
 use RG\TtNews\Helpers;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
@@ -315,6 +317,10 @@ class TtNews extends AbstractPlugin
      * @var MarkerBasedTemplateService
      */
     protected $markerBasedTemplateService;
+    /**
+     * @var PageRenderer
+     */
+    protected $pageRenderer;
 
     /**
      * disables internal rendering. If set to true an external renderer like Fluid can be used
@@ -1781,13 +1787,10 @@ class TtNews extends AbstractPlugin
             case 'tree' :
             case 'ajaxtree' :
 
-                $catTreeObj = GeneralUtility::makeInstance('tx_ttnews_catmenu');
+                $catTreeObj = GeneralUtility::makeInstance(Catmenu::class);
                 if ($mode == 'ajaxtree') {
-                    // todo use pagerenderer
-                    $this->tsfe->additionalHeaderData['tt_news_categorytree'] = '
-						' . ($lConf['includePrototypeJS'] ? '<script type="text/javascript" src="' . ExtensionManagementUtility::extPath('tt_news') . 'Resources/Public/JavaScript/compat/prototype/prototype.js"></script>' : '') . '
-						<script type="text/javascript" src="' . ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/JavaScript/tt_news_catmenu.js"></script>
-					';
+                    $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/TtNews/NewsCatmenu');
+
 
                 }
                 $catTreeObj->init($this);
@@ -1813,7 +1816,17 @@ class TtNews extends AbstractPlugin
         return $this->local_cObj->stdWrap($content, $lConf['catmenu_stdWrap.']);
     }
 
+    /**
+     * @return PageRenderer
+     */
+    protected function getPageRenderer()
+    {
+        if ($this->pageRenderer === null) {
+            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        }
 
+        return $this->pageRenderer;
+    }
 
     /**********************************************************************************************
      *

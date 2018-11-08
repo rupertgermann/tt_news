@@ -55,17 +55,27 @@ div.ttnewsadmin-pagination img {
 	background: url('/typo3conf/ext/tt_news/Resources/Public/Images/Icons/ol/line.gif') repeat-y;
 }
 
-#web-txttnewsM1- .icon-size-small {
-	width:18px !important;
-}
+#web-txttnewsM1- .icon-size-small ,
 #web-txttnewsM1 .icon-size-small {
 	width:18px !important;
 }
-
+#web-txttnewsM1- .typo3-docheader-functions a img,
+#web-txttnewsM1 .typo3-docheader-functions a img {
+	padding-right: 5px;
+}
 #ttnewsadmin-tree .icon-actions-document-new {
 	margin-right: 5px;
 }
 
 #web-txttnewsM1- .c-headLineTable {
 	background: #eee;
+}
+#web-txttnewsM1- div#typo3-docbody {
+	top:20px;
+}
+#web-txttnewsM1- div#typo3-inner-docbody {
+	padding: 15px;
+}
+.typo3-docheader-pagePath {
+	padding-bottom: 5px;
 }
