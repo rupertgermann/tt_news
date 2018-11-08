@@ -38,7 +38,7 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup('
 if (TYPO3_MODE === 'BE') {
     // Apply PageTSconfig
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tt_news/Configuration/PageTS/modWizards.ts">'
+        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tt_news/Configuration/PageTS/PageTs.ts">'
     );
 
 // Page module hook
