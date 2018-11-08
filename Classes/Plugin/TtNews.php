@@ -516,7 +516,7 @@ class TtNews extends AbstractPlugin
     {
         $this->db = Database::getInstance();
         $this->tsfe = $GLOBALS['TSFE'];
-        $this->pi_loadLL(); // Loading language-labels
+        $this->pi_loadLL('EXT:tt_news/Resources/Private/Language/Plugin/locallang_pi.xlf'); // Loading language-labels
         $this->pi_setPiVarDefaults(); // Set default piVars from TS
 
         $this->SIM_ACCESS_TIME = $GLOBALS['SIM_ACCESS_TIME'];
