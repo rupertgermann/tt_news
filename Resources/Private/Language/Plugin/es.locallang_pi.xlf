@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="es" datatype="plaintext" original="messages" date="2016-05-06T08:23:47Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id="latestHeader">
+				<source>Breaking News:</source>
+				<target>Últimas noticias:</target>
+			</trans-unit>
+			<trans-unit id="textCatLatest">
+				<source>Cat:</source>
+				<target>Cat:</target>
+			</trans-unit>
+			<trans-unit id="textCat">
+				<source>Category:</source>
+				<target>Categoría:</target>
+			</trans-unit>
+			<trans-unit id="textNewsAge">
+				<source>Age:</source>
+				<target>Antiguedad:</target>
+			</trans-unit>
+			<trans-unit id="more">
+				<source>[more]</source>
+				<target>[Leer más]</target>
+			</trans-unit>
+			<trans-unit id="preAuthor">
+				<source>By:</source>
+				<target>Por:</target>
+			</trans-unit>
+			<trans-unit id="backToList">
+				<source><![CDATA[<- Back to: %s]]></source>
+				<target><![CDATA[<- Atrás, a la lista de noticias]]></target>
+			</trans-unit>
+			<trans-unit id="goToArchive">
+				<source>go to Archive -></source>
+				<target>ir al Archivo -></target>
+			</trans-unit>
+			<trans-unit id="archiveHeader">
+				<source>ARCHIVE:</source>
+				<target>ARCHIVO:</target>
+			</trans-unit>
+			<trans-unit id="archiveItems">
+				<source>items</source>
+				<target>items</target>
+			</trans-unit>
+			<trans-unit id="archiveEmptyMsg">
+				<source>Sorry, Archive contains no items</source>
+				<target>Lo sentimos, Archivo no contiene items</target>
+			</trans-unit>
+			<trans-unit id="noResultsMsg">
+				<source>nothing found</source>
+				<target>no se ha encontrado nada</target>
+			</trans-unit>
+			<trans-unit id="searchEmptyMsg">
+				<source>Please enter a searchword.</source>
+				<target>Nada encontrado</target>
+			</trans-unit>
+			<trans-unit id="noNewsToListMsg">
+				<source>no news in this list.</source>
+				<target>No existen noticias en esta lista.</target>
+			</trans-unit>
+			<trans-unit id="textRelated">
+				<source>Related News:</source>
+				<target>Noticias relacionadas:</target>
+			</trans-unit>
+			<trans-unit id="textLinks">
+				<source>Links:</source>
+				<target>Enlaces:</target>
+			</trans-unit>
+			<trans-unit id="textFiles">
+				<source>Files:</source>
+				<target>Ficheros:</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_prev">
+				<source><![CDATA[< Previous]]></source>
+				<target><![CDATA[< Anterior]]></target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_page">
+				<source>Page</source>
+				<target>Página</target>
+			</trans-unit>
+			<trans-unit id="pi_list_browseresults_next">
+				<source>Next ></source>
+				<target>Siguiente ></target>
+			</trans-unit>
+			<trans-unit id="noNewsIdMsg">
+				<source>no news_id given</source>
+				<target>No hay news_id</target>
+			</trans-unit>
+			<trans-unit id="searchButtonLabel">
+				<source>Search</source>
+				<target>Buscar</target>
+			</trans-unit>
+			<trans-unit id="altTextCatSelector">
+				<source>Display only category:</source>
+				<target>Mostrar sólo categoría:</target>
+			</trans-unit>
+			<trans-unit id="altTextCatShortcut">
+				<source>Go to:</source>
+				<target>Ir a:</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

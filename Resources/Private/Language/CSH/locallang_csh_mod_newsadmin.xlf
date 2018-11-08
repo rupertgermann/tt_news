@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-06T08:56:05Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id=".alttitle">
+				<source>Web > News admin module</source>
+			</trans-unit>
+			<trans-unit id="list_module.alttitle">
+				<source>News admin module</source>
+			</trans-unit>
+			<trans-unit id="list_module.description">
+				<source>Provides a news list-module and the tt_news category manager</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

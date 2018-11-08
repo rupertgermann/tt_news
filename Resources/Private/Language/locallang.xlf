@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-04T09:10:21Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id="cms_layout.mode">
+				<source>Displaying: %s</source>
+			</trans-unit>
+			<trans-unit id="cms_layout.not_configured">
+				<source>Plugin is not configured!</source>
+			</trans-unit>
+			<trans-unit id="updater.back">
+				<source><![CDATA[[[<- back]]]></source>
+			</trans-unit>
+			<trans-unit id="updater.reload">
+				<source>[reload this page]</source>
+			</trans-unit>
+			<trans-unit id="updater.lbl_searchOutdatedTempl">
+				<source>Search for outdated static TS templates</source>
+			</trans-unit>
+			<trans-unit id="updater.msg_searchOutdatedTempl">
+				<source>Search for TypoScript templates which include one of the tt_news static templates (e.g. "CSS based tmpl") but with an outdated path:</source>
+			</trans-unit>
+			<trans-unit id="updater.foundMsg_searchOutdatedTempl">
+				<source>Found ###COUNT### template records.</source>
+			</trans-unit>
+			<trans-unit id="updater.question_searchOutdatedTempl">
+				<source>Should the updater update these records?</source>
+			</trans-unit>
+			<trans-unit id="updater.questionInfo_searchOutdatedTempl">
+				<source>(If you click "DO IT" the updater script will update these template records with a fixed path)</source>
+			</trans-unit>
+			<trans-unit id="updater.lbl_searchNonExistingHtml">
+				<source>Search for non existing HTML templates</source>
+			</trans-unit>
+			<trans-unit id="updater.msg_searchNonExistingHtml">
+				<source>Search for tt_news content elements with a configured HTML template in flexforms which doesn't exist in your filesystem:</source>
+			</trans-unit>
+			<trans-unit id="updater.foundMsg_searchNonExistingHtml">
+				<source>Found ###COUNT### content elements.</source>
+			</trans-unit>
+			<trans-unit id="updater.question_searchNonExistingHtml">
+				<source>Should the updater clean this settings?</source>
+			</trans-unit>
+			<trans-unit id="updater.questionInfo_searchNonExistingHtml">
+				<source>(If you click "DO IT" the updater script will search all tt_news plugin content-elements for configured template files. If there are template files configured which do not exist under the configured path (e.g. "EXT:tt_news/Resources/Private/Templates/Plugins/tt_news_v2_template.html") the updater will clean this settings. Then tt_news uses the default template which is configured in typoScript.)</source>
+			</trans-unit>
+			<trans-unit id="updater.lbl_searchMovedPidlist">
+				<source>Search "Startingpoint" ("pages") in FF</source>
+			</trans-unit>
+			<trans-unit id="updater.msg_searchMovedPidlist">
+				<source>Search for tt_news content elements with a value for "Startingpoint" in flexforms (This field was moved to another sheet):</source>
+			</trans-unit>
+			<trans-unit id="updater.foundMsg_searchMovedPidlist">
+				<source>Found ###COUNT### content elements.</source>
+			</trans-unit>
+			<trans-unit id="updater.question_searchMovedPidlist">
+				<source>Should the updater fix this settings?</source>
+			</trans-unit>
+			<trans-unit id="updater.questionInfo_searchMovedPidlist">
+				<source>(If you click "DO IT" the entry will be moved to the new flexform sheet)</source>
+			</trans-unit>
+			<trans-unit id="updater.lbl_searchMovedRecursive">
+				<source>Search "recursive" in FF</source>
+			</trans-unit>
+			<trans-unit id="updater.msg_searchMovedRecursive">
+				<source>Search for tt_news content elements with a value for "recursive" in flexforms (This field was moved to another sheet):</source>
+			</trans-unit>
+			<trans-unit id="updater.foundMsg_searchMovedRecursive">
+				<source>Found ###COUNT### content elements.</source>
+			</trans-unit>
+			<trans-unit id="updater.question_searchMovedRecursive">
+				<source>Should the updater fix this settings?</source>
+			</trans-unit>
+			<trans-unit id="updater.questionInfo_searchMovedRecursive">
+				<source>(If you click "DO IT" the entry will be moved to the new flexform sheet)</source>
+			</trans-unit>
+			<trans-unit id="updater.lbl_searchMovedNoPageBrowser">
+				<source>Search "no page Browser" in FF</source>
+			</trans-unit>
+			<trans-unit id="updater.msg_searchMovedNoPageBrowser">
+				<source>Search for tt_news content elements with a value for "noPageBrowser" in flexforms (This field was moved to another sheet):</source>
+			</trans-unit>
+			<trans-unit id="updater.foundMsg_searchMovedNoPageBrowser">
+				<source>Found ###COUNT### content elements.</source>
+			</trans-unit>
+			<trans-unit id="updater.question_searchMovedNoPageBrowser">
+				<source>Should the updater fix this settings?</source>
+			</trans-unit>
+			<trans-unit id="updater.questionInfo_searchMovedNoPageBrowser">
+				<source>(If you click "DO IT" the entry will be moved to the new flexform sheet)</source>
+			</trans-unit>
+			<trans-unit id="updater.lbl_searchMovedListLimit">
+				<source>Search "listLimit" in FF</source>
+			</trans-unit>
+			<trans-unit id="updater.msg_searchMovedListLimit">
+				<source>Search for tt_news content elements with a value for "listLimit" in flexforms (This field was moved to another sheet):</source>
+			</trans-unit>
+			<trans-unit id="updater.foundMsg_searchMovedListLimit">
+				<source>Found ###COUNT### content elements.</source>
+			</trans-unit>
+			<trans-unit id="updater.question_searchMovedListLimit">
+				<source>Should the updater fix this settings?</source>
+			</trans-unit>
+			<trans-unit id="updater.questionInfo_searchMovedListLimit">
+				<source>(If you click "DO IT" the entry will be moved to the new flexform sheet)</source>
+			</trans-unit>
+			<trans-unit id="updater.warningHeader">
+				<source>Important! Please Read!</source>
+			</trans-unit>
+			<trans-unit id="updater.nothingtodo">
+				<source>Nothing to do</source>
+			</trans-unit>
+			<trans-unit id="updater.actions">
+				<source>Actions:</source>
+			</trans-unit>
+			<trans-unit id="updater.updateresults">
+				<source>Update results:</source>
+			</trans-unit>
+			<trans-unit id="updater.warningMsg">
+				<source><![CDATA[The updater manipulates your database and due to the huge amount of configuration variants it is
+				possible that it <br>might not produce the expected results.<br>
+				So backup your database (at least the tables sys_template and tt_content) or do a t3d export of your site
+				<strong>BEFORE</strong> <br>
+				you click on any of the "DO_IT" Buttons.]]></source>
+			</trans-unit>
+			<trans-unit id="extmng.useStoragePid">
+				<source>Use "General record storage page": This option configures the handling of news categories in BackEnd forms and on the website (for the CATMENU content element the GRSP can be overridden by "displayCatMenu.catPidList"). By default categories will be displayed only if they are found in the "General record storage page" (AKA "GRSP" or "storagePid"). If you set "useStoragePid" to "0", all categories from the pagetree will be displayed. If "useStoragePid" is set to "1" and there are no tt_news categories in the "GRSP" you won't see any categories in BackEnd forms or on the website. See tt_news manual for more information.</source>
+			</trans-unit>
+			<trans-unit id="extmng.requireCategories">
+				<source>Require categories: Check if categories are required for every news item. Note that you can require categories also through page TSConfig using "TCEFORM.tt_news.category.config.minitems=1"</source>
+			</trans-unit>
+			<trans-unit id="extmng.writeParseTimesToDevlog">
+				<source>Debug parsetimes: Write parsetimes to devlog (extension "devlog" required).</source>
+			</trans-unit>
+			<trans-unit id="extmng.parsetimeThreshold">
+				<source>Parsetime threshold: Execution time in seconds after which a function is logged to devlog. Default
+			is 0.1 sec = 100ms. Means any function in tt_news which needs more time to be executed will be logged. The execution time indicates the
+			severity of the log entry: 0-0.2 sec = 0 (info), 0.2-0.5 sec = 1 (notice), 0.5-1 sec = 2 (warning) and everything above 1 second get severerity
+			3 = error.</source>
+			</trans-unit>
+
+			<trans-unit id="extmng.writeCachingInfoToDevlog">
+				<source>Debug caching info: Which information about internal caching should be written to devlog
+				 (extension "devlog" required)."disabled": don't write any information about caching to devlog. "cache misses": log only cache misses.
+				 "all": log cache misses and cache hits to devlog.</source>
+			</trans-unit>
+
+			<trans-unit id="extmng.showBackEndModule">
+				<source>Show BackEnd Module: Show or hide the "News Admin" backEnd Module.</source>
+			</trans-unit>
+			<trans-unit id="extmng.prependAtCopy">
+				<source>Prepend at Copy: Here you can disable adding of the text "(copy [#])" to titles of copied records.</source>
+			</trans-unit>
+			<trans-unit id="extmng.label">
+				<source>News Label in List-Module: Defines which field is displayed in the title column in the web/list module.</source>
+			</trans-unit>
+			<trans-unit id="extmng.label_alt">
+				<source>Alternative Label: Defines which field is displayed in the title column in lists if the field is empty, that is configured as label. If no alternative label is defined and the label field is empty the text [No title] will be shown.</source>
+			</trans-unit>
+			<trans-unit id="extmng.label_alt2">
+				<source>Alternative Label 2: see "Alternative label."</source>
+			</trans-unit>
+			<trans-unit id="extmng.label_alt_force">
+				<source>Force alternative label: If this is activated the alternative label will be always shown behind the label.</source>
+			</trans-unit>
+			<trans-unit id="extmng.l10n_mode_prefixLangTitle">
+				<source>Localization mode for text fields: By default, all text fields (text, subheader, imagecaption ...) from a new localized news article will be prepended with "[translate to ...]". If this is not wanted you can disable it here. If "l10n_mode_prefixLangTitle" is disabled the text "(copy [#])" will be added to the titles of this records unless "prependAtCopy" is disabled (see "prependAtCopy").</source>
+			</trans-unit>
+			<trans-unit id="extmng.l10n_mode_imageExclude">
+				<source>Localization mode for images: The image field of a localized news article is excluded by default (images are alwas taken from the record in the default language). If you need localized images (f.e. if the images show texts) you can enable the "image" field in translated news by setting "l10n_mode_imageExclude" to 0.</source>
+			</trans-unit>
+			<trans-unit id="extmng.hideNewLocalizations">
+				<source>Hide new localizations: Here you choose if new localizations of news articles should be hidden or not. By default new localizations are visible. If this is not wanted set "hideNewLocalizations" to 1.</source>
+			</trans-unit>
+			<trans-unit id="extmng.updatermsg">
+				<source>tt_news 3.0.0 comes with a new updater-script which can fix some of the most common problems when you're updating an existing tt_news 2.x installation.</source>
+			</trans-unit>
+			<trans-unit id="extmng.updatermsgHeader">
+				<source>Important!</source>
+			</trans-unit>
+			<trans-unit id="extmng.updatermsgLink">
+				<source>[Click here to open the updater]</source>
+			</trans-unit>
+			<trans-unit id="extmng.updatermsgOption">
+				<source>Updater</source>
+			</trans-unit>
+			<trans-unit id="tsce.templateFile">
+				<source>Template File: HTML-template which is used to display news (e.g.: "fileadmin/templates/my_news_tmpl.html").</source>
+			</trans-unit>
+			<trans-unit id="tsce.pid_list">
+				<source>Starting Point (pid_list): The PID of the page (or comma separated list pf PIDs) where your news articles are stored. Note that getting the pidList can be very performance intensive if you use a high recursion level (plugin.tt_news.recursive) in a big pagetree. If this is a problem for your site, consider to completely disable the use of pidList in database queries (TS-Setup: plugin.tt_news.dontUsePidList).</source>
+			</trans-unit>
+			<trans-unit id="tsce.singlePid">
+				<source>SinglePid: Page on which single news items should be displayed.</source>
+			</trans-unit>
+			<trans-unit id="tsce.backPid">
+				<source>BackPid: Page where the "back to list" link in single view links to.</source>
+			</trans-unit>
+			<trans-unit id="tsce.archiveTypoLink.parameter">
+				<source>Archive Link parameter: The PID of the page with a LIST element that displays only archived news items. This link appears at the bottom of the LATEST template and it is also used for the links in the AMENU.</source>
+			</trans-unit>
+			<trans-unit id="tsce.allowCaching">
+				<source>Allow Caching: Allow caching of displayed news? If you want your news being indexed by the indexed-search this has to be enabled.</source>
+			</trans-unit>
+			<trans-unit id="tsce.useHRDates">
+				<source>Use human readable dates: This enables the use of the GETvars "year" and "month" for the archive links instead of the non-readable "pS", "pL" and "arc".</source>
+			</trans-unit>
+			<trans-unit id="tsce.useSubCategories">
+				<source>Use subcategories: Enable this if news should also be selected for display if they are a member of a subcategory of the selected category. Works only if categoryMode is 1 (="Show items with selected categories").</source>
+			</trans-unit>
+			<trans-unit id="tsce.showCatRootline">
+				<source>Show category rootline: Enable this to show the category rootline in the SINGLE or LIST view.</source>
+			</trans-unit>
+			<trans-unit id="tsce.useBidirectionalRelations">
+				<source>Use bidirectional relations: If this is enabled the SINGLE view shows the the relations of news in both directions. The relation which points back to the source record will be inserted automatically.</source>
+			</trans-unit>
+			<trans-unit id="tsce.usePagesRelations">
+				<source>Use Pages as related news: If this is enabled the SINGLE view shows also relations to pages.</source>
+			</trans-unit>
+			<trans-unit id="tsce.displaySubCategories">
+				<source>Display subcategories: If this is enabled the subcategories of the categories that are assigned to a news record will also be displayed in news records in the FrontEnd. If displayed categories in a news record are subcategories they will be wrapped with "subCategoryTitleItem_stdWrap" (titles) or "subCategoryImgItem_stdWrap" (images).</source>
+			</trans-unit>
+			<trans-unit id="tsce.showRelatedNewsByCategory">
+				<source>Show related news by category: If this is enbaled the SINGLE view shows a list of news with the same category as the current news record.</source>
+			</trans-unit>
+			<trans-unit id="tsce.useSPidFromCategory">
+				<source>Use singlePid from category: If this is enabled tt_news uses the singlePid from the first assigned category.</source>
+			</trans-unit>
+			<trans-unit id="tsce.useMultiPageSingleView">
+				<source>Use Multipage Single View: Enable this if you want to divide the news SINGLE view to multiple pages.</source>
+			</trans-unit>
+			<trans-unit id="tsce.showTitleAsPrevNextLink">
+				<source>Show news title as next/prev link: Enable this if you want to show the title of the linked news article in next/previous links in SINGLE view. If disabled the language labels for "next" and "previous" will be used instead.</source>
+			</trans-unit>
+			<trans-unit id="tsce.limit">
+				<source>List Limit: max items in LIST template.</source>
+			</trans-unit>
+			<trans-unit id="tsce.latestLimit">
+				<source>Latest Limit: max news items in LATEST template.</source>
+			</trans-unit>
+			<trans-unit id="tsce.recursive">
+				<source>Recursive level: extend "pid_list" by the number of recursive levels.</source>
+			</trans-unit>
+			<trans-unit id="tsce.noIconsInRelatedNews">
+				<source>No icons in related news: Disables the tt_news record icons in related news.</source>
+			</trans-unit>
+			<trans-unit id="tsce.displayCatMenu.mode">
+				<source>Category menu mode: This configures how the tt_news category menu (catmenu) is rendered. "tree": use TYPO3 treeview class to build an expandable menu, "ajaxtree": expandable menu with ajax (requires TYPO3 4.2 or higher), "nestedWraps": make a category menu with nested wraps (not expandable)</source>
+			</trans-unit>
+			<trans-unit id="tsce.displayCatMenu.showNewsCountForCategories">
+				<source>Show news count in category menu: If enabled the category menu displays the number of news for
+				each category next to the category title.</source>
+			</trans-unit>
+			<trans-unit id="tsce.displayCatMenu.catmenuIconMode">
+				<source>Category menu icon mode: The tree/ajaxtree mode has some special options for configuring the icons. The option  "catmenuIconMode" configures the behaviour of the icons showing left to the category titles.  "catmenuIconMode" offers the following options:
+-1 = display no icons at all, 0 = display the default icon (tt_news_cat.gif), 1 = display image from category record as icon, 2 = display the icon which is configured as  "catmenuIconFile"  (default: EXT:tt_news/res/arrow.gif)</source>
+			</trans-unit>
+			<trans-unit id="tsce.displayCatMenu.catmenuNoRootIcon">
+				<source>No root icon in category menu: Disables the icon for the "root" item of the tree (the catmenu header) if set.</source>
+			</trans-unit>
+			<trans-unit id="tsce.catmenuWithArchiveParams">
+				<source>Archive parameters in category menu: If enabled the archive period parameters (pS,pL,arc or day,month,year) will be added to links in category menu.</source>
+			</trans-unit>
+			<trans-unit id="tsce.displayCatMenu.expandable">
+				<source>Category menu expandable: enable the expand/collapse links for the category menu</source>
+			</trans-unit>
+			<trans-unit id="tsce.displayCatMenu.expandAll">
+				<source>Category menu expand all: show always the completely expanded category menu.</source>
+			</trans-unit>
+			<trans-unit id="tsce.displayCatMenu.expandFirst">
+				<source>Category menu expand first level: start with the first level expanded.</source>
+			</trans-unit>
+			<trans-unit id="tsce.datetimeDaysToArchive">
+				<source>datetime days to Archive: If this is set, news are automatically considered as "archived", when the date from field "datetime" plus the given number of days is in the past. If "datetimeDaysToArchive" is "0" only the field "archivedate" is relevant for the archive.</source>
+			</trans-unit>
+			<trans-unit id="tsce.enableArchiveDate">
+				<source>Enable archivedate: If this is set, the archivemenu selects news by their "archivedate" - if "enableArchiveDate" is disabled, news in the archivemenu will be selected by the field "datetime".</source>
+			</trans-unit>
+			<trans-unit id="tsce.amenuStart">
+				<source>Archivemenu start: Start date for the archive menu (php strtotime() syntax. e.g.: 1.1.2002, -3 months, -10 years, now)</source>
+			</trans-unit>
+			<trans-unit id="tsce.amenuEnd">
+				<source>Archivemenu end: End date for the archive menu (php strtotime() syntax. e.g.: 1.1.2002, -3 months, -10 years, now, 1 year (value can be in the future))</source>
+			</trans-unit>
+			<trans-unit id="tsce.amenuWithCatSelector">
+				<source>Category selection in archive menu: If enabled (default) the archive menu respects the selected category from catmenu. If the amenu content element is configured to show only news from a certain category the selected category from catmenu will overide this setting.</source>
+			</trans-unit>
+			<trans-unit id="tsce.archiveMode">
+				<source>Archive menu mode: This configures how the archive menu is divided to periods. "month": show a link for each month, "year": show only years, "quarter": divide each year to quarters. </source>
+			</trans-unit>
+			<trans-unit id="tsce.catTextMode">
+				<source>Category Text mode: This configures how categories in news records should handled.
+				Posible values are: 0 = don't display, 1 = display but don't link (default), 2 = link to category shortcut, 3 = act as category selector (points to a list view showing only the clicked category).</source>
+			</trans-unit>
+			<trans-unit id="tsce.catImageMode">
+				<source>Category Image mode: same options as catTextMode but for category images.</source>
+			</trans-unit>
+			<trans-unit id="tsce.singleMaxW">
+				<source>single-image max Width: Max width for an image displayed in SINGLE template</source>
+			</trans-unit>
+			<trans-unit id="tsce.singleMaxH">
+				<source>single-image max height: Max height for an image displayed in SINGLE template</source>
+			</trans-unit>
+			<trans-unit id="tsce.latestMaxW">
+				<source>latest-image max width: Max width for an image displayed in LATEST template</source>
+			</trans-unit>
+			<trans-unit id="tsce.latestMaxH">
+				<source>latest-image max height: Max height for an image displayed in LATEST template</source>
+			</trans-unit>
+			<trans-unit id="tsce.listMaxW">
+				<source>list-image max width: Max width for an image displayed in LIST template</source>
+			</trans-unit>
+			<trans-unit id="tsce.listMaxH">
+				<source>list-image max height: Max height for an image displayed in LIST template</source>
+			</trans-unit>
+			<trans-unit id="tsce.listImageMode">
+				<source>Resize mode for LIST images: If set to "resize2max" images will be scaled until either width or height reaches the maximum value (aspect ratio is preserved). If set to "crop" images will be cropped to the given size (centered). If set to "resize" images will be resized to the given values, the aspect ratio is not preserved.</source>
+			</trans-unit>
+			<trans-unit id="tsce.latestImageMode">
+				<source>Resize mode for LATEST images: see "listImageMode".</source>
+			</trans-unit>
+			<trans-unit id="tsce.xmlFormat">
+				<source>News-Feed XML-Format: Defines the format of the news feed. Possible values are: "rss091", "rss2" "rdf", "atom1" and "atom03"</source>
+			</trans-unit>
+			<trans-unit id="tsce.xmlTitle">
+				<source>News-Feed XML-Title: The title of your news feed. (required for rss091, rss2, rdf and atom03)</source>
+			</trans-unit>
+			<trans-unit id="tsce.xmlLink">
+				<source>News-Feed XML-Link: The link to your hompage. (required for rss091, rss2, rdf and atom03)</source>
+			</trans-unit>
+			<trans-unit id="tsce.xmlDesc">
+				<source>News-Feed XML-Description: The description of your news feed. (required for rss091, rss2 and rdf. optional for atom03)</source>
+			</trans-unit>
+			<trans-unit id="tsce.xmlLang">
+				<source>News-Feed XML-Language: Your site's language. A list of allowable values for &lt;language&gt; in RSS is available at http://backend.userland.com/stories/storyReader$16 (equired for rss091, optional for rss2, not available for rdf, recommended for atom03)</source>
+			</trans-unit>
+			<trans-unit id="tsce.xmlIcon">
+				<source>News-Feed XML-Icon: Provide an icon for your news feed with preferred size of 16x16 px, can be gif, jpeg or png. (required for rss091, optional for rss2 and rdf, not available for atom03)</source>
+			</trans-unit>
+			<trans-unit id="tsce.xmlLimit">
+				<source>News-Feed XML-Limit: max news items in RSS feeds.</source>
+			</trans-unit>
+			<trans-unit id="tsce.xmlCaching">
+				<source>News-Feed XML-Caching: Allow caching for the RSS feed</source>
+			</trans-unit>
+			<trans-unit id="tsce.rss2_tmplFile">
+				<source>RSS-News rss v2 Template File: XML template for RSS 2.0 feed</source>
+			</trans-unit>
+			<trans-unit id="tsce.rss091_tmplFile">
+				<source>RSS-News rss v0.91 Template File: XML template for RSS 0.91 feed.</source>
+			</trans-unit>
+			<trans-unit id="tsce.rdf_tmplFile">
+				<source>RDF-News RDF Template File: XML template for RDF feed.</source>
+			</trans-unit>
+			<trans-unit id="tsce.atom03_tmplFile">
+				<source>Atom-News Atom v0.3 Template File: XML template for Atom 0.3 feed.</source>
+			</trans-unit>
+			<trans-unit id="tsce.atom1_tmplFile">
+				<source>Atom-News Atom v1.0 Template File: XML template for Atom 1.0 feed.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

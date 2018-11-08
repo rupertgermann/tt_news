@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="hr" datatype="plaintext" original="messages" date="2016-05-06T08:57:02Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id=".description">
+				<source>Versatile news system for TYPO3.</source>
+				<target>Ugrađeni sustav novosti</target>
+			</trans-unit>
+			<trans-unit id=".details">
+				<source>"News" items are typically those which goes on your frontpage on the websites and allows you to link down to a page with the full story (the "single view"). They may also represent links to internal pages in the system or links to external pages.</source>
+				<target>"Novosti" su oni elementi koji idu na početnu stranicu i omogućavaju da se povezuje na stranice dublje u stablu koje sadrže potpuni sadržaj. Može ih se koristiti i za predstavljanje članaka u sustavu.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

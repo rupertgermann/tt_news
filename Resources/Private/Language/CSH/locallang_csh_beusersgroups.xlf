@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-06T08:54:00Z" product-name="tt_news">
+		<header/>
+		<body>
+			<trans-unit id="tt_news_categorymounts.description">
+				<source>Here you can assign categories to the current news record (if this record is no translation of another record).</source>
+			</trans-unit>
+			<trans-unit id="tt_news_categorymounts.details">
+				<source>You can assign categories to news records that are not translations of</source>
+			</trans-unit>
+			<trans-unit id="_tt_news_categorymounts.seeAlso">
+				<source>tt_news_cat:parent_category,section "Categories" from tt_news manual | http://typo3.org/documentation/document-library/tt_news/</source>
+			</trans-unit>
+			<trans-unit id="_tt_news_categorymounts.image">
+				<source>EXT:tt_news/Resources/Public/Images/CSH/tt_news_categoy.png,EXT:tt_news/Resources/Public/Images/CSH/tt_news_categoy_msg.png</source>
+			</trans-unit>
+			<trans-unit id="tt_news_categorymounts.image_descr" xml:space="preserve">
+				<source>the field "Category" in the tt_news db-record.
+					If a BE-user opens a record that has non-allowed categories assigned this message will be displayed.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
