@@ -62,6 +62,13 @@ if (TYPO3_MODE == 'BE') {
             'source' => 'EXT:tt_news/Resources/Public/Images/Icons/ext_icon_ttnews_folder.gif',
         )
     );
+    $iconRegistry->registerIcon(
+        'ttnews-content-element-wizard-icon',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+        array(
+            'source' => 'EXT:tt_news/Resources/Public/Images/ContentElementWizardIcon.gif',
+        )
+    );
 
     // add folder icon
     $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-tt_news'] = 'apps-pagetree-folder-contains-news';
