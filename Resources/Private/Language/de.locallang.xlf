@@ -205,12 +205,6 @@
 				severity of the log entry: 0-0.2 sec = 0 (info), 0.2-0.5 sec = 1 (notice), 0.5-1 sec = 2 (warning) and everything above 1 second get severerity
 				3 = error.</target>
 			</trans-unit>
-			<trans-unit id="extmng.useInternalCaching">
-				<source>Internal caching: If enabled tt_news caches some processing intensive information (archive period count,
-			category count, categories) in an internal cache.</source>
-				<target>Internal caching: If enabled tt_news caches some processing intensive information (archive period count,
-				category count, categories) in an internal cache.</target>
-			</trans-unit>
 			<trans-unit id="extmng.writeCachingInfoToDevlog">
 				<source>Debug caching info: Which information about internal caching should be written to devlog
 				 (extension "devlog" required)."disabled": don't write any information about caching to devlog. "cache misses": log only cache misses.
@@ -219,28 +213,7 @@
 				(extension "devlog" required)."disabled": don't write any information about caching to devlog. "cache misses": log only cache misses.
 				"all": log cache misses and cache hits to devlog.</target>
 			</trans-unit>
-			<trans-unit id="extmng.cachingMode">
-				<source>Caching Mode: Determines the cache entries lifetime and when the internal cache from tt_news will be cleared.
-				"normal": (default) the cache entries will get the same lifetime as normal pages. The tt_news cache will be cleared
-					when the "clear all caches" button is pressed.
-				"lifetime": will set the livetime of cache entries to the given amount of seconds in	field "cacheLifetime". The cache table is not cleared when "clear all caches" is clicked.
-				"static": means: the lifetime of cache entries is set to zero (= unlimited). TYPO3 does not clear the tt_news cache (useful if you clear the cache with an external script or
-				for debugging).</source>
-				<target>Caching Mode: Determines the cache entries lifetime and when the internal cache from tt_news will be cleared.
-				"normal": (default) the cache entries will get the same lifetime as normal pages. The tt_news cache will be cleared
-				when the "clear all caches" button is pressed.
-				"lifetime": will set the livetime of cache entries to the given amount of seconds in	field "cacheLifetime". The cache table is not cleared when "clear all caches" is clicked.
-				"static": means: the lifetime of cache entries is set to zero (= unlimited). TYPO3 does not clear the tt_news cache (useful if you clear the cache with an external script or
-				for debugging).</target>
-			</trans-unit>
-			<trans-unit id="extmng.cacheLifetime">
-				<source>Cache lifetime: lifetime in seconds of the internal cache entries (if "cachingMode" is set to "lifetime"). example: 86400 (a day), 604800 (a week)</source>
-				<target>Cache lifetime: lifetime in seconds of the internal cache entries (if "cachingMode" is set to "lifetime"). example: 86400 (a day), 604800 (a week)</target>
-			</trans-unit>
-			<trans-unit id="extmng.cachingEngine">
-				<source>Caching engine: where should the cache entries from tt_news be stored. "internal": store cache records directly in the database using internal methods. "cachingFramework" Requires at least TYPO3 4.3: store cache records in the TYPO3 caching framework (in the default configuration tt_news uses the DB backend of the caching framework).</source>
-				<target>Caching engine: where should the cache entries from tt_news be stored. "internal": store cache records directly in the database using internal methods. "cachingFramework" Requires at least TYPO3 4.3: store cache records in the TYPO3 caching framework (in the default configuration tt_news uses the DB backend of the caching framework).</target>
-			</trans-unit>
+
 			<trans-unit id="extmng.treeOrderBy">
 				<source></source>
 				<target>Category ordering in BackEnd trees: Here you can configure the the ordering of categories in category trees in BackEnd forms.</target>
