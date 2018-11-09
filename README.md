@@ -8,13 +8,13 @@ AKA: **"the generic record handler"**
 
 ## TYPO3 Extension Repository
  
-[https://typo3.org/extensions/repository/view/tt_news]()
+[https://typo3.org/extensions/repository/view/tt_news](https://typo3.org/extensions/repository/view/tt_news)
 
 
 
 ## Composer
 
-[https://packagist.org/packages/rupertgermann/tt_news]()
+[https://packagist.org/packages/rupertgermann/tt_news](https://packagist.org/packages/rupertgermann/tt_news)
 
     composer require rupertgermann/tt_news
     
