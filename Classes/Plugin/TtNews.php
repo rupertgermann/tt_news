@@ -2238,17 +2238,14 @@ class TtNews extends AbstractPlugin
         if (!is_array($lConf)) {
             return;
         } else {
-
-            foreach ($lConf as $mName) {
-
-
+            foreach ($lConf as $mName => $renderObj) {
                 $genericMarker = '###GENERIC_' . strtoupper($mName) . '###';
 
                 if (!is_array($lConf[$mName . '.']) || !$this->isRenderMarker($genericMarker)) {
                     continue;
                 }
 
-                $markerArray[$genericMarker] = $this->local_cObj->cObjGetSingle($lConf[$mName], $lConf[$mName . '.'],
+                $markerArray[$genericMarker] = $this->local_cObj->cObjGetSingle($renderObj, $lConf[$mName . '.'],
                     'tt_news generic marker: ' . $mName);
             }
         }
