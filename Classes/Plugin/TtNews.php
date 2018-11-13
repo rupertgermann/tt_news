@@ -879,17 +879,17 @@ class TtNews extends AbstractPlugin
 
         // performing query to count all news (we need to know it for browsing):
         if ($selectConf['leftjoin'] || ($this->theCode == 'RELATED' && $this->relNewsUid)) {
-            $selectConf['selectFields'] = 'COUNT(DISTINCT tt_news.uid)';
+            $selectConf['selectFields'] = 'COUNT(DISTINCT tt_news.uid) as c';
         } else {
-            $selectConf['selectFields'] = 'COUNT(tt_news.uid)';
+            $selectConf['selectFields'] = 'COUNT(tt_news.uid) as c';
         }
 
         $newsCount = 0;
         $countSelConf = $selectConf;
         unset($countSelConf['orderBy']);
 
-        if (($res = $this->exec_getQuery('tt_news', $countSelConf)->rowCount())) {
-            $newsCount = $res;
+        if (($res = $this->exec_getQuery('tt_news', $countSelConf)->fetch())) {
+            $newsCount = $res['c'];
         }
 
         $this->newsCount = $newsCount;
