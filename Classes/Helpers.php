@@ -29,6 +29,7 @@ namespace RG\TtNews;
  ***************************************************************/
 
 use RG\TtNews\Plugin\TtNews;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * tt_news helper functions
@@ -47,7 +48,7 @@ class Helpers
     var $pObj;
 
 
-    function __construct(&$pObj)
+    public function __construct(&$pObj)
     {
         $this->pObj = &$pObj;
     }
@@ -58,12 +59,14 @@ class Helpers
      *
      * @param    string $fieldlist : a list of fields to ckeck
      *
+     * @param           $existingFields
+     *
      * @return    string        the list of validated fields
      */
-    function validateFields($fieldlist, $existingFields)
+    public function validateFields($fieldlist, $existingFields)
     {
         $checkedFields = array();
-        $fArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $fieldlist, 1);
+        $fArr = GeneralUtility::trimExplode(',', $fieldlist, 1);
         foreach ($fArr as $fN) {
             if (in_array($fN, $existingFields)) {
                 $checkedFields[] = $fN;
@@ -82,10 +85,10 @@ class Helpers
      *
      * @return    string        $clearedlist: the cleared list
      */
-    function checkRecords($recordlist)
+    public function checkRecords($recordlist)
     {
         if ($recordlist) {
-            $tempRecs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $recordlist, 1);
+            $tempRecs = GeneralUtility::trimExplode(',', $recordlist, 1);
             // debug($temp);
             $newtemp = array();
             foreach ($tempRecs as $val) {
@@ -123,7 +126,7 @@ class Helpers
      * @return int first found single view pid
      * @throws \Doctrine\DBAL\DBALException
      */
-    function getRecursiveCategorySinglePid($currentCategory)
+    public function getRecursiveCategorySinglePid($currentCategory)
     {
         $res = Database::getInstance()->exec_SELECTquery('uid,parent_category,single_pid', 'tt_news_cat',
             'tt_news_cat.uid=' . $currentCategory . $this->pObj->SPaddWhere . $this->pObj->enableCatFields);
@@ -148,7 +151,7 @@ class Helpers
      * @return    array        all categories in a nested array
      * @throws \Doctrine\DBAL\DBALException
      */
-    function getSubCategoriesForMenu($catlist, $fields, $addWhere, $cc = 0)
+    public function getSubCategoriesForMenu($catlist, $fields, $addWhere, $cc = 0)
     {
         $pcatArr = array();
 
@@ -186,11 +189,11 @@ class Helpers
      *
      * @return    array        the current bodytext part wrapped with stdWrap
      */
-    function makeMultiPageSView($bodytext, $lConf)
+    public function makeMultiPageSView($bodytext, $lConf)
     {
         $pointerName = $this->pObj->config['singleViewPointerName'];
         $pagenum = $this->pObj->piVars[$pointerName] ? $this->pObj->piVars[$pointerName] : 0;
-        $textArr = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode($this->pObj->config['pageBreakToken'], $bodytext,
+        $textArr = GeneralUtility::trimExplode($this->pObj->config['pageBreakToken'], $bodytext,
             1);
         $pagecount = count($textArr);
         $pagebrowser = '';
@@ -222,7 +225,7 @@ class Helpers
      *
      * @return    void
      */
-    function convertDates()
+    public function convertDates()
     {
         //readable archivedates
         if ($this->pObj->piVars['year'] || $this->pObj->piVars['month']) {
@@ -272,7 +275,7 @@ class Helpers
      *
      * @return    string        the processed text
      */
-    function insertPagebreaks($text, $firstPageWordCrop)
+    public function insertPagebreaks($text, $firstPageWordCrop)
     {
 
         $text = str_replace(array('</p>'), array('</p>' . chr(10)), $text);
@@ -310,7 +313,7 @@ class Helpers
                     $isfirst = false;
                 } elseif ($cc >= \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($wc, 0,
                         $this->pObj->config['maxWordsInSingleView'])) { // more words than maxWordsInSingleView
-                    if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList('.,!,?', substr($w, -1))) {
+                    if (GeneralUtility::inList('.,!,?', substr($w, -1))) {
                         if ($this->pObj->conf['useParagraphAsPagebreak']) { // break at paragraph
                             $break = true;
                             $pArr[] = $w;
@@ -341,14 +344,10 @@ class Helpers
 
 
     /**
-     * [Describe function...]
-     *
-     * @param     [type]        $caller: ...
-     * @param     [type]        $getGlobalTime: ...
-     *
-     * @return    [type]        ...
+     * @param string $caller
+     * @param bool   $getGlobalTime
      */
-    function getParsetime($caller = '', $getGlobalTime = false)
+    public function getParsetime($caller = '', $getGlobalTime = false)
     {
         $currentTime = time() + microtime();
         $tmpCI = debug_backtrace();
@@ -399,16 +398,12 @@ class Helpers
 
 
     /**
-     * [Describe function...]
-     *
-     * @param     [type]        $msg: ...
-     * @param     [type]        $lbl: ...
-     * @param     [type]        $code_line: ...
-     * @param     [type]        $sev: ...
-     *
-     * @return    [type]        ...
+     * @param $msg
+     * @param $lbl
+     * @param $code_line
+     * @param $sev
      */
-    function writelog($msg, $lbl, $code_line, $sev)
+    protected function writelog($msg, $lbl, $code_line, $sev)
     {
 
         if ($this->pObj->useDevlog) {
@@ -425,7 +420,7 @@ class Helpers
                     }
                 }
             }
-            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog($lbl . ($time ? ' time: ' . $time . ' s' : ''),
+            GeneralUtility::devLog($lbl . ($time ? ' time: ' . $time . ' s' : ''),
                 $this->pObj->extKey, (int)$sev, $msg);
         } else {
             \debug($msg, $lbl, $code_line, $msg['file:'], 3);
@@ -438,13 +433,8 @@ class Helpers
      *
      * @return    string        the error message
      */
-    function displayErrors()
+    public function displayErrors()
     {
-
-        /**
-         * TODO: 07.05.2009
-         * localize
-         */
         $msg = '';
         if (count($this->pObj->errors) >= 2) {
             $msg = '--> Did you include the static TypoScript template (\'News settings\') for tt_news?';
@@ -465,7 +455,7 @@ class Helpers
      *
      * @return    string        the cleaned string
      */
-    function cleanXML($str)
+    public function cleanXML($str)
     {
         $cleanedStr = preg_replace(array('/&nbsp;/', '/&;/', '/</', '/>/'), array(' ', '&amp;;', '&lt;', '&gt;'), $str);
 
@@ -485,7 +475,7 @@ class Helpers
      *
      * @return    string        datetime in w3c format
      */
-    function getW3cDate($datetime)
+    public function getW3cDate($datetime)
     {
         $offset = date('Z', $datetime) / 3600;
         if ($offset < 0) {

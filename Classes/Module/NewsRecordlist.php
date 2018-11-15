@@ -135,15 +135,15 @@ class NewsRecordlist extends PageLayoutView
      * Creates a standard list of elements from a table.
      *
      * @param    string         Table name
-     * @param    integer        Page id.
+     * @param    int        Page id.
      * @param    string         Comma list of fields to display
-     * @param    boolean        If true, icon is shown
+     * @param    int        If true, icon is shown
      * @param    string         Additional WHERE-clauses.
      *
      * @return    string        HTML table
      * @throws \Doctrine\DBAL\DBALException
      */
-    function makeOrdinaryList($table, $id, $fList, $icon = 0, $addWhere = '')
+    public function makeOrdinaryList($table, $id, $fList, $icon = 0, $addWhere = '')
     {
         // Initialize:
         $out = '';
@@ -242,7 +242,7 @@ class NewsRecordlist extends PageLayoutView
      * @author    Dmitry Pikhno <dpi@goldenplanet.com>
      * @author    Christian Kuhn <lolli@schwarzbu.ch>
      */
-    function renderListNavigation()
+    protected function renderListNavigation()
     {
         $totalPages = ceil($this->totalItems / $this->iLimit);
 
@@ -348,12 +348,12 @@ class NewsRecordlist extends PageLayoutView
      * @param    string        Table name
      * @param    array         Record array
      * @param    array         Array to which the data is added
-     * @param    [type]        $noEdit: ...
+     * @param    bool        $noEdit: ...
      *
      * @return    array        $out array returned after processing.
      * @see      makeOrdinaryList()
      */
-    function dataFields($fieldArr, $table, $row, $out = array(), $noEdit = false)
+    public function dataFields($fieldArr, $table, $row, $out = array(), $noEdit = false)
     {
         global $TCA;
 
@@ -426,15 +426,13 @@ class NewsRecordlist extends PageLayoutView
     }
 
     /**
-     * [Describe function...]
+     * @param $url
+     * @param $val
+     * @param $uid
      *
-     * @param     [type]        $url: ...
-     * @param     [type]        $val: ...
-     * @param     [type]        $uid: ...
-     *
-     * @return    [type]        ...
+     * @return string
      */
-    function linkSingleView($url, $val, $uid)
+    protected function linkSingleView($url, $val, $uid)
     {
         $params = array(
             'id' => $this->singlePid,
@@ -449,14 +447,12 @@ class NewsRecordlist extends PageLayoutView
     }
 
     /**
-     * [Describe function...]
+     * @param      $table
+     * @param bool $withLabel
      *
-     * @param     [type]        $table: ...
-     * @param     [type]        $withLabel: ...
-     *
-     * @return    [type]        ...
+     * @return string
      */
-    function getNewRecordButton($table, $withLabel = false)
+    public function getNewRecordButton($table, $withLabel = false)
     {
         if ($this->category) {
             $addP = '&defVals[' . $table . '][category]=' . $this->category;
@@ -488,7 +484,7 @@ class NewsRecordlist extends PageLayoutView
      *
      * @return    string        HTML for the icon
      */
-    function getIcon($table, $row, $noEdit = '')
+    public function getIcon($table, $row, $noEdit = '')
     {
         // Initialization
 
@@ -511,15 +507,13 @@ class NewsRecordlist extends PageLayoutView
     }
 
     /**
-     * [Describe function...]
+     * @param $row
+     * @param $checkCategories
      *
-     * @param     [type]        $$row: ...
-     * @param     [type]        $checkCategories: ...
-     *
-     * @return    [type]        ...
+     * @return int
      * @throws \Doctrine\DBAL\DBALException
      */
-    function checkRecordPerms(&$row, $checkCategories)
+    public function checkRecordPerms(&$row, $checkCategories)
     {
         $noEdit = 1;
 
@@ -558,7 +552,7 @@ class NewsRecordlist extends PageLayoutView
      *
      * @return    string        IMG tag for icon.
      */
-    function noEditIcon($reason = 'noEditItems')
+    public function noEditIcon($reason = 'noEditItems')
     {
         switch ($reason) {
             case 1:
@@ -573,7 +567,7 @@ class NewsRecordlist extends PageLayoutView
                 break;
         }
 
-        $img = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'res/noedit_' . $reason . '.gif';
+        $img = ExtensionManagementUtility::extPath('tt_news') . 'res/noedit_' . $reason . '.gif';
 
         return '<img' . IconFactory::skinImg($this->backPath,
                 $img) . ' title="' . $label . '" alt="" />';
@@ -590,10 +584,9 @@ class NewsRecordlist extends PageLayoutView
      * @return    array        $out returned after addition of the header fields.
      * @see makeOrdinaryList()
      */
-    function headerFields($fieldArr, $table, $out = array())
+    public function headerFields($fieldArr, $table, $out = array())
     {
         global $TCA;
-
 
         foreach ($fieldArr as $fieldName) {
             $ll = $GLOBALS['LANG']->sL($TCA[$table]['columns'][$fieldName]['label'], 1);
@@ -615,7 +608,7 @@ class NewsRecordlist extends PageLayoutView
      *
      * @return    string        Linked $code variable
      */
-    function addSortLink($code, $field, $table)
+    public function addSortLink($code, $field, $table)
     {
 
         // Certain circumstances just return string right away (no links):
@@ -651,7 +644,7 @@ class NewsRecordlist extends PageLayoutView
      *
      * @return    string        URL
      */
-    function listURL($altId = '', $table = '', $exclList = '')
+    public function listURL($altId = '', $table = '', $exclList = '')
     {
         return BackendUtility::getModuleUrl('web_txttnewsM1') .
             '&id=' . (strcmp($altId, '') ? $altId : $this->id) .
@@ -668,17 +661,15 @@ class NewsRecordlist extends PageLayoutView
     }
 
     /**
-     * [Describe function...]
+     * @param        $table
+     * @param        $id
+     * @param string $addWhere
+     * @param string $fieldList
      *
-     * @param     [type]        $table: ...
-     * @param     [type]        $id: ...
-     * @param     [type]        $addWhere: ...
-     * @param     [type]        $fieldList: ...
-     *
-     * @return    [type]        ...
+     * @return array
      * @throws \Doctrine\DBAL\DBALException
      */
-    function makeQueryArray($table, $id, $addWhere = "", $fieldList = '')
+    protected function makeQueryArray($table, $id, $addWhere = "", $fieldList = '')
     {
         global $TCA;
         if (!$fieldList) {
@@ -757,10 +748,10 @@ class NewsRecordlist extends PageLayoutView
     /**
      * @param $queryParts
      *
-     * @return
+     * @return mixed
      * @throws \Doctrine\DBAL\DBALException
      */
-    function ckeckDisallowedCategories($queryParts)
+    protected function ckeckDisallowedCategories($queryParts)
     {
         if (count($this->excludeCats) || count($this->includeCats)) {
             // if showOnlyEditable is set, we check for each found record if it has any disallowed category assigned
@@ -804,7 +795,7 @@ class NewsRecordlist extends PageLayoutView
      * @return array
      * @throws \Doctrine\DBAL\DBALException
      */
-    function getCategories($uid)
+    protected function getCategories($uid)
     {
         $res = Database::getInstance()->exec_SELECTquery(
             'tt_news_cat.uid',

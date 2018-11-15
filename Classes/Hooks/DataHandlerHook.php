@@ -79,7 +79,7 @@ class DataHandlerHook
      * @throws \Doctrine\DBAL\DBALException
      * @throws \TYPO3\CMS\Core\Exception
      */
-    function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
+    public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
     {
 
 
@@ -196,7 +196,7 @@ class DataHandlerHook
      * @param $fieldArray
      * @param $pObj
      */
-    function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj)
+    public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj)
     {
         if ($table != 'tt_news') {
             return;
@@ -237,7 +237,7 @@ class DataHandlerHook
      * @throws \Doctrine\DBAL\DBALException
      * @throws \TYPO3\CMS\Core\Exception
      */
-    function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj)
+    public function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj)
     {
 
         if ($table == 'tt_news' && !$this->getBeUser()->isAdmin()) {
@@ -309,7 +309,7 @@ class DataHandlerHook
      *
      * @throws \Doctrine\DBAL\DBALException
      */
-    function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj)
+    public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj)
     {
 
         // copy records recursively from Drag&Drop in the category manager
@@ -357,7 +357,7 @@ class DataHandlerHook
      * @return mixed
      * @throws \Doctrine\DBAL\DBALException
      */
-    function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)
+    protected function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)
     {
         if (!$counter) {
             return $CPtable;

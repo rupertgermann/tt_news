@@ -60,7 +60,7 @@ class Catmenu
      *
      * @throws \Doctrine\DBAL\DBALException
      */
-    function init(&$pObj)
+    public function init(&$pObj)
     {
         $lConf = $pObj->conf['displayCatMenu.'];
         $this->treeObj = GeneralUtility::makeInstance(FeTreeView::class);
@@ -126,7 +126,7 @@ class Catmenu
      * @return string
      * @throws \Doctrine\DBAL\DBALException
      */
-    function ajaxExpandCollapse()
+    public function ajaxExpandCollapse()
     {
         $params = $this->initAjaxEnv();
 
@@ -141,7 +141,7 @@ class Catmenu
      * @return array
      * @throws \Doctrine\DBAL\DBALException
      */
-    private function initAjaxEnv()
+    protected function initAjaxEnv()
     {
         $L = intval(GeneralUtility::_GP('L'));
 

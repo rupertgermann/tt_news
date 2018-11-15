@@ -5,7 +5,7 @@ namespace RG\TtNews\Module;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2009 Rupert Germann <rg@rgdata.de>
+ *  (c) 2009-2018 Rupert Germann <rg@rgdata.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -267,7 +267,7 @@ class NewsAdminModule extends BaseScriptClass
      * @return    void
      * @throws DBALException
      */
-    function init()
+    public function init()
     {
         if (!$this->MCONF['name']) {
             $this->MCONF = $GLOBALS['MCONF'];
@@ -352,7 +352,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @throws DBALException
      */
-    function main()
+    public function main()
     {
 
         $this->doc = GeneralUtility::makeInstance(DocumentTemplate::class);
@@ -426,7 +426,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * Prints out the module HTML
      */
-    function printContent(): string
+    public function printContent(): string
     {
         return $this->content;
     }
@@ -444,7 +444,7 @@ class NewsAdminModule extends BaseScriptClass
      * @return    void
      * @throws DBALException
      */
-    function moduleContent()
+    public function moduleContent()
     {
         $error = false;
 
@@ -476,11 +476,10 @@ class NewsAdminModule extends BaseScriptClass
     }
 
     /**
-     * [Describe function...]
-     *
+     * @return bool
      * @throws DBALException
      */
-    function displayOverview()
+    public function displayOverview()
     {
         $tRows = array();
         $tRows[] = '<tr>
@@ -534,11 +533,10 @@ class NewsAdminModule extends BaseScriptClass
 
 
     /**
-     * [Describe function...]
-     *
+     * @return string
      * @throws DBALException
      */
-    function displayCategoryTree()
+    public function displayCategoryTree()
     {
         $content = '';
         $content .= $this->renderTreeCheckBoxes();
@@ -568,11 +566,9 @@ class NewsAdminModule extends BaseScriptClass
     }
 
     /**
-     * [Describe function...]
-     *
      * @throws DBALException
      */
-    function getTreeObj()
+    public function getTreeObj()
     {
         $addWhere = $this->addWhere();
 
@@ -647,9 +643,8 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * returns the root element for a category tree: icon, title and pageID
      *
-
      */
-    function getStoragePageIcon()
+    protected function getStoragePageIcon()
     {
         if ($this->confArr['useStoragePid']) {
             $tmpt = $this->treeObj->table;
@@ -676,12 +671,12 @@ class NewsAdminModule extends BaseScriptClass
     }
 
     /**
-     * [Describe function...]
+     * @param bool $ajax
      *
+     * @return string
      * @throws DBALException
-     * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
      */
-    function displayNewsList($ajax = false)
+    public function displayNewsList($ajax = false)
     {
         $content = '';
 
@@ -808,7 +803,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @throws DBALException
      */
-    function ajaxExpandCollapse($params)
+    public function ajaxExpandCollapse($params)
     {
         $this->processAjaxRequestConstruct();
         $this->init();
@@ -833,7 +828,7 @@ class NewsAdminModule extends BaseScriptClass
 
     /**
      */
-    function processAjaxRequestConstruct()
+    public function processAjaxRequestConstruct()
     {
         global $SOBE;
 
@@ -857,7 +852,7 @@ class NewsAdminModule extends BaseScriptClass
      * @return string
      * @throws DBALException
      */
-    function getListHeaderMsg(&$dblist): string
+    protected function getListHeaderMsg(&$dblist): string
     {
 
         $noCatSelMsg = false;
@@ -885,7 +880,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return string
      */
-    function displaySearch($url): string
+    protected function displaySearch($url): string
     {
         // Table with the search box:
         return '<form action="' . htmlspecialchars($url) . '" method="post">
@@ -912,7 +907,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return string
      */
-    function getNoResultsMsg(&$listObj, $noCatSelMsg)
+    protected function getNoResultsMsg(&$listObj, $noCatSelMsg)
     {
         $content = '';
         $tRows = array();
@@ -937,11 +932,9 @@ class NewsAdminModule extends BaseScriptClass
 
 
     /**
-     * [Describe function...]
-     *
-
+     * @return string
      */
-    function renderTreeCheckBoxes()
+    protected function renderTreeCheckBoxes()
     {
         $show = array();
         if (is_array($this->TSprop['catmenu.']['show.'])) {
@@ -967,11 +960,11 @@ class NewsAdminModule extends BaseScriptClass
     }
 
     /**
-     * [Describe function...]
+     * @param bool $ajax
      *
-
+     * @return string
      */
-    function renderListCheckBoxes($ajax = false)
+    protected function renderListCheckBoxes($ajax = false)
     {
         $show = array();
         if (is_array($this->TSprop['list.']['show.'])) {
@@ -1010,11 +1003,9 @@ class NewsAdminModule extends BaseScriptClass
 
 
     /**
-     * [Describe function...]
-     *
-
+     * @return string
      */
-    function renderNewCatButton()
+    protected function renderNewCatButton()
     {
         $show = array();
         $button = '';
@@ -1044,7 +1035,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return    array        all available buttons as an assoc. array
      */
-    function getHeaderButtons()
+    protected function getHeaderButtons()
     {
 
         $buttons = array(
@@ -1117,7 +1108,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * @return string
      */
-    function getLangMenu()
+    protected function getLangMenu()
     {
         $menu = '';
         if (count($this->MOD_MENU['language']) > 1) {
@@ -1133,7 +1124,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * @return string
      */
-    function getPageSelector()
+    protected function getPageSelector()
     {
         $menu = '';
         if (count($this->MOD_MENU['searchLevels']) > 1) {
@@ -1156,7 +1147,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @throws DBALException
      */
-    function setPidList()
+    protected function setPidList()
     {
         if ($this->isAdmin) {
             return;
@@ -1178,13 +1169,9 @@ class NewsAdminModule extends BaseScriptClass
     }
 
     /**
-     * [Describe function...]
-     *
-     * @param     [type]        $pidlist: ...
-     *
-
+     * @param $pidlist
      */
-    function setEditablePages($pidlist)
+    protected function setEditablePages($pidlist)
     {
         $pids = explode(',', $pidlist);
         $editPids = array();
@@ -1206,7 +1193,7 @@ class NewsAdminModule extends BaseScriptClass
      * @return string
      * @throws DBALException
      */
-    function getSubPages($pages, $cc = 0)
+    protected function getSubPages($pages, $cc = 0)
     {
         $pArr = array();
         $res = Database::getInstance()->exec_SELECTquery(
@@ -1234,7 +1221,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      *
      */
-    function initGPvars()
+    protected function initGPvars()
     {
         $this->pointer = MathUtility::forceIntegerInRange(GeneralUtility::_GP('pointer'),
             0, 100000);
@@ -1248,7 +1235,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @throws DBALException
      */
-    function menuConfig()
+    public function menuConfig()
     {
         $this->MOD_MENU = array(
             'function' => array(
@@ -1289,7 +1276,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * @throws DBALException
      */
-    function initLanguageMenu()
+    protected function initLanguageMenu()
     {
         if ($this->isAdmin) {
             $res = Database::getInstance()->exec_SELECTquery(
@@ -1330,7 +1317,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * @throws DBALException
      */
-    function initCategories()
+    protected function initCategories()
     {
         if ($this->isAdmin) {
             return;
@@ -1350,7 +1337,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return array
      */
-    function posIntExplode($list)
+    protected function posIntExplode($list)
     {
         $arr = GeneralUtility::intExplode(',', $list);
         $out = array();
@@ -1368,7 +1355,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @throws DBALException
      */
-    function initSubCategories()
+    protected function initSubCategories()
     {
         if ($this->useSubCategories && $this->category) {
             $subcats = Div::getSubCategories($this->category);
@@ -1386,7 +1373,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return    array        Page path of PID if accessible. otherwise zero.
      */
-    function getPageInfoForOverview($pid)
+    protected function getPageInfoForOverview($pid)
     {
         $out = array();
         $localPageinfo = BackendUtility::readPageAccess($pid, $this->perms_clause);
@@ -1405,7 +1392,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return mixed
      */
-    function checkPageAccess($pid)
+    protected function checkPageAccess($pid)
     {
         if (isset($this->permsCache[$pid])) {
             return $this->permsCache[$pid];
@@ -1425,7 +1412,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      *
      */
-    function initPermsCache()
+    protected function initPermsCache()
     {
         if ($this->isAdmin) {
             return;
@@ -1439,11 +1426,9 @@ class NewsAdminModule extends BaseScriptClass
     }
 
     /**
-     * [Describe function...]
-     *
-
+     * @return array
      */
-    function getLinkParams()
+    protected function getLinkParams()
     {
         $params = array('id' => $this->id);
 

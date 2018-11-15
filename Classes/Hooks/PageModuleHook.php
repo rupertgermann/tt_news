@@ -46,7 +46,7 @@ class PageModuleHook
      *
      * @return    string        Information about pi1 plugin
      */
-    function getExtensionSummary($params, &$pObj)
+    public function getExtensionSummary($params, &$pObj)
     {
         $result = '';
         if ($params['row']['list_type'] == 9) {

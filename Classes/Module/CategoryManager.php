@@ -15,31 +15,63 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Class CategoryManager
+ *
+ * @package RG\TtNews\Module
+ */
 class CategoryManager extends Categorytree
 {
 
-    var $TCEforms_itemFormElName = '';
-    var $TCEforms_nonSelectableItemsArray = array();
-
-    var $returnUrl;
-    var $showEditIcons;
-    var $pageID;
-    var $storagePid;
-    var $useStoragePid;
-    var $mayUserEditCategories;
-    var $LL;
+    /**
+     * @var string
+     */
+    public $TCEforms_itemFormElName = '';
+    /**
+     * @var array
+     */
+    public $TCEforms_nonSelectableItemsArray = array();
+    /**
+     * @var
+     */
+    public $returnUrl;
+    /**
+     * @var
+     */
+    public $showEditIcons;
+    /**
+     * @var
+     */
+    public $pageID;
+    /**
+     * @var
+     */
+    public $storagePid;
+    /**
+     * @var
+     */
+    public $useStoragePid;
+    /**
+     * @var
+     */
+    public $mayUserEditCategories;
+    /**
+     * @var
+     */
+    public $LL;
+    /**
+     * @var
+     */
     public $backPath;
 
 
     /**
-     * [Describe function...]
+     * @param string $icon
+     * @param array  $row
      *
-     * @param     [type]        $icon: ...
-     * @param     [type]        $row: ...
-     *
-     * @return    [type]        ...
+     * @return string
      */
-    function wrapIcon($icon, $row)
+    public function wrapIcon($icon, $row)
     {
         $theIcon = $this->addTagAttributes($icon, $this->titleAttrib . '="' . $this->getTitleAttrib($row) . '"');
 
@@ -64,12 +96,8 @@ class CategoryManager extends Categorytree
      *
      * @return    string        the wrapped title
      */
-    function wrapTitle($title, $v, $bank = 0)
+    public function wrapTitle($title, $v, $bank = 0)
     {
-
-        // TODO: language overlay
-
-
         if ($v['uid'] > 0) {
             $hrefTitle = htmlentities('[id=' . $v['uid'] . '] ' . $v['description']);
             $out = '<a href="#" class="filter-category" data-category="' . $v['uid'] . '" data-target="ttnewslist" data-pid="' . intval($this->pageID) . '" title="' . $hrefTitle . '">' . $title . '</a>';
@@ -110,7 +138,7 @@ class CategoryManager extends Categorytree
      *
      * @return    string        HTML table with the control panel (unless disabled)
      */
-    function makeControl($table, $row)
+    public function makeControl($table, $row)
     {
         global $TCA;
 
@@ -157,14 +185,12 @@ class CategoryManager extends Categorytree
     }
 
     /**
-     * [Describe function...]
+     * @param        $params
+     * @param string $rUrl
      *
-     * @param    [type]        $params: ...
-     * @param    [type]        $rUrl: ...
-     *
-     * @return   string
+     * @return string
      */
-    function issueCommand($params, $rUrl = ''): string
+    public function issueCommand($params, $rUrl = ''): string
     {
         $rUrl = $rUrl ?: GeneralUtility::getIndpEnv('REQUEST_URI');
 

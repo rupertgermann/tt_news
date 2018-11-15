@@ -53,7 +53,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        the wrapped title
      */
-    function wrapTitle($title, $row, $bank = 0)
+    public function wrapTitle($title, $row, $bank = 0)
     {
         $newsConf = &$this->tt_news_obj->conf;
         if ($newsConf['catSelectorTargetPid']) {
@@ -120,7 +120,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Icon image tag.
      */
-    function getRootIcon($rec)
+    public function getRootIcon($rec)
     {
         $lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
         $icon = '';
@@ -152,7 +152,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Image tag.
      */
-    function getIcon($row)
+    public function getIcon($row)
     {
         $lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
         $catIconMode = intval($lConf['catmenuIconMode']);
@@ -198,7 +198,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Image tag with the plus/minus icon.
      */
-    function PMicon($row, $a, $c, $nextCount, $exp)
+    public function PMicon($row, $a, $c, $nextCount, $exp)
     {
         if ($this->expandable) {
             $PM = $nextCount ? ($exp ? 'minus' : 'plus') : 'join';
@@ -230,7 +230,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Link-wrapped input string
      */
-    function PMiconATagWrap($icon, $cmd, $isExpand = true)
+    public function PMiconATagWrap($icon, $cmd, $isExpand = true)
     {
         if ($this->thisScript && $this->expandable) {
             $newsConf = &$this->tt_news_obj->conf;
@@ -265,7 +265,7 @@ class FeTreeView extends Categorytree
     /**
      *
      */
-    function initializePositionSaving()
+    public function initializePositionSaving()
     {
         // Get stored tree structure:
         if ($this->FE_USER->user) {
@@ -304,7 +304,7 @@ class FeTreeView extends Categorytree
      * @return    void
      * @access private
      */
-    function savePosition()
+    public function savePosition()
     {
         if ($this->FE_USER->user) {
             $this->FE_USER->uc['tt_news'][$this->treeName] = serialize($this->stored);
@@ -320,7 +320,7 @@ class FeTreeView extends Categorytree
      *
      * @return string
      */
-    function getTitleStr($row, $titleLen = 30)
+    public function getTitleStr($row, $titleLen = 30)
     {
         return htmlspecialchars(GeneralUtility::fixed_lgd_cs($row['title'], $titleLen));
     }

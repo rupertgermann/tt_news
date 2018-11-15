@@ -5,7 +5,7 @@ namespace RG\TtNews;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2009 Rupert Germann <rupi@gmx.li>
+ *  (c) 2005-2018 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -150,7 +150,7 @@ class Categorytree extends AbstractTreeView
      * @return    string        HTML code for the browsable tree
      * @throws \Doctrine\DBAL\DBALException
      */
-    function getBrowsableTree($groupByPages = false)
+    public function getBrowsableTree($groupByPages = false)
     {
 
         // Get stored tree structure AND updating it if needed according to incoming PM GET var.
@@ -262,7 +262,7 @@ class Categorytree extends AbstractTreeView
      * @return bool|int|mixed
      * @throws \Doctrine\DBAL\DBALException
      */
-    function getNewsCountForCategory($catID)
+    protected function getNewsCountForCategory($catID)
     {
         $sum = false;
 
@@ -504,7 +504,7 @@ class Categorytree extends AbstractTreeView
      *
      * @return    string        The HTML code for the tree
      */
-    function printTree($treeArr = '')
+    public function printTree($treeArr = '')
     {
         $doExpand = false;
         $expandedPageUid = 0;
@@ -595,7 +595,7 @@ class Categorytree extends AbstractTreeView
      *
      * @return    string        Image tag with the plus/minus icon.
      */
-    function PMicon($row, $a, $c, $nextCount, $exp)
+    public function PMicon($row, $a, $c, $nextCount, $exp)
     {
         if ($this->expandable) {
             $PM = $nextCount ? ($exp ? 'minus' : 'plus') : 'join';
@@ -629,7 +629,7 @@ class Categorytree extends AbstractTreeView
      * @return    string        Link-wrapped input string
      * @access   private
      */
-    function PMiconATagWrap($icon, $cmd, $isExpand = true)
+    public function PMiconATagWrap($icon, $cmd, $isExpand = true)
     {
         if ($this->thisScript && $this->expandable) {
             return '<a class="pm pmiconatag" data-params="' . $cmd . '" data-isexpand="' . intval($isExpand) . '" data-pid="' . intval($this->pageID) . '">' . $icon . '</a>';
