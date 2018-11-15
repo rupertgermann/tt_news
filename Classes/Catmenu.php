@@ -30,6 +30,7 @@ namespace RG\TtNews;
 
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Plugin\TtNews;
+use RG\TtNews\Tree\FeTreeView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;

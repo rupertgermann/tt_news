@@ -6,7 +6,7 @@
  * Time: 17:59
  */
 
-namespace RG\TtNews;
+namespace RG\TtNews\Tree;
 
 
 use RG\TtNews\Utility\IconFactory;
