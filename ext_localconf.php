@@ -69,7 +69,7 @@ if ($_COOKIE[$configuredCookieName]) {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = 0;
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\RG\TtNews\FormDataProvider::class] = array(
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\RG\TtNews\Form\FormDataProvider::class] = array(
 	'depends' => array(
 		\TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew::class,
 	)

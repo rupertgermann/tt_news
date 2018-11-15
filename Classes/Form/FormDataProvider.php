@@ -1,6 +1,6 @@
 <?php
 
-namespace RG\TtNews;
+namespace RG\TtNews\Form;
 
 /*
  * This file is part of the TYPO3 CMS project.

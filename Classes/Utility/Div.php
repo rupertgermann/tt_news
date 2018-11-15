@@ -25,15 +25,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-namespace RG\TtNews;
+namespace RG\TtNews\Utility;
 
+use RG\TtNews\Database\Database;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * tt_news misc functions
  *
- * $Id$
  *
  * @author     Rupert Germann <rupi@gmx.li>
  * @package    TYPO3
@@ -41,7 +41,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Div
 {
-
 
     /**
      * Get category mounts of the current user

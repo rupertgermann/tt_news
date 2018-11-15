@@ -27,7 +27,7 @@ namespace RG\TtNews\Module;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use RG\TtNews\Database;
+use RG\TtNews\Database\Database;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\PageLayoutView;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -100,7 +100,7 @@ class NewsRecordlist extends PageLayoutView
      */
     public $lTSprop;
     /**
-     * @var
+     * @var NewsAdminModule
      */
     public $pObj;
     /**

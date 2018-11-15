@@ -30,9 +30,9 @@ namespace RG\TtNews\Plugin;
  ***************************************************************/
 
 use RG\TtNews\Catmenu;
-use RG\TtNews\Database;
-use RG\TtNews\Div;
-use RG\TtNews\Helpers;
+use RG\TtNews\Database\Database;
+use RG\TtNews\Utility\Div;
+use RG\TtNews\Helper\Helpers;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;

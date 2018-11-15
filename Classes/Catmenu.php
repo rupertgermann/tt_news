@@ -28,6 +28,7 @@ namespace RG\TtNews;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Plugin\TtNews;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;

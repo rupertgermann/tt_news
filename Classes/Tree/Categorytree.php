@@ -39,6 +39,7 @@ namespace RG\TtNews;
  */
 
 use RG\TtNews\Plugin\TtNews;
+use RG\TtNews\Utility\Div;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Tree\View\AbstractTreeView;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -297,7 +298,7 @@ class Categorytree extends AbstractTreeView
                 }
             }
 
-            \RG\TtNews\Div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
+            Div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
             $sum = $result['sum'];
 
         }

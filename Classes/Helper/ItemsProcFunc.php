@@ -1,6 +1,6 @@
 <?php
 
-namespace RG\TtNews;
+namespace RG\TtNews\Helper;
 
 /***************************************************************
  *  Copyright notice

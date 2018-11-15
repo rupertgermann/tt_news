@@ -36,8 +36,8 @@ namespace RG\TtNews\Hooks;
  * @author     Rupert Germann <rupi@gmx.li>
  */
 
-use RG\TtNews\Database;
-use RG\TtNews\Div;
+use RG\TtNews\Database\Database;
+use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;

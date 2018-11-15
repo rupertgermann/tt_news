@@ -6,7 +6,7 @@
  * Time: 17:32
  */
 
-namespace RG\TtNews;
+namespace RG\TtNews\Database;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;

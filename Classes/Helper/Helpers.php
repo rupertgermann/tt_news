@@ -1,6 +1,6 @@
 <?php
 
-namespace RG\TtNews;
+namespace RG\TtNews\Helper;
 
 /***************************************************************
  *  Copyright notice
@@ -28,6 +28,7 @@ namespace RG\TtNews;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use RG\TtNews\Database\Database;
 use RG\TtNews\Plugin\TtNews;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -145,8 +146,8 @@ class Helpers
      *
      * @param    string  $catlist : list of categories which will be extended by subcategories
      * @param    string  $fields  : list of fields for the query
-     * @param    integer $cc      : counter to detect recursion in nested categories
-     * @param    [type]        $cc: ...
+     * @param    string  $addWhere      :
+     * @param    int        $cc: counter to detect recursion in nested categories
      *
      * @return    array        all categories in a nested array
      * @throws \Doctrine\DBAL\DBALException

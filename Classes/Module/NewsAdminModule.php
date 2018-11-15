@@ -28,8 +28,8 @@ namespace RG\TtNews\Module;
 use Doctrine\DBAL\DBALException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use RG\TtNews\Database;
-use RG\TtNews\Div;
+use RG\TtNews\Database\Database;
+use RG\TtNews\Utility\Div;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Module\BaseScriptClass;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
@@ -1392,7 +1392,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return mixed
      */
-    protected function checkPageAccess($pid)
+    public function checkPageAccess($pid)
     {
         if (isset($this->permsCache[$pid])) {
             return $this->permsCache[$pid];
