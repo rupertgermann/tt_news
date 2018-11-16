@@ -9,7 +9,7 @@
 namespace RG\TtNews\Module;
 
 
-use RG\TtNews\Categorytree;
+use RG\TtNews\Tree\Categorytree;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
