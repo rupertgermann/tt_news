@@ -37,6 +37,7 @@ use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -4423,7 +4424,9 @@ class TtNews extends AbstractPlugin
         if (isset($this->conf['altMainMarkers.'])) {
             $altSPM = trim($this->cObj->stdWrap($this->conf['altMainMarkers.'][$sPBody],
                 $this->conf['altMainMarkers.'][$sPBody . '.']));
-            $GLOBALS['TT']->setTSlogMessage('Using alternative subpart marker for \'' . $subpartMarker . '\': ' . $altSPM,
+            /** @var TimeTracker $timeTracker */
+            $timeTracker = GeneralUtility::makeInstance(TimeTracker::class);
+            $timeTracker->setTSlogMessage('Using alternative subpart marker for \'' . $subpartMarker . '\': ' . $altSPM,
                 1);
         }
 

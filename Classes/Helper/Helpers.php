@@ -30,6 +30,7 @@ namespace RG\TtNews\Helper;
 
 use RG\TtNews\Database\Database;
 use RG\TtNews\Plugin\TtNews;
+use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -169,7 +170,9 @@ class Helpers
         while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $cc++;
             if ($cc > 10000) {
-                $GLOBALS['TT']->setTSlogMessage('tt_news: one or more recursive categories where found');
+                /** @var TimeTracker $timeTracker */
+                $timeTracker = GeneralUtility::makeInstance(TimeTracker::class);
+                $timeTracker->setTSlogMessage('tt_news: one or more recursive categories where found');
 
                 return $pcatArr;
             }
