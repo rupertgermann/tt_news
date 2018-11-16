@@ -669,7 +669,7 @@ class NewsRecordlist extends PageLayoutView
      * @return array
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function makeQueryArray($table, $id, $addWhere = "", $fieldList = '')
+    public function makeQueryArray($table, $id, $addWhere = "", $fieldList = '')
     {
         global $TCA;
         if (!$fieldList) {
