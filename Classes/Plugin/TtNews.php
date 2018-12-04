@@ -35,7 +35,9 @@ use RG\TtNews\Utility\Div;
 use RG\TtNews\Helper\Helpers;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
@@ -4149,6 +4151,18 @@ class TtNews extends AbstractPlugin
      */
     protected function getFileResource($fileName)
     {
+        if (strpos($fileName, 't3://') === 0) {
+            /** @var LinkService $linkService */
+            $linkService = GeneralUtility::makeInstance(LinkService::class);
+            $tmp = $linkService->resolve($fileName);
+            if (isset($tmp['type']) && $tmp['type'] == $linkService::TYPE_FILE) {
+                $fileObj = $tmp['file'];
+                if ($fileObj instanceof File) {
+                    $fileName = $fileObj->getPublicUrl();
+                }
+            }
+        }
+
         $fileContent = '';
         $file = $this->tsfe->tmpl->getFileName($fileName);
         if ($file != '') {
