@@ -70,6 +70,28 @@ if (TYPO3_MODE == 'BE') {
         )
     );
 
+    $iconRegistry->registerIcon(
+        'tt-news',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+        array(
+            'source' => 'EXT:tt_news/Resources/Public/Images/Icons/ext_icon.gif',
+        )
+    );
+    $iconRegistry->registerIcon(
+        'tt-news-article',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+        array(
+            'source' => 'EXT:tt_news/Resources/Public/Images/Icons/tt_news_article.gif',
+        )
+    );
+    $iconRegistry->registerIcon(
+        'tt-news-exturl',
+        \TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider::class,
+        array(
+            'source' => 'EXT:tt_news/Resources/Public/Images/Icons/tt_news_exturl.gif',
+        )
+    );
+
     // add folder icon
     $GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-tt_news'] = 'apps-pagetree-folder-contains-news';
     $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = array(

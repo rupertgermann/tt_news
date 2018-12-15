@@ -50,6 +50,12 @@ return Array(
             '1' => 'EXT:tt_news/Resources/Public/Images/Icons/tt_news_article.gif',
             '2' => 'EXT:tt_news/Resources/Public/Images/Icons/tt_news_exturl.gif',
         ),
+        'typeicon_classes' => [
+            '0' => 'tt-news',
+            '1' => 'tt-news-article',
+            '2' => 'tt-news-exturl',
+            'default' => 'tt-news'
+        ],
         'thumbnail' => 'image',
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/ext_icon.gif',
         'searchFields' => 'uid,title,short,bodytext'
