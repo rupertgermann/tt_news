@@ -70,9 +70,9 @@ return Array(
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
             'config' => Array(
                 'type' => 'input',
-                'eval' => 'datetime',
-                'default' => '0',
-                'renderType' => 'inputDateTime'
+                'renderType' => 'inputDateTime',
+                'eval' => 'datetime,int',
+                'default' => 0
             )
         ),
         'endtime' => Array(
@@ -81,10 +81,12 @@ return Array(
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
             'config' => Array(
                 'type' => 'input',
-                'eval' => 'datetime',
-                'checkbox' => '0',
                 'renderType' => 'inputDateTime',
-
+                'eval' => 'datetime,int',
+                'default' => 0,
+                'range' => [
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                ]
             )
         ),
         'hidden' => Array(
@@ -209,8 +211,9 @@ return Array(
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.datetime',
             'config' => Array(
                 'type' => 'input',
-                'eval' => 'datetime',
-                'renderType' => 'inputDateTime'
+                'renderType' => 'inputDateTime',
+                'eval' => 'datetime,int',
+                'default' => 0
             )
         ),
         'archivedate' => Array(
@@ -219,9 +222,12 @@ return Array(
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.archivedate',
             'config' => Array(
                 'type' => 'input',
-                'eval' => 'date',
-                'default' => '0',
-                'renderType' => 'inputDateTime'
+                'renderType' => 'inputDateTime',
+                'eval' => 'date,int',
+                'default' => 0,
+                'range' => [
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                ]
             )
         ),
         'image' => Array(

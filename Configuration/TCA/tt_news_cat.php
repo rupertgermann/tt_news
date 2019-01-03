@@ -76,9 +76,9 @@ return array(
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
             'config' => Array(
                 'type' => 'input',
-                'eval' => 'datetime',
-                'default' => '0',
-                'renderType' => 'inputDateTime'
+                'renderType' => 'inputDateTime',
+                'eval' => 'datetime,int',
+                'default' => 0
             )
         ),
         'endtime' => Array(
@@ -87,13 +87,12 @@ return array(
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
             'config' => Array(
                 'type' => 'input',
-                'eval' => 'datetime',
-                'default' => '0',
                 'renderType' => 'inputDateTime',
-                'range' => Array(
-                    'upper' => mktime(0, 0, 0, 12, 31, 2020),
-                    'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y'))
-                )
+                'eval' => 'datetime,int',
+                'default' => 0,
+                'range' => [
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                ]
             )
         ),
         'parent_category' => Array(
