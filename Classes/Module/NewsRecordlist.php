@@ -202,7 +202,7 @@ class NewsRecordlist extends PageLayoutView
                 $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
                 $NrowIcon .= '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
                         $this->backPath, $this->returnUrl)) . '">' .
-                    '<img' . \RG\TtNews\Utility\IconFactory::skinImg('edit2.gif',
+                    '<img' . IconFactory::skinImg('edit2.gif',
                         'width="11" height="12"') . ' title="' . $GLOBALS['LANG']->getLL('edit', 1) . '" alt="" />' .
                     '</a>';
             } else {
@@ -260,53 +260,37 @@ class NewsRecordlist extends PageLayoutView
             if ($currentPage > 1) {
                 $labelFirst = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:first');
 
-                $first = '<a href="' . $listURL . '&pointer=0">
-					<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::siteRelPath('tt_news') . 'control_first.gif')
-                    . 'alt="' . $labelFirst . '" title="' . $labelFirst . '" />
-				</a>';
+                $first = '<a href="' . $listURL . '&pointer=0"><img' . IconFactory::skinImg('control_first.gif')
+                    . 'alt="' . $labelFirst . '" title="' . $labelFirst . '" /></a>';
             } else {
-                $first = '<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'control_first_disabled.gif') . 'alt="" title="" />';
+                $first = '<img' . IconFactory::skinImg('control_first_disabled.gif') . 'alt="" title="" />';
             }
 
             if (($currentPage - 1) > 0) {
                 $labelPrevious = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:previous');
 
-                $previous = '<a href="' . $listURL . '&pointer=' . (($currentPage - 2) * $this->iLimit) . '">
-					<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'control_previous.gif')
-                    . 'alt="' . $labelPrevious . '" title="' . $labelPrevious . '" />
-					</a>';
+                $previous = '<a href="' . $listURL . '&pointer=' . (($currentPage - 2) * $this->iLimit) . '"><img' . IconFactory::skinImg('control_previous.gif')
+                    . 'alt="' . $labelPrevious . '" title="' . $labelPrevious . '" /></a>';
             } else {
-                $previous = '<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'control_previous_disabled.gif') . 'alt="" title="" />';
+                $previous = '<img' . IconFactory::skinImg('control_previous_disabled.gif') . 'alt="" title="" />';
             }
 
             if (($currentPage + 1) <= $totalPages) {
                 $labelNext = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:next');
 
-                $next = '<a href="' . $listURL . '&pointer=' . (($currentPage) * $this->iLimit) . '">
-					<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'control_next.gif')
-                    . 'alt="' . $labelNext . '" title="' . $labelNext . '" />
-					</a>';
+                $next = '<a href="' . $listURL . '&pointer=' . (($currentPage) * $this->iLimit) . '"><img' . IconFactory::skinImg('control_next.gif')
+                    . 'alt="' . $labelNext . '" title="' . $labelNext . '" /></a>';
             } else {
-                $next = '<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'control_next_disabled.gif') . 'alt="" title="" />';
+                $next = '<img' . IconFactory::skinImg('control_next_disabled.gif') . 'alt="" title="" />';
             }
 
             if ($currentPage != $totalPages) {
                 $labelLast = $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:last');
 
-                $last = '<a href="' . $listURL . '&pointer=' . (($totalPages - 1) * $this->iLimit) . '">
-					<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'control_last.gif')
-                    . 'alt="' . $labelLast . '" title="' . $labelLast . '" />
-					</a>';
+                $last = '<a href="' . $listURL . '&pointer=' . (($totalPages - 1) * $this->iLimit) . '"><img' . IconFactory::skinImg('control_last.gif')
+                    . 'alt="' . $labelLast . '" title="' . $labelLast . '" /></a>';
             } else {
-                $last = '<img' . IconFactory::skinImg('',
-                        ExtensionManagementUtility::extPath('tt_news') . 'control_last_disabled.gif') . 'alt="" title="" />';
+                $last = '<img' . IconFactory::skinImg('control_last_disabled.gif') . 'alt="" title="" />';
             }
 
             $pageIndicator = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:pageIndicator'),
@@ -567,10 +551,9 @@ class NewsRecordlist extends PageLayoutView
                 break;
         }
 
-        $img = ExtensionManagementUtility::extPath('tt_news') . 'res/noedit_' . $reason . '.gif';
+        $img = 'noedit_' . $reason . '.gif';
 
-        return '<img' . IconFactory::skinImg($this->backPath,
-                $img) . ' title="' . $label . '" alt="" />';
+        return '<img' . IconFactory::skinImg($img) . ' title="' . $label . '" alt="" />';
     }
 
 
@@ -624,8 +607,7 @@ class NewsRecordlist extends PageLayoutView
         //	 Create the sort link:
         $sortUrl = $this->listURL('', false,
                 'sortField,sortRev') . '&sortField=' . $field . '&sortRev=' . ($this->sortRev || ($this->sortField != $field) ? 0 : 1);
-        $sortArrow = ($this->sortField == $field ? '<img' . IconFactory::skinImg($this->backPath,
-                'gfx/red' . ($this->sortRev ? 'up' : 'down') . '.gif', 'width="7" height="4"') . ' alt="" />' : '');
+        $sortArrow = ($this->sortField == $field ? '<img' . IconFactory::skinImg('red' . ($this->sortRev ? 'up' : 'down') . '.gif', 'width="7" height="4"') . ' alt="" />' : '');
 
         // Return linked field:
         return '<a href="' . htmlspecialchars($sortUrl) . '">' . $code .
