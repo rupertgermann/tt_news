@@ -3,7 +3,7 @@
 return [
     'exclude' => 1,
     'l10n_mode' => 'exclude',
-    'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.categorymounts',
+    'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.categorymounts',
     'config' => [
         'type' => 'select',
         'renderType' => 'selectTree',

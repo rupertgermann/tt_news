@@ -652,12 +652,12 @@ class NewsAdminModule extends BaseScriptClass
             $rootRec = $this->treeObj->getRecord($this->storagePid);
             $icon = $this->treeObj->getIcon($rootRec);
             $this->treeObj->table = $tmpt;
-            $pidLbl = sprintf($this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),
+            $pidLbl = sprintf($this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.treeSelect.pageTitleSuffix'),
                 $this->storagePid);
         } else {
             $rootRec = $this->treeObj->getRootRecord($this->storagePid);
             $icon = $this->treeObj->getRootIcon($rootRec);
-            $pidLbl = $this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
+            $pidLbl = $this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.treeSelect.pageTitleSuffixNoGrsp');
         }
 
         $pidLbl = ' <span class="typo3-dimmed"><em>' . $pidLbl . '</em></span>';

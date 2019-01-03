@@ -4,7 +4,7 @@
 // ******************************************************************
 return [
     'ctrl' => [
-        'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat',
+        'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
@@ -37,7 +37,7 @@ return [
             ]
         ],
         'title_lang_ol' => [
-            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat.title_lang_ol',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.title_lang_ol',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -97,7 +97,7 @@ return [
         ],
         'parent_category' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat.parent_category',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.parent_category',
             'config' => [
                 'type' => 'select',
                 'foreign_table' => 'tt_news_cat',
@@ -119,7 +119,7 @@ return [
         ],
         'image' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat.image',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.image',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'file',
@@ -134,7 +134,7 @@ return [
         ],
         'shortcut' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat.shortcut',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.shortcut',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
@@ -147,7 +147,7 @@ return [
         ],
         'shortcut_target' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat.shortcut_target',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.shortcut_target',
             'config' => [
                 'type' => 'input',
                 'size' => '10',
@@ -158,7 +158,7 @@ return [
         ],
         'single_pid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat.single_pid',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.single_pid',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
@@ -171,7 +171,7 @@ return [
         ],
         'description' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news_cat.description',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.description',
             'config' => [
                 'type' => 'text',
                 'cols' => '40',
@@ -184,9 +184,9 @@ return [
         '0' => [
             'showitem' => '
 			--palette--;;title,parent_category,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.special, image,--palette--;;shortcut,single_pid,description;;;;1-1-1,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.access, hidden,starttime,endtime,fe_group,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.tabs.extended,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special, image,--palette--;;shortcut,single_pid,description;;;;1-1-1,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access, hidden,starttime,endtime,fe_group,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended,
 		'
         ],
 
