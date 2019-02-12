@@ -1,3 +1,6 @@
+2019-02-12  netz.coop eG <kontakt@netz.coop>
+	* https://github.com/rupertgermann/tt_news/issues/119 BUGFIX 2: SQL error: 'Incorrect integer value: '' for column 'shortcut' at row 1' (tt_news_cat:NEW...)
+
 2012-05-22  Oliver Hader <oliver.hader@typo3.org>
 	* Raised version to 3.3.0
 	* Added compatibility layer for removed methods in TYPO3 6.0
