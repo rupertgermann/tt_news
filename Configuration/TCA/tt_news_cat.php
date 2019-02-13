@@ -107,6 +107,7 @@ return [
                 'minitems' => 0,
                 'maxitems' => 1,
                 'renderType' => 'selectTree',
+                'default' => 0,
                 'treeConfig' => [
                     'parentField' => 'parent_category',
                     'dataProvider' => \RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
@@ -142,7 +143,8 @@ return [
                 'size' => '1',
                 'maxitems' => '1',
                 'minitems' => '0',
-                'show_thumbs' => '1'
+                'show_thumbs' => '1',
+                'default' => 0
             ]
         ],
         'shortcut_target' => [
@@ -166,7 +168,8 @@ return [
                 'size' => '1',
                 'maxitems' => '1',
                 'minitems' => '0',
-                'show_thumbs' => '1'
+                'show_thumbs' => '1',
+                'default' => 0
             ]
         ],
         'description' => [
