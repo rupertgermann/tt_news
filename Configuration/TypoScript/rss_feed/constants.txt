@@ -25,15 +25,15 @@ plugin.tt_news {
   xmlCaching = 1
 
     # cat=plugin_tt_news_XML-feeds/file/10; type=text; label= LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:tsce.rss2_tmplFile
-  rss2_tmplFile = EXT:tt_news/res/rss_2.tmpl
+  rss2_tmplFile = EXT:tt_news/Resources/Private/Templates/Rss/rss_2.tmpl
     # cat=plugin_tt_news_XML-feeds/file/20; type=text; label= LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:tsce.rss091_tmplFile
-  rss091_tmplFile = EXT:tt_news/res/rss_0_91.tmpl
+  rss091_tmplFile = EXT:tt_news/Resources/Private/Templates/Rss/rss_0_91.tmpl
     # cat=plugin_tt_news_XML-feeds/file/30; type=text; label= LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:tsce.rdf_tmplFile
-  rdf_tmplFile = EXT:tt_news/res/rdf.tmpl
+  rdf_tmplFile = EXT:tt_news/Resources/Private/Templates/Rss/rdf.tmpl
     # cat=plugin_tt_news_XML-feeds/file/40; type=text; label= LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:tsce.atom03_tmplFile
-  atom03_tmplFile = EXT:tt_news/res/atom_0_3.tmpl
+  atom03_tmplFile = EXT:tt_news/Resources/Private/Templates/Rss/atom_0_3.tmpl
     # cat=plugin_tt_news_XML-feeds/file/50; type=text; label= LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:tsce.atom1_tmplFile
-  atom1_tmplFile = EXT:tt_news/res/atom_1_0.tmpl
+  atom1_tmplFile = EXT:tt_news/Resources/Private/Templates/Rss/atom_1_0.tmpl
 
 
   }
