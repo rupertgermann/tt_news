@@ -8,12 +8,12 @@
     "news",
     "extension"
   ],
-  "version": "9.5.0",
+  "version": "9.5.1",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "Rupert Germann",
-      "email": "rupi@gmx.li",
+      "email": "rg@pick2.de",
       "role": "Lead"
     },
     {
