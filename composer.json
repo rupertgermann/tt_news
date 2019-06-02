@@ -1,5 +1,5 @@
 {
-  "name": "rupertgermann/tt-news",
+  "name": "rupertgermann/tt_news",
   "type": "typo3-cms-extension",
   "description": "Website news with front page teasers and article handling inside.",
   "homepage": "https://typo3.org/extensions/repository/view/tt_news",
@@ -14,6 +14,7 @@
     {
       "name": "Rupert Germann",
       "email": "rg@pick2.de",
+      "homepage": "https://pick2-webservices.de",
       "role": "Lead"
     },
     {
@@ -23,7 +24,7 @@
     }
   ],
   "require": {
-    "typo3/cms-core": "*"
+    "typo3/cms-core": "^8.7 || ^9.5"
   },
   "replace": {
     "tt_news": "self.version",
