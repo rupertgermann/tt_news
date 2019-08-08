@@ -3198,6 +3198,7 @@ class TtNews extends AbstractPlugin
                 'month' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['month'] ? $this->piVars['month'] : null))
             );
 
+            /** @var ContentObjectRenderer $veryLocal_cObj */
             $veryLocal_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class); // Local cObj.
             $lines = array();
 
@@ -3228,14 +3229,14 @@ class TtNews extends AbstractPlugin
                     $this->tsfe->config['config']['tx_realurl_enable'] = 0;
                     $this->tsfe->config['config']['tx_cooluri_enable'] = 0;
 
-
-                    $link = $this->getSingleViewLink($sPid, $row, $piVarsArray, true);
-
-                    $linkArr = GeneralUtility::explodeUrl2Array($link, true);
                     $newsAddParams = '';
-                    if (is_array($linkArr) && is_array($linkArr['tx_ttnews'])) {
-                        $newsAddParams = GeneralUtility::implodeArrayForUrl('tx_ttnews',
-                            $linkArr['tx_ttnews']);
+                    $link = $this->getSingleViewLink($sPid, $row, $piVarsArray, true);
+                    $tmpUrlArray = parse_url($link);
+                    if (is_array($tmpUrlArray) && isset($tmpUrlArray['query'])) {
+                        $linkArr = GeneralUtility::explodeUrl2Array($tmpUrlArray['query'], true);
+                        if (is_array($linkArr) && is_array($linkArr['tx_ttnews'])) {
+                            $newsAddParams = GeneralUtility::implodeArrayForUrl('tx_ttnews', $linkArr['tx_ttnews']);
+                        }
                     }
 
                     // load the parameter string into the register 'newsAddParams' to access it from TS
