@@ -351,7 +351,7 @@ return [
                 'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
                 'MM' => 'tt_news_cat_mm',
                 'size' => 10,
-                'autoSizeMax' => 50,
+                'autoSizeMax' => 20,
                 'minitems' => $confArr['requireCategories'] ? 1 : 0,
                 'maxitems' => 500,
                 'renderMode' => 'tree',
