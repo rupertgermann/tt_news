@@ -115,9 +115,7 @@ plugin.tt_news {
       parseFunc.nonTypoTagStdWrap.encapsLines.nonWrappedTag >
     }
 
-    content_stdWrap.parseFunc < lib.parseFunc_RTE
-    content_stdWrap.parseFunc.nonTypoTagStdWrap.encapsLines.addAttributes.P >
-
+    content_stdWrap.parseFunc < lib.parseFunc
 
     # stdWrap for "additional info" (links, files, related news)
     addInfo_stdWrap.wrap = <div class="news-single-additional-info"> | </div>
