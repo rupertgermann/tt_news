@@ -39,6 +39,7 @@ use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * Module 'News Admin' for the 'tt_news' extension.
@@ -366,7 +367,7 @@ class NewsAdminModule extends BaseScriptClass
                 'filename from TBE_STYLES' => $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'],
                 'full path' => $this->doc->backPath . $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html']
             ));
-            $tfile = ExtensionManagementUtility::siteRelPath('tt_news') . 'Classes/Module/mod_ttnews_admin.html';
+            $tfile = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('tt_news')) . 'Classes/Module/mod_ttnews_admin.html';
             $this->doc->moduleTemplate = @file_get_contents(PATH_site . $tfile);
         }
 

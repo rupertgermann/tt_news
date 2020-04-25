@@ -7,16 +7,16 @@ namespace RG\TtNews\Utility;
  *
  * Simple adapter for routing old Typo's icons path to tt_news icons
  */
+
 use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 class IconFactory extends \TYPO3\CMS\Core\Imaging\IconFactory
 {
-
     /**
-     * @param string $backPath   Current backpath to PATH_typo3 folder
      * @param string $src        Icon file name relative to PATH_typo3 folder
      * @param string $wHattribs  Default width/height, defined like 'width="12" height="14"'
      * @param int    $outputMode Mode: 0 (zero) is default and returns src/width/height. 1 returns value of
@@ -30,7 +30,7 @@ class IconFactory extends \TYPO3\CMS\Core\Imaging\IconFactory
         self::registerAllIconIdentifiers();
 
         // simply return the new path from Resources
-        $newBackPath = $GLOBALS['BACK_PATH'] . ExtensionManagementUtility::siteRelPath('tt_news') . 'Resources/Public/Images/Icons/';
+        $newBackPath = $GLOBALS['BACK_PATH'] . PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('tt_news')) . 'Resources/Public/Images/Icons/';
 
         switch ($outputMode) {
             case 2:
