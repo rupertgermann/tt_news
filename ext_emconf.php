@@ -7,8 +7,6 @@ $EM_CONF['tt_news'] = [
     'version' => '10.0.0',
     'module' => 'mod1',
     'state' => 'beta',
-    'uploadfolder' => 1,
-    'createDirs' => 'uploads/pics',
     'modify_tables' => 'be_groups,be_users',
     'clearcacheonload' => 0,
     'author' => 'Rupert Germann [pick2webServices]',
@@ -16,7 +14,7 @@ $EM_CONF['tt_news'] = [
     'author_company' => 'www.pick2.de',
     'constraints' => [
         'depends' => [
-            'typo3' => '8.7.0-10.4.99',
+            'typo3' => '10.4.0-10.4.99',
         ],
         'conflicts' => [],
         'suggests' => [],

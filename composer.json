@@ -24,11 +24,7 @@
     }
   ],
   "require": {
-    "typo3/cms-core": "^8.7 || ^9.5 || ^10.4"
-  },
-  "replace": {
-    "tt_news": "self.version",
-    "typo3-ter/tt_news": "self.version"
+    "typo3/cms-core": "^10.4"
   },
   "autoload": {
     "psr-4": {
