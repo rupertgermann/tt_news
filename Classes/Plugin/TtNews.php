@@ -3040,10 +3040,6 @@ class TtNews extends AbstractPlugin
             $veryLocal_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class); // Local cObj.
             $lines = array();
 
-            // save current realUrl state
-            $tmpRealUrl = (bool)$this->tsfe->config['config']['tx_realurl_enable'];
-            $tmpCoolUri = (bool)$this->tsfe->config['config']['tx_cooluri_enable'];
-
             foreach ($relrows as $row) {
                 if ($this->tsfe->sys_language_content && $row['tablenames'] != 'pages') {
                     $OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
@@ -3063,10 +3059,6 @@ class TtNews extends AbstractPlugin
                     }
                     $sPid = ($catSPid ? $catSPid : $this->config['singlePid']);
 
-                    // temporary disable realUrl to get raw GETvars from function getSingleViewLink()
-                    $this->tsfe->config['config']['tx_realurl_enable'] = 0;
-                    $this->tsfe->config['config']['tx_cooluri_enable'] = 0;
-
                     $newsAddParams = '';
                     $link = $this->getSingleViewLink($sPid, $row, $piVarsArray, true);
                     $tmpUrlArray = parse_url($link);
@@ -3085,16 +3077,10 @@ class TtNews extends AbstractPlugin
                         $this->conf['getRelatedCObject.']['10.']['default.']['10.']['typolink.']['parameter'] = $sPid;
                     }
                 }
-                // re-enable realUrl (if set) to make cObjGetSingle render the related links as realUrls
-                $this->tsfe->config['config']['tx_realurl_enable'] = $tmpRealUrl;
-                $this->tsfe->config['config']['tx_cooluri_enable'] = $tmpCoolUri;
+
                 $lines[] = $veryLocal_cObj->cObjGetSingle($this->conf['getRelatedCObject'],
                     $this->conf['getRelatedCObject.'], 'getRelatedCObject');
             }
-            // make sure that realUrl is set to its previous state
-            $this->tsfe->config['config']['tx_realurl_enable'] = $tmpRealUrl;
-            $this->tsfe->config['config']['tx_cooluri_enable'] = $tmpCoolUri;
-
             return implode('', $lines);
         } else {
             return '';
