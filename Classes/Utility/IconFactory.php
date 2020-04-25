@@ -14,7 +14,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
-class IconFactory extends \TYPO3\CMS\Core\Imaging\IconFactory
+class IconFactory
 {
     /**
      * @param string $src        Icon file name relative to PATH_typo3 folder

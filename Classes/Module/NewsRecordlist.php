@@ -27,13 +27,12 @@ namespace RG\TtNews\Module;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use RG\TtNews\Database\Database;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Backend\View\PageLayoutView;
-use TYPO3\CMS\Core\Imaging\Icon;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use RG\TtNews\Utility\IconFactory;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * generates the list view for the 'news admin' module
@@ -450,7 +449,7 @@ class NewsRecordlist extends PageLayoutView
         /**
          * @var IconFactory $iconFactory
          */
-        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+        $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
 
         return '<a href="#" onclick="' . $onclick . '">' .
             $iconFactory->getIcon('actions-document-new', Icon::SIZE_SMALL)->render() .
@@ -475,7 +474,7 @@ class NewsRecordlist extends PageLayoutView
         /**
          * @var IconFactory $iconFactory
          */
-        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+        $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
         $iconImg = $iconFactory->getIconForRecord('tt_news', $row, Icon::SIZE_SMALL)->render();
 
         $this->counter++;
@@ -628,7 +627,7 @@ class NewsRecordlist extends PageLayoutView
      */
     public function listURL($altId = '', $table = '', $exclList = '')
     {
-        return BackendUtility::getModuleUrl('web_txttnewsM1') .
+        return LegacyBackendUtility::getModuleUrl('web_txttnewsM1') .
             '&id=' . (strcmp($altId, '') ? $altId : $this->id) .
             ($this->thumbs ? '&showThumbs=' . $this->thumbs : '') .
             ($this->searchString ? '&search_field=' . rawurlencode($this->searchString) : '') .
@@ -710,7 +709,7 @@ class NewsRecordlist extends PageLayoutView
             'SELECT' => $fieldList,
             'FROM' => $table . $leftjoin,
             'WHERE' => $this->pidSelect . ' AND ' . $table . '.pid > 0' .
-                BackendUtility::deleteClause($table) .
+                ' AND ' . $table . '.deleted = 0' .
                 BackendUtility::versioningPlaceholderClause($table) .
                 ' ' . $addWhere .
                 ' ' . ($search ? ' AND ' . $search : '') . $catWhere,

@@ -123,12 +123,13 @@ class CategoryManager extends Categorytree
             $hrefTitle = $this->getLanguageService()->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:showAllResetSel');
 
             $out = '<span class="dragTitle" id="dragTitleID_0">
-						<a href="' . BackendUtility::getModuleUrl('web_txttnewsM1') . '&id=' . $this->pageID . '" title="' . $hrefTitle . '">' . $title . '</a>
+						<a href="' . LegacyBackendUtility::getModuleUrl('web_txttnewsM1') . '&id=' . $this->pageID . '" title="' . $hrefTitle . '">' . $title . '</a>
 					</span>' . $pidLbl;
         }
 
         return $out;
     }
+
 
     /**
      * Creates the control panel for a single record in the listing.
@@ -198,7 +199,7 @@ class CategoryManager extends Categorytree
         $urlParameters['prErr'] = '1';
         $urlParameters['uPT'] = '1';
 
-        $url = BackendUtility::getModuleUrl('tce_db', $urlParameters);
+        $url = LegacyBackendUtility::getModuleUrl('tce_db', $urlParameters);
         $url .= '&redirect=' . ($rUrl == -1 ? "'+T3_THIS_LOCATION+'" : rawurlencode($rUrl));
 
         return $url;

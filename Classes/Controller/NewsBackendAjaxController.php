@@ -17,6 +17,7 @@ namespace RG\TtNews\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RG\TtNews\Module\NewsAdminModule;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 
 /**
  * Class NewsBackendAjaxController
@@ -52,7 +53,7 @@ class NewsBackendAjaxController
      * @return ResponseInterface
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function dispatch(ServerRequestInterface $request, ResponseInterface $response)
+    public function dispatch(ServerRequestInterface $request)
     {
         $parsedBody = $request->getQueryParams();
 
@@ -63,7 +64,7 @@ class NewsBackendAjaxController
             'action' => $parsedBody['action'] ?? null,
         ];
 
-        $response = $response->withHeader('Content-Type', 'text/html; charset=utf-8');
+        $response = new HtmlResponse('');
 
         // Basic test for required value
         if ($this->conf['action'] === null) {
