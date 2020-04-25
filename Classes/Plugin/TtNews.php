@@ -964,7 +964,8 @@ class TtNews extends AbstractPlugin
 
             $markerArray['###GOTOARCHIVE###'] = $this->pi_getLL('goToArchive');
             $markerArray['###LATEST_HEADER###'] = $this->pi_getLL('latestHeader');
-            $wrappedSubpartArray['###LINK_ARCHIVE###'] = $this->local_cObj->typolinkWrap($this->conf['archiveTypoLink.']);
+            $archiveTypoLink = $this->local_cObj->typolink('|||', $this->conf['archiveTypoLink.']);
+            $wrappedSubpartArray['###LINK_ARCHIVE###'] = explode('|||', $archiveTypoLink);
             // unset pagebrowser markers
             $markerArray['###LINK_PREV###'] = '';
             $markerArray['###LINK_NEXT###'] = '';
@@ -1249,7 +1250,8 @@ class TtNews extends AbstractPlugin
             if ($row['type'] == 1 || $row['type'] == 2) {
                 // News type article or external url
                 $this->local_cObj->setCurrentVal($row['type'] == 1 ? $row['page'] : $row['ext_url']);
-                $wrappedSubpartArray['###LINK_ITEM###'] = $this->local_cObj->typolinkWrap($this->conf['pageTypoLink.']);
+                $pageTypoLink = $this->local_cObj->typolink('|||', $this->conf['pageTypoLink.']);
+                $wrappedSubpartArray['###LINK_ITEM###'] = explode('|||', $pageTypoLink);
 
                 // fill the link string in a register to access it from TS
                 $this->local_cObj->cObjGetSingle('LOAD_REGISTER', array(
