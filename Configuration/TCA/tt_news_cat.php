@@ -2,6 +2,8 @@
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************
+$locallang_general = 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:';
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat',
@@ -28,7 +30,7 @@ return [
     ],
     'columns' => [
         'title' => [
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.title',
+            'label' => $locallang_general . ':LGL.title',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -47,7 +49,7 @@ return [
         ],
         'hidden' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
+            'label' => $locallang_general . ':LGL.hidden',
             'config' => [
                 'type' => 'check',
             ]
@@ -55,16 +57,16 @@ return [
         'fe_group' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.fe_group',
+            'label' => $locallang_general . ':LGL.fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => [
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login', -1],
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.any_login', -2],
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.usergroups', '--div--']
+                    [$locallang_general . ':LGL.hide_at_login', -1],
+                    [$locallang_general . ':LGL.any_login', -2],
+                    [$locallang_general . ':LGL.usergroups', '--div--']
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups'
@@ -73,7 +75,7 @@ return [
         'starttime' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'label' => $locallang_general . ':LGL.starttime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -84,7 +86,7 @@ return [
         'endtime' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'label' => $locallang_general . ':LGL.endtime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',

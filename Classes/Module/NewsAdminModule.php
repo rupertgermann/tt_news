@@ -709,7 +709,7 @@ class NewsAdminModule extends BaseScriptClass
         $dblist->doEdit = $this->mayUserEditArticles;
         $dblist->ext_CALC_PERMS = $this->newArticleCalcPerms;
         $dblist->perms_clause = $this->perms_clause;
-        $dblist->agePrefixes = $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.minutesHoursDaysYears');
+        $dblist->agePrefixes = $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.minutesHoursDaysYears');
         $dblist->id = $this->id;
         $dblist->newRecPid = $this->newArticlePid;
         $dblist->singlePid = $this->singlePid;
@@ -889,11 +889,11 @@ class NewsAdminModule extends BaseScriptClass
 				-->
 				<table border="0" cellpadding="0" cellspacing="0" id="ttnewsadmin-search">
 					<tr>
-						<td>' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString',
+						<td>' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString',
                 1) . '<input type="text" name="search_field" value="' . htmlspecialchars($this->search_field) . '" ' . $GLOBALS['TBE_TEMPLATE']->formWidth(10) . ' /></td>
-						<td>' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showRecords',
+						<td>' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showRecords',
                 1) . ':<input type="text" name="SET[showLimit]" value="' . htmlspecialchars($this->showLimit ? $this->showLimit : '') . '" ' . $GLOBALS['TBE_TEMPLATE']->formWidth(4) . ' /></td>
-						<td><input type="submit" name="search" value="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.search',
+						<td><input type="submit" name="search" value="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.search',
                 1) . '" /></td>
 
 					</tr>
@@ -1061,14 +1061,14 @@ class NewsAdminModule extends BaseScriptClass
                 ));
 
                 $buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '">' .
-                    '<img' . IconFactory::skinImg('list.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showList') . '" alt="" />' .
+                    '<img' . IconFactory::skinImg('list.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showList') . '" alt="" />' .
                     '</a>';
             }
 
             // View
             $buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::viewOnClick($this->id,
                     $backPath, BackendUtility::BEgetRootLine($this->id))) . '">' .
-                '<img' . IconFactory::skinImg('zoom.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.showPage') . '" alt="" />' .
+                '<img' . IconFactory::skinImg('zoom.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage') . '" alt="" />' .
                 '</a>';
 
             // If edit permissions are set (see class.t3lib_userauthgroup.php)
@@ -1083,7 +1083,7 @@ class NewsAdminModule extends BaseScriptClass
 
             // Reload
             $buttons['reload'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisScript()) . '">' .
-                '<img' . IconFactory::skinImg('refresh_n.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.reload') . '" alt="" />' .
+                '<img' . IconFactory::skinImg('refresh_n.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.reload') . '" alt="" />' .
                 '</a>';
 
             // Shortcut
@@ -1096,7 +1096,7 @@ class NewsAdminModule extends BaseScriptClass
             if ($this->returnUrl) {
                 $buttons['back'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisUrl($this->returnUrl,
                         array('id' => $this->id))) . '" class="typo3-goBack">' .
-                    '<img' . IconFactory::skinImg('goback.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_core.xlf:labels.goBack') . '" alt="" />' .
+                    '<img' . IconFactory::skinImg('goback.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack') . '" alt="" />' .
                     '</a>';
             }
         }
@@ -1112,7 +1112,7 @@ class NewsAdminModule extends BaseScriptClass
     {
         $menu = '';
         if (count($this->MOD_MENU['language']) > 1) {
-            $menu = $this->getLanguageService()->sL('LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.language',
+            $menu = $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
                     1) .
                 BackendUtility::getFuncMenu($this->id, 'SET[language]',
                     $this->current_sys_language, $this->MOD_MENU['language']);
@@ -1324,7 +1324,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         // get include/exclude items
-        if (($excludeList = $GLOBALS['BE_USER']->getTSConfigVal('tt_newsPerms.tt_news_cat.excludeList'))) {
+        if (($excludeList = $GLOBALS['BE_USER']->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['excludeList'])) {
             $this->excludeCats = $this->posIntExplode($excludeList);
         }
 

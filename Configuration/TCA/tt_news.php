@@ -13,6 +13,8 @@ $l10n_mode_author = ($confArr['l10n_mode_prefixLangTitle'] ? 'mergeIfNotBlank' :
 $l10n_mode_image = ($confArr['l10n_mode_imageExclude'] ? 'exclude' : 'mergeIfNotBlank');
 // hide new localizations
 $hideNewLocalizations = ($confArr['hideNewLocalizations'] ? 'mergeIfNotBlank' : '');
+$locallang_general = 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:';
+
 // ******************************************************************
 // This is the standard TypoScript news table, tt_news
 // ******************************************************************
@@ -23,7 +25,7 @@ return [
         'label_alt' => $confArr['label_alt'] . ($confArr['label_alt2'] ? ',' . $confArr['label_alt2'] : ''),
         'label_alt_force' => $confArr['label_alt_force'],
         'default_sortby' => 'ORDER BY datetime DESC',
-        'prependAtCopy' => $confArr['prependAtCopy'] ? 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.prependAtCopy' : '',
+        'prependAtCopy' => $confArr['prependAtCopy'] ? $locallang_general . 'LGL.prependAtCopy' : '',
         'versioningWS' => true,
         'versioning_followPages' => true,
         'origUid' => 't3_origuid',
@@ -67,7 +69,7 @@ return [
         'starttime' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'label' => $locallang_general . 'LGL.starttime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -78,7 +80,7 @@ return [
         'endtime' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'label' => $locallang_general . 'LGL.endtime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
@@ -92,7 +94,7 @@ return [
         'hidden' => [
             'l10n_mode' => $hideNewLocalizations,
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
+            'label' => $locallang_general . 'LGL.hidden',
             'config' => [
                 'type' => 'check',
                 'default' => '1'
@@ -101,16 +103,16 @@ return [
         'fe_group' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.fe_group',
+            'label' => $locallang_general . 'LGL.fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => [
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login', -1],
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.any_login', -2],
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.usergroups', '--div--']
+                    [$locallang_general . 'LGL.hide_at_login', -1],
+                    [$locallang_general . 'LGL.any_login', -2],
+                    [$locallang_general . 'LGL.usergroups', '--div--']
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
@@ -118,7 +120,7 @@ return [
             ]
         ],
         'title' => [
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.title',
+            'label' => $locallang_general . 'LGL.title',
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'input',
@@ -128,7 +130,7 @@ return [
         ],
         'ext_url' => [
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.external',
+            'label' => $locallang_general . 'LGL.external',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -151,7 +153,7 @@ return [
             ]
         ],
         'bodytext' => [
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.text',
+            'label' => $locallang_general . 'LGL.text',
             'defaultExtras' => 'richtext:rte_transform[mode=ts_css]',
             'l10n_mode' => $l10n_mode,
             'config' => [
@@ -183,7 +185,7 @@ return [
         ],
         'short' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.subheader',
+            'label' => $locallang_general . 'LGL.subheader',
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'text',
@@ -193,7 +195,7 @@ return [
         ],
         'type' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.type',
+            'label' => $locallang_general . 'LGL.type',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -249,7 +251,7 @@ return [
         ],
         'imagecaption' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.caption',
+            'label' => $locallang_general . 'LGL.caption',
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'text',
@@ -280,7 +282,7 @@ return [
         'author' => [
             'exclude' => 1,
             'l10n_mode' => $l10n_mode_author,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.author',
+            'label' => $locallang_general . 'LGL.author',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -291,7 +293,7 @@ return [
         'author_email' => [
             'exclude' => 1,
             'l10n_mode' => $l10n_mode_author,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.email',
+            'label' => $locallang_general . 'LGL.email',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -323,7 +325,7 @@ return [
         'keywords' => [
             'l10n_mode' => 'mergeIfNotBlank',
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.keywords',
+            'label' => $locallang_general . 'LGL.keywords',
             'config' => [
                 'type' => 'text',
                 'cols' => '40',
@@ -333,7 +335,7 @@ return [
         'links' => [
             'l10n_mode' => $l10n_mode_author,
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.links',
+            'label' => $locallang_general . 'LGL.links',
             'config' => [
                 'type' => 'text',
                 'cols' => '40',
@@ -369,7 +371,7 @@ return [
         'page' => [
             'exclude' => 1,
             'l10n_mode' => 'exclude',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.shortcut_page',
+            'label' => $locallang_general . 'LGL.shortcut_page',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
@@ -400,14 +402,14 @@ return [
         ],
         'sys_language_uid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.language',
+            'label' => $locallang_general . 'LGL.language',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'special' => 'languages',
                 'items' => [
                     [
-                        'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
+                        $locallang_general . 'LGL.allLanguages',
                         -1,
                         'flags-multiple'
                     ],
@@ -418,7 +420,7 @@ return [
         'l18n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
+            'label' => $locallang_general . 'LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -436,7 +438,7 @@ return [
         ],
         't3ver_label' => [
             'displayCond' => 'FIELD:t3ver_label:REQ:true',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.versionLabel',
+            'label' => $locallang_general . 'LGL.versionLabel',
             'config' => [
                 'type' => 'none',
                 'cols' => 27
@@ -446,7 +448,7 @@ return [
         'editlock' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_tca.xlf:editlock',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:editlock',
             'config' => [
                 'type' => 'check'
             ]

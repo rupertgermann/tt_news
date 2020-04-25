@@ -236,15 +236,15 @@ class ClickMenu
                 '&cmd[' . $table . '][' . $uid . '][delete]=1&prErr=1&vC=' . $this->backendUser->veriCode()
             );
         if ($this->backendUser->jsConfirmation(Permission::PAGE_DELETE)) {
-            $title = $this->languageService->sL('LLL:EXT:lang/locallang_mod_web_list.xlf:delete');
+            $title = $this->languageService->sL('LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:delete');
             $confirmMessage = sprintf(
-                $this->languageService->sL('LLL:EXT:lang/locallang_core.xlf:mess.delete'),
+                $this->languageService->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:mess.delete'),
                 $elInfo[0]
             );
             $confirmMessage .= BackendUtility::referenceCount(
                 $table,
                 $uid,
-                ' ' . $this->languageService->sL('LLL:EXT:lang/locallang_core.xlf:labels.referencesToRecord')
+                ' ' . $this->languageService->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.referencesToRecord')
             );
             $jsCode = 'top.TYPO3.Modal.confirm(' . GeneralUtility::quoteJSvalue($title) . ', '
                 . GeneralUtility::quoteJSvalue($confirmMessage) . ')'
