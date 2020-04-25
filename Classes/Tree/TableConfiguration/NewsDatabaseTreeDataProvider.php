@@ -25,7 +25,8 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      */
     protected function getChildrenOf(\TYPO3\CMS\Backend\Tree\TreeNode $node, $level)
     {
-        $allowedItems = $this->getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
+        $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
+
         $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',
             $allowedItems) : Div::getAllowedTreeIDs();
 

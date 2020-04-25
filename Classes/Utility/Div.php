@@ -206,7 +206,8 @@ class Div
         $catlistWhere = '';
         if (!self::getBeUser()->isAdmin()) {
             // get include/exclude items
-            $excludeList = self::getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.excludeList');
+            $excludeList = self::getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['excludeList'];
+
             $includeCatArray = self::getIncludeCatArray();
 
             if ($excludeList) {
@@ -229,7 +230,8 @@ class Div
      */
     static public function getIncludeCatArray()
     {
-        $includeList = self::getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.includeList');
+        $includeList = self::getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['includeList'];
+
         $catmounts = self::getBeUserCatMounts();
         if ($catmounts) {
             $includeList = $catmounts;
