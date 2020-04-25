@@ -3063,9 +3063,9 @@ class TtNews extends AbstractPlugin
                     $link = $this->getSingleViewLink($sPid, $row, $piVarsArray, true);
                     $tmpUrlArray = parse_url($link);
                     if (is_array($tmpUrlArray) && isset($tmpUrlArray['query'])) {
-                        $linkArr = GeneralUtility::explodeUrl2Array($tmpUrlArray['query'], true);
-                        if (is_array($linkArr) && is_array($linkArr['tx_ttnews'])) {
-                            $newsAddParams = GeneralUtility::implodeArrayForUrl('tx_ttnews', $linkArr['tx_ttnews']);
+                        $linkArr = GeneralUtility::explodeUrl2Array($tmpUrlArray['query']);
+                        if (is_array($linkArr) && isset($linkArr['tx_ttnews[tt_news]'])) {
+                            $newsAddParams = '&tx_ttnews[tt_news]=' . (int)$linkArr['tx_ttnews[tt_news]'];
                         }
                     }
 
