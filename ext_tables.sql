@@ -118,7 +118,7 @@ CREATE TABLE tt_news_cat_mm (
 # Table structure for table 'be_groups'
 #
 CREATE TABLE be_groups (
-	tt_news_categorymounts varchar(255) DEFAULT '' NOT NULL,
+	tt_news_categorymounts varchar(255) DEFAULT '' NOT NULL
 	
 );
 
@@ -126,7 +126,7 @@ CREATE TABLE be_groups (
 # Table structure for table 'be_users'
 #
 CREATE TABLE be_users (
-	tt_news_categorymounts varchar(255) DEFAULT '' NOT NULL,
+	tt_news_categorymounts varchar(255) DEFAULT '' NOT NULL
 );
 
 
