@@ -35,6 +35,7 @@ use RG\TtNews\Utility\Div;
 use RG\TtNews\Helper\Helpers;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\File;
@@ -3271,7 +3272,7 @@ class TtNews extends AbstractPlugin
         $markerArray['###IMG_W###'] = $imgSize[0];
         $markerArray['###IMG_H###'] = $imgSize[1];
 
-        $relImgFile = str_replace(PATH_site, '', $imgFile);
+        $relImgFile = str_replace(Environment::getPublicPath() . '/', '', $imgFile);
         $markerArray['###IMG###'] = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $relImgFile;
 
         $markerArray['###NEWS_WEBMASTER###'] = $lConf['xmlWebMaster'];
