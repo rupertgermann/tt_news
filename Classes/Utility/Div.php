@@ -93,13 +93,6 @@ class Div
      */
     static public function getSubCategories($catlist, $addWhere = '', $cc = 0)
     {
-
-        if (!$catlist) {
-            GeneralUtility::devLog('EMPTY $catlist (' . __CLASS__ . '::' . __FUNCTION__ . ')',
-                'tt_news', 3, array());
-        }
-
-
         $sCatArr = array();
         $res = Database::getInstance()->exec_SELECTquery(
             'uid',

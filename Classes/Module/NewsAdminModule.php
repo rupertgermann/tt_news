@@ -362,11 +362,6 @@ class NewsAdminModule extends BaseScriptClass
         $this->doc->docType = 'xhtml_trans';
 
         if (!$this->doc->moduleTemplate) {
-            GeneralUtility::devLog('cannot set moduleTemplate', 'tt_news', 2, array(
-                'backpath' => $this->doc->backPath,
-                'filename from TBE_STYLES' => $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'],
-                'full path' => $this->doc->backPath . $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html']
-            ));
             $tfile = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('tt_news')) . 'Classes/Module/mod_ttnews_admin.html';
             $this->doc->moduleTemplate = @file_get_contents(PATH_site . $tfile);
         }

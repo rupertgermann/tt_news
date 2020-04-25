@@ -119,24 +119,9 @@ class Categorytree extends AbstractTreeView
 
             $tmpCCC = $this->tt_news_obj->cache->get($storeKey);
             if ($tmpCCC) {
-                if ($this->tt_news_obj->writeCachingInfoToDevlog > 1) {
-                    GeneralUtility::devLog('categoryCountCache CACHE HIT (' . __CLASS__ . '::' . __FUNCTION__ . ')',
-                        'tt_news', -1, array());
-                }
-
                 $this->categoryCountCache = unserialize($tmpCCC);
                 $this->cacheHit = true;
-            } else {
-                if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-                    GeneralUtility::devLog('categoryCountCache CACHE MISS (' . __CLASS__ . '::' . __FUNCTION__ . ')',
-                        'tt_news', 2, array(
-                            $this->stored,
-                            $this->MOUNTS,
-                            $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause
-                        ));
-                }
             }
-
         }
 
         return $storeKey;
@@ -282,11 +267,6 @@ class Categorytree extends AbstractTreeView
         }
 
         if ($sum === false) {
-            if ($this->tt_news_obj->writeCachingInfoToDevlog) {
-                GeneralUtility::devLog('CACHE MISS (single count) (' . __CLASS__ . '::' . __FUNCTION__ . ')',
-                    'tt_news', 2, array());
-            }
-
             $result = array();
             $result['sum'] = 0;
 
