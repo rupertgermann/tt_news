@@ -2140,7 +2140,9 @@ class TtNews extends AbstractPlugin
         $rss2Enclousres = '';
         foreach ($fileArr as $val) {
             // fills the marker ###FILE_LINK### with the links to the atached files
-            $filelinks .= $this->local_cObj->filelink($val, $this->conf['newsFiles.']);
+            $filelinks .= $this->local_cObj->stdWrap(
+                $this->local_cObj->typoLink($val,['parameter'=> $this->conf['newsFiles.']['path'] . $val]),
+                $this->conf['newsFiles.']['stdWrap.']);
 
             // <enclosure> support for RSS 2.0
             if ($this->theCode == 'XML') {
