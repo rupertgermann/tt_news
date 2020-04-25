@@ -8,7 +8,7 @@
     "news",
     "extension"
   ],
-  "version": "9.5.3",
+  "version": "10.0.0",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
@@ -24,7 +24,7 @@
     }
   ],
   "require": {
-    "typo3/cms-core": "^8.7 || ^9.5"
+    "typo3/cms-core": "^8.7 || ^9.5 || ^10.4"
   },
   "replace": {
     "tt_news": "self.version",
