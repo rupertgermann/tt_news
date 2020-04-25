@@ -484,7 +484,8 @@
                             </label>
                             <config>
                                 <type>select</type>
-                                <items type="array">
+								<renderType>selectSingle</renderType>
+								<items type="array">
                                     <numIndex index="0" type="array">
                                         <numIndex index="0">
                                             LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_TS
@@ -568,7 +569,8 @@
                             </label>
                             <config>
                                 <type>select</type>
-                                <items type="array">
+								<renderType>selectSingle</renderType>
+								<items type="array">
                                     <numIndex index="0" type="array">
                                         <numIndex index="0">
                                             LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_TS
@@ -691,7 +693,8 @@
                             </label>
                             <config>
                                 <type>select</type>
-                                <items type="array">
+								<renderType>selectSingle</renderType>
+								<items type="array">
                                     <numIndex index="0" type="array">
                                         <numIndex index="0">
                                             LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.recursive_TS
