@@ -73,8 +73,12 @@ return [
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
+                'size' => 16,
                 'eval' => 'datetime,int',
-                'default' => 0
+                'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'endtime' => [
@@ -84,11 +88,12 @@ return [
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
+                'size' => 16,
                 'eval' => 'datetime,int',
                 'default' => 0,
-                'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
-                ]
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'hidden' => [
@@ -154,25 +159,14 @@ return [
         ],
         'bodytext' => [
             'label' => $locallang_general . 'LGL.text',
-            'defaultExtras' => 'richtext:rte_transform[mode=ts_css]',
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'text',
-                'cols' => '48',
-                'rows' => '5',
-                'softref' => 'typolink_tag,images,email[subst],url',
-                'wizards' => [
-                    'RTE' => [
-                        'notNewRecords' => 1,
-                        'RTEonly' => 1,
-                        'type' => 'script',
-                        'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext.W.RTE',
-                        'icon' => 'actions-wizard-rte',
-                        'module' => [
-                            'name' => 'wizard_rte'
-                        ]
-                    ]
-                ]
+                'cols' => 30,
+                'rows' => 5,
+                'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
+                'enableRichtext' => true,
+                'richtextConfiguration' => 'default',
             ]
         ],
         'no_auto_pb' => [
