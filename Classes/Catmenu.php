@@ -28,6 +28,7 @@ namespace RG\TtNews;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Tree\FeTreeView;
@@ -56,6 +57,10 @@ class Catmenu
      * @var bool
      */
     public $mode = false;
+    /**
+     * @var object|Database
+     */
+    protected $db;
 
     /**
      * @param TtNews $pObj
@@ -64,6 +69,7 @@ class Catmenu
      */
     public function init(&$pObj)
     {
+        $this->db = Database::getInstance();
         $lConf = $pObj->conf['displayCatMenu.'];
         $this->treeObj = GeneralUtility::makeInstance(FeTreeView::class);
         $this->treeObj->tt_news_obj = &$pObj;
@@ -108,8 +114,14 @@ class Catmenu
         $cMounts = array();
         $nonRootMounts = false;
         foreach ($selcatArr as $catID) {
-            $tmpR = $GLOBALS['TSFE']->sys_page->getRecordsByField('tt_news_cat', 'uid', $catID,
-                $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere);
+
+            $subres = $this->db->exec_SELECTquery('*', 'tt_news_cat',
+                'uid = ' . (int)$catID . $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere);
+            $tmpR = [];
+            while (($subrow = $this->db->sql_fetch_assoc($subres))) {
+                $tmpR[] = $subrow;
+            }
+
             if (is_array($tmpR[0]) && !in_array($catID, $subcatArr)) {
                 if ($tmpR[0]['parent_category'] > 0) {
                     $nonRootMounts = true;
