@@ -366,7 +366,7 @@ class TtNews extends AbstractPlugin
      */
     public function main_news($content, $conf)
     {
-        $this->confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+        $this->confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'];
         if ($this->confArr['writeParseTimesToDevlog']) {
             $this->debugTimes = true;
         }

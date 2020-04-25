@@ -281,7 +281,7 @@ class NewsAdminModule extends BaseScriptClass
         $this->modTSconfig = BackendUtility::getModTSconfig($this->id,
             'mod.' . $this->MCONF['name']);
         $this->TSprop = $this->modTSconfig['properties'];
-        $this->confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+        $this->confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'];
 
         $tceTSC = array();
         if ($this->confArr['useStoragePid']) {

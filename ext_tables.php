@@ -4,7 +4,7 @@ defined('TYPO3_MODE') or die();
 $boot = function () {
 
 // get extension configuration
-$confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+    $confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'];
 
 
 // allow news and news-category records on normal pages
