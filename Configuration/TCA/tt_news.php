@@ -235,19 +235,18 @@ return [
         'image' => [
             'exclude' => 1,
             'l10n_mode' => $l10n_mode_image,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.images',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'file',
-                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-                'max_size' => '10000',
-                'uploadfolder' => 'uploads/pics',
-                'show_thumbs' => '1',
-                'size' => 3,
-                'autoSizeMax' => 15,
-                'maxitems' => '99',
-                'minitems' => '0'
-            ]
+            'label' => $locallang_general . 'LGL.images',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'image',
+                [
+                    'maxitems' => 99,
+                    'minitems' => 0,
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                    ],
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+            )
         ],
         'imagecaption' => [
             'exclude' => 1,
@@ -386,19 +385,16 @@ return [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:media',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'file',
-                'allowed' => '',    // Must be empty for disallowed to work.
-                'disallowed' => 'php,php3',
-                'max_size' => '10000',
-                'uploadfolder' => 'uploads/media',
-                'show_thumbs' => '1',
-                'size' => '3',
-                'autoSizeMax' => '10',
-                'maxitems' => '100',
-                'minitems' => '0'
-            ]
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'news_files',
+                [
+                    'maxitems' => 999,
+                    'minitems' => 0,
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                    ],
+                ],
+                '', 'php,php3')
         ],
         'sys_language_uid' => [
             'exclude' => 1,
