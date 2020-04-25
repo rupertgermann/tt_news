@@ -50,7 +50,7 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
-
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 
 /**
@@ -4167,7 +4167,8 @@ class TtNews extends AbstractPlugin
         }
 
         $fileContent = '';
-        $file = $this->tsfe->tmpl->getFileName($fileName);
+
+        $file = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileName);
         if ($file != '') {
             $fileContent = file_get_contents($file);
         }
