@@ -136,8 +136,7 @@ class FeTreeView extends Categorytree
         }
 
         if (!$icon) {
-            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-
+            $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
             return $this->wrapIcon($iconFactory->getIcon('apps-pagetree-root', Icon::SIZE_SMALL)->render(), $rec);
         }
 
