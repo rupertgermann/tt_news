@@ -30,7 +30,7 @@ return [
     ],
     'columns' => [
         'title' => [
-            'label' => $locallang_general . ':LGL.title',
+            'label' => $locallang_general . 'LGL.title',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -49,7 +49,7 @@ return [
         ],
         'hidden' => [
             'exclude' => 1,
-            'label' => $locallang_general . ':LGL.hidden',
+            'label' => $locallang_general . 'LGL.hidden',
             'config' => [
                 'type' => 'check',
             ]
@@ -57,16 +57,16 @@ return [
         'fe_group' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => $locallang_general . ':LGL.fe_group',
+            'label' => $locallang_general . 'LGL.fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => [
-                    [$locallang_general . ':LGL.hide_at_login', -1],
-                    [$locallang_general . ':LGL.any_login', -2],
-                    [$locallang_general . ':LGL.usergroups', '--div--']
+                    [$locallang_general . 'LGL.hide_at_login', -1],
+                    [$locallang_general . 'LGL.any_login', -2],
+                    [$locallang_general . 'LGL.usergroups', '--div--']
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups'
@@ -75,26 +75,31 @@ return [
         'starttime' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => $locallang_general . ':LGL.starttime',
+            'label' => $locallang_general . 'LGL.starttime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
+                'size' => 16,
                 'eval' => 'datetime,int',
-                'default' => 0
+                'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'endtime' => [
             'exclude' => 1,
             'l10n_mode' => 'mergeIfNotBlank',
-            'label' => $locallang_general . ':LGL.endtime',
+            'label' => $locallang_general . 'LGL.endtime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
+                'size' => 16,
                 'eval' => 'datetime,int',
                 'default' => 0,
-                'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
-                ]
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'parent_category' => [
