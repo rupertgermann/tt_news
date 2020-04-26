@@ -9,7 +9,7 @@
  * @link          http://www.gnu.org/copyleft/gpl.html
  */
 
-namespace RG\TtNews;
+namespace RG\TtNews\Menu;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
