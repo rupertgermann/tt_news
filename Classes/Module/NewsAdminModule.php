@@ -35,6 +35,7 @@ use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\PageTreeView;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -272,10 +273,10 @@ class NewsAdminModule extends BaseScriptClass
             $this->MCONF = $GLOBALS['MCONF'];
 
         }
-        $this->isAdmin = $GLOBALS['BE_USER']->isAdmin();
+        $this->isAdmin = $this->getBackendUser()->isAdmin();
 
         $this->id = intval(GeneralUtility::_GP('id'));
-        $this->perms_clause = $GLOBALS['BE_USER']->getPagePermsClause(1);
+        $this->perms_clause = $this->getBackendUser()->getPagePermsClause(1);
 
         $this->TSprop = BackendUtility::getPagesTSconfig($this->id)['mod.']['web_txttnewsM1.'] ?? [];
         $this->confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'];
@@ -298,17 +299,17 @@ class NewsAdminModule extends BaseScriptClass
 
         // get pageinfo array for the current page
         $this->pageinfo = BackendUtility::readPageAccess($this->id, $this->perms_clause);
-        $this->localCalcPerms = $GLOBALS['BE_USER']->calcPerms($this->pageinfo);
+        $this->localCalcPerms = $this->getBackendUser()->calcPerms($this->pageinfo);
 
         // get pageinfo array for the GRSP
         $grspPI = BackendUtility::readPageAccess($this->storagePid, $this->perms_clause);
-        $this->grspCalcPerms = $GLOBALS['BE_USER']->calcPerms($grspPI);
+        $this->grspCalcPerms = $this->getBackendUser()->calcPerms($grspPI);
         $this->mayUserEditCategories = $this->grspCalcPerms & 16;
 
         // get pageinfo array for newArticlePid
         $newArticlePidPI = BackendUtility::readPageAccess($this->newArticlePid,
             $this->perms_clause);
-        $this->newArticleCalcPerms = $GLOBALS['BE_USER']->calcPerms($newArticlePidPI);
+        $this->newArticleCalcPerms = $this->getBackendUser()->calcPerms($newArticlePidPI);
         $this->mayUserEditArticles = $this->newArticleCalcPerms & 16;
 
         $pagesTSC = BackendUtility::getPagesTSconfig($this->id);
@@ -325,7 +326,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         $this->menuConfig();
-        $this->mData = $GLOBALS['BE_USER']->uc['moduleData']['web_txttnewsM1'];
+        $this->mData = $this->getBackendUser()->uc['moduleData']['web_txttnewsM1'];
 
 
         $this->current_sys_language = intval($this->MOD_SETTINGS['language']);
@@ -411,7 +412,7 @@ class NewsAdminModule extends BaseScriptClass
         $this->content = $this->doc->insertStylesAndJS($this->content);
 
         if (count($this->permsCache)) {
-            $GLOBALS['BE_USER']->setAndSaveSessionData('permsCache', array($this->pidChash => $this->permsCache));
+            $this->getBackendUser()->setAndSaveSessionData('permsCache', array($this->pidChash => $this->permsCache));
         }
     }
 
@@ -668,6 +669,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return string
      * @throws DBALException
+     * @throws SiteNotFoundException
      */
     public function displayNewsList($ajax = false)
     {
@@ -808,6 +810,7 @@ class NewsAdminModule extends BaseScriptClass
 
     /**
      * @throws DBALException
+     * @throws SiteNotFoundException
      */
     public function ajaxLoadList($params)
     {
@@ -883,9 +886,9 @@ class NewsAdminModule extends BaseScriptClass
 				<table border="0" cellpadding="0" cellspacing="0" id="ttnewsadmin-search">
 					<tr>
 						<td>' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString',
-                1) . '<input type="text" name="search_field" value="' . htmlspecialchars($this->search_field) . '" ' . $GLOBALS['TBE_TEMPLATE']->formWidth(10) . ' /></td>
+                1) . '<input type="text" name="search_field" value="' . htmlspecialchars($this->search_field) . '" style="width:99px;" /></td>
 						<td>' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showRecords',
-                1) . ':<input type="text" name="SET[showLimit]" value="' . htmlspecialchars($this->showLimit ? $this->showLimit : '') . '" ' . $GLOBALS['TBE_TEMPLATE']->formWidth(4) . ' /></td>
+                1) . ':<input type="text" name="SET[showLimit]" value="' . htmlspecialchars($this->showLimit ? $this->showLimit : '') . '" style="width:40px;" /></td>
 						<td><input type="submit" name="search" value="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.search',
                 1) . '" /></td>
 
@@ -945,7 +948,7 @@ class NewsAdminModule extends BaseScriptClass
             if ((bool)$show['cb_' . $n]) {
                 $out[] = BackendUtility::getFuncCheck($params, 'SET[' . $n . ']',
                         $this->MOD_SETTINGS[$n], '', '', 'id="cb-' . $n . '"') .
-                    ' <label for="cb-' . $n . '">' . $this->getLanguageService()->getLL($n, 1) . '</label>';
+                    ' <label for="cb-' . $n . '">' . $this->getLanguageService()->getLL($n) . '</label>';
             }
         }
 
@@ -984,7 +987,7 @@ class NewsAdminModule extends BaseScriptClass
                 $out[] = '<span class="list-cb">' .
                     BackendUtility::getFuncCheck($params, 'SET[' . $n . ']',
                         $this->MOD_SETTINGS[$n], '', '', 'id="cb-' . $n . '"') .
-                    ' <label for="cb-' . $n . '">' . $this->getLanguageService()->getLL($n, 1) . '</label></span>';
+                    ' <label for="cb-' . $n . '">' . $this->getLanguageService()->getLL($n) . '</label></span>';
             }
         }
         if ($savedRoute) {
@@ -1047,7 +1050,7 @@ class NewsAdminModule extends BaseScriptClass
         $backPath = $GLOBALS['BACK_PATH'];
 
         if (isset($this->id)) {
-            if ($GLOBALS['BE_USER']->check('modules', 'web_list')) {
+            if ($this->getBackendUser()->check('modules', 'web_list')) {
                 $href = LegacyBackendUtility::getModuleUrl('web_list', array(
                     'id' => $this->pageinfo['uid'],
                     'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
@@ -1080,7 +1083,7 @@ class NewsAdminModule extends BaseScriptClass
                 '</a>';
 
             // Shortcut
-            if ($GLOBALS['BE_USER']->mayMakeShortcut()) {
+            if ($this->getBackendUser()->mayMakeShortcut()) {
                 $buttons['shortcut'] = $this->doc->makeShortcutIcon('id, showThumbs, pointer, table, search_field, searchLevels, showLimit, sortField, sortRev',
                     implode(',', array_keys($this->MOD_MENU)), 'web_txttnewsM1');
             }
@@ -1147,7 +1150,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         // get allowed pages
-        $webmounts = $GLOBALS['BE_USER']->returnWebmounts();
+        $webmounts = $this->getBackendUser()->returnWebmounts();
         if (!is_array($webmounts)) {
             return;
         }
@@ -1289,7 +1292,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         while (($lrow = Database::getInstance()->sql_fetch_assoc($res))) {
-            if ($GLOBALS['BE_USER']->checkLanguageAccess($lrow['uid'])) {
+            if ($this->getBackendUser()->checkLanguageAccess($lrow['uid'])) {
                 $this->MOD_MENU['language'][$lrow['uid']] = ($lrow['hidden'] ? '(' . $lrow['title'] . ')' : $lrow['title']);
             }
         }
@@ -1315,7 +1318,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         // get include/exclude items
-        if (($excludeList = $GLOBALS['BE_USER']->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['excludeList'])) {
+        if (($excludeList = $this->getBackendUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['excludeList'])) {
             $this->excludeCats = $this->posIntExplode($excludeList);
         }
 
@@ -1370,7 +1373,7 @@ class NewsAdminModule extends BaseScriptClass
         $localPageinfo = BackendUtility::readPageAccess($pid, $this->perms_clause);
         $out['path'] = $localPageinfo['_thePath'];
 
-        $calcPerms = $GLOBALS['BE_USER']->calcPerms($localPageinfo);
+        $calcPerms = $this->getBackendUser()->calcPerms($localPageinfo);
         if (($calcPerms & 16)) {
             $out['edit'] = true;
         }
@@ -1389,7 +1392,7 @@ class NewsAdminModule extends BaseScriptClass
             return $this->permsCache[$pid];
         }
 
-        $calcPerms = $GLOBALS['BE_USER']->calcPerms(BackendUtility::readPageAccess($pid,
+        $calcPerms = $this->getBackendUser()->calcPerms(BackendUtility::readPageAccess($pid,
             $this->perms_clause));
         if (($calcPerms & 16)) {
             $this->permsCache[$pid] = true;
@@ -1410,7 +1413,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         $this->pidChash = md5($this->pidList);
-        $pc = $GLOBALS['BE_USER']->getSessionData('permsCache');
+        $pc = $this->getBackendUser()->getSessionData('permsCache');
         if (is_array($pc) && is_array($pc[$this->pidChash])) {
             $this->permsCache = $pc[$this->pidChash];
         }
