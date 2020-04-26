@@ -269,7 +269,7 @@ class FeTreeView extends Categorytree
         // Get stored tree structure:
         if ($this->FE_USER->user) {
             // a user is logged in
-            $this->stored = unserialize($this->FE_USER->uc['tt_news'][$this->treeName]);
+            $this->stored = json_decode($this->FE_USER->uc['tt_news'][$this->treeName]);
         } else {
             $this->stored = json_decode($_COOKIE[$this->treeName], true);
         }
@@ -306,7 +306,7 @@ class FeTreeView extends Categorytree
     public function savePosition()
     {
         if ($this->FE_USER->user) {
-            $this->FE_USER->uc['tt_news'][$this->treeName] = serialize($this->stored);
+            $this->FE_USER->uc['tt_news'][$this->treeName] = json_encode($this->stored);
             $this->FE_USER->writeUC();
         } else {
             setcookie($this->treeName, json_encode($this->stored));

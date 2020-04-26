@@ -70,6 +70,7 @@ class Catmenu
     {
         $this->db = Database::getInstance();
         $lConf = $pObj->conf['displayCatMenu.'];
+
         $this->treeObj = GeneralUtility::makeInstance(FeTreeView::class);
         $this->treeObj->tt_news_obj = &$pObj;
         $this->treeObj->category = $pObj->piVars_catSelection;
@@ -95,7 +96,7 @@ class Catmenu
             $this->treeObj->useAjax = true;
         }
 
-        $this->treeObj->expandAll = 1;#$lConf['expandAll'];
+        $this->treeObj->expandAll = true;
         $this->treeObj->expandable = $expandable;
         $this->treeObj->expandFirst = $lConf['expandFirst'];
         $this->treeObj->titleLen = $this->titleLen;

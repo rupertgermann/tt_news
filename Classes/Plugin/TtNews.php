@@ -1673,7 +1673,7 @@ class TtNews extends AbstractPlugin
                 break;
             case 'tree' :
             case 'ajaxtree' :
-
+                /** @var Catmenu $catTreeObj */
                 $catTreeObj = GeneralUtility::makeInstance(Catmenu::class);
                 if ($mode == 'ajaxtree') {
                     $this->getPageRenderer()->addJsFooterFile('/typo3conf/ext/tt_news/Resources/Public/JavaScript/NewsCatmenu.js');

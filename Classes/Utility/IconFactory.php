@@ -30,7 +30,7 @@ class IconFactory
         self::registerAllIconIdentifiers();
 
         // simply return the new path from Resources
-        $newBackPath = $GLOBALS['BACK_PATH'] . PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('tt_news')) . 'Resources/Public/Images/Icons/';
+        $newBackPath = '/' . PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('tt_news')) . 'Resources/Public/Images/Icons/';
 
         switch ($outputMode) {
             case 2:

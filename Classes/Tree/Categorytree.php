@@ -38,6 +38,7 @@ namespace RG\TtNews\Tree;
  * @subpackage tt_news
  */
 
+use Doctrine\DBAL\DBALException;
 use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Utility\Div;
 use RG\TtNews\Utility\IconFactory;
@@ -102,6 +103,14 @@ class Categorytree extends AbstractTreeView
      * @var
      */
     public $pageID;
+    /**
+     * @var string
+     */
+    protected $addStyle;
+    /**
+     * @var bool
+     */
+    protected $ajaxStatus;
 
     /**
      * @return string
@@ -134,7 +143,7 @@ class Categorytree extends AbstractTreeView
      * @param bool $groupByPages
      *
      * @return    string        HTML code for the browsable tree
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function getBrowsableTree($groupByPages = false)
     {
@@ -154,7 +163,7 @@ class Categorytree extends AbstractTreeView
 
             // Set first:
             $this->bank = $idx;
-            $isOpen = $this->stored[$idx][$uid] || $this->expandFirst;
+            $isOpen = (bool)($this->stored[$idx][$uid] || $this->expandFirst);
 
             // Save ids while resetting everything else.
             $curIds = $this->ids;
@@ -162,7 +171,7 @@ class Categorytree extends AbstractTreeView
             $this->ids = $curIds;
 
             // Set PM icon for root of mount:
-            $cmd = $this->bank . '_' . ($isOpen ? "0_" : "1_") . $uid . '_' . $this->treeName;
+            $cmd = $this->bank . '_' . ($isOpen ? '0_' : '1_') . $uid . '_' . $this->treeName;
 
             $icon = '<img' . IconFactory::skinImg('ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
             if ($this->expandable && !$this->expandFirst) {
@@ -229,14 +238,14 @@ class Categorytree extends AbstractTreeView
                 if ($this->addSelfId) {
                     $this->ids[] = $uid;
                 }
-                $this->getNewsCategoryTree($uid, 999, '', $rootRec['_SUBCSSCLASS']);
+                $this->getNewsCategoryTree($uid, 999, '');
             }
             // Add tree:
             $treeArr = array_merge($treeArr, $this->tree);
         }
 
         if ($this->tt_news_obj->cache_categoryCount && count($this->categoryCountCache) && !$this->cacheHit) {
-            $this->tt_news_obj->cache->set($storeKey, serialize($this->categoryCountCache), 'categoryCounts');
+            $this->tt_news_obj->cache->set($storeKey, serialize($this->categoryCountCache), ['categoryCounts']);
         }
 
         return $this->printTree($treeArr);
@@ -246,7 +255,7 @@ class Categorytree extends AbstractTreeView
      * @param $catID
      *
      * @return bool|int|mixed
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getNewsCountForCategory($catID)
     {
@@ -259,10 +268,9 @@ class Categorytree extends AbstractTreeView
         if ($sum !== false) {
             return $sum;
         }
-
+        $hash = '';
         if ($this->tt_news_obj->cache_categoryCount) {
-            $hash = GeneralUtility::shortMD5(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause),
-                30);
+            $hash = sha1(serialize($catID . $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause));
             $sum = $this->tt_news_obj->cache->get($hash);
         }
 
@@ -284,7 +292,7 @@ class Categorytree extends AbstractTreeView
         }
         $this->categoryCountCache[$catID] = (int)$sum;
         if ($this->tt_news_obj->cache_categoryCount) {
-            $this->tt_news_obj->cache->set($hash, (string)$sum, 'categoryCounts');
+            $this->tt_news_obj->cache->set($hash, (string)$sum, ['categoryCounts']);
         }
 
         return $sum;
@@ -298,12 +306,11 @@ class Categorytree extends AbstractTreeView
      * @param        $uid
      * @param int    $depth
      * @param string $blankLineCode
-     * @param string $subCSSclass
      *
      * @return    integer        The count of items on the level
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
-    protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '', $subCSSclass = '')
+    protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '')
     {
         // Buffer for id hierarchy is reset:
         $this->buffer_idH = array();
@@ -313,11 +320,11 @@ class Categorytree extends AbstractTreeView
         $HTML = '';
         $a = 0;
 
-        $res = $this->getDataInit($uid, $subCSSclass);
+        $res = $this->getDataInit($uid);
         $c = $this->getDataCount($res);
         $crazyRecursionLimiter = 999;
         $allRows = array();
-        while ($crazyRecursionLimiter > 0 && $row = $this->getDataNext($res, $subCSSclass)) {
+        while ($crazyRecursionLimiter > 0 && $row = $this->getDataNext($res)) {
             if ($this->getCatNewsCount) {
                 $row['newsCount'] = $this->getNewsCountForCategory($row['uid']);
             }
@@ -347,8 +354,7 @@ class Categorytree extends AbstractTreeView
 
             // Make a recursive call to the next level
             if ($depth > 1 && $this->expandNext($newID)) {
-                $nextCount = $this->getNewsCategoryTree($newID, $depth - 1, $blankLineCode . ',' . $LN,
-                    $row['_SUBCSSCLASS']);
+                $nextCount = $this->getNewsCategoryTree($newID, $depth - 1, $blankLineCode . ',' . $LN);
                 if (!empty($this->buffer_idH)) {
                     $idH[$row['uid']]['subrow'] = $this->buffer_idH;
                 }

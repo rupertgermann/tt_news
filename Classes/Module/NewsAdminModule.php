@@ -436,6 +436,7 @@ class NewsAdminModule extends BaseScriptClass
      *
      * @return    void
      * @throws DBALException
+     * @throws SiteNotFoundException
      */
     public function moduleContent()
     {

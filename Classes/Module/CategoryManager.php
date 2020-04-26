@@ -22,15 +22,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CategoryManager extends Categorytree
 {
-
-    /**
-     * @var string
-     */
-    public $TCEforms_itemFormElName = '';
-    /**
-     * @var array
-     */
-    public $TCEforms_nonSelectableItemsArray = array();
     /**
      * @var
      */
@@ -195,7 +186,7 @@ class CategoryManager extends Categorytree
     {
         $rUrl = $rUrl ?: GeneralUtility::getIndpEnv('REQUEST_URI');
 
-        $urlParameters = GeneralUtility::explodeUrl2Array($params, true);
+        $urlParameters = GeneralUtility::explodeUrl2Array($params);
         $urlParameters['prErr'] = '1';
         $urlParameters['uPT'] = '1';
 
