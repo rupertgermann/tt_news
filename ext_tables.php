@@ -50,7 +50,7 @@ $boot = function () {
 
         // Register context menu for the tt_news category manager
         $GLOBALS['TBE_MODULES_EXT']['xMOD_alt_clickmenu']['extendCMclasses'][] = array(
-            'name' => \RG\TtNews\ClickMenu::class
+            'name' => \RG\TtNews\Menu\ClickMenu::class
         );
 
         /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
