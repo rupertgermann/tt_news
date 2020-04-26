@@ -277,9 +277,7 @@ class NewsAdminModule extends BaseScriptClass
         $this->id = intval(GeneralUtility::_GP('id'));
         $this->perms_clause = $GLOBALS['BE_USER']->getPagePermsClause(1);
 
-        $this->modTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.'][$this->MCONF['name'] . '.'] ?? [];
-
-        $this->TSprop = $this->modTSconfig['properties'];
+        $this->TSprop = BackendUtility::getPagesTSconfig($this->id)['mod.']['web_txttnewsM1.'] ?? [];
         $this->confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'];
 
         $tceTSC = array();
