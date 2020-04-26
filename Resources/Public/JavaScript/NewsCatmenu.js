@@ -1,14 +1,14 @@
 (function($) {
-    var ajaxUrl = 'index.php?eID=tt_news_catmenu';
+    var ajaxUrl = 'index.php?ttnewsID=tt_news_catmenu';
     var NewsCatmenu = {};
 
-    NewsCatmenu.expandCollapse = function ($element) {
-        var isExpand = $element.data('isexpand');
-        var parent = $element.closest('li');
+    NewsCatmenu.expandCollapse = function (element) {
+        var isExpand = element.data('isexpand');
+        var parent = element.closest('li');
         var img = parent.find('a.pmiconatag img');
 
         parent.find('ul').remove();
-        $element.data('isexpand', 1);
+        element.data('isexpand', 1);
 
         if (!isExpand) {
             var src = img.attr('src');
@@ -23,14 +23,14 @@
                 dataType: 'html',
                 cache: false,
                 data: {
-                    'PM': $element.data('params'),
-                    'id': $element.data('pid'),
+                    'PM': element.data('params'),
+                    'id': element.data('pid'),
                     'action': 'expandTree',
-                    'cObjUid': $element.data('cobjuid'),
-                    'L': $element.data('l')
+                    'cObjUid': element.data('cobjuid'),
+                    'L': element.data('l')
                 }
             }).done(function (response) {
-                $element.closest('li').replaceWith(response);
+                element.closest('li').replaceWith(response);
             });
         }
     };
