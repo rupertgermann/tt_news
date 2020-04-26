@@ -1012,7 +1012,7 @@ class NewsAdminModule extends BaseScriptClass
             /**
              * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
              */
-            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+            $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
             $button = '<a href="#" onclick="' . $onclick . '">' .
                 $iconFactory->getIcon('actions-document-new', Icon::SIZE_SMALL)->render() .
                 $this->getLanguageService()->getLL('createCategory') .
