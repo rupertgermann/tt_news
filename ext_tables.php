@@ -35,7 +35,7 @@ $boot = function () {
                     'access' => 'user,group',
                     'name' => 'web_txttnewsM1',
                     'navigationComponentId' => 'typo3-pagetree',
-                    'icon' => 'EXT:tt_news/Classes/Module/moduleicon.gif',
+                    'icon' => 'EXT:tt_news/Classes/Module/moduleicon.svg',
 
                     'labels' => [
 
