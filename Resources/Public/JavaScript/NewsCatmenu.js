@@ -1,5 +1,5 @@
 (function($) {
-    var ajaxUrl = 'index.php?ttnewsID=tt_news_catmenu';
+    var ajaxUrl = 'index.php?ttnewsID=tt_news_catmenu&no_cache=1';
     var NewsCatmenu = {};
 
     NewsCatmenu.expandCollapse = function (element) {
@@ -21,9 +21,6 @@
                 type: 'get',
                 dataType: 'html',
                 cache: false,
-                headers: {
-                    'Pragma': 'no-cache'
-                },
                 data: {
                     'PM': element.data('params'),
                     'id': element.data('pid'),
@@ -40,9 +37,6 @@
                 type: 'get',
                 dataType: 'html',
                 cache: false,
-                headers: {
-                    'Pragma': 'no-cache'
-                },
                 data: {
                     'PM': element.data('params'),
                     'id': element.data('pid'),
