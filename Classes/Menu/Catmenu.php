@@ -96,7 +96,7 @@ class Catmenu
             $this->treeObj->useAjax = true;
         }
 
-        $this->treeObj->expandAll = true;
+        $this->treeObj->expandAll = $lConf['expandAll'];
         $this->treeObj->expandable = $expandable;
         $this->treeObj->expandFirst = $lConf['expandFirst'];
         $this->treeObj->titleLen = $this->titleLen;

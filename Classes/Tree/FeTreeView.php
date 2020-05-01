@@ -213,7 +213,7 @@ class FeTreeView extends Categorytree
         $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, Icon::SIZE_SMALL)->render();
 
         if ($nextCount) {
-            $cmd = $this->bank . '_' . (!$exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
+            $cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
             $icon = $this->PMiconATagWrap($icon, $cmd, !$exp);
         }
 
@@ -269,7 +269,7 @@ class FeTreeView extends Categorytree
         // Get stored tree structure:
         if ($this->FE_USER->user) {
             // a user is logged in
-            $this->stored = json_decode($this->FE_USER->uc['tt_news'][$this->treeName]);
+            $this->stored = json_decode($this->FE_USER->uc['tt_news'][$this->treeName], true);
         } else {
             $this->stored = json_decode($_COOKIE[$this->treeName], true);
         }
@@ -279,22 +279,24 @@ class FeTreeView extends Categorytree
         }
 
         // PM action
-        // (If an plus/minus icon has been clicked, the PM GET var is sent and we must update the stored positions in the tree):
+        // (If a plus/minus icon has been clicked, the PM GET var is sent and we
+        // must update the stored positions in the tree):
         // 0: mount key, 1: set/clear boolean, 2: item ID (cannot contain "_"), 3: treeName
         $PM = explode('_', GeneralUtility::_GP('PM'));
-
-        if (count($PM) == 4 && $PM[3] == $this->treeName && isset($this->MOUNTS[$PM[0]])) {
-            if ($PM[1]) {
+        if (count($PM) === 4 && $PM[3] == $this->treeName) {
+            if (isset($this->MOUNTS[$PM[0]])) {
                 // set
-                $this->stored[$PM[0]][$PM[2]] = 1;
-                $this->savePosition();
-            } else {
-                // clear
-                unset($this->stored[$PM[0]][$PM[2]]);
-                $this->savePosition();
+                if ($PM[1]) {
+                    $this->stored[$PM[0]][$PM[2]] = 1;
+                    $this->savePosition();
+                } else {
+                    unset($this->stored[$PM[0]][$PM[2]]);
+                    $this->savePosition();
+                }
             }
         }
     }
+
 
     /**
      * Saves the content of ->stored (keeps track of expanded positions in the tree)

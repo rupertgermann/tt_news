@@ -163,8 +163,7 @@ class Categorytree extends AbstractTreeView
 
             // Set first:
             $this->bank = $idx;
-            $isOpen = (bool)($this->stored[$idx][$uid] || $this->expandFirst);
-
+            $isOpen = $this->stored[$idx][$uid] || $this->expandFirst;
             // Save ids while resetting everything else.
             $curIds = $this->ids;
             $this->reset();
@@ -598,7 +597,7 @@ class Categorytree extends AbstractTreeView
         $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, Icon::SIZE_SMALL)->render();
 
         if ($nextCount) {
-            $cmd = $this->bank . '_' . (!$exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
+            $cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
             $icon = $this->PMiconATagWrap($icon, $cmd, !$exp);
         }
 
