@@ -70,7 +70,7 @@ class migrateImagesToFal implements UpgradeWizardInterface
      */
     public function getTitle(): string
     {
-        return '[tt_news images to FAL] Migrates tt_news images from uploads/pics to FAL';
+        return '[tt_news images to FAL] Migrates tt_news images from "uploads/pics" to FAL';
     }
 
     /**
@@ -78,9 +78,9 @@ class migrateImagesToFal implements UpgradeWizardInterface
      */
     public function getDescription(): string
     {
-        return 'Moves tt_news images from uploads/pics to fileadmin/migratedNewsAssets/Images and registers them in FAL. 
+        return 'Moves tt_news images from "uploads/pics" to "fileadmin/migratedNewsAssets/Images" and registers them in FAL. 
                          ******    CAUTION!!!    ******
-Make sure you have made a backup of your database and of the "uploads/pic" folder! 
+Make sure you have made a backup of your database and of the "uploads/pics" folder! 
 The database and filesystem operations are destructive, there is no rollback! 
 You have been warned ;-)';
     }
@@ -186,14 +186,6 @@ You have been warned ;-)';
                 }
             }
         }
-
-//        file_put_contents(Environment::getPublicPath() . '/' . 'typo3temp/log.log',
-//            date('YmdHis', time()) . PHP_EOL . __FILE__ . '::' . __LINE__ . PHP_EOL . print_r(array(
-//                __METHOD__,
-//
-//                $notMigratedNewsRecords
-//            ), true) . PHP_EOL, FILE_APPEND);
-
     }
 
     /**
@@ -227,7 +219,7 @@ You have been warned ;-)';
 
 
     /**
-     * Check if there are record within "pages" database table with an empty "slug" field.
+     * Check if there are news records with images that have not been migrated to fal
      *
      * @return bool
      * @throws InvalidArgumentException
