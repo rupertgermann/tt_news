@@ -412,7 +412,7 @@ class TtNews extends AbstractPlugin
             return $this->helpers->displayErrors();
         }
 
-        return $this->cObj->stdWrap($content, $this->conf['stdWrap.']);
+        return $content;
     }
 
 
