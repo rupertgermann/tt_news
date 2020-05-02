@@ -40,6 +40,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
@@ -53,7 +54,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
-
+use TYPO3\CMS\Core\Resource\FileInterface;
 
 /**
  * Plugin 'news' for the 'tt_news' extension.
@@ -2422,6 +2423,24 @@ class TtNews extends AbstractPlugin
         if ($this->conf['imageMarkerFunc']) {
             $markerArray = $this->userProcess('imageMarkerFunc', array($markerArray, $lConf));
         } else {
+            $imgPath = 'uploads/pics/';
+            if (MathUtility::canBeInterpretedAsInteger($row['image'])) {
+                // seems that tt_news images have been migrated to FAL
+                $imgPath = '';
+                $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+                $fileObjects = $fileRepository->findByRelation('tt_news', 'image', $row['uid']);
+                if (!empty($fileObjects)) {
+                    $falImages = [];
+                    foreach ($fileObjects as $fileObject) {
+                        /** @var FileInterface $fileObject */
+                        $falImages[] = $fileObject->getPublicUrl();
+                    }
+                    if (!empty($falImages)) {
+                        $row['image'] = implode(',', $falImages);
+                    }
+                }
+            }
+
             $imageNum = isset($lConf['imageCount']) ? $lConf['imageCount'] : 1;
             $imageNum = MathUtility::forceIntegerInRange($imageNum, 0, 100);
             $theImgCode = '';
@@ -2434,7 +2453,7 @@ class TtNews extends AbstractPlugin
 
             if ($textRenderObj == 'displaySingle') {
                 $markerArray = $this->getSingleViewImages($lConf, $imgs, $imgsCaptions, $imgsAltTexts, $imgsTitleTexts,
-                    $imageNum, $markerArray);
+                    $imageNum, $markerArray, $imgPath);
             } else {
 
                 $imageMode = $textRenderObj == 'displayLatest' ? $lConf['latestImageMode'] : $lConf['listImageMode'];
@@ -2476,7 +2495,7 @@ class TtNews extends AbstractPlugin
                     if ($val) {
                         $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                         $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
-                        $lConf['image.']['file'] = 'uploads/pics/' . $val;
+                        $lConf['image.']['file'] = $imgPath . $val;
 
                         $theImgCode .= $this->local_cObj->cObjGetSingle('IMAGE',
                                 $lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc],
@@ -2509,10 +2528,11 @@ class TtNews extends AbstractPlugin
      * @param $imgsTitleTexts
      * @param $imageNum
      * @param $markerArray
+     * @param $imgPath
      *
      * @return mixed
      */
-    protected function getSingleViewImages($lConf, $imgs, $imgsCaptions, $imgsAltTexts, $imgsTitleTexts, $imageNum, $markerArray)
+    protected function getSingleViewImages($lConf, $imgs, $imgsCaptions, $imgsAltTexts, $imgsTitleTexts, $imageNum, $markerArray, $imgPath)
     {
         $marker = 'NEWS_IMAGE';
         $sViewSplitLConf = array();
@@ -2572,7 +2592,7 @@ class TtNews extends AbstractPlugin
 
                 $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                 $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
-                $lConf['image.']['file'] = 'uploads/pics/' . $val;
+                $lConf['image.']['file'] = $imgPath . $val;
 
                 $imgHtml = $this->local_cObj->cObjGetSingle('IMAGE',
                         $lConf['image.']) . $this->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
