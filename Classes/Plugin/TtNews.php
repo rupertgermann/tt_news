@@ -657,7 +657,7 @@ class TtNews extends AbstractPlugin
      * @throws DBALException
      */
 
-    protected function displayList($excludeUids = '0')
+    public function displayList($excludeUids = '0')
     {
         $theCode = $this->theCode;
         $prefix_display = false;
@@ -1245,7 +1245,7 @@ class TtNews extends AbstractPlugin
      * @return    string        html-code for the "single view"
      * @throws DBALException
      */
-    protected function displaySingle()
+    public function displaySingle()
     {
 
         $lConf = $this->conf['displaySingle.'];
@@ -1408,7 +1408,7 @@ class TtNews extends AbstractPlugin
      * @return    string        html code of the archive menu
      * @throws DBALException
      */
-    protected function displayArchiveMenu()
+    public function displayArchiveMenu()
     {
         $this->arcExclusive = 1;
         $selectConf = $this->getSelectConf('', 1);
@@ -1637,7 +1637,7 @@ class TtNews extends AbstractPlugin
      * @return    string        html for the category menu
      * @throws DBALException
      */
-    protected function displayCatMenu()
+    public function displayCatMenu()
     {
         $content = '';
         $lConf = $this->conf['displayCatMenu.'];
