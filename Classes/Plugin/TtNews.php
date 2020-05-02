@@ -2007,19 +2007,42 @@ class TtNews extends AbstractPlugin
             $this->conf['newsFiles_stdWrap.']['wrap']);
         $markerArray['###TEXT_FILES###'] = $files_stdWrap[0] . $this->local_cObj->stdWrap($this->pi_getLL('textFiles'),
                 $this->conf['newsFilesHeader_stdWrap.']);
+
+        $filesPath = trim($this->conf['newsFiles.']['path']);
+
+        if (MathUtility::canBeInterpretedAsInteger($row['news_files'])) {
+            // seems that tt_news files have been migrated to FAL
+            $filesPath = '';
+            $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+            $fileObjects = $fileRepository->findByRelation('tt_news', 'news_files', $row['uid']);
+            if (!empty($fileObjects)) {
+                $falFiles = [];
+                $falFilesTitles = [];
+                foreach ($fileObjects as $fileObject) {
+                    /** @var FileInterface $fileObject */
+                    $publicUrl = $fileObject->getPublicUrl();
+                    $falFiles[] = $fileObject->getPublicUrl();
+                    $falFilesTitles[$publicUrl] = $fileObject->getProperty('title');
+                }
+                if (!empty($falFiles)) {
+                    $row['news_files'] = implode(',', $falFiles);
+                }
+            }
+        }
+
         $fileArr = explode(',', $row['news_files']);
         $filelinks = '';
         $rss2Enclousres = '';
         foreach ($fileArr as $val) {
             // fills the marker ###FILE_LINK### with the links to the atached files
+            $fileName = ($falFilesTitles[$val] != '' ? $falFilesTitles[$val] : basename($val));
             $filelinks .= $this->local_cObj->stdWrap(
-                $this->local_cObj->typoLink($val,['parameter'=> $this->conf['newsFiles.']['path'] . $val]),
+                $this->local_cObj->typoLink($fileName,['parameter'=> $filesPath . $val]),
                 $this->conf['newsFiles.']['stdWrap.']);
 
             // <enclosure> support for RSS 2.0
             if ($this->theCode == 'XML') {
-                $path = trim($this->conf['newsFiles.']['path']);
-                $theFile = $path . $val;
+                $theFile = $filesPath . $val;
 
                 if (@is_file($theFile)) {
                     $fileURL = $this->config['siteUrl'] . $theFile;
