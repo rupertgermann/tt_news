@@ -70,6 +70,9 @@ $boot = function () {
         )
     );
 
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateImagesToFal']
+        = \RG\TtNews\Updates\migrateImagesToFal::class;
+
 };
 
 $boot();
