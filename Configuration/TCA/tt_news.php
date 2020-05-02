@@ -370,6 +370,7 @@ return [
                 'internal_type' => 'db',
                 'allowed' => 'pages',
                 'size' => '1',
+                'default' => 0,
                 'maxitems' => '1',
                 'minitems' => '0',
                 'show_thumbs' => '1'
@@ -414,6 +415,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
+                'default' => 0,
                 'items' => [
                     ['', 0],
                 ],
