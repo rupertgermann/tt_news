@@ -70,8 +70,8 @@ $boot = function () {
         )
     );
 
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateImagesToFal']
-        = \RG\TtNews\Updates\migrateImagesToFal::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateImagesToFal'] = \RG\TtNews\Updates\migrateImagesToFal::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateFileAttachmentsToFal'] = \RG\TtNews\Updates\migrateFileAttachmentsToFal::class;
 
 };
 
