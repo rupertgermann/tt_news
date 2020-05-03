@@ -56,7 +56,6 @@ return [
         ],
         'fe_group' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => $locallang_general . 'LGL.fe_group',
             'config' => [
                 'type' => 'select',
@@ -69,12 +68,14 @@ return [
                     [$locallang_general . 'LGL.usergroups', '--div--']
                 ],
                 'exclusiveKeys' => '-1,-2',
-                'foreign_table' => 'fe_groups'
+                'foreign_table' => 'fe_groups',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'starttime' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => $locallang_general . 'LGL.starttime',
             'config' => [
                 'type' => 'input',
@@ -89,7 +90,6 @@ return [
         ],
         'endtime' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => $locallang_general . 'LGL.endtime',
             'config' => [
                 'type' => 'input',
