@@ -37,6 +37,7 @@ use RG\TtNews\Helper\Helpers;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\File;
@@ -3560,7 +3561,10 @@ class TtNews extends AbstractPlugin
         $selectConf['where'] .= ' AND tt_news.pid > 0 ';
         if ($this->theCode != 'LATEST') {
             // latest ignores search query
-            $selectConf['where'] .= $addwhere;
+            if ($addwhere != '') {
+                $addwhere = QueryHelper::stripLogicalOperatorPrefix($addwhere);
+                $selectConf['where'] .= ' AND (' . $addwhere . ')';
+            }
         }
 
         // listing related news
