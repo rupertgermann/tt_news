@@ -398,7 +398,7 @@ class TtNews extends AbstractPlugin
                     // hook for processing of extra codes
                     if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraCodesHook'])) {
                         foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraCodesHook'] as $_classRef) {
-                            $_procObj = &GeneralUtility::makeInstance($_classRef);
+                            $_procObj = GeneralUtility::makeInstance($_classRef);
                             $content .= $_procObj->extraCodesProcessor($this);
                         }
                     } else { // code not known and no hook found to handle it -> displayerror
@@ -703,7 +703,7 @@ class TtNews extends AbstractPlugin
                 // Hook for any additional form fields
                 if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['additionalFormSearchFields'])) {
                     foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['additionalFormSearchFields'] as $_classRef) {
-                        $_procObj = &GeneralUtility::makeInstance($_classRef);
+                        $_procObj = GeneralUtility::makeInstance($_classRef);
                         $searchMarkers = $_procObj->additionalFormSearchFields($this, $searchMarkers);
                     }
                 }
@@ -932,7 +932,7 @@ class TtNews extends AbstractPlugin
             // Adds hook for processing of extra global markers
             if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraGlobalMarkerHook'])) {
                 foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraGlobalMarkerHook'] as $_classRef) {
-                    $_procObj = &GeneralUtility::makeInstance($_classRef);
+                    $_procObj = GeneralUtility::makeInstance($_classRef);
                     $markerArray = $_procObj->extraGlobalMarkerProcessor($this, $markerArray);
                 }
             }
@@ -1263,7 +1263,7 @@ class TtNews extends AbstractPlugin
         // function Hook for processing the selectConf array
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['sViewSelectConfHook'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['sViewSelectConfHook'] as $_classRef) {
-                $_procObj = &GeneralUtility::makeInstance($_classRef);
+                $_procObj = GeneralUtility::makeInstance($_classRef);
                 $selectConf = $_procObj->processSViewSelectConfHook($this, $selectConf);
             }
         }
@@ -1288,7 +1288,7 @@ class TtNews extends AbstractPlugin
         // Adds hook for processing of extra item array
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'] as $_classRef) {
-                $_procObj = &GeneralUtility::makeInstance($_classRef);
+                $_procObj = GeneralUtility::makeInstance($_classRef);
                 $row = $_procObj->extraItemArrayProcessor($row, $lConf, $this);
             }
         }
@@ -1691,7 +1691,7 @@ class TtNews extends AbstractPlugin
                 // hook for user catmenu
                 if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['userDisplayCatmenuHook'])) {
                     foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['userDisplayCatmenuHook'] as $_classRef) {
-                        $_procObj = &GeneralUtility::makeInstance($_classRef);
+                        $_procObj = GeneralUtility::makeInstance($_classRef);
                         $content .= $_procObj->userDisplayCatmenu($lConf, $this);
                     }
                 }
@@ -1941,7 +1941,7 @@ class TtNews extends AbstractPlugin
         // Adds hook for processing of extra item markers
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemMarkerHook'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemMarkerHook'] as $_classRef) {
-                $_procObj = &GeneralUtility::makeInstance($_classRef);
+                $_procObj = GeneralUtility::makeInstance($_classRef);
                 $markerArray = $_procObj->extraItemMarkerProcessor($markerArray, $row, $lConf, $this);
             }
         }
@@ -3591,7 +3591,7 @@ class TtNews extends AbstractPlugin
         // function Hook for processing the selectConf array
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['selectConfHook'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['selectConfHook'] as $_classRef) {
-                $_procObj = &GeneralUtility::makeInstance($_classRef);
+                $_procObj = GeneralUtility::makeInstance($_classRef);
                 $selectConf = $_procObj->processSelectConfHook($this, $selectConf);
             }
         }
@@ -3650,7 +3650,7 @@ class TtNews extends AbstractPlugin
         $where = $this->cObj->searchWhere($sw, $this->searchFieldList, 'tt_news');
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['searchWhere'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['searchWhere'] as $_classRef) {
-                $_procObj = &GeneralUtility::makeInstance($_classRef);
+                $_procObj = GeneralUtility::makeInstance($_classRef);
                 $where = $_procObj->searchWhere($this, $sw, $where);
             }
         }
@@ -4395,7 +4395,7 @@ class TtNews extends AbstractPlugin
         // hook for processing of links
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] as $_classRef) {
-                $_procObj = &GeneralUtility::makeInstance($_classRef);
+                $_procObj = GeneralUtility::makeInstance($_classRef);
                 $params = array('singlePid' => &$singlePid, 'row' => &$row, 'piVarsArray' => $piVarsArray);
                 $_procObj->processSingleViewLink($linkWrap, $url, $params, $this);
             }
