@@ -30,6 +30,7 @@ namespace RG\TtNews\Plugin;
  ***************************************************************/
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\ResultStatement;
 use RG\TtNews\Menu\Catmenu;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
@@ -428,6 +429,7 @@ class TtNews extends AbstractPlugin
 
         $flexformTyposcript = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'myTS', 's_misc');
         if ($flexformTyposcript) {
+            /** @var TypoScriptParser $tsparser */
             $tsparser = GeneralUtility::makeInstance(TypoScriptParser::class);
             // Copy conf into existing setup
             $tsparser->setup = $this->conf;
@@ -3685,7 +3687,7 @@ class TtNews extends AbstractPlugin
      * @param $table
      * @param $conf
      *
-     * @return \Doctrine\DBAL\Driver\Statement|bool
+     * @return ResultStatement|bool
      * @throws DBALException
      */
     protected function exec_getQuery($table, $conf)
