@@ -76,6 +76,6 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRe
 );
 
 if (version_compare(TYPO3_branch, '9.5', '>=')) {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['txMyExtExampeSlugs']
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['tt_news_populateslugs']
         = \RG\TtNews\Update\PopulateNewsSlugs::class;
 }
