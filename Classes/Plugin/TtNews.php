@@ -4513,7 +4513,7 @@ class TtNews extends AbstractPlugin
      *
      * @return array|string
      */
-    protected function getSingleViewLink(&$singlePid, &$row, $piVarsArray, $urlOnly = false)
+    public function getSingleViewLink(&$singlePid, &$row, $piVarsArray, $urlOnly = false)
     {
         $tmpY = false;
         $tmpM = false;
