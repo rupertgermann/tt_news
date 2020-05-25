@@ -398,6 +398,26 @@ return [
                 'minitems' => '0'
             ]
         ],
+        'slug' =>  [
+                'exclude' => true,
+                'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:pages.slug',
+                'displayCond' => 'USER:' . \TYPO3\CMS\Core\Compatibility\PseudoSiteTcaDisplayCondition::class . '->isInPseudoSite:pages:false',
+                'config' => [
+                    'type' => 'slug',
+                    'size' => 50,
+                    'generatorOptions' => [
+                        'fields' => ['title'],
+                        'fieldSeparator' => '-',
+                        'replacements' => [
+                            '/' => '',
+                            '®' => 'R',
+                        ],
+                    ],
+                    'fallbackCharacter' => '-',
+                    'eval' => 'uniqueInSite',
+                    'default' => ''
+                ]
+        ],
         'sys_language_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.language',
