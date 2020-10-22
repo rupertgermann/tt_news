@@ -4,7 +4,7 @@
 
 plugin.tt_news {
     # cat=plugin_tt_news_basic/file/1; type=text; label= LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:tsce.templateFile
-  file.templateFile = EXT:tt_news/Resources/Private/Templates/Plugin/tt_news_v3_template.html
+  file.templateFile = EXT:tt_news/Resources/Private/Templates/Plugin/Template.html
 
     # cat=plugin_tt_news_basic/links/10; type=text; label= LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:tsce.pid_list
   pid_list = 0
