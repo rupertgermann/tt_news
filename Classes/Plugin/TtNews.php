@@ -3509,7 +3509,7 @@ class TtNews extends AbstractPlugin
         // promoting TYPO3 in atom feeds, supress the subversion
         $version = explode('.', ($GLOBALS['TYPO3_VERSION'] ? $GLOBALS['TYPO3_VERSION'] : $GLOBALS['TYPO_VERSION']));
         unset($version[2]);
-        $markerArray['###TYPO3_VERSION###'] = implode($version, '.');
+        $markerArray['###TYPO3_VERSION###'] = implode('.', $version);
 
         return $markerArray;
     }
