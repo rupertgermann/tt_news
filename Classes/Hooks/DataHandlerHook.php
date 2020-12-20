@@ -155,7 +155,7 @@ class DataHandlerHook
             }
 
             if ($notAllowedItems[0]) {
-                $messageString = 'Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems) . ').';
+                $messageString = 'Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode(',', $notAllowedItems) . ').';
 
                 $pObj->log($table, $id, 2, 0, 1, "processDatamap: $messageString", 1);
 
@@ -283,7 +283,7 @@ class DataHandlerHook
             }
 
             if ($notAllowedItems[0]) {
-                $messageString = 'Attempt to ' . $command . ' a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems) . ').';
+                $messageString = 'Attempt to ' . $command . ' a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode(',', $notAllowedItems) . ').';
 
                 $pObj->log($table, $id, 2, 0, 1, "processCmdmap: $messageString", 1);
 

@@ -204,8 +204,8 @@ class Div
             $includeCatArray = self::getIncludeCatArray();
 
             if ($excludeList) {
-                $catlistWhere .= ' AND tt_news_cat.uid NOT IN (' . implode(GeneralUtility::intExplode(',',
-                        $excludeList), ',') . ')';
+                $catlistWhere .= ' AND tt_news_cat.uid NOT IN (' . implode(',', GeneralUtility::intExplode(',',
+                        $excludeList)) . ')';
             }
             if (!empty($includeCatArray)) {
                 $catlistWhere .= ' AND tt_news_cat.uid IN (' . implode(',', $includeCatArray) . ')';

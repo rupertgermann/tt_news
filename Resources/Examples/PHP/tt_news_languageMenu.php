@@ -86,7 +86,7 @@ function user_languageMenu($content) {
 				unset($paramArray[$key]);
 			}
 		}
-		$tmpParams = implode($paramArray, '&');
+		$tmpParams = implode('&', $paramArray);
 
 		$newsAddParams = $tmpParams?'&' . $tmpParams:'';
 	}

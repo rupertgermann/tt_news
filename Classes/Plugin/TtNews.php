@@ -2102,7 +2102,7 @@ class TtNews extends AbstractPlugin
         }
 
         if (is_array($this->categories[$row['uid']])) {
-            $this->catExclusive = implode(array_keys($this->categories[$row['uid']]), ',');
+            $this->catExclusive = implode(',', array_keys($this->categories[$row['uid']]));
         }
 
         $relNewsByCat = trim($this->displayList($row['uid']));
@@ -2997,7 +2997,7 @@ class TtNews extends AbstractPlugin
                 $catTemp[] = $catrow['uid'];
             }
             if ($this->conf['checkCategoriesOfRelatedNews']) {
-                $visibleCategories = implode($catTemp, ',');
+                $visibleCategories = implode(',', $catTemp);
             }
         }
         $relPages = false;
@@ -3377,7 +3377,7 @@ class TtNews extends AbstractPlugin
         // promoting TYPO3 in atom feeds, supress the subversion
         $version = explode('.', ($GLOBALS['TYPO3_VERSION'] ? $GLOBALS['TYPO3_VERSION'] : $GLOBALS['TYPO_VERSION']));
         unset($version[2]);
-        $markerArray['###TYPO3_VERSION###'] = implode($version, '.');
+        $markerArray['###TYPO3_VERSION###'] = implode('.', $version);
 
         return $markerArray;
     }
@@ -3959,12 +3959,12 @@ class TtNews extends AbstractPlugin
             $this->catlistWhere = ' AND tt_news_cat.uid' . ($this->config['categoryMode'] < 0 ? ' NOT' : '') . ' IN (' . $this->catExclusive . ')';
         } else {
             if ($lConf['excludeList']) {
-                $this->catlistWhere = ' AND tt_news_cat.uid NOT IN (' . implode(GeneralUtility::intExplode(',',
-                        $lConf['excludeList']), ',') . ')';
+                $this->catlistWhere = ' AND tt_news_cat.uid NOT IN (' . implode(',', GeneralUtility::intExplode(',',
+                        $lConf['excludeList'])) . ')';
             }
             if ($lConf['includeList']) {
-                $this->catlistWhere .= ' AND tt_news_cat.uid IN (' . implode(GeneralUtility::intExplode(',',
-                        $lConf['includeList']), ',') . ')';
+                $this->catlistWhere .= ' AND tt_news_cat.uid IN (' . implode(',', GeneralUtility::intExplode(',',
+                        $lConf['includeList'])) . ')';
             }
         }
 
@@ -4072,8 +4072,7 @@ class TtNews extends AbstractPlugin
         $pid_list = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'pages', 's_misc');
         $pid_list = $pid_list ? $pid_list : trim($this->cObj->stdWrap($this->conf['pid_list'],
             $this->conf['pid_list.']));
-        $pid_list = $pid_list ? implode(GeneralUtility::intExplode(',', $pid_list),
-            ',') : $this->tsfe->id;
+        $pid_list = $pid_list ? implode(',', GeneralUtility::intExplode(',', $pid_list)) : $this->tsfe->id;
 
         $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'recursive', 's_misc');
         if (!strcmp($recursive, '') || $recursive === null) {

@@ -75,7 +75,7 @@ class Helpers
                 $checkedFields[] = $fN;
             }
         }
-        $checkedFieldlist = implode($checkedFields, ',');
+        $checkedFieldlist = implode(',', $checkedFields);
 
         return $checkedFieldlist;
     }
@@ -343,9 +343,9 @@ class Helpers
             if ($break) { // add break at end of current paragraph
                 array_push($pArr, $this->pObj->config['pageBreakToken']);
             }
-            $wtmp[] = implode($pArr, ' ');
+            $wtmp[] = implode(' ', $pArr);
         }
-        $processedText = implode($wtmp, chr(10));
+        $processedText = implode(chr(10), $wtmp);
 
         return $processedText;
     }
