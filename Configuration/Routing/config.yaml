@@ -1,0 +1,25 @@
+routeEnhancers:
+  TtNewsDetail:
+    type: Plugin
+    namespace: 'tx_ttnews'
+    routePath: '/{tt_news}'
+    aspects:
+      tt_news:
+        type: PersistedAliasMapper
+        tableName: tt_news
+        routeFieldName: slug
+    defaults:
+      tt_news: '0'
+  TtNewsPagination:
+    type: Plugin
+    namespace: 'tx_ttnews'
+    routePath: '/browse/{pointer}'
+    defaults:
+      pointer: '0'
+    requirements:
+      pointer: '[0-9]{1..3}'
+    aspects:
+      pointer:
+        type: StaticRangeMapper
+        start: '1'
+        end: '100'

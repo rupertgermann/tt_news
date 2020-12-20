@@ -73,6 +73,10 @@ $boot = function () {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateImagesToFal'] = \RG\TtNews\Updates\migrateImagesToFal::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateFileAttachmentsToFal'] = \RG\TtNews\Updates\migrateFileAttachmentsToFal::class;
 
+    if (version_compare(TYPO3_branch, '9.5', '>=')) {
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['tt_news_populateslugs']
+            = \RG\TtNews\Update\PopulateNewsSlugs::class;
+    }
 };
 
 $boot();

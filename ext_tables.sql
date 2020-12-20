@@ -33,7 +33,8 @@ CREATE TABLE tt_news (
   keywords text,
   archivedate int(11) DEFAULT '0' NOT NULL,
   ext_url varchar(255) DEFAULT '' NOT NULL,
-  
+  slug varchar(2048),
+
   sys_language_uid int(11) DEFAULT '0' NOT NULL,
   l18n_parent int(11) DEFAULT '0' NOT NULL,
   l18n_diffsource mediumblob NOT NULL,

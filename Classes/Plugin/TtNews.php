@@ -630,7 +630,9 @@ class TtNews extends AbstractPlugin
         $this->initTemplate();
 
         // Configure caching
-        $this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
+        if (isset($this->conf['allowCaching'])) {
+            $this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
+        }
         if (!$this->allowCaching) {
             $this->tsfe->set_no_cache();
         }
@@ -4360,7 +4362,7 @@ class TtNews extends AbstractPlugin
      *
      * @return array|string
      */
-    protected function getSingleViewLink(&$singlePid, &$row, $piVarsArray, $urlOnly = false)
+    public function getSingleViewLink(&$singlePid, &$row, $piVarsArray, $urlOnly = false)
     {
         $tmpY = false;
         $tmpM = false;

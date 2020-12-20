@@ -404,6 +404,26 @@ return [
                 ],
                 '', 'php,php3')
         ],
+        'slug' =>  [
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:pages.slug',
+            'displayCond' => 'USER:' . \TYPO3\CMS\Core\Compatibility\PseudoSiteTcaDisplayCondition::class . '->isInPseudoSite:pages:false',
+            'config' => [
+                'type' => 'slug',
+                'size' => 50,
+                'generatorOptions' => [
+                    'fields' => ['title'],
+                    'fieldSeparator' => '-',
+                    'replacements' => [
+                        '/' => '',
+                        '®' => 'R',
+                    ],
+                ],
+                'fallbackCharacter' => '-',
+                'eval' => 'uniqueInSite',
+                'default' => ''
+            ]
+        ],
         'sys_language_uid' => [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.language',
@@ -489,7 +509,7 @@ return [
     'types' => [
         '0' => [
             'showitem' =>
-                'hidden, type,title,short,bodytext,
+                'hidden, type,title,slug,short,bodytext,
             --div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special, datetime,archivedate,--palette--;;author,keywords,--palette--;;language,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.media, image,--palette--;;imagetexts,links,news_files,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.catAndRels, category,related,
