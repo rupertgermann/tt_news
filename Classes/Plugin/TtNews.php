@@ -3509,7 +3509,7 @@ class TtNews extends AbstractPlugin
         // promoting TYPO3 in atom feeds, supress the subversion
         $version = explode('.', ($GLOBALS['TYPO3_VERSION'] ? $GLOBALS['TYPO3_VERSION'] : $GLOBALS['TYPO_VERSION']));
         unset($version[2]);
-        $markerArray['###TYPO3_VERSION###'] = implode($version, '.');
+        $markerArray['###TYPO3_VERSION###'] = implode('.', $version);
 
         return $markerArray;
     }
@@ -4224,8 +4224,7 @@ class TtNews extends AbstractPlugin
         $pid_list = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'pages', 's_misc');
         $pid_list = $pid_list ? $pid_list : trim($this->cObj->stdWrap($this->conf['pid_list'],
             $this->conf['pid_list.']));
-        $pid_list = $pid_list ? implode(GeneralUtility::intExplode(',', $pid_list),
-            ',') : $this->tsfe->id;
+        $pid_list = $pid_list ? implode(',',GeneralUtility::intExplode(',', $pid_list)) : $this->tsfe->id;
 
         $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'recursive', 's_misc');
         if (!strcmp($recursive, '') || $recursive === null) {
