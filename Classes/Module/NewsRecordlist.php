@@ -5,7 +5,7 @@ namespace RG\TtNews\Module;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2018 Rupert Germann <rupi@gmx.li>
+ *  (c) 2005-2020 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is

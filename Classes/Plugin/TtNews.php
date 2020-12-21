@@ -6,7 +6,7 @@ namespace RG\TtNews\Plugin;
  *  Copyright notice
  *
  *  (c) 1999-2004 Kasper Skårhøj (kasperYYYY@typo3.com)
- *  (c) 2004-2018 Rupert Germann (rupi@gmx.li)
+ *  (c) 2004-2020 Rupert Germann (rupi@gmx.li)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
