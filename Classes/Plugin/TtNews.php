@@ -3039,7 +3039,7 @@ class TtNews extends AbstractPlugin
 					OR (tt_news_related_mm.uid_foreign=' . $uid . '
 						AND tt_news.uid=tt_news_related_mm.uid_local
 						AND tt_news_related_mm.tablenames!=' . $this->db->fullQuoteStr('pages',
-                    'tt_news_related_mm') . '))';
+                    'tt_news_related_mm') . ')) AND tt_news.sys_language_uid = 0';
         }
 
 
