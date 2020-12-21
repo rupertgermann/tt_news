@@ -3108,16 +3108,7 @@ class TtNews extends AbstractPlugin
                         $catSPid = $row['sPidByCat'];
                     }
                     $sPid = ($catSPid ? $catSPid : $this->config['singlePid']);
-
-                    $newsAddParams = '';
-                    $link = $this->getSingleViewLink($sPid, $row, $piVarsArray, true);
-                    $tmpUrlArray = parse_url($link);
-                    if (is_array($tmpUrlArray) && isset($tmpUrlArray['query'])) {
-                        $linkArr = GeneralUtility::explodeUrl2Array($tmpUrlArray['query']);
-                        if (is_array($linkArr) && isset($linkArr['tx_ttnews[tt_news]'])) {
-                            $newsAddParams = '&tx_ttnews[tt_news]=' . (int)$linkArr['tx_ttnews[tt_news]'];
-                        }
-                    }
+                    $newsAddParams = '&tx_ttnews[tt_news]=' . (int)$row['uid'];
 
                     // load the parameter string into the register 'newsAddParams' to access it from TS
                     $veryLocal_cObj->cObjGetSingle('LOAD_REGISTER',
