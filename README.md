@@ -20,15 +20,7 @@ AKA: **"the generic record handler"**
     
 ## Compatibility
 
-branch master requires at least TYPO3 8.7.0 and is compatible with TYPO3 8.7 LTS up to TYPO3 9.5 LTS.
-
-branch feature/tt-news-76 works with TYPO3 7.6 LTS
+branch master requires at least TYPO3 9.5.0 and is compatible with TYPO3 9.5 LTS up to TYPO3 10.4 LTS.
 
 For tt_news for older TYPO3 versions take a look at [https://extensions.typo3.org/extension/tt_news/](https://extensions.typo3.org/extension/tt_news/)  and scroll down to "Version History".      
 
-
-## TYPO3 v10 LTS migrations TODO
-
-- news images
-- news files
-- tt_news_cat files
