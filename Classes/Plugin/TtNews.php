@@ -37,6 +37,7 @@ use RG\TtNews\Utility\Div;
 use RG\TtNews\Helper\Helpers;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
@@ -307,9 +308,14 @@ class TtNews extends AbstractPlugin
     public $upstreamVars = array();
 
     /**
-     * @var
+     * @var array
      */
     private $listData;
+
+    /**
+     * @var int
+     */
+    protected $sys_language_content;
 
     /**
      * TtNews constructor.
@@ -465,6 +471,10 @@ class TtNews extends AbstractPlugin
     {
         $this->db = Database::getInstance();
         $this->tsfe = $GLOBALS['TSFE'];
+
+        $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+        $this->sys_language_content =  $languageAspect->getContentId();
+
         $this->pi_loadLL('EXT:tt_news/Resources/Private/Language/Plugin/locallang_pi.xlf'); // Loading language-labels
         $this->pi_setPiVarDefaults(); // Set default piVars from TS
 
@@ -492,7 +502,7 @@ class TtNews extends AbstractPlugin
         // load available syslanguages
         $this->initLanguages();
         // sys_language_mode defines what to do if the requested translation is not found
-        $this->sys_language_mode = ($this->conf['sys_language_mode'] ? $this->conf['sys_language_mode'] : $this->tsfe->sys_language_mode);
+        $this->sys_language_mode = ($this->conf['sys_language_mode'] ? $this->conf['sys_language_mode'] : $languageAspect->getLegacyLanguageMode());
 
 
         if ($this->conf['searchFieldList']) {
@@ -630,7 +640,7 @@ class TtNews extends AbstractPlugin
             $this->allowCaching = $this->conf['allowCaching'] ? 1 : 0;
         }
 
-	    if (!$this->allowCaching) {
+        if (!$this->allowCaching) {
             $this->tsfe->set_no_cache();
         }
 
@@ -980,7 +990,7 @@ class TtNews extends AbstractPlugin
             $t['total'] = $this->markerBasedTemplateService->substituteSubpart($t['total'], '###CONTENT###', '', 0);
 
             $content .= $t['total'];
-        } elseif ($this->arcExclusive && $this->piVars['pS'] && $this->tsfe->sys_language_content) {
+        } elseif ($this->arcExclusive && $this->piVars['pS'] && $this->sys_language_content) {
             $markerArray = array();
             // this matches if a user has switched languages within a archive period that contains no items in the desired language
             $content .= $this->local_cObj->stdWrap($this->pi_getLL('noNewsForArchPeriod'),
@@ -1146,9 +1156,10 @@ class TtNews extends AbstractPlugin
                 $this->tsfe->sys_page->versionOL('tt_news', $row);
             }
             // Then get localization of record:
-            if ($this->tsfe->sys_language_content) {
-                $row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->tsfe->sys_language_content,
-                    $this->tsfe->sys_language_contentOL);
+            if ($this->sys_language_content) {
+                $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+                $row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->sys_language_content,
+                    $languageAspect->getLegacyOverlayType());
             }
 
             // Register displayed news item globally:
@@ -1279,9 +1290,9 @@ class TtNews extends AbstractPlugin
         }
         // Then get localization of record:
         // (if the content language is not the default language)
-        if ($this->tsfe->sys_language_content) {
+        if ($this->sys_language_content) {
             $OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
-            $row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->tsfe->sys_language_content, $OLmode);
+            $row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->sys_language_content, $OLmode);
         }
 
         // Adds hook for processing of extra item array
@@ -1369,7 +1380,7 @@ class TtNews extends AbstractPlugin
                     $wrappedSubpartArray);
             }
 
-        } elseif ($this->sys_language_mode == 'strict' && $this->tt_news_uid && $this->tsfe->sys_language_content) {
+        } elseif ($this->sys_language_mode == 'strict' && $this->tt_news_uid && $this->sys_language_content) {
             // not existing translation
             if ($this->conf['redirectNoTranslToList']) {
                 // redirect to list page
@@ -1458,7 +1469,7 @@ class TtNews extends AbstractPlugin
                 $storeKey = md5(serialize(array(
                     $this->catExclusive,
                     $this->config['catSelection'],
-                    $this->tsfe->sys_language_content,
+                    $this->sys_language_content,
                     $selectConf['pidInList'],
                     $arcMode
                 )));
@@ -1466,7 +1477,7 @@ class TtNews extends AbstractPlugin
             }
 
             if (!empty($cachedPeriodAccum)) {
-                 $periodAccum = $cachedPeriodAccum;
+                $periodAccum = $cachedPeriodAccum;
             } else {
 
                 $periodAccum = array();
@@ -2681,7 +2692,7 @@ class TtNews extends AbstractPlugin
                 $this->enableCatFields,
                 $this->SPaddWhere,
                 $getAll,
-                $this->tsfe->sys_language_content,
+                $this->sys_language_content,
                 $this->conf['useSPidFromCategory'],
                 $this->conf['useSPidFromCategoryRecusive'],
                 $this->conf['displaySubCategories'],
@@ -2737,10 +2748,10 @@ class TtNews extends AbstractPlugin
                 foreach ($rows as $val) {
                     $parentSP = false;
                     $catTitle = '';
-                    if ($this->tsfe->sys_language_content) {
+                    if ($this->sys_language_content) {
                         // find translations of category titles
                         $catTitleArr = GeneralUtility::trimExplode('|', $val['title_lang_ol']);
-                        $catTitle = $catTitleArr[($this->tsfe->sys_language_content - 1)];
+                        $catTitle = $catTitleArr[($this->sys_language_content - 1)];
                     }
                     $catTitle = $catTitle ? $catTitle : $val['title'];
 
@@ -2869,11 +2880,11 @@ class TtNews extends AbstractPlugin
                     if (is_array($array_in[$key])) {
                         $result .= $this->getCatMenuContent($array_in[$key], $lConf, $l + 1);
                     } elseif ($key == $titlefield) {
-                        if ($this->tsfe->sys_language_content && $array_in['uid']) {
+                        if ($this->sys_language_content && $array_in['uid']) {
                             // get translations of category titles
                             $catTitleArr = GeneralUtility::trimExplode('|',
                                 $array_in['title_lang_ol']);
-                            $syslang = $this->tsfe->sys_language_content - 1;
+                            $syslang = $this->sys_language_content - 1;
                             $val = $catTitleArr[$syslang] ? $catTitleArr[$syslang] : $val;
                         }
                         // if (!$title) $title = $val;
@@ -3082,15 +3093,21 @@ class TtNews extends AbstractPlugin
                 'year' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['year'] ? $this->piVars['year'] : null)),
                 'month' => ($this->conf['dontUseBackPid'] ? null : ($this->piVars['month'] ? $this->piVars['month'] : null))
             );
+            $tmpAddParams = '';
+            foreach ($piVarsArray as $key => $value) {
+                if ($value !== null) {
+                    $tmpAddParams .= '&tx_ttnews[' . $key . ']=' . $value;
+                }
+            }
 
             /** @var ContentObjectRenderer $veryLocal_cObj */
             $veryLocal_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class); // Local cObj.
             $lines = array();
 
             foreach ($relrows as $row) {
-                if ($this->tsfe->sys_language_content && $row['tablenames'] != 'pages') {
+                if ($this->sys_language_content && $row['tablenames'] != 'pages') {
                     $OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
-                    $row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->tsfe->sys_language_content,
+                    $row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->sys_language_content,
                         $OLmode);
                     if (!is_array($row)) {
                         continue;
@@ -3105,7 +3122,7 @@ class TtNews extends AbstractPlugin
                         $catSPid = $row['sPidByCat'];
                     }
                     $sPid = ($catSPid ? $catSPid : $this->config['singlePid']);
-                    $newsAddParams = '&tx_ttnews[tt_news]=' . (int)$row['uid'];
+                    $newsAddParams = '&tx_ttnews[tt_news]=' . (int)$row['uid'] . $tmpAddParams;
 
                     // load the parameter string into the register 'newsAddParams' to access it from TS
                     $veryLocal_cObj->cObjGetSingle('LOAD_REGISTER',
@@ -3146,8 +3163,8 @@ class TtNews extends AbstractPlugin
         $pres = $this->db->exec_SELECTquery($select_fields, $from_table, $where, '', 'title');
 
         while (($prow = $this->db->sql_fetch_assoc($pres))) {
-            if ($this->tsfe->sys_language_content) {
-                $prow = $this->tsfe->sys_page->getPageOverlay($prow, $this->tsfe->sys_language_content);
+            if ($this->sys_language_content) {
+                $prow = $this->tsfe->sys_page->getPageOverlay($prow, $this->sys_language_content);
             }
 
             $relPages[] = array(
@@ -3597,7 +3614,7 @@ class TtNews extends AbstractPlugin
     protected function getLanguageWhere()
     {
         $where = '';
-        $sys_language_content = $this->tsfe->sys_language_content;
+        $sys_language_content = $this->sys_language_content;
         if ($this->sys_language_mode == 'strict' && $sys_language_content) {
             // sys_language_mode == 'strict': If a certain language is requested, select only news-records from the default
             // language which have a translation. The translated articles will be overlayed later in the list or single function.
@@ -3653,6 +3670,7 @@ class TtNews extends AbstractPlugin
      * @param $table
      *
      * @return string
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
      */
     public function getEnableFields($table)
     {
@@ -3664,7 +3682,11 @@ class TtNews extends AbstractPlugin
         if (!is_object($this->tsfe)) {
             $this->tsfe = $GLOBALS['TSFE'];
         }
-        $show_hidden = ($table == 'pages' ? $this->tsfe->showHiddenPage : $this->tsfe->showHiddenRecords);
+        /** @var Context $context */
+        $context = GeneralUtility::makeInstance(Context::class);
+        $show_hidden = ($table == 'pages'
+            ? $context->getPropertyFromAspect('visibility', 'includeHiddenPages')
+            : $context->getPropertyFromAspect('visibility', 'includeHiddenContent'));
 
         return $this->tsfe->sys_page->enableFields($table, $show_hidden, $ignore_array);
     }
@@ -3769,11 +3791,12 @@ class TtNews extends AbstractPlugin
         }
 
         if ($conf['languageField']) {
-            if ($this->tsfe->sys_language_contentOL && $TCA[$table] && $TCA[$table]['ctrl']['languageField'] && $TCA[$table]['ctrl']['transOrigPointerField']) {
+            $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+            if ($languageAspect->getLegacyOverlayType() && $TCA[$table] && $TCA[$table]['ctrl']['languageField'] && $TCA[$table]['ctrl']['transOrigPointerField']) {
                 // Sys language content is set to zero/-1 - and it is expected that whatever routine processes the output will OVERLAY the records with localized versions!
                 $sys_language_content = '0,-1';
             } else {
-                $sys_language_content = intval($this->tsfe->sys_language_content);
+                $sys_language_content = intval($this->sys_language_content);
             }
             $query .= ' AND ' . $conf['languageField'] . ' IN (' . $sys_language_content . ')';
         }
@@ -4092,7 +4115,7 @@ class TtNews extends AbstractPlugin
         // Get pages
         $val = '';
 
-        $L = intval($this->tsfe->sys_language_content);
+        $L = intval($this->sys_language_content);
 
         if ($uid && $fN) {
             $key = $uid . '_' . $L;
