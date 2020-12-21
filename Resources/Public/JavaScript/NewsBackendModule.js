@@ -5,32 +5,31 @@ define(['jquery'], function ($) {
     var NewsBackendModule = {};
     var highlightClass = 'active';
 
-    NewsBackendModule.loadList = function ($element) {
+    NewsBackendModule.loadList = function (element) {
         $.ajax({
             url: ajaxUrl,
             type: 'get',
             dataType: 'html',
             cache: false,
             data: {
-                'category': $element.data('category'),
-                'id': $element.data('pid'),
+                'category': element.data('category'),
+                'id': element.data('pid'),
                 'action': 'loadList'
             }
         }).done(function (response) {
             // Replace content
-            $('#' + $element.data('target')).html(response);
-            NewsBackendModule.highlightActiveItem($element.data('category'));
+            $('#' + element.data('target')).html(response);
+            NewsBackendModule.highlightActiveItem(element.data('category'));
         });
     };
 
-    NewsBackendModule.expandCollapse = function ($element) {
-        var isExpand = $element.data('isexpand');
-        var parent = $element.closest('li');
+    NewsBackendModule.expandCollapse = function (element) {
+        var isExpand = element.data('isexpand');
+        var parent = element.closest('li');
         var img = parent.find('a.pmiconatag img');
 
         parent.find('ul').remove();
-
-        $element.data('isexpand', 1);
+        element.attr('data-isexpand', 1);
 
         if (!isExpand) {
             var src = img.attr('src');
@@ -38,6 +37,20 @@ define(['jquery'], function ($) {
                 var newsrc = src.replace('minus', 'plus');
                 img.attr('src', newsrc);
             }
+            // save current state
+            $.ajax({
+                url: ajaxUrl,
+                type: 'get',
+                dataType: 'html',
+                cache: false,
+                data: {
+                    'PM': element.data('params'),
+                    'id': element.data('pid'),
+                    'action': 'expandTree'
+                }
+            }).done(function (response) {
+                element.closest('li').replaceWith(response);
+            });
         } else {
             $.ajax({
                 url: ajaxUrl,
@@ -45,12 +58,12 @@ define(['jquery'], function ($) {
                 dataType: 'html',
                 cache: false,
                 data: {
-                    'PM': $element.data('params'),
-                    'id': $element.data('pid'),
+                    'PM': element.data('params'),
+                    'id': element.data('pid'),
                     'action': 'expandTree'
                 }
             }).done(function (response) {
-                $element.closest('li').replaceWith(response);
+                element.closest('li').replaceWith(response);
             });
         }
     };

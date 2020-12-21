@@ -115,9 +115,7 @@ plugin.tt_news {
       parseFunc.nonTypoTagStdWrap.encapsLines.nonWrappedTag >
     }
 
-    content_stdWrap.parseFunc < lib.parseFunc_RTE
-    content_stdWrap.parseFunc.nonTypoTagStdWrap.encapsLines.addAttributes.P >
-
+    content_stdWrap.parseFunc < lib.parseFunc
 
     # stdWrap for "additional info" (links, files, related news)
     addInfo_stdWrap.wrap = <div class="news-single-additional-info"> | </div>
@@ -891,18 +889,18 @@ tt_news.displayCurrentRecord = 1
 
 
 
-[globalVar = LIT:1 = {$plugin.tt_news.noIconsInRelatedNews}]
+[{$plugin.tt_news.noIconsInRelatedNews} == 1]
 	plugin.tt_news.getRelatedCObject.10.default.5 >
 	plugin.tt_news.getRelatedCObject.10.1.5 >
 	plugin.tt_news.getRelatedCObject.10.2.5 >
-[global]
+[end]
 
-[globalVar = LIT:year = {$plugin.tt_news.archiveMode}]
+["{$plugin.tt_news.archiveMode}" == "year"]
     plugin.tt_news.archiveTitleCObject.10.strftime = %Y
    
-[global]
+[end]
 
-[globalVar = LIT:quarter = {$plugin.tt_news.archiveMode}]
+["{$plugin.tt_news.archiveMode}" == "quarter"]
     plugin.tt_news.archiveTitleCObject >
     plugin.tt_news.archiveTitleCObject = COA
     plugin.tt_news.archiveTitleCObject {
@@ -923,8 +921,7 @@ tt_news.displayCurrentRecord = 1
       }
     }
 
-[global]
+[end]
 
 
-### CVS id ###
-# $Id$
+

@@ -1,18 +1,19 @@
 <?php
 
 // get extension confArr
-$confArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['tt_news']);
+$confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'];
 // switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
 $fTableWhere = ($confArr['useStoragePid'] ? 'AND tt_news_cat.pid=###STORAGE_PID### ' : '');
 // page where records will be stored in that have been created with a wizard
 $sPid = ($fTableWhere ? '###STORAGE_PID###' : '###CURRENT_PID###');
 // l10n_mode for text fields
 $l10n_mode = ($confArr['l10n_mode_prefixLangTitle'] ? 'prefixLangTitle' : '');
-$l10n_mode_author = ($confArr['l10n_mode_prefixLangTitle'] ? 'mergeIfNotBlank' : '');
 // l10n_mode for the image field
 $l10n_mode_image = ($confArr['l10n_mode_imageExclude'] ? 'exclude' : 'mergeIfNotBlank');
 // hide new localizations
 $hideNewLocalizations = ($confArr['hideNewLocalizations'] ? 'mergeIfNotBlank' : '');
+$locallang_general = 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:';
+
 // ******************************************************************
 // This is the standard TypoScript news table, tt_news
 // ******************************************************************
@@ -23,7 +24,7 @@ return [
         'label_alt' => $confArr['label_alt'] . ($confArr['label_alt2'] ? ',' . $confArr['label_alt2'] : ''),
         'label_alt_force' => $confArr['label_alt_force'],
         'default_sortby' => 'ORDER BY datetime DESC',
-        'prependAtCopy' => $confArr['prependAtCopy'] ? 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.prependAtCopy' : '',
+        'prependAtCopy' => $confArr['prependAtCopy'] ? $locallang_general . 'LGL.prependAtCopy' : '',
         'versioningWS' => true,
         'versioning_followPages' => true,
         'origUid' => 't3_origuid',
@@ -66,33 +67,35 @@ return [
     'columns' => [
         'starttime' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'label' => $locallang_general . 'LGL.starttime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
+                'size' => 16,
                 'eval' => 'datetime,int',
-                'default' => 0
+                'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'endtime' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'label' => $locallang_general . 'LGL.endtime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
+                'size' => 16,
                 'eval' => 'datetime,int',
                 'default' => 0,
-                'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
-                ]
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'hidden' => [
-            'l10n_mode' => $hideNewLocalizations,
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
+            'label' => $locallang_general . 'LGL.hidden',
             'config' => [
                 'type' => 'check',
                 'default' => '1'
@@ -100,25 +103,27 @@ return [
         ],
         'fe_group' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.fe_group',
+            'label' => $locallang_general . 'LGL.fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => [
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login', -1],
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.any_login', -2],
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.usergroups', '--div--']
+                    [$locallang_general . 'LGL.hide_at_login', -1],
+                    [$locallang_general . 'LGL.any_login', -2],
+                    [$locallang_general . 'LGL.usergroups', '--div--']
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'title' => [
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.title',
+            'label' => $locallang_general . 'LGL.title',
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'input',
@@ -127,8 +132,7 @@ return [
             ]
         ],
         'ext_url' => [
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.external',
+            'label' => $locallang_general . 'LGL.external',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -147,43 +151,37 @@ return [
                         ],
                         'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
                     ]
-                ]
+                ],
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'bodytext' => [
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.text',
-            'defaultExtras' => 'richtext:rte_transform[mode=ts_css]',
+            'label' => $locallang_general . 'LGL.text',
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'text',
-                'cols' => '48',
-                'rows' => '5',
-                'softref' => 'typolink_tag,images,email[subst],url',
-                'wizards' => [
-                    'RTE' => [
-                        'notNewRecords' => 1,
-                        'RTEonly' => 1,
-                        'type' => 'script',
-                        'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext.W.RTE',
-                        'icon' => 'actions-wizard-rte',
-                        'module' => [
-                            'name' => 'wizard_rte'
-                        ]
-                    ]
-                ]
+                'cols' => 30,
+                'rows' => 5,
+                'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
+                'enableRichtext' => true,
+                'richtextConfiguration' => 'default',
             ]
         ],
         'no_auto_pb' => [
-            'l10n_mode' => 'mergeIfNotBlank',
             'exclude' => 1,
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.no_auto_pb',
             'config' => [
-                'type' => 'check'
+                'type' => 'check',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'short' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.subheader',
+            'label' => $locallang_general . 'LGL.subheader',
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'text',
@@ -193,7 +191,7 @@ return [
         ],
         'type' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.type',
+            'label' => $locallang_general . 'LGL.type',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -206,18 +204,19 @@ return [
             ]
         ],
         'datetime' => [
-            'l10n_mode' => 'mergeIfNotBlank',
             'exclude' => 1,
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.datetime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
                 'eval' => 'datetime,int',
-                'default' => 0
+                'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'archivedate' => [
-            'l10n_mode' => 'mergeIfNotBlank',
             'exclude' => 1,
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.archivedate',
             'config' => [
@@ -227,29 +226,31 @@ return [
                 'default' => 0,
                 'range' => [
                     'upper' => mktime(0, 0, 0, 1, 1, 2038)
-                ]
+                ],
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'image' => [
             'exclude' => 1,
             'l10n_mode' => $l10n_mode_image,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.images',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'file',
-                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-                'max_size' => '10000',
-                'uploadfolder' => 'uploads/pics',
-                'show_thumbs' => '1',
-                'size' => 3,
-                'autoSizeMax' => 15,
-                'maxitems' => '99',
-                'minitems' => '0'
-            ]
+            'label' => $locallang_general . 'LGL.images',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'image',
+                [
+                    'maxitems' => 99,
+                    'minitems' => 0,
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                    ],
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+            )
         ],
         'imagecaption' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.caption',
+            'label' => $locallang_general . 'LGL.caption',
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'text',
@@ -279,24 +280,28 @@ return [
         ],
         'author' => [
             'exclude' => 1,
-            'l10n_mode' => $l10n_mode_author,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.author',
+            'label' => $locallang_general . 'LGL.author',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
                 'eval' => 'trim',
-                'max' => '80'
+                'max' => '80',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'author_email' => [
             'exclude' => 1,
-            'l10n_mode' => $l10n_mode_author,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.email',
+            'label' => $locallang_general . 'LGL.email',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
                 'eval' => 'trim',
-                'max' => '80'
+                'max' => '80',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'related' => [
@@ -321,23 +326,27 @@ return [
             ]
         ],
         'keywords' => [
-            'l10n_mode' => 'mergeIfNotBlank',
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.keywords',
+            'label' => $locallang_general . 'LGL.keywords',
             'config' => [
                 'type' => 'text',
                 'cols' => '40',
-                'rows' => '3'
+                'rows' => '3',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'links' => [
-            'l10n_mode' => $l10n_mode_author,
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.links',
+            'label' => $locallang_general . 'LGL.links',
             'config' => [
                 'type' => 'text',
                 'cols' => '40',
-                'rows' => '3'
+                'rows' => '3',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'category' => [
@@ -369,12 +378,13 @@ return [
         'page' => [
             'exclude' => 1,
             'l10n_mode' => 'exclude',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.shortcut_page',
+            'label' => $locallang_general . 'LGL.shortcut_page',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
                 'allowed' => 'pages',
                 'size' => '1',
+                'default' => 0,
                 'maxitems' => '1',
                 'minitems' => '0',
                 'show_thumbs' => '1'
@@ -382,20 +392,36 @@ return [
         ],
         'news_files' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:media',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'news_files',
+                [
+                    'maxitems' => 999,
+                    'minitems' => 0,
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                    ],
+                ],
+                '', 'php,php3')
+        ],
+        'slug' =>  [
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:pages.slug',
+            'displayCond' => 'USER:' . \TYPO3\CMS\Core\Compatibility\PseudoSiteTcaDisplayCondition::class . '->isInPseudoSite:pages:false',
             'config' => [
-                'type' => 'group',
-                'internal_type' => 'file',
-                'allowed' => '',    // Must be empty for disallowed to work.
-                'disallowed' => 'php,php3',
-                'max_size' => '10000',
-                'uploadfolder' => 'uploads/media',
-                'show_thumbs' => '1',
-                'size' => '3',
-                'autoSizeMax' => '10',
-                'maxitems' => '100',
-                'minitems' => '0'
+                'type' => 'slug',
+                'size' => 50,
+                'generatorOptions' => [
+                    'fields' => ['title'],
+                    'fieldSeparator' => '-',
+                    'replacements' => [
+                        '/' => '',
+                        '®' => 'R',
+                    ],
+                ],
+                'fallbackCharacter' => '-',
+                'eval' => 'uniqueInSite',
+                'default' => ''
             ]
         ],
         'slug' =>  [
@@ -420,14 +446,14 @@ return [
         ],
         'sys_language_uid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.language',
+            'label' => $locallang_general . 'LGL.language',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'special' => 'languages',
                 'items' => [
                     [
-                        'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
+                        $locallang_general . 'LGL.allLanguages',
                         -1,
                         'flags-multiple'
                     ],
@@ -438,10 +464,11 @@ return [
         'l18n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
+            'label' => $locallang_general . 'LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
+                'default' => 0,
                 'items' => [
                     ['', 0],
                 ],
@@ -456,7 +483,7 @@ return [
         ],
         't3ver_label' => [
             'displayCond' => 'FIELD:t3ver_label:REQ:true',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.versionLabel',
+            'label' => $locallang_general . 'LGL.versionLabel',
             'config' => [
                 'type' => 'none',
                 'cols' => 27
@@ -465,10 +492,12 @@ return [
 
         'editlock' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_tca.xlf:editlock',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:editlock',
             'config' => [
-                'type' => 'check'
+                'type' => 'check',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
 
@@ -500,7 +529,7 @@ return [
     'types' => [
         '0' => [
             'showitem' =>
-                'hidden, type,title,short,bodytext,
+                'hidden, type,title,slug,short,bodytext,
             --div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special, datetime,archivedate,--palette--;;author,keywords,--palette--;;language,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.media, image,--palette--;;imagetexts,links,news_files,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.catAndRels, category,related,

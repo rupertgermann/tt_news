@@ -2,6 +2,8 @@
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************
+$locallang_general = 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:';
+
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat',
@@ -28,7 +30,7 @@ return [
     ],
     'columns' => [
         'title' => [
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.title',
+            'label' => $locallang_general . 'LGL.title',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -47,52 +49,57 @@ return [
         ],
         'hidden' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
+            'label' => $locallang_general . 'LGL.hidden',
             'config' => [
                 'type' => 'check',
             ]
         ],
         'fe_group' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.fe_group',
+            'label' => $locallang_general . 'LGL.fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => [
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.hide_at_login', -1],
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.any_login', -2],
-                    ['LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.usergroups', '--div--']
+                    [$locallang_general . 'LGL.hide_at_login', -1],
+                    [$locallang_general . 'LGL.any_login', -2],
+                    [$locallang_general . 'LGL.usergroups', '--div--']
                 ],
                 'exclusiveKeys' => '-1,-2',
-                'foreign_table' => 'fe_groups'
+                'foreign_table' => 'fe_groups',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'starttime' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.starttime',
+            'label' => $locallang_general . 'LGL.starttime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
+                'size' => 16,
                 'eval' => 'datetime,int',
-                'default' => 0
+                'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'endtime' => [
             'exclude' => 1,
-            'l10n_mode' => 'mergeIfNotBlank',
-            'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.endtime',
+            'label' => $locallang_general . 'LGL.endtime',
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
+                'size' => 16,
                 'eval' => 'datetime,int',
                 'default' => 0,
-                'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
-                ]
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
+                ],
             ]
         ],
         'parent_category' => [
@@ -121,17 +128,18 @@ return [
         'image' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.image',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'file',
-                'allowed' => 'gif,png,jpeg,jpg',
-                'max_size' => 1024,
-                'uploadfolder' => 'uploads/pics',
-                'show_thumbs' => 1,
-                'size' => 1,
-                'minitems' => 0,
-                'maxitems' => 1,
-            ]
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'image',
+                [
+                    'maxitems' => 1,
+                    'minitems' => 0,
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                    ],
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+            )
+
         ],
         'shortcut' => [
             'exclude' => 1,

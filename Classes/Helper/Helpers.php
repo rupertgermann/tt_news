@@ -5,7 +5,7 @@ namespace RG\TtNews\Helper;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2004-2018 Rupert Germann <rupi@gmx.li>
+ *  (c) 2004-2020 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,6 +32,7 @@ use RG\TtNews\Database\Database;
 use RG\TtNews\Plugin\TtNews;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 /**
  * tt_news helper functions
@@ -74,7 +75,7 @@ class Helpers
                 $checkedFields[] = $fN;
             }
         }
-        $checkedFieldlist = implode($checkedFields, ',');
+        $checkedFieldlist = implode(',', $checkedFields);
 
         return $checkedFieldlist;
     }
@@ -89,6 +90,7 @@ class Helpers
      */
     public function checkRecords($recordlist)
     {
+        $clearedlist = '';
         if ($recordlist) {
             $tempRecs = GeneralUtility::trimExplode(',', $recordlist, 1);
             // debug($temp);
@@ -112,10 +114,9 @@ class Helpers
                 $newtemp[] = 'null';
             }
             $clearedlist = implode(',', $newtemp);
-
-            return $clearedlist;
         }
 
+        return $clearedlist;
     }
 
 
@@ -130,14 +131,17 @@ class Helpers
      */
     public function getRecursiveCategorySinglePid($currentCategory)
     {
+        $result = null;
         $res = Database::getInstance()->exec_SELECTquery('uid,parent_category,single_pid', 'tt_news_cat',
             'tt_news_cat.uid=' . $currentCategory . $this->pObj->SPaddWhere . $this->pObj->enableCatFields);
         $row = Database::getInstance()->sql_fetch_assoc($res);
         if ($row['single_pid'] > 0) {
-            return $row['single_pid'];
+            $result = $row['single_pid'];
         } elseif ($row['parent_category'] > 0) {
-            return $this->getRecursiveCategorySinglePid($row['parent_category']);
+            $result = $this->getRecursiveCategorySinglePid($row['parent_category']);
         }
+        
+        return $result;
     }
 
 
@@ -315,7 +319,7 @@ class Helpers
                     $cc = 0;
                     $pArr[] = $w;
                     $isfirst = false;
-                } elseif ($cc >= \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($wc, 0,
+                } elseif ($cc >= MathUtility::forceIntegerInRange($wc, 0,
                         $this->pObj->config['maxWordsInSingleView'])) { // more words than maxWordsInSingleView
                     if (GeneralUtility::inList('.,!,?', substr($w, -1))) {
                         if ($this->pObj->conf['useParagraphAsPagebreak']) { // break at paragraph
@@ -339,98 +343,12 @@ class Helpers
             if ($break) { // add break at end of current paragraph
                 array_push($pArr, $this->pObj->config['pageBreakToken']);
             }
-            $wtmp[] = implode($pArr, ' ');
+            $wtmp[] = implode(' ', $pArr);
         }
-        $processedText = implode($wtmp, chr(10));
+        $processedText = implode(chr(10), $wtmp);
 
         return $processedText;
     }
-
-
-    /**
-     * @param string $caller
-     * @param bool   $getGlobalTime
-     */
-    public function getParsetime($caller = '', $getGlobalTime = false)
-    {
-        $currentTime = time() + microtime();
-        $tmpCI = debug_backtrace();
-        $call_info = $tmpCI[1];
-
-        //		debug($call_info, ' ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 1);
-
-
-        $code_line = $call_info['line'];
-        $file = array_pop(explode('/', $tmpCI[0]['file']));
-        $lbl = $caller;
-        $msg = array();
-        if ($this->pObj->start_time === null) {
-            $lbl = 'START: ' . basename($file);
-            $msg['INITIALIZE'] = $caller;
-            $this->pObj->start_time = $currentTime;
-            $this->pObj->global_start_time = $currentTime;
-            $this->pObj->start_time = $currentTime;
-
-            $msg['file:'] = $file;
-            $msg['start_code_line:'] = $this->pObj->start_code_line;
-            $msg['mem:'] = ceil(memory_get_usage() / 1024) . '  KB';
-            $this->writelog($msg, $lbl, $code_line, 0);
-
-            return;
-        }
-
-        if ($getGlobalTime) {
-            $time = round(($currentTime - $this->pObj->global_start_time), 3);
-            $lbl = 'RESULTS: ' . $this->pObj->theCode;
-            $msg['pid_list'] = $this->pObj->pid_list;
-        } else {
-            $time = round(($currentTime - $this->pObj->start_time), 3);
-        }
-
-        $msg['time:'] = $time;
-        $msg['caller:'] = $caller;
-        $msg['code-lines:'] = $this->pObj->start_code_line . '-' . $code_line;
-        $msg['mem:'] = ceil(memory_get_usage() / 1024) . '  KB';
-
-        $this->pObj->start_time = $currentTime;
-        $this->pObj->start_code_line = $code_line;
-
-        if ($time > $this->pObj->parsetimeThreshold || $getGlobalTime) {
-            $this->writelog($msg, $lbl, $code_line, $getGlobalTime);
-        }
-    }
-
-
-    /**
-     * @param $msg
-     * @param $lbl
-     * @param $code_line
-     * @param $sev
-     */
-    protected function writelog($msg, $lbl, $code_line, $sev)
-    {
-
-        if ($this->pObj->useDevlog) {
-            $time = $msg['time:'];
-            if ($time > 0) {
-                $sev = 0;
-                if ($time > 0.2) {
-                    $sev = 1;
-                    if ($time > 0.5) {
-                        $sev = 2;
-                        if ($time > 1) {
-                            $sev = 3;
-                        }
-                    }
-                }
-            }
-            GeneralUtility::devLog($lbl . ($time ? ' time: ' . $time . ' s' : ''),
-                $this->pObj->extKey, (int)$sev, $msg);
-        } else {
-            \debug($msg, $lbl, $code_line, $msg['file:'], 3);
-        }
-    }
-
 
     /**
      * returns an error message if some important settings are missing (template file, singlePid, pidList, code)
@@ -444,7 +362,7 @@ class Helpers
             $msg = '--> Did you include the static TypoScript template (\'News settings\') for tt_news?';
         }
 
-        return '<div style="border:2px solid red; padding:10px; margin:10px;"><img src="typo3conf/ext/tt_news/Resources/Public/Images/Icons/warning.png" />
+        return '<div style="border:2px solid red; padding:10px; margin:10px;"><img src="typo3conf/ext/tt_news/Resources/Public/Images/Icons/warning.png"  alt=""/>
 				<strong>plugin.tt_news ERROR:</strong><br />' . implode('<br /> ',
                 $this->pObj->errors) . '<br />' . $msg . '</div>';
     }

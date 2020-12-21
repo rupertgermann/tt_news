@@ -1,0 +1,60 @@
+routeEnhancers:
+  TtNewsDetail:
+    type: Plugin
+    namespace: 'tx_ttnews'
+    routePath: '/{tt_news}'
+    aspects:
+      tt_news:
+        type: PersistedAliasMapper
+        tableName: tt_news
+        routeFieldName: slug
+    defaults:
+      tt_news: '0'
+  TtNewsArchive:
+    type: Plugin
+    namespace: 'tx_ttnews'
+    routePath: '/archive/{year}/{month}'
+    _arguments:
+      year: year
+      month: month
+    requirements:
+      year: '\d+'
+      month: '\d+'
+    defaults:
+      year: '0'
+      month: '0'
+    aspects:
+      month:
+        type: ArchiveValueMapper
+      year:
+        type: ArchiveValueMapper
+  TtNewsCategory:
+    type: Plugin
+    namespace: 'tx_ttnews'
+    routePath: '/category/{cat}'
+    aspects:
+      cat:
+        type: PersistedAliasMapper
+        tableName: tt_news_cat
+        routeFieldName: uid
+    defaults:
+      cat: '0'
+  TtNewsPagination:
+    type: Plugin
+    namespace: 'tx_ttnews'
+    routePath: '/{localized_pointer}/{pointer}'
+    defaults:
+      pointer: '0'
+    aspects:
+      localized_pointer:
+        type: LocaleModifier
+        default: 'page'
+        localeMap:
+          - locale: 'fr_FR.*|fr_CA.*'
+            value: 'page'
+          - locale: 'de_DE.*'
+            value: 'seite'
+      pointer:
+        type: StaticRangeMapper
+        start: '1'
+        end: '100'

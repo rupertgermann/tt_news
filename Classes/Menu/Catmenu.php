@@ -1,11 +1,11 @@
 <?php
 
-namespace RG\TtNews;
+namespace RG\TtNews\Menu;
 
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2018 Rupert Germann <rupi@gmx.li>
+ *  (c) 2005-2020 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,13 +28,13 @@ namespace RG\TtNews;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Tree\FeTreeView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use TYPO3\CMS\Frontend\Utility\EidUtility;
 
 /**
  *
@@ -56,6 +56,10 @@ class Catmenu
      * @var bool
      */
     public $mode = false;
+    /**
+     * @var object|Database
+     */
+    protected $db;
 
     /**
      * @param TtNews $pObj
@@ -64,7 +68,9 @@ class Catmenu
      */
     public function init(&$pObj)
     {
+        $this->db = Database::getInstance();
         $lConf = $pObj->conf['displayCatMenu.'];
+
         $this->treeObj = GeneralUtility::makeInstance(FeTreeView::class);
         $this->treeObj->tt_news_obj = &$pObj;
         $this->treeObj->category = $pObj->piVars_catSelection;
@@ -73,7 +79,7 @@ class Catmenu
             $pObj->config['catOrderBy']);
         $this->treeObj->backPath = TYPO3_mainDir;
         $this->treeObj->parentField = 'parent_category';
-        $this->treeObj->thisScript = 'index.php?eID=tt_news_catmenu';
+        $this->treeObj->thisScript = 'index.php?ttnewsID=tt_news_catmenu';
         $this->treeObj->cObjUid = intval($pObj->cObj->data['uid']);
         $this->treeObj->fieldArray = array(
             'uid',
@@ -90,7 +96,7 @@ class Catmenu
             $this->treeObj->useAjax = true;
         }
 
-        $this->treeObj->expandAll = 1;#$lConf['expandAll'];
+        $this->treeObj->expandAll = $lConf['expandAll'];
         $this->treeObj->expandable = $expandable;
         $this->treeObj->expandFirst = $lConf['expandFirst'];
         $this->treeObj->titleLen = $this->titleLen;
@@ -108,8 +114,14 @@ class Catmenu
         $cMounts = array();
         $nonRootMounts = false;
         foreach ($selcatArr as $catID) {
-            $tmpR = $GLOBALS['TSFE']->sys_page->getRecordsByField('tt_news_cat', 'uid', $catID,
-                $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere);
+
+            $subres = $this->db->exec_SELECTquery('*', 'tt_news_cat',
+                'uid = ' . (int)$catID . $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere);
+            $tmpR = [];
+            while (($subrow = $this->db->sql_fetch_assoc($subres))) {
+                $tmpR[] = $subrow;
+            }
+
             if (is_array($tmpR[0]) && !in_array($catID, $subcatArr)) {
                 if ($tmpR[0]['parent_category'] > 0) {
                     $nonRootMounts = true;
@@ -125,61 +137,37 @@ class Catmenu
 
     /**
      *
+     * @param array $params
+     *
      * @return string
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function ajaxExpandCollapse()
+    public function ajaxExpandCollapse($params)
     {
-        $params = $this->initAjaxEnv();
+        $params = $this->initAjaxEnv($params);
 
         $this->init($params['tt_newsObj']);
         $this->treeObj->FE_USER = &$params['feUserObj'];
-        $tree = $this->treeObj->getBrowsableTree();
 
-        return $tree;
+        return $this->treeObj->getBrowsableTree();
     }
 
     /**
+     * @param array $params
+     *
      * @return array
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function initAjaxEnv()
+    protected function initAjaxEnv($params)
     {
-        $L = intval(GeneralUtility::_GP('L'));
-
-        $idAndTarget = rawurldecode(GeneralUtility::_GP('id'));
-        $idParts = GeneralUtility::trimExplode(' ', $idAndTarget, 1);
-        $id = intval($idParts[0]);
-
-        EidUtility::initTCA();
-        /** @var TypoScriptFrontendController $GLOBALS['TSFE'] */
-        $GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class,
-            $GLOBALS['TYPO3_CONF_VARS'], $id, (int)GeneralUtility::_GP('type'));
-
-        // don't cache ajax responses
-        $GLOBALS['TSFE']->no_cache = true;
-        $GLOBALS['TSFE']->connectToDB();
-        $GLOBALS['TSFE']->initFEuser();
-        $GLOBALS['TSFE']->determineId();
-        $GLOBALS['TSFE']->initTemplate();
-        $GLOBALS['TSFE']->getConfigArray();
-
-        if ($L > 0) {
-            $GLOBALS['TSFE']->settingLanguage();
-            $GLOBALS['TSFE']->settingLocale();
-        }
-
-        $ajaxParams = array();
-
         $tt_newsObj = new TtNews();
         $tt_newsObj->helpers = new Helpers($tt_newsObj);
         $tt_newsObj->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $tt_newsObj->local_cObj = &$tt_newsObj->cObj;
 
-        $cObjUid = intval(GeneralUtility::_GP('cObjUid'));
-        $tt_newsObj->cObj->data = $GLOBALS['TSFE']->sys_page->checkRecord('tt_content', $cObjUid, 1);
+        $tt_newsObj->cObj->data = $this->getTypoScriptFrontendController()->sys_page->checkRecord('tt_content', $params['cObjUid'], 1);
         $tt_newsObj->pi_initPIflexForm();
-        $tt_newsObj->conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_news.'];
+        $tt_newsObj->conf = $this->getTypoScriptFrontendController()->tmpl->setup['plugin.']['tt_news.'];
 
         // variables needed to get the newscount per category
         if (!$tt_newsObj->conf['dontUsePidList']) {
@@ -190,9 +178,18 @@ class Catmenu
         $tt_newsObj->initCategoryVars();
         $tt_newsObj->initCatmenuEnv($tt_newsObj->conf['displayCatMenu.']);
 
+        $ajaxParams = [];
         $ajaxParams['tt_newsObj'] = &$tt_newsObj;
-        $ajaxParams['feUserObj'] = $GLOBALS['TSFE']->fe_user;
+        $ajaxParams['feUserObj'] = $this->getTypoScriptFrontendController()->fe_user;
 
         return $ajaxParams;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    private function getTypoScriptFrontendController()
+    {
+        return $GLOBALS['TSFE'];
     }
 }

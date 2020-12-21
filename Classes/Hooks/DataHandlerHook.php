@@ -5,7 +5,7 @@ namespace RG\TtNews\Hooks;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2018 Rupert Germann (rupi@gmx.li)
+ *  (c) 2005-2020 Rupert Germann (rupi@gmx.li)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -141,7 +141,8 @@ class DataHandlerHook
 
             $notAllowedItems = array();
 
-            $allowedItems = $this->getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
+            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
+
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
             $wantedCategories = GeneralUtility::intExplode(',', $fieldArray['category']);
@@ -154,7 +155,7 @@ class DataHandlerHook
             }
 
             if ($notAllowedItems[0]) {
-                $messageString = 'Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems) . ').';
+                $messageString = 'Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode(',', $notAllowedItems) . ').';
 
                 $pObj->log($table, $id, 2, 0, 1, "processDatamap: $messageString", 1);
 
@@ -270,7 +271,8 @@ class DataHandlerHook
 
             $notAllowedItems = array();
 
-            $allowedItems = $this->getBeUser()->getTSConfigVal('tt_newsPerms.tt_news_cat.allowedItems');
+            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
+
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
             foreach ($categories as $k) {
@@ -281,7 +283,7 @@ class DataHandlerHook
             }
 
             if ($notAllowedItems[0]) {
-                $messageString = 'Attempt to ' . $command . ' a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode($notAllowedItems) . ').';
+                $messageString = 'Attempt to ' . $command . ' a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode(',', $notAllowedItems) . ').';
 
                 $pObj->log($table, $id, 2, 0, 1, "processCmdmap: $messageString", 1);
 

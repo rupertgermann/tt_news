@@ -30,13 +30,4 @@ l10n_mode_imageExclude = 1
 hideNewLocalizations = 0
 
 
-  # cat=basic/dev/151; type=options[disabled|0,cache misses|1,all|2]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.writeCachingInfoToDevlog
-writeCachingInfoToDevlog = 0
-
-  # cat=basic/dev/160; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.writeParseTimesToDevlog
-writeParseTimesToDevlog = 0
-
-  # cat=basic/dev/161; type=input; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.parsetimeThreshold
-parsetimeThreshold = 0.1
-
 

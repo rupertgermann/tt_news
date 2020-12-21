@@ -8,6 +8,11 @@
 
 namespace RG\TtNews\Database;
 
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\ResultStatement;
+use InvalidArgumentException;
+use PDO;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -30,7 +35,7 @@ class Database implements SingletonInterface
      * @param $tableName
      *
      * @return array
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function admin_get_fields($tableName)
     {
@@ -48,8 +53,8 @@ class Database implements SingletonInterface
     /**
      * @param $queryParts
      *
-     * @return \Doctrine\DBAL\Driver\Statement
-     * @throws \Doctrine\DBAL\DBALException
+     * @return ResultStatement
+     * @throws DBALException
      */
     public function exec_SELECT_queryArray($queryParts)
     {
@@ -66,8 +71,8 @@ class Database implements SingletonInterface
      * @param string $orderBy
      * @param string $limit
      *
-     * @return \Doctrine\DBAL\Driver\Statement
-     * @throws \Doctrine\DBAL\DBALException
+     * @return ResultStatement
+     * @throws DBALException
      */
     public function exec_SELECTquery(
         $select_fields,
@@ -79,7 +84,7 @@ class Database implements SingletonInterface
     ) {
         $query = $this->SELECTquery($select_fields, $from_table, $where_clause, $groupBy, $orderBy, $limit);
 
-        $res = $columns = $this->getConnection($from_table)->executeQuery($query);
+        $res = $this->getConnection($from_table)->executeQuery($query);
 
         return $res;
     }
@@ -113,13 +118,13 @@ class Database implements SingletonInterface
     }
 
     /**
-     * @param \Doctrine\DBAL\Driver\Statement $lres
+     * @param ResultStatement $lres
      *
      * @return mixed
      */
     public function sql_fetch_assoc($lres)
     {
-        return $lres->fetch(\PDO::FETCH_ASSOC);
+        return $lres->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -132,7 +137,7 @@ class Database implements SingletonInterface
      * @param string $uidIndexField
      *
      * @return array|null
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function exec_SELECTgetRows(
         $select_fields,
@@ -152,7 +157,7 @@ class Database implements SingletonInterface
                 if ($firstRecord) {
                     $firstRecord = false;
                     if (!array_key_exists($uidIndexField, $record)) {
-                        throw new \InvalidArgumentException('The given $uidIndexField "' . $uidIndexField . '" is not available in the result.',
+                        throw new InvalidArgumentException('The given $uidIndexField "' . $uidIndexField . '" is not available in the result.',
                             1432933855);
                     }
                 }
@@ -196,17 +201,17 @@ class Database implements SingletonInterface
     }
 
     /**
-     * @param \Doctrine\DBAL\Driver\Statement $res
+     * @param ResultStatement $res
      *
      * @return mixed
      */
     public function sql_fetch_row($res)
     {
-        return $res->fetch(\PDO::FETCH_BOTH);
+        return $res->fetch(PDO::FETCH_BOTH);
     }
 
     /**
-     * @param \Doctrine\DBAL\Driver\Statement $res
+     * @param ResultStatement $res
      *
      * @return mixed
      */
@@ -224,7 +229,7 @@ class Database implements SingletonInterface
      * @param bool   $numIndex
      *
      * @return mixed|null
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function exec_SELECTgetSingleRow(
         $select_fields,
@@ -312,7 +317,7 @@ class Database implements SingletonInterface
      * @param string $where (optional) WHERE statement of the query
      *
      * @return mixed Number of rows counter (int) or FALSE if something went wrong (bool)
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function exec_SELECTcountRows($field, $table, $where = '1=1')
     {
@@ -336,8 +341,8 @@ class Database implements SingletonInterface
      * @param string $orderBy
      * @param string $limit
      *
-     * @return \Doctrine\DBAL\Driver\Statement
-     * @throws \Doctrine\DBAL\DBALException
+     * @return ResultStatement
+     * @throws DBALException
      */
     public function exec_SELECT_mm_query(
         $select,
@@ -358,7 +363,7 @@ class Database implements SingletonInterface
     /**
      * @param string $table
      *
-     * @return \TYPO3\CMS\Core\Database\Connection
+     * @return Connection
      */
     protected function getConnection(string $table)
     {

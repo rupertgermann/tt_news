@@ -1,21 +1,36 @@
 (function($) {
-    var ajaxUrl = 'index.php?eID=tt_news_catmenu';
+    var ajaxUrl = 'index.php?ttnewsID=tt_news_catmenu&no_cache=1';
     var NewsCatmenu = {};
 
-    NewsCatmenu.expandCollapse = function ($element) {
-        var isExpand = $element.data('isexpand');
-        var parent = $element.closest('li');
+    NewsCatmenu.expandCollapse = function (element) {
+        var isExpand = element.data('isexpand');
+        var parent = element.closest('li');
         var img = parent.find('a.pmiconatag img');
 
         parent.find('ul').remove();
-        $element.data('isexpand', 1);
 
+        element.attr('data-isexpand', 1);
         if (!isExpand) {
             var src = img.attr('src');
             if (!!src) {
                 var newsrc = src.replace('minus', 'plus');
                 img.attr('src', newsrc);
             }
+            $.ajax({
+                url: ajaxUrl,
+                type: 'get',
+                dataType: 'html',
+                cache: false,
+                data: {
+                    'PM': element.data('params'),
+                    'id': element.data('pid'),
+                    'action': 'expandTree',
+                    'cObjUid': element.data('cobjuid'),
+                    'L': element.data('l')
+                }
+            }).done(function (response) {
+                element.closest('li').replaceWith(response);
+            });
         } else {
             $.ajax({
                 url: ajaxUrl,
@@ -23,14 +38,14 @@
                 dataType: 'html',
                 cache: false,
                 data: {
-                    'PM': $element.data('params'),
-                    'id': $element.data('pid'),
+                    'PM': element.data('params'),
+                    'id': element.data('pid'),
                     'action': 'expandTree',
-                    'cObjUid': $element.data('cobjuid'),
-                    'L': $element.data('l')
+                    'cObjUid': element.data('cobjuid'),
+                    'L': element.data('l')
                 }
             }).done(function (response) {
-                $element.closest('li').replaceWith(response);
+                element.closest('li').replaceWith(response);
             });
         }
     };
