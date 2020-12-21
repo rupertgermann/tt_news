@@ -75,10 +75,6 @@ class TtNews extends AbstractPlugin
     /**
      * @var string
      */
-    public $scriptRelPath = 'pi/class.tx_ttnews.php'; // Path to this script relative to the extension dir.
-    /**
-     * @var string
-     */
     public $extKey = 'tt_news'; // The extension key.
     /**
      * @var bool
