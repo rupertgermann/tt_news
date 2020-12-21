@@ -3014,10 +3014,7 @@ class TtNews extends AbstractPlugin
         if ($this->conf['usePagesRelations']) {
             $relPages = $this->getRelatedPages($uid);
         }
-        //		$select_fields = 'DISTINCT uid, pid, title, short, datetime, archivedate, type, page, ext_url, sys_language_uid, l18n_parent, M.tablenames';
         $select_fields = ' uid, pid, title, short, datetime, archivedate, type, page, ext_url, sys_language_uid, l18n_parent, tt_news_related_mm.tablenames, image, bodytext';
-
-        //		$where = 'tt_news.uid=M.uid_foreign AND M.uid_local=' . $uid . ' AND M.tablenames!=' . $this->db->fullQuoteStr('pages', 'tt_news_related_mm');
         $where = 'tt_news_related_mm.uid_local=' . $uid . '
 					AND tt_news.uid=tt_news_related_mm.uid_foreign
 					AND tt_news_related_mm.tablenames!=' . $this->db->fullQuoteStr('pages', 'tt_news_related_mm');
@@ -3032,8 +3029,6 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->conf['useBidirectionalRelations']) {
-            //			$where = '((' . $where . ') OR (tt_news.uid=M.uid_local AND M.uid_foreign=' . $uid . ' AND M.tablenames!=' . $this->db->fullQuoteStr('pages', 'tt_news_related_mm') . '))';
-
 
             $where = '((' . $where . ')
 					OR (tt_news_related_mm.uid_foreign=' . $uid . '
@@ -3042,8 +3037,6 @@ class TtNews extends AbstractPlugin
                     'tt_news_related_mm') . ')) AND tt_news.sys_language_uid = 0';
         }
 
-
-        //		$from_table = 'tt_news,tt_news_related_mm AS M';
         $from_table = 'tt_news_related_mm, tt_news';
 
         $res = $this->db->exec_SELECTquery($select_fields, $from_table, $where . $this->enableFields, $groupBy,
