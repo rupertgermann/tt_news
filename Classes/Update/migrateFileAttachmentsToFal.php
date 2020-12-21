@@ -1,6 +1,6 @@
 <?php
 
-namespace RG\TtNews\Updates;
+namespace RG\TtNews\Update;
 
 /***************************************************************
  *  Copyright notice
@@ -43,10 +43,10 @@ use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
- * Migrates tt_news images from uploads/pics to FAL
+ * Migrates tt_news files from uploads/pics to FAL
  *
  */
-class migrateImagesToFal implements UpgradeWizardInterface
+class migrateFileAttachmentsToFal implements UpgradeWizardInterface
 {
     /**
      * @var string
@@ -62,7 +62,7 @@ class migrateImagesToFal implements UpgradeWizardInterface
      */
     public function getIdentifier(): string
     {
-        return 'migrateImagesToFal';
+        return 'migrateFileAttachmentsToFal';
     }
 
     /**
@@ -70,7 +70,7 @@ class migrateImagesToFal implements UpgradeWizardInterface
      */
     public function getTitle(): string
     {
-        return '[tt_news images to FAL] Migrates tt_news images from "uploads/pics" to FAL';
+        return '[tt_news files to FAL] Migrates tt_news files from "uploads/media" to FAL';
     }
 
     /**
@@ -78,9 +78,9 @@ class migrateImagesToFal implements UpgradeWizardInterface
      */
     public function getDescription(): string
     {
-        return 'Moves tt_news images from "uploads/pics" to "fileadmin/migratedNewsAssets/Images" and registers them in FAL. 
+        return 'Moves tt_news files from "uploads/media" to "fileadmin/migratedNewsAssets/Files" and registers them in FAL. 
                          ******    CAUTION!!!    ******
-Make sure you have made a backup of your database and of the "uploads/pics" folder! 
+Make sure you have made a backup of your database and of the "uploads/media" folder! 
 The database and filesystem operations are destructive, there is no rollback! 
 You have been warned ;-)';
     }
@@ -122,7 +122,7 @@ You have been warned ;-)';
      */
     public function executeUpdate(): bool
     {
-        $this->migrateNewsImagesToFal();
+        $this->migrateNewsFilesToFal();
 
         return true;
     }
@@ -131,7 +131,7 @@ You have been warned ;-)';
      *
      * @throws DBALException
      */
-    protected function migrateNewsImagesToFal()
+    protected function migrateNewsFilesToFal()
     {
         $this->connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 
@@ -139,12 +139,12 @@ You have been warned ;-)';
         $conn = $this->connectionPool->getConnectionForTable($this->table);
 
         $notMigratedNewsRecords = $conn->executeQuery('
-                SELECT n.uid, n.pid, n.image, r.uid as relId
+                SELECT n.uid, n.pid, n.news_files, r.uid as relId
                 FROM tt_news n 
                 LEFT JOIN sys_file_reference r 
-                    ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'image\'
+                    ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'news_files\'
                 
-                WHERE n.image != \'\'
+                WHERE n.news_files != \'\'
                   AND n.deleted = 0
                   AND r.uid IS NULL
                  '
@@ -152,8 +152,8 @@ You have been warned ;-)';
 
         if (!empty($notMigratedNewsRecords)) {
 
-            $sourceFolder = 'uploads/pics/';
-            $targetFolder = 'fileadmin/migratedNewsAssets/Images';
+            $sourceFolder = 'uploads/media/';
+            $targetFolder = 'fileadmin/migratedNewsAssets/Files';
             $pathSite = Environment::getPublicPath() . '/';
             if (!is_dir($pathSite . $targetFolder)) {
                 mkdir($pathSite . $targetFolder, 0777, true);
@@ -165,21 +165,21 @@ You have been warned ;-)';
 
             foreach ($notMigratedNewsRecords as $newsRecord) {
 
-                $images = GeneralUtility::trimExplode(',', $newsRecord['image']);
-                if (!empty($images)) {
-                    $existingImagesCount = 0;
-                    foreach ($images as $image) {
-                        if (file_exists($pathSite . $sourceFolder . $image)) {
-                            $file = $folder->addFile($pathSite . $sourceFolder . $image, null, DuplicationBehavior::REPLACE);
+                $files = GeneralUtility::trimExplode(',', $newsRecord['news_files']);
+                if (!empty($files)) {
+                    $existingFilesCount = 0;
+                    foreach ($files as $file) {
+                        if (file_exists($pathSite . $sourceFolder . $file)) {
+                            $file = $folder->addFile($pathSite . $sourceFolder . $file, null, DuplicationBehavior::REPLACE);
                             if ($file instanceof File) {
                                 $this->insertFileReference($file, $newsRecord);
                             }
-                            $existingImagesCount++;
+                            $existingFilesCount++;
                         }
                     }
-                    if ($existingImagesCount > 0) {
+                    if ($existingFilesCount > 0) {
                         $conn->update($this->table,
-                            ['image' => $existingImagesCount],
+                            ['news_files' => $existingFilesCount],
                             ['uid' => $newsRecord['uid']]
                         );
                     }
@@ -199,7 +199,7 @@ You have been warned ;-)';
             $insertFileRelFields = [
                 'pid' => $newsRecord['pid'],
                 'tablenames' => $this->table,
-                'fieldname' => 'image',
+                'fieldname' => 'news_files',
                 'table_local' => 'sys_file',
                 'uid_local' => $file->getUid(),
                 'uid_foreign' => $newsRecord['uid']
@@ -219,7 +219,7 @@ You have been warned ;-)';
 
 
     /**
-     * Check if there are news records with images that have not been migrated to fal
+     * Check if there are news records with files that have not been migrated to fal
      *
      * @return bool
      * @throws InvalidArgumentException
@@ -234,9 +234,9 @@ You have been warned ;-)';
                 SELECT count(*) as c
                 FROM tt_news n 
                 LEFT JOIN sys_file_reference r 
-                    ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'image\'
+                    ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'news_files\'
                 
-                WHERE n.image != \'\'
+                WHERE n.news_files != \'\'
                   AND n.deleted = 0
                   AND r.uid IS NULL
                  '
