@@ -77,6 +77,10 @@ $boot = function () {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['tt_news_populateslugs']
             = \RG\TtNews\Update\PopulateNewsSlugs::class;
     }
+
+    // add a dummy ValueMapper for the archive Aspect to get rid of the cHash in archive links
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ArchiveValueMapper'] = RG\TtNews\Routing\Aspect\ArchiveValueMapper::class;
+
 };
 
 $boot();
