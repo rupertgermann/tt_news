@@ -378,7 +378,7 @@ ul.tree ul li {
 }
 
 ul.tree ul li.expanded ul {
-	background: transparent url('../typo3/gfx/ol/line.gif') repeat-y top left;
+	background: transparent url('/typo3conf/ext/tt_news/Resources/Public/Images/Icons/ol/line.gif') repeat-y -1px;
 }
 
 ul.tree ul li.last > ul {
