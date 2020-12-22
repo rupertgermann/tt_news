@@ -2485,12 +2485,21 @@ class TtNews extends AbstractPlugin
                 $fileObjects = $fileRepository->findByRelation('tt_news', 'image', $row['uid']);
                 if (!empty($fileObjects)) {
                     $falImages = [];
+                    $falTitles = [];
+                    $falAltTexts = [];
+                    $falCaptions = [];
                     foreach ($fileObjects as $fileObject) {
                         /** @var FileInterface $fileObject */
                         $falImages[] = $fileObject->getPublicUrl();
+                        $falTitles[] = $fileObject->getProperty('title');
+                        $falAltTexts[] = $fileObject->getProperty('alternative');
+                        $falCaptions[] = $fileObject->getProperty('description');
                     }
                     if (!empty($falImages)) {
                         $row['image'] = implode(',', $falImages);
+                        $row['imagetitletext'] = empty($falTitles) ? $row['imagetitletext'] : implode(chr(10), $falTitles);
+                        $row['imagealttext'] = empty($falAltTexts) ? $row['imagetitletext'] : implode(chr(10), $falAltTexts);
+                        $row['imagecaption'] = empty($falCaptions) ? $row['imagetitletext'] : implode(chr(10), $falCaptions);
                     }
                 }
             }
