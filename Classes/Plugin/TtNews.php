@@ -2353,7 +2353,25 @@ class TtNews extends AbstractPlugin
                     $markerArray['###NEWS_CATEGORY_IMAGE###'] = '';
                 } else {
                     $catPicConf = array();
-                    $catPicConf['image.']['file'] = 'uploads/pics/' . $val['image'];
+                    $imgPath = 'uploads/pics/';
+                    if (MathUtility::canBeInterpretedAsInteger($val['image'])) {
+                        // seems that tt_news_cat images have been migrated to FAL
+                        $imgPath = '';
+                        $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+                        $fileObjects = $fileRepository->findByRelation('tt_news_cat', 'image', $val['uid']);
+                        if (!empty($fileObjects)) {
+                            $falImages = [];
+                            foreach ($fileObjects as $fileObject) {
+                                /** @var FileInterface $fileObject */
+                                $falImages[] = $fileObject->getPublicUrl();
+                            }
+                            if (!empty($falImages)) {
+                                $val['image'] = implode(',', $falImages);
+                            }
+                        }
+                    }
+
+                    $catPicConf['image.']['file'] = $imgPath . $val['image'];
                     $catPicConf['image.']['file.']['maxW'] = intval($this->config['catImageMaxWidth']);
                     $catPicConf['image.']['file.']['maxH'] = intval($this->config['catImageMaxHeight']);
                     $catPicConf['image.']['stdWrap.']['spaceAfter'] = 0;
@@ -2761,6 +2779,7 @@ class TtNews extends AbstractPlugin
                     $singlePid = ($parentSP ? $parentSP : $val['single_pid']);
 
                     $categories[$val['uid']] = array(
+                        'uid' => $val['uid'],
                         'title' => $catTitle,
                         'image' => $val['image'],
                         'shortcut' => $val['shortcut'],
