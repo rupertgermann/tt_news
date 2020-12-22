@@ -2497,9 +2497,9 @@ class TtNews extends AbstractPlugin
                     }
                     if (!empty($falImages)) {
                         $row['image'] = implode(',', $falImages);
-                        $row['imagetitletext'] = empty($falTitles) ? $row['imagetitletext'] : implode(chr(10), $falTitles);
-                        $row['imagealttext'] = empty($falAltTexts) ? $row['imagetitletext'] : implode(chr(10), $falAltTexts);
-                        $row['imagecaption'] = empty($falCaptions) ? $row['imagetitletext'] : implode(chr(10), $falCaptions);
+                        $row['imagetitletext'] = implode(chr(10), $falTitles);
+                        $row['imagealttext'] = implode(chr(10), $falAltTexts);
+                        $row['imagecaption'] = implode(chr(10), $falCaptions);
                     }
                 }
             }
