@@ -71,6 +71,7 @@ $boot = function () {
     );
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateImagesToFal'] = \RG\TtNews\Update\migrateImagesToFal::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateCatImagesToFal'] = \RG\TtNews\Update\migrateCatImagesToFal::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateFileAttachmentsToFal'] = \RG\TtNews\Update\migrateFileAttachmentsToFal::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['tt_news_populateslugs'] = \RG\TtNews\Update\PopulateNewsSlugs::class;
 
