@@ -139,10 +139,10 @@ You have been warned ;-)';
         $conn = $this->connectionPool->getConnectionForTable($this->table);
 
         $notMigratedNewsRecords = $conn->executeQuery('
-                SELECT n.uid, n.pid, n.image, r.uid as relId
+                SELECT n.uid, n.pid, n.image, r.uid as relId, n.imagecaption, n.imagealttext, n.imagetitletext
                 FROM tt_news n 
                 LEFT JOIN sys_file_reference r 
-                    ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'image\'
+                    ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'image\' AND r.deleted = 0
                 
                 WHERE n.image != \'\'
                   AND n.deleted = 0
@@ -166,13 +166,16 @@ You have been warned ;-)';
             foreach ($notMigratedNewsRecords as $newsRecord) {
 
                 $images = GeneralUtility::trimExplode(',', $newsRecord['image']);
+                $imagecaptions = GeneralUtility::trimExplode(chr(10), $newsRecord['imagecaption']);
+                $imagealttexts = GeneralUtility::trimExplode(chr(10), $newsRecord['imagealttext']);
+                $imagetitletexts = GeneralUtility::trimExplode(chr(10), $newsRecord['imagetitletext']);
                 if (!empty($images)) {
                     $existingImagesCount = 0;
-                    foreach ($images as $image) {
+                    foreach ($images as $k => $image) {
                         if (file_exists($pathSite . $sourceFolder . $image)) {
                             $file = $folder->addFile($pathSite . $sourceFolder . $image, null, DuplicationBehavior::REPLACE);
                             if ($file instanceof File) {
-                                $this->insertFileReference($file, $newsRecord);
+                                $this->insertFileReference($file, $newsRecord, $imagecaptions[$k], $imagealttexts[$k], $imagetitletexts[$k]);
                             }
                             $existingImagesCount++;
                         }
@@ -189,10 +192,13 @@ You have been warned ;-)';
     }
 
     /**
-     * @param File  $file
-     * @param array $newsRecord
+     * @param File   $file
+     * @param array  $newsRecord
+     * @param string $imagecaption
+     * @param string $imagealttext
+     * @param string $imagetitletext
      */
-    protected function insertFileReference($file, $newsRecord)
+    protected function insertFileReference($file, $newsRecord, $imagecaption, $imagealttext, $imagetitletext)
     {
         $refTable = 'sys_file_reference';
         if (!empty($file)) {
@@ -202,7 +208,10 @@ You have been warned ;-)';
                 'fieldname' => 'image',
                 'table_local' => 'sys_file',
                 'uid_local' => $file->getUid(),
-                'uid_foreign' => $newsRecord['uid']
+                'uid_foreign' => $newsRecord['uid'],
+                'title' => $imagetitletext,
+                'description' => $imagecaption,
+                'alternative' => $imagealttext,
             ];
 
             /** @var $conn Connection */
@@ -234,7 +243,7 @@ You have been warned ;-)';
                 SELECT count(*) as c
                 FROM tt_news n 
                 LEFT JOIN sys_file_reference r 
-                    ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'image\'
+                    ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'image\' AND r.deleted = 0
                 
                 WHERE n.image != \'\'
                   AND n.deleted = 0
