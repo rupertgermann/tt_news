@@ -244,6 +244,20 @@ return [
                     'appearance' => [
                         'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
                     ],
+                    'overrideChildTca' => [
+                        'types' => [
+                            '0' => [
+                                'showitem' => '
+                                --palette--;;imageoverlayPalette,
+                                --palette--;;filePalette'
+                            ],
+                            \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                                'showitem' => '
+                                --palette--;;newsImagePalette,
+                                --palette--;;filePalette'
+                            ],
+                        ],
+                    ],
                 ],
                 $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
             )
