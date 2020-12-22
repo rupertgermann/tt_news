@@ -97,11 +97,6 @@ div.ttnewsadmin-pagination img {
     background: url('/typo3conf/ext/tt_news/Resources/Public/Images/Icons/ol/line.gif') repeat-y -1px;
 }
 
-#web-txttnewsM1- .icon-size-small,
-#web-txttnewsM1 .icon-size-small {
-    width: 18px !important;
-}
-
 #web-txttnewsM1- .typo3-docheader-functions a img,
 #web-txttnewsM1 .typo3-docheader-functions a img {
     padding-right: 5px;
@@ -116,11 +111,13 @@ div.ttnewsadmin-pagination img {
 }
 
 #web-txttnewsM1- div#typo3-docbody {
-    top: 20px;
+    top: 0;
+    padding-top: 75px;
+
 }
 
 #web-txttnewsM1- div#typo3-inner-docbody {
-    padding: 15px;
+    padding: 0;
 }
 
 .typo3-docheader-pagePath {

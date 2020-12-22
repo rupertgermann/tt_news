@@ -230,6 +230,11 @@ class NewsAdminModule extends BaseScriptClass
     ];
 
     /**
+     * @var \TYPO3\CMS\Core\Imaging\IconFactory
+     */
+    protected $iconFactory;
+
+    /**
      * NewsAdminModule constructor.
      * call to parent constructor ist deliberately missing to maintain compatibility with TYPO3 8.7
      */
@@ -243,6 +248,8 @@ class NewsAdminModule extends BaseScriptClass
 
         $this->getPageRenderer()->addCssFile('EXT:tt_news/Resources/Public/Css/BackendModule.css', 'stylesheet',
             'screen');
+        $this->iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
+
     }
 
     /**
@@ -1034,7 +1041,7 @@ class NewsAdminModule extends BaseScriptClass
      */
     protected function getHeaderButtons()
     {
-
+        $lang = $this->getLanguageService();
         $buttons = array(
             'csh' => '',
             'view' => '',
@@ -1057,15 +1064,17 @@ class NewsAdminModule extends BaseScriptClass
                     'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
                 ));
 
-                $buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '">' .
-                    '<img' . IconFactory::skinImg('list.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showList') . '" alt="" />' .
+                $buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '" class="btn btn-default btn-sm" title="'
+                    . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showList')) . '">' .
+                    $this->iconFactory->getIcon('actions-system-list-open', Icon::SIZE_SMALL)->render() .
                     '</a>';
             }
 
             // View
             $buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::viewOnClick($this->id,
-                    $backPath, BackendUtility::BEgetRootLine($this->id))) . '">' .
-                '<img' . IconFactory::skinImg('zoom.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage') . '" alt="" />' .
+                    $backPath, BackendUtility::BEgetRootLine($this->id))) . '" class="btn btn-default btn-sm" title="'
+                    . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage')) . '">' .
+                $this->iconFactory->getIcon('actions-document-view', Icon::SIZE_SMALL)->render() .
                 '</a>';
 
             // If edit permissions are set (see class.t3lib_userauthgroup.php)
@@ -1073,27 +1082,30 @@ class NewsAdminModule extends BaseScriptClass
                 // Edit
                 $params = '&edit[pages][' . $this->pageinfo['uid'] . ']=edit';
                 $buttons['edit'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
-                        $backPath, -1)) . '">' .
-                    '<img' . IconFactory::skinImg('edit2.gif') . ' title="' . $this->getLanguageService()->getLL('editPage') . '" alt="" />' .
+                    $backPath, -1)) . '" class="btn btn-default btn-sm" title="'
+                    . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:editPage')) . '">' .
+                    $this->iconFactory->getIcon('actions-page-open', Icon::SIZE_SMALL)->render() .
                     '</a>';
             }
 
             // Reload
-            $buttons['reload'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisScript()) . '">' .
-                '<img' . IconFactory::skinImg('refresh_n.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.reload') . '" alt="" />' .
+            $buttons['reload'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisScript()) . '" class="btn btn-default btn-sm" title="'
+                . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.reload')) . '">' .
+                $this->iconFactory->getIcon('actions-refresh', Icon::SIZE_SMALL)->render() .
                 '</a>';
 
             // Shortcut
             if ($this->getBackendUser()->mayMakeShortcut()) {
                 $buttons['shortcut'] = $this->doc->makeShortcutIcon('id, showThumbs, pointer, table, search_field, searchLevels, showLimit, sortField, sortRev',
-                    implode(',', array_keys($this->MOD_MENU)), 'web_txttnewsM1');
+                    implode(',', array_keys($this->MOD_MENU)), 'web_txttnewsM1', '', 'btn btn-default btn-sm');
             }
 
             // Back
             if ($this->returnUrl) {
                 $buttons['back'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisUrl($this->returnUrl,
-                        array('id' => $this->id))) . '" class="typo3-goBack">' .
-                    '<img' . IconFactory::skinImg('goback.gif') . ' title="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack') . '" alt="" />' .
+                        array('id' => $this->id))) . '" class="typo3-goBack btn btn-default btn-sm" title="'
+                    . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack')) . '">' .
+                    $this->iconFactory->getIcon('actions-view-go-back', Icon::SIZE_SMALL)->render() .
                     '</a>';
             }
         }
