@@ -4,9 +4,9 @@ TYPO3 Extension - News
 
 Website news with front page teasers and article handling inside. 
 
-###AKA: **"the generic record handler"**
+### AKA: **"the generic record handler"**
 
-####Version 10.0.0
+#### Version 10.0.0
 
 This tt_news version is compatible with TYPO3 v9 and v10. 
 
