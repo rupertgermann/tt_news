@@ -30,5 +30,10 @@
     "psr-4": {
       "RG\\TtNews\\": "Classes/"
     }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "tt_news"
+    }
   }
 }
