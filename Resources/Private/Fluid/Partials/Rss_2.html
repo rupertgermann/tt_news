@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>{gma.SITE_TITLE}</title>
+        <link>{gma.SITE_LINK}</link>
+        <description>{gma.SITE_DESCRIPTION}</description>
+        {gma.SITE_LANG -> f:format.raw()}
+        <image>
+            <title>{gma.SITE_TITLE}</title>
+            <url>{gma.IMG}</url>
+            <link>
+            {gma.SITE_LINK}</link>
+            <width>{gma.IMG_W}</width>
+            <height>{gma.IMG_H}</height>
+            <description>{gma.SITE_DESCRIPTION}</description>
+        </image>
+        <generator>TYPO3 - get.content.right</generator>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        {gma.NEWS_COPYRIGHT -> f:format.raw()}
+        {gma.NEWS_WEBMASTER -> f:format.raw()}
+        {gma.NEWS_MANAGINGEDITOR -> f:format.raw()}
+        {gma.NEWS_LASTBUILD -> f:format.raw()}
+
+        <f:for each="{content.news}" as="news">
+            <f:variable name="ma">{news.markerArray}</f:variable>
+
+            <item>
+                <title>{ma.NEWS_TITLE}</title>
+                <link>
+                {ma.NEWS_LINK}</link>
+                <description>{ma.NEWS_SUBHEADER}</description>
+                <content:encoded>
+                    <f:format.cdata>{ma.NEWS_CONTENT -> f:format.html()}</f:format.cdata>
+                </content:encoded>
+                {ma.NEWS_CATEGORY -> f:format.raw()}
+                {ma.NEWS_AUTHOR -> f:format.raw()}
+                <pubDate>{ma.NEWS_DATE}</pubDate>
+                {ma.NEWS_RSS2_ENCLOSURES -> f:format.raw()}
+            </item>
+        </f:for>
+
+    </channel>
+</rss>

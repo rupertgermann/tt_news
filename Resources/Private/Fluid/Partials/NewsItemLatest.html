@@ -1,0 +1,28 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true" lang="en">
+
+<f:variable name="ma">{news.markerArray}</f:variable>
+
+<div class="news-latest-item">
+    <span class="news-latest-date">{ma.NEWS_DATE} {ma.NEWS_TIME}</span>
+    <h2>
+        <f:link.typolink parameter="{conf.singlePid}" additionalParams="&tx_ttnews[tt_news]={news.row.uid}">
+            {ma.NEWS_TITLE}
+        </f:link.typolink>
+    </h2>
+
+    <f:if condition="{news.images.0}">
+        <f:link.typolink parameter="{conf.singlePid}" additionalParams="&tx_ttnews[tt_news]={news.row.uid}">
+            <f:image image="{news.images.0}" maxWidth="{conf.displayList.image.file.maxW}" minHeight="{conf.displayList.image.file.maxH}" />
+        </f:link.typolink>
+    </f:if>
+
+    <f:format.raw>
+        {ma.NEWS_SUBHEADER}
+        {ma.CATWRAP_B} {ma.TEXT_CAT} {ma.NEWS_CATEGORY} {ma.NEWS_CATEGORY_IMAGE} {ma.CATWRAP_E}
+    </f:format.raw>
+    <hr class="clearer"/>
+</div>
+
+
+</html>

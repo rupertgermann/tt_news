@@ -40,6 +40,7 @@ use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\File;
@@ -53,6 +54,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
@@ -296,16 +298,24 @@ class TtNews extends AbstractPlugin
     protected $pageRenderer;
 
     /**
+     * @var
+     */
+    protected $images;
+    /**
+     * @var
+     */
+    protected $files;
+    /**
      * disables internal rendering. If set to true an external renderer like Fluid can be used
      *
      * @var bool
      */
-    private $useUpstreamRenderer = false;
+    private $useFluidRenderer = false;
 
     /**
      * @var array
      */
-    public $upstreamVars = array();
+    public $fluidVars = array();
 
     /**
      * @var array
@@ -316,6 +326,12 @@ class TtNews extends AbstractPlugin
      * @var int
      */
     protected $sys_language_content;
+
+    /**
+     * @var StandaloneView
+     */
+    protected $view;
+
 
     /**
      * TtNews constructor.
@@ -348,8 +364,9 @@ class TtNews extends AbstractPlugin
         $this->helpers = new Helpers($this);
         $this->conf = $conf; //store configuration
 
-        if ($this->conf['upstreamRendererFunc']) {
-            $this->useUpstreamRenderer = true;
+        if ($this->conf['useFluidRendering']) {
+            $this->useFluidRenderer = true;
+            $this->initViewObject();
         }
 
         // leave early if USER_INT
@@ -415,6 +432,37 @@ class TtNews extends AbstractPlugin
         if ($this->conf['enableConfigValidation'] && count($this->errors)) {
             return $this->helpers->displayErrors();
         }
+
+        return $content;
+    }
+
+    /**
+     *
+     */
+    protected function initViewObject() {
+        $this->view = GeneralUtility::makeInstance(StandaloneView::class);
+    }
+
+    /**
+     * @param $data
+     *
+     * @return string
+     */
+    protected function renderFluidContent($data) {
+
+        $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
+        $plainConf = $typoScriptService->convertTypoScriptArrayToPlainArray($this->conf);
+
+        $this->view->setLayoutRootPaths($this->conf['view.']['layoutRootPaths.']);
+        $this->view->setPartialRootPaths($this->conf['view.']['partialRootPaths.']);
+        $this->view->setTemplateRootPaths($this->conf['view.']['templateRootPaths.']);
+        $this->view->getRequest()->setControllerExtensionName('TtNews');
+
+        $this->view->setTemplate(ucfirst(strtolower($this->theCode)));
+        $this->view->assign('content', $data);
+        $this->view->assign('conf', $plainConf);
+        $this->view->assign('piVars', $this->piVars);
+        $content = $this->view->render();
 
         return $content;
     }
@@ -725,7 +773,6 @@ class TtNews extends AbstractPlugin
                 $content .= $this->markerBasedTemplateService->substituteMarkerArray($searchSub, $searchMarkers);
 
                 unset($searchSub);
-                unset($searchMarkers);
 
                 // do the search and add the result to the $where string
                 if ($this->piVars['swords']) {
@@ -945,7 +992,7 @@ class TtNews extends AbstractPlugin
                     $markerArray = $_procObj->extraGlobalMarkerProcessor($this, $markerArray);
                 }
             }
-            if (!$this->useUpstreamRenderer) {
+            if (!$this->useFluidRenderer) {
                 $content .= $this->markerBasedTemplateService->substituteMarkerArrayCached($t['total'], $markerArray,
                     $subpartArray,
                     $wrappedSubpartArray);
@@ -1001,12 +1048,17 @@ class TtNews extends AbstractPlugin
                 $this->conf['noNewsToListMsg_stdWrap.']);
         }
 
-        if ($this->conf['upstreamRendererFunc']) {
+        if ($this->conf['useFluidRendering']) {
             if (!isset($markerArray)) {
                 $markerArray = array();
             }
-            $content = $this->userProcess('upstreamRendererFunc',
-                array('rows' => $this->listData, 'markerArray' => $markerArray, 'content' => $content));
+
+            $globalMarkerArray = array_merge_recursive($markerArray, ($searchMarkers ?? []));
+
+            $content = $this->renderFluidContent([
+                'news' => $this->listData,
+                'globalMarkerArray' => $this->getFluidMarkerArray($globalMarkerArray)
+            ]);
         }
 
         return $content;
@@ -1232,14 +1284,20 @@ class TtNews extends AbstractPlugin
             }
 
             $layoutNum = ($itempartsCount == 0 ? 0 : ($cc % $itempartsCount));
-            if (!$this->useUpstreamRenderer) {
+            if (!$this->useFluidRenderer) {
                 // Store the result of template parsing in the Var $itemsOut, use the alternating layouts
                 $itemsOut .= $this->markerBasedTemplateService->substituteMarkerArrayCached($itemparts[$layoutNum],
                     $markerArray, array(),
                     $wrappedSubpartArray);
             }
 
-            $this->listData[] = array('row' => $row, 'markerArray' => $markerArray, 'categories' => $this->categories);
+            $this->listData[] = [
+                'row' => $row,
+                'markerArray' => $this->getFluidMarkerArray($markerArray),
+                'categories' => $this->categories[$row['uid']],
+                'images' => $this->images,
+                'files' => $this->files,
+            ];
 
             $cc++;
             if ($cc == $limit) {
@@ -1248,6 +1306,17 @@ class TtNews extends AbstractPlugin
         }
 
         return $itemsOut;
+    }
+
+    protected function getFluidMarkerArray($markerArray)
+    {
+        $fluidMarkerArray = [];
+        foreach ($markerArray as $key => $value) {
+            $markerName = str_replace('###', '', $key);
+            $fluidMarkerArray[$markerName] = $value;
+        }
+
+        return $fluidMarkerArray;
     }
 
 
@@ -1309,7 +1378,7 @@ class TtNews extends AbstractPlugin
 
         if (is_array($row) && ($row['pid'] > 0 || $this->vPrev)) { // never display versions of a news record (having pid=-1) for normal website users
 
-            $this->upstreamVars['mode'] = 'display';
+            $this->fluidVars['mode'] = 'display';
 
             // If type is 1 or 2 (internal/external link), redirect to accordant page:
             if (is_array($row) && GeneralUtility::inList('1,2', $row['type'])) {
@@ -1322,7 +1391,7 @@ class TtNews extends AbstractPlugin
             // reset marker array
             $wrappedSubpartArray = array();
 
-            if (!$this->useUpstreamRenderer) {
+            if (!$this->useFluidRenderer) {
                 // Get the subpart code
                 if ($this->conf['displayCurrentRecord']) {
                     $item = trim($this->getNewsSubpart($this->templateCode,
@@ -1334,7 +1403,6 @@ class TtNews extends AbstractPlugin
                         $this->spMarker('###TEMPLATE_' . $this->theCode . '###'), $row);
                 }
 
-                $this->renderMarkers = $this->getMarkers($item);
 
                 // build the backToList link
                 if ($this->conf['useHRDates']) {
@@ -1353,6 +1421,9 @@ class TtNews extends AbstractPlugin
                     ), $this->allowCaching, ($this->conf['dontUseBackPid'] ? 1 : 0), $this->config['backPid']));
                 }
             }
+
+            $this->renderMarkers = $this->getMarkers($item);
+
 
             // set the title of the single view page to the title of the news record
             if ($this->conf['substitutePagetitle']) {
@@ -1374,7 +1445,7 @@ class TtNews extends AbstractPlugin
             $this->categories[$row['uid']] = $this->getCategories($row['uid']);
 
             $markerArray = $this->getItemMarkerArray($row, $lConf, 'displaySingle');
-            if (!$this->useUpstreamRenderer) {
+            if (!$this->useFluidRenderer) {
                 // Substitute
                 $content = $this->markerBasedTemplateService->substituteMarkerArrayCached($item, $markerArray, array(),
                     $wrappedSubpartArray);
@@ -1388,28 +1459,38 @@ class TtNews extends AbstractPlugin
                 HttpUtility::redirect($this->cObj->lastTypoLinkUrl);
             }
 
-            $this->upstreamVars['mode'] = 'noTranslation';
+            $this->fluidVars['mode'] = 'noTranslation';
             $noTranslMsg = $this->local_cObj->stdWrap($this->pi_getLL('noTranslMsg'),
                 $this->conf['noNewsIdMsg_stdWrap.']);
             $content = $noTranslMsg;
         } elseif ($row['pid'] < 0) {
             // a non-public version of a record was requested
-            $this->upstreamVars['mode'] = 'nonPlublicVersion';
+            $this->fluidVars['mode'] = 'nonPlublicVersion';
             $nonPlublicVersion = $this->local_cObj->stdWrap($this->pi_getLL('nonPlublicVersionMsg'),
                 $this->conf['nonPlublicVersionMsg_stdWrap.']);
             $content = $nonPlublicVersion;
         } else {
             // if singleview is shown with no tt_news uid given from GETvars (&tx_ttnews[tt_news]=) an error message is displayed.
-            $this->upstreamVars['mode'] = 'noNewsId';
+            $this->fluidVars['mode'] = 'noNewsId';
             $noNewsIdMsg = $this->local_cObj->stdWrap($this->pi_getLL('noNewsIdMsg'),
                 $this->conf['noNewsIdMsg_stdWrap.']);
             $content = $noNewsIdMsg;
         }
 
-        if ($this->conf['upstreamRendererFunc']) {
-            $content = $this->userProcess('upstreamRendererFunc',
-                array('row' => $row, 'markerArray' => $markerArray, 'content' => $content));
+
+
+        if ($this->conf['useFluidRendering']) {
+
+            $content = $this->renderFluidContent([
+                'row' => $row,
+                'markerArray' => $this->getFluidMarkerArray($markerArray),
+                'vars' => $this->fluidVars,
+                'categories' => $this->categories[$row['uid']],
+                'images' => $this->images,
+                'files' => $this->files,
+            ]);
         }
+
 
         return $content;
     }
@@ -1597,9 +1678,13 @@ class TtNews extends AbstractPlugin
                     $markerArray, array(),
                     $wrappedSubpartArray);
 
-                if ($this->conf['newsAmenuUserFunc']) {
+                if ($this->conf['newsAmenuUserFunc'] || $this->conf['useFluidRendering']) {
                     // fill the generated data to an array to pass it to a userfuction as a single variable
-                    $itemsOutArr[] = array('html' => $amenuitem, 'data' => $pArr);
+                    $itemsOutArr[] = [
+                        'html' => $amenuitem,
+                        'data' => $pArr,
+                        'markerArray' => $this->getFluidMarkerArray($markerArray)
+                    ];
                 } else {
                     $itemsOut .= $amenuitem;
                 }
@@ -1637,6 +1722,15 @@ class TtNews extends AbstractPlugin
                 $this->conf['archiveEmptyMsg_stdWrap.']);
             $noItemsMsg = $this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_ARCHIVE_NOITEMS###'));
             $content = $this->markerBasedTemplateService->substituteMarkerArrayCached($noItemsMsg, $markerArray);
+        }
+
+        if ($this->conf['useFluidRendering']) {
+
+            $content = $this->renderFluidContent([
+                'itemsOutArr' => $itemsOutArr,
+                'globalMarkerArray' => $this->getFluidMarkerArray($markerArray),
+                'categories' => $this->categories[$row['uid']],
+            ]);
         }
 
 
@@ -1684,6 +1778,16 @@ class TtNews extends AbstractPlugin
                     }
                 }
                 $content = $this->getCatMenuContent($cArr, $lConf);
+
+                if ($this->conf['useFluidRendering']) {
+
+                    $content = $this->renderFluidContent([
+                        'mode' => $mode,
+                        'content' => $content,
+                        'categories' => $cArr,
+                    ]);
+                }
+
                 break;
             case 'tree' :
             case 'ajaxtree' :
@@ -1696,6 +1800,16 @@ class TtNews extends AbstractPlugin
                 $catTreeObj->treeObj->FE_USER = &$this->tsfe->fe_user;
 
                 $content = '<div id="ttnews-cat-tree">' . $catTreeObj->treeObj->getBrowsableTree() . '</div>';
+
+                if ($this->conf['useFluidRendering']) {
+
+                    $content = $this->renderFluidContent([
+                        'mode' => $mode,
+                        'content' => $content,
+                        'categories' => $catTreeObj->treeObj->tree,
+                    ]);
+                }
+
                 break;
             default :
                 // hook for user catmenu
@@ -1705,6 +1819,15 @@ class TtNews extends AbstractPlugin
                         $content .= $_procObj->userDisplayCatmenu($lConf, $this);
                     }
                 }
+
+                if ($this->conf['useFluidRendering']) {
+
+                    $content = $this->renderFluidContent([
+                        'mode' => $mode,
+                        'content' => $content,
+                    ]);
+                }
+
                 break;
         }
 
@@ -2020,6 +2143,7 @@ class TtNews extends AbstractPlugin
             $this->conf['newsFiles_stdWrap.']['wrap']);
         $markerArray['###TEXT_FILES###'] = $files_stdWrap[0] . $this->local_cObj->stdWrap($this->pi_getLL('textFiles'),
                 $this->conf['newsFilesHeader_stdWrap.']);
+        $this->files = null;
 
         $filesPath = trim($this->conf['newsFiles.']['path']);
 
@@ -2028,6 +2152,8 @@ class TtNews extends AbstractPlugin
             $filesPath = '';
             $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
             $fileObjects = $fileRepository->findByRelation('tt_news', 'news_files', $row['uid']);
+            $this->files = $fileObjects;
+
             if (!empty($fileObjects)) {
                 $falFiles = [];
                 $falFilesTitles = [];
@@ -2474,6 +2600,7 @@ class TtNews extends AbstractPlugin
      */
     protected function getImageMarkers($markerArray, $row, $lConf, $textRenderObj)
     {
+        $this->images = null;
         if ($this->conf['imageMarkerFunc']) {
             $markerArray = $this->userProcess('imageMarkerFunc', array($markerArray, $lConf));
         } else {
@@ -2483,6 +2610,7 @@ class TtNews extends AbstractPlugin
                 $imgPath = '';
                 $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
                 $fileObjects = $fileRepository->findByRelation('tt_news', 'image', $row['uid']);
+                $this->images = $fileObjects;
                 if (!empty($fileObjects)) {
                     $falImages = [];
                     $falTitles = [];
@@ -4249,7 +4377,7 @@ class TtNews extends AbstractPlugin
      */
     protected function isRenderMarker($marker)
     {
-        if ($this->useUpstreamRenderer || in_array($marker, $this->renderMarkers)) {
+        if ($this->useFluidRenderer || in_array($marker, $this->renderMarkers)) {
             return true;
         }
 

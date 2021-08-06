@@ -1,0 +1,59 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true" lang="en">
+
+<f:variable name="ma">{content.markerArray}</f:variable>
+
+<f:if condition="{content.row}">
+    <f:then>
+
+        <div class="news-single-item">
+            <f:format.raw>
+            {ma.NEWS_CATEGORY_ROOTLINE}
+            {ma.NEXT_ARTICLE}
+            {ma.PREV_ARTICLE}
+            </f:format.raw>
+            <div class="news-single-rightbox">
+                <f:format.raw>
+                {ma.NEWS_DATE} {ma.NEWS_TIME} {ma.TEXT_NEWS_AGE} {ma.NEWS_AGE}
+                {ma.CATWRAP_B} {ma.TEXT_CAT} {ma.NEWS_CATEGORY} {ma.NEWS_CATEGORY_IMAGE} {ma.CATWRAP_E}
+                {ma.NEWS_AUTHOR}
+                </f:format.raw>
+            </div>
+            <h1>{ma.NEWS_TITLE}</h1>
+            <f:format.raw>
+            {ma.NEWS_SUBHEADER}
+            <hr class="cl-right" />
+
+            {ma.NEWS_IMAGE}
+            {ma.NEWS_CONTENT}
+            <hr class="cl-right" />
+            {ma.ADDINFO_WRAP_B}
+
+            {ma.TEXT_RELATED}
+            {ma.NEWS_RELATED}
+
+            {ma.TEXT_FILES}
+            {ma.FILE_LINK}
+
+            {ma.TEXT_LINKS}
+            {ma.NEWS_LINKS}
+
+            {ma.TEXT_RELATEDBYCATEGORY}
+            {ma.NEWS_RELATEDBYCATEGORY}
+
+            {ma.ADDINFO_WRAP_E}
+
+            {ma.NEWS_SINGLE_PAGEBROWSER}
+            </f:format.raw>
+            <div class="news-single-backlink">
+                <f:link.page pageUid="{conf.backPid}">{ma.BACK_TO_LIST}</f:link.page>
+            </div>
+        </div>
+
+    </f:then>
+    <f:else>
+        <f:translate key="LLL:EXT:tt_news/Resources/Private/Language/Plugin/locallang_pi.xlf:noNewsIdMsg" />
+    </f:else>
+</f:if>
+
+</html>

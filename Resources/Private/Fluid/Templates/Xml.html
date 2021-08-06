@@ -1,0 +1,14 @@
+<f:spaceless>
+    <f:variable name="gma">{content.globalMarkerArray}</f:variable>
+
+
+    <f:switch expression="{conf.displayXML.xmlFormat}">
+        <f:case value="rss2">
+            <f:render partial="Rss_2" arguments="{_all}"/>
+        </f:case>
+        <f:defaultCase>
+            Error: XML Format "{conf.displayXML.xmlFormat}" not known!
+        </f:defaultCase>
+    </f:switch>
+
+</f:spaceless>

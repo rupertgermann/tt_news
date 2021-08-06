@@ -1,0 +1,42 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true" lang="en">
+
+<f:variable name="ma">{content.globalMarkerArray}</f:variable>
+
+<div class="news-list-container">
+
+    <div class="news-search-form">
+        <form method="post" action="{ma.FORM_URL}">
+            <input size="30" maxlength="100" type="text" name="tx_ttnews[swords]" value="{ma.SWORDS}"/>
+            <span class="news-search-form-submit">
+                <input type="submit" name="search"
+                       value="{ma.SEARCH_BUTTON}"/>
+            </span>
+        </form>
+    </div>
+
+    <f:if condition="{content.news}">
+        <f:then>
+
+            <f:format.raw>{ma.NEWS_CATEGORY_ROOTLINE}</f:format.raw>
+
+            <f:for each="{content.news}" as="news">
+                <f:render partial="NewsItem" arguments="{news: news, conf: conf}"/>
+            </f:for>
+
+            <f:format.raw>{ma.BROWSE_LINKS}</f:format.raw>
+
+        </f:then>
+        <f:else>
+            <f:if condition="{piVars.swords}">
+                <f:then>
+                    <f:translate key="LLL:EXT:tt_news/Resources/Private/Language/Plugin/locallang_pi.xlf:noResultsMsg"/>
+                </f:then>
+                <f:else>
+                    <f:format.raw>{ma.SEARCH_EMPTY_MSG}</f:format.raw>
+                </f:else>
+            </f:if>
+        </f:else>
+    </f:if>
+</div>
+</html>

@@ -1,0 +1,19 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true" lang="en">
+
+<div class="news-amenu-container">
+    <f:if condition="{content.itemsOutArr}">
+        <f:then>
+            <ul>
+                <f:for each="{content.itemsOutArr}" as="item">
+                    <f:format.raw>{item.html}</f:format.raw>
+                </f:for>
+            </ul>
+        </f:then>
+        <f:else>
+            <f:format.raw>{content.globalMarkerArray.ARCHIVE_EMPTY_MSG}</f:format.raw>
+        </f:else>
+    </f:if>
+
+</div>
+</html>
