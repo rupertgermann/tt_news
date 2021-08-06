@@ -246,8 +246,7 @@
                                     </appearance>
                                 </treeConfig>
                                 <foreign_table_where>ORDER BY tt_news_cat.title</foreign_table_where>
-                                <size>5</size>
-                                <autoSizeMax>40</autoSizeMax>
+                                <size>10</size>
                                 <minitems>0</minitems>
                                 <maxitems>99</maxitems>
 
