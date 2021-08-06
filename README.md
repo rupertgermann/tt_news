@@ -4,7 +4,14 @@ TYPO3 Extension - News
 
 Website news with front page teasers and article handling inside. 
 
-### AKA: **"the generic record handler"**
+### AKA: **"the generic record handler"** 
+
+#### Version 10.1.0
+
+NEW in 10.1: Added support to use Fluid Templating (example Templates included)
+
+set `plugin.tt_news.useFluidRendering=1` in constants or setup to activate it.
+
 
 #### Version 10.0.0
 
