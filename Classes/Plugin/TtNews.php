@@ -1961,7 +1961,7 @@ class TtNews extends AbstractPlugin
                     count(GeneralUtility::trimExplode(' ', $row['short'], 1)));
             }
 
-            if (strpos($row['bodytext'], $this->config['pageBreakToken'])) {
+            if ($this->config['pageBreakToken'] != '' && strpos($row['bodytext'], $this->config['pageBreakToken'])) {
                 if ($this->config['useMultiPageSingleView'] && $textRenderObj == 'displaySingle') {
                     $tmp = $this->helpers->makeMultiPageSView($row['bodytext'], $lConf);
                     $newscontent = $tmp[0];
