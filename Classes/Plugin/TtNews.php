@@ -1311,9 +1311,11 @@ class TtNews extends AbstractPlugin
     protected function getFluidMarkerArray($markerArray)
     {
         $fluidMarkerArray = [];
-        foreach ($markerArray as $key => $value) {
-            $markerName = str_replace('###', '', $key);
-            $fluidMarkerArray[$markerName] = $value;
+        if (!empty($markerArray)) {
+            foreach ($markerArray as $key => $value) {
+                $markerName = str_replace('###', '', $key);
+                $fluidMarkerArray[$markerName] = $value;
+            }
         }
 
         return $fluidMarkerArray;
