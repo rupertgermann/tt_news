@@ -61,9 +61,6 @@ return [
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/ext_icon.gif',
         'searchFields' => 'uid,title,short,bodytext'
     ],
-    'interface' => [
-        'showRecordFieldList' => 'title,hidden,datetime,starttime,archivedate,category,author,author_email,short,image,imagecaption,links,related,news_files'
-    ],
     'columns' => [
         'starttime' => [
             'exclude' => 1,
