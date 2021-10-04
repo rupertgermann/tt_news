@@ -457,7 +457,6 @@ return [
         ],
         'l18n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => 1,
             'label' => $locallang_general . 'LGL.l18n_parent',
             'config' => [
                 'type' => 'select',
