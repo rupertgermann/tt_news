@@ -4177,7 +4177,7 @@ class TtNews extends AbstractPlugin
 
         $fileContent = '';
 
-        $file = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileName);
+        $file = GeneralUtility::getFileAbsFileName($fileName);
         if ($file != '') {
             $fileContent = file_get_contents($file);
         }
