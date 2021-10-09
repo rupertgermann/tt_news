@@ -24,7 +24,7 @@
     }
   ],
   "require": {
-    "typo3/cms-core": ">=9.5.0 <11.0.0"
+    "typo3/cms-core": ">=9.5.0 <12.0.0"
   },
   "autoload": {
     "psr-4": {
