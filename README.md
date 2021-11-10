@@ -6,6 +6,13 @@ Website news with front page teasers and article handling inside.
 
 ### AKA: **"the generic record handler"** 
 
+
+#### Version 11.0.0
+
+This tt_news version is compatible with TYPO3 v9 up to v11. 
+
+The Backend Module "News Admin" does not (yet) work with TYPO3 v11
+
 #### Version 10.1.0
 
 NEW in 10.1: Added support to use Fluid Templating (example Templates included)
