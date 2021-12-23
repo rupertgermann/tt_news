@@ -345,6 +345,13 @@
 			<trans-unit id="tt_news.treeSelect.treeTitle">
 				<source>News categories</source>
 			</trans-unit>
+			<trans-unit id="tt_news.notAllowedCategoryWarning">
+				<source>This record has one or more categories assigned that are not allowed in your BE usergroup. You will not be able to save your changes! Not allowed categories: </source>
+			</trans-unit>
+
+			<trans-unit id="tt_news.notAllowedCategoryError">
+				<source>Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup. Not allowed categories: </source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

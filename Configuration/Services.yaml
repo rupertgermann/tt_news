@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: false
+    public: false
+
+  RG\TtNews\EventListener\HandleAfterFormEnginePageInitialized:
+    tags:
+      - name: event.listener
+        identifier: 'core-after-formengine-page-initialized-event'
+        event: TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent

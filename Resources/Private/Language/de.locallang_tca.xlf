@@ -463,6 +463,15 @@
 				<source>News categories</source>
 				<target>News-Kategorien</target>
 			</trans-unit>
+
+			<trans-unit id="tt_news.notAllowedCategoryWarning">
+				<source>This record has one or more categories assigned that are not allowed in your BE usergroup. You will not be able to save your changes! Not allowed categories: </source>
+				<target>Dieser Datensatz hat eine oder mehrere Kategorien zugeordnet, die für Ihre Benutzergruppen nicht erlaubt sind. Sie können diesen Datensatz nicht ändern! Nicht erlaubte Kategorien: </target>
+			</trans-unit>
+			<trans-unit id="tt_news.notAllowedCategoryError">
+				<source>Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup. Not allowed categories: </source>
+				<source>Keine Berechtigung zum Speicehrn dieses News Artikels. Ursache: Dieser Datensatz hat eine oder mehrere Kategorien zugeordnet, die für Ihre Benutzergruppen nicht erlaubt sind. Nicht erlaubte Kategorien: </source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
