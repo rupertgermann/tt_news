@@ -4,6 +4,8 @@ namespace RG\TtNews\Tree\TableConfiguration;
 
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
+use TYPO3\CMS\Backend\Tree\TreeNode;
+use TYPO3\CMS\Backend\Tree\TreeNodeCollection;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
@@ -17,28 +19,31 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
     /**
      * Gets node children
      *
-     * @param \TYPO3\CMS\Backend\Tree\TreeNode $node
-     * @param int                              $level
+     * @param TreeNode $node
+     * @param int      $level
      *
-     * @return NULL|\TYPO3\CMS\Backend\Tree\TreeNodeCollection
+     * @return NULL|TreeNodeCollection
      * @throws \Doctrine\DBAL\DBALException
      */
-    protected function getChildrenOf(\TYPO3\CMS\Backend\Tree\TreeNode $node, $level): ?\TYPO3\CMS\Backend\Tree\TreeNodeCollection {
+    protected function getChildrenOf(TreeNode $node, $level): ?TreeNodeCollection
+    {
         $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
 
-        $allowedItems = $allowedItems ? \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',',
-            $allowedItems) : Div::getAllowedTreeIDs();
+        $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
         $storage = null;
 
         if ($node->getId() !== 0 && !in_array($node->getId(), $allowedItems)) {
-            return $storage;
+            return null;
         }
 
         $nodeData = null;
         if ($node->getId() !== 0) {
-            $nodeData = Database::getInstance()->exec_SELECTgetSingleRow('*', $this->tableName,
-                'uid=' . $node->getId());
+            $nodeData = Database::getInstance()->exec_SELECTgetSingleRow(
+                '*',
+                $this->tableName,
+                'uid=' . $node->getId()
+            );
         }
 
         if ($nodeData == null) {
@@ -50,13 +55,14 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
 
         $children = $this->getRelatedRecords($nodeData);
         if (empty($children)) {
-            return $storage;
+            return null;
         }
 
-        /** @var $storage \TYPO3\CMS\Backend\Tree\TreeNodeCollection */
-        $storage = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Tree\TreeNodeCollection::class);
+        /** @var $storage TreeNodeCollection */
+        $storage = GeneralUtility::makeInstance(TreeNodeCollection::class);
         foreach ($children as $child) {
-            $node = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Tree\TreeNode::class);
+            /** @var TreeNode $node */
+            $node = GeneralUtility::makeInstance(TreeNode::class);
 
             if (!in_array($child, $allowedItems)) {
                 continue;
