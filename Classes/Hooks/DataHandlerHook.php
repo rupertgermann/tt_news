@@ -159,6 +159,10 @@ class DataHandlerHook
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
             $wantedCategories = GeneralUtility::intExplode(',', $fieldArray['category']);
+
+            // allow no categories at all (as wantedCategories will bei [0] if fieldArray['category'] is empty)
+            $allowedItems[] = 0;
+
             foreach ($wantedCategories as $wantedCategory) {
                 $categories[$wantedCategory] = $wantedCategory;
             }
