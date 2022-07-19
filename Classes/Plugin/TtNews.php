@@ -2185,9 +2185,9 @@ class TtNews extends AbstractPlugin
             if ($this->theCode == 'XML') {
                 $theFile = $filesPath . $val;
 
-                if (@is_file($theFile)) {
+                if (@is_file(Environment::getPublicPath().$theFile)) {
                     $fileURL = $this->config['siteUrl'] . $theFile;
-                    $fileSize = filesize($theFile);
+                    $fileSize = filesize(Environment::getPublicPath().$theFile);
                     $fileMimeType = $this->getMimeTypeByHttpRequest($fileURL);
 
                     $rss2Enclousres .= '<enclosure url="' . $fileURL . '" ';
