@@ -111,6 +111,12 @@ class Categorytree extends AbstractTreeView
      * @var bool
      */
     protected $ajaxStatus;
+    public $domIdPrefix;
+    public $stored;
+    public $MOUNTS = [];
+    public $expandFirst;
+    public $addSelfId;
+    public $setRecs;
 
     /**
      * @return string

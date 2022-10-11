@@ -32,7 +32,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      */
     protected function getChildrenOf(TreeNode $node, $level): ?TreeNodeCollection
     {
-        $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
+        $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'] ?? false;
         $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
         $storage = null;
@@ -114,7 +114,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         }
         $node->setId($basicNode->getId());
         $node->setSelectable(!GeneralUtility::inList($this->getNonSelectableLevelList(), (string)$level) && !in_array($basicNode->getId(), $this->getItemUnselectableList()));
-        $node->setSortValue($this->nodeSortValues[$basicNode->getId()]);
+        $node->setSortValue($this->nodeSortValues[$basicNode->getId()] ?? '');
 
         /** @var IconFactory $iconFactory */
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);

@@ -20,7 +20,7 @@ $boot = function () {
       plugin.tt_news = USER
       plugin.tt_news {
         userFunc = ' . \RG\TtNews\Plugin\TtNews::class . '->main_news
-    
+
         # validate some configuration values and display a message if errors have been found
         enableConfigValidation = 1
       }
@@ -43,12 +43,11 @@ $boot = function () {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['9']['tt_news'] = \RG\TtNews\Hooks\PageModuleHook::class . '->getExtensionSummary';
     }
 
-
-    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'])) {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = array(
+    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] ?? null)) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = [
             'backend' => TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend::class,
             'frontend' => TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class
-        );
+        ];
     }
 
     // register news cache table for "clear all caches"
@@ -60,15 +59,15 @@ $boot = function () {
     if (empty($configuredCookieName)) {
         $configuredCookieName = 'be_typo_user';
     }
-    if ($_COOKIE[$configuredCookieName]) {
+    if ($_COOKIE[$configuredCookieName] ?? false) {
         $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = 0;
     }
 
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\RG\TtNews\Form\FormDataProvider::class] = array(
-        'depends' => array(
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][\RG\TtNews\Form\FormDataProvider::class] = [
+        'depends' => [
             \TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew::class,
-        )
-    );
+        ]
+    ];
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateImagesToFal'] = \RG\TtNews\Update\migrateImagesToFal::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateCatImagesToFal'] = \RG\TtNews\Update\migrateCatImagesToFal::class;

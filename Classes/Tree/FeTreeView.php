@@ -42,6 +42,7 @@ class FeTreeView extends Categorytree
      * @var
      */
     public $cObjUid;
+    public $treeName;
 
     /**
      * wraps the record titles in the tree with links or not depending on if they are in the
@@ -151,7 +152,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Image tag.
      */
-    public function getIcon($row)
+    public function getIcon($row): string
     {
         $lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
         $catIconMode = intval($lConf['catmenuIconMode']);
@@ -240,11 +241,11 @@ class FeTreeView extends Categorytree
             }
             if ($this->useAjax) {
 
-                $icon = '<a class="pm pmiconatag" 
-                        data-params="' . $cmd . '" 
-                        data-isexpand="' . intval($isExpand) . '" 
-                        data-pid="' . rawurlencode($catSelLinkParams) . '" 
-                        data-cobjuid="' . $this->cObjUid . '" 
+                $icon = '<a class="pm pmiconatag"
+                        data-params="' . $cmd . '"
+                        data-isexpand="' . intval($isExpand) . '"
+                        data-pid="' . rawurlencode($catSelLinkParams) . '"
+                        data-cobjuid="' . $this->cObjUid . '"
                         data-L="' . intval(GeneralUtility::_GP('L')) . '">' . $icon . '</a>';
             } else {
                 $anchor = '';
@@ -271,7 +272,7 @@ class FeTreeView extends Categorytree
             // a user is logged in
             $this->stored = json_decode($this->FE_USER->uc['tt_news'][$this->treeName], true);
         } else {
-            $this->stored = json_decode($_COOKIE[$this->treeName], true);
+            $this->stored = json_decode(($_COOKIE[$this->treeName] ?? ''), true);
         }
 
         if (!is_array($this->stored)) {

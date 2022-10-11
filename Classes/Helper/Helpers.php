@@ -140,7 +140,7 @@ class Helpers
         } elseif ($row['parent_category'] > 0) {
             $result = $this->getRecursiveCategorySinglePid($row['parent_category']);
         }
-        
+
         return $result;
     }
 
@@ -236,36 +236,36 @@ class Helpers
     public function convertDates()
     {
         //readable archivedates
-        if ($this->pObj->piVars['year'] || $this->pObj->piVars['month']) {
+        if (($this->pObj->piVars['year'] ?? false) || ($this->pObj->piVars['month'] ?? false)) {
             $this->pObj->arcExclusive = 1;
         }
-        if (!$this->pObj->piVars['year'] && $this->pObj->piVars['pS']) {
-            $this->pObj->piVars['year'] = date('Y', (int)$this->pObj->piVars['pS']);
+        if (!($this->pObj->piVars['year'] ?? false) && ($this->pObj->piVars['pS'] ?? false)) {
+            $this->pObj->piVars['year'] = date('Y', (int)($this->pObj->piVars['pS'] ?? 0));
         }
-        if (!$this->pObj->piVars['month'] && $this->pObj->piVars['pS']) {
-            $this->pObj->piVars['month'] = date('m', (int)$this->pObj->piVars['pS']);
+        if (!($this->pObj->piVars['month'] ?? false) && ($this->pObj->piVars['pS'] ?? false)) {
+            $this->pObj->piVars['month'] = date('m', (int)($this->pObj->piVars['pS'] ?? 0));
         }
-        if (!$this->pObj->piVars['day'] && $this->pObj->piVars['pS']) {
-            $this->pObj->piVars['day'] = date('j', (int)$this->pObj->piVars['pS']);
+        if (!($this->pObj->piVars['day'] ?? false) && ($this->pObj->piVars['pS'] ?? false)) {
+            $this->pObj->piVars['day'] = date('j', (int)($this->pObj->piVars['pS'] ?? 0));
         }
-        if ($this->pObj->piVars['year'] || $this->pObj->piVars['month'] || $this->pObj->piVars['day']) {
-            $mon = intval($this->pObj->piVars['month'] ? $this->pObj->piVars['month'] : 1);
-            $day = intval($this->pObj->piVars['day'] ? $this->pObj->piVars['day'] : 1);
+        if (($this->pObj->piVars['year'] ?? false) || ($this->pObj->piVars['month'] ?? false) || ($this->pObj->piVars['day'] ?? false)) {
+            $mon = intval(($this->pObj->piVars['month'] ?? false) ?: 1);
+            $day = intval(($this->pObj->piVars['day'] ?? false) ?: 1);
 
-            $this->pObj->piVars['pS'] = mktime(0, 0, 0, $mon, $day, (int)$this->pObj->piVars['year']);
+            $this->pObj->piVars['pS'] = mktime(0, 0, 0, $mon, $day, (int)($this->pObj->piVars['year'] ?? 0));
 
             switch ($this->pObj->config['archiveMode']) {
                 case 'month' :
                     $this->pObj->piVars['pL'] = mktime(0, 0, 0, $mon + 1, 1,
-                            (int)$this->pObj->piVars['year']) - (int)$this->pObj->piVars['pS'] - 1;
+                            (int)($this->pObj->piVars['year'] ?? 0)) - (int)($this->pObj->piVars['pS'] ?? 0) - 1;
                     break;
                 case 'quarter' :
                     $this->pObj->piVars['pL'] = mktime(0, 0, 0, $mon + 3, 1,
-                            (int)$this->pObj->piVars['year']) - (int)$this->pObj->piVars['pS'] - 1;
+                            (int)($this->pObj->piVars['year'] ?? 0)) - (int)($this->pObj->piVars['pS'] ?? 0) - 1;
                     break;
                 case 'year' :
                     $this->pObj->piVars['pL'] = mktime(0, 0, 0, 1, 1,
-                            (int)$this->pObj->piVars['year'] + 1) - (int)$this->pObj->piVars['pS'] - 1;
+                            (int)($this->pObj->piVars['year'] ?? 0) + 1) - (int)($this->pObj->piVars['pS'] ?? 0) - 1;
                     unset($this->pObj->piVars['month']);
                     break;
             }
