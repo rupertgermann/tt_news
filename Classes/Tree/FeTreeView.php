@@ -23,14 +23,6 @@ class FeTreeView extends Categorytree
 {
 
     /**
-     * @var string
-     */
-    public $TCEforms_itemFormElName = '';
-    /**
-     * @var array
-     */
-    public $TCEforms_nonSelectableItemsArray = array();
-    /**
      * @var
      */
     public $backPath;
