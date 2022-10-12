@@ -1755,11 +1755,10 @@ class TtNews extends AbstractPlugin
     {
         $content = '';
         $lConf = $this->conf['displayCatMenu.'];
-        $mode = $lConf['mode'] ? $lConf['mode'] : 'tree';
+        $mode = $lConf['mode'] ?: 'tree';
         $this->dontStartFromRootRecord = false;
 
         $this->initCatmenuEnv($lConf);
-
         switch ($mode) {
             case 'nestedWraps' :
                 $fields = '*';
@@ -1808,7 +1807,9 @@ class TtNews extends AbstractPlugin
 
                 $content = '<div id="ttnews-cat-tree">' . $catTreeObj->treeObj->getBrowsableTree() . '</div>';
 
-                if ($this->conf['useFluidRendering']) {
+
+
+            if ($this->conf['useFluidRendering']) {
 
                     $content = $this->renderFluidContent([
                         'mode' => $mode,

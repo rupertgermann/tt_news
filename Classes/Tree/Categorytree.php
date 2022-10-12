@@ -43,6 +43,7 @@ use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Utility\Div;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Tree\View\AbstractTreeView;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -113,10 +114,31 @@ class Categorytree extends AbstractTreeView
     protected $ajaxStatus;
     public $domIdPrefix;
     public $stored;
-    public $MOUNTS = [];
+    public $MOUNTS;
     public $expandFirst;
     public $addSelfId;
     public $setRecs;
+    public $expandAll = false;
+
+
+    public function init($clause = '', $orderByFields = '')
+    {
+        // Setting BE_USER by default
+        $this->BE_USER = $GLOBALS['BE_USER'];
+        // Setting clause
+        if ($clause) {
+            $this->clause = $clause;
+        }
+        if ($orderByFields) {
+            $this->orderByFields = $orderByFields;
+        }
+        if (!is_array($this->MOUNTS)) {
+            // Dummy
+            $this->MOUNTS = [0 => 0];
+        }
+        // Sets the tree name which is used to identify the tree, used for JavaScript and other things
+        $this->treeName = str_replace('_', '', $this->treeName ?: $this->table);
+    }
 
     /**
      * @return string
@@ -163,7 +185,6 @@ class Categorytree extends AbstractTreeView
         $savedTable = $this->table;
 
         $storeKey = $this->handleCache();
-
         // Traverse mounts:
         foreach ($this->MOUNTS as $idx => $uid) {
 
@@ -467,7 +488,6 @@ class Categorytree extends AbstractTreeView
         &$ajaxOutput,
         &$invertedDepthOfAjaxRequestedItem
     ) {
-        // IE takes anchor as parameter
         $PM = GeneralUtility::_GP('PM');
 
         if (($PMpos = strpos($PM, '#')) !== false) {
@@ -476,7 +496,7 @@ class Categorytree extends AbstractTreeView
         $PM = explode('_', $PM);
         if (is_array($PM) && count($PM) == 4 && $this->useAjax) {
 
-            if ($PM[1]) {
+            if ($PM[1] == 1) {
                 $expandedPageUid = $PM[2];
                 $ajaxOutput = '';
                 // We don't know yet. Will be set later.
@@ -520,7 +540,6 @@ class Categorytree extends AbstractTreeView
         // we need to count the opened <ul>'s every time we dig into another level,
         // so we know how many we have to close when all children are done rendering
         $closeDepth = array();
-
         foreach ($treeArr as $v) {
             $uid = $v['row']['uid'];
             $itemHTML = '';
@@ -629,6 +648,71 @@ class Categorytree extends AbstractTreeView
             return $icon;
         }
     }
+    /**
+     * Returns the record for a uid.
+     * For tables: Looks up the record in the database.
+     * For arrays: Returns the fake record for uid id.
+     *
+     * @param int $uid UID to look up
+     * @return array The record
+     */
+    public function getRecord($uid)
+    {
+        return BackendUtility::getRecordWSOL($this->table, $uid);
+    }
 
+    /**
+     * Adds a red "+" to the input string, $str, if the field "php_tree_stop" in the $row (pages) is set
+     *
+     * @param string $str Input string, like a page title for the tree
+     * @param array $row record row with "php_tree_stop" field
+     * @return string Modified string
+     * @internal
+     */
+    public function wrapStop($str, $row)
+    {
+        if ($row['php_tree_stop']) {
+            $str .= '<a href="' . htmlspecialchars(GeneralUtility::linkThisScript(['setTempDBmount' => $row['uid']])) . '" class="text-danger">+</a> ';
+        }
+        return $str;
+    }
+    /**
+     * Returns the id from the record (typ. uid)
+     *
+     * @param array $row Record array
+     * @return int The "uid" field value.
+     */
+    public function getId($row)
+    {
+        return $row['uid'];
+    }
+
+    /**
+     * Wrapping the image tag, $icon, for the row, $row (except for mount points)
+     *
+     * @param string $icon The image tag for the icon
+     * @param array $row The row for the current element
+     * @return string The processed icon input value.
+     * @internal
+     */
+    public function wrapIcon($icon, $row)
+    {
+        return $icon;
+    }
+
+    /**
+     * Returns TRUE/FALSE if the next level for $id should be expanded - based on
+     * data in $this->stored[][] and ->expandAll flag.
+     * Extending parent function
+     *
+     * @param int $id Record id/key
+     * @return bool
+     * @internal
+     * @see \TYPO3\CMS\Backend\Tree\View\PageTreeView::expandNext()
+     */
+    public function expandNext($id)
+    {
+        return !empty($this->stored[$this->bank][$id]) || $this->expandAll;
+    }
 }
 
