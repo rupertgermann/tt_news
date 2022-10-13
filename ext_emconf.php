@@ -14,7 +14,7 @@ $EM_CONF['tt_news'] = [
     'author_company' => 'www.pick2.de',
     'constraints' => [
         'depends' => [
-            'typo3' => '9.5.0-11.5.99',
+            'typo3' => '10.4.0-11.5.99',
         ],
         'conflicts' => [],
         'suggests' => [],
