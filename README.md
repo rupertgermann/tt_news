@@ -9,9 +9,9 @@ Website news with front page teasers and article handling inside.
 
 #### Version 11.0.0
 
-This tt_news version is compatible with TYPO3 v9 up to v11. 
+This tt_news version is compatible with TYPO3 v10 and v11. 
 
-The Backend Module "News Admin" does not (yet) work with TYPO3 v11
+The Backend Module "News Admin" has been dropped in TYPO3 v11
 
 #### Version 10.1.0
 
@@ -50,7 +50,7 @@ Thanks to all contributers for patches, PRs and testing.
     
 ## Compatibility
 
-branch master requires at least TYPO3 9.5.0 and is compatible with TYPO3 9.5 LTS and TYPO3 10.4 LTS.
+branch master requires at least TYPO3 10.4 and is compatible with TYPO3 10.4 LTS and TYPO3 11.5 LTS.
 
 For tt_news for older TYPO3 versions take a look at [https://extensions.typo3.org/extension/tt_news/](https://extensions.typo3.org/extension/tt_news/)  and scroll down to "Version History".      
 
