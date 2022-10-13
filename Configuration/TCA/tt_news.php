@@ -164,7 +164,7 @@ return [
                 'type' => 'text',
                 'cols' => 30,
                 'rows' => 5,
-                'softref' => 'rtehtmlarea_images,typolink_tag,images,email[subst],url',
+                'softref' => 'typolink_tag,email[subst],url',
                 'enableRichtext' => true,
                 'richtextConfiguration' => 'default',
             ]
