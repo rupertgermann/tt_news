@@ -145,7 +145,7 @@ class DataHandlerHook
 
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
-            $wantedCategories = GeneralUtility::intExplode(',', $fieldArray['category']);
+            $wantedCategories = $fieldArray['category'] ? GeneralUtility::intExplode(',', $fieldArray['category']) : [];
 
             foreach (array_unique(array_merge($categories, $wantedCategories)) as $k) {
                 $categoryId = intval($k, 10);
