@@ -870,7 +870,7 @@ class TtNews extends AbstractPlugin
         $selectConf = $this->getSelectConf($where, $noPeriod);
 
         // performing query to count all news (we need to know it for browsing):
-        if ($selectConf['leftjoin'] || ($this->theCode == 'RELATED' && $this->relNewsUid)) {
+        if ($selectConf['leftjoin'] ?? false || ($this->theCode == 'RELATED' && $this->relNewsUid)) {
             $selectConf['selectFields'] = 'COUNT(DISTINCT tt_news.uid) as c';
         } else {
             $selectConf['selectFields'] = 'COUNT(tt_news.uid) as c';
@@ -899,7 +899,7 @@ class TtNews extends AbstractPlugin
             $this->renderMarkers = $this->getMarkers($t['total']);
 
             // build query for display:
-            if ($selectConf['leftjoin'] || ($this->theCode == 'RELATED' && $this->relNewsUid)) {
+            if ($selectConf['leftjoin'] ?? false || ($this->theCode == 'RELATED' && $this->relNewsUid)) {
                 $selectConf['selectFields'] = 'DISTINCT tt_news.uid, tt_news.*';
             } else {
                 $selectConf['selectFields'] = 'tt_news.*';
@@ -1196,7 +1196,7 @@ class TtNews extends AbstractPlugin
             // gets the option splitted config for this record
             if ($this->conf['enableOptionSplit'] && !empty($this->splitLConf[$cc])) {
                 $lConf = $this->splitLConf[$cc];
-                $lConf['subheader_stdWrap.']['crop'] .= $cropSuffix;
+                $lConf['subheader_stdWrap.']['crop'] = ($lConf['subheader_stdWrap.']['crop'] ?? '') . $cropSuffix;
 
             }
 
@@ -4556,6 +4556,11 @@ class TtNews extends AbstractPlugin
 
         $piVarsArray['tt_news'] = $row['uid'];
 
+        // hotfix AbstractPlugin not php8.1 compatible
+        if (!isset($this->conf['parent.']['addParams'])) {
+            $this->conf['parent.']['addParams'] = '';
+        }
+        // end hotfix
         $linkWrap = explode($this->token,
             $this->pi_linkTP_keepPIvars($this->token, $piVarsArray, $this->allowCaching, $this->conf['dontUseBackPid'],
                 $singlePid));
