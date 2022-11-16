@@ -753,12 +753,12 @@ class TtNews extends AbstractPlugin
                 $searchMarkers = array(
                     '###FORM_URL###' => $this->pi_linkTP_keepPIvars_url(array('pointer' => null, 'cat' => null), 0, 1,
                         $this->config['searchPid']),
-                    '###SWORDS###' => htmlspecialchars($this->piVars['swords']),
+                    '###SWORDS###' => htmlspecialchars($this->piVars['swords'] ?? ''),
                     '###SEARCH_BUTTON###' => $this->pi_getLL('searchButtonLabel')
                 );
 
                 // Hook for any additional form fields
-                if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['additionalFormSearchFields'])) {
+                if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['additionalFormSearchFields'] ?? null)) {
                     foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['additionalFormSearchFields'] as $_classRef) {
                         $_procObj = GeneralUtility::makeInstance($_classRef);
                         $searchMarkers = $_procObj->additionalFormSearchFields($this, $searchMarkers);
@@ -775,7 +775,7 @@ class TtNews extends AbstractPlugin
                 unset($searchSub);
 
                 // do the search and add the result to the $where string
-                if ($this->piVars['swords']) {
+                if (isset($this->piVars['swords'])) {
                     $where = $this->searchWhere(trim($this->piVars['swords']));
                     $theCode = 'SEARCH';
                 } else {
@@ -788,7 +788,7 @@ class TtNews extends AbstractPlugin
                 $prefix_display = 'displayXML';
                 // $this->arcExclusive = -1; // Only latest, non archive news
                 $this->allowCaching = $this->conf['displayXML.']['xmlCaching'];
-                $this->config['limit'] = $this->conf['displayXML.']['xmlLimit'] ? $this->conf['displayXML.']['xmlLimit'] : $this->config['limit'];
+                $this->config['limit'] = $this->conf['displayXML.']['xmlLimit'] ?? $this->config['limit'] ?? null;
 
                 switch ($this->conf['displayXML.']['xmlFormat']) {
                     case 'rss091' :
@@ -3684,7 +3684,7 @@ class TtNews extends AbstractPlugin
 
                     $pL = intval($this->piVars['pL']);
                     //selecting news for a certain day only
-                    if (intval($this->piVars['day'])) {
+                    if (intval($this->piVars['day'] ?? 0)) {
                         // = 24h, as pS always starts at the beginning of a day (00:00:00)
                         $pL = 86400;
                     }
@@ -4248,7 +4248,7 @@ class TtNews extends AbstractPlugin
         // pid_list is the pid/list of pids from where to fetch the news items.
         $pid_list = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'pages', 's_misc');
         $pid_list = $pid_list ? $pid_list : trim($this->cObj->stdWrap($this->conf['pid_list'],
-            $this->conf['pid_list.']));
+            $this->conf['pid_list.'] ?? []));
         $pid_list = $pid_list ? implode(',', GeneralUtility::intExplode(',', $pid_list)) : $this->tsfe->id;
 
         $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'recursive', 's_misc');
