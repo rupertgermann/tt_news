@@ -491,7 +491,7 @@ class TtNews extends AbstractPlugin
 
         // "CODE" decides what is rendered: codes can be set by TS or FF with priority on FF
         $code = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF');
-        $this->config['code'] = ($code ? $code : $this->cObj->stdWrap($this->conf['code'], $this->conf['code.']));
+        $this->config['code'] = ($code ? $code : $this->cObj->stdWrap($this->conf['code'], $this->conf['code.'] ?? []));
 
         if (($this->conf['displayCurrentRecord'] ?? false)) {
             $this->config['code'] = $this->conf['defaultCode'] ? trim($this->conf['defaultCode']) : 'SINGLE';
@@ -4246,7 +4246,7 @@ class TtNews extends AbstractPlugin
 
         $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'recursive', 's_misc');
         if (!strcmp($recursive, '') || $recursive === null) {
-            $recursive = $this->cObj->stdWrap($this->conf['recursive'], $this->conf['recursive.']);
+            $recursive = $this->cObj->stdWrap($this->conf['recursive'], $this->conf['recursive.'] ?? []);
         }
 
         // extend the pid_list by recursive levels
