@@ -1112,6 +1112,13 @@ class TtNews extends AbstractPlugin
             $this->pi_lowerThan = $highestVal + 1;
         }
 
+
+        // hotfix AbstractPlugin not php8.1 compatible
+        // https://review.typo3.org/c/Packages/TYPO3.CMS/+/76642
+        if (!isset($this->piVars[$pointerName])) {
+            $this->piVars[$pointerName] = 0;
+        }
+        // end hotfix
         // render pagebrowser
         $markerArray['###BROWSE_LINKS###'] = $this->pi_list_browseresults($pbConf['showResultCount'],
             $pbConf['tableParams'] ?? null, $wrapArr, $pointerName, $pbConf['hscText']);
@@ -2080,7 +2087,7 @@ class TtNews extends AbstractPlugin
         //		debug($markerArray, ' ('.__CLASS__.'::'.__FUNCTION__.')', __LINE__, __FILE__, 3);
 
         // Adds hook for processing of extra item markers
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemMarkerHook'])) {
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemMarkerHook'] ?? null)) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemMarkerHook'] as $_classRef) {
                 $_procObj = GeneralUtility::makeInstance($_classRef);
                 $markerArray = $_procObj->extraItemMarkerProcessor($markerArray, $row, $lConf, $this);
@@ -4557,6 +4564,7 @@ class TtNews extends AbstractPlugin
         $piVarsArray['tt_news'] = $row['uid'];
 
         // hotfix AbstractPlugin not php8.1 compatible
+        // https://review.typo3.org/c/Packages/TYPO3.CMS/+/76598
         if (!isset($this->conf['parent.']['addParams'])) {
             $this->conf['parent.']['addParams'] = '';
         }
