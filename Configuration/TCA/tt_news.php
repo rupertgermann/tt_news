@@ -1,7 +1,7 @@
 <?php
 
 // get extension confArr
-$confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'];
+$confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'] ?? [];
 // switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
 $fTableWhere = (($confArr['useStoragePid'] ?? false) ? 'AND tt_news_cat.pid=###STORAGE_PID### ' : '');
 // page where records will be stored in that have been created with a wizard
