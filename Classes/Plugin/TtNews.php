@@ -2941,7 +2941,7 @@ class TtNews extends AbstractPlugin
                         'parent_category' => (!GeneralUtility::inList($maincat,
                             $val['uid']) && $this->conf['displaySubCategories'] ? $val['parent_category'] : ''),
                         'sorting' => $val['sorting'],
-                        'mmsorting' => $val['mmsorting']
+                        'mmsorting' => $val['mmsorting'] ?? null
                     );
 
                 }
