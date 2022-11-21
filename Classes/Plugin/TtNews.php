@@ -3484,17 +3484,20 @@ class TtNews extends AbstractPlugin
             $markerArray['###SITE_LANG###'] = '';
         }
 
-        $imgFile = GeneralUtility::getFileAbsFileName($this->cObj->stdWrap($lConf['xmlIcon'],
-            $lConf['xmlIcon.']));
+        if (isset($lConf['xmlIcon'])) {
+            $imgFile = GeneralUtility::getFileAbsFileName($this->cObj->stdWrap($lConf['xmlIcon'], $lConf['xmlIcon.']));
+        } else {
+            $imgFile = null;
+        }
         $imgSize = is_file($imgFile) ? getimagesize($imgFile) : '';
-        $markerArray['###IMG_W###'] = $imgSize[0];
-        $markerArray['###IMG_H###'] = $imgSize[1];
+        $markerArray['###IMG_W###'] = $imgSize[0] ?? null;
+        $markerArray['###IMG_H###'] = $imgSize[1] ?? null;
 
         $relImgFile = str_replace(Environment::getPublicPath() . '/', '', $imgFile);
         $markerArray['###IMG###'] = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $relImgFile;
 
-        $markerArray['###NEWS_WEBMASTER###'] = $lConf['xmlWebMaster'];
-        $markerArray['###NEWS_MANAGINGEDITOR###'] = $lConf['xmlManagingEditor'];
+        $markerArray['###NEWS_WEBMASTER###'] = $lConf['xmlWebMaster'] ?? null;
+        $markerArray['###NEWS_MANAGINGEDITOR###'] = $lConf['xmlManagingEditor'] ?? null;
 
         $selectConf = Array();
         $selectConf['pidInList'] = $this->pid_list;
@@ -3516,19 +3519,19 @@ class TtNews extends AbstractPlugin
             $markerArray['###NEWS_LASTBUILD###'] = $this->helpers->getW3cDate($row['maxval']);
         }
 
-        if ($lConf['xmlWebMaster']) {
+        if ($lConf['xmlWebMaster'] ?? null) {
             $markerArray['###NEWS_WEBMASTER###'] = '<webMaster>' . $lConf['xmlWebMaster'] . '</webMaster>';
         } else {
             $markerArray['###NEWS_WEBMASTER###'] = '';
         }
 
-        if ($lConf['xmlManagingEditor']) {
+        if ($lConf['xmlManagingEditor'] ?? null) {
             $markerArray['###NEWS_MANAGINGEDITOR###'] = '<managingEditor>' . $lConf['xmlManagingEditor'] . '</managingEditor>';
         } else {
             $markerArray['###NEWS_MANAGINGEDITOR###'] = '';
         }
 
-        if ($lConf['xmlCopyright']) {
+        if ($lConf['xmlCopyright'] ?? null) {
             if ($lConf['xmlFormat'] == 'atom1') {
                 $markerArray['###NEWS_COPYRIGHT###'] = '<rights>' . $lConf['xmlCopyright'] . '</rights>';
             } else {
@@ -3539,14 +3542,14 @@ class TtNews extends AbstractPlugin
         }
 
         $charset = ($this->tsfe->metaCharset ? $this->tsfe->metaCharset : 'iso-8859-1');
-        if ($lConf['xmlDeclaration']) {
+        if ($lConf['xmlDeclaration'] ?? null) {
             $markerArray['###XML_DECLARATION###'] = trim($lConf['xmlDeclaration']);
         } else {
             $markerArray['###XML_DECLARATION###'] = '<?xml version="1.0" encoding="' . $charset . '"?>';
         }
 
         // promoting TYPO3 in atom feeds, supress the subversion
-        $version = explode('.', ($GLOBALS['TYPO3_VERSION'] ? $GLOBALS['TYPO3_VERSION'] : $GLOBALS['TYPO_VERSION']));
+        $version = explode('.', (\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version()));
         unset($version[2]);
         $markerArray['###TYPO3_VERSION###'] = implode('.', $version);
 
@@ -3942,7 +3945,7 @@ class TtNews extends AbstractPlugin
             'LIMIT' => ''
         );
 
-        if (($where = trim($conf['where']))) {
+        if (($where = trim($conf['where'] ?? ''))) {
             $query .= ' AND ' . $where;
         }
 
@@ -4219,11 +4222,11 @@ class TtNews extends AbstractPlugin
 
         $splitMark = md5(microtime(true));
         $globalMarkerArray = array();
-        list($globalMarkerArray['###GW1B###'], $globalMarkerArray['###GW1E###']) = explode($splitMark,
+        [$globalMarkerArray['###GW1B###'], $globalMarkerArray['###GW1E###']] = explode($splitMark,
             $this->cObj->stdWrap($splitMark, $this->conf['wrap1.'] ?? false));
-        list($globalMarkerArray['###GW2B###'], $globalMarkerArray['###GW2E###']) = explode($splitMark,
+        [$globalMarkerArray['###GW2B###'], $globalMarkerArray['###GW2E###']] = explode($splitMark,
             $this->cObj->stdWrap($splitMark, $this->conf['wrap2.'] ?? false));
-        list($globalMarkerArray['###GW3B###'], $globalMarkerArray['###GW3E###']) = explode($splitMark,
+        [$globalMarkerArray['###GW3B###'], $globalMarkerArray['###GW3E###']] = explode($splitMark,
             $this->cObj->stdWrap($splitMark, $this->conf['wrap3.'] ?? false));
         $globalMarkerArray['###GC1###'] = $this->cObj->stdWrap($this->conf['color1'] ?? '', $this->conf['color1.'] ?? false);
         $globalMarkerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'] ?? '', $this->conf['color2.'] ?? false);
