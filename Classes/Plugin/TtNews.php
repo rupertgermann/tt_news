@@ -979,7 +979,7 @@ class TtNews extends AbstractPlugin
                         $markerArray = $this->getPagebrowserContent($markerArray, $pbConf, $this->pointerName);
 
                     } else {
-                        $markerArray['###BROWSE_LINKS###'] = $this->makePageBrowser($pbConf['showResultCount'] ?? 1,
+                        $markerArray['###BROWSE_LINKS###'] = $this->makePageBrowser($pbConf['showResultCount'] ?? null,
                             $pbConf['tableParams'] ?? '', $this->pointerName);
                     }
                 }
