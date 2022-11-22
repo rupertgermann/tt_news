@@ -2835,7 +2835,7 @@ class TtNews extends AbstractPlugin
                 $m = '';
             }
             $markerArray['###' . $marker . $m . '###'] = $this->local_cObj->stdWrap($markerArray['###' . $marker . $m . '###'],
-                $lConf['image.']['noImage_stdWrap.']);
+                $lConf['image.']['noImage_stdWrap.'] ?? []);
         }
 
         return $markerArray;
