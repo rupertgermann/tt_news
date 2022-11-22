@@ -3367,9 +3367,9 @@ class TtNews extends AbstractPlugin
         $tmpPS = false;
         $tmpPL = false;
         if ($this->conf['useHRDates']) {
-            $tmpPS = $this->piVars['pS'];
+            $tmpPS = $this->piVars['pS'] ?? null;
             unset($this->piVars['pS']);
-            $tmpPL = $this->piVars['pL'];
+            $tmpPL = $this->piVars['pL'] ?? null;
             unset($this->piVars['pL']);
         }
 
