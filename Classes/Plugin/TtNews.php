@@ -2439,9 +2439,9 @@ class TtNews extends AbstractPlugin
         if (count($this->categories[$row['uid']]) && ($this->config['catImageMode'] || $this->config['catTextMode'])) {
             // wrap for all categories
             $cat_stdWrap = GeneralUtility::trimExplode('|',
-                $lConf['category_stdWrap.']['wrap']);
-            $markerArray['###CATWRAP_B###'] = $cat_stdWrap[0];
-            $markerArray['###CATWRAP_E###'] = $cat_stdWrap[1];
+                $lConf['category_stdWrap.']['wrap'] ?? '');
+            $markerArray['###CATWRAP_B###'] = $cat_stdWrap[0] ?? '';
+            $markerArray['###CATWRAP_E###'] = $cat_stdWrap[1] ?? '';
             $markerArray['###TEXT_CAT###'] = $this->pi_getLL('textCat');
             $markerArray['###TEXT_CAT_LATEST###'] = $this->pi_getLL('textCatLatest');
 
@@ -2555,7 +2555,7 @@ class TtNews extends AbstractPlugin
                     // add linked category image to output array
                     $img = $this->local_cObj->cObjGetSingle('IMAGE', $catPicConf['image.']);
                     $swrap = ($val['parent_category'] > 0 ? 'subCategoryImgItem_stdWrap.' : 'categoryImgItem_stdWrap.');
-                    $theCatImgCodeArray[] = $this->local_cObj->stdWrap($img, $lConf[$swrap]);
+                    $theCatImgCodeArray[] = $this->local_cObj->stdWrap($img, $lConf[$swrap] ?? []);
                 }
                 if (!$wroteRegister) {
                     // Load the uid of the first assigned category to the register 'newsCategoryUid'
@@ -2590,7 +2590,7 @@ class TtNews extends AbstractPlugin
                 $xmlCategories = '';
                 foreach ($newsCategories as $xmlCategory) {
                     $xmlCategories .= '<category>' . $this->local_cObj->stdWrap($xmlCategory,
-                            $lConf['categoryTitles_stdWrap.']) . '</category>' . "\n\t\t\t";
+                            $lConf['categoryTitles_stdWrap.'] ?? []) . '</category>' . "\n\t\t\t";
                 }
 
                 $markerArray['###NEWS_CATEGORY###'] = $xmlCategories;
