@@ -494,7 +494,7 @@ class TtNews extends AbstractPlugin
         $this->config['code'] = ($code ? $code : $this->cObj->stdWrap($this->conf['code'], $this->conf['code.'] ?? []));
 
         if (($this->conf['displayCurrentRecord'] ?? false)) {
-            $this->config['code'] = $this->conf['defaultCode'] ? trim($this->conf['defaultCode']) : 'SINGLE';
+            $this->config['code'] = ($this->conf['defaultCode'] ?? null) ? trim($this->conf['defaultCode']) : 'SINGLE';
             $this->tt_news_uid = $this->cObj->data['uid'];
         }
 
@@ -567,7 +567,7 @@ class TtNews extends AbstractPlugin
 
         // arcExclusive : -1=only non-archived; 0=don't care; 1=only archived
         $arcExclusive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'archive', 'sDEF');
-        $this->arcExclusive = $arcExclusive ? $arcExclusive : intval($this->conf['archive']);
+        $this->arcExclusive = $arcExclusive ? $arcExclusive : intval($this->conf['archive'] ?? 0);
 
         $this->config['datetimeDaysToArchive'] = intval($this->conf['datetimeDaysToArchive'] ?? 0);
         $this->config['datetimeHoursToArchive'] = intval($this->conf['datetimeHoursToArchive'] ?? 0);
@@ -2715,7 +2715,7 @@ class TtNews extends AbstractPlugin
                     $markerArray['###NEWS_IMAGE###'] = $this->local_cObj->wrap($theImgCode, $lConf['imageWrapIfAny'] ?? false);
                 } else {
                     $markerArray['###NEWS_IMAGE###'] = $this->local_cObj->stdWrap($markerArray['###NEWS_IMAGE###'],
-                        $lConf['image.']['noImage_stdWrap.']);
+                        $lConf['image.']['noImage_stdWrap.'] ?? null);
                 }
             }
         }
