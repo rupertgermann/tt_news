@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Context\Context;
 /**
  * Copyright notice
  *
@@ -33,7 +36,6 @@
  *
  * @author Rupert Germann <rupi@gmx.li>
  */
-
 /**
  * language menu that keeps the links vars from tt_news
  *
@@ -74,7 +76,7 @@ function user_languageMenu($content) {
 		$langArr[$row['sys_language_uid']] = $row['title'];
 	}
 
-	$queryString = explode('&', \TYPO3\CMS\Core\Utility\GeneralUtility::implodeArrayForUrl('', $GLOBALS['_GET'])) ;
+	$queryString = explode('&', GeneralUtility::implodeArrayForUrl('', $GLOBALS['_GET'])) ;
 	if ($queryString) {
 		while (list(, $val) = each($queryString)) {
 			$tmp = explode('=', $val);
@@ -82,7 +84,7 @@ function user_languageMenu($content) {
 		}
 		$excludeList = 'id,L,tx_ttnews[pointer]';
 		while (list($key, $val) = each($paramArray)) {
-			if (!$val || ($excludeList && \TYPO3\CMS\Core\Utility\GeneralUtility::inList($excludeList, $key))) {
+			if (!$val || ($excludeList && GeneralUtility::inList($excludeList, $key))) {
 				unset($paramArray[$key]);
 			}
 		}
@@ -92,7 +94,7 @@ function user_languageMenu($content) {
 	}
 	// unset the global linkVar "L" for the language menu because it's build new in this script
 	$linkVarsBak = $GLOBALS['TSFE']->linkVars;
-	$tmplinkVars = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('&', $GLOBALS['TSFE']->linkVars) ;
+	$tmplinkVars = GeneralUtility::trimExplode('&', $GLOBALS['TSFE']->linkVars) ;
 	if ($tmplinkVars) {
 		while (list($kl, $vl) = each($tmplinkVars)) {
 			if (!$vl || preg_match('/L=[0-9]/', $vl)) {
@@ -102,7 +104,7 @@ function user_languageMenu($content) {
 		$GLOBALS['TSFE']->linkVars = implode('&', $tmplinkVars) ;
 	}
 
-	$tmpLang = $GLOBALS['TSFE']->sys_language_uid;
+	$tmpLang = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id');
 
 	$flags = array();
 	// flag for the default language
@@ -128,5 +130,3 @@ function user_languageMenu($content) {
 	$GLOBALS['TSFE']->linkVars = $linkVarsBak;
 	return $content;
 }
-
-

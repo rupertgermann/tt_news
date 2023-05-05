@@ -14,7 +14,8 @@ namespace RG\TtNews\Form;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
 
 
@@ -36,7 +37,7 @@ class FormDataProvider implements FormDataProviderInterface
             return $result;
         }
 
-        $result['databaseRow']['datetime'] = $GLOBALS['EXEC_TIME'];
+        $result['databaseRow']['datetime'] = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp');
 
         return $result;
     }

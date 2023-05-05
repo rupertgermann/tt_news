@@ -27,7 +27,6 @@ namespace RG\TtNews\Hooks;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 /**
  * Class 'tx_ttnews_tcemain' for the tt_news extension.
  *
@@ -35,7 +34,7 @@ namespace RG\TtNews\Hooks;
  *
  * @author     Rupert Germann <rupi@gmx.li>
  */
-
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
@@ -107,7 +106,7 @@ class DataHandlerHook
                     FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    FlashMessage::ERROR,
+                    AbstractMessage::ERROR,
                     // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );

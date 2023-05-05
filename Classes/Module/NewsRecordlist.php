@@ -27,7 +27,8 @@ namespace RG\TtNews\Module;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use Doctrine\DBAL\DBALException;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -129,7 +130,6 @@ class NewsRecordlist extends PageLayoutView
      * Generic listing of items
      *
      **********************************/
-
     /**
      * Creates a standard list of elements from a table.
      *
@@ -140,7 +140,7 @@ class NewsRecordlist extends PageLayoutView
      * @param    string         Additional WHERE-clauses.
      *
      * @return    string        HTML table
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function makeOrdinaryList($table, $id, $fList, $icon = 0, $addWhere = '')
     {
@@ -199,10 +199,9 @@ class NewsRecordlist extends PageLayoutView
 
             if (!$noEdit) {
                 $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
-                $NrowIcon .= '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
-                        $this->backPath, $this->returnUrl)) . '">' .
+                $NrowIcon .= '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '">' .
                     '<img' . IconFactory::skinImg('edit2.gif',
-                        'width="11" height="12"') . ' title="' . $GLOBALS['LANG']->getLL('edit', 1) . '" alt="" />' .
+                        'width="11" height="12"') . ' title="' . htmlspecialchars($GLOBALS['LANG']->getLL('edit')) . '" alt="" />' .
                     '</a>';
             } else {
                 $NrowIcon .= $this->noEditIcon($noEdit);
@@ -371,9 +370,8 @@ class NewsRecordlist extends PageLayoutView
                         $val = $this->linkSingleView($url, $val, $row['uid']);
                     } elseif ($this->lTSprop['clickTitleMode'] == 'edit' && !$noEdit) {
                         $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
-                        $lTitle = ' title="' . $GLOBALS['LANG']->getLL('edit', 1) . '"';
-                        $val = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
-                                $this->backPath, $this->returnUrl)) . '"' . $lTitle . '>' . $val . '</a>';
+                        $lTitle = ' title="' . htmlspecialchars($GLOBALS['LANG']->getLL('edit')) . '"';
+                        $val = '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '"' . $lTitle . '>' . $val . '</a>';
                     }
                 }
                 $out[$fieldName] = $val;
@@ -384,8 +382,7 @@ class NewsRecordlist extends PageLayoutView
                 // Traverse fields, separated by ";" (displayed in a single cell).
                 foreach ($theFields as $fName2) {
                     if ($TCA[$table]['columns'][$fName2]) {
-                        $out[$fieldName] .= '<b>' . $GLOBALS['LANG']->sL($TCA[$table]['columns'][$fName2]['label'],
-                                1) . '</b>' .
+                        $out[$fieldName] .= '<b>' . htmlspecialchars($GLOBALS['LANG']->sL($TCA[$table]['columns'][$fName2]['label'])) . '</b>' .
                             '&nbsp;&nbsp;' .
                             htmlspecialchars(GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue($table,
                                 $fName2, $row[$fName2], 0, 0, 0, $row['uid']), 25)) .
@@ -424,7 +421,7 @@ class NewsRecordlist extends PageLayoutView
         );
         $linkedurl = GeneralUtility::linkThisUrl($url, $params);
         $onclick = 'openFePreview(\'' . htmlspecialchars($linkedurl) . '\');';
-        $lTitle = $GLOBALS['LANG']->getLL('openFePreview', 1);
+        $lTitle = htmlspecialchars($GLOBALS['LANG']->getLL('openFePreview'));
 
         return '<a href="#" onclick="' . $onclick . '" title="' . $lTitle . '">' . $val . '</a>';
     }
@@ -443,8 +440,7 @@ class NewsRecordlist extends PageLayoutView
         }
 
         $params = '&edit[' . $table . '][' . $this->newRecPid . ']=new' . $addP;
-        $onclick = htmlspecialchars(BackendUtility::editOnClick($params, $this->backPath,
-            $this->returnUrl));
+        $onclick = htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')));
 
         /**
          * @var IconFactory $iconFactory
@@ -485,8 +481,7 @@ class NewsRecordlist extends PageLayoutView
         }
 
         // The icon with link
-        return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid'], '', '',
-            $disableList);
+        return BackendUtility::wrapClickMenuOnIcon($iconImg, $table, $row['uid']);
     }
 
     /**
@@ -494,7 +489,7 @@ class NewsRecordlist extends PageLayoutView
      * @param $checkCategories
      *
      * @return int
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function checkRecordPerms(&$row, $checkCategories)
     {
@@ -539,11 +534,11 @@ class NewsRecordlist extends PageLayoutView
     {
         switch ($reason) {
             case 1:
-                $label = $GLOBALS['LANG']->getLL('noEditPagePerms', 1);
+                $label = htmlspecialchars($GLOBALS['LANG']->getLL('noEditPagePerms'));
                 break;
 
             case 2:
-                $label = $GLOBALS['LANG']->getLL('noEditCategories', 1);
+                $label = htmlspecialchars($GLOBALS['LANG']->getLL('noEditCategories'));
                 break;
             default:
                 $label = '';
@@ -571,7 +566,7 @@ class NewsRecordlist extends PageLayoutView
         global $TCA;
 
         foreach ($fieldArr as $fieldName) {
-            $ll = $GLOBALS['LANG']->sL($TCA[$table]['columns'][$fieldName]['label'], 1);
+            $ll = htmlspecialchars($GLOBALS['LANG']->sL($TCA[$table]['columns'][$fieldName]['label']));
             $out[$fieldName] = '<strong>' . ($ll ? $this->addSortLink($ll, $fieldName,
                     $table) : '&nbsp;') . '</strong>';
         }
@@ -648,7 +643,7 @@ class NewsRecordlist extends PageLayoutView
      * @param string $fieldList
      *
      * @return array
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function makeQueryArray($table, $id, $addWhere = "", $fieldList = '')
     {
@@ -730,7 +725,7 @@ class NewsRecordlist extends PageLayoutView
      * @param $queryParts
      *
      * @return mixed
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function ckeckDisallowedCategories($queryParts)
     {
@@ -774,7 +769,7 @@ class NewsRecordlist extends PageLayoutView
      * @param $uid
      *
      * @return array
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getCategories($uid)
     {

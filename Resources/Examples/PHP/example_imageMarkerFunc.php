@@ -1,4 +1,5 @@
 <?php
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /***************************************************************
 *  Copyright notice
 *
@@ -79,9 +80,9 @@ function user_imageMarkerFunc($paramArray,$conf){
 	$row = $pObj->local_cObj->data;
 
 	$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount']:1;
-	$imageNum = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($imageNum, 0, 100);
+	$imageNum = GeneralUtility::intInRange($imageNum, 0, 100);
 	$theImgCode = '';
-	$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
+	$imgs = GeneralUtility::trimExplode(',', $row['image'], 1);
 	$imgsCaptions = explode(chr(10), $row['imagecaption']);
 	reset($imgs);
 	$cc = 0;
@@ -164,9 +165,9 @@ function user_maskImages($paramArray,$conf){
 	$row = $pObj->local_cObj->data; // get current $row
 
 	$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount']:1;
-	$imageNum = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($imageNum, 0, 100);
+	$imageNum = GeneralUtility::intInRange($imageNum, 0, 100);
 	$theImgCode = '';
-	$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
+	$imgs = GeneralUtility::trimExplode(',', $row['image'], 1);
 	$imgsCaptions = explode(chr(10), $row['imagecaption']);
 	$imgsAltTexts = explode(chr(10), $row['imagealttext']);
 	$imgsTitleTexts = explode(chr(10), $row['imagetitletext']);
@@ -186,7 +187,7 @@ function user_maskImages($paramArray,$conf){
 	}
 
 	// Here starts the changed rendering part
-	$imgObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_stdGraphic'); // instantiate object for image manipulation
+	$imgObj = GeneralUtility::makeInstance('t3lib_stdGraphic'); // instantiate object for image manipulation
 	$imgObj->mayScaleUp = 1;
 	while (list(, $val) = each($imgs)) {
 		if ($cc == $imageNum) break;

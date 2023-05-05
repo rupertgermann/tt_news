@@ -9,6 +9,7 @@
 namespace RG\TtNews\Module;
 
 
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use RG\TtNews\Tree\Categorytree;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -69,7 +70,7 @@ class CategoryManager extends Categorytree
         if ($row['uid'] > 0 && !isset($row['doktype'])) {
             // no clickmenu for pages
             $theIcon = BackendUtility::wrapClickMenuOnIcon($theIcon, 'tt_news_cat_CM',
-                $row['uid'], 0, '&bank=' . $this->bank);
+                $row['uid']);
             $theIcon = '<span class="dragIcon" id="dragIconID_' . $row['uid'] . '">' . $theIcon . '</span>';
         } else {
             $theIcon = '<span class="dragIcon" id="dragIconID_0">' . $theIcon . '</span>';
@@ -139,8 +140,7 @@ class CategoryManager extends Categorytree
         // "Edit" link: ( Only if permissions to edit the page-record of the content of the parent page ($this->id)
         if ($this->mayUserEditCategories) {
             $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
-            $cells[] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
-                    $this->backPath, $this->returnUrl)) . '">' .
+            $cells[] = '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '">' .
                 '<img' . IconFactory::skinImg('edit2' . (!$TCA[$table]['ctrl']['readOnly'] ? '' : '_d') . '.gif',
                     'width="11" height="12"') . ' title="' . $this->getLanguageService()->getLLL('edit', $this->LL) . '" alt="" />' .
                 '</a>';

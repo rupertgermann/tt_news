@@ -27,6 +27,7 @@
 
 namespace RG\TtNews\Utility;
 
+use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
@@ -49,7 +50,7 @@ class Div
      * @param bool $withSub Also return subcategories
      *
      * @return string commeseparated list of mounts
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     static public function getBeUserCatMounts($withSub = true)
     {
@@ -89,7 +90,7 @@ class Div
      * @param int    $cc       counter to detect recursion in nested categories
      *
      * @return string extended $catlist
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     static public function getSubCategories($catlist, $addWhere = '', $cc = 0)
     {
@@ -122,7 +123,7 @@ class Div
      * @param $news_clause
      * @param $catclause
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     static public function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause)
     {
@@ -172,7 +173,7 @@ class Div
      * Subcategories are included, categories from "tt_newsPerms.tt_news_cat.excludeList" are excluded
      *
      * @return array tree IDs
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     static public function getAllowedTreeIDs()
     {
@@ -192,7 +193,7 @@ class Div
      * Get WHERE restrictions for the category list query of the current user
      *
      * @return string WHERE query part
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     static public function getCatlistWhere()
     {
@@ -219,7 +220,7 @@ class Div
      * Get categories to include for the current user
      *
      * @return array ids of categories to include
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     static public function getIncludeCatArray()
     {

@@ -1,4 +1,6 @@
 <?php
+use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************
@@ -12,7 +14,6 @@ return [
         'delete' => 'deleted',
         'default_sortby' => 'ORDER BY uid',
         'treeParentField' => 'parent_category',
-        'dividers2tabs' => true,
         'enablecolumns' => [
             'disabled' => 'hidden',
             'starttime' => 'starttime',
@@ -106,18 +107,16 @@ return [
                 'type' => 'select',
                 'foreign_table' => 'tt_news_cat',
                 'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
-                'size' => 10,
-                'autoSizeMax' => 50,
+                'size' => 50,
                 'minitems' => 0,
                 'maxitems' => 1,
                 'renderType' => 'selectTree',
                 'default' => 0,
                 'treeConfig' => [
                     'parentField' => 'parent_category',
-                    'dataProvider' => \RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
+                    'dataProvider' => NewsDatabaseTreeDataProvider::class,
                     'appearance' => [
-                        'showHeader' => true,
-                        'width' => 400
+                        'showHeader' => true
                     ],
                 ]
             ]
@@ -125,7 +124,7 @@ return [
         'image' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.image',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
                 'image',
                 [
                     'maxitems' => 1,
@@ -143,12 +142,10 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.shortcut',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => 'pages',
                 'size' => '1',
                 'maxitems' => '1',
                 'minitems' => '0',
-                'show_thumbs' => '1',
                 'default' => 0
             ]
         ],
@@ -168,12 +165,10 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.single_pid',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => 'pages',
                 'size' => '1',
                 'maxitems' => '1',
                 'minitems' => '0',
-                'show_thumbs' => '1',
                 'default' => 0
             ]
         ],
@@ -190,12 +185,7 @@ return [
 
     'types' => [
         '0' => [
-            'showitem' => '
-			--palette--;;title,parent_category,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special, image,--palette--;;shortcut,single_pid,description;;;;1-1-1,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access, hidden,starttime,endtime,fe_group,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended,
-		'
+            'showitem' => '--palette--;;title,parent_category,--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special,image,--palette--;;shortcut,single_pid,description,--palette--,--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access,hidden,starttime,endtime,fe_group,--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended'
         ],
 
     ],

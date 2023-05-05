@@ -1,5 +1,8 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Resource\File;
+use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
 // get extension confArr
 $confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'] ?? [];
 // switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
@@ -26,10 +29,8 @@ return [
         'default_sortby' => 'ORDER BY datetime DESC',
         'prependAtCopy' => $confArr['prependAtCopy'] ? $locallang_general . 'LGL.prependAtCopy' : '',
         'versioningWS' => true,
-        'versioning_followPages' => true,
         'origUid' => 't3_origuid',
         'shadowColumnsForNewPlaceholders' => 'sys_language_uid,l18n_parent,starttime,endtime,fe_group',
-        'dividers2tabs' => true,
         'useColumnsForDefaultValues' => 'type',
         'transOrigPointerField' => 'l18n_parent',
         'transOrigDiffSourceField' => 'l18n_diffsource',
@@ -134,24 +135,11 @@ return [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'wizards' => [
-                    '_PADDING' => 2,
-                    'link' => [
-                        'type' => 'popup',
-                        'title' => 'Link',
-                        'icon' => 'actions-wizard-link',
-                        'module' => [
-                            'name' => 'wizard_link',
-                            'urlParameters' => [
-                                'mode' => 'wizard'
-                            ]
-                        ],
-                        'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
-                    ]
-                ],
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'renderType' => 'inputLink',
+                'fieldControl' => ['linkPopup' => ['options' => ['title' => 'Link']]],
             ]
         ],
         'bodytext' => [
@@ -233,7 +221,7 @@ return [
             'exclude' => 1,
             'l10n_mode' => $l10n_mode_image,
             'label' => $locallang_general . 'LGL.images',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
                 'image',
                 [
                     'maxitems' => 99,
@@ -248,7 +236,7 @@ return [
                                 --palette--;;imageoverlayPalette,
                                 --palette--;;filePalette'
                             ],
-                            \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                            File::FILETYPE_IMAGE => [
                                 'showitem' => '
                                 --palette--;;newsImagePalette,
                                 --palette--;;filePalette'
@@ -321,19 +309,12 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.related',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => 'tt_news,pages',
                 'MM' => 'tt_news_related_mm',
                 'size' => '3',
                 'autoSizeMax' => 10,
                 'maxitems' => '200',
-                'minitems' => '0',
-                'show_thumbs' => '1',
-                'wizards' => [
-                    'suggest' => [
-                        'type' => 'suggest'
-                    ]
-                ]
+                'minitems' => '0'
             ]
         ],
         'keywords' => [
@@ -370,17 +351,15 @@ return [
                 'foreign_table' => 'tt_news_cat',
                 'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
                 'MM' => 'tt_news_cat_mm',
-                'size' => 10,
-                'autoSizeMax' => 20,
+                'size' => 20,
                 'minitems' => $confArr['requireCategories'] ? 1 : 0,
                 'maxitems' => 500,
                 'renderMode' => 'tree',
                 'treeConfig' => [
-                    'dataProvider' => \RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider::class,
+                    'dataProvider' => NewsDatabaseTreeDataProvider::class,
                     'parentField' => 'parent_category',
                     'appearance' => [
                         'showHeader' => true,
-                        'width' => 400,
                         'maxLevels' => 99,
                     ],
                 ]
@@ -392,19 +371,17 @@ return [
             'label' => $locallang_general . 'LGL.shortcut_page',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => 'pages',
                 'size' => '1',
                 'default' => 0,
                 'maxitems' => '1',
-                'minitems' => '0',
-                'show_thumbs' => '1'
+                'minitems' => '0'
             ]
         ],
         'news_files' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:media',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
                 'news_files',
                 [
                     'maxitems' => 999,
@@ -438,19 +415,7 @@ return [
         'sys_language_uid' => [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.language',
-            'config' => [
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'special' => 'languages',
-                'items' => [
-                    [
-                        $locallang_general . 'LGL.allLanguages',
-                        -1,
-                        'flags-multiple'
-                    ],
-                ],
-                'default' => 0,
-            ]
+            'config' => ['type' => 'language']
         ],
         'l18n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -513,6 +478,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'eval' => 'datetime',
+                'renderType' => 'inputDateTime',
             ]
         ],
     ],

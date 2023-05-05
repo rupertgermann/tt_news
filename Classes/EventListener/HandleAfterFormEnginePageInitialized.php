@@ -3,6 +3,8 @@
 namespace RG\TtNews\EventListener;
 
 
+use Doctrine\DBAL\DBALException;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent;
@@ -18,7 +20,7 @@ class HandleAfterFormEnginePageInitialized
     /**
      * @param AfterFormEnginePageInitializedEvent $event
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function __invoke(AfterFormEnginePageInitializedEvent $event): void
     {
@@ -70,7 +72,7 @@ class HandleAfterFormEnginePageInitialized
                                     FlashMessage::class,
                                     $notAllowedItemsMessage,
                                     '',
-                                    FlashMessage::WARNING
+                                    AbstractMessage::WARNING
                                 );
                                 $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
                                 $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();

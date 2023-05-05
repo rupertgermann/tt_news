@@ -1,33 +1,30 @@
 
-  # cat=basic/enable/100; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.requireCategories
+# cat=basic/enable/100; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.requireCategories
 requireCategories = 0
 
-  # cat=basic/enable/170; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.showBackEndModule
+# cat=basic/enable/170; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.showBackEndModule
 showBackEndModule = 0
 
-  # cat=basic//20; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.prependAtCopy
+# cat=basic//20; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.prependAtCopy
 prependAtCopy = 1
 
-  # cat=basic//30; type=options[title,short,author]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label
+# cat=basic//30; type=options[title,short,author]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label
 label = title
 
-  # cat=basic//40; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt
-label_alt =
+# cat=basic//40; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt
+label_alt = 
 
-  # cat=basic//45; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt2
-label_alt2 =
+# cat=basic//45; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt2
+label_alt2 = 
 
-  # cat=basic//50; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt_force
+# cat=basic//50; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt_force
 label_alt_force = 0
 
-  # cat=basic/language/130; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.l10n_mode_prefixLangTitle
+# cat=basic/language/130; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.l10n_mode_prefixLangTitle
 l10n_mode_prefixLangTitle = 1
 
-  # cat=basic/language/140; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.l10n_mode_imageExclude
+# cat=basic/language/140; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.l10n_mode_imageExclude
 l10n_mode_imageExclude = 1
 
-  # cat=basic/language/150; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.hideNewLocalizations
+# cat=basic/language/150; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.hideNewLocalizations
 hideNewLocalizations = 0
-
-
-

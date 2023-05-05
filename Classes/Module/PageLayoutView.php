@@ -14,7 +14,10 @@ namespace RG\TtNews\Module;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use TYPO3\CMS\Backend\Clipboard\Clipboard;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Context\Context;
 use Doctrine\DBAL\Driver\Statement;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -551,7 +554,7 @@ class PageLayoutView implements LoggerAwareInterface
     public $addElement_tdCssClass = [];
 
     /**
-     * @var \TYPO3\CMS\Backend\Clipboard\Clipboard
+     * @var Clipboard
      */
     protected $clipboard;
 
@@ -999,7 +1002,7 @@ class PageLayoutView implements LoggerAwareInterface
                         FlashMessage::class,
                         $this->getLanguageService()->sL('LLL:EXT:backend/Resources/Private/Language/locallang_layout.xlf:error.invalidBackendLayout'),
                         '',
-                        FlashMessage::WARNING
+                        AbstractMessage::WARNING
                     );
                     $service = GeneralUtility::makeInstance(FlashMessageService::class);
                     $queue = $service->getMessageQueueByIdentifier();
@@ -1110,7 +1113,7 @@ class PageLayoutView implements LoggerAwareInterface
                                 FlashMessage::class,
                                 $this->getLanguageService()->getLL('staleUnusedElementsWarning'),
                                 $this->getLanguageService()->getLL('staleUnusedElementsWarningTitle'),
-                                FlashMessage::WARNING
+                                AbstractMessage::WARNING
                             );
                             $service = GeneralUtility::makeInstance(FlashMessageService::class);
                             $queue = $service->getMessageQueueByIdentifier();
@@ -1813,7 +1816,7 @@ class PageLayoutView implements LoggerAwareInterface
                     break;
                 case 'shortcut':
                 case 'shortcut_mode':
-                    if ((int)$row['doktype'] === \TYPO3\CMS\Frontend\Page\PageRepository::DOKTYPE_SHORTCUT) {
+                    if ((int)$row['doktype'] === PageRepository::DOKTYPE_SHORTCUT) {
                         $theData[$field] = $this->getPagesTableFieldValue($field, $row);
                     }
                     break;
@@ -1866,7 +1869,7 @@ class PageLayoutView implements LoggerAwareInterface
             // Edit whole of column:
             if ($editParams && $this->getBackendUser()->doesUserHaveAccess($this->pageinfo, Permission::CONTENT_EDIT) && $this->getBackendUser()->checkLanguageAccess(0)) {
                 $iconsArr['edit'] = '<a href="#" onclick="'
-                    . htmlspecialchars(BackendUtility::editOnClick($editParams)) . '" title="'
+                    . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $editParams . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '" title="'
                     . htmlspecialchars($this->getLanguageService()->getLL('editColumn')) . '">'
                     . $this->iconFactory->getIcon('actions-document-open', Icon::SIZE_SMALL)->render() . '</a>';
             }
@@ -2492,8 +2495,8 @@ class PageLayoutView implements LoggerAwareInterface
             ]);
             $onClick = 'window.location.href=' . GeneralUtility::quoteJSvalue((string)$url) . ';';
         } else {
-            $onClick = BackendUtility::editOnClick('&edit[tt_content][' . $id . ']=new&defVals[tt_content][colPos]='
-                . $colPos . '&defVals[tt_content][sys_language_uid]=' . $sys_language);
+            $onClick = GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . ('&edit[tt_content][' . $id . ']=new&defVals[tt_content][colPos]='
+                . $colPos . '&defVals[tt_content][sys_language_uid]=' . $sys_language) . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'));
         }
         return $onClick;
     }
@@ -2637,7 +2640,7 @@ class PageLayoutView implements LoggerAwareInterface
     protected function initializeClipboard()
     {
         // Start clipboard
-        $this->clipboard = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Clipboard\Clipboard::class);
+        $this->clipboard = GeneralUtility::makeInstance(Clipboard::class);
 
         // Initialize - reads the clipboard content from the user session
         $this->clipboard->initializeClipboard();
@@ -2784,8 +2787,8 @@ class PageLayoutView implements LoggerAwareInterface
     {
         $enableCols = $GLOBALS['TCA'][$table]['ctrl']['enablecolumns'];
         return $enableCols['disabled'] && $row[$enableCols['disabled']]
-            || $enableCols['starttime'] && $row[$enableCols['starttime']] > $GLOBALS['EXEC_TIME']
-            || $enableCols['endtime'] && $row[$enableCols['endtime']] && $row[$enableCols['endtime']] < $GLOBALS['EXEC_TIME'];
+            || $enableCols['starttime'] && $row[$enableCols['starttime']] > GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp')
+            || $enableCols['endtime'] && $row[$enableCols['endtime']] && $row[$enableCols['endtime']] < GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp');
     }
 
     /**
@@ -2833,7 +2836,7 @@ class PageLayoutView implements LoggerAwareInterface
                 && (
                     isset($this->externalTables[$tName])
                     || $tName === 'fe_users' || $tName === 'tt_content'
-                    || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($tName)
+                    || ExtensionManagementUtility::isLoaded($tName)
                 )
             ) {
                 // Make query to count records from page:
@@ -2938,7 +2941,7 @@ class PageLayoutView implements LoggerAwareInterface
                     FlashMessage::class,
                     sprintf($this->getLanguageService()->getLL('staleTranslationWarning'), $siteLanguage->getTitle()),
                     sprintf($this->getLanguageService()->getLL('staleTranslationWarningTitle'), $siteLanguage->getTitle()),
-                    FlashMessage::WARNING
+                    AbstractMessage::WARNING
                 );
                 $service = GeneralUtility::makeInstance(FlashMessageService::class);
                 $queue = $service->getMessageQueueByIdentifier();
@@ -3307,7 +3310,7 @@ class PageLayoutView implements LoggerAwareInterface
      * @param int $pageId Page id Only used to build the search constraints, getPageIdConstraint() used for restrictions
      * @param string[] $additionalConstraints Additional part for where clause
      * @param string[] $fields Field list to select, * for all
-     * @return \TYPO3\CMS\Core\Database\Query\QueryBuilder
+     * @return QueryBuilder
      */
     public function getQueryBuilder(
         string $table,
@@ -3693,7 +3696,7 @@ class PageLayoutView implements LoggerAwareInterface
                 if ($permsEdit) {
                     $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
                     $code = '<a href="#" onclick="' . htmlspecialchars(
-                            BackendUtility::editOnClick($params, '', -1)
+                            GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))
                         ) . '" title="' . htmlspecialchars($lang->getLL('edit')) . '">' . $code . '</a>';
                 }
                 break;

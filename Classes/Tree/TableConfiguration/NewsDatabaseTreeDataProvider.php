@@ -2,6 +2,7 @@
 
 namespace RG\TtNews\Tree\TableConfiguration;
 
+use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Tree\SortedTreeNodeCollection;
@@ -28,7 +29,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      * @param int      $level
      *
      * @return NULL|TreeNodeCollection
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function getChildrenOf(TreeNode $node, $level): ?TreeNodeCollection
     {
@@ -92,14 +93,14 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
     /**
      * Builds a complete node including childs
      *
-     * @param \TYPO3\CMS\Backend\Tree\TreeNode $basicNode
-     * @param \TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode|null $parent
+     * @param TreeNode $basicNode
+     * @param DatabaseTreeNode|null $parent
      * @param int $level
-     * @return \TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode Node object
+     * @return DatabaseTreeNode Node object
      */
     protected function buildRepresentationForNode(TreeNode $basicNode, DatabaseTreeNode $parent = null, $level = 0)
     {
-        /** @var \TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode $node */
+        /** @var DatabaseTreeNode $node */
         $node = GeneralUtility::makeInstance(DatabaseTreeNode::class);
         $row = [];
         if ($basicNode->getId() == 0) {
@@ -132,7 +133,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         $node->setParentNode($parent);
         if ($basicNode->hasChildNodes()) {
             $node->setHasChildren(true);
-            /** @var \TYPO3\CMS\Backend\Tree\SortedTreeNodeCollection $childNodes */
+            /** @var SortedTreeNodeCollection $childNodes */
             $childNodes = GeneralUtility::makeInstance(SortedTreeNodeCollection::class);
             $tempNodes = [];
             foreach ($basicNode->getChildNodes() as $child) {

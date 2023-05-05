@@ -4,6 +4,7 @@
 namespace RG\TtNews\Module;
 
 
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -21,7 +22,7 @@ class LegacyBackendUtility
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         try {
             $uri = $uriBuilder->buildUriFromRoute($moduleName, $urlParameters);
-        } catch (\TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException $e) {
+        } catch (RouteNotFoundException $e) {
             $uri = $uriBuilder->buildUriFromRoutePath($moduleName, $urlParameters);
         }
         return (string)$uri;

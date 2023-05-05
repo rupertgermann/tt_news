@@ -24,7 +24,8 @@ namespace RG\TtNews\Module;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use Doctrine\DBAL\DBALException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -1018,8 +1019,7 @@ class NewsAdminModule extends BaseScriptClass
         }
         if ($this->mayUserEditCategories && (bool)$show['btn_newCategory']) {
             $params = '&edit[tt_news_cat][' . $this->storagePid . ']=new';
-            $onclick = htmlspecialchars(BackendUtility::editOnClick($params,
-                $GLOBALS['BACK_PATH'], $this->returnUrl));
+            $onclick = htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')));
             /**
              * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
              */
@@ -1081,8 +1081,7 @@ class NewsAdminModule extends BaseScriptClass
             if ($this->localCalcPerms & 2 && !empty($this->id)) {
                 // Edit
                 $params = '&edit[pages][' . $this->pageinfo['uid'] . ']=edit';
-                $buttons['edit'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::editOnClick($params,
-                    $backPath, -1)) . '" class="btn btn-default btn-sm" title="'
+                $buttons['edit'] = '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '" class="btn btn-default btn-sm" title="'
                     . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:editPage')) . '">' .
                     $this->iconFactory->getIcon('actions-page-open', Icon::SIZE_SMALL)->render() .
                     '</a>';
@@ -1173,7 +1172,7 @@ class NewsAdminModule extends BaseScriptClass
             $pidList .= ',' . $mount . ',' . $this->getSubPages($mount);
         }
 
-        $pidList = GeneralUtility::uniqueList($pidList);
+        $pidList = StringUtility::uniqueList($pidList);
         $this->pidList = ($pidList ? $pidList : 0);
     }
 
@@ -1366,7 +1365,7 @@ class NewsAdminModule extends BaseScriptClass
     {
         if ($this->useSubCategories && $this->category) {
             $subcats = Div::getSubCategories($this->category);
-            $this->selectedCategories = GeneralUtility::uniqueList($this->category . ($subcats ? ',' . $subcats : ''));
+            $this->selectedCategories = StringUtility::uniqueList($this->category . ($subcats ? ',' . $subcats : ''));
         } else {
             $this->selectedCategories = $this->category;
         }
@@ -1458,8 +1457,9 @@ class NewsAdminModule extends BaseScriptClass
         $title = '<strong>' . BackendUtility::getRecordTitle($table, $row) . '</strong>';
         $content = '<div id="newscatsmsg">' . $this->getLanguageService()->getLL('showingOnlyCat') . $title . '</div>';
 
-        if ($this->useSubCategories && ($subCats = GeneralUtility::rmFromList($this->category,
-                $this->selectedCategories))) {
+        if ($this->useSubCategories && ($subCats = implode(',', array_filter(explode(',', $this->selectedCategories), function ($item) use ($element) {
+            return $element == $item;
+        })))) {
             $scRows = Database::getInstance()->exec_SELECTgetRows('uid,title,hidden', $table,
                 'uid IN (' . $subCats . ')' . (!$this->mData['showHiddenCategories'] ? ' AND hidden=0' : ''));
             $scTitles = array();

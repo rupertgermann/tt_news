@@ -1,4 +1,5 @@
 <?php
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
 * Copyright notice
 *
@@ -86,9 +87,9 @@ function user_substPageBrowser($markerArray, $conf) {
 	$tableParams = $pObj->conf['pageBrowser.']['tableParams'];
 	$pointer = $pObj->piVars['pointer'];
 	$count = $pObj->internal['res_count'];
-	$results_at_a_time = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($pObj->internal['results_at_a_time'], 1, 1000);
-	$maxPages = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($pObj->internal['maxPages'], 1, 100);
-	$max = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange(ceil($count / $results_at_a_time), 1, $maxPages);
+	$results_at_a_time = GeneralUtility::intInRange($pObj->internal['results_at_a_time'], 1, 1000);
+	$maxPages = GeneralUtility::intInRange($pObj->internal['maxPages'], 1, 100);
+	$max = GeneralUtility::intInRange(ceil($count / $results_at_a_time), 1, $maxPages);
 	$pointer = intval($pointer);
 	$links = array();
 	// Make browse-table/links:

@@ -11,6 +11,7 @@
 
 namespace RG\TtNews\Menu;
 
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\Icon;
@@ -111,7 +112,7 @@ class ClickMenu
     protected function DB_edit($table, $uid)
     {
         $loc = 'top.content.list_frame';
-        $link = BackendUtility::getModuleUrl('record_edit', array(
+        $link = GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit', array(
             'edit[' . $table . '][' . $uid . ']' => 'edit'
         ));
         $editOnClick = 'if(' . $loc . '){' . $loc . '.location.href=' . GeneralUtility::quoteJSvalue($link . '&returnUrl=') . '+top.rawurlencode(' . $this->backRef->frameLocation(($loc . '.document')) . '.pathname+' . $this->backRef->frameLocation(($loc . '.document')) . '.search);}';
@@ -153,7 +154,7 @@ class ClickMenu
         }
 
         $loc = 'top.content.list_frame';
-        $link = BackendUtility::getModuleUrl('record_edit', $urlParameters);
+        $link = GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit', $urlParameters);
         $editOnClick = 'if(' . $loc . '){' . $loc . '.location.href=' . GeneralUtility::quoteJSvalue($link . '&returnUrl=') . '+top.rawurlencode(' . $this->backRef->frameLocation(($loc . '.document')) . '.pathname+' . $this->backRef->frameLocation(($loc . '.document')) . '.search);}';
 
         $lkey = 'new';
@@ -200,7 +201,7 @@ class ClickMenu
         $uid = $rec['_ORIG_uid'] ? $rec['_ORIG_uid'] : $rec['uid'];
         $loc = 'top.content.list_frame';
         $editOnClick = 'if(' . $loc . '){' . $loc . '.location.href=' .
-            GeneralUtility::quoteJSvalue(BackendUtility::getModuleUrl('tce_db') . '&redirect=') . '+top.rawurlencode(' .
+            GeneralUtility::quoteJSvalue(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('tce_db') . '&redirect=') . '+top.rawurlencode(' .
             $this->backRef->frameLocation($loc . '.document') . '.pathname+' . $this->backRef->frameLocation(($loc . '.document')) . '.search)+' .
             GeneralUtility::quoteJSvalue(
                 '&data[' . $table . '][' . $uid . '][' . $flagField . ']=' . ($rec[$flagField] ? 0 : 1) . '&prErr=1&vC=' . $this->backendUser->veriCode()
@@ -229,7 +230,7 @@ class ClickMenu
     {
         $loc = 'top.content.list_frame';
         $jsCode = $loc . '.location.href='
-            . GeneralUtility::quoteJSvalue(BackendUtility::getModuleUrl('tce_db') . '&redirect=')
+            . GeneralUtility::quoteJSvalue(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('tce_db') . '&redirect=')
             . '+top.rawurlencode(' . $this->backRef->frameLocation($loc . '.document') . '.pathname+'
             . $this->backRef->frameLocation($loc . '.document') . '.search)+'
             . GeneralUtility::quoteJSvalue(

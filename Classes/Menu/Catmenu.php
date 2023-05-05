@@ -27,7 +27,7 @@ namespace RG\TtNews\Menu;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Plugin\TtNews;
@@ -64,7 +64,7 @@ class Catmenu
     /**
      * @param TtNews $pObj
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function init(&$pObj)
     {
@@ -140,7 +140,7 @@ class Catmenu
      * @param array $params
      *
      * @return string
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function ajaxExpandCollapse($params)
     {
@@ -156,7 +156,7 @@ class Catmenu
      * @param array $params
      *
      * @return array
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function initAjaxEnv($params)
     {

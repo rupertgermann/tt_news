@@ -9,6 +9,7 @@
 namespace RG\TtNews\Tree;
 
 
+use TYPO3\CMS\Core\Context\Context;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -71,14 +72,14 @@ class FeTreeView extends Categorytree
             $GLOBALS['TSFE']->linkVars = '&L=' . $L;
         }
 
-        if ($GLOBALS['TSFE']->sys_language_content && $row['uid']) {
+        if (GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'contentId') && $row['uid']) {
             // get translations of category titles
             $catTitleArr = GeneralUtility::trimExplode('|', $row['title_lang_ol']);
-            $syslang = $GLOBALS['TSFE']->sys_language_content - 1;
+            $syslang = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'contentId') - 1;
             $title = $catTitleArr[$syslang] ? $catTitleArr[$syslang] : $title;
         }
         $piVars = &$this->tt_news_obj->piVars;
-        $pTmp = $GLOBALS['TSFE']->ATagParams;
+        $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
         if ($newsConf['displayCatMenu.']['insertDescrAsTitle']) {
             $GLOBALS['TSFE']->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $row['description'] . '"';
         }

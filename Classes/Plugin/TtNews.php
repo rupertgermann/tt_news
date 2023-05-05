@@ -28,7 +28,8 @@ namespace RG\TtNews\Plugin;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\ResultStatement;
 use RG\TtNews\Menu\Catmenu;
@@ -526,10 +527,10 @@ class TtNews extends AbstractPlugin
         $this->pi_loadLL('EXT:tt_news/Resources/Private/Language/Plugin/locallang_pi.xlf'); // Loading language-labels
         $this->pi_setPiVarDefaults(); // Set default piVars from TS
 
-        $this->SIM_ACCESS_TIME = $GLOBALS['SIM_ACCESS_TIME'];
+        $this->SIM_ACCESS_TIME = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp');
         // fallback for TYPO3 < 4.2
         if (!$this->SIM_ACCESS_TIME) {
-            $simTime = $GLOBALS['SIM_EXEC_TIME'];
+            $simTime = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp');
             $this->SIM_ACCESS_TIME = $simTime - ($simTime % 60);
         }
 
@@ -544,7 +545,7 @@ class TtNews extends AbstractPlugin
 
         $this->token = md5(microtime());
 
-        if (ExtensionManagementUtility::isLoaded('version')) {
+        if (ExtensionManagementUtility::isLoaded('workspaces')) {
             $this->versioningEnabled = true;
         }
         // load available syslanguages
@@ -1178,7 +1179,7 @@ class TtNews extends AbstractPlugin
 
         $itemsOut = '';
         $itempartsCount = count($itemparts);
-        $pTmp = $this->tsfe->ATagParams;
+        $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
         $cc = 0;
 
         $piVarsArray = array(
@@ -1918,7 +1919,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($row['title'] && $this->isRenderMarker('###NEWS_TITLE###')) {
-            $markerArray['###NEWS_TITLE###'] = $this->local_cObj->stdWrap($row['title'], $lConf['title_stdWrap.']);
+            $markerArray['###NEWS_TITLE###'] = $this->local_cObj->stdWrap($row['title'], $lConf['title_stdWrap.'] ?? []);
         }
         if ($row['author'] && $this->isRenderMarker('###NEWS_AUTHOR###')) {
             $newsAuthor = $this->local_cObj->stdWrap($row['author'] ? $this->local_cObj->stdWrap($this->pi_getLL('preAuthor'),
@@ -1951,8 +1952,7 @@ class TtNews extends AbstractPlugin
                 $lConf['subheader_stdWrap.']));
         }
         if ($row['keywords'] && $this->isRenderMarker('###NEWS_KEYWORDS###')) {
-            $markerArray['###NEWS_KEYWORDS###'] = $this->local_cObj->stdWrap($row['keywords'],
-                $lConf['keywords_stdWrap.']);
+            $markerArray['###NEWS_KEYWORDS###'] = $this->local_cObj->stdWrap($row['keywords'], $lConf['keywords_stdWrap.'] ?? []);
         }
 
         if (!($this->piVars[$this->config['singleViewPointerName']] ?? false) && $textRenderObj == 'displaySingle') {
@@ -1979,8 +1979,7 @@ class TtNews extends AbstractPlugin
                         '', $row['bodytext']), $lConf['content_stdWrap.']));
                 }
             } else {
-                $newscontent = $this->formatStr($this->local_cObj->stdWrap($row['bodytext'],
-                    $lConf['content_stdWrap.']));
+                $newscontent = $this->formatStr($this->local_cObj->stdWrap($row['bodytext'], $lConf['content_stdWrap.'] ?? []));
             }
             if ($this->conf['appendSViewPBtoContent']) {
                 $newscontent = $newscontent . $sViewPagebrowser;
@@ -2027,11 +2026,10 @@ class TtNews extends AbstractPlugin
         $newsLinks = false;
         $links = trim($row['links']);
         if ($links && ($this->isRenderMarker('###TEXT_LINKS###') || $this->isRenderMarker('###NEWS_LINKS###'))) {
-            $links_stdWrap = GeneralUtility::trimExplode('|', $lConf['links_stdWrap.']['wrap']);
-            $newsLinks = $this->local_cObj->stdWrap($this->formatStr($row['links']), $lConf['linksItem_stdWrap.']);
-            $markerArray['###TEXT_LINKS###'] = $links_stdWrap[0] . $this->local_cObj->stdWrap($this->pi_getLL('textLinks'),
-                    $lConf['linksHeader_stdWrap.']);
-            $markerArray['###NEWS_LINKS###'] = $newsLinks . $links_stdWrap[1];
+            $links_stdWrap = GeneralUtility::trimExplode('|', $lConf['links_stdWrap.']['wrap'] ?? '');
+            $newsLinks = $this->local_cObj->stdWrap($this->formatStr($row['links']), $lConf['linksItem_stdWrap.'] ?? []);
+            $markerArray['###TEXT_LINKS###'] = $links_stdWrap[0] . $this->local_cObj->stdWrap($this->pi_getLL('textLinks'), $lConf['linksHeader_stdWrap.'] ?? []);
+            $markerArray['###NEWS_LINKS###'] = $newsLinks ?? [] . $links_stdWrap[1] ?? '';
         }
         // filelinks
         if ($row['news_files'] && ($this->isRenderMarker('###TEXT_FILES###') || $this->isRenderMarker('###FILE_LINK###') || $this->theCode == 'XML')) {
@@ -2048,10 +2046,9 @@ class TtNews extends AbstractPlugin
 
         // the markers: ###ADDINFO_WRAP_B### and ###ADDINFO_WRAP_E### are only inserted, if there are any files, related news or links
         if ($relatedNews || $newsLinks || ($markerArray['###FILE_LINK###'] ?? false) || ($markerArray['###NEWS_RELATEDBYCATEGORY###'] ?? false)) {
-            $addInfo_stdWrap = GeneralUtility::trimExplode('|',
-                $lConf['addInfo_stdWrap.']['wrap']);
-            $markerArray['###ADDINFO_WRAP_B###'] = $addInfo_stdWrap[0];
-            $markerArray['###ADDINFO_WRAP_E###'] = $addInfo_stdWrap[1];
+            $addInfo_stdWrap = GeneralUtility::trimExplode('|', $lConf['addInfo_stdWrap.']['wrap'] ?? '');
+            $markerArray['###ADDINFO_WRAP_B###'] = $addInfo_stdWrap[0] ?? '';
+            $markerArray['###ADDINFO_WRAP_E###'] = $addInfo_stdWrap[1] ?? '';
         }
 
         // Page fields:
@@ -2063,12 +2060,10 @@ class TtNews extends AbstractPlugin
             $markerArray['###PAGE_TITLE###'] = $this->getPageArrayEntry($row['pid'], 'title');
         }
         if ($this->isRenderMarker('###PAGE_AUTHOR###')) {
-            $markerArray['###PAGE_AUTHOR###'] = $this->local_cObj->stdWrap($this->getPageArrayEntry($row['pid'],
-                'author'), $lConf['author_stdWrap.']);
+            $markerArray['###PAGE_AUTHOR###'] = $this->local_cObj->stdWrap($this->getPageArrayEntry($row['pid'], 'author'), $lConf['author_stdWrap.'] ?? []);
         }
         if ($this->isRenderMarker('###PAGE_AUTHOR_EMAIL###')) {
-            $markerArray['###PAGE_AUTHOR_EMAIL###'] = $this->local_cObj->stdWrap($this->getPageArrayEntry($row['pid'],
-                'author_email'), $lConf['email_stdWrap.']);
+            $markerArray['###PAGE_AUTHOR_EMAIL###'] = $this->local_cObj->stdWrap($this->getPageArrayEntry($row['pid'], 'author_email'), $lConf['email_stdWrap.'] ?? []);
         }
 
         // XML
@@ -2369,7 +2364,7 @@ class TtNews extends AbstractPlugin
     protected function getPrevNextLink($rec, $lConf, $p = 'prev')
     {
         $title = $rec['title'];
-        $pTmp = $this->tsfe->ATagParams;
+        $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
         $this->tsfe->ATagParams = $pTmp . ' title="' . $this->local_cObj->stdWrap(trim(htmlspecialchars($title)),
                 $lConf[$p . 'LinkTitle_stdWrap.']) . '"';
         $link = $this->getSingleViewLink($this->tsfe->id, $rec, array());
@@ -2428,7 +2423,7 @@ class TtNews extends AbstractPlugin
     protected function getCatMarkerArray($markerArray, $row, $lConf)
     {
 
-        $pTmp = $this->tsfe->ATagParams;
+        $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
         if (count($this->categories[$row['uid']]) && ($this->config['catImageMode'] || $this->config['catTextMode'])) {
             // wrap for all categories
             $cat_stdWrap = GeneralUtility::trimExplode('|',
@@ -2459,7 +2454,7 @@ class TtNews extends AbstractPlugin
                 } elseif ($this->config['catTextMode'] == 2) {
                     // link to category shortcut
                     $news_category[] = $this->local_cObj->stdWrap($this->pi_linkToPage($catTitle, $val['shortcut'],
-                        $val['shortcut_target']), $lConf[$titleWrap]);
+                        $val['shortcut_target']), $lConf[$titleWrap] ?? false);
                 } elseif ($this->config['catTextMode'] == 3) {
                     // act as category selector
 
@@ -2962,7 +2957,7 @@ class TtNews extends AbstractPlugin
 
         $catRootline = '';
         if (is_array($categoryArray)) {
-            $pTmp = $this->tsfe->ATagParams;
+            $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
             $lConf = $this->conf['catRootline.'];
             if ($this->conf['catSelectorTargetPid']) {
                 $catSelLinkParams = $this->conf['catSelectorTargetPid'];
@@ -3059,7 +3054,7 @@ class TtNews extends AbstractPlugin
                         }
                         // if (!$title) $title = $val;
                         $catSelLinkParams = ($this->conf['catSelectorTargetPid'] ? ($this->conf['itemLinkTarget'] ? $this->conf['catSelectorTargetPid'] . ' ' . $this->conf['itemLinkTarget'] : $this->conf['catSelectorTargetPid']) : $this->tsfe->id);
-                        $pTmp = $this->tsfe->ATagParams;
+                        $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
                         if ($this->conf['displayCatMenu.']['insertDescrAsTitle']) {
                             $this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $array_in['description'] . '"';
                         }
@@ -3548,7 +3543,7 @@ class TtNews extends AbstractPlugin
         }
 
         // promoting TYPO3 in atom feeds, supress the subversion
-        $version = explode('.', (\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version()));
+        $version = explode('.', (VersionNumberUtility::getCurrentTypo3Version()));
         unset($version[2]);
         $markerArray['###TYPO3_VERSION###'] = implode('.', $version);
 
@@ -3836,7 +3831,7 @@ class TtNews extends AbstractPlugin
      * @param $table
      *
      * @return string
-     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
+     * @throws AspectNotFoundException
      */
     public function getEnableFields($table)
     {
