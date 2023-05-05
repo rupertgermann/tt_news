@@ -1112,13 +1112,6 @@ class TtNews extends AbstractPlugin
             $this->pi_lowerThan = $highestVal + 1;
         }
 
-
-        // hotfix AbstractPlugin not php8.1 compatible
-        // https://review.typo3.org/c/Packages/TYPO3.CMS/+/76642
-        if (!isset($this->piVars[$pointerName])) {
-            $this->piVars[$pointerName] = 0;
-        }
-        // end hotfix
         // render pagebrowser
         $markerArray['###BROWSE_LINKS###'] = $this->pi_list_browseresults($pbConf['showResultCount'],
             $pbConf['tableParams'] ?? null, $wrapArr, $pointerName, $pbConf['hscText']);
@@ -4572,12 +4565,6 @@ class TtNews extends AbstractPlugin
 
         $piVarsArray['tt_news'] = $row['uid'];
 
-        // hotfix AbstractPlugin not php8.1 compatible
-        // https://review.typo3.org/c/Packages/TYPO3.CMS/+/76598
-        if (!isset($this->conf['parent.']['addParams'])) {
-            $this->conf['parent.']['addParams'] = '';
-        }
-        // end hotfix
         $linkWrap = explode($this->token,
             $this->pi_linkTP_keepPIvars($this->token, $piVarsArray, $this->allowCaching, $this->conf['dontUseBackPid'],
                 $singlePid));
