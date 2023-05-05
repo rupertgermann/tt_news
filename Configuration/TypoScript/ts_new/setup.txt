@@ -882,31 +882,33 @@ tt_news.displayCurrentRecord = 1
 
 
 [{$plugin.tt_news.noIconsInRelatedNews} == 1]
-plugin.tt_news.getRelatedCObject.10.default.5 >
-plugin.tt_news.getRelatedCObject.10.1.5 >
-plugin.tt_news.getRelatedCObject.10.2.5 >
-[global]
-[]
-plugin.tt_news.archiveTitleCObject.10.strftime = %Y
-[global]
+    plugin.tt_news.getRelatedCObject.10.default.5 >
+    plugin.tt_news.getRelatedCObject.10.1.5 >
+    plugin.tt_news.getRelatedCObject.10.2.5 >
+[end]
+
+["{$plugin.tt_news.archiveMode}" == "year"]
+    plugin.tt_news.archiveTitleCObject.10.strftime = %Y
+[end]
+
 ["{$plugin.tt_news.archiveMode}" == "quarter"]
-plugin.tt_news.archiveTitleCObject >
-plugin.tt_news.archiveTitleCObject = COA
-plugin.tt_news.archiveTitleCObject {
-    10 = COA
-    10 {
-        10 = TEXT
+    plugin.tt_news.archiveTitleCObject >
+    plugin.tt_news.archiveTitleCObject = COA
+    plugin.tt_news.archiveTitleCObject {
+        10 = COA
         10 {
-            field = start
-            strftime = %b -&nbsp;
-            wrap = 
-        }
-        11 = TEXT
-        11 {
-            field = stop
-            strftime = %b %Y
-            wrap = 
+            10 = TEXT
+            10 {
+                field = start
+                strftime = %b -&nbsp;
+                wrap =
+            }
+            11 = TEXT
+            11 {
+                field = stop
+                strftime = %b %Y
+                wrap =
+            }
         }
     }
-}
-[global]
+[end]
