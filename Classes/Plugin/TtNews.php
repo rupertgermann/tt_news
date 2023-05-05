@@ -2022,7 +2022,7 @@ class TtNews extends AbstractPlugin
         if ($row['author_email'] && $this->isRenderMarker('###NEWS_EMAIL###')) {
             $markerArray['###NEWS_EMAIL###'] = $this->local_cObj->stdWrap(
                 $row['author_email'],
-                $lConf['email_stdWrap.']
+                $lConf['email_stdWrap.'] ?? []
             );
         }
 
@@ -2518,7 +2518,7 @@ class TtNews extends AbstractPlugin
     {
         $row = $this->db->exec_SELECTgetSingleRow(
             'tt_news.uid, tt_news.title, tt_news.' . $fN . ($fN == 'datetime' ? '' : ', tt_news.datetime'),
-            'tt_news' . ($selectConf['leftjoin'] ? ' LEFT JOIN ' . $selectConf['leftjoin'] : ''),
+            'tt_news' . ($selectConf['leftjoin'] ?? [] ? ' LEFT JOIN ' . $selectConf['leftjoin'] : ''),
             $selectConf['where'] . ' AND tt_news.' . $fN . ($getPrev ? '<' : '>') . '"' . $fV . '"',
             '',
             'tt_news.' . $fN . ($getPrev ? ' DESC' : ' ASC')
@@ -2854,7 +2854,7 @@ class TtNews extends AbstractPlugin
                     $markerArray['###NEWS_IMAGE###'] = $this->local_cObj->wrap($theImgCode, $lConf['imageWrapIfAny'] ?? false);
                 } else {
                     $markerArray['###NEWS_IMAGE###'] = $this->local_cObj->stdWrap(
-                        $markerArray['###NEWS_IMAGE###'],
+                        $markerArray['###NEWS_IMAGE###'] ?? null,
                         $lConf['image.']['noImage_stdWrap.'] ?? null
                     );
                 }
@@ -2976,7 +2976,7 @@ class TtNews extends AbstractPlugin
                 $m = '';
             }
             $markerArray['###' . $marker . $m . '###'] = $this->local_cObj->stdWrap(
-                $markerArray['###' . $marker . $m . '###'],
+                $markerArray['###' . $marker . $m . '###'] ?? '',
                 $lConf['image.']['noImage_stdWrap.'] ?? []
             );
         }
@@ -3222,7 +3222,7 @@ class TtNews extends AbstractPlugin
                             $this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $array_in['description'] . '"';
                         }
                         if ($array_in['uid']) {
-                            if ($this->piVars['cat'] == $array_in['uid']) {
+                            if ($this->piVars['cat'] ?? '' == $array_in['uid']) {
                                 $result .= $this->local_cObj->stdWrap(
                                     $this->pi_linkTP_keepPIvars(
                                     $val,
