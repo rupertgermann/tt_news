@@ -3003,12 +3003,18 @@ class TtNews extends AbstractPlugin
             if (is_array($theRowArray)) {
                 krsort($theRowArray);
                 foreach ($theRowArray as $val) {
-                    if ($lConf['linkTitles'] && GeneralUtility::inList('2,3',
-                            $this->config['catTextMode'])) {
-                        $this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $val['title'] . '"';
-                        $output = $this->handleCatTextMode($val, $catSelLinkParams, $lConf, $output);
+                    $catTitle = '';
+                    if ($this->sys_language_content) {
+                        // find translations of category titles
+                        $catTitleArr = GeneralUtility::trimExplode('|', $val['title_lang_ol']);
+                        $catTitle = $catTitleArr[($this->sys_language_content - 1)];
+                    }
+                    $catTitle = $catTitle ? $catTitle : $val['title'];
+                    if ($lConf['linkTitles'] && GeneralUtility::inList('2,3', $this->config['catTextMode'])) {
+                        $this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $catTitle . '"';
+                        $output = $this->handleCatTextMode($val, $catSelLinkParams, $catTitle, $lConf, $output);
                     } else {
-                        $output[] = $this->local_cObj->stdWrap($val['title'], $lConf['title_stdWrap.']);
+                        $output[] = $this->local_cObj->stdWrap($catTitle, $lConf['title_stdWrap.']);
                     }
                 }
             }
@@ -4648,19 +4654,19 @@ class TtNews extends AbstractPlugin
      *
      * @return array
      */
-    protected function handleCatTextMode($val, $catSelLinkParams, $lConf, $output)
+    protected function handleCatTextMode($val, $catSelLinkParams, $catTitle, $lConf, $output)
     {
         if ($this->config['catTextMode'] == 2) {
             // link to category shortcut
             $target = ($val['shortcut'] ? $val['shortcut_target'] : '');
             $pageID = ($val['shortcut'] ? $val['shortcut'] : $catSelLinkParams);
-            $linkedTitle = $this->pi_linkToPage($val['title'], $pageID, $target);
+            $linkedTitle = $this->pi_linkToPage($catTitle, $pageID, $target);
             $output[] = $this->local_cObj->stdWrap($linkedTitle, $lConf['title_stdWrap.']);
 
             return $output;
         } elseif ($this->config['catTextMode'] == 3) {
             if ($this->conf['useHRDates']) {
-                $output[] = $this->local_cObj->stdWrap($this->pi_linkTP_keepPIvars($val['title'], array(
+                $output[] = $this->local_cObj->stdWrap($this->pi_linkTP_keepPIvars($catTitle, array(
                     'cat' => $val['uid'],
                     'year' => ($this->piVars['year'] ? $this->piVars['year'] : null),
                     'month' => ($this->piVars['month'] ? $this->piVars['month'] : null),
@@ -4671,7 +4677,7 @@ class TtNews extends AbstractPlugin
 
                 return $output;
             } else {
-                $output[] = $this->local_cObj->stdWrap($this->pi_linkTP_keepPIvars($val['title'], array(
+                $output[] = $this->local_cObj->stdWrap($this->pi_linkTP_keepPIvars($catTitle, array(
                     'cat' => $val['uid'],
                     'backPid' => null,
                     'tt_news' => null,
@@ -4685,6 +4691,3 @@ class TtNews extends AbstractPlugin
         return $output;
     }
 }
-
-
-
