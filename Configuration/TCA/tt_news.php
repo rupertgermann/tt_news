@@ -1,8 +1,9 @@
 <?php
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Resource\File;
 use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 // get extension confArr
 $confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'] ?? [];
 // switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
@@ -56,11 +57,11 @@ return [
             '0' => 'tt-news',
             '1' => 'tt-news-article',
             '2' => 'tt-news-exturl',
-            'default' => 'tt-news'
+            'default' => 'tt-news',
         ],
         'thumbnail' => 'image',
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/ext_icon.gif',
-        'searchFields' => 'uid,title,short,bodytext'
+        'searchFields' => 'uid,title,short,bodytext',
     ],
     'columns' => [
         'starttime' => [
@@ -75,7 +76,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'endtime' => [
             'exclude' => 1,
@@ -89,15 +90,15 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'hidden' => [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.hidden',
             'config' => [
                 'type' => 'check',
-                'default' => '1'
-            ]
+                'default' => '1',
+            ],
         ],
         'fe_group' => [
             'exclude' => 1,
@@ -110,7 +111,7 @@ return [
                 'items' => [
                     [$locallang_general . 'LGL.hide_at_login', -1],
                     [$locallang_general . 'LGL.any_login', -2],
-                    [$locallang_general . 'LGL.usergroups', '--div--']
+                    [$locallang_general . 'LGL.usergroups', '--div--'],
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
@@ -118,7 +119,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'title' => [
             'label' => $locallang_general . 'LGL.title',
@@ -126,8 +127,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => '40',
-                'max' => '256'
-            ]
+                'max' => '256',
+            ],
         ],
         'ext_url' => [
             'label' => $locallang_general . 'LGL.external',
@@ -140,7 +141,7 @@ return [
                 ],
                 'renderType' => 'inputLink',
                 'fieldControl' => ['linkPopup' => ['options' => ['title' => 'Link']]],
-            ]
+            ],
         ],
         'bodytext' => [
             'label' => $locallang_general . 'LGL.text',
@@ -152,7 +153,7 @@ return [
                 'softref' => 'typolink_tag,email[subst],url',
                 'enableRichtext' => true,
                 'richtextConfiguration' => 'default',
-            ]
+            ],
         ],
         'no_auto_pb' => [
             'exclude' => 1,
@@ -162,7 +163,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'short' => [
             'exclude' => 1,
@@ -171,8 +172,8 @@ return [
             'config' => [
                 'type' => 'text',
                 'cols' => '40',
-                'rows' => '3'
-            ]
+                'rows' => '3',
+            ],
         ],
         'type' => [
             'exclude' => 1,
@@ -183,10 +184,10 @@ return [
                 'items' => [
                     ['LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.0', 0],
                     ['LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.1', 1],
-                    ['LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.2', 2]
+                    ['LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.2', 2],
                 ],
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'datetime' => [
             'exclude' => 1,
@@ -199,7 +200,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'archivedate' => [
             'exclude' => 1,
@@ -210,12 +211,12 @@ return [
                 'eval' => 'date,int',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038)
+                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
                 ],
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'image' => [
             'exclude' => 1,
@@ -227,25 +228,25 @@ return [
                     'maxitems' => 99,
                     'minitems' => 0,
                     'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     ],
                     'overrideChildTca' => [
                         'types' => [
                             '0' => [
                                 'showitem' => '
                                 --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             File::FILETYPE_IMAGE => [
                                 'showitem' => '
                                 --palette--;;newsImagePalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                         ],
                     ],
                 ],
                 $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-            )
+            ),
         ],
         'imagecaption' => [
             'exclude' => 1,
@@ -254,8 +255,8 @@ return [
             'config' => [
                 'type' => 'text',
                 'cols' => '30',
-                'rows' => '3'
-            ]
+                'rows' => '3',
+            ],
         ],
         'imagealttext' => [
             'exclude' => 1,
@@ -264,8 +265,8 @@ return [
             'config' => [
                 'type' => 'text',
                 'cols' => '20',
-                'rows' => '3'
-            ]
+                'rows' => '3',
+            ],
         ],
         'imagetitletext' => [
             'exclude' => 1,
@@ -274,8 +275,8 @@ return [
             'config' => [
                 'type' => 'text',
                 'cols' => '20',
-                'rows' => '3'
-            ]
+                'rows' => '3',
+            ],
         ],
         'author' => [
             'exclude' => 1,
@@ -288,7 +289,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'author_email' => [
             'exclude' => 1,
@@ -301,7 +302,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'related' => [
             'exclude' => 1,
@@ -314,8 +315,8 @@ return [
                 'size' => '3',
                 'autoSizeMax' => 10,
                 'maxitems' => '200',
-                'minitems' => '0'
-            ]
+                'minitems' => '0',
+            ],
         ],
         'keywords' => [
             'exclude' => 1,
@@ -327,7 +328,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'links' => [
             'exclude' => 1,
@@ -339,7 +340,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'category' => [
             'exclude' => 1,
@@ -362,8 +363,8 @@ return [
                         'showHeader' => true,
                         'maxLevels' => 99,
                     ],
-                ]
-            ]
+                ],
+            ],
         ],
         'page' => [
             'exclude' => 1,
@@ -375,8 +376,8 @@ return [
                 'size' => '1',
                 'default' => 0,
                 'maxitems' => '1',
-                'minitems' => '0'
-            ]
+                'minitems' => '0',
+            ],
         ],
         'news_files' => [
             'exclude' => 1,
@@ -387,10 +388,12 @@ return [
                     'maxitems' => 999,
                     'minitems' => 0,
                     'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     ],
                 ],
-                '', 'php,php3')
+                '',
+                'php,php3'
+            ),
         ],
         'slug' =>  [
             'exclude' => true,
@@ -409,13 +412,13 @@ return [
                 ],
                 'fallbackCharacter' => '-',
                 'eval' => 'uniqueInSite',
-                'default' => ''
-            ]
+                'default' => '',
+            ],
         ],
         'sys_language_uid' => [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.language',
-            'config' => ['type' => 'language']
+            'config' => ['type' => 'language'],
         ],
         'l18n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
@@ -429,20 +432,20 @@ return [
                 ],
                 'foreign_table' => 'tt_news',
                 'foreign_table_where' => 'AND tt_news.pid=###CURRENT_PID### AND tt_news.sys_language_uid IN (-1,0)',
-            ]
+            ],
         ],
         'l18n_diffsource' => [
             'config' => [
-                'type' => 'passthrough'
-            ]
+                'type' => 'passthrough',
+            ],
         ],
         't3ver_label' => [
             'displayCond' => 'FIELD:t3ver_label:REQ:true',
             'label' => $locallang_general . 'LGL.versionLabel',
             'config' => [
                 'type' => 'none',
-                'cols' => 27
-            ]
+                'cols' => 27,
+            ],
         ],
 
         'editlock' => [
@@ -453,9 +456,8 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
-
 
         /**
          * The following fields have to be configured here to get them processed by the listview in the tt_news BE module
@@ -464,14 +466,14 @@ return [
         'uid' => [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.uid',
             'config' => [
-                'type' => 'none'
-            ]
+                'type' => 'none',
+            ],
         ],
         'pid' => [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pid',
             'config' => [
-                'type' => 'none'
-            ]
+                'type' => 'none',
+            ],
         ],
         'tstamp' => [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tstamp',
@@ -479,7 +481,7 @@ return [
                 'type' => 'input',
                 'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
-            ]
+            ],
         ],
     ],
     'types' => [
@@ -491,7 +493,7 @@ return [
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.catAndRels, category,related,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended,
-			'
+			',
         ],
 
         '1' => [
@@ -502,7 +504,7 @@ return [
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.categories, category,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended,
-			'
+			',
         ],
 
         '2' => [
@@ -513,20 +515,20 @@ return [
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.categories, category,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended,
-			'
-        ]
+			',
+        ],
     ],
     'palettes' => [
         '2' => ['showitem' => 'no_auto_pb'],
 
         'author' => [
-            'showitem' => 'author,author_email'
+            'showitem' => 'author,author_email',
         ],
         'language' => [
-            'showitem' => 'sys_language_uid,--linebreak--,t3ver_label,l18n_parent'
+            'showitem' => 'sys_language_uid,--linebreak--,t3ver_label,l18n_parent',
         ],
         'imagetexts' => [
-            'showitem' => 'imagecaption,--linebreak--,imagealttext,imagetitletext'
+            'showitem' => 'imagecaption,--linebreak--,imagealttext,imagetitletext',
         ],
-    ]
+    ],
 ];

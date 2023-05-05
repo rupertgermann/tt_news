@@ -1,4 +1,5 @@
 <?php
+
 // TCA definition for field tt_news_categorymounts in be_users and be_groups
 return [
     'exclude' => 1,
@@ -19,8 +20,8 @@ return [
             'parentField' => 'parent_category',
             'appearance' => [
                 'showHeader' => true,
-                'width' => 400
-            ]
-        ]
-    ]
+                'width' => 400,
+            ],
+        ],
+    ],
 ];

@@ -14,13 +14,10 @@ namespace RG\TtNews\Module;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use TYPO3\CMS\Backend\Clipboard\Clipboard;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
-use TYPO3\CMS\Core\Domain\Repository\PageRepository;
-use TYPO3\CMS\Core\Context\Context;
 use Doctrine\DBAL\Driver\Statement;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use TYPO3\CMS\Backend\Clipboard\Clipboard;
 use TYPO3\CMS\Backend\Configuration\TranslationConfigurationProvider;
 use TYPO3\CMS\Backend\Controller\Page\LocalizationController;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
@@ -28,6 +25,7 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Tree\View\PageTreeView;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -35,10 +33,12 @@ use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Database\Query\Restriction\BackendWorkspaceRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\ReferenceIndex;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -153,7 +153,7 @@ class PageLayoutView implements LoggerAwareInterface
         'sys_language_uid' => 0,
         // Which language
         'cols' => '1,0,2,3',
-        'activeCols' => '1,0,2,3'
+        'activeCols' => '1,0,2,3',
         // Which columns can be accessed by current BE user
     ];
 
@@ -170,7 +170,7 @@ class PageLayoutView implements LoggerAwareInterface
     public $tt_contentData = [
         'nextThree' => [],
         'prev' => [],
-        'next' => []
+        'next' => [],
     ];
 
     /**
@@ -787,11 +787,11 @@ class PageLayoutView implements LoggerAwareInterface
                     $urlParameters = [
                         'edit' => [
                             'pages' => [
-                                $editIdList => 'edit'
-                            ]
+                                $editIdList => 'edit',
+                            ],
                         ],
                         'columnsOnly' => $field,
-                        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                     ];
                     $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                     $url = (string)$uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
@@ -811,7 +811,7 @@ class PageLayoutView implements LoggerAwareInterface
                         $theData[$field] = '';
                         break;
                     default:
-                        if (strpos($field, 'table_') === 0) {
+                        if (str_starts_with($field, 'table_')) {
                             $f2 = substr($field, 6);
                             if ($GLOBALS['TCA'][$f2]) {
                                 $theData[$field] = '&nbsp;' .
@@ -953,7 +953,7 @@ class PageLayoutView implements LoggerAwareInterface
                             'sys_language_uid' => $lP,
                             'colPos' => $columnId,
                             'uid_pid' => $id,
-                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                         ];
                         $routeName = BackendUtility::getPagesTSconfig($id)['mod.']['newContentElementWizard.']['override']
                             ?? 'new_content_element_wizard';
@@ -963,16 +963,16 @@ class PageLayoutView implements LoggerAwareInterface
                         $urlParameters = [
                             'edit' => [
                                 'tt_content' => [
-                                    $id => 'new'
-                                ]
+                                    $id => 'new',
+                                ],
                             ],
                             'defVals' => [
                                 'tt_content' => [
                                     'colPos' => $columnId,
-                                    'sys_language_uid' => $lP
-                                ]
+                                    'sys_language_uid' => $lP,
+                                ],
                             ],
-                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                         ];
                         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                         $url = (string)$uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
@@ -1062,7 +1062,7 @@ class PageLayoutView implements LoggerAwareInterface
                                         'sys_language_uid' => $row['sys_language_uid'],
                                         'colPos' => $row['colPos'],
                                         'uid_pid' => -$row['uid'],
-                                        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                                        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                                     ];
                                     $routeName = BackendUtility::getPagesTSconfig($row['pid'])['mod.']['newContentElementWizard.']['override']
                                         ?? 'new_content_element_wizard';
@@ -1072,10 +1072,10 @@ class PageLayoutView implements LoggerAwareInterface
                                     $urlParameters = [
                                         'edit' => [
                                             'tt_content' => [
-                                                -$row['uid'] => 'new'
-                                            ]
+                                                -$row['uid'] => 'new',
+                                            ],
                                         ],
-                                        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                                        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                                     ];
                                     $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                                     $url = (string)$uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
@@ -1324,25 +1324,25 @@ class PageLayoutView implements LoggerAwareInterface
                     $urlParameters = [
                         'edit' => [
                             'pages' => [
-                                $pageLocalizationRecord['uid'] => 'edit'
-                            ]
+                                $pageLocalizationRecord['uid'] => 'edit',
+                            ],
                         ],
                         // Disallow manual adjustment of the language field for pages
                         'overrideVals' => [
                             'pages' => [
-                                'sys_language_uid' => $lP
-                            ]
+                                'sys_language_uid' => $lP,
+                            ],
                         ],
-                        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                     ];
                     $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                     $url = (string)$uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
                     $editLink = (
-                    $this->getBackendUser()->check('tables_modify', 'pages')
-                        ? '<a href="' . htmlspecialchars($url) . '" class="btn btn-default btn-sm"'
-                        . ' title="' . htmlspecialchars($this->getLanguageService()->getLL('edit')) . '">'
-                        . $this->iconFactory->getIcon('actions-open', Icon::SIZE_SMALL)->render() . '</a>'
-                        : ''
+                        $this->getBackendUser()->check('tables_modify', 'pages')
+                            ? '<a href="' . htmlspecialchars($url) . '" class="btn btn-default btn-sm"'
+                            . ' title="' . htmlspecialchars($this->getLanguageService()->getLL('edit')) . '">'
+                            . $this->iconFactory->getIcon('actions-open', Icon::SIZE_SMALL)->render() . '</a>'
+                            : ''
                     );
 
                     $defaultLanguageElements = [];
@@ -1376,19 +1376,19 @@ class PageLayoutView implements LoggerAwareInterface
                         $urlParameters = [
                             'edit' => [
                                 'pages' => [
-                                    $this->id => 'edit'
-                                ]
+                                    $this->id => 'edit',
+                                ],
                             ],
-                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                         ];
                         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                         $url = (string)$uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
                         $editLink = (
-                        $this->getBackendUser()->check('tables_modify', 'pages')
-                            ? '<a href="' . htmlspecialchars($url) . '" class="btn btn-default btn-sm"'
-                            . ' title="' . htmlspecialchars($this->getLanguageService()->getLL('edit')) . '">'
-                            . $this->iconFactory->getIcon('actions-open', Icon::SIZE_SMALL)->render() . '</a>'
-                            : ''
+                            $this->getBackendUser()->check('tables_modify', 'pages')
+                                ? '<a href="' . htmlspecialchars($url) . '" class="btn btn-default btn-sm"'
+                                . ' title="' . htmlspecialchars($this->getLanguageService()->getLL('edit')) . '">'
+                                . $this->iconFactory->getIcon('actions-open', Icon::SIZE_SMALL)->render() . '</a>'
+                                : ''
                         );
                     }
 
@@ -1501,10 +1501,10 @@ class PageLayoutView implements LoggerAwareInterface
             $urlParameters = [
                 'edit' => [
                     $table => [
-                        $this->id => 'new'
-                    ]
+                        $this->id => 'new',
+                    ],
                 ],
-                'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
             ];
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
             $url = (string)$uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
@@ -1535,10 +1535,10 @@ class PageLayoutView implements LoggerAwareInterface
                         $urlParameters = [
                             'edit' => [
                                 $table => [
-                                    $row['uid'] => 'edit'
-                                ]
+                                    $row['uid'] => 'edit',
+                                ],
                             ],
-                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                         ];
                         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                         $url = (string)$uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
@@ -1608,11 +1608,11 @@ class PageLayoutView implements LoggerAwareInterface
                 foreach ($theFields as $fName2) {
                     if ($GLOBALS['TCA'][$table]['columns'][$fName2]) {
                         $out[$fieldName] .= '<strong>' . htmlspecialchars($this->getLanguageService()->sL(
-                                $GLOBALS['TCA'][$table]['columns'][$fName2]['label']
-                            )) . '</strong>' . '&nbsp;&nbsp;' . htmlspecialchars(GeneralUtility::fixed_lgd_cs(
-                                BackendUtility::getProcessedValue($table, $fName2, $row[$fName2], 0, 0, 0, $row['uid']),
-                                25
-                            )) . '<br />';
+                            $GLOBALS['TCA'][$table]['columns'][$fName2]['label']
+                        )) . '</strong>' . '&nbsp;&nbsp;' . htmlspecialchars(GeneralUtility::fixed_lgd_cs(
+                            BackendUtility::getProcessedValue($table, $fName2, $row[$fName2], 0, 0, 0, $row['uid']),
+                            25
+                        )) . '<br />';
                     }
                 }
             }
@@ -1664,7 +1664,7 @@ class PageLayoutView implements LoggerAwareInterface
             'tt_content',
             $id,
             [
-                $additionalWhereClause
+                $additionalWhereClause,
             ]
         );
 
@@ -1790,10 +1790,10 @@ class PageLayoutView implements LoggerAwareInterface
                         $urlParameters = [
                             'edit' => [
                                 'pages' => [
-                                    $row['uid'] => 'edit'
-                                ]
+                                    $row['uid'] => 'edit',
+                                ],
                             ],
-                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                         ];
                         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                         $url = (string)$uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
@@ -1821,7 +1821,7 @@ class PageLayoutView implements LoggerAwareInterface
                     }
                     break;
                 default:
-                    if (strpos($field, 'table_') === 0) {
+                    if (str_starts_with($field, 'table_')) {
                         $f2 = substr($field, 6);
                         if ($GLOBALS['TCA'][$f2]) {
                             $c = $this->numberOfRecords($f2, $row['uid']);
@@ -1974,8 +1974,8 @@ class PageLayoutView implements LoggerAwareInterface
                 $urlParameters = [
                     'edit' => [
                         'tt_content' => [
-                            $this->tt_contentData['nextThree'][$row['uid']] => 'edit'
-                        ]
+                            $this->tt_contentData['nextThree'][$row['uid']] => 'edit',
+                        ],
                     ],
                     'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI') . '#element-tt_content-' . $row['uid'],
                 ];
@@ -2015,15 +2015,15 @@ class PageLayoutView implements LoggerAwareInterface
                 if (!$disableDelete) {
                     $params = '&cmd[tt_content][' . $row['uid'] . '][delete]=1';
                     $refCountMsg = BackendUtility::referenceCount(
-                            'tt_content',
-                            $row['uid'],
-                            ' ' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.referencesToRecord'),
-                            $this->getReferenceCount('tt_content', $row['uid'])
-                        ) . BackendUtility::translationCount(
-                            'tt_content',
-                            $row['uid'],
-                            ' ' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.translationsOfRecord')
-                        );
+                        'tt_content',
+                        $row['uid'],
+                        ' ' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.referencesToRecord'),
+                        $this->getReferenceCount('tt_content', $row['uid'])
+                    ) . BackendUtility::translationCount(
+                        'tt_content',
+                        $row['uid'],
+                        ' ' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.translationsOfRecord')
+                    );
                     $confirm = $this->getLanguageService()->getLL('deleteWarning')
                         . $refCountMsg;
                     $out .= '<a class="btn btn-default t3js-modal-trigger" href="' . htmlspecialchars(BackendUtility::getLinkToDataHandlerAction($params)) . '"'
@@ -2295,8 +2295,8 @@ class PageLayoutView implements LoggerAwareInterface
                         $out .= '<strong>' . $this->getLanguageService()->getLL('noPluginSelected') . '</strong>';
                     }
                     $out .= htmlspecialchars($this->getLanguageService()->sL(
-                            BackendUtility::getLabelFromItemlist('tt_content', 'pages', $row['pages'])
-                        )) . '<br />';
+                        BackendUtility::getLabelFromItemlist('tt_content', 'pages', $row['pages'])
+                    )) . '<br />';
                     break;
                 default:
                     $contentType = $this->CType_labels[$row['CType']];
@@ -2344,7 +2344,7 @@ class PageLayoutView implements LoggerAwareInterface
         $table = 'pages';
         $field = 'pages';
         // get categories instead of pages
-        if (strpos($row['menu_type'], 'categorized_') !== false) {
+        if (str_contains($row['menu_type'], 'categorized_')) {
             $table = 'sys_category';
             $field = 'selected_categories';
         }
@@ -2491,7 +2491,7 @@ class PageLayoutView implements LoggerAwareInterface
                 'colPos' => $colPos,
                 'sys_language_uid' => $sys_language,
                 'uid_pid' => $id,
-                'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
             ]);
             $onClick = 'window.location.href=' . GeneralUtility::quoteJSvalue((string)$url) . ';';
         } else {
@@ -2516,10 +2516,10 @@ class PageLayoutView implements LoggerAwareInterface
             $urlParameters = [
                 'edit' => [
                     'tt_content' => [
-                        $row['uid'] => 'edit'
-                    ]
+                        $row['uid'] => 'edit',
+                    ],
                 ],
-                'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI') . '#element-tt_content-' . $row['uid']
+                'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI') . '#element-tt_content-' . $row['uid'],
             ];
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
             $url = (string)$uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
@@ -2580,7 +2580,7 @@ class PageLayoutView implements LoggerAwareInterface
                 // which, when finished editing should return back to the current page (returnUrl)
                 $parameters = [
                     'justLocalized' => 'pages:' . $id . ':' . $languageUid,
-                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                 ];
                 $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                 $redirectUrl = (string)$uriBuilder->buildUriFromRoute('record_edit', $parameters);
@@ -3188,7 +3188,7 @@ class PageLayoutView implements LoggerAwareInterface
                 '<form action="' . htmlspecialchars(
                     $this->listURL('', '-1', 'firstElementNumber,search_field')
                 ) . '" method="post">',
-                '</form>'
+                '</form>',
             ];
         }
         // Make level selector:
@@ -3210,12 +3210,12 @@ class PageLayoutView implements LoggerAwareInterface
 
         foreach ($searchLevelItems as $kv => $label) {
             $opt[] = '<option value="' . $kv . '"' . ($kv === $this->searchLevels ? ' selected="selected"' : '') . '>' . htmlspecialchars(
-                    $label
-                ) . '</option>';
+                $label
+            ) . '</option>';
         }
         $lMenu = '<select class="form-control" name="search_levels" title="' . htmlspecialchars(
-                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.title.search_levels')
-            ) . '" id="search_levels">' . implode('', $opt) . '</select>';
+            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.title.search_levels')
+        ) . '" id="search_levels">' . implode('', $opt) . '</select>';
         // Table with the search box:
         $content = '<div class="db_list-searchbox-form db_list-searchbox-toolbar module-docheader-bar module-docheader-bar-search t3js-module-docheader-bar t3js-module-docheader-bar-search" id="db_list-searchbox-toolbar" style="display: ' . ($this->searchString == '' ? 'none' : 'block') . ';">
 			' . $formElements[0] . '
@@ -3225,39 +3225,39 @@ class PageLayoutView implements LoggerAwareInterface
                             <div class="row">
                                 <div class="form-group col-xs-12">
                                     <label for="search_field">' . htmlspecialchars(
-                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.label.searchString')
-            ) . ': </label>
+            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.label.searchString')
+        ) . ': </label>
 									<input class="form-control" type="search" placeholder="' . htmlspecialchars(
-                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString')
-            ) . '" title="' . htmlspecialchars(
-                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.title.searchString')
-            ) . '" name="search_field" id="search_field" value="' . htmlspecialchars($this->searchString) . '" />
+            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString')
+        ) . '" title="' . htmlspecialchars(
+            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.title.searchString')
+        ) . '" name="search_field" id="search_field" value="' . htmlspecialchars($this->searchString) . '" />
                                 </div>
                                 <div class="form-group col-xs-12 col-sm-6">
 									<label for="search_levels">' . htmlspecialchars(
-                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.label.search_levels')
-            ) . ': </label>
+            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.label.search_levels')
+        ) . ': </label>
 									' . $lMenu . '
                                 </div>
                                 <div class="form-group col-xs-12 col-sm-6">
 									<label for="showLimit">' . htmlspecialchars(
-                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.label.limit')
-            ) . ': </label>
+            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.label.limit')
+        ) . ': </label>
 									<input class="form-control" type="number" min="0" max="10000" placeholder="10" title="' . htmlspecialchars(
-                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.title.limit')
-            ) . '" name="showLimit" id="showLimit" value="' . htmlspecialchars(
-                ($this->showLimit ? $this->showLimit : '')
-            ) . '" />
+            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.title.limit')
+        ) . '" name="showLimit" id="showLimit" value="' . htmlspecialchars(
+            ($this->showLimit ? $this->showLimit : '')
+        ) . '" />
                                 </div>
                                 <div class="form-group col-xs-12">
                                     <div class="form-control-wrap">
                                         <button type="submit" class="btn btn-default" name="search" title="' . htmlspecialchars(
-                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.title.search')
-            ) . '">
+            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.title.search')
+        ) . '">
                                             ' . $this->iconFactory->getIcon('actions-search', Icon::SIZE_SMALL)->render(
-            ) . ' ' . htmlspecialchars(
-                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.search')
-            ) . '
+        ) . ' ' . htmlspecialchars(
+            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.search')
+        ) . '
                                         </button>
                                     </div>
                                 </div>
@@ -3363,7 +3363,7 @@ class PageLayoutView implements LoggerAwareInterface
             'groupBy' => null,
             'orderBy' => null,
             'firstResult' => $this->firstElementNumber ?: null,
-            'maxResults' => $this->iLimit ?: null
+            'maxResults' => $this->iLimit ?: null,
         ];
 
         if ($this->iLimit > 0) {
@@ -3624,7 +3624,7 @@ class PageLayoutView implements LoggerAwareInterface
                 'tableHasSearchConfiguration' => $fieldListWasSet,
                 'tableName' => $tableName,
                 'searchFields' => &$fieldArray,
-                'searchString' => $this->searchString
+                'searchString' => $this->searchString,
             ];
             GeneralUtility::callUserFunction($hookFunction, $hookParameters, $this);
         }
@@ -3643,12 +3643,12 @@ class PageLayoutView implements LoggerAwareInterface
     {
         if ($this->table !== $table) {
             return '<a href="' . htmlspecialchars(
-                    $this->listURL('', $table, 'firstElementNumber')
-                ) . '">' . $code . '</a>';
+                $this->listURL('', $table, 'firstElementNumber')
+            ) . '">' . $code . '</a>';
         }
         return '<a href="' . htmlspecialchars(
-                $this->listURL('', '', 'sortField,sortRev,table,firstElementNumber')
-            ) . '">' . $code . '</a>';
+            $this->listURL('', '', 'sortField,sortRev,table,firstElementNumber')
+        ) . '">' . $code . '</a>';
     }
 
     /**
@@ -3667,18 +3667,18 @@ class PageLayoutView implements LoggerAwareInterface
         // If the title is blank, make a "no title" label:
         if ((string)$code === '') {
             $code = '<i>[' . htmlspecialchars(
-                    $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.no_title')
-                ) . ']</i> - '
+                $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.no_title')
+            ) . ']</i> - '
                 . htmlspecialchars(BackendUtility::getRecordTitle($table, $row));
         } else {
             $code = htmlspecialchars($code, ENT_QUOTES, 'UTF-8', false);
             if ($code != htmlspecialchars($origCode)) {
                 $code = '<span title="' . htmlspecialchars(
-                        $origCode,
-                        ENT_QUOTES,
-                        'UTF-8',
-                        false
-                    ) . '">' . $code . '</span>';
+                    $origCode,
+                    ENT_QUOTES,
+                    'UTF-8',
+                    false
+                ) . '">' . $code . '</span>';
             }
         }
         switch ((string)$this->clickTitleMode) {
@@ -3696,34 +3696,34 @@ class PageLayoutView implements LoggerAwareInterface
                 if ($permsEdit) {
                     $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
                     $code = '<a href="#" onclick="' . htmlspecialchars(
-                            GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))
-                        ) . '" title="' . htmlspecialchars($lang->getLL('edit')) . '">' . $code . '</a>';
+                        GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))
+                    ) . '" title="' . htmlspecialchars($lang->getLL('edit')) . '">' . $code . '</a>';
                 }
                 break;
             case 'show':
                 // "Show" link (only pages and tt_content elements)
                 if ($table === 'pages' || $table === 'tt_content') {
                     $code = '<a href="#" onclick="' . htmlspecialchars(
-                            BackendUtility::viewOnClick(
-                                ($table === 'tt_content' ? $this->id . '#' . $row['uid'] : $row['uid'])
-                            )
-                        ) . '" title="' . htmlspecialchars(
-                            $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage')
-                        ) . '">' . $code . '</a>';
+                        BackendUtility::viewOnClick(
+                            ($table === 'tt_content' ? $this->id . '#' . $row['uid'] : $row['uid'])
+                        )
+                    ) . '" title="' . htmlspecialchars(
+                        $lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage')
+                    ) . '">' . $code . '</a>';
                 }
                 break;
             case 'info':
                 // "Info": (All records)
                 $code = '<a href="#" onclick="' . htmlspecialchars(
-                        'top.TYPO3.InfoWindow.showItem(\'' . $table . '\', \'' . $row['uid'] . '\'); return false;'
-                    ) . '" title="' . htmlspecialchars($lang->getLL('showInfo')) . '">' . $code . '</a>';
+                    'top.TYPO3.InfoWindow.showItem(\'' . $table . '\', \'' . $row['uid'] . '\'); return false;'
+                ) . '" title="' . htmlspecialchars($lang->getLL('showInfo')) . '">' . $code . '</a>';
                 break;
             default:
                 // Output the label now:
                 if ($table === 'pages') {
                     $code = '<a href="' . htmlspecialchars(
-                            $this->listURL($uid, '', 'firstElementNumber')
-                        ) . '" onclick="setHighlight(' . $uid . ')">' . $code . '</a>';
+                        $this->listURL($uid, '', 'firstElementNumber')
+                    ) . '" onclick="setHighlight(' . $uid . ')">' . $code . '</a>';
                 } else {
                     $code = $this->linkUrlMail($code, $origCode);
                 }
@@ -3836,15 +3836,15 @@ class PageLayoutView implements LoggerAwareInterface
         $fieldListArr = [];
         // Check table:
         if (is_array($GLOBALS['TCA'][$table]) && isset($GLOBALS['TCA'][$table]['columns']) && is_array(
-                $GLOBALS['TCA'][$table]['columns']
-            )) {
+            $GLOBALS['TCA'][$table]['columns']
+        )) {
             if (isset($GLOBALS['TCA'][$table]['columns']) && is_array($GLOBALS['TCA'][$table]['columns'])) {
                 // Traverse configured columns and add them to field array, if available for user.
                 foreach ($GLOBALS['TCA'][$table]['columns'] as $fN => $fieldValue) {
                     if ($dontCheckUser || (!$fieldValue['exclude'] || $backendUser->check(
-                                'non_exclude_fields',
-                                $table . ':' . $fN
-                            )) && $fieldValue['config']['type'] !== 'passthrough') {
+                        'non_exclude_fields',
+                        $table . ':' . $fN
+                    )) && $fieldValue['config']['type'] !== 'passthrough') {
                         $fieldListArr[] = $fN;
                     }
                 }
@@ -3925,7 +3925,7 @@ class PageLayoutView implements LoggerAwareInterface
                     'record_edit',
                     [
                         'edit[' . $table . '][' . $localizedRecordUid . ']' => 'edit',
-                        'returnUrl' => $url
+                        'returnUrl' => $url,
                     ]
                 );
                 HttpUtility::redirect($editUserAccountUrl);
@@ -4252,16 +4252,16 @@ class PageLayoutView implements LoggerAwareInterface
             case 'fwd':
                 $href = $this->listURL() . '&pointer=' . ($pointer - $this->iLimit) . $tParam;
                 $content = '<a href="' . htmlspecialchars($href) . '">' . $this->iconFactory->getIcon(
-                        'actions-move-up',
-                        Icon::SIZE_SMALL
-                    )->render() . '</a> <i>[' . (max(0, $pointer - $this->iLimit) + 1) . ' - ' . $pointer . ']</i>';
+                    'actions-move-up',
+                    Icon::SIZE_SMALL
+                )->render() . '</a> <i>[' . (max(0, $pointer - $this->iLimit) + 1) . ' - ' . $pointer . ']</i>';
                 break;
             case 'rwd':
                 $href = $this->listURL() . '&pointer=' . $pointer . $tParam;
                 $content = '<a href="' . htmlspecialchars($href) . '">' . $this->iconFactory->getIcon(
-                        'actions-move-down',
-                        Icon::SIZE_SMALL
-                    )->render() . '</a> <i>[' . ($pointer + 1) . ' - ' . $this->totalItems . ']</i>';
+                    'actions-move-down',
+                    Icon::SIZE_SMALL
+                )->render() . '</a> <i>[' . ($pointer + 1) . ' - ' . $this->totalItems . ']</i>';
                 break;
         }
         return $content;
@@ -4272,7 +4272,7 @@ class PageLayoutView implements LoggerAwareInterface
      */
     protected function getThisScript()
     {
-        return strpos($this->thisScript, '?') === false ? $this->thisScript . '?' : $this->thisScript . '&';
+        return !str_contains($this->thisScript, '?') ? $this->thisScript . '?' : $this->thisScript . '&';
     }
 
     /**
@@ -4351,7 +4351,7 @@ class PageLayoutView implements LoggerAwareInterface
         foreach ($this->siteLanguages as $language) {
             $this->languageIconTitles[$language->getLanguageId()] = [
                 'title' => $language->getTitle(),
-                'flagIcon' => $language->getFlagIdentifier()
+                'flagIcon' => $language->getFlagIdentifier(),
             ];
         }
     }
@@ -4371,9 +4371,9 @@ class PageLayoutView implements LoggerAwareInterface
         $title = htmlspecialchars($this->languageIconTitles[$sys_language_uid]['title']);
         if ($this->languageIconTitles[$sys_language_uid]['flagIcon']) {
             $out .= '<span title="' . $title . '">' . $this->iconFactory->getIcon(
-                    $this->languageIconTitles[$sys_language_uid]['flagIcon'],
-                    Icon::SIZE_SMALL
-                )->render() . '</span>';
+                $this->languageIconTitles[$sys_language_uid]['flagIcon'],
+                Icon::SIZE_SMALL
+            )->render() . '</span>';
             if (!$addAsAdditionalText) {
                 return $out;
             }
@@ -4430,14 +4430,14 @@ class PageLayoutView implements LoggerAwareInterface
             $htmlCode = '<a href="#"';
             if ($launchViewParameter !== '') {
                 $htmlCode .= ' onclick="' . htmlspecialchars(
-                        'top.TYPO3.InfoWindow.showItem(' . $launchViewParameter . '); return false;'
-                    ) . '"';
+                    'top.TYPO3.InfoWindow.showItem(' . $launchViewParameter . '); return false;'
+                ) . '"';
             }
             $htmlCode .= ' title="' . htmlspecialchars(
-                    $this->getLanguageService()->sL(
-                        'LLL:EXT:backend/Resources/Private/Language/locallang.xlf:show_references'
-                    ) . ' (' . $references . ')'
-                ) . '">';
+                $this->getLanguageService()->sL(
+                    'LLL:EXT:backend/Resources/Private/Language/locallang.xlf:show_references'
+                ) . ' (' . $references . ')'
+            ) . '">';
             $htmlCode .= $references;
             $htmlCode .= '</a>';
         }

@@ -8,18 +8,15 @@
 
 namespace RG\TtNews\Module;
 
-
-use TYPO3\CMS\Backend\Routing\UriBuilder;
 use RG\TtNews\Tree\Categorytree;
 use RG\TtNews\Utility\IconFactory;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class CategoryManager
- *
- * @package RG\TtNews\Module
  */
 class CategoryManager extends Categorytree
 {
@@ -56,7 +53,6 @@ class CategoryManager extends Categorytree
      */
     public $backPath;
 
-
     /**
      * @param string $icon
      * @param array  $row
@@ -69,8 +65,11 @@ class CategoryManager extends Categorytree
 
         if ($row['uid'] > 0 && !isset($row['doktype'])) {
             // no clickmenu for pages
-            $theIcon = BackendUtility::wrapClickMenuOnIcon($theIcon, 'tt_news_cat_CM',
-                $row['uid']);
+            $theIcon = BackendUtility::wrapClickMenuOnIcon(
+                $theIcon,
+                'tt_news_cat_CM',
+                $row['uid']
+            );
             $theIcon = '<span class="dragIcon" id="dragIconID_' . $row['uid'] . '">' . $theIcon . '</span>';
         } else {
             $theIcon = '<span class="dragIcon" id="dragIconID_0">' . $theIcon . '</span>';
@@ -92,7 +91,7 @@ class CategoryManager extends Categorytree
     {
         if ($v['uid'] > 0) {
             $hrefTitle = htmlentities('[id=' . $v['uid'] . '] ' . $v['description']);
-            $out = '<a href="#" class="filter-category" data-category="' . $v['uid'] . '" data-target="ttnewslist" data-pid="' . intval($this->pageID) . '" title="' . $hrefTitle . '">' . $title . '</a>';
+            $out = '<a href="#" class="filter-category" data-category="' . $v['uid'] . '" data-target="ttnewslist" data-pid="' . (int)($this->pageID) . '" title="' . $hrefTitle . '">' . $title . '</a>';
 
             // Wrap title in a drag/drop span.
             $out = '<span class="dragTitle" id="dragTitleID_' . $v['uid'] . '">' . $out . '</span>';
@@ -105,11 +104,12 @@ class CategoryManager extends Categorytree
                 $grsp = ' GRSP';
             }
             if ($this->useStoragePid) {
-                $pidLbl = sprintf($this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),
-                    $this->storagePid . $grsp);
+                $pidLbl = sprintf(
+                    $this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffix'),
+                    $this->storagePid . $grsp
+                );
             } else {
                 $pidLbl = $this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.treeSelect.pageTitleSuffixNoGrsp');
-
             }
             $pidLbl = ' <span class="typo3-dimmed"><em>' . $pidLbl . '</em></span>';
             $hrefTitle = $this->getLanguageService()->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:showAllResetSel');
@@ -121,7 +121,6 @@ class CategoryManager extends Categorytree
 
         return $out;
     }
-
 
     /**
      * Creates the control panel for a single record in the listing.
@@ -136,21 +135,25 @@ class CategoryManager extends Categorytree
         global $TCA;
 
         // Initialize:
-        $cells = array();
+        $cells = [];
         // "Edit" link: ( Only if permissions to edit the page-record of the content of the parent page ($this->id)
         if ($this->mayUserEditCategories) {
             $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
             $cells[] = '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '">' .
-                '<img' . IconFactory::skinImg('edit2' . (!$TCA[$table]['ctrl']['readOnly'] ? '' : '_d') . '.gif',
-                    'width="11" height="12"') . ' title="' . $this->getLanguageService()->getLLL('edit', $this->LL) . '" alt="" />' .
+                '<img' . IconFactory::skinImg(
+                    'edit2' . (!$TCA[$table]['ctrl']['readOnly'] ? '' : '_d') . '.gif',
+                    'width="11" height="12"'
+                ) . ' title="' . $this->getLanguageService()->getLLL('edit', $this->LL) . '" alt="" />' .
                 '</a>';
         }
 
         // "Hide/Unhide" links:
         $hiddenField = $TCA[$table]['ctrl']['enablecolumns']['disabled'];
         if ($this->mayUserEditCategories && $hiddenField && $TCA[$table]['columns'][$hiddenField] &&
-            (!$TCA[$table]['columns'][$hiddenField]['exclude'] || $this->getBackendUser()->check('non_exclude_fields',
-                    $table . ':' . $hiddenField))
+            (!$TCA[$table]['columns'][$hiddenField]['exclude'] || $this->getBackendUser()->check(
+                'non_exclude_fields',
+                $table . ':' . $hiddenField
+            ))
         ) {
             /**
              * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
@@ -158,15 +161,19 @@ class CategoryManager extends Categorytree
             $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
             if ($row[$hiddenField]) {
                 $params = '&data[' . $table . '][' . $row['uid'] . '][' . $hiddenField . ']=0';
-                $cells[] = '<a href="#" onclick="' . htmlspecialchars('return jumpToUrl(\'' . $this->issueCommand($params,
-                            $this->returnUrl) . '\');') . '">' .
-                    $iconFactory->getIcon('actions-edit-unhide',Icon::SIZE_SMALL)->render() .
+                $cells[] = '<a href="#" onclick="' . htmlspecialchars('return jumpToUrl(\'' . $this->issueCommand(
+                    $params,
+                    $this->returnUrl
+                ) . '\');') . '">' .
+                    $iconFactory->getIcon('actions-edit-unhide', Icon::SIZE_SMALL)->render() .
                     '</a>';
             } else {
                 $params = '&data[' . $table . '][' . $row['uid'] . '][' . $hiddenField . ']=1';
-                $cells[] = '<a href="#" onclick="' . htmlspecialchars('return jumpToUrl(\'' . $this->issueCommand($params,
-                            $this->returnUrl) . '\');') . '">' .
-                    $iconFactory->getIcon('actions-edit-hide',Icon::SIZE_SMALL)->render() .
+                $cells[] = '<a href="#" onclick="' . htmlspecialchars('return jumpToUrl(\'' . $this->issueCommand(
+                    $params,
+                    $this->returnUrl
+                ) . '\');') . '">' .
+                    $iconFactory->getIcon('actions-edit-hide', Icon::SIZE_SMALL)->render() .
                     '</a>';
             }
         }
@@ -195,6 +202,4 @@ class CategoryManager extends Categorytree
 
         return $url;
     }
-
-
 }

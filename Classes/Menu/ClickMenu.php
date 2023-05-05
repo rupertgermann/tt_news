@@ -4,8 +4,6 @@
  * Additional items for the clickmenu
  *
  * @author        Rupert Germann <rupi@gmx.li>
- * @package       TYPO3
- * @subpackage    tt_news
  * @link          http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -45,7 +43,7 @@ class ClickMenu
     /**
      * @var array
      */
-    protected $LL = array();
+    protected $LL = [];
 
     /**
      * Construct
@@ -78,7 +76,7 @@ class ClickMenu
             $lCP = $this->backendUser->calcPerms(BackendUtility::getRecord('pages', $rec['pid']));
             $doEdit = $lCP & Permission::CONTENT_EDIT;
 
-            $menuItems = array();
+            $menuItems = [];
             if ($doEdit) {
                 $menuItems['edit'] = $this->DB_edit($table, $uid);
                 $menuItems['new'] = $this->DB_new($table, $rec);
@@ -89,12 +87,12 @@ class ClickMenu
 
             if ($doEdit) {
                 $menuItems['hide'] = $this->DB_hideUnhide($table, $rec, 'hidden');
-                $elInfo = array(
+                $elInfo = [
                     GeneralUtility::fixed_lgd_cs(
                         BackendUtility::getRecordTitle('tt_news_cat', $rec),
                         $this->backendUser->uc['titleLen']
-                    )
-                );
+                    ),
+                ];
                 $menuItems['spacer2'] = 'spacer';
                 $menuItems['delete'] = $this->DB_delete($table, $uid, $elInfo);
             }
@@ -112,9 +110,9 @@ class ClickMenu
     protected function DB_edit($table, $uid)
     {
         $loc = 'top.content.list_frame';
-        $link = GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit', array(
-            'edit[' . $table . '][' . $uid . ']' => 'edit'
-        ));
+        $link = GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit', [
+            'edit[' . $table . '][' . $uid . ']' => 'edit',
+        ]);
         $editOnClick = 'if(' . $loc . '){' . $loc . '.location.href=' . GeneralUtility::quoteJSvalue($link . '&returnUrl=') . '+top.rawurlencode(' . $this->backRef->frameLocation(($loc . '.document')) . '.pathname+' . $this->backRef->frameLocation(($loc . '.document')) . '.search);}';
         return $this->backRef->linkItem(
             $this->backRef->label('edit'),
@@ -138,19 +136,19 @@ class ClickMenu
             $parent = $rec['parent_category'];
         }
 
-        $urlParameters = array(
-            'edit' => array(
-                $table => array(
-                    $rec['pid'] => 'new'
-                )
-            ),
-        );
+        $urlParameters = [
+            'edit' => [
+                $table => [
+                    $rec['pid'] => 'new',
+                ],
+            ],
+        ];
         if ($parent) {
-            $urlParameters['defVals'] = array(
-                $table => array(
-                    'parent_category' => $parent
-                )
-            );
+            $urlParameters['defVals'] = [
+                $table => [
+                    'parent_category' => $parent,
+                ],
+            ];
         }
 
         $loc = 'top.content.list_frame';
@@ -169,7 +167,6 @@ class ClickMenu
         );
     }
 
-
     /**
      * Adding CM element for hide/unhide of the input record
      *
@@ -182,8 +179,12 @@ class ClickMenu
      */
     protected function DB_hideUnhide($table, $rec, $hideField)
     {
-        return $this->DB_changeFlag($table, $rec, $hideField,
-            $this->backRef->label(($rec[$hideField] ? 'un' : '') . 'hide'));
+        return $this->DB_changeFlag(
+            $table,
+            $rec,
+            $hideField,
+            $this->backRef->label(($rec[$hideField] ? 'un' : '') . 'hide')
+        );
     }
 
     /**

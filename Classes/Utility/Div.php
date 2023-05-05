@@ -38,12 +38,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  *
  * @author     Rupert Germann <rupi@gmx.li>
- * @package    TYPO3
- * @subpackage tt_news
  */
 class Div
 {
-
     /**
      * Get category mounts of the current user
      *
@@ -52,11 +49,11 @@ class Div
      * @return string commeseparated list of mounts
      * @throws DBALException
      */
-    static public function getBeUserCatMounts($withSub = true)
+    public static function getBeUserCatMounts($withSub = true)
     {
         global $BE_USER;
 
-        $cmounts = array();
+        $cmounts = [];
 
         if (is_array($BE_USER->userGroups)) {
             foreach ($BE_USER->userGroups as $group) {
@@ -74,13 +71,14 @@ class Div
 
         if ($withSub && $categoryMounts) {
             $subcats = self::getSubCategories($categoryMounts);
-            $categoryMounts = implode(',',
-                array_unique(explode(',', $categoryMounts . ($subcats ? ',' . $subcats : ''))));
+            $categoryMounts = implode(
+                ',',
+                array_unique(explode(',', $categoryMounts . ($subcats ? ',' . $subcats : '')))
+            );
         }
 
         return $categoryMounts;
     }
-
 
     /**
      * Extends a given list of categories by their subcategories
@@ -92,13 +90,14 @@ class Div
      * @return string extended $catlist
      * @throws DBALException
      */
-    static public function getSubCategories($catlist, $addWhere = '', $cc = 0)
+    public static function getSubCategories($catlist, $addWhere = '', $cc = 0)
     {
-        $sCatArr = array();
+        $sCatArr = [];
         $res = Database::getInstance()->exec_SELECTquery(
             'uid',
             'tt_news_cat',
-            'tt_news_cat.parent_category IN (' . $catlist . ') AND deleted=0 ' . $addWhere);
+            'tt_news_cat.parent_category IN (' . $catlist . ') AND deleted=0 ' . $addWhere
+        );
 
         while ($row = Database::getInstance()->sql_fetch_assoc($res)) {
             $cc++;
@@ -125,7 +124,7 @@ class Div
      *
      * @throws DBALException
      */
-    static public function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause)
+    public static function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause)
     {
         // count news in current category
 
@@ -145,7 +144,6 @@ class Div
         $res = Database::getInstance()->exec_SELECTquery($select_fields, $from_table, $where_clause);
         $cRow = Database::getInstance()->sql_fetch_row($res);
 
-
         $result['sum'] += $cRow[0];
 
         // get subcategories
@@ -164,8 +162,6 @@ class Div
         while ($row = Database::getInstance()->sql_fetch_assoc($res)) {
             self::getNewsCountForSubcategory($result, $row['uid'], $news_clause, $catclause);
         }
-
-
     }
 
     /**
@@ -175,13 +171,15 @@ class Div
      * @return array tree IDs
      * @throws DBALException
      */
-    static public function getAllowedTreeIDs()
+    public static function getAllowedTreeIDs()
     {
-
         $catlistWhere = self::getCatlistWhere();
-        $treeIDs = array();
-        $res = Database::getInstance()->exec_SELECTquery('uid', 'tt_news_cat',
-            '1=1' . $catlistWhere . ' AND deleted=0');
+        $treeIDs = [];
+        $res = Database::getInstance()->exec_SELECTquery(
+            'uid',
+            'tt_news_cat',
+            '1=1' . $catlistWhere . ' AND deleted=0'
+        );
         while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $treeIDs[] = $row['uid'];
         }
@@ -195,7 +193,7 @@ class Div
      * @return string WHERE query part
      * @throws DBALException
      */
-    static public function getCatlistWhere()
+    public static function getCatlistWhere()
     {
         $catlistWhere = '';
         if (!self::getBeUser()->isAdmin()) {
@@ -205,8 +203,10 @@ class Div
             $includeCatArray = self::getIncludeCatArray();
 
             if ($excludeList) {
-                $catlistWhere .= ' AND tt_news_cat.uid NOT IN (' . implode(',', GeneralUtility::intExplode(',',
-                        $excludeList)) . ')';
+                $catlistWhere .= ' AND tt_news_cat.uid NOT IN (' . implode(',', GeneralUtility::intExplode(
+                    ',',
+                    $excludeList
+                )) . ')';
             }
             if (!empty($includeCatArray)) {
                 $catlistWhere .= ' AND tt_news_cat.uid IN (' . implode(',', $includeCatArray) . ')';
@@ -222,7 +222,7 @@ class Div
      * @return array ids of categories to include
      * @throws DBALException
      */
-    static public function getIncludeCatArray()
+    public static function getIncludeCatArray()
     {
         $includeList = self::getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['includeList'];
 

@@ -1,6 +1,7 @@
 <?php
 
 use RG\TtNews\Middleware\AjaxResolver;
+
 /**
  * An array consisting of implementations of middlewares for a middleware stack to be registered
  *  'stackname' => [
@@ -17,6 +18,6 @@ return [
             'after' => [
                 'typo3/cms-frontend/authentication',
             ],
-        ]
-    ]
+        ],
+    ],
 ];

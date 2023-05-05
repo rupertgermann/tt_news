@@ -42,9 +42,6 @@ class IconFactory
         }
     }
 
-    /**
-     * @return void
-     */
     public static function registerAllIconIdentifiers()
     {
         static $registrationDone = null;
@@ -130,5 +127,4 @@ class IconFactory
             ['source' => 'EXT:tt_news/Resources/Public/Images/Icons/ol/plusbottom.gif']
         );
     }
-
 }

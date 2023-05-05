@@ -8,8 +8,6 @@
 
 namespace RG\TtNews\Middleware;
 
-
-
 use Doctrine\DBAL\DBALException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -94,5 +92,4 @@ class AjaxResolver implements MiddlewareInterface
 
         return $module->ajaxExpandCollapse($this->conf);
     }
-
 }

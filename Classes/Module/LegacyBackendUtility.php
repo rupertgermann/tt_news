@@ -1,8 +1,6 @@
 <?php
 
-
 namespace RG\TtNews\Module;
-
 
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;

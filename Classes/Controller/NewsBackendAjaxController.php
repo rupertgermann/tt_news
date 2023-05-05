@@ -1,4 +1,5 @@
 <?php
+
 namespace RG\TtNews\Controller;
 
 /*
@@ -23,8 +24,6 @@ use TYPO3\CMS\Core\Http\HtmlResponse;
 
 /**
  * Class NewsBackendAjaxController
- *
- * @package RG\TtNews\Controller
  */
 class NewsBackendAjaxController
 {
@@ -34,7 +33,6 @@ class NewsBackendAjaxController
      * @var array
      */
     protected $conf;
-
 
     /**
      * The main dispatcher function. Collect data and prepare HTML output.
@@ -106,5 +104,4 @@ class NewsBackendAjaxController
         $content = $module->ajaxExpandCollapse($this->conf);
         return $content;
     }
-
 }

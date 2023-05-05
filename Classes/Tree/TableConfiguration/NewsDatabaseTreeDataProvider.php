@@ -12,10 +12,9 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
-
 
 /**
  * TCA tree data provider
@@ -28,7 +27,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      * @param TreeNode $node
      * @param int      $level
      *
-     * @return NULL|TreeNodeCollection
+     * @return TreeNodeCollection|null
      * @throws DBALException
      */
     protected function getChildrenOf(TreeNode $node, $level): ?TreeNodeCollection
@@ -54,7 +53,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         if ($nodeData == null) {
             $nodeData = [
                 'uid' => 0,
-                $this->getLookupField() => ''
+                $this->getLookupField() => '',
             ];
         }
 
@@ -88,7 +87,6 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
 
         return $storage;
     }
-
 
     /**
      * Builds a complete node including childs

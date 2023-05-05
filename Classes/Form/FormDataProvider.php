@@ -14,10 +14,9 @@ namespace RG\TtNews\Form;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
-
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Fill the news records with default values
@@ -25,7 +24,6 @@ use TYPO3\CMS\Backend\Form\FormDataProviderInterface;
  */
 class FormDataProvider implements FormDataProviderInterface
 {
-
     /**
      * @param array $result
      *
@@ -41,5 +39,4 @@ class FormDataProvider implements FormDataProviderInterface
 
         return $result;
     }
-
 }

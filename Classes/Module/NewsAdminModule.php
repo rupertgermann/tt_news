@@ -24,14 +24,13 @@ namespace RG\TtNews\Module;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Backend\Routing\UriBuilder;
-use TYPO3\CMS\Core\Utility\StringUtility;
 use Doctrine\DBAL\DBALException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use RG\TtNews\Utility\IconFactory;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Backend\View\PageTreeView;
@@ -43,6 +42,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
  * Module 'News Admin' for the 'tt_news' extension.
@@ -51,8 +51,6 @@ use TYPO3\CMS\Core\Utility\PathUtility;
  * $Id$
  *
  * @author        Rupert Germann <rg@rgdata.de>
- * @package       TYPO3
- * @subpackage    tt_news
  */
 class NewsAdminModule extends BaseScriptClass
 {
@@ -68,11 +66,11 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * @var array
      */
-    public $markers = array();
+    public $markers = [];
     /**
      * @var array
      */
-    public $docHeaderButtons = array();
+    public $docHeaderButtons = [];
     // list of selected category from GETpublics extended by subcategories
     /**
      * @var
@@ -90,7 +88,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * @var array
      */
-    public $TSprop = array();
+    public $TSprop = [];
     /**
      * @var string
      */
@@ -98,7 +96,7 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * @var array
      */
-    public $permsCache = array();
+    public $permsCache = [];
     /**
      * @var int
      */
@@ -127,11 +125,11 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * @var array
      */
-    public $excludeCats = array();
+    public $excludeCats = [];
     /**
      * @var array
      */
-    public $includeCats = array();
+    public $includeCats = [];
 
     /**
      * @var
@@ -222,7 +220,6 @@ class NewsAdminModule extends BaseScriptClass
      */
     public $sPageIcon;
 
-
     /**
      * @var array
      */
@@ -247,10 +244,12 @@ class NewsAdminModule extends BaseScriptClass
 
         $this->getLanguageService()->includeLLFile('EXT:tt_news/Classes/Module/locallang.xml');
 
-        $this->getPageRenderer()->addCssFile('EXT:tt_news/Resources/Public/Css/BackendModule.css', 'stylesheet',
-            'screen');
+        $this->getPageRenderer()->addCssFile(
+            'EXT:tt_news/Resources/Public/Css/BackendModule.css',
+            'stylesheet',
+            'screen'
+        );
         $this->iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
-
     }
 
     /**
@@ -272,31 +271,31 @@ class NewsAdminModule extends BaseScriptClass
     /**
      * Initializes the Module
      *
-     * @return    void
      * @throws DBALException
      */
     public function init()
     {
         if (!$this->MCONF['name']) {
             $this->MCONF = $GLOBALS['MCONF'];
-
         }
         $this->isAdmin = $this->getBackendUser()->isAdmin();
 
-        $this->id = intval(GeneralUtility::_GP('id'));
+        $this->id = (int)(GeneralUtility::_GP('id'));
         $this->perms_clause = $this->getBackendUser()->getPagePermsClause(1);
 
         $this->TSprop = BackendUtility::getPagesTSconfig($this->id)['mod.']['web_txttnewsM1.'] ?? [];
         $this->confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'];
 
-        $tceTSC = array();
+        $tceTSC = [];
         if ($this->confArr['useStoragePid']) {
-            $tceTSC = BackendUtility::getTCEFORM_TSconfig('tt_news_cat',
-                array('pid' => $this->id));
+            $tceTSC = BackendUtility::getTCEFORM_TSconfig(
+                'tt_news_cat',
+                ['pid' => $this->id]
+            );
         }
         $this->storagePid = $tceTSC['_STORAGE_PID'] ? $tceTSC['_STORAGE_PID'] : $this->id;
 
-        $localNewArticlePid = intval($this->TSprop['list.']['pidForNewArticles']);
+        $localNewArticlePid = (int)($this->TSprop['list.']['pidForNewArticles']);
         $this->newArticlePid = ($localNewArticlePid ?: $this->id);
 
         $this->script = 'mod.php?M=web_txttnewsM1';
@@ -315,14 +314,16 @@ class NewsAdminModule extends BaseScriptClass
         $this->mayUserEditCategories = $this->grspCalcPerms & 16;
 
         // get pageinfo array for newArticlePid
-        $newArticlePidPI = BackendUtility::readPageAccess($this->newArticlePid,
-            $this->perms_clause);
+        $newArticlePidPI = BackendUtility::readPageAccess(
+            $this->newArticlePid,
+            $this->perms_clause
+        );
         $this->newArticleCalcPerms = $this->getBackendUser()->calcPerms($newArticlePidPI);
         $this->mayUserEditArticles = $this->newArticleCalcPerms & 16;
 
         $pagesTSC = BackendUtility::getPagesTSconfig($this->id);
         if ($pagesTSC['tx_ttnews.']['singlePid']) {
-            $this->singlePid = intval($pagesTSC['tx_ttnews.']['singlePid']);
+            $this->singlePid = (int)($pagesTSC['tx_ttnews.']['singlePid']);
         }
 
         $this->initCategories();
@@ -336,16 +337,15 @@ class NewsAdminModule extends BaseScriptClass
         $this->menuConfig();
         $this->mData = $this->getBackendUser()->uc['moduleData']['web_txttnewsM1'];
 
+        $this->current_sys_language = (int)($this->MOD_SETTINGS['language']);
+        $this->searchLevels = (int)($this->MOD_SETTINGS['searchLevels']);
+        $this->thumbs = (int)($this->MOD_SETTINGS['showThumbs']);
 
-        $this->current_sys_language = intval($this->MOD_SETTINGS['language']);
-        $this->searchLevels = intval($this->MOD_SETTINGS['searchLevels']);
-        $this->thumbs = intval($this->MOD_SETTINGS['showThumbs']);
-
-        $localLimit = intval($this->MOD_SETTINGS['showLimit']);
+        $localLimit = (int)($this->MOD_SETTINGS['showLimit']);
         if ($localLimit) {
             $this->showLimit = $localLimit;
         } else {
-            $this->showLimit = intval($this->TSprop['list.']['limit']);
+            $this->showLimit = (int)($this->TSprop['list.']['limit']);
         }
 
         $this->initGPvars();
@@ -360,7 +360,6 @@ class NewsAdminModule extends BaseScriptClass
      */
     public function main()
     {
-
         $this->doc = GeneralUtility::makeInstance(DocumentTemplate::class);
         $this->doc->backPath = $GLOBALS['BACK_PATH'];
         $this->doc->setModuleTemplate('EXT:tt_news/Classes/Module/mod_ttnews_admin.html');
@@ -376,7 +375,6 @@ class NewsAdminModule extends BaseScriptClass
 
         $access = (is_array($this->pageinfo) ? 1 : 0);
         $this->markers['MOD_INFO'] = '';
-
 
         if ($this->id && $access) {
             // JavaScript
@@ -396,7 +394,6 @@ class NewsAdminModule extends BaseScriptClass
             $this->doc->postCode = GeneralUtility::wrapJS('
 					script_ended = 1;
 				');
-
 
             // Render content:
             $this->moduleContent();
@@ -420,7 +417,7 @@ class NewsAdminModule extends BaseScriptClass
         $this->content = $this->doc->insertStylesAndJS($this->content);
 
         if (count($this->permsCache)) {
-            $this->getBackendUser()->setAndSaveSessionData('permsCache', array($this->pidChash => $this->permsCache));
+            $this->getBackendUser()->setAndSaveSessionData('permsCache', [$this->pidChash => $this->permsCache]);
         }
     }
 
@@ -438,11 +435,9 @@ class NewsAdminModule extends BaseScriptClass
      *
      ************************************************************************/
 
-
     /**
      * Generates the module content
      *
-     * @return    void
      * @throws DBALException
      * @throws SiteNotFoundException
      */
@@ -452,8 +447,11 @@ class NewsAdminModule extends BaseScriptClass
 
         $this->table = 'tt_news_cat';
         if ($this->confArr['useStoragePid']) {
-            $catRows = Database::getInstance()->exec_SELECTgetRows('uid', 'tt_news_cat',
-                'pid=' . $this->storagePid . $this->catlistWhere . ' AND deleted=0');
+            $catRows = Database::getInstance()->exec_SELECTgetRows(
+                'uid',
+                'tt_news_cat',
+                'pid=' . $this->storagePid . $this->catlistWhere . ' AND deleted=0'
+            );
 
             if (empty($catRows)) {
                 $error = $this->displayOverview();
@@ -461,13 +459,11 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         if (!$error) {
-
-
             // fixme: throws JS errors, commented out
-//					$this->doc->getDragDropCode('tt_news_cat');
-//					$this->doc->postCode=GeneralUtility::wrapJS('
-//							txttnewsM1js.registerDragDropHandlers();
-//					');
+            //					$this->doc->getDragDropCode('tt_news_cat');
+            //					$this->doc->postCode=GeneralUtility::wrapJS('
+            //							txttnewsM1js.registerDragDropHandlers();
+            //					');
 //            $this->getPageRenderer()->loadJquery();
             $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/Backend/ContextMenu');
             $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/TtNews/NewsBackendModule');
@@ -483,10 +479,12 @@ class NewsAdminModule extends BaseScriptClass
      */
     public function displayOverview()
     {
-        $tRows = array();
+        $tRows = [];
         $tRows[] = '<tr>
-				<td colspan="2" valign="top"><p><img' . IconFactory::skinImg('icon_note.gif',
-                'width="18" height="16"') . ' title="" alt="" />
+				<td colspan="2" valign="top"><p><img' . IconFactory::skinImg(
+            'icon_note.gif',
+            'width="18" height="16"'
+        ) . ' title="" alt="" />
 				' . $this->getLanguageService()->getLL('nothingfound') . '
 				</p><br></td>
 				</tr>';
@@ -497,7 +495,7 @@ class NewsAdminModule extends BaseScriptClass
             'pid>=0' . $this->catlistWhere . ' AND deleted = 0',
             'pid'
         );
-        $list = array();
+        $list = [];
         while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $list[$row['pid']]['count'] = $row['count(uid)'];
         }
@@ -514,8 +512,10 @@ class NewsAdminModule extends BaseScriptClass
             if ($pa['path']) {
                 $tRows[] = '
 					<tr class="bgColor4">
-						<td><a href="' . LegacyBackendUtility::getModuleUrl('web_txttnewsM1',
-                        array('id' => $pid)) . '">' . htmlspecialchars($pa['path']) . '</a></td>
+						<td><a href="' . LegacyBackendUtility::getModuleUrl(
+                    'web_txttnewsM1',
+                    ['id' => $pid]
+                ) . '">' . htmlspecialchars($pa['path']) . '</a></td>
 						<td>' . htmlspecialchars($stat['count']) . '</td>
 
 					</tr>';
@@ -523,17 +523,16 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         // Create overview
-        $outputString = '<table border="0" cellpadding="1" cellspacing="2" id="typo3-page-stdlist">' . implode('',
-                $tRows) . '</table>';
+        $outputString = '<table border="0" cellpadding="1" cellspacing="2" id="typo3-page-stdlist">' . implode(
+            '',
+            $tRows
+        ) . '</table>';
 
         // Add output:
         $this->markers['MOD_INFO'] = $outputString;
 
         return true;
-
     }
-
-
 
     /**
      * @return string
@@ -581,17 +580,19 @@ class NewsAdminModule extends BaseScriptClass
             $this->treeObj = GeneralUtility::makeInstance(CategoryManager::class);
         }
 
-        $urlparams = array('id' => $this->id);
+        $urlparams = ['id' => $this->id];
 
         $this->treeObj->table = 'tt_news_cat';
         $this->treeObj->init($this->catlistWhere . $addWhere, $treeOrderBy);
         $this->treeObj->parentField = 'parent_category';
         $this->treeObj->thisScript = $this->script . '&id=' . $this->id;
-        $this->treeObj->returnUrl = LegacyBackendUtility::getModuleUrl('web_txttnewsM1',
-            $urlparams);
+        $this->treeObj->returnUrl = LegacyBackendUtility::getModuleUrl(
+            'web_txttnewsM1',
+            $urlparams
+        );
 
         // those fields will be filled to the array $this->treeObj->tree
-        $this->treeObj->fieldArray = array('uid', 'title', 'description', 'hidden', 'starttime', 'endtime', 'fe_group');
+        $this->treeObj->fieldArray = ['uid', 'title', 'description', 'hidden', 'starttime', 'endtime', 'fe_group'];
         $this->treeObj->mayUserEditCategories = $this->mayUserEditCategories;
         $this->treeObj->title = $this->getLanguageService()->getLL('treeTitle');
         $this->treeObj->pageID = $this->id;
@@ -621,11 +622,15 @@ class NewsAdminModule extends BaseScriptClass
 
         // get all selected category records from the current storagePid which are not 'root' categories
         // and add them as tree mounts. Subcategories of selected categories will be excluded.
-        $cMounts = array();
+        $cMounts = [];
         $nonRootMounts = false;
         foreach ($beUserSelCatArr as $catID) {
-            $tmpR = BackendUtility::getRecord('tt_news_cat', $catID,
-                'parent_category,hidden', $addWhere);
+            $tmpR = BackendUtility::getRecord(
+                'tt_news_cat',
+                $catID,
+                'parent_category,hidden',
+                $addWhere
+            );
             if (is_array($tmpR) && !in_array($catID, $subcatArr)) {
                 if ($tmpR['parent_category'] > 0) {
                     $nonRootMounts = true;
@@ -645,7 +650,6 @@ class NewsAdminModule extends BaseScriptClass
 
     /**
      * returns the root element for a category tree: icon, title and pageID
-     *
      */
     protected function getStoragePageIcon()
     {
@@ -655,8 +659,10 @@ class NewsAdminModule extends BaseScriptClass
             $rootRec = $this->treeObj->getRecord($this->storagePid);
             $icon = $this->treeObj->getIcon($rootRec);
             $this->treeObj->table = $tmpt;
-            $pidLbl = sprintf($this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.treeSelect.pageTitleSuffix'),
-                $this->storagePid);
+            $pidLbl = sprintf(
+                $this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.treeSelect.pageTitleSuffix'),
+                $this->storagePid
+            );
         } else {
             $rootRec = $this->treeObj->getRootRecord($this->storagePid);
             $icon = $this->treeObj->getRootIcon($rootRec);
@@ -691,7 +697,7 @@ class NewsAdminModule extends BaseScriptClass
         /* @var $dblist NewsRecordlist */
         $dblist = GeneralUtility::makeInstance(NewsRecordlist::class);
 
-        $urlparams = array('id' => $this->id);
+        $urlparams = ['id' => $this->id];
         if (GeneralUtility::_GP('category') != '') {
             $urlparams['category'] = (int)GeneralUtility::_GP('category');
         }
@@ -732,7 +738,7 @@ class NewsAdminModule extends BaseScriptClass
         $dblist->start($this->id, $table, $this->pointer, $this->search_field, $this->searchLevels, $this->showLimit);
         if ($this->searchLevels > 0) {
             $allowedMounts = $this->getSearchableWebmounts($this->id, $this->searchLevels, $this->perms_clause);
-            $pidList = implode(',',$allowedMounts);
+            $pidList = implode(',', $allowedMounts);
             $dblist->pidSelect = 'pid IN (' . $pidList . ')';
         } elseif ($this->searchLevels < 0) {
             // Search everywhere
@@ -804,7 +810,6 @@ class NewsAdminModule extends BaseScriptClass
      ************************************************************************/
 
     /**
-     *
      * @throws DBALException
      */
     public function ajaxExpandCollapse($params)
@@ -814,7 +819,7 @@ class NewsAdminModule extends BaseScriptClass
         $this->getTreeObj();
         $tree = $this->treeObj->getBrowsableTree();
 
-       return $tree;
+        return $tree;
     }
 
     /**
@@ -831,8 +836,6 @@ class NewsAdminModule extends BaseScriptClass
         return $list;
     }
 
-    /**
-     */
     public function processAjaxRequestConstruct()
     {
         global $SOBE;
@@ -851,7 +854,6 @@ class NewsAdminModule extends BaseScriptClass
      ************************************************************************/
 
     /**
-     *
      * @param NewsRecordlist $dblist
      *
      * @return string
@@ -859,12 +861,13 @@ class NewsAdminModule extends BaseScriptClass
      */
     protected function getListHeaderMsg(&$dblist): string
     {
-
         $noCatSelMsg = false;
         if (!$this->selectedCategories) {
             if ($this->TSprop['list.']['noListWithoutCatSelection']) {
-                $content = '<img' . IconFactory::skinImg('icon_note.gif',
-                        'width="18" height="16"') . ' title="" alt="" />' . $this->getLanguageService()->getLL('selectCategory');
+                $content = '<img' . IconFactory::skinImg(
+                    'icon_note.gif',
+                    'width="18" height="16"'
+                ) . ' title="" alt="" />' . $this->getLanguageService()->getLL('selectCategory');
                 $noCatSelMsg = true;
             } else {
                 $content = $this->getLanguageService()->getLL('showingAll');
@@ -894,12 +897,18 @@ class NewsAdminModule extends BaseScriptClass
 				-->
 				<table border="0" cellpadding="0" cellspacing="0" id="ttnewsadmin-search">
 					<tr>
-						<td>' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString',
-                1) . '<input type="text" name="search_field" value="' . htmlspecialchars($this->search_field) . '" style="width:99px;" /></td>
-						<td>' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showRecords',
-                1) . ':<input type="text" name="SET[showLimit]" value="' . htmlspecialchars($this->showLimit ? $this->showLimit : '') . '" style="width:40px;" /></td>
-						<td><input type="submit" name="search" value="' . $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.search',
-                1) . '" /></td>
+						<td>' . $this->getLanguageService()->sL(
+            'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString',
+            1
+        ) . '<input type="text" name="search_field" value="' . htmlspecialchars($this->search_field) . '" style="width:99px;" /></td>
+						<td>' . $this->getLanguageService()->sL(
+                'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showRecords',
+                1
+            ) . ':<input type="text" name="SET[showLimit]" value="' . htmlspecialchars($this->showLimit ? $this->showLimit : '') . '" style="width:40px;" /></td>
+						<td><input type="submit" name="search" value="' . $this->getLanguageService()->sL(
+                    'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.search',
+                    1
+                ) . '" /></td>
 
 					</tr>
 				</table>
@@ -915,7 +924,7 @@ class NewsAdminModule extends BaseScriptClass
     protected function getNoResultsMsg(&$listObj, $noCatSelMsg)
     {
         $content = '';
-        $tRows = array();
+        $tRows = [];
         if (!$noCatSelMsg) {
             $tRows[] = '<tr>
 					<td valign="top"><p><img' . IconFactory::skinImg('icon_note.gif', 'width="18" height="16"') . ' title="" alt="" />
@@ -924,39 +933,45 @@ class NewsAdminModule extends BaseScriptClass
 					</tr>';
         }
 
-
         if ($this->mayUserEditArticles) {
             $tRows[] = '<tr>
 					<td valign="top"><div style="padding:10px 0;">' . $listObj->getNewRecordButton('tt_news', true) . '</div></td>
 					</tr>';
         }
 
-        return $content . '<table border="0" cellpadding="1" cellspacing="2" id="typo3-page-stdlist">' . implode('',
-                $tRows) . '</table>';
+        return $content . '<table border="0" cellpadding="1" cellspacing="2" id="typo3-page-stdlist">' . implode(
+            '',
+            $tRows
+        ) . '</table>';
     }
-
 
     /**
      * @return string
      */
     protected function renderTreeCheckBoxes()
     {
-        $show = array();
+        $show = [];
         if (is_array($this->TSprop['catmenu.']['show.'])) {
             $show = $this->TSprop['catmenu.']['show.'];
         }
-        $allowedCbNames = array('expandAll', 'showHiddenCategories');
+        $allowedCbNames = ['expandAll', 'showHiddenCategories'];
 
         if ($this->mayUserEditCategories) {
             $allowedCbNames[] = 'showEditIcons';
         }
 
         $params = $this->getLinkParams();
-        $out = array();
+        $out = [];
         foreach ($allowedCbNames as $n) {
             if ((bool)$show['cb_' . $n]) {
-                $out[] = BackendUtility::getFuncCheck($params, 'SET[' . $n . ']',
-                        $this->MOD_SETTINGS[$n], '', '', 'id="cb-' . $n . '"') .
+                $out[] = BackendUtility::getFuncCheck(
+                    $params,
+                    'SET[' . $n . ']',
+                    $this->MOD_SETTINGS[$n],
+                    '',
+                    '',
+                    'id="cb-' . $n . '"'
+                ) .
                     ' <label for="cb-' . $n . '">' . $this->getLanguageService()->getLL($n) . '</label>';
             }
         }
@@ -971,11 +986,11 @@ class NewsAdminModule extends BaseScriptClass
      */
     protected function renderListCheckBoxes($ajax = false)
     {
-        $show = array();
+        $show = [];
         if (is_array($this->TSprop['list.']['show.'])) {
             $show = $this->TSprop['list.']['show.'];
         }
-        $allowedCbNames = array();
+        $allowedCbNames = [];
         if (GeneralUtility::inList($this->fieldList, 'image')) {
             $allowedCbNames[] = 'showThumbs';
         }
@@ -984,7 +999,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         $params = $this->getLinkParams();
-        $out = array();
+        $out = [];
 
         $savedRoute = false;
         if ($ajax) {
@@ -994,8 +1009,14 @@ class NewsAdminModule extends BaseScriptClass
         foreach ($allowedCbNames as $n) {
             if ((bool)$show['cb_' . $n]) {
                 $out[] = '<span class="list-cb">' .
-                    BackendUtility::getFuncCheck($params, 'SET[' . $n . ']',
-                        $this->MOD_SETTINGS[$n], '', '', 'id="cb-' . $n . '"') .
+                    BackendUtility::getFuncCheck(
+                        $params,
+                        'SET[' . $n . ']',
+                        $this->MOD_SETTINGS[$n],
+                        '',
+                        '',
+                        'id="cb-' . $n . '"'
+                    ) .
                     ' <label for="cb-' . $n . '">' . $this->getLanguageService()->getLL($n) . '</label></span>';
             }
         }
@@ -1006,13 +1027,12 @@ class NewsAdminModule extends BaseScriptClass
         return '<div>' . implode('', $out) . '</div>';
     }
 
-
     /**
      * @return string
      */
     protected function renderNewCatButton()
     {
-        $show = array();
+        $show = [];
         $button = '';
         if (is_array($this->TSprop['catmenu.']['show.'])) {
             $show = $this->TSprop['catmenu.']['show.'];
@@ -1033,7 +1053,6 @@ class NewsAdminModule extends BaseScriptClass
         return '<div style="padding:5px 0;">' . $button . '</div>';
     }
 
-
     /**
      * Create the panel of buttons for submitting the form or otherwise perform operations.
      *
@@ -1042,7 +1061,7 @@ class NewsAdminModule extends BaseScriptClass
     protected function getHeaderButtons()
     {
         $lang = $this->getLanguageService();
-        $buttons = array(
+        $buttons = [
             'csh' => '',
             'view' => '',
             'edit' => '',
@@ -1052,17 +1071,17 @@ class NewsAdminModule extends BaseScriptClass
             'shortcut' => '',
             'back' => '',
             'csv' => '',
-            'export' => ''
-        );
+            'export' => '',
+        ];
 
         $backPath = $GLOBALS['BACK_PATH'];
 
         if (isset($this->id)) {
             if ($this->getBackendUser()->check('modules', 'web_list')) {
-                $href = LegacyBackendUtility::getModuleUrl('web_list', array(
+                $href = LegacyBackendUtility::getModuleUrl('web_list', [
                     'id' => $this->pageinfo['uid'],
-                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
-                ));
+                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
+                ]);
 
                 $buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '" class="btn btn-default btn-sm" title="'
                     . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showList')) . '">' .
@@ -1071,8 +1090,11 @@ class NewsAdminModule extends BaseScriptClass
             }
 
             // View
-            $buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::viewOnClick($this->id,
-                    $backPath, BackendUtility::BEgetRootLine($this->id))) . '" class="btn btn-default btn-sm" title="'
+            $buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::viewOnClick(
+                $this->id,
+                $backPath,
+                BackendUtility::BEgetRootLine($this->id)
+            )) . '" class="btn btn-default btn-sm" title="'
                     . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage')) . '">' .
                 $this->iconFactory->getIcon('actions-document-view', Icon::SIZE_SMALL)->render() .
                 '</a>';
@@ -1095,14 +1117,21 @@ class NewsAdminModule extends BaseScriptClass
 
             // Shortcut
             if ($this->getBackendUser()->mayMakeShortcut()) {
-                $buttons['shortcut'] = $this->doc->makeShortcutIcon('id, showThumbs, pointer, table, search_field, searchLevels, showLimit, sortField, sortRev',
-                    implode(',', array_keys($this->MOD_MENU)), 'web_txttnewsM1', '', 'btn btn-default btn-sm');
+                $buttons['shortcut'] = $this->doc->makeShortcutIcon(
+                    'id, showThumbs, pointer, table, search_field, searchLevels, showLimit, sortField, sortRev',
+                    implode(',', array_keys($this->MOD_MENU)),
+                    'web_txttnewsM1',
+                    '',
+                    'btn btn-default btn-sm'
+                );
             }
 
             // Back
             if ($this->returnUrl) {
-                $buttons['back'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisUrl($this->returnUrl,
-                        array('id' => $this->id))) . '" class="typo3-goBack btn btn-default btn-sm" title="'
+                $buttons['back'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisUrl(
+                    $this->returnUrl,
+                    ['id' => $this->id]
+                )) . '" class="typo3-goBack btn btn-default btn-sm" title="'
                     . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.goBack')) . '">' .
                     $this->iconFactory->getIcon('actions-view-go-back', Icon::SIZE_SMALL)->render() .
                     '</a>';
@@ -1112,7 +1141,6 @@ class NewsAdminModule extends BaseScriptClass
         return $buttons;
     }
 
-
     /**
      * @return string
      */
@@ -1120,10 +1148,16 @@ class NewsAdminModule extends BaseScriptClass
     {
         $menu = '';
         if (count($this->MOD_MENU['language']) > 1) {
-            $menu = $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-                    1) .
-                BackendUtility::getFuncMenu($this->id, 'SET[language]',
-                    $this->current_sys_language, $this->MOD_MENU['language']);
+            $menu = $this->getLanguageService()->sL(
+                'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
+                1
+            ) .
+                BackendUtility::getFuncMenu(
+                    $this->id,
+                    'SET[language]',
+                    $this->current_sys_language,
+                    $this->MOD_MENU['language']
+                );
         }
 
         return $menu;
@@ -1137,8 +1171,12 @@ class NewsAdminModule extends BaseScriptClass
         $menu = '';
         if (count($this->MOD_MENU['searchLevels']) > 1) {
             $menu = $this->getLanguageService()->getLL('enterSearchLevels') .
-                BackendUtility::getFuncMenu($this->id, 'SET[searchLevels]',
-                    $this->searchLevels, $this->MOD_MENU['searchLevels']);
+                BackendUtility::getFuncMenu(
+                    $this->id,
+                    'SET[searchLevels]',
+                    $this->searchLevels,
+                    $this->MOD_MENU['searchLevels']
+                );
         }
 
         return $menu;
@@ -1182,7 +1220,7 @@ class NewsAdminModule extends BaseScriptClass
     protected function setEditablePages($pidlist)
     {
         $pids = explode(',', $pidlist);
-        $editPids = array();
+        $editPids = [];
 
         foreach ($pids as $pid) {
             if (($this->checkPageAccess($pid))) {
@@ -1194,7 +1232,6 @@ class NewsAdminModule extends BaseScriptClass
     }
 
     /**
-     *
      * @param     $pages
      * @param int $cc
      *
@@ -1203,11 +1240,12 @@ class NewsAdminModule extends BaseScriptClass
      */
     protected function getSubPages($pages, $cc = 0)
     {
-        $pArr = array();
+        $pArr = [];
         $res = Database::getInstance()->exec_SELECTquery(
             'uid',
             'pages',
-            'pages.pid IN (' . $pages . ') AND pages.deleted=0 AND ' . $this->perms_clause);
+            'pages.pid IN (' . $pages . ') AND pages.deleted=0 AND ' . $this->perms_clause
+        );
 
         while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $cc++;
@@ -1226,16 +1264,15 @@ class NewsAdminModule extends BaseScriptClass
         return implode(',', $pArr);
     }
 
-    /**
-     *
-     */
     protected function initGPvars()
     {
-        $this->pointer = MathUtility::forceIntegerInRange(GeneralUtility::_GP('pointer'),
-            0, 100000);
-        $this->category = intval(GeneralUtility::_GP('category'));
+        $this->pointer = MathUtility::forceIntegerInRange(
+            GeneralUtility::_GP('pointer'),
+            0,
+            100000
+        );
+        $this->category = (int)(GeneralUtility::_GP('category'));
         $this->search_field = GeneralUtility::_GP('search_field');
-
     }
 
     /**
@@ -1245,38 +1282,46 @@ class NewsAdminModule extends BaseScriptClass
      */
     public function menuConfig()
     {
-        $this->MOD_MENU = array(
-            'function' => array(
+        $this->MOD_MENU = [
+            'function' => [
                 '1' => $this->getLanguageService()->getLL('function1'),
-            ),
+            ],
             'showEditIcons' => 0,
             'expandAll' => 0,
             'showOnlyEditable' => 0,
             'showHiddenCategories' => 0,
-            'searchLevels' => array(
+            'searchLevels' => [
                 -1 => $this->getLanguageService()->getLL('allPages'),
                 0 => $this->getLanguageService()->getLL('thisPage'),
                 1 => $this->getLanguageService()->getLL('oneLevel'),
                 2 => $this->getLanguageService()->getLL('twoLevels'),
                 3 => $this->getLanguageService()->getLL('threeLevels'),
-                4 => $this->getLanguageService()->getLL('fourLevels')
+                4 => $this->getLanguageService()->getLL('fourLevels'),
 
-            ),
+            ],
             'showThumbs' => 1,
             'showLimit' => 0,
-            'language' => array(
-                0 => $this->getLanguageService()->getLL('defaultLangLabel')
-            )
+            'language' => [
+                0 => $this->getLanguageService()->getLL('defaultLangLabel'),
+            ],
 
-        );
+        ];
         $this->initLanguageMenu();
 
-        $this->MOD_MENU['function'] = $this->mergeExternalItems($this->MCONF['name'], 'function',
-            $this->MOD_MENU['function']);
+        $this->MOD_MENU['function'] = $this->mergeExternalItems(
+            $this->MCONF['name'],
+            'function',
+            $this->MOD_MENU['function']
+        );
 
-        $this->MOD_SETTINGS = BackendUtility::getModuleData($this->MOD_MENU,
-            GeneralUtility::_GP('SET'), $this->MCONF['name'], $this->modMenu_type,
-            $this->modMenu_dontValidateList, $this->modMenu_setDefaultList);
+        $this->MOD_SETTINGS = BackendUtility::getModuleData(
+            $this->MOD_MENU,
+            GeneralUtility::_GP('SET'),
+            $this->MCONF['name'],
+            $this->modMenu_type,
+            $this->modMenu_dontValidateList,
+            $this->modMenu_setDefaultList
+        );
     }
 
     /**
@@ -1319,7 +1364,6 @@ class NewsAdminModule extends BaseScriptClass
         }
     }
 
-
     /**
      * @throws DBALException
      */
@@ -1346,7 +1390,7 @@ class NewsAdminModule extends BaseScriptClass
     protected function posIntExplode($list)
     {
         $arr = GeneralUtility::intExplode(',', $list);
-        $out = array();
+        $out = [];
 
         foreach ($arr as $v) {
             if ($v > 0) {
@@ -1358,7 +1402,6 @@ class NewsAdminModule extends BaseScriptClass
     }
 
     /**
-     *
      * @throws DBALException
      */
     protected function initSubCategories()
@@ -1375,13 +1418,13 @@ class NewsAdminModule extends BaseScriptClass
      * Checks if a PID value is accessible and if so returns the path for the page.
      * Processing is cached so many calls to the function are OK.
      *
-     * @param    integer        Page id for check
+     * @param    int        Page id for check
      *
      * @return    array        Page path of PID if accessible. otherwise zero.
      */
     protected function getPageInfoForOverview($pid)
     {
-        $out = array();
+        $out = [];
         $localPageinfo = BackendUtility::readPageAccess($pid, $this->perms_clause);
         $out['path'] = $localPageinfo['_thePath'];
 
@@ -1404,8 +1447,10 @@ class NewsAdminModule extends BaseScriptClass
             return $this->permsCache[$pid];
         }
 
-        $calcPerms = $this->getBackendUser()->calcPerms(BackendUtility::readPageAccess($pid,
-            $this->perms_clause));
+        $calcPerms = $this->getBackendUser()->calcPerms(BackendUtility::readPageAccess(
+            $pid,
+            $this->perms_clause
+        ));
         if (($calcPerms & 16)) {
             $this->permsCache[$pid] = true;
         } else {
@@ -1415,9 +1460,6 @@ class NewsAdminModule extends BaseScriptClass
         return $this->permsCache[$pid];
     }
 
-    /**
-     *
-     */
     protected function initPermsCache()
     {
         if ($this->isAdmin) {
@@ -1436,7 +1478,7 @@ class NewsAdminModule extends BaseScriptClass
      */
     protected function getLinkParams()
     {
-        $params = array('id' => $this->id);
+        $params = ['id' => $this->id];
 
         if ($this->category) {
             $params['category'] = $this->category;
@@ -1446,7 +1488,6 @@ class NewsAdminModule extends BaseScriptClass
     }
 
     /**
-     *
      * @return string
      * @throws DBALException
      */
@@ -1460,9 +1501,12 @@ class NewsAdminModule extends BaseScriptClass
         if ($this->useSubCategories && ($subCats = implode(',', array_filter(explode(',', $this->selectedCategories), function ($item) use ($element) {
             return $element == $item;
         })))) {
-            $scRows = Database::getInstance()->exec_SELECTgetRows('uid,title,hidden', $table,
-                'uid IN (' . $subCats . ')' . (!$this->mData['showHiddenCategories'] ? ' AND hidden=0' : ''));
-            $scTitles = array();
+            $scRows = Database::getInstance()->exec_SELECTgetRows(
+                'uid,title,hidden',
+                $table,
+                'uid IN (' . $subCats . ')' . (!$this->mData['showHiddenCategories'] ? ' AND hidden=0' : '')
+            );
+            $scTitles = [];
             foreach ($scRows as $scRow) {
                 $recTitle = BackendUtility::getRecordTitle($table, $scRow);
                 if ($scRow['hidden']) {
@@ -1490,5 +1534,3 @@ class NewsAdminModule extends BaseScriptClass
         return $content;
     }
 }
-
-

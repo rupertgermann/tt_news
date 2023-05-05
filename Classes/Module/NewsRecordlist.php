@@ -28,9 +28,9 @@ namespace RG\TtNews\Module;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use Doctrine\DBAL\DBALException;
-use TYPO3\CMS\Backend\Routing\UriBuilder;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\IconFactory;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -40,14 +40,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  *
  * @author     Rupert Germann <rupi@gmx.li>
- * @package    TYPO3
- * @subpackage tt_news
  */
 
 /**
  * Class NewsRecordlist
- *
- * @package RG\TtNews\Module
  */
 class NewsRecordlist extends PageLayoutView
 {
@@ -124,7 +120,6 @@ class NewsRecordlist extends PageLayoutView
      */
     protected $disableSingleTableView;
 
-
     /**********************************
      *
      * Generic listing of items
@@ -148,8 +143,11 @@ class NewsRecordlist extends PageLayoutView
         $out = '';
         $queryParts = $this->makeQueryArray($table, $id, $addWhere);
         //TODO: Make use of $this->setTotalItems instead of this "plain" query!
-        $this->totalItems = Database::getInstance()->exec_SELECTcountRows('*', $queryParts['FROM'],
-            $queryParts['WHERE']);
+        $this->totalItems = Database::getInstance()->exec_SELECTcountRows(
+            '*',
+            $queryParts['FROM'],
+            $queryParts['WHERE']
+        );
         $this->eCounter = 0;
 
         // Make query for records if there were any records found in the count operation:
@@ -166,7 +164,7 @@ class NewsRecordlist extends PageLayoutView
         $this->fieldArray = explode(',', $fList);
 
         // Header line is drawn
-        $theData = array();
+        $theData = [];
         $theData = $this->headerFields($this->fieldArray, $table, $theData);
         if ($this->doEdit) {
             $newRecIcon = $this->getNewRecordButton($table);
@@ -188,7 +186,7 @@ class NewsRecordlist extends PageLayoutView
                 continue;
             }
 
-            $Nrow = array();
+            $Nrow = [];
             $NrowIcon = '';
             $noEdit = $this->checkRecordPerms($row, $checkCategories);
 
@@ -200,8 +198,10 @@ class NewsRecordlist extends PageLayoutView
             if (!$noEdit) {
                 $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
                 $NrowIcon .= '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '">' .
-                    '<img' . IconFactory::skinImg('edit2.gif',
-                        'width="11" height="12"') . ' title="' . htmlspecialchars($GLOBALS['LANG']->getLL('edit')) . '" alt="" />' .
+                    '<img' . IconFactory::skinImg(
+                        'edit2.gif',
+                        'width="11" height="12"'
+                    ) . ' title="' . htmlspecialchars($GLOBALS['LANG']->getLL('edit')) . '" alt="" />' .
                     '</a>';
             } else {
                 $NrowIcon .= $this->noEditIcon($noEdit);
@@ -291,8 +291,11 @@ class NewsRecordlist extends PageLayoutView
                 $last = '<img' . IconFactory::skinImg('control_last_disabled.gif') . 'alt="" title="" />';
             }
 
-            $pageIndicator = sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:pageIndicator'),
-                $currentPage, $totalPages);
+            $pageIndicator = sprintf(
+                $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:pageIndicator'),
+                $currentPage,
+                $totalPages
+            );
 
             if ($this->totalItems > ($this->firstElementNumber + $this->iLimit)) {
                 $lastElementNumber = $this->firstElementNumber + $this->iLimit;
@@ -300,8 +303,12 @@ class NewsRecordlist extends PageLayoutView
                 $lastElementNumber = $this->totalItems;
             }
             $rangeIndicator = '<span class="pageIndicator">'
-                . sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:rangeIndicator'),
-                    $this->firstElementNumber + 1, $lastElementNumber, $this->totalItems)
+                . sprintf(
+                    $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Classes/Module/locallang.xml:rangeIndicator'),
+                    $this->firstElementNumber + 1,
+                    $lastElementNumber,
+                    $this->totalItems
+                )
                 . '</span>';
 
             $content .= '<div class="ttnewsadmin-pagination">'
@@ -313,11 +320,11 @@ class NewsRecordlist extends PageLayoutView
                 . '</div>';
         } // end of if pages > 1
 
-        $data = Array();
+        $data = [];
         $titleColumn = $this->fieldArray[0];
         $data[$titleColumn] = $content;
 
-        return ($this->addElement(1, '', $data));
+        return $this->addElement(1, '', $data);
     }
 
     /**
@@ -335,7 +342,7 @@ class NewsRecordlist extends PageLayoutView
      * @return    array        $out array returned after processing.
      * @see      makeOrdinaryList()
      */
-    public function dataFields($fieldArr, $table, $row, $out = array(), $noEdit = false)
+    public function dataFields($fieldArr, $table, $row, $out = [], $noEdit = false)
     {
         global $TCA;
 
@@ -350,21 +357,36 @@ class NewsRecordlist extends PageLayoutView
 
         // Traverse fields:
         foreach ($fieldArr as $fieldName) {
-
             if ($TCA[$table]['columns'][$fieldName]) {
                 // Each field has its own cell (if configured in TCA)
                 if ($fieldName == $thumbsCol) {
                     // If the column is a thumbnail column:
                     if ($this->thumbs) {
-                        $val = BackendUtility::thumbCode($row, $table, $fieldName,
-                            $this->backPath, $this->thumbScript, null, 0, '', $thumbsize);
+                        $val = BackendUtility::thumbCode(
+                            $row,
+                            $table,
+                            $fieldName,
+                            $this->backPath,
+                            $this->thumbScript,
+                            null,
+                            0,
+                            '',
+                            $thumbsize
+                        );
                     } else {
                         $val = str_replace(',', ', ', basename($row[$fieldName]));
                     }
                 } else {
                     // ... otherwise just render the output:
-                    $val = nl2br(htmlspecialchars(trim(GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue($table,
-                        $fieldName, $row[$fieldName], 0, 0, 0, $row['uid']), 250))));
+                    $val = nl2br(htmlspecialchars(trim(GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue(
+                        $table,
+                        $fieldName,
+                        $row[$fieldName],
+                        0,
+                        0,
+                        0,
+                        $row['uid']
+                    ), 250))));
 
                     if ($this->lTSprop['clickTitleMode'] == 'view' && $this->singlePid) {
                         $val = $this->linkSingleView($url, $val, $row['uid']);
@@ -384,8 +406,15 @@ class NewsRecordlist extends PageLayoutView
                     if ($TCA[$table]['columns'][$fName2]) {
                         $out[$fieldName] .= '<b>' . htmlspecialchars($GLOBALS['LANG']->sL($TCA[$table]['columns'][$fName2]['label'])) . '</b>' .
                             '&nbsp;&nbsp;' .
-                            htmlspecialchars(GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue($table,
-                                $fName2, $row[$fName2], 0, 0, 0, $row['uid']), 25)) .
+                            htmlspecialchars(GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue(
+                                $table,
+                                $fName2,
+                                $row[$fName2],
+                                0,
+                                0,
+                                0,
+                                $row['uid']
+                            ), 25)) .
                             '<br />';
                     }
                 }
@@ -414,11 +443,11 @@ class NewsRecordlist extends PageLayoutView
      */
     protected function linkSingleView($url, $val, $uid)
     {
-        $params = array(
+        $params = [
             'id' => $this->singlePid,
             'tx_ttnews[tt_news]' => $uid,
-            'no_cache' => 1
-        );
+            'no_cache' => 1,
+        ];
         $linkedurl = GeneralUtility::linkThisUrl($url, $params);
         $onclick = 'openFePreview(\'' . htmlspecialchars($linkedurl) . '\');';
         $lTitle = htmlspecialchars($GLOBALS['LANG']->getLL('openFePreview'));
@@ -452,7 +481,6 @@ class NewsRecordlist extends PageLayoutView
             ($withLabel ? $GLOBALS['LANG']->getLL('createArticle' . $addLbl) : '') .
             '</a>';
     }
-
 
     /**
      * Creates the icon image tag for record from table and wraps it in a link which will trigger the click menu.
@@ -508,11 +536,14 @@ class NewsRecordlist extends PageLayoutView
         $res = Database::getInstance()->exec_SELECTquery(
             'tt_news_cat_mm.*',
             'tt_news_cat_mm, tt_news_cat',
-            'tt_news_cat_mm.uid_foreign=tt_news_cat.uid AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . $row['uid']);
+            'tt_news_cat_mm.uid_foreign=tt_news_cat.uid AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . $row['uid']
+        );
 
         while (($mmrow = Database::getInstance()->sql_fetch_assoc($res))) {
-            if (!in_array($mmrow['uid_foreign'], $this->includeCats) || in_array($mmrow['uid_foreign'],
-                    $this->excludeCats)) {
+            if (!in_array($mmrow['uid_foreign'], $this->includeCats) || in_array(
+                $mmrow['uid_foreign'],
+                $this->excludeCats
+            )) {
                 $noEdit = 2;
                 break;
             }
@@ -550,7 +581,6 @@ class NewsRecordlist extends PageLayoutView
         return '<img' . IconFactory::skinImg($img) . ' title="' . $label . '" alt="" />';
     }
 
-
     /**
      * Header fields made for the listing of records
      *
@@ -561,14 +591,17 @@ class NewsRecordlist extends PageLayoutView
      * @return    array        $out returned after addition of the header fields.
      * @see makeOrdinaryList()
      */
-    public function headerFields($fieldArr, $table, $out = array())
+    public function headerFields($fieldArr, $table, $out = [])
     {
         global $TCA;
 
         foreach ($fieldArr as $fieldName) {
             $ll = htmlspecialchars($GLOBALS['LANG']->sL($TCA[$table]['columns'][$fieldName]['label']));
-            $out[$fieldName] = '<strong>' . ($ll ? $this->addSortLink($ll, $fieldName,
-                    $table) : '&nbsp;') . '</strong>';
+            $out[$fieldName] = '<strong>' . ($ll ? $this->addSortLink(
+                $ll,
+                $fieldName,
+                $table
+            ) : '&nbsp;') . '</strong>';
         }
 
         return $out;
@@ -587,7 +620,6 @@ class NewsRecordlist extends PageLayoutView
      */
     public function addSortLink($code, $field, $table)
     {
-
         // Certain circumstances just return string right away (no links):
         if ($field == '_CONTROL_' || $field == '_LOCALIZATION_' || $field == '_CLIPBOARD_' || $field == '_REF_' || $this->disableSingleTableView) {
             return $code;
@@ -599,8 +631,11 @@ class NewsRecordlist extends PageLayoutView
         }
 
         //	 Create the sort link:
-        $sortUrl = $this->listURL('', false,
-                'sortField,sortRev') . '&sortField=' . $field . '&sortRev=' . ($this->sortRev || ($this->sortField != $field) ? 0 : 1);
+        $sortUrl = $this->listURL(
+            '',
+            false,
+            'sortField,sortRev'
+        ) . '&sortField=' . $field . '&sortRev=' . ($this->sortRev || ($this->sortField != $field) ? 0 : 1);
         $sortArrow = ($this->sortField == $field ? '<img' . IconFactory::skinImg('red' . ($this->sortRev ? 'up' : 'down') . '.gif', 'width="7" height="4"') . ' alt="" />' : '');
 
         // Return linked field:
@@ -629,10 +664,14 @@ class NewsRecordlist extends PageLayoutView
             ($this->searchLevels ? '&searchLevels=' . rawurlencode($this->searchLevels) : '') .
             ($this->showLimit ? '&showLimit=' . rawurlencode($this->showLimit) : '') .
             ($this->firstElementNumber ? '&pointer=' . rawurlencode($this->firstElementNumber) : '') .
-            ((!$exclList || !GeneralUtility::inList($exclList,
-                    'sortField')) && $this->sortField ? '&sortField=' . rawurlencode($this->sortField) : '') .
-            ((!$exclList || !GeneralUtility::inList($exclList,
-                    'sortRev')) && $this->sortRev ? '&sortRev=' . rawurlencode($this->sortRev) : '') .
+            ((!$exclList || !GeneralUtility::inList(
+                $exclList,
+                'sortField'
+            )) && $this->sortField ? '&sortField=' . rawurlencode($this->sortField) : '') .
+            ((!$exclList || !GeneralUtility::inList(
+                $exclList,
+                'sortRev'
+            )) && $this->sortRev ? '&sortRev=' . rawurlencode($this->sortRev) : '') .
             ($this->category ? '&category=' . $this->category : '');
     }
 
@@ -645,7 +684,7 @@ class NewsRecordlist extends PageLayoutView
      * @return array
      * @throws DBALException
      */
-    public function makeQueryArray($table, $id, $addWhere = "", $fieldList = '')
+    public function makeQueryArray($table, $id, $addWhere = '', $fieldList = '')
     {
         global $TCA;
         if (!$fieldList) {
@@ -670,7 +709,6 @@ class NewsRecordlist extends PageLayoutView
 
         // Adding search constraints:
         $search = $this->makeSearchString($table);
-
 
         if ($this->selectedCategories) {
             $mmTable = 'tt_news_cat_mm';
@@ -700,7 +738,7 @@ class NewsRecordlist extends PageLayoutView
         $addWhere .= ' AND ' . $table . '.sys_language_uid=' . $this->current_sys_language;
 
         // Compiling query array:
-        $queryParts = array(
+        $queryParts = [
             'SELECT' => $fieldList,
             'FROM' => $table . $leftjoin,
             'WHERE' => $this->pidSelect . ' AND ' . $table . '.pid > 0' .
@@ -708,10 +746,10 @@ class NewsRecordlist extends PageLayoutView
                 BackendUtility::versioningPlaceholderClause($table) .
                 ' ' . $addWhere .
                 ' ' . ($search ? ' AND ' . $search : '') . $catWhere,
-            'GROUPBY' => '',//$table.'.uid',
+            'GROUPBY' => '', //$table.'.uid',
             'ORDERBY' => Database::getInstance()->stripOrderBy($orderBy),
-            'LIMIT' => $limit
-        );
+            'LIMIT' => $limit,
+        ];
 
         if (!$this->isAdmin && ($this->selectedCategories || !$this->lTSprop['noListWithoutCatSelection']) && $this->showOnlyEditable) {
             $queryParts = $this->ckeckDisallowedCategories($queryParts);
@@ -734,7 +772,7 @@ class NewsRecordlist extends PageLayoutView
             $tmpLimit = $queryParts['LIMIT'];
             unset($queryParts['LIMIT']);
             $res = Database::getInstance()->exec_SELECT_queryArray($queryParts);
-            $results = array();
+            $results = [];
 
             while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
                 $results[$row['uid']] = $row['uid'];
@@ -776,20 +814,14 @@ class NewsRecordlist extends PageLayoutView
         $res = Database::getInstance()->exec_SELECTquery(
             'tt_news_cat.uid',
             'tt_news_cat LEFT JOIN tt_news_cat_mm AS mm ON tt_news_cat.uid=mm.uid_foreign',
-            'tt_news_cat.deleted=0 AND mm.uid_local=' . $uid);
+            'tt_news_cat.deleted=0 AND mm.uid_local=' . $uid
+        );
 
-        $categories = array();
+        $categories = [];
         while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
             $categories[] = $row['uid'];
         }
 
         return $categories;
     }
-
-
 }
-
-
-
-
-

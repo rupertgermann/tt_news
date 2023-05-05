@@ -8,21 +8,17 @@
 
 namespace RG\TtNews\Tree;
 
-
-use TYPO3\CMS\Core\Context\Context;
 use RG\TtNews\Utility\IconFactory;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
  * Class FeTreeView
- *
- * @package RG\TtNews
  */
 class FeTreeView extends Categorytree
 {
-
     /**
      * @var
      */
@@ -59,15 +55,18 @@ class FeTreeView extends Categorytree
             $catSelLinkParams = $GLOBALS['TSFE']->id;
         }
 
-
         if ($row['uid'] <= 0) {
             // catmenu Header
-            return $this->tt_news_obj->pi_linkTP_keepPIvars($title, array(), $this->tt_news_obj->allowCaching, 1,
-                $catSelLinkParams);
+            return $this->tt_news_obj->pi_linkTP_keepPIvars(
+                $title,
+                [],
+                $this->tt_news_obj->allowCaching,
+                1,
+                $catSelLinkParams
+            );
         }
 
-
-        $L = intval(GeneralUtility::_GP('L'));
+        $L = (int)(GeneralUtility::_GP('L'));
         if ($L > 0 && !$GLOBALS['TSFE']->linkVars) {
             $GLOBALS['TSFE']->linkVars = '&L=' . $L;
         }
@@ -89,23 +88,22 @@ class FeTreeView extends Categorytree
         }
 
         if ($newsConf['useHRDates']) {
-            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, array(
+            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
                 'cat' => $row['uid'],
                 'year' => ($piVars['year'] && $newsConf['catmenuWithArchiveParams'] ? $piVars['year'] : null),
-                'month' => ($piVars['month'] && $newsConf['catmenuWithArchiveParams'] ? $piVars['month'] : null)
-            ), $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
+                'month' => ($piVars['month'] && $newsConf['catmenuWithArchiveParams'] ? $piVars['month'] : null),
+            ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
         } else {
-            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, array(
+            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
                 'cat' => $row['uid'],
                 'backPid' => null,
-                'pointer' => null
-            ), $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
+                'pointer' => null,
+            ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
         }
         $GLOBALS['TSFE']->ATagParams = $pTmp;
 
         return $link;
     }
-
 
     /**
      * Returns the root icon for a tree/mountpoint (defaults to the globe)
@@ -137,7 +135,6 @@ class FeTreeView extends Categorytree
         return $icon;
     }
 
-
     /**
      * Get icon for the row.
      *
@@ -148,7 +145,7 @@ class FeTreeView extends Categorytree
     public function getIcon($row): string
     {
         $lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
-        $catIconMode = intval($lConf['catmenuIconMode']);
+        $catIconMode = (int)($lConf['catmenuIconMode']);
         $icon = '';
 
         switch ($catIconMode) {
@@ -158,11 +155,11 @@ class FeTreeView extends Categorytree
                     $iconConf['image.']['file'] = 'uploads/pics/' . $row['image'];
                 }
                 break;
-            // own icons
+                // own icons
             case 2:
                 $iconConf['image.']['file'] = $lConf['catmenuIconPath'] . $lConf['catmenuIconFile'];
                 break;
-            // no icons (-1, nothing)
+                // no icons (-1, nothing)
             default:
                 $iconConf['image.']['file'] = '';
                 break;
@@ -174,7 +171,7 @@ class FeTreeView extends Categorytree
         }
 
         if (!$icon && !$catIconMode) {
-            $icon = '<img' . IconFactory::skinImg('tt_news_cat.gif', 'width="18" height="16"') . ' alt="" />';;
+            $icon = '<img' . IconFactory::skinImg('tt_news_cat.gif', 'width="18" height="16"') . ' alt="" />';
         }
 
         return $this->wrapIcon($icon, $row);
@@ -184,10 +181,10 @@ class FeTreeView extends Categorytree
      * Generate the plus/minus icon for the browsable tree.
      *
      * @param    array          record for the entry
-     * @param    integer        The current entry number
-     * @param    integer        The total number of entries. If equal to $a, a "bottom" element is returned.
-     * @param    integer        The number of sub-elements to the current element.
-     * @param    boolean        The element was expanded to render subelements if this flag is set.
+     * @param    int        The current entry number
+     * @param    int        The total number of entries. If equal to $a, a "bottom" element is returned.
+     * @param    int        The number of sub-elements to the current element.
+     * @param    bool        The element was expanded to render subelements if this flag is set.
      *
      * @return    string        Image tag with the plus/minus icon.
      */
@@ -233,31 +230,30 @@ class FeTreeView extends Categorytree
                 $catSelLinkParams = $GLOBALS['TSFE']->id;
             }
             if ($this->useAjax) {
-
                 $icon = '<a class="pm pmiconatag"
                         data-params="' . $cmd . '"
-                        data-isexpand="' . intval($isExpand) . '"
+                        data-isexpand="' . (int)$isExpand . '"
                         data-pid="' . rawurlencode($catSelLinkParams) . '"
                         data-cobjuid="' . $this->cObjUid . '"
-                        data-L="' . intval(GeneralUtility::_GP('L')) . '">' . $icon . '</a>';
+                        data-L="' . (int)(GeneralUtility::_GP('L')) . '">' . $icon . '</a>';
             } else {
                 $anchor = '';
                 $name = '';
 
-                $aUrl = $this->tt_news_obj->pi_linkTP_keepPIvars_url(array(), $this->tt_news_obj->allowCaching, 0,
-                        $catSelLinkParams) . '&PM=' . $cmd . $anchor;
+                $aUrl = $this->tt_news_obj->pi_linkTP_keepPIvars_url(
+                    [],
+                    $this->tt_news_obj->allowCaching,
+                    0,
+                    $catSelLinkParams
+                ) . '&PM=' . $cmd . $anchor;
 
                 $icon = '<a class="pm" href="' . htmlspecialchars($aUrl) . '" ' . $name . '>' . $icon . '</a>';
             }
-
         }
 
         return $icon;
     }
 
-    /**
-     *
-     */
     public function initializePositionSaving()
     {
         // Get stored tree structure:
@@ -269,7 +265,7 @@ class FeTreeView extends Categorytree
         }
 
         if (!is_array($this->stored)) {
-            $this->stored = array();
+            $this->stored = [];
         }
 
         // PM action
@@ -291,13 +287,9 @@ class FeTreeView extends Categorytree
         }
     }
 
-
     /**
      * Saves the content of ->stored (keeps track of expanded positions in the tree)
      * $this->treeName will be used as key for BE_USER->uc[] to store it in
-     *
-     * @return    void
-     * @access private
      */
     public function savePosition()
     {

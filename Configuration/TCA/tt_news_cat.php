@@ -1,6 +1,8 @@
 <?php
+
 use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************
@@ -24,7 +26,7 @@ return [
         'mainpalette' => '2,10',
         'crdate' => 'crdate',
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/tt_news_cat.gif',
-        'searchFields' => 'uid,title'
+        'searchFields' => 'uid,title',
     ],
     'columns' => [
         'title' => [
@@ -33,8 +35,8 @@ return [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'eval' => 'required'
-            ]
+                'eval' => 'required',
+            ],
         ],
         'title_lang_ol' => [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.title_lang_ol',
@@ -43,14 +45,14 @@ return [
                 'size' => '40',
                 'max' => '256',
 
-            ]
+            ],
         ],
         'hidden' => [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.hidden',
             'config' => [
                 'type' => 'check',
-            ]
+            ],
         ],
         'fe_group' => [
             'exclude' => 1,
@@ -63,14 +65,14 @@ return [
                 'items' => [
                     [$locallang_general . 'LGL.hide_at_login', -1],
                     [$locallang_general . 'LGL.any_login', -2],
-                    [$locallang_general . 'LGL.usergroups', '--div--']
+                    [$locallang_general . 'LGL.usergroups', '--div--'],
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'starttime' => [
             'exclude' => 1,
@@ -84,7 +86,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'endtime' => [
             'exclude' => 1,
@@ -98,7 +100,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-            ]
+            ],
         ],
         'parent_category' => [
             'exclude' => 1,
@@ -116,10 +118,10 @@ return [
                     'parentField' => 'parent_category',
                     'dataProvider' => NewsDatabaseTreeDataProvider::class,
                     'appearance' => [
-                        'showHeader' => true
+                        'showHeader' => true,
                     ],
-                ]
-            ]
+                ],
+            ],
         ],
         'image' => [
             'exclude' => 1,
@@ -130,11 +132,11 @@ return [
                     'maxitems' => 1,
                     'minitems' => 0,
                     'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     ],
                 ],
                 $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-            )
+            ),
 
         ],
         'shortcut' => [
@@ -146,8 +148,8 @@ return [
                 'size' => '1',
                 'maxitems' => '1',
                 'minitems' => '0',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'shortcut_target' => [
             'exclude' => 1,
@@ -157,8 +159,8 @@ return [
                 'size' => '10',
                 'checkbox' => '',
                 'eval' => 'trim',
-                'max' => '40'
-            ]
+                'max' => '40',
+            ],
         ],
         'single_pid' => [
             'exclude' => 1,
@@ -169,8 +171,8 @@ return [
                 'size' => '1',
                 'maxitems' => '1',
                 'minitems' => '0',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'description' => [
             'exclude' => 1,
@@ -178,24 +180,23 @@ return [
             'config' => [
                 'type' => 'text',
                 'cols' => '40',
-                'rows' => '3'
-            ]
+                'rows' => '3',
+            ],
         ],
     ],
 
     'types' => [
         '0' => [
-            'showitem' => '--palette--;;title,parent_category,--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special,image,--palette--;;shortcut,single_pid,description,--palette--,--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access,hidden,starttime,endtime,fe_group,--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended'
+            'showitem' => '--palette--;;title,parent_category,--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special,image,--palette--;;shortcut,single_pid,description,--palette--,--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access,hidden,starttime,endtime,fe_group,--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended',
         ],
 
     ],
     'palettes' => [
         'title' => [
-            'showitem' => 'title,--linebreak--,title_lang_ol'
+            'showitem' => 'title,--linebreak--,title_lang_ol',
         ],
         'shortcut' => [
-            'showitem' => 'shortcut,--linebreak--,shortcut_target'
+            'showitem' => 'shortcut,--linebreak--,shortcut_target',
         ],
-    ]
+    ],
 ];
-
