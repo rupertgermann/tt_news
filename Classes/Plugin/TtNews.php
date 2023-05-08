@@ -3222,7 +3222,8 @@ class TtNews extends AbstractPlugin
                             $this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $array_in['description'] . '"';
                         }
                         if ($array_in['uid']) {
-                            if ($this->piVars['cat'] ?? '' == $array_in['uid']) {
+                            $piVarsCat = $this->piVars['cat'] ?? false;
+                            if ($piVarsCat == $array_in['uid']) {
                                 $result .= $this->local_cObj->stdWrap(
                                     $this->pi_linkTP_keepPIvars(
                                     $val,
