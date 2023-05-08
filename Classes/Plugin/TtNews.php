@@ -2405,7 +2405,7 @@ class TtNews extends AbstractPlugin
         foreach ($lConf as $mName => $renderObj) {
             $genericMarker = '###GENERIC_' . strtoupper($mName) . '###';
 
-            if (!is_array($lConf[$mName . '.']) || !$this->isRenderMarker($genericMarker)) {
+            if (!is_array($lConf[$mName . '.'] ?? null) || !$this->isRenderMarker($genericMarker)) {
                 continue;
             }
 
@@ -2423,7 +2423,7 @@ class TtNews extends AbstractPlugin
             $this->genericMarkerConf = $this->conf['genericmarkers.'];
 
             // merge with special configuration (based on current CODE [SINGLE, LIST, LATEST]) if this is available
-            if (is_array($this->genericMarkerConf[$this->theCode . '.'])) {
+            if (is_array($this->genericMarkerConf[$this->theCode . '.'] ?? null)) {
                 ArrayUtility::mergeRecursiveWithOverrule(
                     $this->genericMarkerConf,
                     $this->genericMarkerConf[$this->theCode . '.']
