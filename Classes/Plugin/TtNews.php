@@ -2136,9 +2136,11 @@ class TtNews extends AbstractPlugin
         $links = trim($row['links']);
         if ($links && ($this->isRenderMarker('###TEXT_LINKS###') || $this->isRenderMarker('###NEWS_LINKS###'))) {
             $links_stdWrap = GeneralUtility::trimExplode('|', $lConf['links_stdWrap.']['wrap'] ?? '');
+            $links_stdWrap_begin = $links_stdWrap[0] ?? '';
+            $links_stdWrap_end = $links_stdWrap[1] ?? '';
             $newsLinks = $this->local_cObj->stdWrap($this->formatStr($row['links']), $lConf['linksItem_stdWrap.'] ?? []);
-            $markerArray['###TEXT_LINKS###'] = $links_stdWrap[0] . $this->local_cObj->stdWrap($this->pi_getLL('textLinks'), $lConf['linksHeader_stdWrap.'] ?? []);
-            $markerArray['###NEWS_LINKS###'] = $newsLinks ?? [] . $links_stdWrap[1] ?? '';
+            $markerArray['###TEXT_LINKS###'] = $links_stdWrap_begin . $this->local_cObj->stdWrap($this->pi_getLL('textLinks'), $lConf['linksHeader_stdWrap.'] ?? []);
+            $markerArray['###NEWS_LINKS###'] = $newsLinks . $links_stdWrap_end;
         }
         // filelinks
         if ($row['news_files'] && ($this->isRenderMarker('###TEXT_FILES###') || $this->isRenderMarker('###FILE_LINK###') || $this->theCode == 'XML')) {
