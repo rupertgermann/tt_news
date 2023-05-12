@@ -4500,7 +4500,7 @@ class TtNews extends AbstractPlugin
         if ($uid && $fN) {
             $key = $uid . '_' . $L;
             if (is_array($this->pageArray[$key] ?? null)) {
-                $val = $this->pageArray[$key][$fN];
+                $val = $this->pageArray[$key][$fN] ?? '';
             } else {
                 $rows = $this->db->exec_SELECTgetRows('*', 'pages', 'uid=' . $uid);
                 $row = $rows[0];
@@ -4509,7 +4509,7 @@ class TtNews extends AbstractPlugin
                     $row = $this->tsfe->sys_page->getPageOverlay($uid, $L);
                 }
                 $this->pageArray[$key] = $row;
-                $val = $this->pageArray[$key][$fN];
+                $val = $this->pageArray[$key][$fN] ?? '';
             }
         }
 
