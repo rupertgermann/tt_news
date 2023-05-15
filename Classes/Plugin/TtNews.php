@@ -1442,7 +1442,7 @@ class TtNews extends AbstractPlugin
         }
 
         // Register displayed news item globally:
-        $GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'];
+        $GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'] ?? '';
         $markerArray = [];
 
         if (is_array($row) && ($row['pid'] > 0 || $this->vPrev)) { // never display versions of a news record (having pid=-1) for normal website users
@@ -1537,12 +1537,12 @@ class TtNews extends AbstractPlugin
                 $this->conf['noNewsIdMsg_stdWrap.']
             );
             $content = $noTranslMsg;
-        } elseif ($row['pid'] < 0) {
+        } elseif ($row['pid'] ?? '' < 0) {
             // a non-public version of a record was requested
             $this->fluidVars['mode'] = 'nonPlublicVersion';
             $nonPlublicVersion = $this->local_cObj->stdWrap(
                 $this->pi_getLL('nonPlublicVersionMsg'),
-                $this->conf['nonPlublicVersionMsg_stdWrap.']
+                $this->conf['nonPlublicVersionMsg_stdWrap.'] ?? []
             );
             $content = $nonPlublicVersion;
         } else {
@@ -1560,7 +1560,7 @@ class TtNews extends AbstractPlugin
                 'row' => $row,
                 'markerArray' => $this->getFluidMarkerArray($markerArray),
                 'vars' => $this->fluidVars,
-                'categories' => $this->categories[$row['uid']],
+                'categories' => $this->categories[isset($row['uid']) ? $row['uid'] : null],
                 'images' => $this->images,
                 'files' => $this->files,
             ]);
