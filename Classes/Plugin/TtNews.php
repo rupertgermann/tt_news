@@ -1555,7 +1555,7 @@ class TtNews extends AbstractPlugin
             $content = $noNewsIdMsg;
         }
 
-        if ($this->conf['useFluidRendering']) {
+        if ($this->conf['useFluidRendering'] && is_array($row)) {
             $content = $this->renderFluidContent([
                 'row' => $row,
                 'markerArray' => $this->getFluidMarkerArray($markerArray),
