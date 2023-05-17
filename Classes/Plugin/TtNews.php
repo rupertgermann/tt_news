@@ -1096,7 +1096,7 @@ class TtNews extends AbstractPlugin
             $markerArray = [];
             $content .= $this->local_cObj->stdWrap(
                 $this->pi_getLL('noNewsToListMsg'),
-                $this->conf['noNewsToListMsg_stdWrap.']
+                $this->conf['noNewsToListMsg_stdWrap.'] ?? []
             );
         }
 
@@ -3401,10 +3401,10 @@ class TtNews extends AbstractPlugin
             $relrows = [];
             while (($relrow = $this->db->sql_fetch_assoc($res))) {
                 $currentCats = [];
-                if ($this->conf['checkCategoriesOfRelatedNews'] || $this->conf['useSPidFromCategory']) {
+                if ($this->conf['checkCategoriesOfRelatedNews'] ?? false || $this->conf['useSPidFromCategory']) {
                     $currentCats = $this->getCategories($relrow['uid'], true);
                 }
-                if ($this->conf['checkCategoriesOfRelatedNews']) {
+                if ($this->conf['checkCategoriesOfRelatedNews'] ?? false) {
                     if (count($currentCats)) {
                         // record has categories
                         foreach ($currentCats as $cUid) {
