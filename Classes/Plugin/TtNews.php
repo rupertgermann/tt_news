@@ -823,7 +823,7 @@ class TtNews extends AbstractPlugin
 
                     case 'rss2' :
                         $templateName = 'TEMPLATE_RSS2';
-                        $this->templateCode = $this->getFileResource($this->conf['displayXML.']['rss2_tmplFile']);
+                        $this->templateCode = $this->getFileResource($this->conf['displayXML.']['rss2_tmplFile'] ?? false);
                         break;
 
                     case 'rdf' :
@@ -2799,7 +2799,7 @@ class TtNews extends AbstractPlugin
                     $imgPath
                 );
             } else {
-                $imageMode = $textRenderObj == 'displayLatest' ? $lConf['latestImageMode'] : $lConf['listImageMode'];
+                $imageMode = $textRenderObj == 'displayLatest' ? $lConf['latestImageMode'] : $lConf['listImageMode'] ?? false;
 
                 $suf = '';
                 if (is_numeric(substr($lConf['image.']['file.']['maxW'], -1)) && $imageMode) {
@@ -2845,7 +2845,7 @@ class TtNews extends AbstractPlugin
                             $lConf['image.']
                         ) . $this->local_cObj->stdWrap(
                                 $imgsCaptions[$cc],
-                                $lConf['caption_stdWrap.']
+                                $lConf['caption_stdWrap.'] ?? null
                             );
                     }
 
@@ -3698,7 +3698,7 @@ class TtNews extends AbstractPlugin
         }
 
         if (isset($lConf['xmlIcon'])) {
-            $imgFile = GeneralUtility::getFileAbsFileName($this->cObj->stdWrap($lConf['xmlIcon'], $lConf['xmlIcon.']));
+            $imgFile = GeneralUtility::getFileAbsFileName($this->cObj->stdWrap($lConf['xmlIcon'], $lConf['xmlIcon.'] ?? false));
         } else {
             $imgFile = null;
         }
