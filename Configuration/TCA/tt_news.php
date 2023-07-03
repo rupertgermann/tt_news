@@ -31,7 +31,6 @@ return [
         'prependAtCopy' => $confArr['prependAtCopy'] ? $locallang_general . 'LGL.prependAtCopy' : '',
         'versioningWS' => true,
         'origUid' => 't3_origuid',
-        'shadowColumnsForNewPlaceholders' => 'sys_language_uid,l18n_parent,starttime,endtime,fe_group',
         'useColumnsForDefaultValues' => 'type',
         'transOrigPointerField' => 'l18n_parent',
         'transOrigDiffSourceField' => 'l18n_diffsource',
