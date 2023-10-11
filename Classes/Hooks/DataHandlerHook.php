@@ -115,7 +115,7 @@ class DataHandlerHook
 
         if ($table == 'tt_news') {
             // copy "type" field in localized records
-            if (!is_int($id) && $fieldArray['l18n_parent']) { // record is a new localization
+            if (!is_int($id) && ($fieldArray['l18n_parent'] ?? false)) { // record is a new localization
                 $rec = BackendUtility::getRecord(
                     $table,
                     $fieldArray['l18n_parent'],
@@ -130,7 +130,7 @@ class DataHandlerHook
             }
 
             $categories = [];
-            $recID = (($fieldArray['l18n_parent'] > 0) ? $fieldArray['l18n_parent'] : $id);
+            $recID = ((($fieldArray['l18n_parent'] ?? 0) > 0) ? $fieldArray['l18n_parent'] : $id);
             // get categories from the tt_news record in db
             $cRes = Database::getInstance()->exec_SELECT_mm_query(
                 'tt_news_cat.uid, tt_news_cat.title',
@@ -148,10 +148,10 @@ class DataHandlerHook
 
             $notAllowedItems = [];
 
-            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
+            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'] ?? '';
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
-            $wantedCategories = GeneralUtility::intExplode(',', $fieldArray['category']);
+            $wantedCategories = GeneralUtility::intExplode(',', $fieldArray['category'] ?? '');
             foreach ($wantedCategories as $wantedCategory) {
                 $categories[$wantedCategory] = $wantedCategory;
             }
@@ -279,7 +279,7 @@ class DataHandlerHook
 
             $notAllowedItems = [];
 
-            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
+            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'] ?? '';
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
             foreach ($categories as $categoryId => $categoryTitle) {

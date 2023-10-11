@@ -48,7 +48,7 @@ class HandleAfterFormEnginePageInitialized
 
                             $notAllowedItems = [];
 
-                            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
+                            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'] ?? '';
                             $allowedItems = $allowedItems ? GeneralUtility::intExplode(
                                 ',',
                                 $allowedItems
