@@ -131,7 +131,7 @@ class Categorytree extends AbstractTreeView
             $this->MOUNTS = [0 => 0];
         }
         // Sets the tree name which is used to identify the tree, used for JavaScript and other things
-        $this->treeName = str_replace('_', '', $this->treeName ?: $this->table);
+        $this->treeName = str_replace('_', '', (string)($this->treeName ?: $this->table));
     }
 
     /**
@@ -326,6 +326,7 @@ class Categorytree extends AbstractTreeView
      */
     protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '')
     {
+        $treeKey = null;
         // Buffer for id hierarchy is reset:
         $this->buffer_idH = [];
 
@@ -352,9 +353,8 @@ class Categorytree extends AbstractTreeView
             $a++;
 
             $newID = $row['uid'];
-            $this->tree[] = []; // Reserve space.
-            end($this->tree);
-            $treeKey = key($this->tree); // Get the key for this space
+            $this->tree[] = [];
+            $treeKey = array_key_last($this->tree); // Get the key for this space
             $LN = ($a == $c) ? 'blank' : 'line';
 
             // If records should be accumulated, do so
@@ -479,10 +479,10 @@ class Categorytree extends AbstractTreeView
     ) {
         $PM = GeneralUtility::_GP('PM');
 
-        if (($PMpos = strpos($PM, '#')) !== false) {
-            $PM = substr($PM, 0, $PMpos);
+        if (($PMpos = strpos((string)$PM, '#')) !== false) {
+            $PM = substr((string)$PM, 0, $PMpos);
         }
-        $PM = explode('_', $PM);
+        $PM = explode('_', (string)$PM);
         if (is_array($PM) && count($PM) == 4 && $this->useAjax) {
             if ($PM[1] == 1) {
                 $expandedPageUid = $PM[2];
@@ -668,7 +668,7 @@ class Categorytree extends AbstractTreeView
     public function wrapStop($str, $row)
     {
         if ($row['php_tree_stop']) {
-            $str .= '<a href="' . htmlspecialchars(GeneralUtility::linkThisScript(['setTempDBmount' => $row['uid']])) . '" class="text-danger">+</a> ';
+            $str .= '<a href="' . htmlspecialchars((string)GeneralUtility::linkThisScript(['setTempDBmount' => $row['uid']])) . '" class="text-danger">+</a> ';
         }
         return $str;
     }

@@ -37,7 +37,6 @@ class NewsBackendAjaxController
     /**
      * The main dispatcher function. Collect data and prepare HTML output.
      *
-     * @param ServerRequestInterface $request
      *
      * @param ResponseInterface      $response
      *
@@ -66,17 +65,11 @@ class NewsBackendAjaxController
         }
         $content = '';
 
-        // Determine the scripts to execute
-        switch ($this->conf['action']) {
-            case 'loadList':
-                $content .= $this->loadList();
-                break;
-            case 'expandTree':
-                $content .= $this->expandTree();
-                break;
-            default:
-                $content .= 'no action given';
-        }
+        match ($this->conf['action']) {
+            'loadList' => $content .= $this->loadList(),
+            'expandTree' => $content .= $this->expandTree(),
+            default => $content .= 'no action given',
+        };
         $response->getBody()->write($content);
 
         return $response;

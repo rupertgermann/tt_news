@@ -139,6 +139,8 @@ class NewsRecordlist extends PageLayoutView
      */
     public function makeOrdinaryList($table, $id, $fList, $icon = 0, $addWhere = '')
     {
+        $newRecIcon = null;
+        $result = null;
         // Initialize:
         $out = '';
         $queryParts = $this->makeQueryArray($table, $id, $addWhere);
@@ -173,7 +175,7 @@ class NewsRecordlist extends PageLayoutView
         $out .= $this->addelement(1, $newRecIcon, $theData, ' class="c-headLineTable"');
 
         $checkCategories = false;
-        if (count($this->includeCats) || count($this->excludeCats)) {
+        if ((is_countable($this->includeCats) ? count($this->includeCats) : 0) || (is_countable($this->excludeCats) ? count($this->excludeCats) : 0)) {
             $checkCategories = true;
         }
 
@@ -197,11 +199,11 @@ class NewsRecordlist extends PageLayoutView
 
             if (!$noEdit) {
                 $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
-                $NrowIcon .= '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '">' .
+                $NrowIcon .= '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode((string)GeneralUtility::getIndpEnv('REQUEST_URI'))) . '">' .
                     '<img' . IconFactory::skinImg(
                         'edit2.gif',
                         'width="11" height="12"'
-                    ) . ' title="' . htmlspecialchars($GLOBALS['LANG']->getLL('edit')) . '" alt="" />' .
+                    ) . ' title="' . htmlspecialchars((string)$GLOBALS['LANG']->getLL('edit')) . '" alt="" />' .
                     '</a>';
             } else {
                 $NrowIcon .= $this->noEditIcon($noEdit);
@@ -374,11 +376,11 @@ class NewsRecordlist extends PageLayoutView
                             $thumbsize
                         );
                     } else {
-                        $val = str_replace(',', ', ', basename($row[$fieldName]));
+                        $val = str_replace(',', ', ', basename((string)$row[$fieldName]));
                     }
                 } else {
                     // ... otherwise just render the output:
-                    $val = nl2br(htmlspecialchars(trim(GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue(
+                    $val = nl2br(htmlspecialchars(trim((string)GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue(
                         $table,
                         $fieldName,
                         $row[$fieldName],
@@ -392,21 +394,21 @@ class NewsRecordlist extends PageLayoutView
                         $val = $this->linkSingleView($url, $val, $row['uid']);
                     } elseif ($this->lTSprop['clickTitleMode'] == 'edit' && !$noEdit) {
                         $params = '&edit[' . $table . '][' . $row['uid'] . ']=edit';
-                        $lTitle = ' title="' . htmlspecialchars($GLOBALS['LANG']->getLL('edit')) . '"';
-                        $val = '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '"' . $lTitle . '>' . $val . '</a>';
+                        $lTitle = ' title="' . htmlspecialchars((string)$GLOBALS['LANG']->getLL('edit')) . '"';
+                        $val = '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode((string)GeneralUtility::getIndpEnv('REQUEST_URI'))) . '"' . $lTitle . '>' . $val . '</a>';
                     }
                 }
                 $out[$fieldName] = $val;
             } else {
                 // Each field is separated by <br /> and shown in the same cell (If not a TCA field, then explode the field name with ";" and check each value there as a TCA configured field)
-                $theFields = explode(';', $fieldName);
+                $theFields = explode(';', (string)$fieldName);
 
                 // Traverse fields, separated by ";" (displayed in a single cell).
                 foreach ($theFields as $fName2) {
                     if ($TCA[$table]['columns'][$fName2]) {
-                        $out[$fieldName] .= '<b>' . htmlspecialchars($GLOBALS['LANG']->sL($TCA[$table]['columns'][$fName2]['label'])) . '</b>' .
+                        $out[$fieldName] .= '<b>' . htmlspecialchars((string)$GLOBALS['LANG']->sL($TCA[$table]['columns'][$fName2]['label'])) . '</b>' .
                             '&nbsp;&nbsp;' .
-                            htmlspecialchars(GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue(
+                            htmlspecialchars((string)GeneralUtility::fixed_lgd_cs(BackendUtility::getProcessedValue(
                                 $table,
                                 $fName2,
                                 $row[$fName2],
@@ -449,8 +451,8 @@ class NewsRecordlist extends PageLayoutView
             'no_cache' => 1,
         ];
         $linkedurl = GeneralUtility::linkThisUrl($url, $params);
-        $onclick = 'openFePreview(\'' . htmlspecialchars($linkedurl) . '\');';
-        $lTitle = htmlspecialchars($GLOBALS['LANG']->getLL('openFePreview'));
+        $onclick = 'openFePreview(\'' . htmlspecialchars((string)$linkedurl) . '\');';
+        $lTitle = htmlspecialchars((string)$GLOBALS['LANG']->getLL('openFePreview'));
 
         return '<a href="#" onclick="' . $onclick . '" title="' . $lTitle . '">' . $val . '</a>';
     }
@@ -463,13 +465,15 @@ class NewsRecordlist extends PageLayoutView
      */
     public function getNewRecordButton($table, $withLabel = false)
     {
+        $addP = null;
+        $addLbl = null;
         if ($this->category) {
             $addP = '&defVals[' . $table . '][category]=' . $this->category;
             $addLbl = 'InCategory';
         }
 
         $params = '&edit[' . $table . '][' . $this->newRecPid . ']=new' . $addP;
-        $onclick = htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')));
+        $onclick = htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode((string)GeneralUtility::getIndpEnv('REQUEST_URI')));
 
         /**
          * @var IconFactory $iconFactory
@@ -563,18 +567,11 @@ class NewsRecordlist extends PageLayoutView
      */
     public function noEditIcon($reason = 'noEditItems')
     {
-        switch ($reason) {
-            case 1:
-                $label = htmlspecialchars($GLOBALS['LANG']->getLL('noEditPagePerms'));
-                break;
-
-            case 2:
-                $label = htmlspecialchars($GLOBALS['LANG']->getLL('noEditCategories'));
-                break;
-            default:
-                $label = '';
-                break;
-        }
+        $label = match ($reason) {
+            1 => htmlspecialchars((string)$GLOBALS['LANG']->getLL('noEditPagePerms')),
+            2 => htmlspecialchars((string)$GLOBALS['LANG']->getLL('noEditCategories')),
+            default => '',
+        };
 
         $img = 'noedit_' . $reason . '.gif';
 
@@ -596,7 +593,7 @@ class NewsRecordlist extends PageLayoutView
         global $TCA;
 
         foreach ($fieldArr as $fieldName) {
-            $ll = htmlspecialchars($GLOBALS['LANG']->sL($TCA[$table]['columns'][$fieldName]['label']));
+            $ll = htmlspecialchars((string)$GLOBALS['LANG']->sL($TCA[$table]['columns'][$fieldName]['label']));
             $out[$fieldName] = '<strong>' . ($ll ? $this->addSortLink(
                 $ll,
                 $fieldName,
@@ -686,6 +683,7 @@ class NewsRecordlist extends PageLayoutView
      */
     public function makeQueryArray($table, $id, $addWhere = '', $fieldList = '')
     {
+        $leftjoin = null;
         global $TCA;
         if (!$fieldList) {
             $fieldList = $table . '.*';
@@ -767,7 +765,7 @@ class NewsRecordlist extends PageLayoutView
      */
     protected function ckeckDisallowedCategories($queryParts)
     {
-        if (count($this->excludeCats) || count($this->includeCats)) {
+        if ((is_countable($this->excludeCats) ? count($this->excludeCats) : 0) || (is_countable($this->includeCats) ? count($this->includeCats) : 0)) {
             // if showOnlyEditable is set, we check for each found record if it has any disallowed category assigned
             $tmpLimit = $queryParts['LIMIT'];
             unset($queryParts['LIMIT']);

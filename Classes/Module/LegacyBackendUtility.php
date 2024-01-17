@@ -20,7 +20,7 @@ class LegacyBackendUtility
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         try {
             $uri = $uriBuilder->buildUriFromRoute($moduleName, $urlParameters);
-        } catch (RouteNotFoundException $e) {
+        } catch (RouteNotFoundException) {
             $uri = $uriBuilder->buildUriFromRoutePath($moduleName, $urlParameters);
         }
         return (string)$uri;

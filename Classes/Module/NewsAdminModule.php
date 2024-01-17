@@ -30,6 +30,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use RG\TtNews\Utility\IconFactory;
+use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\DocumentTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -293,7 +294,7 @@ class NewsAdminModule extends BaseScriptClass
                 ['pid' => $this->id]
             );
         }
-        $this->storagePid = $tceTSC['_STORAGE_PID'] ? $tceTSC['_STORAGE_PID'] : $this->id;
+        $this->storagePid = $tceTSC['_STORAGE_PID'] ?: $this->id;
 
         $localNewArticlePid = (int)($this->TSprop['list.']['pidForNewArticles']);
         $this->newArticlePid = ($localNewArticlePid ?: $this->id);
@@ -464,7 +465,7 @@ class NewsAdminModule extends BaseScriptClass
             //					$this->doc->postCode=GeneralUtility::wrapJS('
             //							txttnewsM1js.registerDragDropHandlers();
             //					');
-//            $this->getPageRenderer()->loadJquery();
+            //            $this->getPageRenderer()->loadJquery();
             $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/Backend/ContextMenu');
             $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/TtNews/NewsBackendModule');
 
@@ -515,8 +516,8 @@ class NewsAdminModule extends BaseScriptClass
 						<td><a href="' . LegacyBackendUtility::getModuleUrl(
                     'web_txttnewsM1',
                     ['id' => $pid]
-                ) . '">' . htmlspecialchars($pa['path']) . '</a></td>
-						<td>' . htmlspecialchars($stat['count']) . '</td>
+                ) . '">' . htmlspecialchars((string)$pa['path']) . '</a></td>
+						<td>' . htmlspecialchars((string)$stat['count']) . '</td>
 
 					</tr>';
             }
@@ -664,7 +665,7 @@ class NewsAdminModule extends BaseScriptClass
                 $this->storagePid
             );
         } else {
-            $rootRec = $this->treeObj->getRootRecord($this->storagePid);
+            $rootRec = $this->treeObj->getRootRecord();
             $icon = $this->treeObj->getRootIcon($rootRec);
             $pidLbl = $this->getLanguageService()->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.treeSelect.pageTitleSuffixNoGrsp');
         }
@@ -688,6 +689,7 @@ class NewsAdminModule extends BaseScriptClass
      */
     public function displayNewsList($ajax = false)
     {
+        $externalTables = [];
         $content = '';
 
         $this->initSubCategories();
@@ -767,7 +769,7 @@ class NewsAdminModule extends BaseScriptClass
         $content .= $this->getListHeaderMsg($dblist);
         $content .= $dblist->HTMLcode;
 
-        $content = '<form action="' . htmlspecialchars($dblist->listURL()) . '" method="post" name="dblistForm">' . $content . '</form>';
+        $content = '<form action="' . htmlspecialchars((string)$dblist->listURL()) . '" method="post" name="dblistForm">' . $content . '</form>';
 
         return '<div id="ttnewslist">' . $content . '</div>';
     }
@@ -891,24 +893,21 @@ class NewsAdminModule extends BaseScriptClass
     protected function displaySearch($url): string
     {
         // Table with the search box:
-        return '<form action="' . htmlspecialchars($url) . '" method="post">
+        return '<form action="' . htmlspecialchars((string)$url) . '" method="post">
 				<!--
 					Search box:
 				-->
 				<table border="0" cellpadding="0" cellspacing="0" id="ttnewsadmin-search">
 					<tr>
 						<td>' . $this->getLanguageService()->sL(
-            'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString',
-            1
-        ) . '<input type="text" name="search_field" value="' . htmlspecialchars($this->search_field) . '" style="width:99px;" /></td>
+            'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.enterSearchString'
+        ) . '<input type="text" name="search_field" value="' . htmlspecialchars((string)$this->search_field) . '" style="width:99px;" /></td>
 						<td>' . $this->getLanguageService()->sL(
-                'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showRecords',
-                1
-            ) . ':<input type="text" name="SET[showLimit]" value="' . htmlspecialchars($this->showLimit ? $this->showLimit : '') . '" style="width:40px;" /></td>
+            'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showRecords'
+        ) . ':<input type="text" name="SET[showLimit]" value="' . htmlspecialchars((string)($this->showLimit ?: '')) . '" style="width:40px;" /></td>
 						<td><input type="submit" name="search" value="' . $this->getLanguageService()->sL(
-                    'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.search',
-                    1
-                ) . '" /></td>
+            'LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.search'
+        ) . '" /></td>
 
 					</tr>
 				</table>
@@ -1039,7 +1038,7 @@ class NewsAdminModule extends BaseScriptClass
         }
         if ($this->mayUserEditCategories && (bool)$show['btn_newCategory']) {
             $params = '&edit[tt_news_cat][' . $this->storagePid . ']=new';
-            $onclick = htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')));
+            $onclick = htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode((string)GeneralUtility::getIndpEnv('REQUEST_URI')));
             /**
              * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
              */
@@ -1083,18 +1082,14 @@ class NewsAdminModule extends BaseScriptClass
                     'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                 ]);
 
-                $buttons['record_list'] = '<a href="' . htmlspecialchars($href) . '" class="btn btn-default btn-sm" title="'
+                $buttons['record_list'] = '<a href="' . htmlspecialchars((string)$href) . '" class="btn btn-default btn-sm" title="'
                     . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showList')) . '">' .
                     $this->iconFactory->getIcon('actions-system-list-open', Icon::SIZE_SMALL)->render() .
                     '</a>';
             }
 
             // View
-            $buttons['view'] = '<a href="#" onclick="' . htmlspecialchars(BackendUtility::viewOnClick(
-                $this->id,
-                $backPath,
-                BackendUtility::BEgetRootLine($this->id)
-            )) . '" class="btn btn-default btn-sm" title="'
+            $buttons['view'] = '<a href="#" onclick="' . htmlspecialchars((string)PreviewUriBuilder::create($this->id)->buildDispatcherDataAttributes()) . '" class="btn btn-default btn-sm" title="'
                     . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage')) . '">' .
                 $this->iconFactory->getIcon('actions-document-view', Icon::SIZE_SMALL)->render() .
                 '</a>';
@@ -1103,14 +1098,14 @@ class NewsAdminModule extends BaseScriptClass
             if ($this->localCalcPerms & 2 && !empty($this->id)) {
                 // Edit
                 $params = '&edit[pages][' . $this->pageinfo['uid'] . ']=edit';
-                $buttons['edit'] = '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI'))) . '" class="btn btn-default btn-sm" title="'
+                $buttons['edit'] = '<a href="#" onclick="' . htmlspecialchars(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('record_edit') . $params . '&returnUrl=' . rawurlencode((string)GeneralUtility::getIndpEnv('REQUEST_URI'))) . '" class="btn btn-default btn-sm" title="'
                     . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:editPage')) . '">' .
                     $this->iconFactory->getIcon('actions-page-open', Icon::SIZE_SMALL)->render() .
                     '</a>';
             }
 
             // Reload
-            $buttons['reload'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisScript()) . '" class="btn btn-default btn-sm" title="'
+            $buttons['reload'] = '<a href="' . htmlspecialchars((string)GeneralUtility::linkThisScript()) . '" class="btn btn-default btn-sm" title="'
                 . htmlspecialchars($lang->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.reload')) . '">' .
                 $this->iconFactory->getIcon('actions-refresh', Icon::SIZE_SMALL)->render() .
                 '</a>';
@@ -1128,7 +1123,7 @@ class NewsAdminModule extends BaseScriptClass
 
             // Back
             if ($this->returnUrl) {
-                $buttons['back'] = '<a href="' . htmlspecialchars(GeneralUtility::linkThisUrl(
+                $buttons['back'] = '<a href="' . htmlspecialchars((string)GeneralUtility::linkThisUrl(
                     $this->returnUrl,
                     ['id' => $this->id]
                 )) . '" class="typo3-goBack btn btn-default btn-sm" title="'
@@ -1147,10 +1142,9 @@ class NewsAdminModule extends BaseScriptClass
     protected function getLangMenu()
     {
         $menu = '';
-        if (count($this->MOD_MENU['language']) > 1) {
+        if ((is_countable($this->MOD_MENU['language']) ? count($this->MOD_MENU['language']) : 0) > 1) {
             $menu = $this->getLanguageService()->sL(
-                'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-                1
+                'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language'
             ) .
                 BackendUtility::getFuncMenu(
                     $this->id,
@@ -1169,7 +1163,7 @@ class NewsAdminModule extends BaseScriptClass
     protected function getPageSelector()
     {
         $menu = '';
-        if (count($this->MOD_MENU['searchLevels']) > 1) {
+        if ((is_countable($this->MOD_MENU['searchLevels']) ? count($this->MOD_MENU['searchLevels']) : 0) > 1) {
             $menu = $this->getLanguageService()->getLL('enterSearchLevels') .
                 BackendUtility::getFuncMenu(
                     $this->id,
@@ -1211,7 +1205,7 @@ class NewsAdminModule extends BaseScriptClass
         }
 
         $pidList = StringUtility::uniqueList($pidList);
-        $this->pidList = ($pidList ? $pidList : 0);
+        $this->pidList = ($pidList ?: 0);
     }
 
     /**
@@ -1219,7 +1213,7 @@ class NewsAdminModule extends BaseScriptClass
      */
     protected function setEditablePages($pidlist)
     {
-        $pids = explode(',', $pidlist);
+        $pids = explode(',', (string)$pidlist);
         $editPids = [];
 
         foreach ($pids as $pid) {
@@ -1358,7 +1352,7 @@ class NewsAdminModule extends BaseScriptClass
         $this->MOD_MENU['language'][-1] = $this->getLanguageService()->getLL('allLanguages');
 
         // Setting alternative default label:
-        $dl = trim($this->TSprop['defaultLanguageLabel']);
+        $dl = trim((string)$this->TSprop['defaultLanguageLabel']);
         if ($dl && isset($this->MOD_MENU['language'][0])) {
             $this->MOD_MENU['language'][0] = $dl;
         }
@@ -1493,14 +1487,13 @@ class NewsAdminModule extends BaseScriptClass
      */
     protected function getListHeaderMsgForSelectedCategories(): string
     {
+        $element = null;
         $table = 'tt_news_cat';
         $row = BackendUtility::getRecord($table, $this->category);
         $title = '<strong>' . BackendUtility::getRecordTitle($table, $row) . '</strong>';
         $content = '<div id="newscatsmsg">' . $this->getLanguageService()->getLL('showingOnlyCat') . $title . '</div>';
 
-        if ($this->useSubCategories && ($subCats = implode(',', array_filter(explode(',', $this->selectedCategories), function ($item) use ($element) {
-            return $element == $item;
-        })))) {
+        if ($this->useSubCategories && ($subCats = implode(',', array_filter(explode(',', (string)$this->selectedCategories), fn($item) => $element == $item)))) {
             $scRows = Database::getInstance()->exec_SELECTgetRows(
                 'uid,title,hidden',
                 $table,

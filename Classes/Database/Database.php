@@ -160,7 +160,7 @@ class Database implements SingletonInterface
                     if (!array_key_exists($uidIndexField, $record)) {
                         throw new InvalidArgumentException(
                             'The given $uidIndexField "' . $uidIndexField . '" is not available in the result.',
-                            1432933855
+                            1_432_933_855
                         );
                     }
                 }
@@ -326,7 +326,7 @@ class Database implements SingletonInterface
         $count = false;
         $resultSet = $this->exec_SELECTquery('COUNT(' . $field . ')', $table, $where);
         if ($resultSet !== false) {
-            list($count) = $this->sql_fetch_row($resultSet);
+            [$count] = $this->sql_fetch_row($resultSet);
             $count = (int)$count;
         }
 
@@ -371,8 +371,6 @@ class Database implements SingletonInterface
     }
 
     /**
-     * @param string $table
-     *
      * @return Connection
      */
     protected function getConnection(string $table)
@@ -389,6 +387,6 @@ class Database implements SingletonInterface
      */
     public static function getInstance()
     {
-        return GeneralUtility::makeInstance(__CLASS__);
+        return GeneralUtility::makeInstance(self::class);
     }
 }

@@ -32,14 +32,11 @@ class IconFactory
         // simply return the new path from Resources
         $newBackPath = '/' . PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('tt_news')) . 'Resources/Public/Images/Icons/';
 
-        switch ($outputMode) {
-            case 2:
-                return $wHattribs;
-            case 1:
-                return $src;
-            default:
-                return ' src="' . $newBackPath . $src . '" ' . $wHattribs;
-        }
+        return match ($outputMode) {
+            2 => $wHattribs,
+            1 => $src,
+            default => ' src="' . $newBackPath . $src . '" ' . $wHattribs,
+        };
     }
 
     public static function registerAllIconIdentifiers()

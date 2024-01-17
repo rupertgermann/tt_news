@@ -1,17 +1,19 @@
 <?php
-use RG\TtNews\Hooks\DataHandlerHook;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use RG\TtNews\Plugin\TtNews;
-use RG\TtNews\Hooks\PageModuleHook;
-use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
-use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+
 use RG\TtNews\Form\FormDataProvider;
-use TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew;
-use RG\TtNews\Update\migrateImagesToFal;
+use RG\TtNews\Hooks\DataHandlerHook;
+use RG\TtNews\Hooks\PageModuleHook;
+use RG\TtNews\Plugin\TtNews;
+use RG\TtNews\Routing\Aspect\ArchiveValueMapper;
 use RG\TtNews\Update\migrateCatImagesToFal;
 use RG\TtNews\Update\migrateFileAttachmentsToFal;
+use RG\TtNews\Update\migrateImagesToFal;
 use RG\TtNews\Update\PopulateNewsSlugs;
-use RG\TtNews\Routing\Aspect\ArchiveValueMapper;
+use TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew;
+use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 defined('TYPO3') or die();
 
 $boot = function () {
@@ -52,23 +54,22 @@ $boot = function () {
             '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tt_news/Configuration/PageTS/PageTs.ts">'
         );
 
-    // Page module hook
+        // Page module hook
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['9']['tt_news'] = PageModuleHook::class . '->getExtensionSummary';
     }
 
     if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] ?? null)) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = [
             'backend' => Typo3DatabaseBackend::class,
-            'frontend' => VariableFrontend::class
+            'frontend' => VariableFrontend::class,
         ];
     }
 
     // register news cache table for "clear all caches"
     $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['tt_news_cache'] = 'tt_news_cache';
 
-
     // in order to make "direct Preview links" for tt_news work again in TYPO3 >= 6, unset pageNotFoundOnCHashError if a BE_USER is logged in
-    $configuredCookieName = trim($GLOBALS['TYPO3_CONF_VARS']['BE']['cookieName']);
+    $configuredCookieName = trim((string)$GLOBALS['TYPO3_CONF_VARS']['BE']['cookieName']);
     if (empty($configuredCookieName)) {
         $configuredCookieName = 'be_typo_user';
     }
@@ -79,7 +80,7 @@ $boot = function () {
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][FormDataProvider::class] = [
         'depends' => [
             DatabaseRowInitializeNew::class,
-        ]
+        ],
     ];
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateImagesToFal'] = migrateImagesToFal::class;
@@ -89,7 +90,6 @@ $boot = function () {
 
     // add a dummy ValueMapper for the archive Aspect to get rid of the cHash in archive links
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ArchiveValueMapper'] = ArchiveValueMapper::class;
-
 };
 
 $boot();

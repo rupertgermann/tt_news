@@ -12,7 +12,9 @@ use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 /**
  * Class FeTreeView
@@ -52,7 +54,14 @@ class FeTreeView extends Categorytree
                 $catSelLinkParams .= ' ' . $newsConf['itemLinkTarget'];
             }
         } else {
-            $catSelLinkParams = $GLOBALS['TSFE']->id;
+            $relevantParametersForCachingFromPageArguments = [];
+            $pageArguments = $GLOBALS['REQUEST']->getAttribute('routing');
+            $queryParams = $pageArguments->getDynamicArguments();
+            if (!empty($queryParams) && ($pageArguments->getArguments()['cHash'] ?? false)) {
+                $queryParams['id'] = $pageArguments->getPageId();
+                $relevantParametersForCachingFromPageArguments = GeneralUtility::makeInstance(CacheHashCalculator::class)->getRelevantParameters(HttpUtility::buildQueryString($queryParams));
+            }
+            $catSelLinkParams = $relevantParametersForCachingFromPageArguments;
         }
 
         if ($row['uid'] <= 0) {
@@ -75,7 +84,7 @@ class FeTreeView extends Categorytree
             // get translations of category titles
             $catTitleArr = GeneralUtility::trimExplode('|', $row['title_lang_ol']);
             $syslang = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'contentId') - 1;
-            $title = $catTitleArr[$syslang] ? $catTitleArr[$syslang] : $title;
+            $title = $catTitleArr[$syslang] ?: $title;
         }
         $piVars = &$this->tt_news_obj->piVars;
         $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
@@ -114,6 +123,7 @@ class FeTreeView extends Categorytree
      */
     public function getRootIcon($rec)
     {
+        $iconConf = [];
         $lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
         $icon = '';
 
@@ -144,6 +154,7 @@ class FeTreeView extends Categorytree
      */
     public function getIcon($row): string
     {
+        $iconConf = [];
         $lConf = &$this->tt_news_obj->conf['displayCatMenu.'];
         $catIconMode = (int)($lConf['catmenuIconMode']);
         $icon = '';
@@ -227,13 +238,20 @@ class FeTreeView extends Categorytree
             if ($newsConf['catSelectorTargetPid']) {
                 $catSelLinkParams = $newsConf['catSelectorTargetPid'];
             } else {
-                $catSelLinkParams = $GLOBALS['TSFE']->id;
+                $relevantParametersForCachingFromPageArguments = [];
+                $pageArguments = $GLOBALS['REQUEST']->getAttribute('routing');
+                $queryParams = $pageArguments->getDynamicArguments();
+                if (!empty($queryParams) && ($pageArguments->getArguments()['cHash'] ?? false)) {
+                    $queryParams['id'] = $pageArguments->getPageId();
+                    $relevantParametersForCachingFromPageArguments = GeneralUtility::makeInstance(CacheHashCalculator::class)->getRelevantParameters(HttpUtility::buildQueryString($queryParams));
+                }
+                $catSelLinkParams = $relevantParametersForCachingFromPageArguments;
             }
             if ($this->useAjax) {
                 $icon = '<a class="pm pmiconatag"
                         data-params="' . $cmd . '"
                         data-isexpand="' . (int)$isExpand . '"
-                        data-pid="' . rawurlencode($catSelLinkParams) . '"
+                        data-pid="' . rawurlencode((string)$catSelLinkParams) . '"
                         data-cobjuid="' . $this->cObjUid . '"
                         data-L="' . (int)(GeneralUtility::_GP('L')) . '">' . $icon . '</a>';
             } else {
@@ -259,9 +277,9 @@ class FeTreeView extends Categorytree
         // Get stored tree structure:
         if ($this->FE_USER->user) {
             // a user is logged in
-            $this->stored = json_decode($this->FE_USER->uc['tt_news'][$this->treeName], true);
+            $this->stored = json_decode((string)$this->FE_USER->uc['tt_news'][$this->treeName], true, 512, JSON_THROW_ON_ERROR);
         } else {
-            $this->stored = json_decode(($_COOKIE[$this->treeName] ?? ''), true);
+            $this->stored = json_decode(($_COOKIE[$this->treeName] ?? ''), true, 512, JSON_THROW_ON_ERROR);
         }
 
         if (!is_array($this->stored)) {
@@ -272,7 +290,7 @@ class FeTreeView extends Categorytree
         // (If a plus/minus icon has been clicked, the PM GET var is sent and we
         // must update the stored positions in the tree):
         // 0: mount key, 1: set/clear boolean, 2: item ID (cannot contain "_"), 3: treeName
-        $PM = explode('_', GeneralUtility::_GP('PM'));
+        $PM = explode('_', (string)GeneralUtility::_GP('PM'));
         if (count($PM) === 4 && $PM[3] == $this->treeName) {
             if (isset($this->MOUNTS[$PM[0]])) {
                 // set
@@ -294,10 +312,10 @@ class FeTreeView extends Categorytree
     public function savePosition()
     {
         if ($this->FE_USER->user) {
-            $this->FE_USER->uc['tt_news'][$this->treeName] = json_encode($this->stored);
+            $this->FE_USER->uc['tt_news'][$this->treeName] = json_encode($this->stored, JSON_THROW_ON_ERROR);
             $this->FE_USER->writeUC();
         } else {
-            setcookie($this->treeName, json_encode($this->stored));
+            setcookie($this->treeName, json_encode($this->stored, JSON_THROW_ON_ERROR));
         }
     }
 
@@ -309,6 +327,6 @@ class FeTreeView extends Categorytree
      */
     public function getTitleStr($row, $titleLen = 30)
     {
-        return htmlspecialchars(GeneralUtility::fixed_lgd_cs($row['title'], $titleLen));
+        return htmlspecialchars((string)GeneralUtility::fixed_lgd_cs($row['title'], $titleLen));
     }
 }

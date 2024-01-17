@@ -199,13 +199,13 @@ class Helpers
     public function makeMultiPageSView($bodytext, $lConf)
     {
         $pointerName = $this->pObj->config['singleViewPointerName'];
-        $pagenum = $this->pObj->piVars[$pointerName] ? $this->pObj->piVars[$pointerName] : 0;
+        $pagenum = $this->pObj->piVars[$pointerName] ?: 0;
         $textArr = GeneralUtility::trimExplode(
             $this->pObj->config['pageBreakToken'],
             $bodytext,
             1
         );
-        $pagecount = count($textArr);
+        $pagecount = is_countable($textArr) ? count($textArr) : 0;
         $pagebrowser = '';
         // render a pagebrowser for the single view
         if ($pagecount > 1) {
@@ -329,7 +329,7 @@ class Helpers
             foreach ($words as $w) {
                 $fpc = ($isfirst && !$this->pObj->conf['subheaderOnAllSViewPages'] ? $firstPageCrop : 0);
                 $wc = $this->pObj->config['maxWordsInSingleView'] - $fpc;
-                if (strpos($w, $this->pObj->config['pageBreakToken'])) { // manually inserted pagebreaks, unset counter
+                if (strpos($w, (string)$this->pObj->config['pageBreakToken'])) { // manually inserted pagebreaks, unset counter
                     $cc = 0;
                     $pArr[] = $w;
                     $isfirst = false;

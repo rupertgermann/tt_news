@@ -68,14 +68,10 @@ class AjaxResolver implements MiddlewareInterface
         }
         $content = '';
 
-        switch ($this->conf['action']) {
-            case 'expandTree':
-                $content .= $this->expandTree();
-                break;
-
-            default:
-                throw new \UnexpectedValueException('method not allowd', 1565010424);
-        }
+        match ($this->conf['action']) {
+            'expandTree' => $content .= $this->expandTree(),
+            default => throw new \UnexpectedValueException('method not allowd', 1_565_010_424),
+        };
 
         $response->getBody()->write((string)$content);
 

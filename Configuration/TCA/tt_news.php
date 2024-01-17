@@ -24,7 +24,7 @@ $locallang_general = 'LLL:EXT:core/Resources/Private/Language/locallang_general.
 return [
     'ctrl' => [
         'title' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news',
-        'label' => ($confArr['label']) ? $confArr['label'] : 'title',
+        'label' => $confArr['label'] ?: 'title',
         'label_alt' => $confArr['label_alt'] . ($confArr['label_alt2'] ? ',' . $confArr['label_alt2'] : ''),
         'label_alt_force' => $confArr['label_alt_force'],
         'default_sortby' => 'ORDER BY datetime DESC',

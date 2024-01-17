@@ -199,7 +199,7 @@ class ClickMenu
      */
     protected function DB_changeFlag($table, $rec, $flagField, $title)
     {
-        $uid = $rec['_ORIG_uid'] ? $rec['_ORIG_uid'] : $rec['uid'];
+        $uid = $rec['_ORIG_uid'] ?: $rec['uid'];
         $loc = 'top.content.list_frame';
         $editOnClick = 'if(' . $loc . '){' . $loc . '.location.href=' .
             GeneralUtility::quoteJSvalue(GeneralUtility::makeInstance(UriBuilder::class)->buildUriFromRoute('tce_db') . '&redirect=') . '+top.rawurlencode(' .

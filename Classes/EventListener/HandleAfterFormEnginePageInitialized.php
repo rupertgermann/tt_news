@@ -17,8 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class HandleAfterFormEnginePageInitialized
 {
     /**
-     * @param AfterFormEnginePageInitializedEvent $event
-     *
      * @throws DBALException
      */
     public function __invoke(AfterFormEnginePageInitializedEvent $event): void

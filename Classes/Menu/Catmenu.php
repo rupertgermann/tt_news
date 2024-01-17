@@ -78,7 +78,7 @@ class Catmenu
             $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere,
             $pObj->config['catOrderBy']
         );
-        $this->treeObj->backPath = TYPO3_mainDir;
+        $this->treeObj->backPath = \TYPO3_MAINDIR;
         $this->treeObj->parentField = 'parent_category';
         $this->treeObj->thisScript = 'index.php?ttnewsID=tt_news_catmenu';
         $this->treeObj->cObjUid = (int)($pObj->cObj->data['uid']);
