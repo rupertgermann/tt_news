@@ -29,6 +29,9 @@ return static function (RectorConfig $rectorConfig): void {
 
     // If you use importNames(), you should consider excluding some TYPO3 files.
     $rectorConfig->skip([
-        __DIR__ . '/../Configuration/TypoScript/*.txt', // exclude typescript which would result in false positive processing
+        __DIR__ . '/../.Build/*',
+        __DIR__ . '/../.ddev/*',
+        __DIR__ . '/../Build/*',
+        __DIR__ . '/../Configuration/TypoScript/*', // exclude typescript which would result in false positive processing
     ]);
 };
