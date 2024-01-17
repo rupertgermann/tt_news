@@ -1,4 +1,5 @@
 <?php
+
 namespace RG\TtNews\Controller;
 
 /*
@@ -23,8 +24,6 @@ use TYPO3\CMS\Core\Http\HtmlResponse;
 
 /**
  * Class NewsBackendAjaxController
- *
- * @package RG\TtNews\Controller
  */
 class NewsBackendAjaxController
 {
@@ -35,11 +34,9 @@ class NewsBackendAjaxController
      */
     protected $conf;
 
-
     /**
      * The main dispatcher function. Collect data and prepare HTML output.
      *
-     * @param ServerRequestInterface $request
      *
      * @param ResponseInterface      $response
      *
@@ -68,17 +65,11 @@ class NewsBackendAjaxController
         }
         $content = '';
 
-        // Determine the scripts to execute
-        switch ($this->conf['action']) {
-            case 'loadList':
-                $content .= $this->loadList();
-                break;
-            case 'expandTree':
-                $content .= $this->expandTree();
-                break;
-            default:
-                $content .= 'no action given';
-        }
+        match ($this->conf['action']) {
+            'loadList' => $content .= $this->loadList(),
+            'expandTree' => $content .= $this->expandTree(),
+            default => $content .= 'no action given',
+        };
         $response->getBody()->write($content);
 
         return $response;
@@ -106,5 +97,4 @@ class NewsBackendAjaxController
         $content = $module->ajaxExpandCollapse($this->conf);
         return $content;
     }
-
 }

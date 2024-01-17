@@ -42,8 +42,6 @@ namespace RG\TtNews\Helper;
  *
  * @author     Mathias Bolt Lesniak <mathias@lilio.com>
  * @author     Rupert Germann <rupi@gmx.li>
- * @package    TYPO3
- * @subpackage tt_news
  */
 class ItemsProcFunc
 {
@@ -54,15 +52,15 @@ class ItemsProcFunc
      *
      * @return    array        $config array with extra codes merged in
      */
-    function user_insertExtraCodes($config)
+    public function user_insertExtraCodes($config)
     {
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display'] ?? null)) {
-            $config['items'] = array_merge($config['items'],
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display']);
+            $config['items'] = array_merge(
+                $config['items'],
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display']
+            );
         }
 
         return $config;
     }
-
 }
-

@@ -27,7 +27,7 @@ namespace RG\TtNews\Menu;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Plugin\TtNews;
@@ -37,7 +37,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
- *
  * renders the tt_news CATMENU content element
  *
  * @author Rupert Germann <rupi@gmx.li>
@@ -64,7 +63,7 @@ class Catmenu
     /**
      * @param TtNews $pObj
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function init(&$pObj)
     {
@@ -75,19 +74,21 @@ class Catmenu
         $this->treeObj->tt_news_obj = &$pObj;
         $this->treeObj->category = $pObj->piVars_catSelection;
         $this->treeObj->table = 'tt_news_cat';
-        $this->treeObj->init($pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere,
-            $pObj->config['catOrderBy']);
-        $this->treeObj->backPath = TYPO3_mainDir;
+        $this->treeObj->init(
+            $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere,
+            $pObj->config['catOrderBy']
+        );
+        $this->treeObj->backPath = \TYPO3_MAINDIR;
         $this->treeObj->parentField = 'parent_category';
         $this->treeObj->thisScript = 'index.php?ttnewsID=tt_news_catmenu';
-        $this->treeObj->cObjUid = intval($pObj->cObj->data['uid']);
-        $this->treeObj->fieldArray = array(
+        $this->treeObj->cObjUid = (int)($pObj->cObj->data['uid']);
+        $this->treeObj->fieldArray = [
             'uid',
             'title',
             'title_lang_ol',
             'description',
-            'image'
-        ); // those fields will be filled to the array $this->treeObj->tree
+            'image',
+        ]; // those fields will be filled to the array $this->treeObj->tree
         $this->treeObj->ext_IconMode = '1'; // no context menu on icons
 
         $expandable = $lConf['expandable'];
@@ -111,12 +112,14 @@ class Catmenu
 
         // get all selected category records from the current storagePid which are not 'root' categories
         // and add them as tree mounts. Subcategories of selected categories will be excluded.
-        $cMounts = array();
+        $cMounts = [];
         $nonRootMounts = false;
         foreach ($selcatArr as $catID) {
-
-            $subres = $this->db->exec_SELECTquery('*', 'tt_news_cat',
-                'uid = ' . (int)$catID . $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere);
+            $subres = $this->db->exec_SELECTquery(
+                '*',
+                'tt_news_cat',
+                'uid = ' . (int)$catID . $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere
+            );
             $tmpR = [];
             while (($subrow = $this->db->sql_fetch_assoc($subres))) {
                 $tmpR[] = $subrow;
@@ -131,16 +134,14 @@ class Catmenu
         }
         if ($nonRootMounts) {
             $this->treeObj->MOUNTS = $cMounts;
-
         }
     }
 
     /**
-     *
      * @param array $params
      *
      * @return string
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function ajaxExpandCollapse($params)
     {
@@ -156,7 +157,7 @@ class Catmenu
      * @param array $params
      *
      * @return array
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function initAjaxEnv($params)
     {

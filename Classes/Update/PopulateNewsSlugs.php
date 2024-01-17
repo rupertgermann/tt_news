@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace RG\TtNews\Update;
 
@@ -66,7 +66,7 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
     public function getPrerequisites(): array
     {
         return [
-            DatabaseUpdatedPrerequisite::class
+            DatabaseUpdatedPrerequisite::class,
         ];
     }
 
@@ -118,7 +118,6 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
             $languageId = (int)$record['sys_language_uid'];
             $recordInDefaultLanguage = $languageId > 0 ? (int)$record['l10n_parent'] : $recordId;
             $slug = $suggestedSlugs[$recordInDefaultLanguage][$languageId] ?? '';
-
 
             if (empty($slug)) {
                 if ($pid === -1) {

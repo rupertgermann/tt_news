@@ -25,16 +25,12 @@ namespace RG\TtNews\Hooks;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 /**
  * Hook to display verbose information about pi1 plugin in Web>Page module
  *
  * @author        Dmitry Dulepov <dmitry@typo3.org>
- * @package       TYPO3
- * @subpackage    tx_tt_news
  */
 class PageModuleHook
 {
@@ -52,8 +48,10 @@ class PageModuleHook
         if ($params['row']['list_type'] == 9) {
             $data = GeneralUtility::xml2array($params['row']['pi_flexform']);
             if (is_array($data) && $data['data']['sDEF']['lDEF']['what_to_display']['vDEF']) {
-                $result = 'tt_news: ' . sprintf($GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:cms_layout.mode'),
-                    $data['data']['sDEF']['lDEF']['what_to_display']['vDEF']);
+                $result = 'tt_news: ' . sprintf(
+                    $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:cms_layout.mode'),
+                    $data['data']['sDEF']['lDEF']['what_to_display']['vDEF']
+                );
             }
             if (!$result) {
                 $result = 'tt_news: ' . $GLOBALS['LANG']->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:cms_layout.not_configured');
@@ -63,5 +61,3 @@ class PageModuleHook
         return $result;
     }
 }
-
-

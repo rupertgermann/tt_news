@@ -44,7 +44,6 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 /**
  * Migrates tt_news images from uploads/pics to FAL
- *
  */
 class migrateImagesToFal implements UpgradeWizardInterface
 {
@@ -110,7 +109,7 @@ You have been warned ;-)';
     public function getPrerequisites(): array
     {
         return [
-            DatabaseUpdatedPrerequisite::class
+            DatabaseUpdatedPrerequisite::class,
         ];
     }
 
@@ -128,7 +127,6 @@ You have been warned ;-)';
     }
 
     /**
-     *
      * @throws DBALException
      */
     protected function migrateNewsImagesToFal()
@@ -138,7 +136,8 @@ You have been warned ;-)';
         /** @var $conn Connection */
         $conn = $this->connectionPool->getConnectionForTable($this->table);
 
-        $notMigratedNewsRecords = $conn->executeQuery('
+        $notMigratedNewsRecords = $conn->executeQuery(
+            '
                 SELECT n.uid, n.pid, n.image, r.uid as relId, n.imagecaption, n.imagealttext, n.imagetitletext
                 FROM tt_news n 
                 LEFT JOIN sys_file_reference r 
@@ -151,7 +150,6 @@ You have been warned ;-)';
         )->fetchAll();
 
         if (!empty($notMigratedNewsRecords)) {
-
             $sourceFolder = 'uploads/pics/';
             $targetFolder = 'fileadmin/migratedNewsAssets/Images';
             $pathSite = Environment::getPublicPath() . '/';
@@ -164,7 +162,6 @@ You have been warned ;-)';
             $folder = $resourceFactory->retrieveFileOrFolderObject($pathSite . $targetFolder);
 
             foreach ($notMigratedNewsRecords as $newsRecord) {
-
                 $images = GeneralUtility::trimExplode(',', $newsRecord['image']);
                 $imagecaptions = GeneralUtility::trimExplode(chr(10), $newsRecord['imagecaption']);
                 $imagealttexts = GeneralUtility::trimExplode(chr(10), $newsRecord['imagealttext']);
@@ -181,7 +178,8 @@ You have been warned ;-)';
                         }
                     }
                     if ($existingImagesCount > 0) {
-                        $conn->update($this->table,
+                        $conn->update(
+                            $this->table,
                             ['image' => $existingImagesCount],
                             ['uid' => $newsRecord['uid']]
                         );
@@ -226,7 +224,6 @@ You have been warned ;-)';
         }
     }
 
-
     /**
      * Check if there are news records with images that have not been migrated to fal
      *
@@ -239,7 +236,8 @@ You have been warned ;-)';
         /** @var $conn Connection */
         $conn = $this->connectionPool->getConnectionForTable($this->table);
 
-        $numberOfEntries = $conn->executeQuery('
+        $numberOfEntries = $conn->executeQuery(
+            '
                 SELECT count(*) as c
                 FROM tt_news n 
                 LEFT JOIN sys_file_reference r 

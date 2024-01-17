@@ -27,7 +27,6 @@ namespace RG\TtNews\Hooks;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 /**
  * Class 'tx_ttnews_tcemain' for the tt_news extension.
  *
@@ -35,7 +34,6 @@ namespace RG\TtNews\Hooks;
  *
  * @author     Rupert Germann <rupi@gmx.li>
  */
-
 use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
@@ -44,18 +42,16 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
  * Class being included by TCEmain using a hook
  *
  * @author     Rupert Germann <rupi@gmx.li>
- * @package    TYPO3
- * @subpackage tt_news
  */
 class DataHandlerHook
 {
@@ -77,8 +73,6 @@ class DataHandlerHook
      * @param string $id        : The records id (if any)
      * @param object $pObj      : Reference to the parent object (TCEmain)
      *
-     * @return    void
-     * @access public
      * @throws DBALException
      * @throws Exception
      */
@@ -86,18 +80,17 @@ class DataHandlerHook
     {
         if ($table == 'tt_news_cat' && is_int($id)) {
             // prevent moving of categories into their rootline
-            $newParent = intval($fieldArray['parent_category']);
+            $newParent = (int)($fieldArray['parent_category']);
 
             if ($newParent && GeneralUtility::inList(
-                    Div::getSubCategories(
-                        $id,
-                        $this->SPaddWhere . $this->enableCatFields
-                    ),
-                    $newParent
-                )) {
+                Div::getSubCategories(
+                    $id,
+                    $this->SPaddWhere . $this->enableCatFields
+                ),
+                $newParent
+            )) {
                 $sourceRec = BackendUtility::getRecord($table, $id, 'title');
                 $targetRec = BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
-
 
                 $messageString = "Attempt to move category '" . $sourceRec['title'] . "' ($id) to inside of its own rootline (at category '" . $targetRec['title'] . "' ($newParent)).";
 
@@ -107,14 +100,14 @@ class DataHandlerHook
                     FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    FlashMessage::ERROR,
+                    AbstractMessage::ERROR,
                     // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );
                 $this->enqueueFlashMessage($message);
 
                 // unset fieldArray to prevent saving of the record
-                $fieldArray = array();
+                $fieldArray = [];
 
                 return;
             }
@@ -122,7 +115,7 @@ class DataHandlerHook
 
         if ($table == 'tt_news') {
             // copy "type" field in localized records
-            if (!is_int($id) && $fieldArray['l18n_parent']) { // record is a new localization
+            if (!is_int($id) && ($fieldArray['l18n_parent'] ?? false)) { // record is a new localization
                 $rec = BackendUtility::getRecord(
                     $table,
                     $fieldArray['l18n_parent'],
@@ -137,7 +130,7 @@ class DataHandlerHook
             }
 
             $categories = [];
-            $recID = (($fieldArray['l18n_parent'] > 0) ? $fieldArray['l18n_parent'] : $id);
+            $recID = ((($fieldArray['l18n_parent'] ?? 0) > 0) ? $fieldArray['l18n_parent'] : $id);
             // get categories from the tt_news record in db
             $cRes = Database::getInstance()->exec_SELECT_mm_query(
                 'tt_news_cat.uid, tt_news_cat.title',
@@ -155,10 +148,10 @@ class DataHandlerHook
 
             $notAllowedItems = [];
 
-            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
+            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'] ?? '';
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
-            $wantedCategories = GeneralUtility::intExplode(',', $fieldArray['category']);
+            $wantedCategories = GeneralUtility::intExplode(',', $fieldArray['category'] ?? '');
             foreach ($wantedCategories as $wantedCategory) {
                 $categories[$wantedCategory] = $wantedCategory;
             }
@@ -174,17 +167,16 @@ class DataHandlerHook
                         ->sL(
                             'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.notAllowedCategoryError'
                         ) . implode(
-                        ', ',
-                        $notAllowedItems
-                    );
+                            ', ',
+                            $notAllowedItems
+                        );
                 $pObj->log($table, $id, 2, 0, 1, 'processDatamap: ' . $messageString, 1);
 
                 // unset fieldArray to prevent saving of the record
-                $fieldArray = array();
+                $fieldArray = [];
             }
         }
     }
-
 
     /**
      * @param $message
@@ -231,7 +223,6 @@ class DataHandlerHook
         }
     }
 
-
     /**
      * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a command was executed
      * (copy,move,delete...). For tt_news it is used to disable saving of the current record if it has an editlock or
@@ -243,8 +234,6 @@ class DataHandlerHook
      * @param array  $value   : The new value of the field which has been changed
      * @param object $pObj    : Reference to the parent object (TCEmain)
      *
-     * @return    void
-     * @access public
      * @throws DBALException
      * @throws Exception
      */
@@ -259,9 +248,9 @@ class DataHandlerHook
                     2,
                     0,
                     1,
-                    "processCmdmap [editlock]: Attempt to " . $command . " a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).",
+                    'processCmdmap [editlock]: Attempt to ' . $command . " a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).",
                     1,
-                    array($table)
+                    [$table]
                 );
                 // unset table to prevent saving
                 $table = '';
@@ -290,7 +279,7 @@ class DataHandlerHook
 
             $notAllowedItems = [];
 
-            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
+            $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'] ?? '';
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
             foreach ($categories as $categoryId => $categoryTitle) {
@@ -304,9 +293,9 @@ class DataHandlerHook
                         ->sL(
                             'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.notAllowedCategoryError'
                         ) . implode(
-                        ', ',
-                        $notAllowedItems
-                    );
+                            ', ',
+                            $notAllowedItems
+                        );
                 $pObj->log($table, $id, 2, 0, 1, 'processCmdmap: ' . $messageString, 1);
 
                 $table = ''; // unset table to prevent saving
@@ -328,14 +317,14 @@ class DataHandlerHook
         // copy records recursively from Drag&Drop in the category manager
         if ($table == 'tt_news_cat' && $command == 'DDcopy') {
             $srcRec = BackendUtility::getRecordWSOL('tt_news_cat', $srcId);
-            $overrideValues = array('parent_category' => $destId, 'hidden' => 1);
+            $overrideValues = ['parent_category' => $destId, 'hidden' => 1];
             $newRecID = $pObj->copyRecord($table, $srcId, $srcRec['pid'], 1, $overrideValues);
-            $CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $newRecID, $table, $pObj);
+            $CPtable = $this->int_recordTreeInfo([], $srcId, 99, $newRecID, $table, $pObj);
 
             foreach ($CPtable as $recUid => $recParent) {
                 $newParent = $pObj->copyMappingArray[$table][$recParent];
                 if (isset($newParent)) {
-                    $overrideValues = array('parent_category' => $newParent, 'hidden' => 1);
+                    $overrideValues = ['parent_category' => $newParent, 'hidden' => 1];
                     $pObj->copyRecord($table, $recUid, $srcRec['pid'], 1, $overrideValues);
                 } else {
                     $pObj->log($table, $srcId, 5, 0, 1, 'Something went wrong during copying branch');
@@ -346,7 +335,7 @@ class DataHandlerHook
         // delete records recursively from Context Menu in the category manager
         if ($table == 'tt_news_cat' && $command == 'DDdelete') {
             $pObj->deleteRecord($table, $srcId, false);
-            $CPtable = $this->int_recordTreeInfo(array(), $srcId, 99, $srcId, $table, $pObj);
+            $CPtable = $this->int_recordTreeInfo([], $srcId, 99, $srcId, $table, $pObj);
 
             foreach ($CPtable as $recUid => $p) {
                 if (isset($recUid)) {
@@ -380,7 +369,7 @@ class DataHandlerHook
         $mres = Database::getInstance()->exec_SELECTquery(
             'uid',
             $table,
-            'parent_category=' . intval($srcId) . $pObj->deleteClause($table) . $addW,
+            'parent_category=' . (int)$srcId . $pObj->deleteClause($table) . $addW,
             '',
             ''
         );
@@ -395,7 +384,6 @@ class DataHandlerHook
                 $CPtable = $this->int_recordTreeInfo($CPtable, $row['uid'], $counter - 1, $rootID, $table, $pObj);
             }
         }
-
 
         return $CPtable;
     }
@@ -418,7 +406,3 @@ class DataHandlerHook
         return $GLOBALS['LANG'];
     }
 }
-
-
-
-

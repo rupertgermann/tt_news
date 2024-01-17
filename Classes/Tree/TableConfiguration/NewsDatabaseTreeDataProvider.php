@@ -2,6 +2,7 @@
 
 namespace RG\TtNews\Tree\TableConfiguration;
 
+use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Tree\SortedTreeNodeCollection;
@@ -11,10 +12,9 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
-
 
 /**
  * TCA tree data provider
@@ -27,8 +27,8 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      * @param TreeNode $node
      * @param int      $level
      *
-     * @return NULL|TreeNodeCollection
-     * @throws \Doctrine\DBAL\DBALException
+     * @return TreeNodeCollection|null
+     * @throws DBALException
      */
     protected function getChildrenOf(TreeNode $node, $level): ?TreeNodeCollection
     {
@@ -53,7 +53,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         if ($nodeData == null) {
             $nodeData = [
                 'uid' => 0,
-                $this->getLookupField() => ''
+                $this->getLookupField() => '',
             ];
         }
 
@@ -88,18 +88,17 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         return $storage;
     }
 
-
     /**
      * Builds a complete node including childs
      *
-     * @param \TYPO3\CMS\Backend\Tree\TreeNode $basicNode
-     * @param \TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode|null $parent
+     * @param TreeNode $basicNode
+     * @param DatabaseTreeNode|null $parent
      * @param int $level
-     * @return \TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode Node object
+     * @return DatabaseTreeNode Node object
      */
     protected function buildRepresentationForNode(TreeNode $basicNode, DatabaseTreeNode $parent = null, $level = 0)
     {
-        /** @var \TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode $node */
+        /** @var DatabaseTreeNode $node */
         $node = GeneralUtility::makeInstance(DatabaseTreeNode::class);
         $row = [];
         if ($basicNode->getId() == 0) {
@@ -132,7 +131,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         $node->setParentNode($parent);
         if ($basicNode->hasChildNodes()) {
             $node->setHasChildren(true);
-            /** @var \TYPO3\CMS\Backend\Tree\SortedTreeNodeCollection $childNodes */
+            /** @var SortedTreeNodeCollection $childNodes */
             $childNodes = GeneralUtility::makeInstance(SortedTreeNodeCollection::class);
             $tempNodes = [];
             foreach ($basicNode->getChildNodes() as $child) {
