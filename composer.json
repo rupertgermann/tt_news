@@ -34,7 +34,6 @@
     "extra": {
         "typo3/cms": {
             "extension-key": "tt_news",
-            "app-dir": ".Build",
             "web-dir": ".Build/Web"
         }
     },
