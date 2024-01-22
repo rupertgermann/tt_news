@@ -21,6 +21,7 @@ use TYPO3\CMS\Backend\Clipboard\Clipboard;
 use TYPO3\CMS\Backend\Configuration\TranslationConfigurationProvider;
 use TYPO3\CMS\Backend\Controller\Page\LocalizationController;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
+use TYPO3\CMS\Backend\RecordList\DatabaseRecordList;
 use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Tree\View\PageTreeView;
@@ -55,7 +56,6 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Versioning\VersionState;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList;
 
 /**
  * Child class for the Web > Page module
@@ -730,12 +730,7 @@ class PageLayoutView implements LoggerAwareInterface
                 ->add(GeneralUtility::makeInstance(DeletedRestriction::class));
             $row = $queryBuilder
                 ->select('*')
-                ->from('pages')
-                ->where(
-                    $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($id, \PDO::PARAM_INT)),
-                    $this->getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW)
-                )
-                ->execute()
+                ->from('pages')->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($id, \PDO::PARAM_INT)), $this->getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW))->executeQuery()
                 ->fetch();
             BackendUtility::workspaceOL('pages', $row);
         }
@@ -1296,7 +1291,7 @@ class PageLayoutView implements LoggerAwareInterface
                 // "View page" icon is added:
                 $viewLink = '';
                 if (!VersionState::cast($this->getPageLayoutController()->pageinfo['t3ver_state'])->equals(VersionState::DELETE_PLACEHOLDER)) {
-                    $onClick = PreviewUriBuilder::create($this->id, '')->withSection('')->withAdditionalQueryParameters('&L=' . $lP)->buildDispatcherDataAttributes();
+                    $onClick = PreviewUriBuilder::create($this->id)->withSection('')->withAdditionalQueryParameters('&L=' . $lP)->buildDispatcherDataAttributes();
                     $viewLink = '<a href="#" class="btn btn-default btn-sm" onclick="' . htmlspecialchars((string)$onClick) . '" title="' . htmlspecialchars($this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.showPage')) . '">' . $this->iconFactory->getIcon('actions-view', Icon::SIZE_SMALL)->render() . '</a>';
                 }
                 // Language overlay page header:
@@ -1469,7 +1464,7 @@ class PageLayoutView implements LoggerAwareInterface
         if ($this->totalItems) {
             $result = $queryBuilder->execute();
             // Will return FALSE, if $result is invalid
-            $dbCount = $queryBuilder->count('uid')->execute()->fetchColumn(0);
+            $dbCount = $queryBuilder->count('uid')->executeQuery()->fetchColumn(0);
         }
         // If records were found, render the list
         if (!$dbCount) {
@@ -1720,7 +1715,7 @@ class PageLayoutView implements LoggerAwareInterface
 
         if ($depth >= 0) {
             $result = $queryBuilder->execute();
-            $rowCount = $queryBuilder->count('uid')->execute()->fetchColumn(0);
+            $rowCount = $queryBuilder->count('uid')->executeQuery()->fetchColumn(0);
             $count = 0;
             while ($row = $result->fetch()) {
                 BackendUtility::workspaceOL('pages', $row);
@@ -2118,7 +2113,7 @@ class PageLayoutView implements LoggerAwareInterface
                 $this->getBackendUser()->isAdmin()
                 || ((int)$row['editlock'] === 0 && (int)$this->pageinfo['editlock'] === 0)
                 && $this->getBackendUser()->doesUserHaveAccess($this->pageinfo, Permission::CONTENT_EDIT)
-                && $this->getBackendUser()->checkAuthMode('tt_content', 'CType', $row['CType'], $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'])
+                && $this->getBackendUser()->checkAuthMode('tt_content', 'CType', $row['CType'])
             )
         ) {
             return true;
@@ -2694,11 +2689,7 @@ class PageLayoutView implements LoggerAwareInterface
                 ->add(GeneralUtility::makeInstance(DeletedRestriction::class))
                 ->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class));
             $count = (int)$queryBuilder->count('uid')
-                ->from($table)
-                ->where(
-                    $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, \PDO::PARAM_INT))
-                )
-                ->execute()
+                ->from($table)->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, \PDO::PARAM_INT)))->executeQuery()
                 ->fetchColumn();
         }
 
@@ -2832,9 +2823,7 @@ class PageLayoutView implements LoggerAwareInterface
                     ->add(GeneralUtility::makeInstance(DeletedRestriction::class))
                     ->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class));
                 $count = $queryBuilder->count('uid')
-                    ->from($tName)
-                    ->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($id, \PDO::PARAM_INT)))
-                    ->execute()
+                    ->from($tName)->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($id, \PDO::PARAM_INT)))->executeQuery()
                     ->fetchColumn();
                 // If records were found (or if "tt_content" is the table...):
                 if ($count || $tName === 'tt_content') {
@@ -3020,11 +3009,11 @@ class PageLayoutView implements LoggerAwareInterface
         $expressionBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable('pages')
             ->expr();
-        $permsClause = $expressionBuilder->andX($backendUser->getPagePermsClause(Permission::PAGE_SHOW));
+        $permsClause = $expressionBuilder->and($backendUser->getPagePermsClause(Permission::PAGE_SHOW));
         // This will hide records from display - it has nothing to do with user rights!!
         $pidList = GeneralUtility::intExplode(',', $backendUser->getTSConfig()['options.']['hideRecords.']['pages'] ?? '', true);
         if (!empty($pidList)) {
-            $permsClause->add($expressionBuilder->notIn('pages.uid', $pidList));
+            $permsClause = $permsClause->with($expressionBuilder->notIn('pages.uid', $pidList));
         }
         $this->perms_clause = (string)$permsClause;
 
@@ -3041,7 +3030,7 @@ class PageLayoutView implements LoggerAwareInterface
             }
             // Save modified user uc
             $backendUser->uc['moduleData']['list'] = $this->tablesCollapsed;
-            $backendUser->writeUC($backendUser->uc);
+            $backendUser->writeUC();
             $returnUrl = GeneralUtility::sanitizeLocalUrl(GeneralUtility::_GP('returnUrl'));
             if ($returnUrl !== '') {
                 HttpUtility::redirect($returnUrl);
@@ -3120,9 +3109,7 @@ class PageLayoutView implements LoggerAwareInterface
                     ->add(GeneralUtility::makeInstance(DeletedRestriction::class))
                     ->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class));
                 $queryBuilder = $this->addPageIdConstraint($tableName, $queryBuilder);
-                $firstRow = $queryBuilder->select('uid')
-                    ->from($tableName)
-                    ->execute()
+                $firstRow = $queryBuilder->select('uid')->from($tableName)->executeQuery()
                     ->fetch();
                 if (!is_array($firstRow)) {
                     continue;
@@ -3480,8 +3467,7 @@ class PageLayoutView implements LoggerAwareInterface
         $queryBuilder->setFirstResult(0);
         $queryBuilder->setMaxResults(1);
 
-        $this->totalItems = (int)$queryBuilder->count('*')
-            ->execute()
+        $this->totalItems = (int)$queryBuilder->count('*')->executeQuery()
             ->fetchColumn();
     }
 
@@ -3519,10 +3505,7 @@ class PageLayoutView implements LoggerAwareInterface
                     if (!isset($fieldConfig['search']['pidonly'])
                         || ($fieldConfig['search']['pidonly'] && $currentPid > 0)
                     ) {
-                        $constraints[] = $expressionBuilder->andX(
-                            $expressionBuilder->eq($fieldName, (int)$this->searchString),
-                            $expressionBuilder->eq($tablePidField, (int)$currentPid)
-                        );
+                        $constraints[] = $expressionBuilder->and($expressionBuilder->eq($fieldName, (int)$this->searchString), $expressionBuilder->eq($tablePidField, (int)$currentPid));
                     }
                 } elseif ($fieldType === 'text'
                     || $fieldType === 'flex'
@@ -3543,26 +3526,22 @@ class PageLayoutView implements LoggerAwareInterface
                 $fieldConfig = $GLOBALS['TCA'][$table]['columns'][$fieldName]['config'];
                 $fieldType = $fieldConfig['type'];
                 $evalRules = $fieldConfig['eval'] ?: '';
-                $searchConstraint = $expressionBuilder->andX(
-                    $expressionBuilder->comparison(
-                        'LOWER(' . $queryBuilder->quoteIdentifier($fieldName) . ')',
-                        'LIKE',
-                        'LOWER(' . $like . ')'
-                    )
-                );
+                $searchConstraint = $expressionBuilder->and($expressionBuilder->comparison(
+                    'LOWER(' . $queryBuilder->quoteIdentifier($fieldName) . ')',
+                    'LIKE',
+                    'LOWER(' . $like . ')'
+                ));
                 if (is_array($fieldConfig['search'])) {
                     $searchConfig = $fieldConfig['search'];
                     if (in_array('case', $searchConfig)) {
                         // Replace case insensitive default constraint
-                        $searchConstraint = $expressionBuilder->andX($expressionBuilder->like($fieldName, $like));
+                        $searchConstraint = $expressionBuilder->and($expressionBuilder->like($fieldName, $like));
                     }
                     if (in_array('pidonly', $searchConfig) && $currentPid > 0) {
-                        $searchConstraint->add($expressionBuilder->eq($tablePidField, (int)$currentPid));
+                        $searchConstraint = $searchConstraint->with($expressionBuilder->eq($tablePidField, (int)$currentPid));
                     }
                     if ($searchConfig['andWhere']) {
-                        $searchConstraint->add(
-                            QueryHelper::stripLogicalOperatorPrefix($fieldConfig['search']['andWhere'])
-                        );
+                        $searchConstraint = $searchConstraint->with(QueryHelper::stripLogicalOperatorPrefix($fieldConfig['search']['andWhere']));
                     }
                 }
                 if ($fieldType === 'text'
@@ -3580,7 +3559,7 @@ class PageLayoutView implements LoggerAwareInterface
             return '0=1';
         }
 
-        return $expressionBuilder->orX(...$constraints);
+        return $expressionBuilder->or(...$constraints);
     }
 
     /**
@@ -3890,9 +3869,7 @@ class PageLayoutView implements LoggerAwareInterface
                         $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
                         $queryBuilder->createNamedParameter($orig_uid, \PDO::PARAM_INT)
                     )
-                )
-                ->setMaxResults(1)
-                ->execute()
+                )->setMaxResults(1)->executeQuery()
                 ->fetchColumn();
 
             if ($localizedRecordUid !== false) {
@@ -4301,20 +4278,13 @@ class PageLayoutView implements LoggerAwareInterface
             ->add(GeneralUtility::makeInstance(BackendWorkspaceRestriction::class));
         $result = $queryBuilder
             ->select('*')
-            ->from('pages')
-            ->where(
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->eq(
-                        $GLOBALS['TCA']['pages']['ctrl']['transOrigPointerField'],
-                        $queryBuilder->createNamedParameter($this->id, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->gt(
-                        $GLOBALS['TCA']['pages']['ctrl']['languageField'],
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    )
-                )
-            )
-            ->execute();
+            ->from('pages')->where($queryBuilder->expr()->and($queryBuilder->expr()->eq(
+                $GLOBALS['TCA']['pages']['ctrl']['transOrigPointerField'],
+                $queryBuilder->createNamedParameter($this->id, \PDO::PARAM_INT)
+            ), $queryBuilder->expr()->gt(
+                $GLOBALS['TCA']['pages']['ctrl']['languageField'],
+                $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+            )))->executeQuery();
 
         $this->pageOverlays = [];
         while ($row = $result->fetch()) {
@@ -4439,9 +4409,7 @@ class PageLayoutView implements LoggerAwareInterface
                         $GLOBALS['TCA']['pages']['ctrl']['languageField'],
                         $queryBuilder->createNamedParameter($this->tt_contentConfig['sys_language_uid'], \PDO::PARAM_INT)
                     )
-                )
-                ->setMaxResults(1)
-                ->execute()
+                )->setMaxResults(1)->executeQuery()
                 ->fetch();
             BackendUtility::workspaceOL('pages', $localizedPage);
             return $localizedPage['title'];

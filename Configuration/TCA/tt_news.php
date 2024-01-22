@@ -39,7 +39,6 @@ return [
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
         'type' => 'type',
-        'cruser_id' => 'cruser_id',
         'editlock' => 'editlock',
         'enablecolumns' => [
             'disabled' => 'hidden',
@@ -67,10 +66,8 @@ return [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.starttime',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
+                'type' => 'datetime',
                 'size' => 16,
-                'eval' => 'datetime,int',
                 'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
@@ -81,10 +78,8 @@ return [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.endtime',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
+                'type' => 'datetime',
                 'size' => 16,
-                'eval' => 'datetime,int',
                 'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
@@ -108,9 +103,9 @@ return [
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => [
-                    [$locallang_general . 'LGL.hide_at_login', -1],
-                    [$locallang_general . 'LGL.any_login', -2],
-                    [$locallang_general . 'LGL.usergroups', '--div--'],
+                    ['label' => $locallang_general . 'LGL.hide_at_login', 'value' => -1],
+                    ['label' => $locallang_general . 'LGL.any_login', 'value' => -2],
+                    ['label' => $locallang_general . 'LGL.usergroups', 'value' => '--div--'],
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
@@ -181,9 +176,9 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.0', 0],
-                    ['LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.1', 1],
-                    ['LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.2', 2],
+                    ['label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.0', 'value' => 0],
+                    ['label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.1', 'value' => 1],
+                    ['label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type.I.2', 'value' => 2],
                 ],
                 'default' => 0,
             ],
@@ -192,9 +187,7 @@ return [
             'exclude' => 1,
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.datetime',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'eval' => 'datetime,int',
+                'type' => 'datetime',
                 'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
@@ -205,9 +198,7 @@ return [
             'exclude' => 1,
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.archivedate',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'eval' => 'date,int',
+                'type' => 'datetime',
                 'default' => 0,
                 'range' => [
                     'upper' => mktime(0, 0, 0, 1, 1, 2038),
@@ -215,6 +206,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'format' => 'date',
             ],
         ],
         'image' => [
@@ -427,7 +419,7 @@ return [
                 'renderType' => 'selectSingle',
                 'default' => 0,
                 'items' => [
-                    ['', 0],
+                    ['label' => '', 'value' => 0],
                 ],
                 'foreign_table' => 'tt_news',
                 'foreign_table_where' => 'AND tt_news.pid=###CURRENT_PID### AND tt_news.sys_language_uid IN (-1,0)',
@@ -443,7 +435,7 @@ return [
             'label' => $locallang_general . 'LGL.versionLabel',
             'config' => [
                 'type' => 'none',
-                'cols' => 27,
+                'size' => 27,
             ],
         ],
 
@@ -477,9 +469,7 @@ return [
         'tstamp' => [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tstamp',
             'config' => [
-                'type' => 'input',
-                'eval' => 'datetime',
-                'renderType' => 'inputDateTime',
+                'type' => 'datetime',
             ],
         ],
     ],

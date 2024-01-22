@@ -35,7 +35,7 @@ return [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'eval' => 'required',
+                'required' => true,
             ],
         ],
         'title_lang_ol' => [
@@ -63,9 +63,9 @@ return [
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => [
-                    [$locallang_general . 'LGL.hide_at_login', -1],
-                    [$locallang_general . 'LGL.any_login', -2],
-                    [$locallang_general . 'LGL.usergroups', '--div--'],
+                    ['label' => $locallang_general . 'LGL.hide_at_login', 'value' => -1],
+                    ['label' => $locallang_general . 'LGL.any_login', 'value' => -2],
+                    ['label' => $locallang_general . 'LGL.usergroups', 'value' => '--div--'],
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
@@ -78,10 +78,8 @@ return [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.starttime',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
+                'type' => 'datetime',
                 'size' => 16,
-                'eval' => 'datetime,int',
                 'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
@@ -92,10 +90,8 @@ return [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.endtime',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
+                'type' => 'datetime',
                 'size' => 16,
-                'eval' => 'datetime,int',
                 'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,

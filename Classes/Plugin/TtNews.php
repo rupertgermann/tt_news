@@ -3753,7 +3753,7 @@ class TtNews extends AbstractPlugin
             $markerArray['###NEWS_COPYRIGHT###'] = '';
         }
 
-        $charset = ($this->tsfe->metaCharset ?: 'iso-8859-1');
+        $charset = ('utf-8' ?: 'iso-8859-1');
         if ($lConf['xmlDeclaration'] ?? null) {
             $markerArray['###XML_DECLARATION###'] = trim((string)$lConf['xmlDeclaration']);
         } else {
