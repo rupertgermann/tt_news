@@ -32,6 +32,8 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/../.Build/*',
         __DIR__ . '/../.ddev/*',
         __DIR__ . '/../Build/*',
-        __DIR__ . '/../Configuration/TypoScript/*', // exclude typescript which would result in false positive processing
+        __DIR__ . '/../config/*',
+        __DIR__ . '/../Configuration/TypoScript/*', // exclude typoscript which would result in false positive processing
+        __DIR__ . '/../var/*',
     ]);
 };
