@@ -1,4 +1,4 @@
-name: tt-news-v11
+name: tt-news-v12
 type: typo3
 docroot: .Build/Web/
 php_version: "8.1"
