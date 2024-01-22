@@ -612,7 +612,7 @@ plugin.tt_news {
     # icon for related news
     tmp.5 = IMAGE
     tmp.5 {
-        file = EXT:tt_news/ext_icon.gif
+        file = EXT:tt_news/Resources/Public/Images/Icons/ext_icon.gif
         file.width = 18
         file.height = 16
         wrap = | &nbsp;
