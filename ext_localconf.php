@@ -47,11 +47,6 @@ $boot = function () {
         'defaultContentRendering'
     );
 
-    // Apply Page TSconfig
-    ExtensionManagementUtility::addPageTSConfig(
-        '@import \'EXT:tt_news/Configuration/TSconfig/Page.tsconfig\''
-    );
-
     // Page module hook
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['9']['tt_news'] = PageModuleHook::class . '->getExtensionSummary';
 
