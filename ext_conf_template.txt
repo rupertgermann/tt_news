@@ -2,9 +2,6 @@
 # cat=basic/enable/100; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.requireCategories
 requireCategories = 0
 
-# cat=basic/enable/170; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.showBackEndModule
-showBackEndModule = 0
-
 # cat=basic//20; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.prependAtCopy
 prependAtCopy = 1
 
@@ -12,10 +9,10 @@ prependAtCopy = 1
 label = title
 
 # cat=basic//40; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt
-label_alt = 
+label_alt =
 
 # cat=basic//45; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt2
-label_alt2 = 
+label_alt2 =
 
 # cat=basic//50; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt_force
 label_alt_force = 0
