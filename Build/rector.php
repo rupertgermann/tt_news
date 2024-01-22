@@ -12,7 +12,7 @@ use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_81,
-        Typo3LevelSetList::UP_TO_TYPO3_11,
+        Typo3LevelSetList::UP_TO_TYPO3_12,
     ]);
 
     // Define your target version which you want to support
