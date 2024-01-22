@@ -47,9 +47,9 @@ $boot = function () {
         'defaultContentRendering'
     );
 
-    // Apply PageTSconfig
+    // Apply Page TSconfig
     ExtensionManagementUtility::addPageTSConfig(
-        '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tt_news/Configuration/PageTS/PageTs.ts">'
+        '@import \'EXT:tt_news/Configuration/TSconfig/Page.tsconfig\''
     );
 
     // Page module hook
