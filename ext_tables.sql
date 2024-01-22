@@ -42,22 +42,10 @@ CREATE TABLE tt_news (
 
   no_auto_pb tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
-  t3ver_oid int(11) DEFAULT '0' NOT NULL,
-  t3ver_id int(11) DEFAULT '0' NOT NULL,
-  t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-  t3ver_label varchar(30) DEFAULT '' NOT NULL,
-  t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-  t3ver_stage tinyint(4) DEFAULT '0' NOT NULL,
-  t3ver_count int(11) DEFAULT '0' NOT NULL,
-  t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-  t3_origuid int(11) DEFAULT '0' NOT NULL,
-  t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-
   PRIMARY KEY (uid),
   KEY parent (pid),
   KEY t3ver_oid (t3ver_oid,t3ver_wsid),
   KEY datetime (datetime)
-
 );
 
 #
@@ -84,7 +72,7 @@ CREATE TABLE tt_news_cat (
   description text,
 
   l10n_state text,
-  
+
   PRIMARY KEY (uid),
   KEY parent (pid),
   KEY parent_category (parent_category)
@@ -122,7 +110,6 @@ CREATE TABLE tt_news_cat_mm (
 #
 CREATE TABLE be_groups (
 	tt_news_categorymounts varchar(255) DEFAULT '' NOT NULL
-	
 );
 
 #
@@ -137,15 +124,16 @@ CREATE TABLE be_users (
 # Table structure for table 'tt_news_cache'
 #
 CREATE TABLE tt_news_cache (
-    id int(11) unsigned NOT NULL auto_increment,
-    identifier varchar(32) DEFAULT '' NOT NULL,
-    content text NOT NULL,
+	id int(11) unsigned NOT NULL auto_increment,
+	identifier varchar(32) DEFAULT '' NOT NULL,
+	content text NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
 	lifetime int(11) DEFAULT '0' NOT NULL,
 	tags varchar(255) DEFAULT '' NOT NULL,
-  	PRIMARY KEY (id),
-  	KEY cache_id (identifier),
-  	KEY tags (tags)
+
+	PRIMARY KEY (id),
+	KEY cache_id (identifier),
+	KEY tags (tags)
 ) ENGINE=InnoDB;
 
 
@@ -156,9 +144,8 @@ CREATE TABLE tt_news_cache_tags (
   id int(11) unsigned NOT NULL auto_increment,
   identifier varchar(128) DEFAULT '' NOT NULL,
   tag varchar(128) DEFAULT '' NOT NULL,
+
   PRIMARY KEY (id),
   KEY cache_id (identifier),
   KEY cache_tag (tag)
 ) ENGINE=InnoDB;
-
-
