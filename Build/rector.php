@@ -15,6 +15,9 @@ return static function (RectorConfig $rectorConfig): void {
         Typo3LevelSetList::UP_TO_TYPO3_12,
     ]);
 
+    // Disable parallel otherwise non php file processing is not working i.e. typoscript or flexform
+    $rectorConfig->disableParallel();
+
     // Define your target version which you want to support
     $rectorConfig->phpVersion(PhpVersion::PHP_81);
 
