@@ -35,6 +35,9 @@
         "typo3/cms": {
             "extension-key": "tt_news",
             "web-dir": ".Build/Web"
+        },
+        "helhum/dotenv-connector": {
+            "env-file": "./Build/.env"
         }
     },
     "require-dev": {
@@ -55,14 +58,16 @@
         "typo3/cms-lowlevel": "^12.4",
         "typo3/cms-rte-ckeditor": "^12.4",
         "typo3/cms-tstemplate": "^12.4",
-        "helhum/typo3-console": "^8.1"
+        "helhum/typo3-console": "^8.1",
+        "helhum/dotenv-connector": "^3.0"
     },
     "config": {
         "vendor-dir": ".Build/vendor",
         "bin-dir": ".Build/bin",
         "allow-plugins": {
             "typo3/cms-composer-installers": true,
-            "typo3/class-alias-loader": true
+            "typo3/class-alias-loader": true,
+            "helhum/dotenv-connector": true
         }
     },
     "scripts": {
