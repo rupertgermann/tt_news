@@ -136,8 +136,10 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-                'renderType' => 'inputLink',
-                'fieldControl' => ['linkPopup' => ['options' => ['title' => 'Link']]],
+                'renderType' => 'link',
+                'appearance' => [
+                    'browserTitle' => 'Link',
+                ],
             ],
         ],
         'bodytext' => [
