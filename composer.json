@@ -40,7 +40,22 @@
     "require-dev": {
         "ssch/typo3-rector": "^1.6",
         "typo3/coding-standards": "^0.7",
-        "typo3/minimal": "^12.4"
+        "typo3/cms-info": "^12.4",
+        "typo3/cms-reports": "^12.4",
+        "typo3/cms-fluid-styled-content": "^12.4",
+        "typo3/cms-belog": "^12.4",
+        "typo3/cms-backend": "^12.4",
+        "typo3/cms-beuser": "^12.4",
+        "typo3/cms-extbase": "^12.4",
+        "typo3/cms-extensionmanager": "^12.4",
+        "typo3/cms-filelist": "^12.4",
+        "typo3/cms-fluid": "^12.4",
+        "typo3/cms-frontend": "^12.4",
+        "typo3/cms-install": "^12.4",
+        "typo3/cms-lowlevel": "^12.4",
+        "typo3/cms-rte-ckeditor": "^12.4",
+        "typo3/cms-tstemplate": "^12.4",
+        "helhum/typo3-console": "^8.1"
     },
     "config": {
         "vendor-dir": ".Build/vendor",
@@ -51,6 +66,16 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "typo3 database:updateschema",
+            "typo3 extension:setup",
+            "typo3 cache:flush"
+        ],
+        "post-update-cmd": [
+            "typo3 database:updateschema",
+            "typo3 extension:setup",
+            "typo3 cache:flush"
+        ],
         "phpcsfixer": ".Build/bin/php-cs-fixer fix --config=Build/php-cs-fixer.php",
         "rector": [
             ".Build/bin/rector process --config Build/rector.php",
