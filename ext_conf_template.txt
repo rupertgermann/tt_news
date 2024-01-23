@@ -9,10 +9,10 @@ prependAtCopy = 1
 label = title
 
 # cat=basic//40; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt
-label_alt =
+label_alt = 
 
 # cat=basic//45; type=options[,datetime,title,short,author,tstamp,category]; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt2
-label_alt2 =
+label_alt2 = 
 
 # cat=basic//50; type=boolean; label=LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:extmng.label_alt_force
 label_alt_force = 0
