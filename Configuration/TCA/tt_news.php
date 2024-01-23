@@ -60,6 +60,9 @@ return [
         'thumbnail' => 'image',
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/ext_icon.gif',
         'searchFields' => 'uid,title,short,bodytext',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ],
     ],
     'columns' => [
         'starttime' => [

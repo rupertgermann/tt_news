@@ -27,6 +27,9 @@ return [
         'crdate' => 'crdate',
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/tt_news_cat.gif',
         'searchFields' => 'uid,title',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ],
     ],
     'columns' => [
         'title' => [
