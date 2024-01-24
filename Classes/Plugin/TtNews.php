@@ -430,6 +430,7 @@ class TtNews extends AbstractPlugin
     protected function initViewObject()
     {
         $this->view = GeneralUtility::makeInstance(StandaloneView::class);
+        $this->view->setRequest($GLOBALS['TYPO3_REQUEST']);
     }
 
     /**
@@ -445,7 +446,6 @@ class TtNews extends AbstractPlugin
         $this->view->setLayoutRootPaths($this->conf['view.']['layoutRootPaths.']);
         $this->view->setPartialRootPaths($this->conf['view.']['partialRootPaths.']);
         $this->view->setTemplateRootPaths($this->conf['view.']['templateRootPaths.']);
-        $this->view->getRequest()->setControllerExtensionName('TtNews');
 
         $this->view->setTemplate(ucfirst(strtolower($this->theCode)));
         $this->view->assign('content', $data);
