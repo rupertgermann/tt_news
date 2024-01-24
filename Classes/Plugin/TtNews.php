@@ -30,6 +30,7 @@ namespace RG\TtNews\Plugin;
  ***************************************************************/
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\ResultStatement;
+use Psr\Http\Message\ResponseFactoryInterface;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Menu\Catmenu;
@@ -40,6 +41,7 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\File;
@@ -52,7 +54,6 @@ use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -1451,7 +1452,11 @@ class TtNews extends AbstractPlugin
                 $redirectUrl = $this->local_cObj->getTypoLink_URL(
                     $row['type'] == 1 ? $row['page'] : $row['ext_url']
                 );
-                HttpUtility::redirect($redirectUrl);
+                $responseFactory = GeneralUtility::makeInstance(ResponseFactoryInterface::class);
+                $response = $responseFactory
+                    ->createResponse()
+                    ->withAddedHeader('location', $redirectUrl);
+                throw new PropagateResponseException($response);
             }
             $item = false;
             // reset marker array
@@ -1526,7 +1531,13 @@ class TtNews extends AbstractPlugin
             if ($this->conf['redirectNoTranslToList']) {
                 // redirect to list page
                 $this->pi_linkToPage(' ', $this->conf['backPid']);
-                HttpUtility::redirect($this->cObj->lastTypoLinkUrl);
+
+                $redirectUrl = $this->cObj->lastTypoLinkUrl;
+                $responseFactory = GeneralUtility::makeInstance(ResponseFactoryInterface::class);
+                $response = $responseFactory
+                    ->createResponse()
+                    ->withAddedHeader('location', $redirectUrl);
+                throw new PropagateResponseException($response);
             }
 
             $this->fluidVars['mode'] = 'noTranslation';
