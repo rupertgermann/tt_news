@@ -41,7 +41,7 @@
         }
     },
     "require-dev": {
-        "ssch/typo3-rector": "^1.6",
+        "ssch/typo3-rector": "^1.7",
         "typo3/coding-standards": "^0.7",
         "typo3/cms-info": "^12.4",
         "typo3/cms-reports": "^12.4",
