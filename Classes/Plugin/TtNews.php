@@ -111,7 +111,7 @@ class TtNews extends AbstractPlugin
     /**
      * @var array
      *
-     * todo: remove legacy langArr
+     * @todo remove/replace legacy langArr
      */
     public $langArr = []; // the languages found in the tt_news sysfolder
     /**
@@ -1995,7 +1995,7 @@ class TtNews extends AbstractPlugin
         $markerArray['###NEWS_UID###'] = $row['uid'];
 
         // show language label and/or flag
-        // @todo: remove legacy langArr
+        // @todo: remove/replace legacy langArr
         // if ($this->isRenderMarker('###NEWS_LANGUAGE###')) {
         //     if ($this->conf['showLangLabels']) {
         //         $markerArray['###NEWS_LANGUAGE###'] = $this->langArr[$row['sys_language_uid']]['title'];
@@ -4205,6 +4205,8 @@ class TtNews extends AbstractPlugin
 
     /**
      * fills the internal array '$this->langArr' with the available syslanguages
+     *
+     * @todo remove/replace legacy langArr
      *
      * @throws DBALException
      */
