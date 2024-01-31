@@ -34,7 +34,7 @@
     "extra": {
         "typo3/cms": {
             "extension-key": "tt_news",
-            "web-dir": ".Build/Web"
+            "web-dir": ".Build/public"
         },
         "helhum/dotenv-connector": {
             "env-file": "./Build/.env"

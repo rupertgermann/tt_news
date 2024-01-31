@@ -1,6 +1,6 @@
 name: tt-news-v12
 type: typo3
-docroot: .Build/Web/
+docroot: .Build/public/
 php_version: "8.1"
 webserver_type: apache-fpm
 router_http_port: "80"
