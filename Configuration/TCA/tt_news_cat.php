@@ -115,7 +115,8 @@ return [
                 'default' => 0,
                 'treeConfig' => [
                     'parentField' => 'parent_category',
-                    'dataProvider' => NewsDatabaseTreeDataProvider::class,
+                    // @todo: fix for TYPO3 v12
+                    // 'dataProvider' => NewsDatabaseTreeDataProvider::class,
                     'appearance' => [
                         'showHeader' => true,
                     ],
