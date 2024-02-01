@@ -1274,7 +1274,7 @@ class TtNews extends AbstractPlugin
             // Register displayed news item globally:
             $GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'];
 
-            $this->tsfe->ATagParams = $pTmp . ' title="' . $this->local_cObj->stdWrap(
+            $this->tsfe->config['config']['ATagParams'] = $pTmp . ' title="' . $this->local_cObj->stdWrap(
                 trim(htmlspecialchars($row[$titleField] ?? '')),
                 $lConf['linkTitleField.'] ?? []
             ) . '"';
@@ -1310,7 +1310,7 @@ class TtNews extends AbstractPlugin
             }
 
             // reset ATagParams
-            $this->tsfe->ATagParams = $pTmp;
+            $this->tsfe->config['config']['ATagParams'] = $pTmp;
             $markerArray = $this->getItemMarkerArray($row, $lConf, $prefix_display);
 
             // XML
@@ -2500,7 +2500,7 @@ class TtNews extends AbstractPlugin
     {
         $title = $rec['title'];
         $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
-        $this->tsfe->ATagParams = $pTmp . ' title="' . $this->local_cObj->stdWrap(
+        $this->tsfe->config['config']['ATagParams'] = $pTmp . ' title="' . $this->local_cObj->stdWrap(
             trim(htmlspecialchars((string)$title)),
             $lConf[$p . 'LinkTitle_stdWrap.']
         ) . '"';
@@ -2514,7 +2514,7 @@ class TtNews extends AbstractPlugin
 
         $lbl = $this->local_cObj->stdWrap($lbl, $lConf[$p . 'LinkLabel_stdWrap.']);
 
-        $this->tsfe->ATagParams = $pTmp;
+        $this->tsfe->config['config']['ATagParams'] = $pTmp;
 
         return $this->local_cObj->stdWrap($link[0] . $lbl . $link[1], $lConf[$p . 'Link_stdWrap.']);
     }
@@ -2578,7 +2578,7 @@ class TtNews extends AbstractPlugin
             foreach ($this->categories[$row['uid']] as $val) {
                 // find categories, wrap them with links and collect them in the array $news_category.
                 $catTitle = htmlspecialchars((string)$val['title']);
-                $this->tsfe->ATagParams = $pTmp . ' title="' . $catTitle . '"';
+                $this->tsfe->config['config']['ATagParams'] = $pTmp . ' title="' . $catTitle . '"';
                 $titleWrap = ($val['parent_category'] > 0 ? 'subCategoryTitleItem_stdWrap.' : 'categoryTitleItem_stdWrap.');
                 if ($this->config['catTextMode'] == 0) {
                     $markerArray['###NEWS_CATEGORY###'] = '';
@@ -2738,7 +2738,7 @@ class TtNews extends AbstractPlugin
                 $markerArray['###NEWS_CATEGORY###'] = $xmlCategories;
             }
         }
-        $this->tsfe->ATagParams = $pTmp;
+        $this->tsfe->config['config']['ATagParams'] = $pTmp;
 
         return $markerArray;
     }
@@ -2853,7 +2853,8 @@ class TtNews extends AbstractPlugin
 
                         $theImgCode .= $this->local_cObj->cObjGetSingle(
                             'IMAGE',
-                            $lConf['image.']
+                            // @todo: it seems that $lConf['image.'] is not defined before, due to undefined array key warning in marker based list view
+                            0 //$lConf['image.']
                         ) . $this->local_cObj->stdWrap(
                             $imgsCaptions[$cc],
                             $lConf['caption_stdWrap.'] ?? null
@@ -3172,7 +3173,7 @@ class TtNews extends AbstractPlugin
                     }
                     $catTitle = $catTitle ?: $val['title'];
                     if ($lConf['linkTitles'] && GeneralUtility::inList('2,3', $this->config['catTextMode'])) {
-                        $this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $catTitle . '"';
+                        $this->tsfe->config['config']['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $catTitle . '"';
                         $output = $this->handleCatTextMode($val, $catSelLinkParams, $catTitle, $lConf, $output);
                     } else {
                         $output[] = $this->local_cObj->stdWrap($catTitle, $lConf['title_stdWrap.']);
@@ -3185,7 +3186,7 @@ class TtNews extends AbstractPlugin
                 $catRootline = $this->local_cObj->stdWrap($catRootline, $lConf['catRootline_stdWrap.']);
             }
 
-            $this->tsfe->ATagParams = $pTmp;
+            $this->tsfe->config['config']['ATagParams'] = $pTmp;
         }
 
         return $catRootline;
@@ -3232,7 +3233,7 @@ class TtNews extends AbstractPlugin
                         $catSelLinkParams = ($this->conf['catSelectorTargetPid'] ? ($this->conf['itemLinkTarget'] ? $this->conf['catSelectorTargetPid'] . ' ' . $this->conf['itemLinkTarget'] : $this->conf['catSelectorTargetPid']) : $this->tsfe->id);
                         $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
                         if ($this->conf['displayCatMenu.']['insertDescrAsTitle']) {
-                            $this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $array_in['description'] . '"';
+                            $this->tsfe->config['config']['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $array_in['description'] . '"';
                         }
                         if ($array_in['uid']) {
                             $piVarsCat = $this->piVars['cat'] ?? false;
@@ -3268,7 +3269,7 @@ class TtNews extends AbstractPlugin
                                 $catSelLinkParams
                             );
                         }
-                        $this->tsfe->ATagParams = $pTmp;
+                        $this->tsfe->config['config']['ATagParams'] = $pTmp;
                     }
                     if ($l) {
                         $result .= $catmenuLevel_stdWrap[1];
@@ -3480,7 +3481,7 @@ class TtNews extends AbstractPlugin
                 if ($row['type'] != 1 && $row['type'] != 2) {
                     // only normal news
                     $catSPid = false;
-                    if ($row['sPidByCat'] && $this->conf['useSPidFromCategory']) {
+                    if ($row['sPidByCat'] ?? '' && $this->conf['useSPidFromCategory']) {
                         $catSPid = $row['sPidByCat'];
                     }
                     $sPid = ($catSPid ?: $this->config['singlePid']);

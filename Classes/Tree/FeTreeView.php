@@ -89,7 +89,7 @@ class FeTreeView extends Categorytree
         $piVars = &$this->tt_news_obj->piVars;
         $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
         if ($newsConf['displayCatMenu.']['insertDescrAsTitle']) {
-            $GLOBALS['TSFE']->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $row['description'] . '"';
+            $GLOBALS['TSFE']->config['config']['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $row['description'] . '"';
         }
 
         if ($this->getCatNewsCount) {
@@ -109,7 +109,7 @@ class FeTreeView extends Categorytree
                 'pointer' => null,
             ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
         }
-        $GLOBALS['TSFE']->ATagParams = $pTmp;
+        $GLOBALS['TSFE']->config['config']['ATagParams'] = $pTmp;
 
         return $link;
     }
