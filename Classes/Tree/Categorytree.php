@@ -182,7 +182,7 @@ class Categorytree extends AbstractTreeView
         foreach ($this->MOUNTS as $idx => $uid) {
             // Set first:
             $this->bank = $idx;
-            $isOpen = $this->stored[$idx][$uid] || $this->expandFirst;
+            $isOpen = isset($this->stored[$idx]) && is_array($this->stored[$idx]) ? $this->stored[$idx][$uid] || $this->expandFirst : false;
             // Save ids while resetting everything else.
             $curIds = $this->ids;
             $this->reset();
@@ -419,23 +419,23 @@ class Categorytree extends AbstractTreeView
     protected function addItem(&$itemHTML, $v, $classAttr, $uid, $idAttr, $titleLen)
     {
         // add CSS classes to the list item
-        if ($v['hasSub']) {
+        if (isset($v['hasSub']) && $v['hasSub']) {
             $classAttr .= ($classAttr ? ' ' : '') . 'expanded';
         }
-        if ($v['isLast']) {
+        if (isset($v['isLast']) && $v['isLast']) {
             $classAttr .= ($classAttr ? ' ' : '') . 'last';
         }
-        if ($uid && $uid == $this->category) {
+        if (isset($uid) && $uid == $this->category) {
             $classAttr .= ($classAttr ? ' ' : '') . 'active';
         }
 
         $itemHTML .= '
-				<li id="' . $idAttr . '"' . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr(
+            <li id="' . $idAttr . '"' . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr(
             $v['row'],
             $titleLen
         ), $v['row'], $v['bank']) . "\n";
 
-        if (!$v['hasSub']) {
+        if (!isset($v['hasSub']) || !$v['hasSub']) {
             $itemHTML .= '</li>';
         }
     }
@@ -453,7 +453,7 @@ class Categorytree extends AbstractTreeView
     {
         // if this is the last one and does not have subitems, we need to close
         // the tree as long as the upper levels have last items too
-        if ($v['isLast'] && !$v['hasSub'] && !$doCollapse && !($doExpand && $expandedPageUid == $uid)) {
+        if (isset($v['isLast']) && $v['isLast'] && !$v['hasSub'] && !$doCollapse && !($doExpand && $expandedPageUid == $uid)) {
             for ($i = $v['invertedDepth']; $closeDepth[$i] == 1; $i++) {
                 $closeDepth[$i] = 0;
                 $itemHTML .= '</ul></li>';
@@ -540,14 +540,16 @@ class Categorytree extends AbstractTreeView
 
             // if this item is the start of a new level,
             // then a new level <ul> is needed, but not in ajax mode
-            if ($v['isFirst'] && !($doCollapse) && !($doExpand && $expandedPageUid == $uid)) {
+            if (isset($v['isFirst']) && $v['isFirst'] && !($doCollapse) && !($doExpand && $expandedPageUid == $uid)) {
                 $itemHTML = '<ul>';
             }
+
+            $cssClass = $v['row']['_CSSCLASS'] ?? '';
 
             $this->addItem(
                 $itemHTML,
                 $v,
-                $v['row']['_CSSCLASS'],
+                $cssClass,
                 $uid,
                 htmlspecialchars($this->domIdPrefix . $this->getId($v['row']) . '_' . $v['bank']),
                 $this->titleLen
@@ -555,7 +557,7 @@ class Categorytree extends AbstractTreeView
 
             // we have to remember if this is the last one
             // on level X so the last child on level X+1 closes the <ul>-tag
-            if ($v['isLast'] && !($doExpand && $expandedPageUid == $uid)) {
+            if (isset($v['isLast']) && $v['isLast'] && !($doExpand && $expandedPageUid == $uid)) {
                 $closeDepth[$v['invertedDepth']] = 1;
             }
 
@@ -573,7 +575,7 @@ class Categorytree extends AbstractTreeView
                 $ajaxOutput .= $itemHTML;
                 $invertedDepthOfAjaxRequestedItem = $v['invertedDepth'];
             } elseif ($invertedDepthOfAjaxRequestedItem) {
-                if ($v['invertedDepth'] < $invertedDepthOfAjaxRequestedItem) {
+                if (isset($v['invertedDepth']) && $v['invertedDepth'] < $invertedDepthOfAjaxRequestedItem) {
                     $ajaxOutput .= $itemHTML;
                 } else {
                     $this->ajaxStatus = true;

@@ -55,7 +55,7 @@ class FeTreeView extends Categorytree
             }
         } else {
             $relevantParametersForCachingFromPageArguments = [];
-            $pageArguments = $GLOBALS['REQUEST']->getAttribute('routing');
+            $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing');
             $queryParams = $pageArguments->getDynamicArguments();
             if (!empty($queryParams) && ($pageArguments->getArguments()['cHash'] ?? false)) {
                 $queryParams['id'] = $pageArguments->getPageId();
@@ -239,7 +239,7 @@ class FeTreeView extends Categorytree
                 $catSelLinkParams = $newsConf['catSelectorTargetPid'];
             } else {
                 $relevantParametersForCachingFromPageArguments = [];
-                $pageArguments = $GLOBALS['REQUEST']->getAttribute('routing');
+                $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing');
                 $queryParams = $pageArguments->getDynamicArguments();
                 if (!empty($queryParams) && ($pageArguments->getArguments()['cHash'] ?? false)) {
                     $queryParams['id'] = $pageArguments->getPageId();
@@ -279,6 +279,7 @@ class FeTreeView extends Categorytree
             // a user is logged in
             $this->stored = json_decode((string)$this->FE_USER->uc['tt_news'][$this->treeName], true, 512, JSON_THROW_ON_ERROR);
         } else {
+            // @todo: fix/handle json exception
             $this->stored = json_decode(($_COOKIE[$this->treeName] ?? ''), true, 512, JSON_THROW_ON_ERROR);
         }
 

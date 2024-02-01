@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// Src: https://github.com/sabbelasichon/typo3-rector/blob/v1.6.0/templates/rector.php.dist
+// Src: https://github.com/sabbelasichon/typo3-rector/blob/v1.7.0/templates/rector.php.dist
 
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;

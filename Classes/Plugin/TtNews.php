@@ -1909,7 +1909,7 @@ class TtNews extends AbstractPlugin
                 /** @var Catmenu $catTreeObj */
                 $catTreeObj = GeneralUtility::makeInstance(Catmenu::class);
                 if ($mode == 'ajaxtree') {
-                    $this->getPageRenderer()->addJsFooterFile('/typo3conf/ext/tt_news/Resources/Public/JavaScript/NewsCatmenu.js');
+                    $this->getPageRenderer()->addJsFooterFile('EXT:tt_news/Resources/Public/JavaScript/NewsCatmenu.js');
                 }
                 $catTreeObj->init($this);
                 $catTreeObj->treeObj->FE_USER = &$this->tsfe->fe_user;
@@ -4907,5 +4907,23 @@ class TtNews extends AbstractPlugin
         }
 
         return $output;
+    }
+
+    /**
+     * Set cObj data
+     */
+    public function setCObjData(array $data)
+    {
+        $this->cObj->data = $data;
+    }
+
+    /**
+     * Get cObjUid
+     *
+     * @return int
+     */
+    public function getCObjUid()
+    {
+        return (int)($this->cObj->data['uid']);
     }
 }

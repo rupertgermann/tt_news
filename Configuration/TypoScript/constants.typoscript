@@ -95,7 +95,7 @@ plugin.tt_news {
     displayCatMenu.showNewsCountForCategories = 0
 
     # cat=plugin_tt_news_catmenu//20; type=options[tree,ajaxtree,nestedWraps]; label= LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:tsce.displayCatMenu.mode
-    displayCatMenu.mode = ajaxtree
+    displayCatMenu.mode = nestedWraps
 
     # cat=plugin_tt_news_catmenu//30; type=boolean; label= LLL:EXT:tt_news/Resources/Private/Language/locallang.xml:tsce.displayCatMenu.expandable
     displayCatMenu.expandable = 1
