@@ -2853,7 +2853,7 @@ class TtNews extends AbstractPlugin
 
                         $theImgCode .= $this->local_cObj->cObjGetSingle(
                             'IMAGE',
-                            $lConf['image'] ?? false
+                            $lConf['image.']
                         ) . $this->local_cObj->stdWrap(
                             $imgsCaptions[$cc],
                             $lConf['caption_stdWrap.'] ?? null
