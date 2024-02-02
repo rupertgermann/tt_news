@@ -1432,9 +1432,14 @@ class TtNews extends AbstractPlugin
         }
         // Then get localization of record:
         // (if the content language is not the default language)
-        if ($this->sys_language_content) {
-            $OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
-            $row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->sys_language_content, $OLmode);
+        if (!empty($row) && $this->sys_language_content) {
+            $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+            $row = $this->tsfe->sys_page->getRecordOverlay(
+                'tt_news',
+                $row,
+                $this->sys_language_content,
+                $languageAspect->getLegacyOverlayType()
+            );
         }
 
         // Adds hook for processing of extra item array
