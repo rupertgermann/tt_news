@@ -4109,10 +4109,10 @@ class TtNews extends AbstractPlugin
 
         // Setting LIMIT:
         if ((($conf['max'] ?? false) || ($conf['begin'] ?? false)) && !$error) {
-            $conf['begin'] = MathUtility::forceIntegerInRange(
-                ceil($this->cObj->calc($conf['begin'] ?? 0)),
+            $conf['begin'] = isset($conf['begin']) ? MathUtility::forceIntegerInRange(
+                ceil($this->cObj->calc((string)$conf['begin'] ?? '0')),
                 0
-            );
+            ) : 0;
             if ($conf['begin'] && !$conf['max']) {
                 $conf['max'] = 100000;
             }
