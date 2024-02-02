@@ -428,6 +428,6 @@ class Helpers
             $offset = '+' . $offset;
         }
 
-        return strftime('%Y-%m-%dT%H:%M:%S', $datetime) . $offset . ':00';
+        return date('Y-m-d\TH:i:s', $datetime) . $offset . ':00';
     }
 }

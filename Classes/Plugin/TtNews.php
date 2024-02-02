@@ -661,16 +661,21 @@ class TtNews extends AbstractPlugin
         $this->config['noPageBrowser'] = $noPageBrowser ?: ($this->conf['noPageBrowser'] ?? false);
 
         // image sizes/optionSplit given from FlexForms
-        $this->config['FFimgH'] = trim($this->pi_getFFvalue(
+        $flexformValueHeight = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'imageMaxHeight',
             's_template'
-        ));
-        $this->config['FFimgW'] = trim($this->pi_getFFvalue(
+        );
+
+        $this->config['FFimgH'] = ($flexformValueHeight !== null) ? trim($flexformValueHeight) : '';
+
+        $flexformValueWidth = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'imageMaxWidth',
             's_template'
-        ));
+        );
+
+        $this->config['FFimgW'] = ($flexformValueWidth !== null) ? trim($flexformValueWidth) : '';
 
         // Get number of alternative Layouts (loop layout in LATEST and LIST view) default is 2:
         $altLayouts = (int)($this->pi_getFFvalue(
@@ -681,26 +686,26 @@ class TtNews extends AbstractPlugin
         $altLayouts = $altLayouts ?: (int)($this->conf['alternatingLayouts'] ?? 0);
         $this->alternatingLayouts = $altLayouts ?: 2;
 
-        $altLayouts = trim($this->pi_getFFvalue(
+        $altLayoutsOptionSplit = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'altLayoutsOptionSplit',
             's_template'
-        ));
-        $this->config['altLayoutsOptionSplit'] = $altLayouts ?: trim($this->conf['altLayoutsOptionSplit'] ?? '');
+        );
+        $this->config['altLayoutsOptionSplit'] = is_string($altLayoutsOptionSplit) ? trim($altLayoutsOptionSplit) : '';
 
         // Get cropping length
-
-        $croppingLenghtOptionSplit = trim($this->pi_getFFvalue(
+        $croppingLenghtOptionSplit = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'croppingLenghtOptionSplit',
             's_template'
-        ));
-        $this->config['croppingLenghtOptionSplit'] = $croppingLenghtOptionSplit ?: trim($this->conf['croppingLenghtOptionSplit'] ?? '');
-        $this->config['croppingLenght'] = trim($this->pi_getFFvalue(
+        );
+        $this->config['croppingLenghtOptionSplit'] = is_string($croppingLenghtOptionSplit) ? trim($croppingLenghtOptionSplit) : '';
+        $croppingLenghtValue = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'croppingLenght',
             's_template'
-        ));
+        );
+        $this->config['croppingLenght'] = trim($croppingLenghtValue ?? '');
 
         $this->initTemplate();
 
@@ -2813,7 +2818,7 @@ class TtNews extends AbstractPlugin
                 $imageMode = $textRenderObj == 'displayLatest' ? $lConf['latestImageMode'] : $lConf['listImageMode'] ?? false;
 
                 $suf = '';
-                if (is_numeric(substr((string)$lConf['image.']['file.']['maxW'], -1)) && $imageMode) {
+                if (!empty($lConf['image.']['file.']['maxW']) && is_numeric(substr((string)$lConf['image.']['file.']['maxW'], -1)) && $imageMode) {
                     // 'm' or 'c' not set by TS
                     switch ($imageMode) {
                         case 'resize2max' :
@@ -4283,10 +4288,7 @@ class TtNews extends AbstractPlugin
         $addWhere = $this->SPaddWhere . $this->enableCatFields;
 
         $useSubCategories = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'useSubCategories', 'sDEF');
-        $this->config['useSubCategories'] = (strcmp(
-            $useSubCategories,
-            ''
-        ) ? $useSubCategories : $this->conf['useSubCategories']);
+        $this->config['useSubCategories'] = (is_string($useSubCategories) && strcmp($useSubCategories, '') !== 0) ? $useSubCategories : $this->conf['useSubCategories'];
 
         // global ordering for categories, Can be overwritten later by catOrderBy for a certain content element
         $catOrderBy = trim($this->conf['catOrderBy'] ?? '');
@@ -4474,22 +4476,24 @@ class TtNews extends AbstractPlugin
      */
     public function initPidList()
     {
+        $pid_list = '';
         // pid_list is the pid/list of pids from where to fetch the news items.
         $pid_list = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'pages', 's_misc');
         $pid_list = $pid_list ?: trim($this->cObj->stdWrap(
             $this->conf['pid_list'],
             $this->conf['pid_list.'] ?? []
         ));
-        $pid_list = $pid_list ? implode(',', GeneralUtility::intExplode(',', $pid_list)) : $this->tsfe->id;
+        $pid_list = $pid_list ? implode(',', GeneralUtility::intExplode(',', (string)$pid_list)) : (string)$this->tsfe->id;
 
         $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'recursive', 's_misc');
-        if (!strcmp($recursive, '') || $recursive === null) {
+        if ($recursive === null || $recursive === '') {
             $recursive = $this->cObj->stdWrap($this->conf['recursive'], $this->conf['recursive.'] ?? []);
         }
 
         // extend the pid_list by recursive levels
         $this->pid_list = $this->pi_getPidList($pid_list, $recursive);
         $this->pid_list = $this->pid_list ?: 0;
+        $this->errors = [];
         if (!$this->pid_list) {
             $this->errors[] = 'No pid_list defined';
         }
