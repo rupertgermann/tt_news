@@ -17,7 +17,8 @@ hooks:
 use_dns_when_possible: true
 timezone: Europe/Berlin
 composer_version: "2"
-web_environment: []
+web_environment:
+    - TYPO3_CONTEXT=Development
 
 # Key features of DDEV's config.yaml:
 
