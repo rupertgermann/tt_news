@@ -2863,8 +2863,7 @@ class TtNews extends AbstractPlugin
 
                         $theImgCode .= $this->local_cObj->cObjGetSingle(
                             'IMAGE',
-                            // @todo: it seems that $lConf['image.'] is not defined before, due to undefined array key warning in marker based list view
-                            0 //$lConf['image.']
+                            $lConf['image.']
                         ) . $this->local_cObj->stdWrap(
                             $imgsCaptions[$cc],
                             $lConf['caption_stdWrap.'] ?? null

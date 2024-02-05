@@ -162,36 +162,35 @@ plugin.tt_news {
             wrap =
             dataWrap = <p class="news-single-imgcaption" style="width:{TSFE:lastImageInfo|0}px;">|</p>
         }
-    }
 
-    displaySingle.image {
+        image {
+            file.maxW = {$plugin.tt_news.singleMaxW}
+            file.maxH = {$plugin.tt_news.singleMaxH}
 
-        file.maxW = {$plugin.tt_news.singleMaxW}
-        file.maxH = {$plugin.tt_news.singleMaxH}
+            #   altText = TEXT
+            #	altText {
+            #		field = imagealttext
+            #		stripHtml = 1
+            #		split.token.char = 10
+            #		split.token.if.isTrue = {$styles.content.imgtext.imageTextSplit}
+            #		split.returnKey.data = register : IMAGE_NUM_CURRENT
+            #	}
 
-        #   altText = TEXT
-        #	altText {
-        #		field = imagealttext
-        #		stripHtml = 1
-        #		split.token.char = 10
-        #		split.token.if.isTrue = {$styles.content.imgtext.imageTextSplit}
-        #		split.returnKey.data = register : IMAGE_NUM_CURRENT
-        #	}
+            #	titleText < .altText
+            #	titleText.field = imagetitletext
 
-        #	titleText < .altText
-        #	titleText.field = imagetitletext
-
-        wrap =
-        imageLinkWrap = 1
-        imageLinkWrap {
-            enable = 1
-            bodyTag = <body bgColor="#ffffff" style="margin:0;">
-            wrap = <a href="javascript:close();"> | </a>
-            width = 800m
-            height = 600
-            JSwindow = 1
-            JSwindow.newWindow = 1
-            JSwindow.expand = 0,0
+            wrap =
+            imageLinkWrap = 1
+            imageLinkWrap {
+                enable = 1
+                bodyTag = <body bgColor="#ffffff" style="margin:0;">
+                wrap = <a href="javascript:close();"> | </a>
+                width = 800m
+                height = 600
+                JSwindow = 1
+                JSwindow.newWindow = 1
+                JSwindow.expand = 0,0
+            }
         }
     }
 
@@ -227,27 +226,27 @@ plugin.tt_news {
 
         author_stdWrap.wrap =
         preAuthor_stdWrap.noTrimWrap = || |
-        imageCount = 1
-        imageWrapIfAny =
 
         category_stdWrap.wrap = <div class="news-list-category"> | </div>
-        imgAltTextField = imagecaption
 
         linkTitleField = title
         linkTitleField.wrap =
         linkAltField = short
         linkAltField.wrap =
 
+        imageCount = 1
+        imageWrapIfAny =
+        imgAltTextField = imagecaption
+
         listImageMode = {$plugin.tt_news.listImageMode}
-    }
 
-    displayList.image {
-        file.maxW = {$plugin.tt_news.listMaxW}
-        file.maxH = {$plugin.tt_news.listMaxH}
-        imageLinkWrap = 1
+        image {
+            file.maxW = {$plugin.tt_news.listMaxW}
+            file.maxH = {$plugin.tt_news.listMaxH}
 
-        # stdWrap which is used when there's no image at all
-        noImage_stdWrap.wrap =
+            # stdWrap which is used when there's no image at all
+            noImage_stdWrap.wrap =
+        }
     }
 
     /********************************************************************************
@@ -271,9 +270,7 @@ plugin.tt_news {
             ifEmpty.field = bodytext
             outerWrap = <p>|</p>
         }
-        imageCount = 1
-        imgAltTextField = imagecaption
-        imageWrapIfAny =
+
         category_stdWrap.wrap = <div class="news-latest-category"> | </div>
         categoryItem_stdWrap.wrap =
 
@@ -282,12 +279,15 @@ plugin.tt_news {
         linkAltField = short
         linkAltField.wrap =
 
+        imageCount = 1
+        imageWrapIfAny =
+        imgAltTextField = imagecaption
+
         latestImageMode = {$plugin.tt_news.latestImageMode}
 
         image {
             file.maxW = {$plugin.tt_news.latestMaxW}
             file.maxH = {$plugin.tt_news.latestMaxH}
-            imageLinkWrap = 1
 
             stdWrap.spaceAfter = 0
         }
@@ -698,13 +698,13 @@ plugin.tt_news {
 
             latestImageMode = {$plugin.tt_news.latestImageMode}
 
-        }
-        displayList.image {
-            file.maxW = {$plugin.tt_news.latestMaxW}
-            file.maxH = {$plugin.tt_news.latestMaxH}
-            imageLinkWrap = 1
+            image {
+                file.maxW = {$plugin.tt_news.latestMaxW}
+                file.maxH = {$plugin.tt_news.latestMaxH}
+                imageLinkWrap = 1
 
-            stdWrap.spaceAfter = 0
+                stdWrap.spaceAfter = 0
+            }
         }
 
         _LOCAL_LANG {
