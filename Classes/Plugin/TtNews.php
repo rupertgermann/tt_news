@@ -1425,10 +1425,9 @@ class TtNews extends AbstractPlugin
 
         $row = $this->db->sql_fetch_assoc($res);
 
-        // First get workspace/version overlay and fix workspace pid:
+        // First get workspace/version overlay:
         if ($this->versioningEnabled) {
             $this->tsfe->sys_page->versionOL('tt_news', $row);
-            $this->tsfe->sys_page->fixVersioningPid('tt_news', $row);
         }
         // Then get localization of record:
         // (if the content language is not the default language)
