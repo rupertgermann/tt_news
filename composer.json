@@ -67,11 +67,6 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "typo3 database:updateschema",
-            "typo3 extension:setup",
-            "typo3 cache:flush"
-        ],
         "post-update-cmd": [
             "typo3 database:updateschema",
             "typo3 extension:setup",
