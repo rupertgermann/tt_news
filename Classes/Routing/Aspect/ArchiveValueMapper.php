@@ -3,12 +3,11 @@
 namespace RG\TtNews\Routing\Aspect;
 
 use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;
-use TYPO3\CMS\Core\Site\SiteLanguageAwareTrait;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
+use TYPO3\CMS\Core\Site\SiteLanguageAwareInterface;
 
-class ArchiveValueMapper implements StaticMappableAspectInterface
+class ArchiveValueMapper implements StaticMappableAspectInterface, SiteLanguageAwareInterface
 {
-    use SiteLanguageAwareTrait;
-
     /**
      * {@inheritdoc}
      */
@@ -16,7 +15,6 @@ class ArchiveValueMapper implements StaticMappableAspectInterface
     {
         return $value !== false ? (string)$value : null;
     }
-
     /**
      * {@inheritdoc}
      */
@@ -24,4 +22,5 @@ class ArchiveValueMapper implements StaticMappableAspectInterface
     {
         return isset($value) ? (string)$value : null;
     }
+    protected SiteLanguage $siteLanguage;
 }

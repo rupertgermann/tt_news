@@ -2,7 +2,6 @@
 
 use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
 use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 // get extension confArr
 $confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'] ?? [];
@@ -218,31 +217,29 @@ return [
             'exclude' => 1,
             'l10n_mode' => $l10n_mode_image,
             'label' => $locallang_general . 'LGL.images',
-            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
-                'image',
-                [
-                    'maxitems' => 99,
-                    'minitems' => 0,
-                    'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
-                    ],
-                    'overrideChildTca' => [
-                        'types' => [
-                            '0' => [
-                                'showitem' => '
+            'config' => [
+                'type' => 'file',
+                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+                'maxitems' => 99,
+                'minitems' => 0,
+                'appearance' => [
+                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
+                ],
+                'overrideChildTca' => [
+                    'types' => [
+                        '0' => [
+                            'showitem' => '
                                 --palette--;;imageoverlayPalette,
                                 --palette--;;filePalette',
-                            ],
-                            File::FILETYPE_IMAGE => [
-                                'showitem' => '
+                        ],
+                        File::FILETYPE_IMAGE => [
+                            'showitem' => '
                                 --palette--;;newsImagePalette,
                                 --palette--;;filePalette',
-                            ],
                         ],
                     ],
                 ],
-                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-            ),
+            ],
         ],
         'imagecaption' => [
             'exclude' => 1,
@@ -379,18 +376,16 @@ return [
         'news_files' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:media',
-            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
-                'news_files',
-                [
-                    'maxitems' => 999,
-                    'minitems' => 0,
-                    'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
-                    ],
+            'config' => [
+                'type' => 'file',
+                'allowed' => '',
+                'disallowed' => 'php,php3',
+                'maxitems' => 999,
+                'minitems' => 0,
+                'appearance' => [
+                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                 ],
-                '',
-                'php,php3'
-            ),
+            ],
         ],
         'slug' =>  [
             'exclude' => true,

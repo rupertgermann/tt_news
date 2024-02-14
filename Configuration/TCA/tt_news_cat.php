@@ -1,7 +1,6 @@
 <?php
 
 use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
@@ -126,17 +125,15 @@ return [
         'image' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.image',
-            'config' => ExtensionManagementUtility::getFileFieldTCAConfig(
-                'image',
-                [
-                    'maxitems' => 1,
-                    'minitems' => 0,
-                    'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
-                    ],
+            'config' => [
+                'type' => 'file',
+                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+                'maxitems' => 1,
+                'minitems' => 0,
+                'appearance' => [
+                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                 ],
-                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-            ),
+            ],
 
         ],
         'shortcut' => [

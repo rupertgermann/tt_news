@@ -42,10 +42,10 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -100,7 +100,7 @@ class DataHandlerHook
                     FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    AbstractMessage::ERROR,
+                    ContextualFeedbackSeverity::ERROR,
                     // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );

@@ -1541,7 +1541,7 @@ class TtNews extends AbstractPlugin
                 // redirect to list page
                 $this->pi_linkToPage(' ', $this->conf['backPid']);
 
-                $redirectUrl = $this->cObj->lastTypoLinkUrl;
+                $redirectUrl = $this->cObj->lastTypoLinkResult->getUrl();
                 $responseFactory = GeneralUtility::makeInstance(ResponseFactoryInterface::class);
                 $response = $responseFactory
                     ->createResponse()
@@ -2248,7 +2248,7 @@ class TtNews extends AbstractPlugin
                 $lConf['subheader_stdWrap.']
             );
             //just removing some whitespace to ease atom feed building
-            $markerArray['###NEWS_SUBHEADER###'] = str_replace('\n', '', $markerArray['###NEWS_SUBHEADER###']);
+            $markerArray['###NEWS_SUBHEADER###'] = str_replace('\n', '', (string)$markerArray['###NEWS_SUBHEADER###']);
             $markerArray['###NEWS_SUBHEADER###'] = str_replace('\r', '', $markerArray['###NEWS_SUBHEADER###']);
         }
 
@@ -3219,7 +3219,7 @@ class TtNews extends AbstractPlugin
                     if ($l) {
                         $catmenuLevel_stdWrap = explode(
                             '|||',
-                            $this->local_cObj->stdWrap('|||', $lConf['catmenuLevel' . $l . '_stdWrap.'])
+                            (string)$this->local_cObj->stdWrap('|||', $lConf['catmenuLevel' . $l . '_stdWrap.'])
                         );
                         $result .= $catmenuLevel_stdWrap[0];
                     } else {
@@ -4269,7 +4269,7 @@ class TtNews extends AbstractPlugin
             $catPl = implode(',', GeneralUtility::intExplode(',', $catPl));
 
             $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'recursive', 's_misc');
-            if (!strcmp($recursive, '') || $recursive === null) {
+            if (!strcmp((string)$recursive, '') || $recursive === null) {
                 $recursive = $this->cObj->stdWrap($lc['recursive'], $lc['recursive.'] ?? false);
             }
 
@@ -4317,7 +4317,7 @@ class TtNews extends AbstractPlugin
             }
         }
         $catExclusive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'categorySelection', 'sDEF');
-        $catExclusive = $catExclusive ?: trim($this->cObj->stdWrap(
+        $catExclusive = $catExclusive ?: trim((string)$this->cObj->stdWrap(
             $this->conf['categorySelection'],
             $this->conf['categorySelection.'] ?? false
         ));
@@ -4450,15 +4450,15 @@ class TtNews extends AbstractPlugin
         $globalMarkerArray = [];
         [$globalMarkerArray['###GW1B###'], $globalMarkerArray['###GW1E###']] = explode(
             $splitMark,
-            $this->cObj->stdWrap($splitMark, $this->conf['wrap1.'] ?? false)
+            (string)$this->cObj->stdWrap($splitMark, $this->conf['wrap1.'] ?? false)
         );
         [$globalMarkerArray['###GW2B###'], $globalMarkerArray['###GW2E###']] = explode(
             $splitMark,
-            $this->cObj->stdWrap($splitMark, $this->conf['wrap2.'] ?? false)
+            (string)$this->cObj->stdWrap($splitMark, $this->conf['wrap2.'] ?? false)
         );
         [$globalMarkerArray['###GW3B###'], $globalMarkerArray['###GW3E###']] = explode(
             $splitMark,
-            $this->cObj->stdWrap($splitMark, $this->conf['wrap3.'] ?? false)
+            (string)$this->cObj->stdWrap($splitMark, $this->conf['wrap3.'] ?? false)
         );
         $globalMarkerArray['###GC1###'] = $this->cObj->stdWrap($this->conf['color1'] ?? '', $this->conf['color1.'] ?? false);
         $globalMarkerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'] ?? '', $this->conf['color2.'] ?? false);
@@ -4482,7 +4482,7 @@ class TtNews extends AbstractPlugin
         $pid_list = '';
         // pid_list is the pid/list of pids from where to fetch the news items.
         $pid_list = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'pages', 's_misc');
-        $pid_list = $pid_list ?: trim($this->cObj->stdWrap(
+        $pid_list = $pid_list ?: trim((string)$this->cObj->stdWrap(
             $this->conf['pid_list'],
             $this->conf['pid_list.'] ?? []
         ));
@@ -4692,7 +4692,7 @@ class TtNews extends AbstractPlugin
         $sPBody = substr($subpartMarker, 3, -3);
         $altSPM = '';
         if (isset($this->conf['altMainMarkers.'])) {
-            $altSPM = trim($this->cObj->stdWrap(
+            $altSPM = trim((string)$this->cObj->stdWrap(
                 $this->conf['altMainMarkers.'][$sPBody],
                 $this->conf['altMainMarkers.'][$sPBody . '.']
             ));
@@ -4807,7 +4807,7 @@ class TtNews extends AbstractPlugin
                 $singlePid
             )
         );
-        $url = $this->cObj->lastTypoLinkUrl;
+        $url = $this->cObj->lastTypoLinkResult->getUrl();
 
         // hook for processing of links
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] ?? null)) {
