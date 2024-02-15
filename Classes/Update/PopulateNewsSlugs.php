@@ -158,7 +158,7 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
         $numberOfEntries = $queryBuilder
             ->count('uid')
             ->from($this->table)->where($queryBuilder->expr()->or($queryBuilder->expr()->eq($this->fieldName, $queryBuilder->createNamedParameter('')), $queryBuilder->expr()->isNull($this->fieldName)))->executeQuery()
-            ->fetchColumn();
+            ->fetchOne();
         return $numberOfEntries > 0;
     }
 }

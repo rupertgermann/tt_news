@@ -908,7 +908,7 @@ class TtNews extends AbstractPlugin
         $countSelConf = $selectConf;
         unset($countSelConf['orderBy']);
 
-        if (($res = $this->exec_getQuery('tt_news', $countSelConf)->fetch())) {
+        if (($res = $this->exec_getQuery('tt_news', $countSelConf)->fetchAssociative())) {
             $newsCount = $res['c'];
         }
 
