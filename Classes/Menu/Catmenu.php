@@ -66,7 +66,7 @@ class Catmenu
      *
      * @throws DBALException
      */
-    public function init(&$pObj)
+    public function init(&$pObj): void
     {
         $this->db = Database::getInstance();
         $lConf = $pObj->conf['displayCatMenu.'];

@@ -3610,7 +3610,7 @@ class TtNews extends AbstractPlugin
                     '< Previous'
                 ), [
                     $pointerName => ($pointer - 1 ?: ''),
-                    ], $this->allowCaching) . '</p></td>';
+                ], $this->allowCaching) . '</p></td>';
             } elseif ($this->pi_alwaysPrev) {
                 $links[] = '
 					<td nowrap="nowrap"><p>' . $this->pi_getLL(
@@ -3626,8 +3626,8 @@ class TtNews extends AbstractPlugin
                 'pi_list_browseresults_page',
                 'Page'
             ) . ' ' . ($a + 1)), [
-                    $pointerName => ($a ?: ''),
-                ], $this->allowCaching) . '</p></td>';
+                $pointerName => ($a ?: ''),
+            ], $this->allowCaching) . '</p></td>';
         }
         if ($pointer < ceil($count / $results_at_a_time) - 1) {
             $links[] = '
@@ -3636,7 +3636,7 @@ class TtNews extends AbstractPlugin
                 'Next >'
             ), [
                 $pointerName => $pointer + 1,
-                ], $this->allowCaching) . '</p></td>';
+            ], $this->allowCaching) . '</p></td>';
         }
 
         $pR1 = $pointer * $results_at_a_time + 1;
@@ -4256,7 +4256,7 @@ class TtNews extends AbstractPlugin
      *
      * @throws DBALException
      */
-    public function initCategoryVars()
+    public function initCategoryVars(): void
     {
         $storagePid = false;
 
@@ -4353,7 +4353,7 @@ class TtNews extends AbstractPlugin
      *
      * @throws DBALException
      */
-    public function initCatmenuEnv(&$lConf)
+    public function initCatmenuEnv(&$lConf): void
     {
         if ($lConf['catOrderBy'] ?? false) {
             $this->config['catOrderBy'] = $lConf['catOrderBy'];
@@ -4477,7 +4477,7 @@ class TtNews extends AbstractPlugin
      * extends the pid_list given from $conf or FF recursively by the pids of the subpages
      * generates an array from the pagetitles of those pages
      */
-    public function initPidList()
+    public function initPidList(): void
     {
         $pid_list = '';
         // pid_list is the pid/list of pids from where to fetch the news items.
@@ -4919,7 +4919,7 @@ class TtNews extends AbstractPlugin
     /**
      * Set cObj data
      */
-    public function setCObjData(array $data)
+    public function setCObjData(array $data): void
     {
         $this->cObj->data = $data;
     }

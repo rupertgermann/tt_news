@@ -76,7 +76,7 @@ class DataHandlerHook
      * @throws DBALException
      * @throws Exception
      */
-    public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
+    public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj): void
     {
         if ($table == 'tt_news_cat' && is_int($id)) {
             // prevent moving of categories into their rootline
@@ -199,7 +199,7 @@ class DataHandlerHook
      * @param $fieldArray
      * @param $pObj
      */
-    public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj)
+    public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj): void
     {
         if ($table != 'tt_news') {
             return;
@@ -237,7 +237,7 @@ class DataHandlerHook
      * @throws DBALException
      * @throws Exception
      */
-    public function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj)
+    public function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj): void
     {
         if ($table == 'tt_news' && !$this->getBeUser()->isAdmin()) {
             $rec = BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
@@ -312,7 +312,7 @@ class DataHandlerHook
      *
      * @throws DBALException
      */
-    public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj)
+    public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj): void
     {
         // copy records recursively from Drag&Drop in the category manager
         if ($table == 'tt_news_cat' && $command == 'DDcopy') {

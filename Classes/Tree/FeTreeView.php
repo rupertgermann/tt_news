@@ -272,7 +272,7 @@ class FeTreeView extends Categorytree
         return $icon;
     }
 
-    public function initializePositionSaving()
+    public function initializePositionSaving(): void
     {
         // Get stored tree structure:
         if ($this->FE_USER->user) {
@@ -310,7 +310,7 @@ class FeTreeView extends Categorytree
      * Saves the content of ->stored (keeps track of expanded positions in the tree)
      * $this->treeName will be used as key for BE_USER->uc[] to store it in
      */
-    public function savePosition()
+    public function savePosition(): void
     {
         if ($this->FE_USER->user) {
             $this->FE_USER->uc['tt_news'][$this->treeName] = json_encode($this->stored, JSON_THROW_ON_ERROR);

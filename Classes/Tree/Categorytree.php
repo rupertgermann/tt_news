@@ -115,7 +115,7 @@ class Categorytree extends AbstractTreeView
     public $setRecs;
     public $expandAll = false;
 
-    public function init($clause = '', $orderByFields = '')
+    public function init($clause = '', $orderByFields = ''): void
     {
         // Setting BE_USER by default
         $this->BE_USER = $GLOBALS['BE_USER'];

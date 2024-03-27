@@ -232,7 +232,7 @@ class Helpers
      * Converts the piVars 'pS' and 'pL' to a human readable format which will be filled to
      * the piVars 'year' and 'month'.
      */
-    public function convertDates()
+    public function convertDates(): void
     {
         //readable archivedates
         if (($this->pObj->piVars['year'] ?? false) || ($this->pObj->piVars['month'] ?? false)) {
