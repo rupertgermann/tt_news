@@ -11,9 +11,6 @@ additional_fqdns: []
 database:
     type: mariadb
     version: "10.5"
-hooks:
-    post-start:
-        - exec: composer i
 use_dns_when_possible: true
 timezone: Europe/Berlin
 composer_version: "2"
