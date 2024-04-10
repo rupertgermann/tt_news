@@ -477,7 +477,7 @@ class Categorytree extends AbstractTreeView
         &$ajaxOutput,
         &$invertedDepthOfAjaxRequestedItem
     ) {
-        $PM = GeneralUtility::_GP('PM');
+        $PM = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['PM'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['PM'] ?? null;
 
         if (($PMpos = strpos((string)$PM, '#')) !== false) {
             $PM = substr((string)$PM, 0, $PMpos);

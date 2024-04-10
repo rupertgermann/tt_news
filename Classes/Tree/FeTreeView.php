@@ -75,7 +75,7 @@ class FeTreeView extends Categorytree
             );
         }
 
-        $L = (int)(GeneralUtility::_GP('L'));
+        $L = (int)($GLOBALS['TYPO3_REQUEST']->getParsedBody()['L'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['L'] ?? null);
         if ($L > 0 && !$GLOBALS['TSFE']->linkVars) {
             $GLOBALS['TSFE']->linkVars = '&L=' . $L;
         }
@@ -253,7 +253,7 @@ class FeTreeView extends Categorytree
                         data-isexpand="' . (int)$isExpand . '"
                         data-pid="' . rawurlencode((string)$catSelLinkParams) . '"
                         data-cobjuid="' . $this->cObjUid . '"
-                        data-L="' . (int)(GeneralUtility::_GP('L')) . '">' . $icon . '</a>';
+                        data-L="' . (int)($GLOBALS['TYPO3_REQUEST']->getParsedBody()['L'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['L'] ?? null) . '">' . $icon . '</a>';
             } else {
                 $anchor = '';
                 $name = '';
@@ -291,7 +291,7 @@ class FeTreeView extends Categorytree
         // (If a plus/minus icon has been clicked, the PM GET var is sent and we
         // must update the stored positions in the tree):
         // 0: mount key, 1: set/clear boolean, 2: item ID (cannot contain "_"), 3: treeName
-        $PM = explode('_', (string)GeneralUtility::_GP('PM'));
+        $PM = explode('_', (string)($GLOBALS['TYPO3_REQUEST']->getParsedBody()['PM'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['PM'] ?? null));
         if (count($PM) === 4 && $PM[3] == $this->treeName) {
             if (isset($this->MOUNTS[$PM[0]])) {
                 // set
