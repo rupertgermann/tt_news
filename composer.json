@@ -39,7 +39,7 @@
     },
     "require-dev": {
         "helhum/typo3-console": "^8.1",
-        "ssch/typo3-rector": "^2.3",
+        "ssch/typo3-rector": "^2.4",
         "typo3/coding-standards": "^0.7",
         "typo3/cms-info": "^12.4",
         "typo3/cms-reports": "^12.4",
