@@ -179,7 +179,7 @@ class Catmenu
 
         $tt_newsObj->setCObjData($this->getTypoScriptFrontendController()->sys_page->checkRecord('tt_content', $params['cObjUid'], 1));
         $tt_newsObj->pi_initPIflexForm();
-        $tt_newsObj->conf = $this->getTypoScriptFrontendController()->tmpl->setup['plugin.']['tt_news.'];
+        $tt_newsObj->conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tt_news.'];
 
         // variables needed to get the newscount per category
         if (!$tt_newsObj->conf['dontUsePidList']) {
