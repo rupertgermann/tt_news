@@ -107,7 +107,7 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
         $hasToBeUniqueInPid = in_array('uniqueInPid', $evalInfo, true);
         $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, $this->table, $this->fieldName, $fieldConfig);
 
-        while ($record = $statement->fetch()) {
+        while ($record = $statement->fetchAssociative()) {
             $recordId = (int)$record['uid'];
             $pid = (int)$record['pid'];
             $languageId = (int)$record['sys_language_uid'];
@@ -120,7 +120,7 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
                     $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
                     $liveVersion = $queryBuilder
                         ->select('pid')
-                        ->from($this->table)->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($record['t3ver_oid'], \PDO::PARAM_INT)))->executeQuery()->fetch();
+                        ->from($this->table)->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($record['t3ver_oid'], \PDO::PARAM_INT)))->executeQuery()->fetchAssociative();
                     $pid = (int)$liveVersion['pid'];
                 }
                 $slug = $slugHelper->generate($record, $pid);
