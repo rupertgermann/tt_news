@@ -1,4 +1,5 @@
 <?php
+
 namespace RG\TtNews\Module;
 
 /*
@@ -13,11 +14,12 @@ namespace RG\TtNews\Module;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
@@ -65,7 +67,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * THEN WE CALL THE main() METHOD AND THIS SHOULD SPARK THE CREATION OF THE MODULE OUTPUT.
  * $GLOBALS['SOBE']->main();
- *
  */
 class BaseScriptClass
 {
@@ -108,7 +109,7 @@ class BaseScriptClass
      * @var array
      */
     public $MOD_MENU = [
-        'function' => []
+        'function' => [],
     ];
 
     /**
@@ -342,11 +343,11 @@ class BaseScriptClass
                 FlashMessage::class,
                 $this->getLanguageService()->sL('LLL:EXT:backend/Resources/Private/Language/locallang.xlf:no_modules_registered'),
                 $this->getLanguageService()->getLL('title'),
-                FlashMessage::ERROR
+                AbstractMessage::ERROR
             );
-            /** @var \TYPO3\CMS\Core\Messaging\FlashMessageService $flashMessageService */
+            /** @var FlashMessageService $flashMessageService */
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-            /** @var \TYPO3\CMS\Core\Messaging\FlashMessageQueue $defaultFlashMessageQueue */
+            /** @var FlashMessageQueue $defaultFlashMessageQueue */
             $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
             $defaultFlashMessageQueue->enqueue($flashMessage);
         } else {

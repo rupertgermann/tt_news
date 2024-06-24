@@ -41,21 +41,21 @@
  * for more details about configuring filelinks
  */
 /*
-		add this to your TS setup:
+        add this to your TS setup:
 
-  		# include the php script
-		includeLibs.displayFileLinks = EXT:tt_news/res/example_itemMarkerArrayFunc.php
-		# call user function
-		plugin.tt_news.itemMarkerArrayFunc = user_displayFileLinks
+        # include the php script
+        includeLibs.displayFileLinks = EXT:tt_news/res/example_itemMarkerArrayFunc.php
+        # call user function
+        plugin.tt_news.itemMarkerArrayFunc = user_displayFileLinks
 
-		# configure some options
-		plugin.tt_news{
-		  newsFiles {
-		    path = uploads/media/
-		    icon = 1
-		    stdWrap.wrap =   | <br />
-		   }
-		}
+        # configure some options
+        plugin.tt_news{
+          newsFiles {
+            path = uploads/media/
+            icon = 1
+            stdWrap.wrap =   | <br />
+           }
+        }
 */
 /**
  * Example function for displaying links to atached files from news articles.
@@ -64,25 +64,22 @@
  * @param	[type]		$conf: ...
  * @return	array		the changed markerArray
  */
-function user_displayFileLinks($markerArray, $conf){
-	$row = $conf['parentObj']->local_cObj->data; // get the data array of the current news record
-   // \TYPO3\CMS\Core\Utility\GeneralUtility::debug($markerArray);
-	$markerArray['###FILE_LINK###'] = '';
-	$markerArray['###TEXT_FILES###'] = $conf['parentObj']->local_cObj->stdWrap($conf['parentObj']->pi_getLL('textFiles'), $conf['parentObj']->conf['newsFilesHeader_stdWrap.']);
-	if ($row['news_files']) {
-		$fileArr = explode(',',$row['news_files']);
-	 	while(list(,$val)=each($fileArr)) {
-		// fills the marker ###FILE_LINK### with the links to the atached files
-			$markerArray['###FILE_LINK###'] .= $conf['parentObj']->local_cObj->filelink($val,$conf['parentObj']->conf['newsFiles.']) ;
-		}
-	} else { // no file atached
-	    $markerArray['###FILE_LINK###']='';
-		$markerArray['###TEXT_FILES###']='';
-	}
+function user_displayFileLinks($markerArray, $conf)
+{
+    $row = $conf['parentObj']->local_cObj->data; // get the data array of the current news record
+    // \TYPO3\CMS\Core\Utility\GeneralUtility::debug($markerArray);
+    $markerArray['###FILE_LINK###'] = '';
+    $markerArray['###TEXT_FILES###'] = $conf['parentObj']->local_cObj->stdWrap($conf['parentObj']->pi_getLL('textFiles'), $conf['parentObj']->conf['newsFilesHeader_stdWrap.']);
+    if ($row['news_files']) {
+        $fileArr = explode(',', (string)$row['news_files']);
+        foreach ($fileArr as $val) {
+            // fills the marker ###FILE_LINK### with the links to the atached files
+            $markerArray['###FILE_LINK###'] .= $conf['parentObj']->local_cObj->filelink($val, $conf['parentObj']->conf['newsFiles.']);
+        }
+    } else { // no file atached
+        $markerArray['###FILE_LINK###'] = '';
+        $markerArray['###TEXT_FILES###'] = '';
+    }
 
-	return $markerArray;
-
+    return $markerArray;
 }
-
-
-

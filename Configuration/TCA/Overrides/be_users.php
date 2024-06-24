@@ -1,12 +1,15 @@
 <?php
-defined('TYPO3_MODE') or die();
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
+defined('TYPO3') or die();
 // Load field definition from 'shared' file
-$tempColumns = array();
-$tempColumns['tt_news_categorymounts'] = require TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news')
+$tempColumns = [];
+$tempColumns['tt_news_categorymounts'] = require ExtensionManagementUtility::extPath('tt_news')
     . 'Configuration/TCA/Shared/categorymounts.php';
 // show the category selection only in non-admin be_users records
 $tempColumns['tt_news_categorymounts']['displayCond'] = 'FIELD:admin:=:0';
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_users', $tempColumns);
-TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tt_news_categorymounts');
+ExtensionManagementUtility::addTCAcolumns('be_users', $tempColumns);
+ExtensionManagementUtility::addToAllTCAtypes('be_users', 'tt_news_categorymounts');
 
 unset($tempColumns);

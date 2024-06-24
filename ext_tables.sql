@@ -83,6 +83,8 @@ CREATE TABLE tt_news_cat (
   parent_category int(11) unsigned DEFAULT '0' NOT NULL,
   description text,
 
+  l10n_state text,
+  
   PRIMARY KEY (uid),
   KEY parent (pid),
   KEY parent_category (parent_category)
