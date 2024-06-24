@@ -34,8 +34,6 @@ namespace RG\TtNews\Tree;
  * $Id$
  *
  * @author     Rupert Germann <rupi@gmx.li>
- * @package    TYPO3
- * @subpackage tt_news
  */
 
 use Doctrine\DBAL\DBALException;
@@ -47,18 +45,15 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
  * extend class t3lib_treeview to change function wrapTitle().
- *
  */
 class Categorytree extends AbstractTreeView
 {
-
     /**
      * @var array
      */
-    public $categoryCountCache = array();
+    public $categoryCountCache = [];
     /**
      * @var bool
      */
@@ -120,7 +115,6 @@ class Categorytree extends AbstractTreeView
     public $setRecs;
     public $expandAll = false;
 
-
     public function init($clause = '', $orderByFields = '')
     {
         // Setting BE_USER by default
@@ -137,7 +131,7 @@ class Categorytree extends AbstractTreeView
             $this->MOUNTS = [0 => 0];
         }
         // Sets the tree name which is used to identify the tree, used for JavaScript and other things
-        $this->treeName = str_replace('_', '', $this->treeName ?: $this->table);
+        $this->treeName = str_replace('_', '', (string)($this->treeName ?: $this->table));
     }
 
     /**
@@ -148,11 +142,11 @@ class Categorytree extends AbstractTreeView
         $storeKey = '';
 
         if ($this->tt_news_obj->cache_categoryCount) {
-            $storeKey = md5(serialize(array(
+            $storeKey = md5(serialize([
                 $this->stored,
                 $this->MOUNTS,
-                $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause
-            )));
+                $this->newsSelConf['pidInList'] . $this->newsSelConf['where'] . $this->tt_news_obj->enableFields . $this->clause,
+            ]));
 
             $tmpCCC = $this->tt_news_obj->cache->get($storeKey);
             if ($tmpCCC) {
@@ -175,19 +169,17 @@ class Categorytree extends AbstractTreeView
      */
     public function getBrowsableTree($groupByPages = false)
     {
-
         // Get stored tree structure AND updating it if needed according to incoming PM GET var.
         $this->initializePositionSaving();
 
         // Init done:
-        $treeArr = array();
+        $treeArr = [];
         $tmpClause = $this->clause;
         $savedTable = $this->table;
 
         $storeKey = $this->handleCache();
         // Traverse mounts:
         foreach ($this->MOUNTS as $idx => $uid) {
-
             // Set first:
             $this->bank = $idx;
             $isOpen = $this->stored[$idx][$uid] || $this->expandFirst;
@@ -219,7 +211,6 @@ class Categorytree extends AbstractTreeView
                     $firstHtml .= $this->getIcon($rootRec);
                 }
             } else {
-
                 if ($this->storagePid > 0 && $this->useStoragePid) {
                     // root = page record of current GRSP
                     $this->table = 'pages';
@@ -231,7 +222,6 @@ class Categorytree extends AbstractTreeView
                     $rootRec = $this->getRootRecord();
                     $firstHtml .= $this->getRootIcon($rootRec);
                 }
-
             }
 
             if ($groupByPages) {
@@ -250,13 +240,13 @@ class Categorytree extends AbstractTreeView
             $uid = $rootRec['uid'];
 
             // Add the root of the mount to ->tree
-            $this->tree[] = array(
+            $this->tree[] = [
                 'HTML' => $firstHtml,
                 'row' => $rootRec,
                 'bank' => $this->bank,
                 'hasSub' => true,
-                'invertedDepth' => 1000
-            );
+                'invertedDepth' => 1000,
+            ];
 
             // If the mount is expanded, go down:
             if ($isOpen) {
@@ -301,7 +291,7 @@ class Categorytree extends AbstractTreeView
         }
 
         if ($sum === false) {
-            $result = array();
+            $result = [];
             $result['sum'] = 0;
 
             $news_clause = '';
@@ -314,7 +304,6 @@ class Categorytree extends AbstractTreeView
 
             Div::getNewsCountForSubcategory($result, $catID, $news_clause, $this->clause);
             $sum = $result['sum'];
-
         }
         $this->categoryCountCache[$catID] = (int)$sum;
         if ($this->tt_news_obj->cache_categoryCount) {
@@ -324,7 +313,6 @@ class Categorytree extends AbstractTreeView
         return $sum;
     }
 
-
     /**
      * Fetches the data for the tree
      *
@@ -333,23 +321,24 @@ class Categorytree extends AbstractTreeView
      * @param int    $depth
      * @param string $blankLineCode
      *
-     * @return    integer        The count of items on the level
+     * @return    int        The count of items on the level
      * @throws DBALException
      */
     protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '')
     {
+        $treeKey = null;
         // Buffer for id hierarchy is reset:
-        $this->buffer_idH = array();
+        $this->buffer_idH = [];
 
         // Init vars
-        $depth = intval($depth);
+        $depth = (int)$depth;
         $HTML = '';
         $a = 0;
 
         $res = $this->getDataInit($uid);
         $c = $this->getDataCount($res);
         $crazyRecursionLimiter = 999;
-        $allRows = array();
+        $allRows = [];
         while ($crazyRecursionLimiter > 0 && $row = $this->getDataNext($res)) {
             if ($this->getCatNewsCount) {
                 $row['newsCount'] = $this->getNewsCountForCategory($row['uid']);
@@ -364,9 +353,8 @@ class Categorytree extends AbstractTreeView
             $a++;
 
             $newID = $row['uid'];
-            $this->tree[] = array(); // Reserve space.
-            end($this->tree);
-            $treeKey = key($this->tree); // Get the key for this space
+            $this->tree[] = [];
+            $treeKey = array_key_last($this->tree); // Get the key for this space
             $LN = ($a == $c) ? 'blank' : 'line';
 
             // If records should be accumulated, do so
@@ -398,7 +386,7 @@ class Categorytree extends AbstractTreeView
             }
 
             // Finally, add the row/HTML content to the ->tree array in the reserved key.
-            $this->tree[$treeKey] = array(
+            $this->tree[$treeKey] = [
                 'row' => $row,
                 'HTML' => $HTML,
                 'hasSub' => $nextCount && $this->expandNext($newID),
@@ -406,8 +394,8 @@ class Categorytree extends AbstractTreeView
                 'isLast' => false,
                 'invertedDepth' => $depth,
                 'blankLineCode' => $blankLineCode,
-                'bank' => $this->bank
-            );
+                'bank' => $this->bank,
+            ];
         }
 
         if ($a) {
@@ -419,7 +407,6 @@ class Categorytree extends AbstractTreeView
 
         return $c;
     }
-
 
     /**
      * @param $itemHTML
@@ -443,8 +430,10 @@ class Categorytree extends AbstractTreeView
         }
 
         $itemHTML .= '
-				<li id="' . $idAttr . '"' . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr($v['row'],
-                $titleLen), $v['row'], $v['bank']) . "\n";
+				<li id="' . $idAttr . '"' . ($classAttr ? ' class="' . $classAttr . '"' : '') . '>' . $v['HTML'] . $this->wrapTitle($this->getTitleStr(
+            $v['row'],
+            $titleLen
+        ), $v['row'], $v['bank']) . "\n";
 
         if (!$v['hasSub']) {
             $itemHTML .= '</li>';
@@ -490,12 +479,11 @@ class Categorytree extends AbstractTreeView
     ) {
         $PM = GeneralUtility::_GP('PM');
 
-        if (($PMpos = strpos($PM, '#')) !== false) {
-            $PM = substr($PM, 0, $PMpos);
+        if (($PMpos = strpos((string)$PM, '#')) !== false) {
+            $PM = substr((string)$PM, 0, $PMpos);
         }
-        $PM = explode('_', $PM);
+        $PM = explode('_', (string)$PM);
         if (is_array($PM) && count($PM) == 4 && $this->useAjax) {
-
             if ($PM[1] == 1) {
                 $expandedPageUid = $PM[2];
                 $ajaxOutput = '';
@@ -534,12 +522,18 @@ class Categorytree extends AbstractTreeView
 			<ul class="tree" id="treeRoot">
 		';
 
-        $this->evaluateAJAXRequest($doExpand, $expandedPageUid, $collapsedPageUid, $doCollapse, $ajaxOutput,
-            $invertedDepthOfAjaxRequestedItem);
+        $this->evaluateAJAXRequest(
+            $doExpand,
+            $expandedPageUid,
+            $collapsedPageUid,
+            $doCollapse,
+            $ajaxOutput,
+            $invertedDepthOfAjaxRequestedItem
+        );
 
         // we need to count the opened <ul>'s every time we dig into another level,
         // so we know how many we have to close when all children are done rendering
-        $closeDepth = array();
+        $closeDepth = [];
         foreach ($treeArr as $v) {
             $uid = $v['row']['uid'];
             $itemHTML = '';
@@ -550,8 +544,14 @@ class Categorytree extends AbstractTreeView
                 $itemHTML = '<ul>';
             }
 
-            $this->addItem($itemHTML, $v, $v['row']['_CSSCLASS'], $uid,
-                htmlspecialchars($this->domIdPrefix . $this->getId($v['row']) . '_' . $v['bank']), $this->titleLen);
+            $this->addItem(
+                $itemHTML,
+                $v,
+                $v['row']['_CSSCLASS'],
+                $uid,
+                htmlspecialchars($this->domIdPrefix . $this->getId($v['row']) . '_' . $v['bank']),
+                $this->titleLen
+            );
 
             // we have to remember if this is the last one
             // on level X so the last child on level X+1 closes the <ul>-tag
@@ -594,15 +594,14 @@ class Categorytree extends AbstractTreeView
         return $out . '</ul>';
     }
 
-
     /**
      * Generate the plus/minus icon for the browsable tree.
      *
      * @param    array          record for the entry
-     * @param    integer        The current entry number
-     * @param    integer        The total number of entries. If equal to $a, a "bottom" element is returned.
-     * @param    integer        The number of sub-elements to the current element.
-     * @param    boolean        The element was expanded to render subelements if this flag is set.
+     * @param    int        The current entry number
+     * @param    int        The total number of entries. If equal to $a, a "bottom" element is returned.
+     * @param    int        The number of sub-elements to the current element.
+     * @param    bool        The element was expanded to render subelements if this flag is set.
      *
      * @return    string        Image tag with the plus/minus icon.
      */
@@ -629,7 +628,6 @@ class Categorytree extends AbstractTreeView
         return $icon;
     }
 
-
     /**
      * Wrap the plus/minus icon in a link
      *
@@ -638,15 +636,13 @@ class Categorytree extends AbstractTreeView
      * @param bool $isExpand
      *
      * @return    string        Link-wrapped input string
-     * @access   private
      */
     public function PMiconATagWrap($icon, $cmd, $isExpand = true)
     {
         if ($this->thisScript && $this->expandable) {
-            return '<a class="pm pmiconatag" data-params="' . $cmd . '" data-isexpand="' . intval($isExpand) . '" data-pid="' . intval($this->pageID) . '">' . $icon . '</a>';
-        } else {
-            return $icon;
+            return '<a class="pm pmiconatag" data-params="' . $cmd . '" data-isexpand="' . (int)$isExpand . '" data-pid="' . (int)($this->pageID) . '">' . $icon . '</a>';
         }
+        return $icon;
     }
     /**
      * Returns the record for a uid.
@@ -672,7 +668,7 @@ class Categorytree extends AbstractTreeView
     public function wrapStop($str, $row)
     {
         if ($row['php_tree_stop']) {
-            $str .= '<a href="' . htmlspecialchars(GeneralUtility::linkThisScript(['setTempDBmount' => $row['uid']])) . '" class="text-danger">+</a> ';
+            $str .= '<a href="' . htmlspecialchars((string)GeneralUtility::linkThisScript(['setTempDBmount' => $row['uid']])) . '" class="text-danger">+</a> ';
         }
         return $str;
     }
@@ -715,4 +711,3 @@ class Categorytree extends AbstractTreeView
         return !empty($this->stored[$this->bank][$id]) || $this->expandAll;
     }
 }
-

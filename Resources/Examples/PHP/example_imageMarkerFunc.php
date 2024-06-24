@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -41,27 +44,27 @@
  */
 /*  add this to your TS-setup:
 
-  	# include the php script
+    # include the php script
     includeLibs.imageMarkerFunc = EXT:tt_news/res/example_imageMarkerFunc.php
 
-	plugin.tt_news {
- 		# call user function
- 		imageMarkerFunc = user_imageMarkerFunc
- 		displaySingle {
- 			imageWrapIfAny_0 = <div class='news-single-images-container0'> | </div>
-    		imageWrapIfAny_1 = <div class='news-single-images-container1'> | </div>
-    		imageWrapIfAny_2 = <div class='news-single-images-container2'> | </div>
-    		imageWrapIfAny_3 = <div class='news-single-images-container3'> | </div>
-		}
-		# example styles for the new wraps
-		_CSS_DEFAULT_STYLE (
-		  	.news-single-images-container0, .news-single-images-container1, .news-single-images-container2, .news-single-images-container3 { width: 200px; margin-left: 5px; }
-			.news-single-images-container0 { background-color: #900; }
-			.news-single-images-container1 { background-color: #090; }
-			.news-single-images-container2 { background-color: #009; }
-			.news-single-images-container3 { background-color: #990; }
-		)
- 	}
+    plugin.tt_news {
+        # call user function
+        imageMarkerFunc = user_imageMarkerFunc
+        displaySingle {
+            imageWrapIfAny_0 = <div class='news-single-images-container0'> | </div>
+            imageWrapIfAny_1 = <div class='news-single-images-container1'> | </div>
+            imageWrapIfAny_2 = <div class='news-single-images-container2'> | </div>
+            imageWrapIfAny_3 = <div class='news-single-images-container3'> | </div>
+        }
+        # example styles for the new wraps
+        _CSS_DEFAULT_STYLE (
+              .news-single-images-container0, .news-single-images-container1, .news-single-images-container2, .news-single-images-container3 { width: 200px; margin-left: 5px; }
+            .news-single-images-container0 { background-color: #900; }
+            .news-single-images-container1 { background-color: #090; }
+            .news-single-images-container2 { background-color: #009; }
+            .news-single-images-container3 { background-color: #990; }
+        )
+    }
 
 */
 /**
@@ -71,48 +74,43 @@
  * @param	[type]		$conf: ...
  * @return	array		the processed markerArray
  */
-function user_imageMarkerFunc($paramArray,$conf){
-
-	$markerArray = $paramArray[0];
-	$lConf = $paramArray[1];
+function user_imageMarkerFunc($paramArray, $conf)
+{
+    $markerArray = $paramArray[0];
+    $lConf = $paramArray[1];
     $pObj = &$conf['parentObj']; // make a reference to the parent-object
-	$row = $pObj->local_cObj->data;
+    $row = $pObj->local_cObj->data;
 
-	$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount']:1;
-	$imageNum = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($imageNum, 0, 100);
-	$theImgCode = '';
-	$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
-	$imgsCaptions = explode(chr(10), $row['imagecaption']);
-	reset($imgs);
-	$cc = 0;
+    $imageNum = $lConf['imageCount'] ?? 1;
+    $imageNum = GeneralUtility::intInRange($imageNum, 0, 100);
+    $theImgCode = '';
+    $imgs = GeneralUtility::trimExplode(',', $row['image'], 1);
+    $imgsCaptions = explode(chr(10), (string)$row['imagecaption']);
+    reset($imgs);
+    $cc = 0;
 
-	while (list(, $val) = each($imgs)) {
-		if ($cc == $imageNum) break;
-		if ($val) {
-		 	$lConf['image.']['altText'] = ''; // reset altText
-			$lConf['image.']['altText'] = $lConf['image.']['altText']; // set altText to value from TS
-			$lConf['image.']['file'] = 'uploads/pics/'.$val;
-			switch($lConf['imgAltTextField']) {
-				case 'image':
-					$lConf['image.']['altText'] .= $val;
-				break;
-				case 'imagecaption':
-					$lConf['image.']['altText'] .= $imgsCaptions[$cc];
-				break;
-				default:
-					$lConf['image.']['altText'] .= $row[$lConf['imgAltTextField']];
-			}
-		}
-		$theImgCode .= $pObj->local_cObj->wrap($pObj->local_cObj->IMAGE($lConf['image.']).$pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']),$lConf['imageWrapIfAny_'.$cc]);
-		$cc++;
-	}
-	$markerArray['###NEWS_IMAGE###'] = '';
-	if ($cc) {
-		$markerArray['###NEWS_IMAGE###'] = $pObj->local_cObj->wrap(trim($theImgCode), $lConf['imageWrapIfAny']);
-
-	}
-		return $markerArray;
-
+    foreach ($imgs as $val) {
+        if ($cc == $imageNum) {
+            break;
+        }
+        if ($val) {
+            $lConf['image.']['altText'] = ''; // reset altText
+            $lConf['image.']['altText'] = $lConf['image.']['altText']; // set altText to value from TS
+            $lConf['image.']['file'] = 'uploads/pics/' . $val;
+            match ($lConf['imgAltTextField']) {
+                'image' => $lConf['image.']['altText'] .= $val,
+                'imagecaption' => $lConf['image.']['altText'] .= $imgsCaptions[$cc],
+                default => $lConf['image.']['altText'] .= $row[$lConf['imgAltTextField']],
+            };
+        }
+        $theImgCode .= $pObj->local_cObj->wrap($pObj->local_cObj->IMAGE($lConf['image.']) . $pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']), $lConf['imageWrapIfAny_' . $cc]);
+        $cc++;
+    }
+    $markerArray['###NEWS_IMAGE###'] = '';
+    if ($cc) {
+        $markerArray['###NEWS_IMAGE###'] = $pObj->local_cObj->wrap(trim($theImgCode), $lConf['imageWrapIfAny']);
+    }
+    return $markerArray;
 }
 
 /**
@@ -141,8 +139,8 @@ plugin.tt_news {
   # If this is not wanted it can be disabled or changed by overwriting the values from "displaySingle".
   displayList.image {
     backgroundFile = media/frames/darkroom2_bottom.jpg
-	maskFile = media/frames/darkroom2_mask.jpg
-	noImgFile >
+    maskFile = media/frames/darkroom2_mask.jpg
+    noImgFile >
   }
 }
 
@@ -154,82 +152,79 @@ plugin.tt_news {
  * @param	[type]		$conf: ...
  * @return	array		the processed markerArray
  */
-function user_maskImages($paramArray,$conf){
+function user_maskImages($paramArray, $conf)
+{
+    // the first part of this function is identical to the function getImageMarkers from class.tx_ttnews.php
 
-	// the first part of this function is identical to the function getImageMarkers from class.tx_ttnews.php
-
-	// get markerarray and configuration
-	list($markerArray,$lConf) = $paramArray;
+    // get markerarray and configuration
+    [$markerArray, $lConf] = $paramArray;
     $pObj = &$conf['parentObj']; // make a reference to the parent-object
-	$row = $pObj->local_cObj->data; // get current $row
+    $row = $pObj->local_cObj->data; // get current $row
 
-	$imageNum = isset($lConf['imageCount']) ? $lConf['imageCount']:1;
-	$imageNum = \TYPO3\CMS\Core\Utility\GeneralUtility::intInRange($imageNum, 0, 100);
-	$theImgCode = '';
-	$imgs = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $row['image'], 1);
-	$imgsCaptions = explode(chr(10), $row['imagecaption']);
-	$imgsAltTexts = explode(chr(10), $row['imagealttext']);
-	$imgsTitleTexts = explode(chr(10), $row['imagetitletext']);
+    $imageNum = $lConf['imageCount'] ?? 1;
+    $imageNum = GeneralUtility::intInRange($imageNum, 0, 100);
+    $theImgCode = '';
+    $imgs = GeneralUtility::trimExplode(',', $row['image'], 1);
+    $imgsCaptions = explode(chr(10), (string)$row['imagecaption']);
+    $imgsAltTexts = explode(chr(10), (string)$row['imagealttext']);
+    $imgsTitleTexts = explode(chr(10), (string)$row['imagetitletext']);
 
-	reset($imgs);
+    reset($imgs);
 
-	$cc = 0;
+    $cc = 0;
 
-	// get img array parts for single view pages
-	if ($pObj->piVars[$pObj->config['singleViewPointerName']]) {
-		$spage = $pObj->piVars[$pObj->config['singleViewPointerName']];
-		$astart = $imageNum*$spage;
-		$imgs = array_slice($imgs,$astart,$imageNum);
-		$imgsCaptions = array_slice($imgsCaptions,$astart,$imageNum);
-		$imgsAltTexts = array_slice($imgsAltTexts,$astart,$imageNum);
-		$imgsTitleTexts = array_slice($imgsTitleTexts,$astart,$imageNum);
-	}
+    // get img array parts for single view pages
+    if ($pObj->piVars[$pObj->config['singleViewPointerName']]) {
+        $spage = $pObj->piVars[$pObj->config['singleViewPointerName']];
+        $astart = $imageNum * $spage;
+        $imgs = array_slice($imgs, $astart, $imageNum);
+        $imgsCaptions = array_slice($imgsCaptions, $astart, $imageNum);
+        $imgsAltTexts = array_slice($imgsAltTexts, $astart, $imageNum);
+        $imgsTitleTexts = array_slice($imgsTitleTexts, $astart, $imageNum);
+    }
 
-	// Here starts the changed rendering part
-	$imgObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_stdGraphic'); // instantiate object for image manipulation
-	$imgObj->mayScaleUp = 1;
-	while (list(, $val) = each($imgs)) {
-		if ($cc == $imageNum) break;
-		if ($val) {
-			$lConf['image.']['altText'] = $imgsAltTexts[$cc];
-			$lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
-			$lConf['image.']['file'] = 'uploads/pics/' . $val;
-		}
+    // Here starts the changed rendering part
+    $imgObj = GeneralUtility::makeInstance('t3lib_stdGraphic'); // instantiate object for image manipulation
+    $imgObj->mayScaleUp = 1;
+    foreach ($imgs as $val) {
+        if ($cc == $imageNum) {
+            break;
+        }
+        if ($val) {
+            $lConf['image.']['altText'] = $imgsAltTexts[$cc];
+            $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
+            $lConf['image.']['file'] = 'uploads/pics/' . $val;
+        }
+        $imgObj->init();
+        $imgInfo = $imgObj->imageMagickConvert($lConf['image.']['file'], '', $lConf['image.']['file.']['maxW'], $lConf['image.']['file']['maxH'], '-quality 100', '0', '');
+        if ($imgInfo[3]) {
+            $bgFile = $lConf['image.']['backgroundFile'] ?: 'media/frames/darkroom8_bottom.jpg';
+            $bgInfo = $imgObj->imageMagickConvert($bgFile, '', $imgInfo[0], $imgInfo[1], '-quality 100 -negate', '0', '');
 
-		$imgObj->init();
+            $mFile = $lConf['image.']['maskFile'] ?: 'media/frames/darkroom8_mask.jpg';
+            $mInfo = $imgObj->imageMagickConvert($mFile, '', $imgInfo[0], $imgInfo[1], '-quality 100 -negate', '0', '');
 
-		$imgInfo = $imgObj->imageMagickConvert($lConf['image.']['file'],'',$lConf['image.']['file.']['maxW'],$lConf['image.']['file']['maxH'],'-quality 100','0','');
-		if ($imgInfo[3]) {
+            $cmd = $imgObj->imageMagickPath . $imgObj->combineScript . ' -compose over ' . $imgObj->wrapFileName($imgInfo[3]) . ' ' . $imgObj->wrapFileName($bgInfo[3]) . '	' . $imgObj->wrapFileName($mInfo[3]) . ' ' . $imgObj->wrapFileName($imgInfo[3]);
 
-		$bgFile = $lConf['image.']['backgroundFile']?$lConf['image.']['backgroundFile']:'media/frames/darkroom8_bottom.jpg';
-		$bgInfo = $imgObj->imageMagickConvert($bgFile,'',$imgInfo[0],$imgInfo[1],'-quality 100 -negate','0','');
+            exec($cmd);
 
-		$mFile = $lConf['image.']['maskFile']?$lConf['image.']['maskFile']:'media/frames/darkroom8_mask.jpg';
-		$mInfo = $imgObj->imageMagickConvert($mFile,'',$imgInfo[0],$imgInfo[1],'-quality 100 -negate','0','');
+            $lConf['image.']['file'] = $imgInfo[3]; // set the masked image as filename for the IMAGE object
 
-		$cmd = $imgObj->imageMagickPath.$imgObj->combineScript.' -compose over '.$imgObj->wrapFileName($imgInfo[3]).' '.$imgObj->wrapFileName($bgInfo[3]).'	'.$imgObj->wrapFileName($mInfo[3]).' '.$imgObj->wrapFileName($imgInfo[3]);
+            $theImgCode .= $pObj->local_cObj->IMAGE($lConf['image.']) . $pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
 
-		exec($cmd);
+            // the next line can be used instead of the line above if you don't want to render the image trough a cObject
+            // $theImgCode.= '<img src="'. $imgInfo[3] .'" border="0">'.$pObj->local_cObj->stdWrap($imgsCaptions[$cc],$lConf['caption_stdWrap.']);
 
-		$lConf['image.']['file'] = $imgInfo[3]; // set the masked image as filename for the IMAGE object
+            $cc++;
+        } elseif ($lConf['image.']['noImgFile']) {
+            $theImgCode .= '<img src="' . $lConf['image.']['noImgFile'] . '" border="0">' . $pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
+            $cc++;
+        }
+    }
+    $markerArray['###NEWS_IMAGE###'] = '';
+    if ($cc) {
+        $markerArray['###NEWS_IMAGE###'] = $pObj->local_cObj->wrap(trim($theImgCode), $lConf['imageWrapIfAny']);
+    }
 
-		$theImgCode .= $pObj->local_cObj->IMAGE($lConf['image.']).$pObj->local_cObj->stdWrap($imgsCaptions[$cc], $lConf['caption_stdWrap.']);
-
-			// the next line can be used instead of the line above if you don't want to render the image trough a cObject
-			// $theImgCode.= '<img src="'. $imgInfo[3] .'" border="0">'.$pObj->local_cObj->stdWrap($imgsCaptions[$cc],$lConf['caption_stdWrap.']);
-
-		$cc++;
-		} elseif ($lConf['image.']['noImgFile']) {
-			$theImgCode.= '<img src="'.$lConf['image.']['noImgFile'].'" border="0">'.$pObj->local_cObj->stdWrap($imgsCaptions[$cc],$lConf['caption_stdWrap.']);
-			$cc++;
-		}
-	}
-	$markerArray['###NEWS_IMAGE###'] = '';
-	if ($cc) {
-		$markerArray['###NEWS_IMAGE###'] = $pObj->local_cObj->wrap(trim($theImgCode), $lConf['imageWrapIfAny']);
-	}
-
-	return $markerArray;
-
+    return $markerArray;
 }
-

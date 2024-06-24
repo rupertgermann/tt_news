@@ -20,8 +20,6 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
  * Class Database
- *
- * @package RG\TtNews
  */
 class Database implements SingletonInterface
 {
@@ -29,7 +27,6 @@ class Database implements SingletonInterface
      * @var ConnectionPool
      */
     protected $connectionPool;
-
 
     /**
      * @param $tableName
@@ -58,9 +55,14 @@ class Database implements SingletonInterface
      */
     public function exec_SELECT_queryArray($queryParts)
     {
-        return $this->exec_SELECTquery($queryParts['SELECT'], $queryParts['FROM'], $queryParts['WHERE'],
-            $queryParts['GROUPBY'], $queryParts['ORDERBY'], $queryParts['LIMIT']);
-
+        return $this->exec_SELECTquery(
+            $queryParts['SELECT'],
+            $queryParts['FROM'],
+            $queryParts['WHERE'],
+            $queryParts['GROUPBY'],
+            $queryParts['ORDERBY'],
+            $queryParts['LIMIT']
+        );
     }
 
     /**
@@ -101,7 +103,6 @@ class Database implements SingletonInterface
      */
     public function SELECTquery($select_fields, $from_table, $where_clause, $groupBy = '', $orderBy = '', $limit = '')
     {
-
         // Table and fieldnames should be "SQL-injection-safe" when supplied to this function
         // Build basic query
         $query = 'SELECT ' . $select_fields . ' FROM ' . $from_table . ((string)$where_clause !== '' ? ' WHERE ' . $where_clause : '');
@@ -157,8 +158,10 @@ class Database implements SingletonInterface
                 if ($firstRecord) {
                     $firstRecord = false;
                     if (!array_key_exists($uidIndexField, $record)) {
-                        throw new InvalidArgumentException('The given $uidIndexField "' . $uidIndexField . '" is not available in the result.',
-                            1432933855);
+                        throw new InvalidArgumentException(
+                            'The given $uidIndexField "' . $uidIndexField . '" is not available in the result.',
+                            1_432_933_855
+                        );
                     }
                 }
                 $output[$record[$uidIndexField]] = $record;
@@ -197,7 +200,6 @@ class Database implements SingletonInterface
     public function cleanIntList($list)
     {
         return implode(',', GeneralUtility::intExplode(',', $list));
-
     }
 
     /**
@@ -289,7 +291,7 @@ class Database implements SingletonInterface
             'WHERE' => $mmWhere . ' ' . $whereClause,
             'GROUPBY' => $groupBy,
             'ORDERBY' => $orderBy,
-            'LIMIT' => $limit
+            'LIMIT' => $limit,
         ];
     }
 
@@ -324,7 +326,7 @@ class Database implements SingletonInterface
         $count = false;
         $resultSet = $this->exec_SELECTquery('COUNT(' . $field . ')', $table, $where);
         if ($resultSet !== false) {
-            list($count) = $this->sql_fetch_row($resultSet);
+            [$count] = $this->sql_fetch_row($resultSet);
             $count = (int)$count;
         }
 
@@ -354,15 +356,21 @@ class Database implements SingletonInterface
         $orderBy = '',
         $limit = ''
     ) {
-        $queryParts = $this->getSelectMmQueryParts($select, $local_table, $mm_table, $foreign_table, $whereClause,
-            $groupBy, $orderBy, $limit);
+        $queryParts = $this->getSelectMmQueryParts(
+            $select,
+            $local_table,
+            $mm_table,
+            $foreign_table,
+            $whereClause,
+            $groupBy,
+            $orderBy,
+            $limit
+        );
 
         return $this->exec_SELECT_queryArray($queryParts);
     }
 
     /**
-     * @param string $table
-     *
      * @return Connection
      */
     protected function getConnection(string $table)
@@ -379,6 +387,6 @@ class Database implements SingletonInterface
      */
     public static function getInstance()
     {
-        return GeneralUtility::makeInstance(__CLASS__);
+        return GeneralUtility::makeInstance(self::class);
     }
 }
