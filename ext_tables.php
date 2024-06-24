@@ -22,28 +22,38 @@ $boot = function () {
     TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('_MOD_web_txttnewsM1',
         'EXT:tt_news/csh/locallang_csh_mod_newsadmin.xml');
 
+    $typo3Version = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Information\Typo3Version::class);
+
 
     if (TYPO3_MODE == 'BE') {
-        if ($confArr['showBackEndModule']) {
-            TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
-                'web',
-                'txttnewsM1',
-                '',
-                null,
-                [
-                    'routeTarget' => RG\TtNews\Module\NewsAdminModule::class . '::mainAction',
-                    'access' => 'user,group',
-                    'name' => 'web_txttnewsM1',
-                    'navigationComponentId' => 'typo3-pagetree',
-                    'icon' => 'EXT:tt_news/Classes/Module/moduleicon.svg',
 
-                    'labels' => [
+        if ($typo3Version->getMajorVersion() < 11) {
 
-                        'll_ref' => 'LLL:EXT:tt_news/Classes/Module/locallang_mod.xml',
-                    ],
-                ]
-            );
+            if ($confArr['showBackEndModule']) {
+                TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addModule(
+                    'web',
+                    'txttnewsM1',
+                    '',
+                    null,
+                    [
+                        'routeTarget' => RG\TtNews\Module\NewsAdminModule::class . '::mainAction',
+                        'access' => 'user,group',
+                        'name' => 'web_txttnewsM1',
+                        'navigationComponentId' => 'typo3-pagetree',
+                        'icon' => 'EXT:tt_news/Classes/Module/moduleicon.svg',
+
+                        'labels' => [
+
+                            'll_ref' => 'LLL:EXT:tt_news/Classes/Module/locallang_mod.xml',
+                        ],
+                    ]
+                );
+
+                // Register HTML template for the tt_news BackEnd Module
+                $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'mod1/mod_ttnews_admin.html';
+            }
         }
+
 
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables']['tt_news'][0]['fList'] = 'uid,title,author,category,datetime,archivedate,tstamp';
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables']['tt_news'][0]['icon'] = true;
@@ -100,10 +110,9 @@ $boot = function () {
             2 => 'apps-pagetree-folder-contains-news'
         );
 
-        // Register HTML template for the tt_news BackEnd Module
-        $GLOBALS['TBE_STYLES']['htmlTemplates']['mod_ttnews_admin.html'] = TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('tt_news') . 'mod1/mod_ttnews_admin.html';
 
     }
+
 };
 
 $boot();

@@ -339,7 +339,7 @@ class TtNews extends AbstractPlugin
     public function __construct()
     {
         //if search => disable cache hash check to avoid pageNotFoundOnCHashError, see \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::reqCHash
-        if (GeneralUtility::_GPmerged($this->prefixId)['swords']) {
+        if (GeneralUtility::_GPmerged($this->prefixId)['swords'] ?? false) {
             $this->pi_checkCHash = false;
         }
 
@@ -370,7 +370,7 @@ class TtNews extends AbstractPlugin
         }
 
         // leave early if USER_INT
-        $this->convertToUserIntObject = $this->conf['convertToUserIntObject'] ? 1 : 0;
+        $this->convertToUserIntObject = ($this->conf['convertToUserIntObject'] ?? false) ? 1 : 0;
         if ($this->convertToUserIntObject
             && $this->cObj->getUserObjectType() == ContentObjectRenderer::OBJECTTYPE_USER) {
             $this->cObj->convertToUserIntObject();
@@ -493,7 +493,7 @@ class TtNews extends AbstractPlugin
         $code = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF');
         $this->config['code'] = ($code ? $code : $this->cObj->stdWrap($this->conf['code'], $this->conf['code.']));
 
-        if ($this->conf['displayCurrentRecord']) {
+        if (($this->conf['displayCurrentRecord'] ?? false)) {
             $this->config['code'] = $this->conf['defaultCode'] ? trim($this->conf['defaultCode']) : 'SINGLE';
             $this->tt_news_uid = $this->cObj->data['uid'];
         }
@@ -539,7 +539,7 @@ class TtNews extends AbstractPlugin
         $this->enableFields = $this->getEnableFields('tt_news');
 
         if ($this->tt_news_uid === 0) { // no tt_news_uid set by displayCurrentRecord
-            $this->tt_news_uid = intval($this->piVars['tt_news']); // Get the submitted uid of a news (if any)
+            $this->tt_news_uid = intval($this->piVars['tt_news'] ?? 0); // Get the submitted uid of a news (if any)
         }
 
         $this->token = md5(microtime());
@@ -550,10 +550,10 @@ class TtNews extends AbstractPlugin
         // load available syslanguages
         $this->initLanguages();
         // sys_language_mode defines what to do if the requested translation is not found
-        $this->sys_language_mode = ($this->conf['sys_language_mode'] ? $this->conf['sys_language_mode'] : $languageAspect->getLegacyLanguageMode());
+        $this->sys_language_mode = (($this->conf['sys_language_mode'] ?? false) ?: $languageAspect->getLegacyLanguageMode());
 
 
-        if ($this->conf['searchFieldList']) {
+        if (($this->conf['searchFieldList'] ?? false)) {
             // get fieldnames from the tt_news db-table
             $this->fieldNames = array_keys($this->db->admin_get_fields('tt_news'));
             $searchFieldList = $this->helpers->validateFields($this->conf['searchFieldList'], $this->fieldNames);
@@ -569,9 +569,9 @@ class TtNews extends AbstractPlugin
         $arcExclusive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'archive', 'sDEF');
         $this->arcExclusive = $arcExclusive ? $arcExclusive : intval($this->conf['archive']);
 
-        $this->config['datetimeDaysToArchive'] = intval($this->conf['datetimeDaysToArchive']);
-        $this->config['datetimeHoursToArchive'] = intval($this->conf['datetimeHoursToArchive']);
-        $this->config['datetimeMinutesToArchive'] = intval($this->conf['datetimeMinutesToArchive']);
+        $this->config['datetimeDaysToArchive'] = intval($this->conf['datetimeDaysToArchive'] ?? 0);
+        $this->config['datetimeHoursToArchive'] = intval($this->conf['datetimeHoursToArchive'] ?? 0);
+        $this->config['datetimeMinutesToArchive'] = intval($this->conf['datetimeMinutesToArchive'] ?? 0);
 
         if ($this->conf['useHRDates']) {
             $this->helpers->convertDates();
@@ -583,52 +583,52 @@ class TtNews extends AbstractPlugin
         }
 
         // itemLinkTarget is only used for categoryLinkMode 3 (catselector) in framesets
-        $this->conf['itemLinkTarget'] = trim($this->conf['itemLinkTarget']);
+        $this->conf['itemLinkTarget'] = trim($this->conf['itemLinkTarget'] ?? '');
         // id of the page where the search results should be displayed
-        $this->config['searchPid'] = intval($this->conf['searchPid']);
+        $this->config['searchPid'] = intval($this->conf['searchPid'] ?? 0);
 
         // pages in Single view will be divided by this token
-        $this->config['pageBreakToken'] = trim($this->conf['pageBreakToken']) ? trim($this->conf['pageBreakToken']) : '<---newpage--->';
+        $this->config['pageBreakToken'] = trim($this->conf['pageBreakToken'] ?? '') ?: '<---newpage--->';
 
-        $this->config['singleViewPointerName'] = trim($this->conf['singleViewPointerName']) ? trim($this->conf['singleViewPointerName']) : 'sViewPointer';
+        $this->config['singleViewPointerName'] = trim($this->conf['singleViewPointerName'] ?? '') ?: 'sViewPointer';
 
         $maxWordsInSingleView = intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'maxWordsInSingleView',
             's_misc'));
-        $maxWordsInSingleView = $maxWordsInSingleView ? $maxWordsInSingleView : intval($this->conf['maxWordsInSingleView']);
-        $this->config['maxWordsInSingleView'] = $maxWordsInSingleView ? $maxWordsInSingleView : 0;
+        $maxWordsInSingleView = $maxWordsInSingleView ?: intval($this->conf['maxWordsInSingleView']);
+        $this->config['maxWordsInSingleView'] = $maxWordsInSingleView ?: 0;
         $this->config['useMultiPageSingleView'] = $this->conf['useMultiPageSingleView'];
 
         // pid of the page with the single view. the old var PIDitemDisplay is still processed if no other value is found
         $singlePid = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDitemDisplay', 's_misc');
-        $this->config['singlePid'] = $singlePid ? $singlePid : intval($this->cObj->stdWrap($this->conf['singlePid'],
-            $this->conf['singlePid.']));
+        $this->config['singlePid'] = $singlePid ?: intval($this->cObj->stdWrap(($this->conf['singlePid'] ?? 0),
+            ($this->conf['singlePid.'] ?? false)));
         if (!$this->config['singlePid']) {
             $this->errors[] = 'No singlePid defined';
         }
         // pid to return to when leaving single view
         $backPid = intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'backPid', 's_misc'));
-        $backPid = $backPid ? $backPid : intval($this->conf['backPid']);
-        $backPid = $backPid ? $backPid : intval($this->piVars['backPid']);
-        $backPid = $backPid ? $backPid : $this->tsfe->id;
+        $backPid = $backPid ?: intval($this->conf['backPid'] ?? 0);
+        $backPid = $backPid ?: intval($this->piVars['backPid'] ?? 0);
+        $backPid = $backPid ?: $this->tsfe->id;
         $this->config['backPid'] = $backPid;
 
         // max items per page
         $FFlimit = MathUtility::forceIntegerInRange($this->pi_getFFvalue($this->cObj->data['pi_flexform'],
             'listLimit', 's_template'), 0, 1000);
 
-        $limit = MathUtility::forceIntegerInRange($this->cObj->stdWrap($this->conf['limit'],
-            $this->conf['limit.']), 0, 1000);
+        $limit = MathUtility::forceIntegerInRange($this->cObj->stdWrap(($this->conf['limit'] ?? 0),
+            ($this->conf['limit.'] ?? false)), 0, 1000);
         $limit = $limit ? $limit : 50;
         $this->config['limit'] = $FFlimit ? $FFlimit : $limit;
 
-        $latestLimit = MathUtility::forceIntegerInRange($this->cObj->stdWrap($this->conf['latestLimit'],
-            $this->conf['latestLimit.']), 0, 1000);
+        $latestLimit = MathUtility::forceIntegerInRange($this->cObj->stdWrap(($this->conf['latestLimit'] ?? 0),
+            ($this->conf['latestLimit.'] ?? false)), 0, 1000);
         $latestLimit = $latestLimit ? $latestLimit : 10;
         $this->config['latestLimit'] = $FFlimit ? $FFlimit : $latestLimit;
 
         // orderBy and groupBy statements for the list Query
         $orderBy = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'listOrderBy', 'sDEF');
-        $orderByTS = trim($this->conf['listOrderBy']);
+        $orderByTS = trim($this->conf['listOrderBy'] ?? '');
         $orderBy = $orderBy ? $orderBy : $orderByTS;
         $this->config['orderBy'] = $orderBy;
 
@@ -640,21 +640,21 @@ class TtNews extends AbstractPlugin
                 $this->config['orderBy'] = preg_replace('/( DESC| ASC)\b/i', '', $this->config['orderBy']);
             }
         }
-        $this->config['groupBy'] = trim($this->conf['listGroupBy']);
+        $this->config['groupBy'] = trim($this->conf['listGroupBy'] ?? '');
 
         // if this is set, the first image is handled as preview image, which is only shown in list view
         $fImgPreview = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'firstImageIsPreview', 's_misc');
-        $this->config['firstImageIsPreview'] = $fImgPreview ? $fImgPreview : $this->conf['firstImageIsPreview'];
+        $this->config['firstImageIsPreview'] = $fImgPreview ?: ($this->conf['firstImageIsPreview'] ?? false);
         $forcefImgPreview = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'forceFirstImageIsPreview',
             's_misc');
-        $this->config['forceFirstImageIsPreview'] = $forcefImgPreview ? $fImgPreview : $this->conf['forceFirstImageIsPreview'];
+        $this->config['forceFirstImageIsPreview'] = $forcefImgPreview ? $fImgPreview : ($this->conf['forceFirstImageIsPreview'] ?? false);
 
         // List start id
         //		$listStartId = intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'listStartId', 's_misc'));
         //		$this->config['listStartId'] = /*$listStartId?$listStartId:*/intval($this->conf['listStartId']);
         // supress pagebrowser
         $noPageBrowser = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'noPageBrowser', 's_template');
-        $this->config['noPageBrowser'] = $noPageBrowser ? $noPageBrowser : $this->conf['noPageBrowser'];
+        $this->config['noPageBrowser'] = $noPageBrowser ?: ($this->conf['noPageBrowser'] ?? false);
 
         // image sizes/optionSplit given from FlexForms
         $this->config['FFimgH'] = trim($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'imageMaxHeight',
@@ -665,19 +665,19 @@ class TtNews extends AbstractPlugin
         // Get number of alternative Layouts (loop layout in LATEST and LIST view) default is 2:
         $altLayouts = intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'alternatingLayouts',
             's_template'));
-        $altLayouts = $altLayouts ? $altLayouts : intval($this->conf['alternatingLayouts']);
-        $this->alternatingLayouts = $altLayouts ? $altLayouts : 2;
+        $altLayouts = $altLayouts ?: intval($this->conf['alternatingLayouts'] ?? 0);
+        $this->alternatingLayouts = $altLayouts ?: 2;
 
         $altLayouts = trim($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'altLayoutsOptionSplit',
             's_template'));
-        $this->config['altLayoutsOptionSplit'] = $altLayouts ? $altLayouts : trim($this->conf['altLayoutsOptionSplit']);
+        $this->config['altLayoutsOptionSplit'] = $altLayouts ?: trim($this->conf['altLayoutsOptionSplit'] ?? '');
 
         // Get cropping length
 
 
         $croppingLenghtOptionSplit = trim($this->pi_getFFvalue($this->cObj->data['pi_flexform'],
             'croppingLenghtOptionSplit', 's_template'));
-        $this->config['croppingLenghtOptionSplit'] = $croppingLenghtOptionSplit ? $croppingLenghtOptionSplit : trim($this->conf['croppingLenghtOptionSplit']);
+        $this->config['croppingLenghtOptionSplit'] = $croppingLenghtOptionSplit ?: trim($this->conf['croppingLenghtOptionSplit'] ?? '');
         $this->config['croppingLenght'] = trim($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'croppingLenght',
             's_template'));
 
@@ -693,7 +693,7 @@ class TtNews extends AbstractPlugin
         }
 
         // get siteUrl for links in rss feeds. the 'dontInsert' option seems to be needed in some configurations depending on the baseUrl setting
-        if (!$this->conf['displayXML.']['dontInsertSiteUrl']) {
+        if (!($this->conf['displayXML.']['dontInsertSiteUrl'] ?? false)) {
             $this->config['siteUrl'] = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
         }
     }
@@ -824,7 +824,7 @@ class TtNews extends AbstractPlugin
         }
 
         // process extra codes from $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']
-        $userCodes = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display'];
+        $userCodes = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display'] ?? null;
 
         if (is_array($userCodes) && !$prefix_display && !$templateName) {
             foreach ($userCodes as $ucode) {
@@ -841,7 +841,7 @@ class TtNews extends AbstractPlugin
 
         if (!$this->conf['emptyArchListAtStart']) {
             // if this is true, we're listing from the archive for the first time (no pS set), to prevent an empty list page we set the pS value to the archive start
-            if (($this->arcExclusive > 0 && !$this->piVars['pS'] && $theCode != 'SEARCH')) {
+            if (($this->arcExclusive > 0 && !($this->piVars['pS'] ?? false) && $theCode != 'SEARCH')) {
                 // set pS to time minus archive startdate
                 if ($this->config['datetimeMinutesToArchive']) {
                     $this->piVars['pS'] = ($this->SIM_ACCESS_TIME - ($this->config['datetimeMinutesToArchive'] * 60));
@@ -853,11 +853,11 @@ class TtNews extends AbstractPlugin
             }
         }
 
-        if ($this->piVars['pS'] && !$this->piVars['pL']) {
+        if (($this->piVars['pS'] ?? false) && !($this->piVars['pL'] ?? false)) {
             $noPeriod = 1; // override the period length checking in getSelectConf
         }
 
-        if ($this->conf['displayCurrentRecord'] && $this->tt_news_uid) {
+        if (($this->conf['displayCurrentRecord'] ?? false) && $this->tt_news_uid) {
             $this->pid_list = $this->cObj->data['pid'];
             $where = 'AND tt_news.uid=' . $this->tt_news_uid;
         }
@@ -907,7 +907,7 @@ class TtNews extends AbstractPlugin
 
             // exclude the LATEST template from changing its content with the pagebrowser. This can be overridden by setting the conf var latestWithPagebrowser
             if ($this->theCode != 'LATEST' || $this->conf['latestWithPagebrowser']) {
-                $selectConf['begin'] = intval($this->piVars[$this->pointerName]) * $this->config['limit'];
+                $selectConf['begin'] = intval($this->piVars[$this->pointerName] ?? 0) * $this->config['limit'];
             }
 
             $selectConf['max'] = $this->config['limit'];
@@ -970,10 +970,10 @@ class TtNews extends AbstractPlugin
                 if (!$pbConf['showPBrowserText']) {
                     $this->overrideLL('pi_list_browseresults_page', ' ');
                 }
-                if ($this->conf['userPageBrowserFunc']) {
+                if ($this->conf['userPageBrowserFunc'] ?? false) {
                     $markerArray = $this->userProcess('userPageBrowserFunc', $markerArray);
                 } else {
-                    $this->pi_alwaysPrev = $pbConf['alwaysPrev'];
+                    $this->pi_alwaysPrev = $pbConf['alwaysPrev'] ?? false;
                     if ($this->conf['usePiBasePagebrowser'] && $this->isRenderMarker('###BROWSE_LINKS###')) {
 
                         $markerArray = $this->getPagebrowserContent($markerArray, $pbConf, $this->pointerName);
@@ -986,7 +986,7 @@ class TtNews extends AbstractPlugin
             }
 
             // Adds hook for processing of extra global markers
-            if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraGlobalMarkerHook'])) {
+            if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraGlobalMarkerHook'] ?? null)) {
                 foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraGlobalMarkerHook'] as $_classRef) {
                     $_procObj = GeneralUtility::makeInstance($_classRef);
                     $markerArray = $_procObj->extraGlobalMarkerProcessor($this, $markerArray);
@@ -1092,9 +1092,9 @@ class TtNews extends AbstractPlugin
         $tmpPL = false;
         if ($this->conf['useHRDates']) {
             // prevent adding pS & pL to pagebrowser links if useHRDates is enabled
-            $tmpPS = $this->piVars['pS'];
+            $tmpPS = $this->piVars['pS'] ?? null;
             unset($this->piVars['pS']);
-            $tmpPL = $this->piVars['pL'];
+            $tmpPL = $this->piVars['pL'] ?? null;
             unset($this->piVars['pL']);
         }
 
@@ -1105,7 +1105,7 @@ class TtNews extends AbstractPlugin
             $pi_isOnlyFieldsArr = explode(',', $this->pi_isOnlyFields);
             $highestVal = 0;
             foreach ($pi_isOnlyFieldsArr as $v) {
-                if ($this->piVars[$v] > $highestVal) {
+                if (($this->piVars[$v] ?? 0) > $highestVal) {
                     $highestVal = $this->piVars[$v];
                 }
             }
@@ -1114,7 +1114,7 @@ class TtNews extends AbstractPlugin
 
         // render pagebrowser
         $markerArray['###BROWSE_LINKS###'] = $this->pi_list_browseresults($pbConf['showResultCount'],
-            $pbConf['tableParams'], $wrapArr, $pointerName, $pbConf['hscText']);
+            $pbConf['tableParams'] ?? null, $wrapArr, $pointerName, $pbConf['hscText']);
 
         if ($this->conf['useHRDates']) {
             // restore pS & pL
@@ -1220,7 +1220,7 @@ class TtNews extends AbstractPlugin
             $this->tsfe->ATagParams = $pTmp . ' title="' . $this->local_cObj->stdWrap(trim(htmlspecialchars($row[$titleField])),
                     $lConf['linkTitleField.']) . '"';
 
-            if ($this->conf[$prefix_display . '.']['catOrderBy']) {
+            if ($this->conf[$prefix_display . '.']['catOrderBy'] ?? false) {
                 $this->config['catOrderBy'] = $this->conf[$prefix_display . '.']['catOrderBy'];
             }
 
@@ -1246,7 +1246,7 @@ class TtNews extends AbstractPlugin
                         $catSPid = array_shift($tmpcats[$row['uid']]);
                     }
                 }
-                $singlePid = $catSPid['single_pid'] ? $catSPid['single_pid'] : $this->config['singlePid'];
+                $singlePid = ($catSPid['single_pid'] ?? false) ?: $this->config['singlePid'];
                 $wrappedSubpartArray['###LINK_ITEM###'] = $this->getSingleViewLink($singlePid, $row, $piVarsArray);
             }
 
@@ -1342,15 +1342,20 @@ class TtNews extends AbstractPlugin
 
 
         // function Hook for processing the selectConf array
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['sViewSelectConfHook'])) {
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['sViewSelectConfHook'] ?? null)) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['sViewSelectConfHook'] as $_classRef) {
                 $_procObj = GeneralUtility::makeInstance($_classRef);
                 $selectConf = $_procObj->processSViewSelectConfHook($this, $selectConf);
             }
         }
 
-        $res = $this->db->exec_SELECTquery($selectConf['selectFields'], $selectConf['fromTable'], $selectConf['where'],
-            $selectConf['groupBy'], $selectConf['orderBy'], $selectConf['limit']);
+        $res = $this->db->exec_SELECTquery(
+            $selectConf['selectFields'] ?? '',
+            $selectConf['fromTable'] ?? '',
+            $selectConf['where'] ?? '',
+            $selectConf['groupBy'] ?? '',
+            $selectConf['orderBy'] ?? '',
+            $selectConf['limit'] ?? '');
 
         $row = $this->db->sql_fetch_assoc($res);
 
@@ -1367,7 +1372,7 @@ class TtNews extends AbstractPlugin
         }
 
         // Adds hook for processing of extra item array
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'])) {
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'] ?? null)) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['extraItemArrayHook'] as $_classRef) {
                 $_procObj = GeneralUtility::makeInstance($_classRef);
                 $row = $_procObj->extraItemArrayProcessor($row, $lConf, $this);
@@ -1395,7 +1400,7 @@ class TtNews extends AbstractPlugin
 
             if (!$this->useFluidRenderer) {
                 // Get the subpart code
-                if ($this->conf['displayCurrentRecord']) {
+                if ($this->conf['displayCurrentRecord'] ?? false) {
                     $item = trim($this->getNewsSubpart($this->templateCode,
                         $this->spMarker('###TEMPLATE_SINGLE_RECORDINSERT###'), $row));
                 }
@@ -1440,7 +1445,7 @@ class TtNews extends AbstractPlugin
                 // set pagetitle for indexed search to news title
                 $this->tsfe->indexedDocTitle = $row['title'];
             }
-            if ($lConf['catOrderBy']) {
+            if ($lConf['catOrderBy'] ?? false) {
                 $this->config['catOrderBy'] = $lConf['catOrderBy'];
             }
             $this->categories = array();
@@ -1551,7 +1556,7 @@ class TtNews extends AbstractPlugin
             if ($this->cache_amenuPeriods) {
                 $storeKey = md5(serialize(array(
                     $this->catExclusive,
-                    $this->config['catSelection'],
+                    $this->config['catSelection'] ?? '',
                     $this->sys_language_content,
                     $selectConf['pidInList'],
                     $arcMode
@@ -1567,15 +1572,15 @@ class TtNews extends AbstractPlugin
                 foreach ($dateArr as $k => $v) {
                     $periodInfo = array();
                     $periodInfo['start'] = $v;
-                    $periodInfo['active'] = ($this->piVars['pS'] == $v ? 1 : 0);
-                    $periodInfo['stop'] = $dateArr[$k + 1] - 1;
+                    $periodInfo['active'] = (($this->piVars['pS'] ?? 0) == $v ? 1 : 0);
+                    $periodInfo['stop'] = ($dateArr[$k + 1] ?? 0) - 1;
                     $periodInfo['HRstart'] = date('d-m-Y', $periodInfo['start']);
                     $periodInfo['HRstop'] = date('d-m-Y', $periodInfo['stop']);
                     $periodInfo['quarter'] = floor(date('m', $v) / 3) + 1;
 
                     $select_fields = 'COUNT(DISTINCT tt_news.uid)';
                     $from_table = 'tt_news';
-                    $join = ($selectConf['leftjoin'] ? ' LEFT JOIN ' . $selectConf['leftjoin'] : '');
+                    $join = (($selectConf['leftjoin'] ?? false) ? ' LEFT JOIN ' . $selectConf['leftjoin'] : '');
                     $where_clause = $tmpWhere . ' AND tt_news.datetime>=' . $periodInfo['start'] . ' AND tt_news.datetime<' . $periodInfo['stop'];
 
                     $res = $this->db->exec_SELECTquery($select_fields, $from_table . $join, $where_clause);
@@ -1611,7 +1616,7 @@ class TtNews extends AbstractPlugin
             $archiveLink = $this->conf['archiveTypoLink.']['parameter'];
             $archiveLink = ($archiveLink ? $archiveLink : $this->tsfe->id);
 
-            $this->conf['parent.']['addParams'] = $this->conf['archiveTypoLink.']['addParams'];
+            $this->conf['parent.']['addParams'] = ($this->conf['archiveTypoLink.']['addParams'] ?? null);
             $amenuLinkCat = null;
 
             if (!$this->conf['disableCategoriesInAmenuLinks']) {
@@ -1673,14 +1678,14 @@ class TtNews extends AbstractPlugin
                     $this->conf['archiveTitleCObject.'], 'archiveTitleCObject');
                 $markerArray['###ARCHIVE_COUNT###'] = $pArr['count'];
                 $markerArray['###ARCHIVE_ITEMS###'] = ($pArr['count'] == 1 ? $this->pi_getLL('archiveItem') : $this->pi_getLL('archiveItems'));
-                $markerArray['###ARCHIVE_ACTIVE###'] = ($this->piVars['pS'] == $pArr['start'] ? $this->conf['archiveActiveMarkerContent'] : '');
+                $markerArray['###ARCHIVE_ACTIVE###'] = (($this->piVars['pS'] ?? 0) == $pArr['start'] ? $this->conf['archiveActiveMarkerContent'] : '');
 
                 $layoutNum = ($tCount == 0 ? 0 : ($cc % $tCount));
                 $amenuitem = $this->markerBasedTemplateService->substituteMarkerArrayCached($t['item'][$layoutNum],
                     $markerArray, array(),
                     $wrappedSubpartArray);
 
-                if ($this->conf['newsAmenuUserFunc'] || $this->conf['useFluidRendering']) {
+                if (($this->conf['newsAmenuUserFunc'] ?? false) || ($this->conf['useFluidRendering'] ?? false)) {
                     // fill the generated data to an array to pass it to a userfuction as a single variable
                     $itemsOutArr[] = [
                         'html' => $amenuitem,
@@ -1694,7 +1699,7 @@ class TtNews extends AbstractPlugin
             }
 
             // Pass to user defined function
-            if ($this->conf['newsAmenuUserFunc']) {
+            if ($this->conf['newsAmenuUserFunc'] ?? false) {
                 $tmpItemsArr = false;
                 $itemsOutArr = $this->userProcess('newsAmenuUserFunc', $itemsOutArr);
                 foreach ($itemsOutArr as $itemHtml) {
@@ -1710,7 +1715,7 @@ class TtNews extends AbstractPlugin
             $wrappedSubpartArray = array();
             $markerArray = array();
             $markerArray['###ARCHIVE_HEADER###'] = $this->local_cObj->stdWrap($this->pi_getLL('archiveHeader'),
-                $this->conf['archiveHeader_stdWrap.']);
+                $this->conf['archiveHeader_stdWrap.'] ?? false);
             // Set content
             $subpartArray['###CONTENT###'] = $itemsOut;
             $content = $this->markerBasedTemplateService->substituteMarkerArrayCached($t['total'], $markerArray,
@@ -1719,14 +1724,14 @@ class TtNews extends AbstractPlugin
         } else {
             // if nothing is found in the archive display the TEMPLATE_ARCHIVE_NOITEMS message
             $markerArray['###ARCHIVE_HEADER###'] = $this->local_cObj->stdWrap($this->pi_getLL('archiveHeader'),
-                $this->conf['archiveHeader_stdWrap.']);
+                $this->conf['archiveHeader_stdWrap.'] ?? false);
             $markerArray['###ARCHIVE_EMPTY_MSG###'] = $this->local_cObj->stdWrap($this->pi_getLL('archiveEmptyMsg'),
                 $this->conf['archiveEmptyMsg_stdWrap.']);
             $noItemsMsg = $this->getNewsSubpart($this->templateCode, $this->spMarker('###TEMPLATE_ARCHIVE_NOITEMS###'));
             $content = $this->markerBasedTemplateService->substituteMarkerArrayCached($noItemsMsg, $markerArray);
         }
 
-        if ($this->conf['useFluidRendering']) {
+        if ($this->conf['useFluidRendering'] ?? false) {
 
             $content = $this->renderFluidContent([
                 'itemsOutArr' => $itemsOutArr,
@@ -1750,11 +1755,10 @@ class TtNews extends AbstractPlugin
     {
         $content = '';
         $lConf = $this->conf['displayCatMenu.'];
-        $mode = $lConf['mode'] ? $lConf['mode'] : 'tree';
+        $mode = $lConf['mode'] ?: 'tree';
         $this->dontStartFromRootRecord = false;
 
         $this->initCatmenuEnv($lConf);
-
         switch ($mode) {
             case 'nestedWraps' :
                 $fields = '*';
@@ -1803,7 +1807,9 @@ class TtNews extends AbstractPlugin
 
                 $content = '<div id="ttnews-cat-tree">' . $catTreeObj->treeObj->getBrowsableTree() . '</div>';
 
-                if ($this->conf['useFluidRendering']) {
+
+
+            if ($this->conf['useFluidRendering']) {
 
                     $content = $this->renderFluidContent([
                         'mode' => $mode,
@@ -1940,7 +1946,7 @@ class TtNews extends AbstractPlugin
             }
         }
 
-        if ($this->isRenderMarker('###NEWS_SUBHEADER###') && (!$this->piVars[$this->config['singleViewPointerName']] || $this->conf['subheaderOnAllSViewPages'])) {
+        if ($this->isRenderMarker('###NEWS_SUBHEADER###') && (!($this->piVars[$this->config['singleViewPointerName']] ?? false) || ($this->conf['subheaderOnAllSViewPages'] ?? false))) {
             $markerArray['###NEWS_SUBHEADER###'] = $this->formatStr($this->local_cObj->stdWrap($row['short'],
                 $lConf['subheader_stdWrap.']));
         }
@@ -1949,7 +1955,7 @@ class TtNews extends AbstractPlugin
                 $lConf['keywords_stdWrap.']);
         }
 
-        if (!$this->piVars[$this->config['singleViewPointerName']] && $textRenderObj == 'displaySingle') {
+        if (!($this->piVars[$this->config['singleViewPointerName']] ?? false) && $textRenderObj == 'displaySingle') {
             // load the keywords in the register 'newsKeywords' to access it from TS
             $this->local_cObj->cObjGetSingle('LOAD_REGISTER',
                 array('newsKeywords' => $row['keywords'], 'newsSubheader' => $row['short']));
@@ -2000,7 +2006,7 @@ class TtNews extends AbstractPlugin
         $relatedNews = false;
         if ($this->isRenderMarker('###TEXT_RELATED###') || $this->isRenderMarker('###NEWS_RELATED###')) {
 
-            if ($this->conf['renderRelatedNewsAsList']) {
+            if ($this->conf['renderRelatedNewsAsList'] ?? false) {
                 $relatedNews = $this->getRelatedNewsAsList($row['uid']);
             } else {
                 $relatedNews = $this->getRelated($row['uid']);
@@ -2041,7 +2047,7 @@ class TtNews extends AbstractPlugin
 
 
         // the markers: ###ADDINFO_WRAP_B### and ###ADDINFO_WRAP_E### are only inserted, if there are any files, related news or links
-        if ($relatedNews || $newsLinks || $markerArray['###FILE_LINK###'] || $markerArray['###NEWS_RELATEDBYCATEGORY###']) {
+        if ($relatedNews || $newsLinks || ($markerArray['###FILE_LINK###'] ?? false) || ($markerArray['###NEWS_RELATEDBYCATEGORY###'] ?? false)) {
             $addInfo_stdWrap = GeneralUtility::trimExplode('|',
                 $lConf['addInfo_stdWrap.']['wrap']);
             $markerArray['###ADDINFO_WRAP_B###'] = $addInfo_stdWrap[0];
@@ -2081,7 +2087,7 @@ class TtNews extends AbstractPlugin
             }
         }
         // Pass to userdefined function
-        if ($this->conf['itemMarkerArrayFunc']) {
+        if ($this->conf['itemMarkerArrayFunc'] ?? '') {
             $markerArray = $this->userProcess('itemMarkerArrayFunc', $markerArray);
         }
 
@@ -2213,11 +2219,11 @@ class TtNews extends AbstractPlugin
         $tmpcatExclusive = $this->catExclusive;
         $tmparcExclusive = $this->arcExclusive;
         $tmpcode = $this->theCode;
-        $tmpBrowsePage = intval($this->piVars['pointer']);
+        $tmpBrowsePage = intval($this->piVars['pointer'] ?? 0);
         unset($this->piVars['pointer']);
-        $tmpPS = intval($this->piVars['pS']);
+        $tmpPS = intval($this->piVars['pS'] ?? 0);
         unset($this->piVars['pS']);
-        $tmpPL = intval($this->piVars['pL']);
+        $tmpPL = intval($this->piVars['pL'] ?? 0);
         unset($this->piVars['pL']);
 
         $confSave = $this->conf;
@@ -2297,7 +2303,7 @@ class TtNews extends AbstractPlugin
      */
     protected function initGenericMarkers()
     {
-        if (is_array($this->conf['genericmarkers.'])) {
+        if (is_array($this->conf['genericmarkers.'] ?? false)) {
             $this->genericMarkerConf = $this->conf['genericmarkers.'];
 
             // merge with special configuration (based on current CODE [SINGLE, LIST, LATEST]) if this is available
@@ -2449,7 +2455,7 @@ class TtNews extends AbstractPlugin
                     $markerArray['###NEWS_CATEGORY###'] = '';
                 } elseif ($this->config['catTextMode'] == 1) {
                     // display but don't link
-                    $news_category[] = $this->local_cObj->stdWrap($catTitle, $lConf[$titleWrap]);
+                    $news_category[] = $this->local_cObj->stdWrap($catTitle, $lConf[$titleWrap] ?? false);
                 } elseif ($this->config['catTextMode'] == 2) {
                     // link to category shortcut
                     $news_category[] = $this->local_cObj->stdWrap($this->pi_linkToPage($catTitle, $val['shortcut'],
@@ -2561,14 +2567,14 @@ class TtNews extends AbstractPlugin
                             0, intval($this->config['catTextLength'])) . '...');
                 } else {
                     $markerArray['###NEWS_CATEGORY###'] = $this->local_cObj->stdWrap($news_category,
-                        $lConf['categoryTitles_stdWrap.']);
+                        $lConf['categoryTitles_stdWrap.'] ?? false);
                 }
             }
             if ($this->config['catImageMode'] != 0) {
                 $theCatImgCode = implode('', array_slice($theCatImgCodeArray, 0,
                     intval($this->config['maxCatImages']))); // downsize the image array to the 'maxCatImages' value
                 $markerArray['###NEWS_CATEGORY_IMAGE###'] = $this->local_cObj->stdWrap($theCatImgCode,
-                    $lConf['categoryImages_stdWrap.']);
+                    $lConf['categoryImages_stdWrap.'] ?? false);
             }
             // XML
             if ($this->theCode == 'XML') {
@@ -2603,7 +2609,7 @@ class TtNews extends AbstractPlugin
     protected function getImageMarkers($markerArray, $row, $lConf, $textRenderObj)
     {
         $this->images = null;
-        if ($this->conf['imageMarkerFunc']) {
+        if ($this->conf['imageMarkerFunc'] ?? false) {
             $markerArray = $this->userProcess('imageMarkerFunc', array($markerArray, $lConf));
         } else {
             $imgPath = 'uploads/pics/';
@@ -2670,11 +2676,11 @@ class TtNews extends AbstractPlugin
                 }
 
                 // only insert width/height if it is not given by TS and width/height is empty
-                if ($suf && $lConf['image.']['file.']['maxW'] && !$lConf['image.']['file.']['width']) {
+                if ($suf && ($lConf['image.']['file.']['maxW'] ?? false) && !($lConf['image.']['file.']['width'] ?? false)) {
                     $lConf['image.']['file.']['width'] = $lConf['image.']['file.']['maxW'] . $suf;
                     unset($lConf['image.']['file.']['maxW']);
                 }
-                if ($suf && $lConf['image.']['file.']['maxH'] && !$lConf['image.']['file.']['height']) {
+                if ($suf && ($lConf['image.']['file.']['maxH'] ?? false) && !($lConf['image.']['file.']['height'] ?? false)) {
                     $lConf['image.']['file.']['height'] = $lConf['image.']['file.']['maxH'] . $suf;
                     unset($lConf['image.']['file.']['maxH']);
                 }
@@ -2699,7 +2705,7 @@ class TtNews extends AbstractPlugin
                 }
 
                 if ($cc) {
-                    $markerArray['###NEWS_IMAGE###'] = $this->local_cObj->wrap($theImgCode, $lConf['imageWrapIfAny']);
+                    $markerArray['###NEWS_IMAGE###'] = $this->local_cObj->wrap($theImgCode, $lConf['imageWrapIfAny'] ?? false);
                 } else {
                     $markerArray['###NEWS_IMAGE###'] = $this->local_cObj->stdWrap($markerArray['###NEWS_IMAGE###'],
                         $lConf['image.']['noImage_stdWrap.']);
@@ -2746,7 +2752,7 @@ class TtNews extends AbstractPlugin
         }
 
         // get img array parts for single view pages
-        if ($this->piVars[$this->config['singleViewPointerName']]) {
+        if ($this->piVars[$this->config['singleViewPointerName']] ?? false) {
 
             /**
              * TODO
@@ -2760,7 +2766,7 @@ class TtNews extends AbstractPlugin
             $imgsTitleTexts = array_slice($imgsTitleTexts, $astart, $imageNum);
         }
         $osCount = 0;
-        if ($this->conf['enableOptionSplit']) {
+        if ($this->conf['enableOptionSplit'] ?? false) {
             if ($lConf['imageMarkerOptionSplit']) {
                 $ostmp = explode('|*|', $lConf['imageMarkerOptionSplit']);
                 $osCount = count($ostmp);
@@ -3154,7 +3160,7 @@ class TtNews extends AbstractPlugin
         $lConf = $this->conf['getRelatedCObject.'];
         $visibleCategories = '';
         $sPidByCat = array();
-        if ($this->conf['checkCategoriesOfRelatedNews'] || $this->conf['useSPidFromCategory']) {
+        if (($this->conf['checkCategoriesOfRelatedNews'] ?? false) || ($this->conf['useSPidFromCategory'] ?? false)) {
             // get visible categories and their singlePids
             $catres = $this->db->exec_SELECTquery('tt_news_cat.uid,tt_news_cat.single_pid', 'tt_news_cat',
                 '1=1' . $this->SPaddWhere . $this->enableCatFields);
@@ -3164,7 +3170,7 @@ class TtNews extends AbstractPlugin
                 $sPidByCat[$catrow['uid']] = $catrow['single_pid'];
                 $catTemp[] = $catrow['uid'];
             }
-            if ($this->conf['checkCategoriesOfRelatedNews']) {
+            if ($this->conf['checkCategoriesOfRelatedNews'] ?? false) {
                 $visibleCategories = implode(',', $catTemp);
             }
         }
@@ -3235,7 +3241,7 @@ class TtNews extends AbstractPlugin
                 }
             }
 
-            if (is_array($relPages[0]) && $this->conf['usePagesRelations']) {
+            if (is_array($relPages[0] ?? null) && $this->conf['usePagesRelations']) {
                 $relrows = array_merge_recursive($relPages, $relrows);
             }
 
@@ -3612,7 +3618,7 @@ class TtNews extends AbstractPlugin
 
         if (!$this->externalCategorySelection) {
             // exclude LATEST and AMENU from changing their contents with the catmenu. This can be overridden by setting the TSvars 'latestWithCatSelector' or 'amenuWithCatSelector'
-            if ($this->config['catSelection'] && (($this->theCode == 'LATEST' && $this->conf['latestWithCatSelector']) || ($this->theCode == 'AMENU' && $this->conf['amenuWithCatSelector']) || (GeneralUtility::inList('LIST,LIST2,LIST3,HEADER_LIST,SEARCH,XML',
+            if (($this->config['catSelection'] ?? false) && (($this->theCode == 'LATEST' && $this->conf['latestWithCatSelector']) || ($this->theCode == 'AMENU' && $this->conf['amenuWithCatSelector']) || (GeneralUtility::inList('LIST,LIST2,LIST3,HEADER_LIST,SEARCH,XML',
                         $this->theCode)))) {
                 // force 'select categories' mode if cat is given in GPvars
                 $this->config['categoryMode'] = 1;
@@ -3659,13 +3665,13 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->arcExclusive > 0) {
-            if ($this->piVars['arc']) {
+            if ($this->piVars['arc'] ?? false) {
                 // allow overriding of the arcExclusive parameter from GET vars
                 $this->arcExclusive = intval($this->piVars['arc']);
             }
             // select news from a certain period
-            if (!$noPeriod && intval($this->piVars['pS'])) {
-                $selectConf['where'] .= ' AND tt_news.datetime>=' . intval($this->piVars['pS']);
+            if (!$noPeriod && intval($this->piVars['pS'] ?? 0)) {
+                $selectConf['where'] .= ' AND tt_news.datetime>=' . intval($this->piVars['pS'] ?? 0);
 
                 if (intval($this->piVars['pL'])) {
 
@@ -3683,7 +3689,7 @@ class TtNews extends AbstractPlugin
         // filter Workspaces preview.
         // Since "enablefields" is ignored in workspace previews it's required to filter out news manually which are not visible in the live version AND the selected workspace.
         if ($this->conf['excludeAlreadyDisplayedNews'] && $this->theCode != 'SEARCH' && $this->theCode != 'CATMENU' && $this->theCode != 'AMENU') {
-            if (!is_array($GLOBALS['T3_VAR']['displayedNews'])) {
+            if (!is_array($GLOBALS['T3_VAR']['displayedNews'] ?? null)) {
                 $GLOBALS['T3_VAR']['displayedNews'] = array();
             } else {
                 $excludeUids = implode(',', $GLOBALS['T3_VAR']['displayedNews']);
@@ -3709,7 +3715,7 @@ class TtNews extends AbstractPlugin
             }
 
             // overwrite the groupBy value for categories
-            if (!$this->catExclusive && $selectConf['groupBy'] == 'category') {
+            if (!$this->catExclusive && ($selectConf['groupBy'] ?? false) == 'category') {
                 $selectConf['leftjoin'] = 'tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local';
                 $selectConf['groupBy'] = 'tt_news_cat_mm.uid_foreign';
             }
@@ -3747,7 +3753,7 @@ class TtNews extends AbstractPlugin
 
 
         // function Hook for processing the selectConf array
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['selectConfHook'])) {
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['selectConfHook'] ?? null)) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['selectConfHook'] as $_classRef) {
                 $_procObj = GeneralUtility::makeInstance($_classRef);
                 $selectConf = $_procObj->processSelectConfHook($this, $selectConf);
@@ -3788,7 +3794,7 @@ class TtNews extends AbstractPlugin
             $where .= 'tt_news.sys_language_uid IN (0,-1)';
         }
 
-        if ($this->conf['showNewsWithoutDefaultTranslation']) {
+        if ($this->conf['showNewsWithoutDefaultTranslation'] ?? false) {
             $where = '(' . $where . ' OR (tt_news.sys_language_uid=' . $sys_language_content . ' AND NOT tt_news.l18n_parent))';
         }
 
@@ -3806,7 +3812,7 @@ class TtNews extends AbstractPlugin
     protected function searchWhere($sw)
     {
         $where = $this->cObj->searchWhere($sw, $this->searchFieldList, 'tt_news');
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['searchWhere'])) {
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['searchWhere'] ?? null)) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['searchWhere'] as $_classRef) {
                 $_procObj = GeneralUtility::makeInstance($_classRef);
                 $where = $_procObj->searchWhere($this, $sw, $where);
@@ -3867,8 +3873,8 @@ class TtNews extends AbstractPlugin
         $queryParts['SELECT'] = $conf['selectFields'] ? $conf['selectFields'] : '*';
 
         // Setting LIMIT:
-        if (($conf['max'] || $conf['begin']) && !$error) {
-            $conf['begin'] = MathUtility::forceIntegerInRange(ceil($this->cObj->calc($conf['begin'])),
+        if ((($conf['max'] ?? false) || ($conf['begin'] ?? false)) && !$error) {
+            $conf['begin'] = MathUtility::forceIntegerInRange(ceil($this->cObj->calc($conf['begin'] ?? 0)),
                 0);
             if ($conf['begin'] && !$conf['max']) {
                 $conf['max'] = 100000;
@@ -3884,11 +3890,11 @@ class TtNews extends AbstractPlugin
         if (!$error) {
             // Setting up tablejoins:
             $joinPart = '';
-            if ($conf['join']) {
+            if ($conf['join'] ?? false) {
                 $joinPart = 'JOIN ' . trim($conf['join']);
-            } elseif ($conf['leftjoin']) {
+            } elseif ($conf['leftjoin'] ?? false) {
                 $joinPart = 'LEFT OUTER JOIN ' . trim($conf['leftjoin']);
-            } elseif ($conf['rightjoin']) {
+            } elseif ($conf['rightjoin'] ?? false) {
                 $joinPart = 'RIGHT OUTER JOIN ' . trim($conf['rightjoin']);
             }
 
@@ -3941,7 +3947,7 @@ class TtNews extends AbstractPlugin
             }
         }
 
-        if ($conf['languageField']) {
+        if ($conf['languageField'] ?? false) {
             $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
             if ($languageAspect->getLegacyOverlayType() && $TCA[$table] && $TCA[$table]['ctrl']['languageField'] && $TCA[$table]['ctrl']['transOrigPointerField']) {
                 // Sys language content is set to zero/-1 - and it is expected that whatever routine processes the output will OVERLAY the records with localized versions!
@@ -3960,13 +3966,13 @@ class TtNews extends AbstractPlugin
         }
 
         // GROUP BY
-        if (trim($conf['groupBy'])) {
-            $queryParts['GROUPBY'] = trim($conf['groupBy']);
+        if (trim($conf['groupBy'] ?? '')) {
+            $queryParts['GROUPBY'] = trim($conf['groupBy'] ?? '');
         }
 
         // ORDER BY
-        if (trim($conf['orderBy'])) {
-            $queryParts['ORDERBY'] = trim($conf['orderBy']);
+        if (trim($conf['orderBy'] ?? '')) {
+            $queryParts['ORDERBY'] = trim($conf['orderBy'] ?? '');
         }
 
         // Return result:
@@ -4029,12 +4035,12 @@ class TtNews extends AbstractPlugin
         if ($this->theCode == 'CATMENU') {
             // init catPidList
             $catPl = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'pages', 's_misc');
-            $catPl = ($catPl ? $catPl : $this->cObj->stdWrap($lc['catPidList'], $lc['catPidList.']));
+            $catPl = ($catPl ? $catPl : $this->cObj->stdWrap($lc['catPidList'], $lc['catPidList.'] ?? false));
             $catPl = implode(',', GeneralUtility::intExplode(',', $catPl));
 
             $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'recursive', 's_misc');
             if (!strcmp($recursive, '') || $recursive === null) {
-                $recursive = $this->cObj->stdWrap($lc['recursive'], $lc['recursive.']);
+                $recursive = $this->cObj->stdWrap($lc['recursive'], $lc['recursive.'] ?? false);
             }
 
             if ($catPl) {
@@ -4046,7 +4052,7 @@ class TtNews extends AbstractPlugin
             $this->SPaddWhere = ' AND tt_news_cat.pid IN (' . $storagePid . ')';
         }
 
-        if ($this->conf['catExcludeList']) {
+        if ($this->conf['catExcludeList'] ?? false) {
             $this->SPaddWhere .= ' AND tt_news_cat.uid NOT IN (' . $this->conf['catExcludeList'] . ')';
         }
 
@@ -4059,7 +4065,7 @@ class TtNews extends AbstractPlugin
             '') ? $useSubCategories : $this->conf['useSubCategories']);
 
         // global ordering for categories, Can be overwritten later by catOrderBy for a certain content element
-        $catOrderBy = trim($this->conf['catOrderBy']);
+        $catOrderBy = trim($this->conf['catOrderBy'] ?? '');
         $this->config['catOrderBy'] = $catOrderBy ? $catOrderBy : 'sorting';
 
         // categoryModes are: 0=display all categories, 1=display selected categories, -1=display deselected categories
@@ -4067,7 +4073,7 @@ class TtNews extends AbstractPlugin
 
         $this->config['categoryMode'] = $categoryMode ? $categoryMode : intval($this->conf['categoryMode']);
         // catselection holds only the uids of the categories selected by GETvars
-        if ($this->piVars['cat']) {
+        if ($this->piVars['cat'] ?? false) {
 
             // catselection holds only the uids of the categories selected by GETvars
             $this->config['catSelection'] = $this->helpers->checkRecords($this->piVars['cat']);
@@ -4082,7 +4088,7 @@ class TtNews extends AbstractPlugin
         }
         $catExclusive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'categorySelection', 'sDEF');
         $catExclusive = $catExclusive ? $catExclusive : trim($this->cObj->stdWrap($this->conf['categorySelection'],
-            $this->conf['categorySelection.']));
+            $this->conf['categorySelection.'] ?? false));
         // ignore cat selection if categoryMode isn't set
         $this->catExclusive = $this->config['categoryMode'] ? $catExclusive : 0;
 
@@ -4103,7 +4109,7 @@ class TtNews extends AbstractPlugin
             'catImageMode,catTextMode,catImageMaxWidth,catImageMaxHeight,maxCatImages,catTextLength,maxCatTexts');
         foreach ($fields as $key) {
             $value = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $key, 's_category');
-            $this->config[$key] = (is_numeric($value) ? $value : $this->conf[$key]);
+            $this->config[$key] = (is_numeric($value) ? $value : ($this->conf[$key] ?? 0));
         }
     }
 
@@ -4115,24 +4121,24 @@ class TtNews extends AbstractPlugin
      */
     public function initCatmenuEnv(&$lConf)
     {
-        if ($lConf['catOrderBy']) {
+        if ($lConf['catOrderBy'] ?? false) {
             $this->config['catOrderBy'] = $lConf['catOrderBy'];
         }
 
         if ($this->catExclusive) {
             $this->catlistWhere = ' AND tt_news_cat.uid' . ($this->config['categoryMode'] < 0 ? ' NOT' : '') . ' IN (' . $this->catExclusive . ')';
         } else {
-            if ($lConf['excludeList']) {
+            if ($lConf['excludeList'] ?? false) {
                 $this->catlistWhere = ' AND tt_news_cat.uid NOT IN (' . implode(',', GeneralUtility::intExplode(',',
                         $lConf['excludeList'])) . ')';
             }
-            if ($lConf['includeList']) {
+            if ($lConf['includeList'] ?? false) {
                 $this->catlistWhere .= ' AND tt_news_cat.uid IN (' . implode(',', GeneralUtility::intExplode(',',
                         $lConf['includeList'])) . ')';
             }
         }
 
-        if ($lConf['includeList'] || $lConf['excludeList'] || $this->catExclusive) {
+        if (($lConf['includeList'] ?? false) || ($lConf['excludeList'] ?? false) || $this->catExclusive) {
 
             // MOUNTS (in tree mode) must only contain the main/parent categories. Therefore it is required to filter out the subcategories from $this->catExclusive or $lConf['includeList']
             $categoryMounts = ($this->catExclusive ? $this->catExclusive : $lConf['includeList']);
@@ -4177,7 +4183,7 @@ class TtNews extends AbstractPlugin
 
         $fileContent = '';
 
-        $file = GeneralUtility::makeInstance(FilePathSanitizer::class)->sanitize($fileName);
+        $file = GeneralUtility::getFileAbsFileName($fileName);
         if ($file != '') {
             $fileContent = file_get_contents($file);
         }
@@ -4207,15 +4213,15 @@ class TtNews extends AbstractPlugin
         $splitMark = md5(microtime(true));
         $globalMarkerArray = array();
         list($globalMarkerArray['###GW1B###'], $globalMarkerArray['###GW1E###']) = explode($splitMark,
-            $this->cObj->stdWrap($splitMark, $this->conf['wrap1.']));
+            $this->cObj->stdWrap($splitMark, $this->conf['wrap1.'] ?? false));
         list($globalMarkerArray['###GW2B###'], $globalMarkerArray['###GW2E###']) = explode($splitMark,
-            $this->cObj->stdWrap($splitMark, $this->conf['wrap2.']));
+            $this->cObj->stdWrap($splitMark, $this->conf['wrap2.'] ?? false));
         list($globalMarkerArray['###GW3B###'], $globalMarkerArray['###GW3E###']) = explode($splitMark,
-            $this->cObj->stdWrap($splitMark, $this->conf['wrap3.']));
-        $globalMarkerArray['###GC1###'] = $this->cObj->stdWrap($this->conf['color1'], $this->conf['color1.']);
-        $globalMarkerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'], $this->conf['color2.']);
-        $globalMarkerArray['###GC3###'] = $this->cObj->stdWrap($this->conf['color3'], $this->conf['color3.']);
-        $globalMarkerArray['###GC4###'] = $this->cObj->stdWrap($this->conf['color4'], $this->conf['color4.']);
+            $this->cObj->stdWrap($splitMark, $this->conf['wrap3.'] ?? false));
+        $globalMarkerArray['###GC1###'] = $this->cObj->stdWrap($this->conf['color1'] ?? '', $this->conf['color1.'] ?? false);
+        $globalMarkerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'] ?? '', $this->conf['color2.'] ?? false);
+        $globalMarkerArray['###GC3###'] = $this->cObj->stdWrap($this->conf['color3'] ?? '', $this->conf['color3.'] ?? false);
+        $globalMarkerArray['###GC4###'] = $this->cObj->stdWrap($this->conf['color4'] ?? '', $this->conf['color4.'] ?? false);
 
         if (!($this->templateCode = $this->markerBasedTemplateService->substituteMarkerArray($this->templateCode,
             $globalMarkerArray))) {
@@ -4270,7 +4276,7 @@ class TtNews extends AbstractPlugin
 
         if ($uid && $fN) {
             $key = $uid . '_' . $L;
-            if (is_array($this->pageArray[$key])) {
+            if (is_array($this->pageArray[$key] ?? null)) {
                 $val = $this->pageArray[$key][$fN];
             } else {
                 $rows = $this->db->exec_SELECTgetRows('*', 'pages', 'uid=' . $uid);
@@ -4426,7 +4432,7 @@ class TtNews extends AbstractPlugin
      */
     protected function userProcess($mConfKey, $passVar)
     {
-        if ($this->conf[$mConfKey]) {
+        if ($this->conf[$mConfKey] ?? false) {
             $funcConf = $this->conf[$mConfKey . '.'];
             $funcConf['parentObj'] = &$this;
             $passVar = $this->tsfe->cObj->callUserFunction($this->conf[$mConfKey], $funcConf, $passVar);
@@ -4469,7 +4475,7 @@ class TtNews extends AbstractPlugin
      */
     public function formatStr($str)
     {
-        if (is_array($this->conf['general_stdWrap.'])) {
+        if (is_array($this->conf['general_stdWrap.'] ?? null)) {
             $str = $this->local_cObj->stdWrap($str, $this->conf['general_stdWrap.']);
         }
 
@@ -4534,14 +4540,14 @@ class TtNews extends AbstractPlugin
             $piVarsArray['pL'] = null;
             $piVarsArray['arc'] = null;
             if ($this->conf['useHRDatesSingle']) {
-                $tmpY = $this->piVars['year'];
-                $tmpM = $this->piVars['month'];
-                $tmpD = $this->piVars['day'];
+                $tmpY = $this->piVars['year'] ?? null;
+                $tmpM = $this->piVars['month'] ?? null;
+                $tmpD = $this->piVars['day'] ?? null;
 
                 $this->getHrDateSingle($row['datetime']);
-                $piVarsArray['year'] = $this->piVars['year'];
-                $piVarsArray['month'] = $this->piVars['month'];
-                $piVarsArray['day'] = ($this->piVars['day'] ? $this->piVars['day'] : null);
+                $piVarsArray['year'] = $this->piVars['year'] ?? null;
+                $piVarsArray['month'] = $this->piVars['month'] ?? null;
+                $piVarsArray['day'] = $this->piVars['day'] ?? null;
             }
         } else {
             $piVarsArray['year'] = null;
@@ -4556,7 +4562,7 @@ class TtNews extends AbstractPlugin
         $url = $this->cObj->lastTypoLinkUrl;
 
         // hook for processing of links
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'])) {
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] ?? null)) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] as $_classRef) {
                 $_procObj = GeneralUtility::makeInstance($_classRef);
                 $params = array('singlePid' => &$singlePid, 'row' => &$row, 'piVarsArray' => $piVarsArray);

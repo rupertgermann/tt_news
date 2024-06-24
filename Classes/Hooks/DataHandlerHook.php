@@ -36,11 +36,14 @@ namespace RG\TtNews\Hooks;
  * @author     Rupert Germann <rupi@gmx.li>
  */
 
+use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Exception;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -69,26 +72,29 @@ class DataHandlerHook
      * This method is called by a hook in the TYPO3 Core Engine (TCEmain) when a record is saved. We use it to disable
      * saving of the current record if it has categories assigned that are not allowed for the BE user.
      *
-     * @param    array  $fieldArray : The field names and their values to be processed (passed by reference)
-     * @param    string $table      : The table TCEmain is currently processing
-     * @param    string $id         : The records id (if any)
-     * @param    object $pObj       : Reference to the parent object (TCEmain)
+     * @param array $fieldArray : The field names and their values to be processed (passed by reference)
+     * @param string $table     : The table TCEmain is currently processing
+     * @param string $id        : The records id (if any)
+     * @param object $pObj      : Reference to the parent object (TCEmain)
      *
      * @return    void
      * @access public
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \TYPO3\CMS\Core\Exception
+     * @throws DBALException
+     * @throws Exception
      */
     public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
     {
-
-
         if ($table == 'tt_news_cat' && is_int($id)) {
             // prevent moving of categories into their rootline
             $newParent = intval($fieldArray['parent_category']);
 
-            if ($newParent && GeneralUtility::inList(Div::getSubCategories($id,
-                    $this->SPaddWhere . $this->enableCatFields), $newParent)) {
+            if ($newParent && GeneralUtility::inList(
+                    Div::getSubCategories(
+                        $id,
+                        $this->SPaddWhere . $this->enableCatFields
+                    ),
+                    $newParent
+                )) {
                 $sourceRec = BackendUtility::getRecord($table, $id, 'title');
                 $targetRec = BackendUtility::getRecord($table, $fieldArray['parent_category'], 'title');
 
@@ -97,7 +103,8 @@ class DataHandlerHook
 
                 $pObj->log($table, $id, 2, 0, 1, "processDatamap: $messageString", 1);
 
-                $message = GeneralUtility::makeInstance(FlashMessage::class,
+                $message = GeneralUtility::makeInstance(
+                    FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
                     FlashMessage::ERROR,
@@ -114,11 +121,13 @@ class DataHandlerHook
         }
 
         if ($table == 'tt_news') {
-
             // copy "type" field in localized records
             if (!is_int($id) && $fieldArray['l18n_parent']) { // record is a new localization
-                $rec = BackendUtility::getRecord($table, $fieldArray['l18n_parent'],
-                    'type'); // get "type" from parent record
+                $rec = BackendUtility::getRecord(
+                    $table,
+                    $fieldArray['l18n_parent'],
+                    'type'
+                ); // get "type" from parent record
                 $fieldArray['type'] = $rec['type']; // set type of current record
             }
 
@@ -127,50 +136,51 @@ class DataHandlerHook
                 return;
             }
 
-            $categories = array();
+            $categories = [];
             $recID = (($fieldArray['l18n_parent'] > 0) ? $fieldArray['l18n_parent'] : $id);
             // get categories from the tt_news record in db
-            $cRes = Database::getInstance()->exec_SELECTquery(
-                'uid_foreign',
-                'tt_news_cat_mm, tt_news_cat',
-                'uid_foreign=uid AND deleted=0 AND uid_local=' . $recID);
+            $cRes = Database::getInstance()->exec_SELECT_mm_query(
+                'tt_news_cat.uid, tt_news_cat.title',
+                'tt_news',
+                'tt_news_cat_mm',
+                'tt_news_cat',
+                ' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (int)$recID . BackendUtility::BEenableFields(
+                    'tt_news_cat'
+                )
+            );
 
             while (($cRow = Database::getInstance()->sql_fetch_assoc($cRes))) {
-                $categories[] = $cRow['uid_foreign'];
+                $categories[$cRow['uid']] = $cRow['title'];
             }
 
-            $notAllowedItems = array();
+            $notAllowedItems = [];
 
             $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
-
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
             $wantedCategories = $fieldArray['category'] ? GeneralUtility::intExplode(',', $fieldArray['category']) : [];
+            foreach ($wantedCategories as $wantedCategory) {
+                $categories[$wantedCategory] = $wantedCategory;
+            }
 
-            foreach (array_unique(array_merge($categories, $wantedCategories)) as $k) {
-                $categoryId = intval($k, 10);
+            foreach ($categories as $categoryId => $categoryTitle) {
                 if (!in_array($categoryId, $allowedItems)) {
-                    $notAllowedItems[] = $categoryId;
+                    $notAllowedItems[] = $categoryTitle . ' (id=' . $categoryId . ')';
                 }
             }
 
-            if ($notAllowedItems[0]) {
-                $messageString = 'Attempt to modify a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode(',', $notAllowedItems) . ').';
-
-                $pObj->log($table, $id, 2, 0, 1, "processDatamap: $messageString", 1);
+            if (!empty($notAllowedItems)) {
+                $messageString = $this->getLanguageService()
+                        ->sL(
+                            'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.notAllowedCategoryError'
+                        ) . implode(
+                        ', ',
+                        $notAllowedItems
+                    );
+                $pObj->log($table, $id, 2, 0, 1, 'processDatamap: ' . $messageString, 1);
 
                 // unset fieldArray to prevent saving of the record
                 $fieldArray = array();
-
-                $message = GeneralUtility::makeInstance(FlashMessage::class,
-                    $messageString,
-                    'ERROR', // the header is optional
-                    FlashMessage::ERROR,
-                    // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
-                    true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
-                );
-
-                $this->enqueueFlashMessage($message);
             }
         }
     }
@@ -179,7 +189,7 @@ class DataHandlerHook
     /**
      * @param $message
      *
-     * @throws \TYPO3\CMS\Core\Exception
+     * @throws Exception
      */
     protected function enqueueFlashMessage($message)
     {
@@ -227,26 +237,32 @@ class DataHandlerHook
      * (copy,move,delete...). For tt_news it is used to disable saving of the current record if it has an editlock or
      * if it has categories assigned that are not allowed for the current BE user.
      *
-     * @param    string $command : The TCEmain command, fx. 'delete'
-     * @param    string $table   : The table TCEmain is currently processing
-     * @param    string $id      : The records id (if any)
-     * @param    array  $value   : The new value of the field which has been changed
-     * @param    object $pObj    : Reference to the parent object (TCEmain)
+     * @param string $command : The TCEmain command, fx. 'delete'
+     * @param string $table   : The table TCEmain is currently processing
+     * @param string $id      : The records id (if any)
+     * @param array  $value   : The new value of the field which has been changed
+     * @param object $pObj    : Reference to the parent object (TCEmain)
      *
      * @return    void
      * @access public
-     * @throws \Doctrine\DBAL\DBALException
-     * @throws \TYPO3\CMS\Core\Exception
+     * @throws DBALException
+     * @throws Exception
      */
     public function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj)
     {
-
         if ($table == 'tt_news' && !$this->getBeUser()->isAdmin()) {
             $rec = BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
             if ($rec['editlock']) {
-                $pObj->log($table, $id, 2, 0, 1,
+                $pObj->log(
+                    $table,
+                    $id,
+                    2,
+                    0,
+                    1,
                     "processCmdmap [editlock]: Attempt to " . $command . " a record from table '%s' which is locked by an 'editlock' (= record can only be edited by admins).",
-                    1, array($table));
+                    1,
+                    array($table)
+                );
                 // unset table to prevent saving
                 $table = '';
 
@@ -259,43 +275,39 @@ class DataHandlerHook
 
             // get categories from the (untranslated) record in db
             $res = Database::getInstance()->exec_SELECT_mm_query(
-                'tt_news_cat.uid',
+                'tt_news_cat.uid, tt_news_cat.title',
                 'tt_news',
                 'tt_news_cat_mm',
                 'tt_news_cat',
-                ' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (is_int($id) ? $id : 0) . BackendUtility::BEenableFields('tt_news_cat'));
-            $categories = array();
+                ' AND tt_news_cat.deleted=0 AND tt_news_cat_mm.uid_local=' . (int)$id . BackendUtility::BEenableFields(
+                    'tt_news_cat'
+                )
+            );
+            $categories = [];
             while (($row = Database::getInstance()->sql_fetch_assoc($res))) {
-                $categories[] = $row['uid'];
+                $categories[$row['uid']] = $row['title'];
             }
 
-            $notAllowedItems = array();
+            $notAllowedItems = [];
 
             $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'];
-
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
-            foreach ($categories as $k) {
-                $categoryId = intval($k, 10);
+            foreach ($categories as $categoryId => $categoryTitle) {
                 if (!in_array($categoryId, $allowedItems)) {
-                    $notAllowedItems[] = $categoryId;
+                    $notAllowedItems[] = $categoryTitle . ' (id=' . $categoryId . ')';
                 }
             }
 
-            if ($notAllowedItems[0]) {
-                $messageString = 'Attempt to ' . $command . ' a record from table tt_news without permission. Reason: The record has one or more categories assigned that are not defined in your BE usergroup (Not allowed: ' . implode(',', $notAllowedItems) . ').';
-
-                $pObj->log($table, $id, 2, 0, 1, "processCmdmap: $messageString", 1);
-
-                $message = GeneralUtility::makeInstance(FlashMessage::class,
-                    $messageString,
-                    'ERROR', // the header is optional
-                    FlashMessage::ERROR,
-                    // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
-                    true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
-                );
-
-                $this->enqueueFlashMessage($message);
+            if (!empty($notAllowedItems)) {
+                $messageString = $this->getLanguageService()
+                        ->sL(
+                            'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.notAllowedCategoryError'
+                        ) . implode(
+                        ', ',
+                        $notAllowedItems
+                    );
+                $pObj->log($table, $id, 2, 0, 1, 'processCmdmap: ' . $messageString, 1);
 
                 $table = ''; // unset table to prevent saving
             }
@@ -309,11 +321,10 @@ class DataHandlerHook
      * @param             $destId
      * @param DataHandler $pObj
      *
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj)
     {
-
         // copy records recursively from Drag&Drop in the category manager
         if ($table == 'tt_news_cat' && $command == 'DDcopy') {
             $srcRec = BackendUtility::getRecordWSOL('tt_news_cat', $srcId);
@@ -357,7 +368,7 @@ class DataHandlerHook
      * @param DataHandler $pObj
      *
      * @return mixed
-     * @throws \Doctrine\DBAL\DBALException
+     * @throws DBALException
      */
     protected function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)
     {
@@ -366,8 +377,13 @@ class DataHandlerHook
         }
 
         $addW = !$pObj->admin ? ' AND ' . $pObj->BE_USER->getPagePermsClause($pObj->pMap['show']) : '';
-        $mres = Database::getInstance()->exec_SELECTquery('uid', $table,
-            'parent_category=' . intval($srcId) . $pObj->deleteClause($table) . $addW, '', '');
+        $mres = Database::getInstance()->exec_SELECTquery(
+            'uid',
+            $table,
+            'parent_category=' . intval($srcId) . $pObj->deleteClause($table) . $addW,
+            '',
+            ''
+        );
 
         while (($row = Database::getInstance()->sql_fetch_assoc($mres))) {
             if ($row['uid'] == $rootID) {
@@ -390,6 +406,16 @@ class DataHandlerHook
     protected function getBeUser()
     {
         return $GLOBALS['BE_USER'];
+    }
+
+    /**
+     * Returns LanguageService
+     *
+     * @return LanguageService
+     */
+    protected function getLanguageService()
+    {
+        return $GLOBALS['LANG'];
     }
 }
 

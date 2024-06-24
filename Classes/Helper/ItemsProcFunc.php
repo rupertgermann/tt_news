@@ -56,7 +56,7 @@ class ItemsProcFunc
      */
     function user_insertExtraCodes($config)
     {
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display'])) {
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display'] ?? null)) {
             $config['items'] = array_merge($config['items'],
                 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['what_to_display']);
         }

@@ -122,7 +122,7 @@ class Catmenu
                 $tmpR[] = $subrow;
             }
 
-            if (is_array($tmpR[0]) && !in_array($catID, $subcatArr)) {
+            if (is_array($tmpR[0] ?? null) && !in_array($catID, $subcatArr)) {
                 if ($tmpR[0]['parent_category'] > 0) {
                     $nonRootMounts = true;
                 }
