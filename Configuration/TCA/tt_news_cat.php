@@ -25,9 +25,6 @@ return [
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/tt_news_cat.gif',
         'searchFields' => 'uid,title'
     ],
-    'interface' => [
-        'showRecordFieldList' => 'title,image,shortcut,shortcut_target'
-    ],
     'columns' => [
         'title' => [
             'label' => $locallang_general . 'LGL.title',
