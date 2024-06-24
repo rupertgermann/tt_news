@@ -36,7 +36,7 @@ class Database implements SingletonInterface
      */
     public function admin_get_fields($tableName)
     {
-        $columns = $this->getConnection($tableName)->executeQuery('SHOW COLUMNS FROM ' . $tableName)->fetchAll();
+        $columns = $this->getConnection($tableName)->executeQuery('SHOW COLUMNS FROM ' . $tableName)->fetchAllAssociative();
         $fields = [];
         if (is_array($columns)) {
             foreach ($columns as $column) {

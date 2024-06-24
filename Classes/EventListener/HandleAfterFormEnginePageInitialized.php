@@ -9,9 +9,9 @@ use TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class HandleAfterFormEnginePageInitialized
@@ -69,7 +69,7 @@ class HandleAfterFormEnginePageInitialized
                                     FlashMessage::class,
                                     $notAllowedItemsMessage,
                                     '',
-                                    AbstractMessage::WARNING
+                                    ContextualFeedbackSeverity::WARNING
                                 );
                                 $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
                                 $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();

@@ -2,5 +2,6 @@
 /.ddev/*
 !/.ddev/config.yaml
 /.php-cs-fixer.cache
-/.idea
 /composer.lock
+/config
+/var

@@ -18,6 +18,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * TCA tree data provider
+ *
+ * @todo fix for TYPO3 v12
  */
 class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
 {

@@ -55,7 +55,7 @@ class FeTreeView extends Categorytree
             }
         } else {
             $relevantParametersForCachingFromPageArguments = [];
-            $pageArguments = $GLOBALS['REQUEST']->getAttribute('routing');
+            $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing');
             $queryParams = $pageArguments->getDynamicArguments();
             if (!empty($queryParams) && ($pageArguments->getArguments()['cHash'] ?? false)) {
                 $queryParams['id'] = $pageArguments->getPageId();
@@ -75,7 +75,7 @@ class FeTreeView extends Categorytree
             );
         }
 
-        $L = (int)(GeneralUtility::_GP('L'));
+        $L = (int)($GLOBALS['TYPO3_REQUEST']->getParsedBody()['L'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['L'] ?? null);
         if ($L > 0 && !$GLOBALS['TSFE']->linkVars) {
             $GLOBALS['TSFE']->linkVars = '&L=' . $L;
         }
@@ -89,7 +89,7 @@ class FeTreeView extends Categorytree
         $piVars = &$this->tt_news_obj->piVars;
         $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
         if ($newsConf['displayCatMenu.']['insertDescrAsTitle']) {
-            $GLOBALS['TSFE']->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $row['description'] . '"';
+            $GLOBALS['TSFE']->config['config']['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $row['description'] . '"';
         }
 
         if ($this->getCatNewsCount) {
@@ -109,7 +109,7 @@ class FeTreeView extends Categorytree
                 'pointer' => null,
             ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
         }
-        $GLOBALS['TSFE']->ATagParams = $pTmp;
+        $GLOBALS['TSFE']->config['config']['ATagParams'] = $pTmp;
 
         return $link;
     }
@@ -239,7 +239,7 @@ class FeTreeView extends Categorytree
                 $catSelLinkParams = $newsConf['catSelectorTargetPid'];
             } else {
                 $relevantParametersForCachingFromPageArguments = [];
-                $pageArguments = $GLOBALS['REQUEST']->getAttribute('routing');
+                $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing');
                 $queryParams = $pageArguments->getDynamicArguments();
                 if (!empty($queryParams) && ($pageArguments->getArguments()['cHash'] ?? false)) {
                     $queryParams['id'] = $pageArguments->getPageId();
@@ -253,7 +253,7 @@ class FeTreeView extends Categorytree
                         data-isexpand="' . (int)$isExpand . '"
                         data-pid="' . rawurlencode((string)$catSelLinkParams) . '"
                         data-cobjuid="' . $this->cObjUid . '"
-                        data-L="' . (int)(GeneralUtility::_GP('L')) . '">' . $icon . '</a>';
+                        data-L="' . (int)($GLOBALS['TYPO3_REQUEST']->getParsedBody()['L'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['L'] ?? null) . '">' . $icon . '</a>';
             } else {
                 $anchor = '';
                 $name = '';
@@ -272,13 +272,14 @@ class FeTreeView extends Categorytree
         return $icon;
     }
 
-    public function initializePositionSaving()
+    public function initializePositionSaving(): void
     {
         // Get stored tree structure:
         if ($this->FE_USER->user) {
             // a user is logged in
             $this->stored = json_decode((string)$this->FE_USER->uc['tt_news'][$this->treeName], true, 512, JSON_THROW_ON_ERROR);
         } else {
+            // @todo: fix/handle json exception
             $this->stored = json_decode(($_COOKIE[$this->treeName] ?? ''), true, 512, JSON_THROW_ON_ERROR);
         }
 
@@ -290,7 +291,7 @@ class FeTreeView extends Categorytree
         // (If a plus/minus icon has been clicked, the PM GET var is sent and we
         // must update the stored positions in the tree):
         // 0: mount key, 1: set/clear boolean, 2: item ID (cannot contain "_"), 3: treeName
-        $PM = explode('_', (string)GeneralUtility::_GP('PM'));
+        $PM = explode('_', (string)($GLOBALS['TYPO3_REQUEST']->getParsedBody()['PM'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['PM'] ?? null));
         if (count($PM) === 4 && $PM[3] == $this->treeName) {
             if (isset($this->MOUNTS[$PM[0]])) {
                 // set
@@ -309,7 +310,7 @@ class FeTreeView extends Categorytree
      * Saves the content of ->stored (keeps track of expanded positions in the tree)
      * $this->treeName will be used as key for BE_USER->uc[] to store it in
      */
-    public function savePosition()
+    public function savePosition(): void
     {
         if ($this->FE_USER->user) {
             $this->FE_USER->uc['tt_news'][$this->treeName] = json_encode($this->stored, JSON_THROW_ON_ERROR);

@@ -77,10 +77,10 @@ class migrateImagesToFal implements UpgradeWizardInterface
      */
     public function getDescription(): string
     {
-        return 'Moves tt_news images from "uploads/pics" to "fileadmin/migratedNewsAssets/Images" and registers them in FAL. 
+        return 'Moves tt_news images from "uploads/pics" to "fileadmin/migratedNewsAssets/Images" and registers them in FAL.
                          ******    CAUTION!!!    ******
-Make sure you have made a backup of your database and of the "uploads/pics" folder! 
-The database and filesystem operations are destructive, there is no rollback! 
+Make sure you have made a backup of your database and of the "uploads/pics" folder!
+The database and filesystem operations are destructive, there is no rollback!
 You have been warned ;-)';
     }
 
@@ -139,15 +139,15 @@ You have been warned ;-)';
         $notMigratedNewsRecords = $conn->executeQuery(
             '
                 SELECT n.uid, n.pid, n.image, r.uid as relId, n.imagecaption, n.imagealttext, n.imagetitletext
-                FROM tt_news n 
-                LEFT JOIN sys_file_reference r 
+                FROM tt_news n
+                LEFT JOIN sys_file_reference r
                     ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'image\' AND r.deleted = 0
-                
+
                 WHERE n.image != \'\'
                   AND n.deleted = 0
                   AND r.uid IS NULL
                  '
-        )->fetchAll();
+        )->fetchAllAssociative();
 
         if (!empty($notMigratedNewsRecords)) {
             $sourceFolder = 'uploads/pics/';
@@ -239,15 +239,15 @@ You have been warned ;-)';
         $numberOfEntries = $conn->executeQuery(
             '
                 SELECT count(*) as c
-                FROM tt_news n 
-                LEFT JOIN sys_file_reference r 
+                FROM tt_news n
+                LEFT JOIN sys_file_reference r
                     ON r.uid_foreign = n.uid AND r.tablenames = \'tt_news\' AND r.fieldname = \'image\' AND r.deleted = 0
-                
+
                 WHERE n.image != \'\'
                   AND n.deleted = 0
                   AND r.uid IS NULL
                  '
-        )->fetch();
+        )->fetchAssociative();
 
         return $numberOfEntries['c'] > 0;
     }

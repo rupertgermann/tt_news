@@ -35,7 +35,7 @@ mod.web_txttnewsM1 {
 	}
 	list {
 		limit = 15
-		pidForNewArticles =
+		pidForNewArticles = 
 		fList = pid,uid,title,datetime,archivedate,tstamp,category;author
 		icon = 1
 		searchFields = uid,title,short,bodytext
@@ -55,5 +55,5 @@ mod.web_txttnewsM1 {
 		imageSize = 50
 
 	}
-	defaultLanguageLabel =
+	defaultLanguageLabel = 
 }

@@ -124,7 +124,7 @@ class Div
      *
      * @throws DBALException
      */
-    public static function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause)
+    public static function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause): void
     {
         // count news in current category
 

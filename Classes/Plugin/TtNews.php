@@ -30,6 +30,7 @@ namespace RG\TtNews\Plugin;
  ***************************************************************/
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\ResultStatement;
+use Psr\Http\Message\ResponseFactoryInterface;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Menu\Catmenu;
@@ -40,6 +41,7 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
+use TYPO3\CMS\Core\Http\PropagateResponseException;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\File;
@@ -52,7 +54,6 @@ use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -110,6 +111,8 @@ class TtNews extends AbstractPlugin
     public $sViewSplitLConf = [];
     /**
      * @var array
+     *
+     * @todo remove/replace legacy langArr
      */
     public $langArr = []; // the languages found in the tt_news sysfolder
     /**
@@ -333,7 +336,7 @@ class TtNews extends AbstractPlugin
             $this->pi_checkCHash = false;
         }
 
-        $this->markerBasedTemplateService = new MarkerBasedTemplateService();
+        $this->markerBasedTemplateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         parent::__construct();
     }
 
@@ -428,6 +431,7 @@ class TtNews extends AbstractPlugin
     protected function initViewObject()
     {
         $this->view = GeneralUtility::makeInstance(StandaloneView::class);
+        $this->view->setRequest($GLOBALS['TYPO3_REQUEST']);
     }
 
     /**
@@ -443,7 +447,6 @@ class TtNews extends AbstractPlugin
         $this->view->setLayoutRootPaths($this->conf['view.']['layoutRootPaths.']);
         $this->view->setPartialRootPaths($this->conf['view.']['partialRootPaths.']);
         $this->view->setTemplateRootPaths($this->conf['view.']['templateRootPaths.']);
-        $this->view->getRequest()->setControllerExtensionName('TtNews');
 
         $this->view->setTemplate(ucfirst(strtolower($this->theCode)));
         $this->view->assign('content', $data);
@@ -535,7 +538,7 @@ class TtNews extends AbstractPlugin
             $this->versioningEnabled = true;
         }
         // load available syslanguages
-        $this->initLanguages();
+        // @todo: $this->initLanguages();
         // sys_language_mode defines what to do if the requested translation is not found
         $this->sys_language_mode = (($this->conf['sys_language_mode'] ?? false) ?: $languageAspect->getLegacyLanguageMode());
 
@@ -658,16 +661,21 @@ class TtNews extends AbstractPlugin
         $this->config['noPageBrowser'] = $noPageBrowser ?: ($this->conf['noPageBrowser'] ?? false);
 
         // image sizes/optionSplit given from FlexForms
-        $this->config['FFimgH'] = trim($this->pi_getFFvalue(
+        $flexformValueHeight = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'imageMaxHeight',
             's_template'
-        ));
-        $this->config['FFimgW'] = trim($this->pi_getFFvalue(
+        );
+
+        $this->config['FFimgH'] = ($flexformValueHeight !== null) ? trim($flexformValueHeight) : '';
+
+        $flexformValueWidth = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'imageMaxWidth',
             's_template'
-        ));
+        );
+
+        $this->config['FFimgW'] = ($flexformValueWidth !== null) ? trim($flexformValueWidth) : '';
 
         // Get number of alternative Layouts (loop layout in LATEST and LIST view) default is 2:
         $altLayouts = (int)($this->pi_getFFvalue(
@@ -678,26 +686,26 @@ class TtNews extends AbstractPlugin
         $altLayouts = $altLayouts ?: (int)($this->conf['alternatingLayouts'] ?? 0);
         $this->alternatingLayouts = $altLayouts ?: 2;
 
-        $altLayouts = trim($this->pi_getFFvalue(
+        $altLayoutsOptionSplit = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'altLayoutsOptionSplit',
             's_template'
-        ));
-        $this->config['altLayoutsOptionSplit'] = $altLayouts ?: trim($this->conf['altLayoutsOptionSplit'] ?? '');
+        );
+        $this->config['altLayoutsOptionSplit'] = is_string($altLayoutsOptionSplit) ? trim($altLayoutsOptionSplit) : '';
 
         // Get cropping length
-
-        $croppingLenghtOptionSplit = trim($this->pi_getFFvalue(
+        $croppingLenghtOptionSplit = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'croppingLenghtOptionSplit',
             's_template'
-        ));
-        $this->config['croppingLenghtOptionSplit'] = $croppingLenghtOptionSplit ?: trim($this->conf['croppingLenghtOptionSplit'] ?? '');
-        $this->config['croppingLenght'] = trim($this->pi_getFFvalue(
+        );
+        $this->config['croppingLenghtOptionSplit'] = is_string($croppingLenghtOptionSplit) ? trim($croppingLenghtOptionSplit) : '';
+        $croppingLenghtValue = $this->pi_getFFvalue(
             $this->cObj->data['pi_flexform'] ?? null,
             'croppingLenght',
             's_template'
-        ));
+        );
+        $this->config['croppingLenght'] = trim($croppingLenghtValue ?? '');
 
         $this->initTemplate();
 
@@ -900,7 +908,7 @@ class TtNews extends AbstractPlugin
         $countSelConf = $selectConf;
         unset($countSelConf['orderBy']);
 
-        if (($res = $this->exec_getQuery('tt_news', $countSelConf)->fetch())) {
+        if (($res = $this->exec_getQuery('tt_news', $countSelConf)->fetchAssociative())) {
             $newsCount = $res['c'];
         }
 
@@ -1271,7 +1279,7 @@ class TtNews extends AbstractPlugin
             // Register displayed news item globally:
             $GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'];
 
-            $this->tsfe->ATagParams = $pTmp . ' title="' . $this->local_cObj->stdWrap(
+            $this->tsfe->config['config']['ATagParams'] = $pTmp . ' title="' . $this->local_cObj->stdWrap(
                 trim(htmlspecialchars($row[$titleField] ?? '')),
                 $lConf['linkTitleField.'] ?? []
             ) . '"';
@@ -1307,7 +1315,7 @@ class TtNews extends AbstractPlugin
             }
 
             // reset ATagParams
-            $this->tsfe->ATagParams = $pTmp;
+            $this->tsfe->config['config']['ATagParams'] = $pTmp;
             $markerArray = $this->getItemMarkerArray($row, $lConf, $prefix_display);
 
             // XML
@@ -1417,16 +1425,20 @@ class TtNews extends AbstractPlugin
 
         $row = $this->db->sql_fetch_assoc($res);
 
-        // First get workspace/version overlay and fix workspace pid:
+        // First get workspace/version overlay:
         if ($this->versioningEnabled) {
             $this->tsfe->sys_page->versionOL('tt_news', $row);
-            $this->tsfe->sys_page->fixVersioningPid('tt_news', $row);
         }
         // Then get localization of record:
         // (if the content language is not the default language)
-        if ($this->sys_language_content) {
-            $OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
-            $row = $this->tsfe->sys_page->getRecordOverlay('tt_news', $row, $this->sys_language_content, $OLmode);
+        if (!empty($row) && $this->sys_language_content) {
+            $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+            $row = $this->tsfe->sys_page->getRecordOverlay(
+                'tt_news',
+                $row,
+                $this->sys_language_content,
+                $languageAspect->getLegacyOverlayType()
+            );
         }
 
         // Adds hook for processing of extra item array
@@ -1449,7 +1461,11 @@ class TtNews extends AbstractPlugin
                 $redirectUrl = $this->local_cObj->getTypoLink_URL(
                     $row['type'] == 1 ? $row['page'] : $row['ext_url']
                 );
-                HttpUtility::redirect($redirectUrl);
+                $responseFactory = GeneralUtility::makeInstance(ResponseFactoryInterface::class);
+                $response = $responseFactory
+                    ->createResponse()
+                    ->withAddedHeader('location', $redirectUrl);
+                throw new PropagateResponseException($response);
             }
             $item = false;
             // reset marker array
@@ -1524,7 +1540,13 @@ class TtNews extends AbstractPlugin
             if ($this->conf['redirectNoTranslToList']) {
                 // redirect to list page
                 $this->pi_linkToPage(' ', $this->conf['backPid']);
-                HttpUtility::redirect($this->cObj->lastTypoLinkUrl);
+
+                $redirectUrl = $this->cObj->lastTypoLinkResult->getUrl();
+                $responseFactory = GeneralUtility::makeInstance(ResponseFactoryInterface::class);
+                $response = $responseFactory
+                    ->createResponse()
+                    ->withAddedHeader('location', $redirectUrl);
+                throw new PropagateResponseException($response);
             }
 
             $this->fluidVars['mode'] = 'noTranslation';
@@ -1896,7 +1918,7 @@ class TtNews extends AbstractPlugin
                 /** @var Catmenu $catTreeObj */
                 $catTreeObj = GeneralUtility::makeInstance(Catmenu::class);
                 if ($mode == 'ajaxtree') {
-                    $this->getPageRenderer()->addJsFooterFile('/typo3conf/ext/tt_news/Resources/Public/JavaScript/NewsCatmenu.js');
+                    $this->getPageRenderer()->addJsFooterFile('EXT:tt_news/Resources/Public/JavaScript/NewsCatmenu.js');
                 }
                 $catTreeObj->init($this);
                 $catTreeObj->treeObj->FE_USER = &$this->tsfe->fe_user;
@@ -1993,19 +2015,20 @@ class TtNews extends AbstractPlugin
         $markerArray['###NEWS_UID###'] = $row['uid'];
 
         // show language label and/or flag
-        if ($this->isRenderMarker('###NEWS_LANGUAGE###')) {
-            if ($this->conf['showLangLabels']) {
-                $markerArray['###NEWS_LANGUAGE###'] = $this->langArr[$row['sys_language_uid']]['title'];
-            }
+        // @todo: remove/replace legacy langArr
+        // if ($this->isRenderMarker('###NEWS_LANGUAGE###')) {
+        //     if ($this->conf['showLangLabels']) {
+        //         $markerArray['###NEWS_LANGUAGE###'] = $this->langArr[$row['sys_language_uid']]['title'];
+        //     }
 
-            if ($this->langArr[$row['sys_language_uid']]['flag'] && $this->conf['showFlags']) {
-                $fImgFile = ($this->conf['flagPath'] ?: 'media/flags/flag_') . $this->langArr[$row['sys_language_uid']]['flag'];
-                $fImgConf = $this->conf['flagImage.'];
-                $fImgConf['file'] = $fImgFile;
-                $flagImg = $this->local_cObj->cObjGetSingle('IMAGE', $fImgConf);
-                $markerArray['###NEWS_LANGUAGE###'] .= $flagImg;
-            }
-        }
+        //     if ($this->langArr[$row['sys_language_uid']]['flag'] && $this->conf['showFlags']) {
+        //         $fImgFile = ($this->conf['flagPath'] ?: 'media/flags/flag_') . $this->langArr[$row['sys_language_uid']]['flag'];
+        //         $fImgConf = $this->conf['flagImage.'];
+        //         $fImgConf['file'] = $fImgFile;
+        //         $flagImg = $this->local_cObj->cObjGetSingle('IMAGE', $fImgConf);
+        //         $markerArray['###NEWS_LANGUAGE###'] .= $flagImg;
+        //     }
+        // }
 
         if ($row['title'] && $this->isRenderMarker('###NEWS_TITLE###')) {
             $markerArray['###NEWS_TITLE###'] = $this->local_cObj->stdWrap($row['title'], $lConf['title_stdWrap.'] ?? []);
@@ -2225,7 +2248,7 @@ class TtNews extends AbstractPlugin
                 $lConf['subheader_stdWrap.']
             );
             //just removing some whitespace to ease atom feed building
-            $markerArray['###NEWS_SUBHEADER###'] = str_replace('\n', '', $markerArray['###NEWS_SUBHEADER###']);
+            $markerArray['###NEWS_SUBHEADER###'] = str_replace('\n', '', (string)$markerArray['###NEWS_SUBHEADER###']);
             $markerArray['###NEWS_SUBHEADER###'] = str_replace('\r', '', $markerArray['###NEWS_SUBHEADER###']);
         }
 
@@ -2486,7 +2509,7 @@ class TtNews extends AbstractPlugin
     {
         $title = $rec['title'];
         $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
-        $this->tsfe->ATagParams = $pTmp . ' title="' . $this->local_cObj->stdWrap(
+        $this->tsfe->config['config']['ATagParams'] = $pTmp . ' title="' . $this->local_cObj->stdWrap(
             trim(htmlspecialchars((string)$title)),
             $lConf[$p . 'LinkTitle_stdWrap.']
         ) . '"';
@@ -2500,7 +2523,7 @@ class TtNews extends AbstractPlugin
 
         $lbl = $this->local_cObj->stdWrap($lbl, $lConf[$p . 'LinkLabel_stdWrap.']);
 
-        $this->tsfe->ATagParams = $pTmp;
+        $this->tsfe->config['config']['ATagParams'] = $pTmp;
 
         return $this->local_cObj->stdWrap($link[0] . $lbl . $link[1], $lConf[$p . 'Link_stdWrap.']);
     }
@@ -2564,7 +2587,7 @@ class TtNews extends AbstractPlugin
             foreach ($this->categories[$row['uid']] as $val) {
                 // find categories, wrap them with links and collect them in the array $news_category.
                 $catTitle = htmlspecialchars((string)$val['title']);
-                $this->tsfe->ATagParams = $pTmp . ' title="' . $catTitle . '"';
+                $this->tsfe->config['config']['ATagParams'] = $pTmp . ' title="' . $catTitle . '"';
                 $titleWrap = ($val['parent_category'] > 0 ? 'subCategoryTitleItem_stdWrap.' : 'categoryTitleItem_stdWrap.');
                 if ($this->config['catTextMode'] == 0) {
                     $markerArray['###NEWS_CATEGORY###'] = '';
@@ -2724,7 +2747,7 @@ class TtNews extends AbstractPlugin
                 $markerArray['###NEWS_CATEGORY###'] = $xmlCategories;
             }
         }
-        $this->tsfe->ATagParams = $pTmp;
+        $this->tsfe->config['config']['ATagParams'] = $pTmp;
 
         return $markerArray;
     }
@@ -2799,7 +2822,7 @@ class TtNews extends AbstractPlugin
                 $imageMode = $textRenderObj == 'displayLatest' ? $lConf['latestImageMode'] : $lConf['listImageMode'] ?? false;
 
                 $suf = '';
-                if (is_numeric(substr((string)$lConf['image.']['file.']['maxW'], -1)) && $imageMode) {
+                if (!empty($lConf['image.']['file.']['maxW']) && is_numeric(substr((string)$lConf['image.']['file.']['maxW'], -1)) && $imageMode) {
                     // 'm' or 'c' not set by TS
                     switch ($imageMode) {
                         case 'resize2max' :
@@ -3158,7 +3181,7 @@ class TtNews extends AbstractPlugin
                     }
                     $catTitle = $catTitle ?: $val['title'];
                     if ($lConf['linkTitles'] && GeneralUtility::inList('2,3', $this->config['catTextMode'])) {
-                        $this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $catTitle . '"';
+                        $this->tsfe->config['config']['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $catTitle . '"';
                         $output = $this->handleCatTextMode($val, $catSelLinkParams, $catTitle, $lConf, $output);
                     } else {
                         $output[] = $this->local_cObj->stdWrap($catTitle, $lConf['title_stdWrap.']);
@@ -3171,7 +3194,7 @@ class TtNews extends AbstractPlugin
                 $catRootline = $this->local_cObj->stdWrap($catRootline, $lConf['catRootline_stdWrap.']);
             }
 
-            $this->tsfe->ATagParams = $pTmp;
+            $this->tsfe->config['config']['ATagParams'] = $pTmp;
         }
 
         return $catRootline;
@@ -3196,7 +3219,7 @@ class TtNews extends AbstractPlugin
                     if ($l) {
                         $catmenuLevel_stdWrap = explode(
                             '|||',
-                            $this->local_cObj->stdWrap('|||', $lConf['catmenuLevel' . $l . '_stdWrap.'])
+                            (string)$this->local_cObj->stdWrap('|||', $lConf['catmenuLevel' . $l . '_stdWrap.'])
                         );
                         $result .= $catmenuLevel_stdWrap[0];
                     } else {
@@ -3218,7 +3241,7 @@ class TtNews extends AbstractPlugin
                         $catSelLinkParams = ($this->conf['catSelectorTargetPid'] ? ($this->conf['itemLinkTarget'] ? $this->conf['catSelectorTargetPid'] . ' ' . $this->conf['itemLinkTarget'] : $this->conf['catSelectorTargetPid']) : $this->tsfe->id);
                         $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
                         if ($this->conf['displayCatMenu.']['insertDescrAsTitle']) {
-                            $this->tsfe->ATagParams = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $array_in['description'] . '"';
+                            $this->tsfe->config['config']['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $array_in['description'] . '"';
                         }
                         if ($array_in['uid']) {
                             $piVarsCat = $this->piVars['cat'] ?? false;
@@ -3254,7 +3277,7 @@ class TtNews extends AbstractPlugin
                                 $catSelLinkParams
                             );
                         }
-                        $this->tsfe->ATagParams = $pTmp;
+                        $this->tsfe->config['config']['ATagParams'] = $pTmp;
                     }
                     if ($l) {
                         $result .= $catmenuLevel_stdWrap[1];
@@ -3466,7 +3489,7 @@ class TtNews extends AbstractPlugin
                 if ($row['type'] != 1 && $row['type'] != 2) {
                     // only normal news
                     $catSPid = false;
-                    if ($row['sPidByCat'] && $this->conf['useSPidFromCategory']) {
+                    if ($row['sPidByCat'] ?? '' && $this->conf['useSPidFromCategory']) {
                         $catSPid = $row['sPidByCat'];
                     }
                     $sPid = ($catSPid ?: $this->config['singlePid']);
@@ -3587,7 +3610,7 @@ class TtNews extends AbstractPlugin
                     '< Previous'
                 ), [
                     $pointerName => ($pointer - 1 ?: ''),
-                    ], $this->allowCaching) . '</p></td>';
+                ], $this->allowCaching) . '</p></td>';
             } elseif ($this->pi_alwaysPrev) {
                 $links[] = '
 					<td nowrap="nowrap"><p>' . $this->pi_getLL(
@@ -3603,8 +3626,8 @@ class TtNews extends AbstractPlugin
                 'pi_list_browseresults_page',
                 'Page'
             ) . ' ' . ($a + 1)), [
-                    $pointerName => ($a ?: ''),
-                ], $this->allowCaching) . '</p></td>';
+                $pointerName => ($a ?: ''),
+            ], $this->allowCaching) . '</p></td>';
         }
         if ($pointer < ceil($count / $results_at_a_time) - 1) {
             $links[] = '
@@ -3613,7 +3636,7 @@ class TtNews extends AbstractPlugin
                 'Next >'
             ), [
                 $pointerName => $pointer + 1,
-                ], $this->allowCaching) . '</p></td>';
+            ], $this->allowCaching) . '</p></td>';
         }
 
         $pR1 = $pointer * $results_at_a_time + 1;
@@ -3753,7 +3776,7 @@ class TtNews extends AbstractPlugin
             $markerArray['###NEWS_COPYRIGHT###'] = '';
         }
 
-        $charset = ($this->tsfe->metaCharset ?: 'iso-8859-1');
+        $charset = ('utf-8' ?: 'iso-8859-1');
         if ($lConf['xmlDeclaration'] ?? null) {
             $markerArray['###XML_DECLARATION###'] = trim((string)$lConf['xmlDeclaration']);
         } else {
@@ -4089,10 +4112,10 @@ class TtNews extends AbstractPlugin
 
         // Setting LIMIT:
         if ((($conf['max'] ?? false) || ($conf['begin'] ?? false)) && !$error) {
-            $conf['begin'] = MathUtility::forceIntegerInRange(
-                ceil($this->cObj->calc($conf['begin'] ?? 0)),
+            $conf['begin'] = isset($conf['begin']) ? MathUtility::forceIntegerInRange(
+                ceil($this->cObj->calc((string)$conf['begin'] ?? '0')),
                 0
-            );
+            ) : 0;
             if ($conf['begin'] && !$conf['max']) {
                 $conf['max'] = 100000;
             }
@@ -4203,6 +4226,8 @@ class TtNews extends AbstractPlugin
     /**
      * fills the internal array '$this->langArr' with the available syslanguages
      *
+     * @todo remove/replace legacy langArr
+     *
      * @throws DBALException
      */
     protected function initLanguages()
@@ -4231,7 +4256,7 @@ class TtNews extends AbstractPlugin
      *
      * @throws DBALException
      */
-    public function initCategoryVars()
+    public function initCategoryVars(): void
     {
         $storagePid = false;
 
@@ -4244,7 +4269,7 @@ class TtNews extends AbstractPlugin
             $catPl = implode(',', GeneralUtility::intExplode(',', $catPl));
 
             $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'recursive', 's_misc');
-            if (!strcmp($recursive, '') || $recursive === null) {
+            if (!strcmp((string)$recursive, '') || $recursive === null) {
                 $recursive = $this->cObj->stdWrap($lc['recursive'], $lc['recursive.'] ?? false);
             }
 
@@ -4266,10 +4291,7 @@ class TtNews extends AbstractPlugin
         $addWhere = $this->SPaddWhere . $this->enableCatFields;
 
         $useSubCategories = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'useSubCategories', 'sDEF');
-        $this->config['useSubCategories'] = (strcmp(
-            $useSubCategories,
-            ''
-        ) ? $useSubCategories : $this->conf['useSubCategories']);
+        $this->config['useSubCategories'] = (is_string($useSubCategories) && strcmp($useSubCategories, '') !== 0) ? $useSubCategories : $this->conf['useSubCategories'];
 
         // global ordering for categories, Can be overwritten later by catOrderBy for a certain content element
         $catOrderBy = trim($this->conf['catOrderBy'] ?? '');
@@ -4295,7 +4317,7 @@ class TtNews extends AbstractPlugin
             }
         }
         $catExclusive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'categorySelection', 'sDEF');
-        $catExclusive = $catExclusive ?: trim($this->cObj->stdWrap(
+        $catExclusive = $catExclusive ?: trim((string)$this->cObj->stdWrap(
             $this->conf['categorySelection'],
             $this->conf['categorySelection.'] ?? false
         ));
@@ -4331,7 +4353,7 @@ class TtNews extends AbstractPlugin
      *
      * @throws DBALException
      */
-    public function initCatmenuEnv(&$lConf)
+    public function initCatmenuEnv(&$lConf): void
     {
         if ($lConf['catOrderBy'] ?? false) {
             $this->config['catOrderBy'] = $lConf['catOrderBy'];
@@ -4428,15 +4450,15 @@ class TtNews extends AbstractPlugin
         $globalMarkerArray = [];
         [$globalMarkerArray['###GW1B###'], $globalMarkerArray['###GW1E###']] = explode(
             $splitMark,
-            $this->cObj->stdWrap($splitMark, $this->conf['wrap1.'] ?? false)
+            (string)$this->cObj->stdWrap($splitMark, $this->conf['wrap1.'] ?? false)
         );
         [$globalMarkerArray['###GW2B###'], $globalMarkerArray['###GW2E###']] = explode(
             $splitMark,
-            $this->cObj->stdWrap($splitMark, $this->conf['wrap2.'] ?? false)
+            (string)$this->cObj->stdWrap($splitMark, $this->conf['wrap2.'] ?? false)
         );
         [$globalMarkerArray['###GW3B###'], $globalMarkerArray['###GW3E###']] = explode(
             $splitMark,
-            $this->cObj->stdWrap($splitMark, $this->conf['wrap3.'] ?? false)
+            (string)$this->cObj->stdWrap($splitMark, $this->conf['wrap3.'] ?? false)
         );
         $globalMarkerArray['###GC1###'] = $this->cObj->stdWrap($this->conf['color1'] ?? '', $this->conf['color1.'] ?? false);
         $globalMarkerArray['###GC2###'] = $this->cObj->stdWrap($this->conf['color2'] ?? '', $this->conf['color2.'] ?? false);
@@ -4455,24 +4477,26 @@ class TtNews extends AbstractPlugin
      * extends the pid_list given from $conf or FF recursively by the pids of the subpages
      * generates an array from the pagetitles of those pages
      */
-    public function initPidList()
+    public function initPidList(): void
     {
+        $pid_list = '';
         // pid_list is the pid/list of pids from where to fetch the news items.
         $pid_list = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'pages', 's_misc');
-        $pid_list = $pid_list ?: trim($this->cObj->stdWrap(
+        $pid_list = $pid_list ?: trim((string)$this->cObj->stdWrap(
             $this->conf['pid_list'],
             $this->conf['pid_list.'] ?? []
         ));
-        $pid_list = $pid_list ? implode(',', GeneralUtility::intExplode(',', $pid_list)) : $this->tsfe->id;
+        $pid_list = $pid_list ? implode(',', GeneralUtility::intExplode(',', (string)$pid_list)) : (string)$this->tsfe->id;
 
         $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'recursive', 's_misc');
-        if (!strcmp($recursive, '') || $recursive === null) {
+        if ($recursive === null || $recursive === '') {
             $recursive = $this->cObj->stdWrap($this->conf['recursive'], $this->conf['recursive.'] ?? []);
         }
 
         // extend the pid_list by recursive levels
         $this->pid_list = $this->pi_getPidList($pid_list, $recursive);
         $this->pid_list = $this->pid_list ?: 0;
+        $this->errors = [];
         if (!$this->pid_list) {
             $this->errors[] = 'No pid_list defined';
         }
@@ -4668,7 +4692,7 @@ class TtNews extends AbstractPlugin
         $sPBody = substr($subpartMarker, 3, -3);
         $altSPM = '';
         if (isset($this->conf['altMainMarkers.'])) {
-            $altSPM = trim($this->cObj->stdWrap(
+            $altSPM = trim((string)$this->cObj->stdWrap(
                 $this->conf['altMainMarkers.'][$sPBody],
                 $this->conf['altMainMarkers.'][$sPBody . '.']
             ));
@@ -4783,7 +4807,7 @@ class TtNews extends AbstractPlugin
                 $singlePid
             )
         );
-        $url = $this->cObj->lastTypoLinkUrl;
+        $url = $this->cObj->lastTypoLinkResult->getUrl();
 
         // hook for processing of links
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] ?? null)) {
@@ -4890,5 +4914,23 @@ class TtNews extends AbstractPlugin
         }
 
         return $output;
+    }
+
+    /**
+     * Set cObj data
+     */
+    public function setCObjData(array $data): void
+    {
+        $this->cObj->data = $data;
+    }
+
+    /**
+     * Get cObjUid
+     *
+     * @return int
+     */
+    public function getCObjUid()
+    {
+        return (int)($this->cObj->data['uid']);
     }
 }

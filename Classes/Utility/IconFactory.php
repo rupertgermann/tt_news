@@ -39,7 +39,7 @@ class IconFactory
         };
     }
 
-    public static function registerAllIconIdentifiers()
+    public static function registerAllIconIdentifiers(): void
     {
         static $registrationDone = null;
         if ($registrationDone !== null) {

@@ -42,10 +42,10 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -76,7 +76,7 @@ class DataHandlerHook
      * @throws DBALException
      * @throws Exception
      */
-    public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
+    public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj): void
     {
         if ($table == 'tt_news_cat' && is_int($id)) {
             // prevent moving of categories into their rootline
@@ -100,7 +100,7 @@ class DataHandlerHook
                     FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    AbstractMessage::ERROR,
+                    ContextualFeedbackSeverity::ERROR,
                     // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );
@@ -199,7 +199,7 @@ class DataHandlerHook
      * @param $fieldArray
      * @param $pObj
      */
-    public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj)
+    public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj): void
     {
         if ($table != 'tt_news') {
             return;
@@ -237,7 +237,7 @@ class DataHandlerHook
      * @throws DBALException
      * @throws Exception
      */
-    public function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj)
+    public function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj): void
     {
         if ($table == 'tt_news' && !$this->getBeUser()->isAdmin()) {
             $rec = BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
@@ -312,7 +312,7 @@ class DataHandlerHook
      *
      * @throws DBALException
      */
-    public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj)
+    public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj): void
     {
         // copy records recursively from Drag&Drop in the category manager
         if ($table == 'tt_news_cat' && $command == 'DDcopy') {
