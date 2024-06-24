@@ -8,10 +8,9 @@
 
 namespace RG\TtNews\Database;
 
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\ResultStatement;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Result;
 use InvalidArgumentException;
-use PDO;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -26,17 +25,19 @@ class Database implements SingletonInterface
     /**
      * @var ConnectionPool
      */
-    protected $connectionPool;
+    protected ConnectionPool $connectionPool;
 
     /**
      * @param $tableName
      *
      * @return array
-     * @throws DBALException
+     * @throws Exception
      */
-    public function admin_get_fields($tableName)
+    public function admin_get_fields($tableName): array
     {
-        $columns = $this->getConnection($tableName)->executeQuery('SHOW COLUMNS FROM ' . $tableName)->fetchAllAssociative();
+        $columns = $this->getConnection($tableName)->executeQuery(
+            'SHOW COLUMNS FROM ' . $tableName
+        )->fetchAllAssociative();
         $fields = [];
         if (is_array($columns)) {
             foreach ($columns as $column) {
@@ -50,10 +51,10 @@ class Database implements SingletonInterface
     /**
      * @param $queryParts
      *
-     * @return ResultStatement
-     * @throws DBALException
+     * @return Result
+     * @throws Exception
      */
-    public function exec_SELECT_queryArray($queryParts)
+    public function exec_SELECT_queryArray($queryParts): Result
     {
         return $this->exec_SELECTquery(
             $queryParts['SELECT'],
@@ -73,22 +74,20 @@ class Database implements SingletonInterface
      * @param string $orderBy
      * @param string $limit
      *
-     * @return ResultStatement
-     * @throws DBALException
+     * @return Result
+     * @throws Exception
      */
     public function exec_SELECTquery(
         $select_fields,
         $from_table,
         $where_clause,
-        $groupBy = '',
-        $orderBy = '',
-        $limit = ''
-    ) {
+        string $groupBy = '',
+        string $orderBy = '',
+        string $limit = ''
+    ): Result {
         $query = $this->SELECTquery($select_fields, $from_table, $where_clause, $groupBy, $orderBy, $limit);
 
-        $res = $this->getConnection($from_table)->executeQuery($query);
-
-        return $res;
+        return $this->getConnection($from_table)->executeQuery($query);
     }
 
     /**
@@ -101,17 +100,17 @@ class Database implements SingletonInterface
      *
      * @return string
      */
-    public function SELECTquery($select_fields, $from_table, $where_clause, $groupBy = '', $orderBy = '', $limit = '')
+    public function SELECTquery($select_fields, $from_table, $where_clause, string $groupBy = '', string $orderBy = '', string $limit = ''): string
     {
         // Table and fieldnames should be "SQL-injection-safe" when supplied to this function
         // Build basic query
         $query = 'SELECT ' . $select_fields . ' FROM ' . $from_table . ((string)$where_clause !== '' ? ' WHERE ' . $where_clause : '');
         // Group by
-        $query .= (string)$groupBy !== '' ? ' GROUP BY ' . $groupBy : '';
+        $query .= $groupBy !== '' ? ' GROUP BY ' . $groupBy : '';
         // Order by
-        $query .= (string)$orderBy !== '' ? ' ORDER BY ' . $orderBy : '';
+        $query .= $orderBy !== '' ? ' ORDER BY ' . $orderBy : '';
         // Group by
-        $query .= (string)$limit !== '' ? ' LIMIT ' . $limit : '';
+        $query .= $limit !== '' ? ' LIMIT ' . $limit : '';
 
         // Return query
 
@@ -119,13 +118,14 @@ class Database implements SingletonInterface
     }
 
     /**
-     * @param ResultStatement $lres
+     * @param Result $lres
      *
-     * @return mixed
+     * @return array|bool
+     * @throws Exception
      */
-    public function sql_fetch_assoc($lres)
+    public function sql_fetch_assoc(Result $lres): array|bool
     {
-        return $lres->fetch(PDO::FETCH_ASSOC);
+        return $lres->fetchAssociative();
     }
 
     /**
@@ -138,17 +138,17 @@ class Database implements SingletonInterface
      * @param string $uidIndexField
      *
      * @return array|null
-     * @throws DBALException
+     * @throws Exception
      */
     public function exec_SELECTgetRows(
         $select_fields,
         $from_table,
         $where_clause,
-        $groupBy = '',
-        $orderBy = '',
-        $limit = '',
-        $uidIndexField = ''
-    ) {
+        string $groupBy = '',
+        string $orderBy = '',
+        string $limit = '',
+        string $uidIndexField = ''
+    ): ?array {
         $res = $this->exec_SELECTquery($select_fields, $from_table, $where_clause, $groupBy, $orderBy, $limit);
 
         $output = [];
@@ -180,7 +180,7 @@ class Database implements SingletonInterface
      *
      * @return string
      */
-    public function fullQuoteStr($str, $table, $allowNull = false)
+    public function fullQuoteStr($str, $table, bool $allowNull = false): string
     {
         if ($allowNull && $str === null) {
             return 'NULL';
@@ -197,27 +197,29 @@ class Database implements SingletonInterface
      *
      * @return string
      */
-    public function cleanIntList($list)
+    public function cleanIntList($list): string
     {
         return implode(',', GeneralUtility::intExplode(',', $list));
     }
 
     /**
-     * @param ResultStatement $res
+     * @param Result $res
      *
-     * @return mixed
+     * @return array|bool
+     * @throws Exception
      */
-    public function sql_fetch_row($res)
+    public function sql_fetch_row(Result $res): array|bool
     {
-        return $res->fetch(PDO::FETCH_BOTH);
+        return $res->fetchNumeric();
     }
 
     /**
-     * @param ResultStatement $res
+     * @param Result $res
      *
-     * @return mixed
+     * @return int
+     * @throws Exception
      */
-    public function count($res)
+    public function count(Result $res): int
     {
         return $res->rowCount();
     }
@@ -230,20 +232,20 @@ class Database implements SingletonInterface
      * @param string $orderBy
      * @param bool   $numIndex
      *
-     * @return mixed|null
-     * @throws DBALException
+     * @return array|bool|null
+     * @throws Exception
      */
     public function exec_SELECTgetSingleRow(
         $select_fields,
         $from_table,
         $where_clause,
-        $groupBy = '',
-        $orderBy = '',
-        $numIndex = false
-    ) {
+        string $groupBy = '',
+        string $orderBy = '',
+        bool $numIndex = false
+    ): bool|array|null {
         $res = $this->exec_SELECTquery($select_fields, $from_table, $where_clause, $groupBy, $orderBy, '1');
         $output = null;
-        if ($res !== false) {
+        if ($res) {
             if ($numIndex) {
                 $output = $this->sql_fetch_row($res);
             } else {
@@ -271,11 +273,11 @@ class Database implements SingletonInterface
         $local_table,
         $mm_table,
         $foreign_table,
-        $whereClause = '',
-        $groupBy = '',
-        $orderBy = '',
-        $limit = ''
-    ) {
+        string $whereClause = '',
+        string $groupBy = '',
+        string $orderBy = '',
+        string $limit = ''
+    ): array {
         $foreign_table_as = $foreign_table == $local_table ? $foreign_table . StringUtility::getUniqueId('_join') : '';
         $mmWhere = $local_table ? $local_table . '.uid=' . $mm_table . '.uid_local' : '';
         $mmWhere .= ($local_table and $foreign_table) ? ' AND ' : '';
@@ -306,7 +308,7 @@ class Database implements SingletonInterface
      * @return string eg. "title, uid
      * @see exec_SELECTquery(), stripGroupBy()
      */
-    public function stripOrderBy($str)
+    public function stripOrderBy(string $str): string
     {
         return preg_replace('/^(?:ORDER[[:space:]]*BY[[:space:]]*)+/i', '', trim($str));
     }
@@ -318,14 +320,14 @@ class Database implements SingletonInterface
      * @param string $table Name of the table to count rows for
      * @param string $where (optional) WHERE statement of the query
      *
-     * @return mixed Number of rows counter (int) or FALSE if something went wrong (bool)
-     * @throws DBALException
+     * @return int|bool Number of rows counter (int) or FALSE if something went wrong (bool)
+     * @throws Exception
      */
-    public function exec_SELECTcountRows($field, $table, $where = '1=1')
+    public function exec_SELECTcountRows(string $field, string $table, string $where = '1=1'): int|bool
     {
         $count = false;
         $resultSet = $this->exec_SELECTquery('COUNT(' . $field . ')', $table, $where);
-        if ($resultSet !== false) {
+        if ($resultSet) {
             [$count] = $this->sql_fetch_row($resultSet);
             $count = (int)$count;
         }
@@ -343,19 +345,19 @@ class Database implements SingletonInterface
      * @param string $orderBy
      * @param string $limit
      *
-     * @return ResultStatement
-     * @throws DBALException
+     * @return Result
+     * @throws Exception
      */
     public function exec_SELECT_mm_query(
         $select,
         $local_table,
         $mm_table,
         $foreign_table,
-        $whereClause = '',
-        $groupBy = '',
-        $orderBy = '',
-        $limit = ''
-    ) {
+        string $whereClause = '',
+        string $groupBy = '',
+        string $orderBy = '',
+        string $limit = ''
+    ): Result {
         $queryParts = $this->getSelectMmQueryParts(
             $select,
             $local_table,
@@ -371,9 +373,11 @@ class Database implements SingletonInterface
     }
 
     /**
+     * @param string $table
+     *
      * @return Connection
      */
-    protected function getConnection(string $table)
+    protected function getConnection(string $table): Connection
     {
         if (empty($this->connectionPool)) {
             $this->connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -383,9 +387,9 @@ class Database implements SingletonInterface
     }
 
     /**
-     * @return object|Database
+     * @return Database
      */
-    public static function getInstance()
+    public static function getInstance(): Database
     {
         return GeneralUtility::makeInstance(self::class);
     }
