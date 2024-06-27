@@ -1369,7 +1369,7 @@ class TtNews extends AbstractPlugin
         return $itemsOut;
     }
 
-    protected function getFluidMarkerArray($markerArray)
+    protected function getFluidMarkerArray($markerArray): array
     {
         $fluidMarkerArray = [];
         if (!empty($markerArray)) {
@@ -3916,11 +3916,11 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->theCode != 'AMENU') {
-            if ($this->config['groupBy']) {
+            if ($this->config['groupBy'] ?? false) {
                 $selectConf['groupBy'] = $this->config['groupBy'];
             }
 
-            if ($this->config['orderBy']) {
+            if ($this->config['orderBy'] ?? false) {
                 if (strtoupper((string)$this->config['orderBy']) == 'RANDOM') {
                     $selectConf['orderBy'] = 'RAND()';
                 } else {
@@ -4885,6 +4885,16 @@ class TtNews extends AbstractPlugin
         }
 
         return $output;
+    }
+
+    /**
+     * Set cObj (needed in ajax calls from  CATMENU)
+     *
+     * @param ContentObjectRenderer $cObj
+     */
+    public function setCObj(ContentObjectRenderer $cObj): void
+    {
+        $this->cObj = $cObj;
     }
 
     /**

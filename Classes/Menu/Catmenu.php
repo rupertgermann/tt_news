@@ -168,10 +168,11 @@ class Catmenu
      */
     protected function initAjaxEnv($params)
     {
-        $tt_newsObj = new TtNews();
-        $tt_newsObj->helpers = new Helpers($tt_newsObj);
+        $tt_newsObj = GeneralUtility::makeInstance(TtNews::class);
+        $tt_newsObj->helpers = GeneralUtility::makeInstance(Helpers::class, $tt_newsObj);
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $tt_newsObj->local_cObj = &$cObj;
+        $tt_newsObj->setCObj($cObj);
+        $tt_newsObj->db = Database::getInstance();
 
         $tt_newsObj->setCObjData($this->getTypoScriptFrontendController()->sys_page->checkRecord('tt_content', $params['cObjUid'], 1));
         $tt_newsObj->pi_initPIflexForm();
