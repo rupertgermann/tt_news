@@ -5,7 +5,7 @@ namespace RG\TtNews\Menu;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2020 Rupert Germann <rupi@gmx.li>
+ *  (c) 2005-2024 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,7 +27,6 @@ namespace RG\TtNews\Menu;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Plugin\TtNews;
@@ -64,7 +63,6 @@ class Catmenu
     /**
      * @param TtNews $pObj
      *
-     * @throws DBALException
      */
     public function init(&$pObj): void
     {
@@ -152,7 +150,6 @@ class Catmenu
      * @param array $params
      *
      * @return string
-     * @throws DBALException
      */
     public function ajaxExpandCollapse($params)
     {
@@ -168,14 +165,13 @@ class Catmenu
      * @param array $params
      *
      * @return array
-     * @throws DBALException
      */
     protected function initAjaxEnv($params)
     {
         $tt_newsObj = new TtNews();
         $tt_newsObj->helpers = new Helpers($tt_newsObj);
-        $tt_newsObj->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $tt_newsObj->local_cObj = &$tt_newsObj->cObj;
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $tt_newsObj->local_cObj = &$cObj;
 
         $tt_newsObj->setCObjData($this->getTypoScriptFrontendController()->sys_page->checkRecord('tt_content', $params['cObjUid'], 1));
         $tt_newsObj->pi_initPIflexForm();

@@ -35,6 +35,9 @@ class FeTreeView extends Categorytree
     public $cObjUid;
     public $treeName;
 
+    public $ext_IconMode;
+
+
     /**
      * wraps the record titles in the tree with links or not depending on if they are in the
      * TCEforms_nonSelectableItemsArray.
@@ -54,14 +57,7 @@ class FeTreeView extends Categorytree
                 $catSelLinkParams .= ' ' . $newsConf['itemLinkTarget'];
             }
         } else {
-            $relevantParametersForCachingFromPageArguments = [];
-            $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing');
-            $queryParams = $pageArguments->getDynamicArguments();
-            if (!empty($queryParams) && ($pageArguments->getArguments()['cHash'] ?? false)) {
-                $queryParams['id'] = $pageArguments->getPageId();
-                $relevantParametersForCachingFromPageArguments = GeneralUtility::makeInstance(CacheHashCalculator::class)->getRelevantParameters(HttpUtility::buildQueryString($queryParams));
-            }
-            $catSelLinkParams = $relevantParametersForCachingFromPageArguments;
+            $catSelLinkParams = $GLOBALS['TSFE']->id;
         }
 
         if ($row['uid'] <= 0) {
@@ -99,8 +95,8 @@ class FeTreeView extends Categorytree
         if ($newsConf['useHRDates']) {
             $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
                 'cat' => $row['uid'],
-                'year' => ($piVars['year'] && $newsConf['catmenuWithArchiveParams'] ? $piVars['year'] : null),
-                'month' => ($piVars['month'] && $newsConf['catmenuWithArchiveParams'] ? $piVars['month'] : null),
+                'year' => (($piVars['year'] ?? false) && $newsConf['catmenuWithArchiveParams'] ? $piVars['year'] : null),
+                'month' => (($piVars['month'] ?? false) && $newsConf['catmenuWithArchiveParams'] ? $piVars['month'] : null),
             ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
         } else {
             $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
@@ -109,7 +105,6 @@ class FeTreeView extends Categorytree
                 'pointer' => null,
             ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
         }
-        $GLOBALS['TSFE']->config['config']['ATagParams'] = $pTmp;
 
         return $link;
     }
@@ -139,7 +134,7 @@ class FeTreeView extends Categorytree
 
         if (!$icon) {
             $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
-            return $this->wrapIcon($iconFactory->getIcon('apps-pagetree-root', Icon::SIZE_SMALL)->render(), $rec);
+            return $this->wrapIcon('<img' . IconFactory::skinImg('tt_news_cat.gif', 'width="18" height="16"') . ' alt="" />', $rec);
         }
 
         return $icon;
@@ -238,14 +233,7 @@ class FeTreeView extends Categorytree
             if ($newsConf['catSelectorTargetPid']) {
                 $catSelLinkParams = $newsConf['catSelectorTargetPid'];
             } else {
-                $relevantParametersForCachingFromPageArguments = [];
-                $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing');
-                $queryParams = $pageArguments->getDynamicArguments();
-                if (!empty($queryParams) && ($pageArguments->getArguments()['cHash'] ?? false)) {
-                    $queryParams['id'] = $pageArguments->getPageId();
-                    $relevantParametersForCachingFromPageArguments = GeneralUtility::makeInstance(CacheHashCalculator::class)->getRelevantParameters(HttpUtility::buildQueryString($queryParams));
-                }
-                $catSelLinkParams = $relevantParametersForCachingFromPageArguments;
+                $catSelLinkParams = $GLOBALS['TSFE']->id;
             }
             if ($this->useAjax) {
                 $icon = '<a class="pm pmiconatag"
@@ -279,8 +267,11 @@ class FeTreeView extends Categorytree
             // a user is logged in
             $this->stored = json_decode((string)$this->FE_USER->uc['tt_news'][$this->treeName], true, 512, JSON_THROW_ON_ERROR);
         } else {
-            // @todo: fix/handle json exception
-            $this->stored = json_decode(($_COOKIE[$this->treeName] ?? ''), true, 512, JSON_THROW_ON_ERROR);
+            try {
+                $this->stored = json_decode(($_COOKIE[$this->treeName] ?? ''), true, 512, JSON_THROW_ON_ERROR);
+            } catch (\Exception $e) {
+                // do nothing
+            }
         }
 
         if (!is_array($this->stored)) {

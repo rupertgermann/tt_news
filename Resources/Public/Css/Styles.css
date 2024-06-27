@@ -348,7 +348,7 @@ ul.tree ul li {
 }
 
 ul.tree ul li.expanded ul {
-	background: transparent url('../Images/Icons/ol/line.gif') repeat-y -1px;
+	background: transparent url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20id%3D%22body_1%22%20width%3D%2218%22%20height%3D%2216%22%20preserveAspectRatio%3D%22xMidYMid%20meet%22%20zoomAndPan%3D%22magnify%22%20version%3D%221.0%22%20contentScriptType%3D%22text%2Fecmascript%22%20contentStyleType%3D%22text%2Fcss%22%3E%3Cg%20transform%3D%22matrix%281.3333334%200%200%201.3333334%200%200%29%22%3E%3Cimage%20x%3D%220%22%20y%3D%220%22%20xlink%3Ahref%3D%22data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAYAAAAbBi9cAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAIElEQVR4nGNgwA%2F%2BE5CnPxh1EWEw6iLCYNRFhAH9XQQAeiUH%2Be1HJ0wAAAAASUVORK5CYII%3D%22%20preserveAspectRatio%3D%22none%22%20width%3D%2213.5%22%20height%3D%2212%22%20xlink%3Atype%3D%22simple%22%20xlink%3Ashow%3D%22embed%22%20xlink%3Aactuate%3D%22onLoad%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") repeat-y -1px;
 }
 
 ul.tree ul li.last > ul {

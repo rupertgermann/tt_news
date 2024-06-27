@@ -36,7 +36,6 @@ namespace RG\TtNews\Tree;
  * @author     Rupert Germann <rupi@gmx.li>
  */
 
-use Doctrine\DBAL\DBALException;
 use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Utility\Div;
 use RG\TtNews\Utility\IconFactory;
@@ -114,6 +113,7 @@ class Categorytree extends AbstractTreeView
     public $addSelfId;
     public $setRecs;
     public $expandAll = false;
+    public $bank;
 
     public function init($clause = '', $orderByFields = ''): void
     {
@@ -165,7 +165,6 @@ class Categorytree extends AbstractTreeView
      * @param bool $groupByPages
      *
      * @return    string        HTML code for the browsable tree
-     * @throws DBALException
      */
     public function getBrowsableTree($groupByPages = false)
     {
@@ -182,7 +181,7 @@ class Categorytree extends AbstractTreeView
         foreach ($this->MOUNTS as $idx => $uid) {
             // Set first:
             $this->bank = $idx;
-            $isOpen = isset($this->stored[$idx]) && is_array($this->stored[$idx]) ? $this->stored[$idx][$uid] || $this->expandFirst : false;
+            $isOpen = (is_array($this->stored[$idx] ?? false) && isset($this->stored[$idx][$uid])) ? $this->stored[$idx][$uid] : $this->expandFirst;
             // Save ids while resetting everything else.
             $curIds = $this->ids;
             $this->reset();
@@ -271,7 +270,6 @@ class Categorytree extends AbstractTreeView
      * @param $catID
      *
      * @return bool|int|mixed
-     * @throws DBALException
      */
     protected function getNewsCountForCategory($catID)
     {
@@ -322,7 +320,6 @@ class Categorytree extends AbstractTreeView
      * @param string $blankLineCode
      *
      * @return    int        The count of items on the level
-     * @throws DBALException
      */
     protected function getNewsCategoryTree($uid, $depth = 999, $blankLineCode = '')
     {
@@ -403,7 +400,7 @@ class Categorytree extends AbstractTreeView
         }
 
         $this->getDataFree($res);
-        $this->buffer_idH = $idH;
+        $this->buffer_idH = $idH ?? null;
 
         return $c;
     }
@@ -454,7 +451,7 @@ class Categorytree extends AbstractTreeView
         // if this is the last one and does not have subitems, we need to close
         // the tree as long as the upper levels have last items too
         if (isset($v['isLast']) && $v['isLast'] && !$v['hasSub'] && !$doCollapse && !($doExpand && $expandedPageUid == $uid)) {
-            for ($i = $v['invertedDepth']; $closeDepth[$i] == 1; $i++) {
+            for ($i = $v['invertedDepth']; ($closeDepth[$i] ?? 0) == 1; $i++) {
                 $closeDepth[$i] = 0;
                 $itemHTML .= '</ul></li>';
             }
@@ -669,7 +666,7 @@ class Categorytree extends AbstractTreeView
      */
     public function wrapStop($str, $row)
     {
-        if ($row['php_tree_stop']) {
+        if ($row['php_tree_stop'] ?? false) {
             $str .= '<a href="' . htmlspecialchars((string)GeneralUtility::linkThisScript(['setTempDBmount' => $row['uid']])) . '" class="text-danger">+</a> ';
         }
         return $str;
