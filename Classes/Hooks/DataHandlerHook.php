@@ -5,7 +5,7 @@ namespace RG\TtNews\Hooks;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2020 Rupert Germann (rupi@gmx.li)
+ *  (c) 2005-2024 Rupert Germann (rupi@gmx.li)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -34,7 +34,6 @@ namespace RG\TtNews\Hooks;
  *
  * @author     Rupert Germann <rupi@gmx.li>
  */
-use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -73,7 +72,6 @@ class DataHandlerHook
      * @param string $id        : The records id (if any)
      * @param object $pObj      : Reference to the parent object (TCEmain)
      *
-     * @throws DBALException
      * @throws Exception
      */
     public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj): void
@@ -234,7 +232,6 @@ class DataHandlerHook
      * @param array  $value   : The new value of the field which has been changed
      * @param object $pObj    : Reference to the parent object (TCEmain)
      *
-     * @throws DBALException
      * @throws Exception
      */
     public function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj): void
@@ -310,7 +307,6 @@ class DataHandlerHook
      * @param             $destId
      * @param DataHandler $pObj
      *
-     * @throws DBALException
      */
     public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj): void
     {
@@ -357,7 +353,6 @@ class DataHandlerHook
      * @param DataHandler $pObj
      *
      * @return mixed
-     * @throws DBALException
      */
     protected function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)
     {

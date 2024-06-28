@@ -5,7 +5,7 @@ namespace RG\TtNews\Tree;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2020 Rupert Germann <rupi@gmx.li>
+ *  (c) 2005-2024 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -604,10 +604,10 @@ class Categorytree extends AbstractTreeView
      *
      * @return    string        Image tag with the plus/minus icon.
      */
-    public function PMicon($row, $a, $c, $nextCount, $exp)
+    public function PMicon($row, $a, $c, $nextCount, $isOpen)
     {
         if ($this->expandable) {
-            $PM = $nextCount ? ($exp ? 'minus' : 'plus') : 'join';
+            $PM = $nextCount ? ($isOpen ? 'minus' : 'plus') : 'join';
         } else {
             $PM = 'join';
         }
@@ -620,8 +620,8 @@ class Categorytree extends AbstractTreeView
         $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, Icon::SIZE_SMALL)->render();
 
         if ($nextCount) {
-            $cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
-            $icon = $this->PMiconATagWrap($icon, $cmd, !$exp);
+            $cmd = $this->bank . '_' . ($isOpen ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
+            $icon = $this->PMiconATagWrap($icon, $cmd, !$isOpen);
         }
 
         return $icon;

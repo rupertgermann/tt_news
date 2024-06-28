@@ -5,7 +5,7 @@ namespace RG\TtNews\Helper;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2004-2020 Rupert Germann <rupi@gmx.li>
+ *  (c) 2004-2024 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,7 +27,6 @@ namespace RG\TtNews\Helper;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Plugin\TtNews;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
@@ -123,7 +122,6 @@ class Helpers
      * @param int $currentCategory : Uid of the current category
      *
      * @return int first found single view pid
-     * @throws DBALException
      */
     public function getRecursiveCategorySinglePid($currentCategory)
     {
@@ -153,7 +151,6 @@ class Helpers
      * @param    int        $cc: counter to detect recursion in nested categories
      *
      * @return    array        all categories in a nested array
-     * @throws DBALException
      */
     public function getSubCategoriesForMenu($catlist, $fields, $addWhere, $cc = 0)
     {

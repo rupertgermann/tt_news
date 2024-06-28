@@ -2,7 +2,6 @@
 
 namespace RG\TtNews\Tree\TableConfiguration;
 
-use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Tree\SortedTreeNodeCollection;
@@ -30,7 +29,6 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      * @param int      $level
      *
      * @return TreeNodeCollection|null
-     * @throws DBALException
      */
     protected function getChildrenOf(TreeNode $node, $level): ?TreeNodeCollection
     {
@@ -98,7 +96,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      * @param int $level
      * @return DatabaseTreeNode Node object
      */
-    protected function buildRepresentationForNode(TreeNode $basicNode, DatabaseTreeNode $parent = null, $level = 0)
+    protected function buildRepresentationForNode(TreeNode $basicNode, DatabaseTreeNode $parent = null, $level = 0): DatabaseTreeNode
     {
         /** @var DatabaseTreeNode $node */
         $node = GeneralUtility::makeInstance(DatabaseTreeNode::class);

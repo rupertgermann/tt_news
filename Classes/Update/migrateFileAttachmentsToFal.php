@@ -5,7 +5,7 @@ namespace RG\TtNews\Update;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2020 Rupert Germann <rupi@gmx.li>
+ *  (c) 2005-2024 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,7 +28,6 @@ namespace RG\TtNews\Update;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Doctrine\DBAL\DBALException;
 use InvalidArgumentException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Connection;
@@ -88,7 +87,6 @@ You have been warned ;-)';
      * Checks whether updates are required.
      *
      * @return bool Whether an update is required (TRUE) or not (FALSE)
-     * @throws DBALException
      */
     public function updateNecessary(): bool
     {
@@ -117,7 +115,6 @@ You have been warned ;-)';
      * Performs the accordant updates.
      *
      * @return bool Whether everything went smoothly or not
-     * @throws DBALException
      */
     public function executeUpdate(): bool
     {
@@ -127,7 +124,6 @@ You have been warned ;-)';
     }
 
     /**
-     * @throws DBALException
      */
     protected function migrateNewsFilesToFal()
     {
@@ -210,7 +206,6 @@ You have been warned ;-)';
 
             /** @var ReferenceIndex $refIndexObj */
             $refIndexObj = GeneralUtility::makeInstance(ReferenceIndex::class);
-            $refIndexObj->enableRuntimeCache();
             $refIndexObj->updateRefIndexTable($refTable, $lastInsertId);
         }
     }
@@ -220,7 +215,6 @@ You have been warned ;-)';
      *
      * @return bool
      * @throws InvalidArgumentException
-     * @throws DBALException
      */
     protected function checkIfWizardIsRequired(): bool
     {

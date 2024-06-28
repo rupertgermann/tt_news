@@ -2,7 +2,6 @@
 
 namespace RG\TtNews\EventListener;
 
-use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent;
@@ -17,7 +16,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class HandleAfterFormEnginePageInitialized
 {
     /**
-     * @throws DBALException
      */
     public function __invoke(AfterFormEnginePageInitializedEvent $event): void
     {

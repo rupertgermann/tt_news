@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2004-2020 Rupert Germann <rupi@gmx.li>
+ *  (c) 2004-2024 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,7 +27,6 @@
 
 namespace RG\TtNews\Utility;
 
-use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
@@ -47,7 +46,6 @@ class Div
      * @param bool $withSub Also return subcategories
      *
      * @return string commeseparated list of mounts
-     * @throws DBALException
      */
     public static function getBeUserCatMounts($withSub = true)
     {
@@ -88,7 +86,6 @@ class Div
      * @param int    $cc       counter to detect recursion in nested categories
      *
      * @return string extended $catlist
-     * @throws DBALException
      */
     public static function getSubCategories($catlist, $addWhere = '', $cc = 0)
     {
@@ -122,7 +119,6 @@ class Div
      * @param $news_clause
      * @param $catclause
      *
-     * @throws DBALException
      */
     public static function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause): void
     {
@@ -169,7 +165,6 @@ class Div
      * Subcategories are included, categories from "tt_newsPerms.tt_news_cat.excludeList" are excluded
      *
      * @return array tree IDs
-     * @throws DBALException
      */
     public static function getAllowedTreeIDs()
     {
@@ -191,7 +186,6 @@ class Div
      * Get WHERE restrictions for the category list query of the current user
      *
      * @return string WHERE query part
-     * @throws DBALException
      */
     public static function getCatlistWhere()
     {
@@ -220,7 +214,6 @@ class Div
      * Get categories to include for the current user
      *
      * @return array ids of categories to include
-     * @throws DBALException
      */
     public static function getIncludeCatArray()
     {

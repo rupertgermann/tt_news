@@ -1,7 +1,5 @@
 <?php
 
-use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
-
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************

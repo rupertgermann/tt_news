@@ -194,10 +194,10 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Image tag with the plus/minus icon.
      */
-    public function PMicon($row, $a, $c, $nextCount, $exp)
+    public function PMicon($row, $a, $c, $nextCount, $isOpen)
     {
         if ($this->expandable) {
-            $PM = $nextCount ? ($exp ? 'minus' : 'plus') : 'join';
+            $PM = $nextCount ? ($isOpen ? 'minus' : 'plus') : 'join';
         } else {
             $PM = 'join';
         }
@@ -210,8 +210,8 @@ class FeTreeView extends Categorytree
         $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, Icon::SIZE_SMALL)->render();
 
         if ($nextCount) {
-            $cmd = $this->bank . '_' . ($exp ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
-            $icon = $this->PMiconATagWrap($icon, $cmd, !$exp);
+            $cmd = $this->bank . '_' . ($isOpen ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;
+            $icon = $this->PMiconATagWrap($icon, $cmd, !$isOpen);
         }
 
         return $icon;

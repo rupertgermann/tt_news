@@ -1,6 +1,5 @@
 <?php
 
-use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
 use TYPO3\CMS\Core\Resource\File;
 
 // get extension confArr

@@ -23,4 +23,14 @@ class ArchiveValueMapper implements StaticMappableAspectInterface, SiteLanguageA
         return isset($value) ? (string)$value : null;
     }
     protected SiteLanguage $siteLanguage;
+
+    public function setSiteLanguage(SiteLanguage $siteLanguage)
+    {
+        // TODO: Implement setSiteLanguage() method.
+    }
+
+    public function getSiteLanguage(): SiteLanguage
+    {
+        // TODO: Implement getSiteLanguage() method.
+    }
 }
