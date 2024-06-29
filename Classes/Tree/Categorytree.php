@@ -41,6 +41,10 @@ use RG\TtNews\Utility\Div;
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Tree\View\AbstractTreeView;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryHelper;
+use TYPO3\CMS\Core\Database\Query\Restriction\DefaultRestrictionContainer;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -403,6 +407,79 @@ class Categorytree extends AbstractTreeView
         $this->buffer_idH = $idH ?? null;
 
         return $c;
+    }
+
+    /**
+     * @param $parentId
+     *
+     * @return \Doctrine\DBAL\Result|mixed
+     */
+    public function getDataInit($parentId)
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
+        $queryBuilder->getRestrictions()
+            ->removeAll()
+            ->add(GeneralUtility::makeInstance(DefaultRestrictionContainer::class));
+        $queryBuilder
+            ->select(...$this->fieldArray)
+            ->from($this->table)
+            ->where(
+                $queryBuilder->expr()->eq(
+                    $this->parentField,
+                    $queryBuilder->createNamedParameter($parentId, Connection::PARAM_INT)
+                ),
+                QueryHelper::stripLogicalOperatorPrefix($this->clause)
+            );
+
+        foreach (QueryHelper::parseOrderBy($this->orderByFields) as $orderPair) {
+            [$fieldName, $order] = $orderPair;
+            $queryBuilder->addOrderBy($fieldName, $order);
+        }
+
+        return $queryBuilder->executeQuery();
+    }
+
+    /**
+     * @param $res
+     *
+     * @return array|bool
+     */
+    public function getDataNext(&$res)
+    {
+        while ($row = $res->fetchAssociative()) {
+            if (is_array($row)) {
+                break;
+            }
+        }
+        return $row;
+    }
+
+    /**
+     * @param $uid
+     *
+     * @return int
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getCount($uid)
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
+        $queryBuilder->getRestrictions()
+            ->removeAll()
+            ->add(GeneralUtility::makeInstance(DefaultRestrictionContainer::class));
+        $count = $queryBuilder
+            ->count('uid')
+            ->from($this->table)
+            ->where(
+                $queryBuilder->expr()->eq(
+                    $this->parentField,
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
+                ),
+                QueryHelper::stripLogicalOperatorPrefix($this->clause)
+            )
+            ->executeQuery()
+            ->fetchOne();
+
+        return (int)$count;
     }
 
     /**
