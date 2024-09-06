@@ -502,7 +502,6 @@ class TtNews extends AbstractPlugin
 
     /**
      * Init Function: here all the needed configuration values are stored in class variables..
-     *
      */
     protected function init()
     {
@@ -1508,7 +1507,7 @@ class TtNews extends AbstractPlugin
                 // set pagetitle for indexed search to news title
 
                 // fixme: still needed ?
-//                $this->tsfe->indexedDocTitle = $row['title'];
+                // $this->tsfe->indexedDocTitle = $row['title'];
             }
             if ($lConf['catOrderBy'] ?? false) {
                 $this->config['catOrderBy'] = $lConf['catOrderBy'];
@@ -2316,9 +2315,9 @@ class TtNews extends AbstractPlugin
             if ($this->theCode == 'XML') {
                 $theFile = $filesPath . $val;
 
-                if (@is_file(Environment::getPublicPath().$theFile)) {
+                if (@is_file(Environment::getPublicPath() . $theFile)) {
                     $fileURL = $this->config['siteUrl'] . $theFile;
-                    $fileSize = filesize(Environment::getPublicPath().$theFile);
+                    $fileSize = filesize(Environment::getPublicPath() . $theFile);
                     $fileMimeType = $this->getMimeTypeByHttpRequest($fileURL);
 
                     $rss2Enclousres .= '<enclosure url="' . $fileURL . '" ';
@@ -2334,7 +2333,6 @@ class TtNews extends AbstractPlugin
     /**
      * @param $markerArray
      * @param $row
-     *
      */
     protected function getRelatedNewsByCategory(&$markerArray, $row)
     {
@@ -4203,7 +4201,6 @@ class TtNews extends AbstractPlugin
      * fills the internal array '$this->langArr' with the available syslanguages
      *
      * @todo remove/replace legacy langArr
-     *
      */
     protected function initLanguages()
     {
@@ -4228,7 +4225,6 @@ class TtNews extends AbstractPlugin
 
     /**
      * initialize category related vars and add subcategories to the category selection
-     *
      */
     public function initCategoryVars(): void
     {
@@ -4324,7 +4320,6 @@ class TtNews extends AbstractPlugin
 
     /**
      * @param $lConf
-     *
      */
     public function initCatmenuEnv(&$lConf): void
     {

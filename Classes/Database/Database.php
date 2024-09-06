@@ -10,7 +10,6 @@ namespace RG\TtNews\Database;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Result;
-use InvalidArgumentException;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -158,7 +157,7 @@ class Database implements SingletonInterface
                 if ($firstRecord) {
                     $firstRecord = false;
                     if (!array_key_exists($uidIndexField, $record)) {
-                        throw new InvalidArgumentException(
+                        throw new \InvalidArgumentException(
                             'The given $uidIndexField "' . $uidIndexField . '" is not available in the result.',
                             1_432_933_855
                         );

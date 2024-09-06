@@ -12,9 +12,7 @@ use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
-use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 /**
  * Class FeTreeView
@@ -36,7 +34,6 @@ class FeTreeView extends Categorytree
     public $treeName;
 
     public $ext_IconMode;
-
 
     /**
      * wraps the record titles in the tree with links or not depending on if they are in the
