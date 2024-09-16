@@ -1002,8 +1002,12 @@ class NewsAdminModule extends BaseScriptClass
 
         $savedRoute = false;
         if ($ajax) {
-            $savedRoute = $_GET['route'];
-            $_GET['route'] = '/web/txttnewsM1/';
+            if (version_compare(TYPO3_version, '9.0.0', '>=')) {
+                $savedRoute = $_GET['route'];
+                $_GET['route'] = '/web/txttnewsM1/';
+            } else {
+                $_GET['M'] = '/web/txttnewsM1/';
+            }
         }
         foreach ($allowedCbNames as $n) {
             if ((bool)$show['cb_' . $n]) {
