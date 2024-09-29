@@ -151,7 +151,7 @@ class DataHandlerHook
             $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'] ?? '';
             $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
-            $wantedCategories = $fieldArray['category'] ? GeneralUtility::intExplode(',', $fieldArray['category']) : [];
+            $wantedCategories = ($fieldArray['category'] ?? false) ? GeneralUtility::intExplode(',', $fieldArray['category']) : [];
             foreach ($wantedCategories as $wantedCategory) {
                 $categories[$wantedCategory] = $wantedCategory;
             }
