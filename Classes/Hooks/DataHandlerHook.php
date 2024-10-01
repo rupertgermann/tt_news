@@ -306,7 +306,6 @@ class DataHandlerHook
      * @param             $srcId
      * @param             $destId
      * @param DataHandler $pObj
-     *
      */
     public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj): void
     {

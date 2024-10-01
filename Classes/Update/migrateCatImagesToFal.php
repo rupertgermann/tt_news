@@ -1,4 +1,6 @@
-<?php /** @noinspection SqlNoDataSourceInspection */
+<?php
+
+/** @noinspection SqlNoDataSourceInspection */
 
 namespace RG\TtNews\Update;
 
@@ -28,7 +30,6 @@ namespace RG\TtNews\Update;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use InvalidArgumentException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -123,8 +124,6 @@ You have been warned ;-)';
         return true;
     }
 
-    /**
-     */
     protected function migrateNewsCatImagesToFal()
     {
         $this->connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -214,7 +213,7 @@ You have been warned ;-)';
      * Check if there are news category records with images that have not been migrated to fal
      *
      * @return bool
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function checkIfWizardIsRequired(): bool
     {

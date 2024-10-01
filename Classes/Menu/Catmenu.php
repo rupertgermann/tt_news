@@ -62,7 +62,6 @@ class Catmenu
 
     /**
      * @param TtNews $pObj
-     *
      */
     public function init(&$pObj): void
     {
