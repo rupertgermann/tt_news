@@ -17,8 +17,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * TCA tree data provider
- *
- * @todo fix for TYPO3 v12
  */
 class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
 {
@@ -35,54 +33,42 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'] ?? false;
         $allowedItems = $allowedItems ? GeneralUtility::intExplode(',', $allowedItems) : Div::getAllowedTreeIDs();
 
-        $storage = null;
-
-        if ($node->getId() !== 0 && !in_array($node->getId(), $allowedItems)) {
-            return null;
-        }
-
         $nodeData = null;
-        if ($node->getId() !== 0) {
-            $nodeData = Database::getInstance()->exec_SELECTgetSingleRow(
-                '*',
-                $this->tableName,
-                'uid=' . $node->getId()
-            );
+        if ($node->getId() !== 0 && $node->getId() !== '0') {
+            if (is_array($this->availableItems[(int)$node->getId()] ?? false)) {
+                $nodeData = $this->availableItems[(int)$node->getId()];
+            } else {
+                $nodeData = BackendUtility::getRecord($this->tableName, $node->getId(), '*', '', false);
+            }
         }
-
-        if ($nodeData == null) {
+        if (empty($nodeData)) {
             $nodeData = [
                 'uid' => 0,
-                $this->getLookupField() => '',
+                $this->lookupField => '',
             ];
         }
-
+        $storage = null;
         $children = $this->getRelatedRecords($nodeData);
-        if (empty($children)) {
-            return null;
-        }
+        if (!empty($children)) {
+            $storage = GeneralUtility::makeInstance(TreeNodeCollection::class);
+            foreach ($children as $child) {
+                $node = GeneralUtility::makeInstance(TreeNode::class, $this->availableItems[(int)$child] ?? []);
 
-        /** @var $storage TreeNodeCollection */
-        $storage = GeneralUtility::makeInstance(TreeNodeCollection::class);
-        foreach ($children as $child) {
-            /** @var TreeNode $node */
-            $node = GeneralUtility::makeInstance(TreeNode::class);
 
-            if (!in_array($child, $allowedItems)) {
-                $this->setItemUnselectableList(array_merge($this->getItemUnselectableList() ?? [], [$child]));
-            }
-
-            $node->setId($child);
-
-            if ($level < $this->levelMaximum) {
-                $children = $this->getChildrenOf($node, $level + 1);
-
-                if ($children !== null) {
-                    $node->setChildNodes($children);
+                if (!in_array($child, $allowedItems)) {
+                    $this->setItemUnselectableList(array_merge($this->getItemUnselectableList() ?? [], [$child]));
                 }
-            }
 
-            $storage->append($node);
+
+                $node->setId($child);
+                if ($level < $this->levelMaximum) {
+                    $children = $this->getChildrenOf($node, $level + 1);
+                    if ($children !== null) {
+                        $node->setChildNodes($children);
+                    }
+                }
+                $storage->append($node);
+            }
         }
 
         return $storage;
@@ -98,15 +84,18 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      */
     protected function buildRepresentationForNode(TreeNode $basicNode, DatabaseTreeNode $parent = null, $level = 0): DatabaseTreeNode
     {
-        /** @var DatabaseTreeNode $node */
         $node = GeneralUtility::makeInstance(DatabaseTreeNode::class);
         $row = [];
         if ($basicNode->getId() == 0) {
             $node->setSelected(false);
             $node->setExpanded(true);
-            $node->setLabel($this->getLanguageService()->sL($GLOBALS['TCA'][$this->tableName]['ctrl']['title']));
+            $node->setLabel($this->getLanguageService()?->sL($GLOBALS['TCA'][$this->tableName]['ctrl']['title']));
         } else {
-            $row = BackendUtility::getRecordWSOL($this->tableName, (int)$basicNode->getId(), '*', '', false);
+            if ($basicNode->getAdditionalData() === []) {
+                $row = BackendUtility::getRecordWSOL($this->tableName, (int)$basicNode->getId(), '*', '', false) ?? [];
+            } else {
+                $row = $basicNode->getAdditionalData();
+            }
             $node->setLabel(BackendUtility::getRecordTitle($this->tableName, $row) ?: $basicNode->getId());
             $node->setSelected(GeneralUtility::inList($this->getSelectedList(), $basicNode->getId()));
             $node->setExpanded($this->isExpanded($basicNode));
@@ -114,8 +103,6 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         $node->setId($basicNode->getId());
         $node->setSelectable(!GeneralUtility::inList($this->getNonSelectableLevelList(), (string)$level) && !in_array($basicNode->getId(), $this->getItemUnselectableList()));
         $node->setSortValue($this->nodeSortValues[$basicNode->getId()] ?? '');
-
-        /** @var IconFactory $iconFactory */
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
         if (in_array($basicNode->getId(), $this->getItemUnselectableList())) {
@@ -131,7 +118,6 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         $node->setParentNode($parent);
         if ($basicNode->hasChildNodes()) {
             $node->setHasChildren(true);
-            /** @var SortedTreeNodeCollection $childNodes */
             $childNodes = GeneralUtility::makeInstance(SortedTreeNodeCollection::class);
             $tempNodes = [];
             foreach ($basicNode->getChildNodes() as $child) {

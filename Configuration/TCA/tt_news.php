@@ -1,5 +1,6 @@
 <?php
 
+use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
 use TYPO3\CMS\Core\Resource\File;
 
 // get extension confArr
@@ -350,7 +351,7 @@ return [
                 'renderMode' => 'tree',
                 'treeConfig' => [
                     // @todo: fix for TYPO3 v12
-                    // 'dataProvider' => NewsDatabaseTreeDataProvider::class,
+                    'dataProvider' => NewsDatabaseTreeDataProvider::class,
                     'parentField' => 'parent_category',
                     'appearance' => [
                         'showHeader' => true,
