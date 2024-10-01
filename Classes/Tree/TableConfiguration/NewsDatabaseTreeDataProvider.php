@@ -2,7 +2,6 @@
 
 namespace RG\TtNews\Tree\TableConfiguration;
 
-use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Tree\SortedTreeNodeCollection;
 use TYPO3\CMS\Backend\Tree\TreeNode;
@@ -54,11 +53,9 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
             foreach ($children as $child) {
                 $node = GeneralUtility::makeInstance(TreeNode::class, $this->availableItems[(int)$child] ?? []);
 
-
                 if (!in_array($child, $allowedItems)) {
                     $this->setItemUnselectableList(array_merge($this->getItemUnselectableList() ?? [], [$child]));
                 }
-
 
                 $node->setId($child);
                 if ($level < $this->levelMaximum) {
