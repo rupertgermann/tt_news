@@ -8,7 +8,7 @@ Website news with front page teasers and article handling inside.
 
 #### Version 12.0.0
 
-This tt_news version is currently in development and only compatible with TYPO3 v12.
+This tt_news version is only compatible with TYPO3 v12.
 
 See commit history for changes. There are breaking changes! Feel free to test and contribute.
 
