@@ -12,7 +12,7 @@
 
     <f:if condition="{news.images.0}">
         <f:link.typolink parameter="{conf.singlePid}" additionalParams="&tx_ttnews[tt_news]={news.row.uid}">
-            <f:image image="{news.images.0}" maxWidth="{conf.displayList.image.file.maxW}" minHeight="{conf.displayList.image.file.maxH}" />
+            <f:image image="{news.images.0}" maxWidth="{conf.displayList.image.file.maxW}" maxHeight="{conf.displayList.image.file.maxH}" />
         </f:link.typolink>
     </f:if>
 
