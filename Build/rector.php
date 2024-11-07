@@ -14,7 +14,7 @@ return RectorConfig::configure()
     ->withPaths([
         __DIR__ . '/..',
     ])
-    ->withPhpVersion(PhpVersion::PHP_81)
+    ->withPhpVersion(PhpVersion::PHP_83)
     ->withSets([
         Typo3SetList::CODE_QUALITY,
         Typo3SetList::GENERAL,
