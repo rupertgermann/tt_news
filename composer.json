@@ -38,8 +38,8 @@
         }
     },
     "require-dev": {
-        "helhum/typo3-console": "^8.1",
-        "ssch/typo3-rector": "^2.8",
+        "helhum/typo3-console": "^8.2",
+        "ssch/typo3-rector": "^2.11",
         "typo3/coding-standards": "^0.8",
         "typo3/cms-info": "^12.4",
         "typo3/cms-reports": "^12.4",
