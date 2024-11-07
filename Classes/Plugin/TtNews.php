@@ -1449,14 +1449,14 @@ class TtNews extends AbstractPlugin
 
             // If type is 1 or 2 (internal/external link), redirect to accordant page:
             if (is_array($row) && GeneralUtility::inList('1,2', $row['type'])) {
-                $redirectUrl = $this->local_cObj->getTypoLink_URL(
-                    $row['type'] == 1 ? $row['page'] : $row['ext_url']
+                $redirectUrl = $this->local_cObj->createUrl(
+                    ['parameter' => $row['type'] == 1 ? $row['page'] : $row['ext_url']]
                 );
                 $responseFactory = GeneralUtility::makeInstance(ResponseFactoryInterface::class);
                 $response = $responseFactory
                     ->createResponse()
                     ->withAddedHeader('location', $redirectUrl);
-                throw new PropagateResponseException($response);
+                throw new PropagateResponseException($response, 4084923460);
             }
             $item = false;
             // reset marker array
@@ -1536,7 +1536,7 @@ class TtNews extends AbstractPlugin
                 $response = $responseFactory
                     ->createResponse()
                     ->withAddedHeader('location', $redirectUrl);
-                throw new PropagateResponseException($response);
+                throw new PropagateResponseException($response, 7929145195);
             }
 
             $this->fluidVars['mode'] = 'noTranslation';
