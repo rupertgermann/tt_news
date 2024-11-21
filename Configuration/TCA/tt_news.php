@@ -350,7 +350,6 @@ return [
                 'maxitems' => 500,
                 'renderMode' => 'tree',
                 'treeConfig' => [
-                    // @todo: fix for TYPO3 v12
                     'dataProvider' => NewsDatabaseTreeDataProvider::class,
                     'parentField' => 'parent_category',
                     'appearance' => [
