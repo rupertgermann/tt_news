@@ -2306,7 +2306,7 @@ class TtNews extends AbstractPlugin
         $rss2Enclousres = '';
         foreach ($fileArr as $val) {
             // fills the marker ###FILE_LINK### with the links to the atached files
-            $fileName = ($falFilesTitles[$val] != '' ? $falFilesTitles[$val] : basename($val));
+            $fileName = (($falFilesTitles[$val] ?? null) != '' ? $falFilesTitles[$val] : basename($val));
             $filelinks .= $this->local_cObj->stdWrap(
                 $this->local_cObj->typoLink($fileName, ['parameter' => $filesPath . $val]),
                 $this->conf['newsFiles.']['stdWrap.']
