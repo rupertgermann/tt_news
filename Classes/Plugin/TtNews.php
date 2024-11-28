@@ -4496,7 +4496,7 @@ class TtNews extends AbstractPlugin
                 $val = $this->pageArray[$key][$fN] ?? '';
             } else {
                 $rows = $this->db->exec_SELECTgetRows('*', 'pages', 'uid=' . $uid);
-                $row = $rows[0];
+                $row = $rows[0] ?? null;
                 // get the translated record if the content language is not the default language
                 if ($L) {
                     $row = $this->tsfe->sys_page->getPageOverlay($uid, $L);
