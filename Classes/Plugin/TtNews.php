@@ -4778,7 +4778,7 @@ class TtNews extends AbstractPlugin
                 $singlePid
             )
         );
-        $url = $this->cObj->lastTypoLinkResult->getUrl();
+        $url = $this->cObj->lastTypoLinkResult ? $this->cObj->lastTypoLinkResult->getUrl() : '';
 
         // hook for processing of links
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] ?? null)) {
