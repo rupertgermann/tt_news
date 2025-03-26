@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// Src: https://github.com/sabbelasichon/typo3-rector/blob/main/templates/rector.php.dist
+// Src: https://github.com/sabbelasichon/typo3-rector/blob/2.x/templates/rector.php.dist
 
 use Rector\Config\RectorConfig;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
