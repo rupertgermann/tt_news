@@ -78,7 +78,7 @@ class DataHandlerHook
     {
         if ($table == 'tt_news_cat' && is_int($id)) {
             // prevent moving of categories into their rootline
-            $newParent = (int)($fieldArray['parent_category']);
+            $newParent = (int)($fieldArray['parent_category'] ?? 0);
 
             if ($newParent && GeneralUtility::inList(
                 Div::getSubCategories(
