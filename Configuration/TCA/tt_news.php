@@ -204,13 +204,9 @@ return [
             'config' => [
                 'type' => 'datetime',
                 'default' => 0,
-                'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
-                ],
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-                'format' => 'date',
             ],
         ],
         'image' => [
