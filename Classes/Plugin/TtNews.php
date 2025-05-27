@@ -2306,7 +2306,7 @@ class TtNews extends AbstractPlugin
         $rss2Enclousres = '';
         foreach ($fileArr as $val) {
             // fills the marker ###FILE_LINK### with the links to the atached files
-            $fileName = ($falFilesTitles[$val] != '' ? $falFilesTitles[$val] : basename($val));
+            $fileName = (($falFilesTitles[$val] ?? null) != '' ? $falFilesTitles[$val] : basename($val));
             $filelinks .= $this->local_cObj->stdWrap(
                 $this->local_cObj->typoLink($fileName, ['parameter' => $filesPath . $val]),
                 $this->conf['newsFiles.']['stdWrap.']
@@ -4496,7 +4496,7 @@ class TtNews extends AbstractPlugin
                 $val = $this->pageArray[$key][$fN] ?? '';
             } else {
                 $rows = $this->db->exec_SELECTgetRows('*', 'pages', 'uid=' . $uid);
-                $row = $rows[0];
+                $row = $rows[0] ?? null;
                 // get the translated record if the content language is not the default language
                 if ($L) {
                     $row = $this->tsfe->sys_page->getPageOverlay($uid, $L);
@@ -4778,7 +4778,7 @@ class TtNews extends AbstractPlugin
                 $singlePid
             )
         );
-        $url = $this->cObj->lastTypoLinkResult->getUrl();
+        $url = $this->cObj->lastTypoLinkResult ? $this->cObj->lastTypoLinkResult->getUrl() : '';
 
         // hook for processing of links
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] ?? null)) {
