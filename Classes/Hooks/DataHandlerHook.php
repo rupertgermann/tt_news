@@ -5,7 +5,7 @@ namespace RG\TtNews\Hooks;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2020 Rupert Germann (rupi@gmx.li)
+ *  (c) 2005-2024 Rupert Germann (rupi@gmx.li)
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -34,7 +34,6 @@ namespace RG\TtNews\Hooks;
  *
  * @author     Rupert Germann <rupi@gmx.li>
  */
-use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -42,10 +41,10 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -73,10 +72,9 @@ class DataHandlerHook
      * @param string $id        : The records id (if any)
      * @param object $pObj      : Reference to the parent object (TCEmain)
      *
-     * @throws DBALException
      * @throws Exception
      */
-    public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj)
+    public function processDatamap_preProcessFieldArray(&$fieldArray, $table, $id, &$pObj): void
     {
         if ($table == 'tt_news_cat' && is_int($id)) {
             // prevent moving of categories into their rootline
@@ -100,7 +98,7 @@ class DataHandlerHook
                     FlashMessage::class,
                     $messageString,
                     'ERROR', // the header is optional
-                    AbstractMessage::ERROR,
+                    ContextualFeedbackSeverity::ERROR,
                     // the severity is optional as well and defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     true // optional, whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is FALSE)
                 );
@@ -199,7 +197,7 @@ class DataHandlerHook
      * @param $fieldArray
      * @param $pObj
      */
-    public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj)
+    public function processDatamap_afterDatabaseOperations($status, $table, $id, $fieldArray, $pObj): void
     {
         if ($table != 'tt_news') {
             return;
@@ -234,10 +232,9 @@ class DataHandlerHook
      * @param array  $value   : The new value of the field which has been changed
      * @param object $pObj    : Reference to the parent object (TCEmain)
      *
-     * @throws DBALException
      * @throws Exception
      */
-    public function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj)
+    public function processCmdmap_preProcess($command, &$table, &$id, $value, &$pObj): void
     {
         if ($table == 'tt_news' && !$this->getBeUser()->isAdmin()) {
             $rec = BackendUtility::getRecord($table, $id, 'editlock'); // get record to check if it has an editlock
@@ -310,9 +307,8 @@ class DataHandlerHook
      * @param             $destId
      * @param DataHandler $pObj
      *
-     * @throws DBALException
      */
-    public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj)
+    public function processCmdmap_postProcess($command, $table, $srcId, $destId, &$pObj): void
     {
         // copy records recursively from Drag&Drop in the category manager
         if ($table == 'tt_news_cat' && $command == 'DDcopy') {
@@ -357,7 +353,6 @@ class DataHandlerHook
      * @param DataHandler $pObj
      *
      * @return mixed
-     * @throws DBALException
      */
     protected function int_recordTreeInfo($CPtable, $srcId, $counter, $rootID, $table, &$pObj)
     {

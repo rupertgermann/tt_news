@@ -2,36 +2,31 @@
 
 declare(strict_types=1);
 
-// Src: https://github.com/sabbelasichon/typo3-rector/blob/v1.6.0/templates/rector.php.dist
+// Src: https://github.com/sabbelasichon/typo3-rector/blob/main/templates/rector.php.dist
 
 use Rector\Config\RectorConfig;
-use Rector\Core\ValueObject\PhpVersion;
-use Rector\Set\ValueObject\LevelSetList;
+use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
+use Rector\ValueObject\PhpVersion;
 use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
+use Ssch\TYPO3Rector\Set\Typo3SetList;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_81,
-        Typo3LevelSetList::UP_TO_TYPO3_11,
-    ]);
-
-    // Define your target version which you want to support
-    $rectorConfig->phpVersion(PhpVersion::PHP_81);
-
-    // If you only want to process one/some TYPO3 extension(s), you can specify its path(s) here.
-    // If you use the option --config change __DIR__ to getcwd()
-    $rectorConfig->paths([
+return RectorConfig::configure()
+    ->withPaths([
         __DIR__ . '/..',
-    ]);
-
-    // When you use rector, there are rules that require some more actions like creating UpgradeWizards for outdated TCA types.
-    // To fully support you, we added some warnings. So watch out for them.
-
-    // If you use importNames(), you should consider excluding some TYPO3 files.
-    $rectorConfig->skip([
+    ])
+    ->withPhpVersion(PhpVersion::PHP_81)
+    ->withSets([
+        Typo3SetList::CODE_QUALITY,
+        Typo3SetList::GENERAL,
+        Typo3LevelSetList::UP_TO_TYPO3_12,
+    ])
+    ->withRules([
+        AddVoidReturnTypeWhereNoReturnRector::class,
+    ])
+    ->withSkip([
         __DIR__ . '/../.Build/*',
         __DIR__ . '/../.ddev/*',
         __DIR__ . '/../Build/*',
-        __DIR__ . '/../Configuration/TypoScript/*', // exclude typescript which would result in false positive processing
+        __DIR__ . '/../config/*',
+        __DIR__ . '/../var/*',
     ]);
-};

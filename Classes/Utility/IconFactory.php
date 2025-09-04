@@ -10,7 +10,6 @@ namespace RG\TtNews\Utility;
 
 use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
@@ -30,7 +29,7 @@ class IconFactory
         self::registerAllIconIdentifiers();
 
         // simply return the new path from Resources
-        $newBackPath = '/' . PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath('tt_news')) . 'Resources/Public/Images/Icons/';
+        $newBackPath = PathUtility::getPublicResourceWebPath('EXT:tt_news/Resources/Public/Images/Icons/');
 
         return match ($outputMode) {
             2 => $wHattribs,
@@ -39,7 +38,7 @@ class IconFactory
         };
     }
 
-    public static function registerAllIconIdentifiers()
+    public static function registerAllIconIdentifiers(): void
     {
         static $registrationDone = null;
         if ($registrationDone !== null) {

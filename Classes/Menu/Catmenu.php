@@ -5,7 +5,7 @@ namespace RG\TtNews\Menu;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2005-2020 Rupert Germann <rupi@gmx.li>
+ *  (c) 2005-2024 Rupert Germann <rupi@gmx.li>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,11 +27,11 @@ namespace RG\TtNews\Menu;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use Doctrine\DBAL\DBALException;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Tree\FeTreeView;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -63,9 +63,8 @@ class Catmenu
     /**
      * @param TtNews $pObj
      *
-     * @throws DBALException
      */
-    public function init(&$pObj)
+    public function init(&$pObj): void
     {
         $this->db = Database::getInstance();
         $lConf = $pObj->conf['displayCatMenu.'];
@@ -78,10 +77,10 @@ class Catmenu
             $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere,
             $pObj->config['catOrderBy']
         );
-        $this->treeObj->backPath = \TYPO3_MAINDIR;
+        $this->treeObj->backPath = Environment::getPublicPath();
         $this->treeObj->parentField = 'parent_category';
         $this->treeObj->thisScript = 'index.php?ttnewsID=tt_news_catmenu';
-        $this->treeObj->cObjUid = (int)($pObj->cObj->data['uid']);
+        $this->treeObj->cObjUid = (int)($this->getCObjUidFromTtNews($pObj));
         $this->treeObj->fieldArray = [
             'uid',
             'title',
@@ -138,10 +137,19 @@ class Catmenu
     }
 
     /**
+     * Get cObjUid from TtNews object
+     *
+     * @return int
+     */
+    protected function getCObjUidFromTtNews(TtNews $ttNews)
+    {
+        return (int)($ttNews->getCObjUid());
+    }
+
+    /**
      * @param array $params
      *
      * @return string
-     * @throws DBALException
      */
     public function ajaxExpandCollapse($params)
     {
@@ -157,18 +165,18 @@ class Catmenu
      * @param array $params
      *
      * @return array
-     * @throws DBALException
      */
     protected function initAjaxEnv($params)
     {
-        $tt_newsObj = new TtNews();
-        $tt_newsObj->helpers = new Helpers($tt_newsObj);
-        $tt_newsObj->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $tt_newsObj->local_cObj = &$tt_newsObj->cObj;
+        $tt_newsObj = GeneralUtility::makeInstance(TtNews::class);
+        $tt_newsObj->helpers = GeneralUtility::makeInstance(Helpers::class, $tt_newsObj);
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $tt_newsObj->setCObj($cObj);
+        $tt_newsObj->db = Database::getInstance();
 
-        $tt_newsObj->cObj->data = $this->getTypoScriptFrontendController()->sys_page->checkRecord('tt_content', $params['cObjUid'], 1);
+        $tt_newsObj->setCObjData($this->getTypoScriptFrontendController()->sys_page->checkRecord('tt_content', $params['cObjUid'], 1));
         $tt_newsObj->pi_initPIflexForm();
-        $tt_newsObj->conf = $this->getTypoScriptFrontendController()->tmpl->setup['plugin.']['tt_news.'];
+        $tt_newsObj->conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tt_news.'];
 
         // variables needed to get the newscount per category
         if (!$tt_newsObj->conf['dontUsePidList']) {

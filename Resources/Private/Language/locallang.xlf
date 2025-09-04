@@ -146,10 +146,6 @@
 				 "all": log cache misses and cache hits to devlog.</source>
 			</trans-unit>
 
-			<trans-unit id="extmng.showBackEndModule">
-				<source>Show BackEnd Module: Show or hide the "News Admin" backEnd Module.
-				ATTENTION!! Does not work yet under TYPO3 v11</source>
-			</trans-unit>
 			<trans-unit id="extmng.prependAtCopy">
 				<source>Prepend at Copy: Here you can disable adding of the text "(copy [#])" to titles of copied records.</source>
 			</trans-unit>

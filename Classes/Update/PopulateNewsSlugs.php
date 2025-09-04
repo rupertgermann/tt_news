@@ -93,15 +93,10 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
             ->select('*')
             ->from($this->table)
             ->where(
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq($this->fieldName, $queryBuilder->createNamedParameter('')),
-                    $queryBuilder->expr()->isNull($this->fieldName)
-                )
+                $queryBuilder->expr()->or($queryBuilder->expr()->eq($this->fieldName, $queryBuilder->createNamedParameter('')), $queryBuilder->expr()->isNull($this->fieldName))
             )
             // Ensure that live workspace records are handled first
-            ->addOrderBy('t3ver_wsid', 'asc')
-            ->addOrderBy('pid', 'asc')
-            ->execute();
+            ->addOrderBy('t3ver_wsid', 'asc')->addOrderBy('pid', 'asc')->executeQuery();
 
         // Check for existing slugs from realurl
         $suggestedSlugs = [];
@@ -112,7 +107,7 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
         $hasToBeUniqueInPid = in_array('uniqueInPid', $evalInfo, true);
         $slugHelper = GeneralUtility::makeInstance(SlugHelper::class, $this->table, $this->fieldName, $fieldConfig);
 
-        while ($record = $statement->fetch()) {
+        while ($record = $statement->fetchAssociative()) {
             $recordId = (int)$record['uid'];
             $pid = (int)$record['pid'];
             $languageId = (int)$record['sys_language_uid'];
@@ -125,10 +120,7 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
                     $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
                     $liveVersion = $queryBuilder
                         ->select('pid')
-                        ->from($this->table)
-                        ->where(
-                            $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($record['t3ver_oid'], \PDO::PARAM_INT))
-                        )->execute()->fetch();
+                        ->from($this->table)->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($record['t3ver_oid'], \PDO::PARAM_INT)))->executeQuery()->fetchAssociative();
                     $pid = (int)$liveVersion['pid'];
                 }
                 $slug = $slugHelper->generate($record, $pid);
@@ -165,15 +157,8 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
 
         $numberOfEntries = $queryBuilder
             ->count('uid')
-            ->from($this->table)
-            ->where(
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq($this->fieldName, $queryBuilder->createNamedParameter('')),
-                    $queryBuilder->expr()->isNull($this->fieldName)
-                )
-            )
-            ->execute()
-            ->fetchColumn();
+            ->from($this->table)->where($queryBuilder->expr()->or($queryBuilder->expr()->eq($this->fieldName, $queryBuilder->createNamedParameter('')), $queryBuilder->expr()->isNull($this->fieldName)))->executeQuery()
+            ->fetchOne();
         return $numberOfEntries > 0;
     }
 }
