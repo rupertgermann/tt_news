@@ -8,7 +8,7 @@
         "news",
         "extension"
     ],
-    "version": "12.0.1",
+    "version": "13.0.0",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
@@ -24,7 +24,7 @@
         }
     ],
     "require": {
-        "typo3/cms-core": "^12.4"
+        "typo3/cms-core": "^13.4"
     },
     "autoload": {
         "psr-4": {
@@ -41,22 +41,22 @@
         "helhum/typo3-console": "^8.1",
         "ssch/typo3-rector": "^2.5",
         "typo3/coding-standards": "^0.7",
-        "typo3/cms-info": "^12.4",
-        "typo3/cms-reports": "^12.4",
-        "typo3/cms-fluid-styled-content": "^12.4",
-        "typo3/cms-belog": "^12.4",
-        "typo3/cms-backend": "^12.4",
-        "typo3/cms-beuser": "^12.4",
-        "typo3/cms-extbase": "^12.4",
-        "typo3/cms-extensionmanager": "^12.4",
-        "typo3/cms-filelist": "^12.4",
-        "typo3/cms-fluid": "^12.4",
-        "typo3/cms-frontend": "^12.4",
-        "typo3/cms-install": "^12.4",
-        "typo3/cms-lowlevel": "^12.4",
-        "typo3/cms-rte-ckeditor": "^12.4",
-        "typo3/cms-tstemplate": "^12.4",
-        "typo3/cms-workspaces": "^12.4"
+        "typo3/cms-info": "^13.4",
+        "typo3/cms-reports": "^13.4",
+        "typo3/cms-fluid-styled-content": "^13.4",
+        "typo3/cms-belog": "^13.4",
+        "typo3/cms-backend": "^13.4",
+        "typo3/cms-beuser": "^13.4",
+        "typo3/cms-extbase": "^13.4",
+        "typo3/cms-extensionmanager": "^13.4",
+        "typo3/cms-filelist": "^13.4",
+        "typo3/cms-fluid": "^13.4",
+        "typo3/cms-frontend": "^13.4",
+        "typo3/cms-install": "^13.4",
+        "typo3/cms-lowlevel": "^13.4",
+        "typo3/cms-rte-ckeditor": "^13.4",
+        "typo3/cms-tstemplate": "^13.4",
+        "typo3/cms-workspaces": "^13.4"
     },
     "config": {
         "vendor-dir": ".Build/vendor",
