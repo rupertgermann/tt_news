@@ -3374,7 +3374,7 @@ class TtNews extends AbstractPlugin
         if ($this->conf['usePagesRelations']) {
             $relPages = $this->getRelatedPages($uid);
         }
-        $select_fields = ' uid, pid, title, short, datetime, archivedate, type, page, ext_url, sys_language_uid, l18n_parent, tt_news_related_mm.tablenames, image, bodytext';
+        $select_fields = ' tt_news.uid, tt_news.pid, tt_news.title, tt_news.short, tt_news.datetime, tt_news.archivedate, tt_news.type, tt_news.page, tt_news.ext_url, tt_news.sys_language_uid, tt_news.l18n_parent, tt_news_related_mm.tablenames, tt_news.image, tt_news.bodytext';
         $where = 'tt_news_related_mm.uid_local=' . $uid . '
 					AND tt_news.uid=tt_news_related_mm.uid_foreign
 					AND tt_news_related_mm.tablenames!=' . $this->db->fullQuoteStr('pages', 'tt_news_related_mm');
@@ -3517,7 +3517,7 @@ class TtNews extends AbstractPlugin
     {
         $relPages = [];
 
-        $select_fields = 'uid,title,tstamp,description,subtitle,tt_news_related_mm.tablenames';
+        $select_fields = 'pages.uid,pages.title,pages.tstamp,pages.description,pages.subtitle,tt_news_related_mm.tablenames';
         $from_table = 'pages,tt_news_related_mm';
         $where = 'tt_news_related_mm.uid_local=' . $uid . '
 					AND pages.uid=tt_news_related_mm.uid_foreign
@@ -3886,7 +3886,7 @@ class TtNews extends AbstractPlugin
 
             // if categoryMode is 'don't show items OR' we check if each found record does not have any of the deselected categories assigned
             if ($this->catExclusive && $this->config['categoryMode'] == -2) {
-                $selectConf['where'] .= ' AND tt_news.uid NOT IN (SELECT uid from tt_news LEFT JOIN tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local WHERE tt_news_cat_mm.uid_foreign IN (' . $this->catExclusive . '))';
+                $selectConf['where'] .= ' AND tt_news.uid NOT IN (SELECT tt_news.uid from tt_news LEFT JOIN tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local WHERE tt_news_cat_mm.uid_foreign IN (' . $this->catExclusive . '))';
             }
         }
 

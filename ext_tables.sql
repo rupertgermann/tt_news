@@ -83,11 +83,15 @@ CREATE TABLE tt_news_cat (
 # Table structure for table 'tt_news_related_mm'
 #
 CREATE TABLE tt_news_related_mm (
+  uid int(11) unsigned NOT NULL auto_increment,
   uid_local int(11) DEFAULT '0' NOT NULL,
   uid_foreign int(11) DEFAULT '0' NOT NULL,
   sorting int(11) DEFAULT '0' NOT NULL,
   tablenames varchar(255) DEFAULT '' NOT NULL,
+  sorting_foreign int(10) unsigned DEFAULT '0' NOT NULL,
+  fieldname varchar(64) DEFAULT '' NOT NULL,
 
+  PRIMARY KEY (uid),
   KEY uid_local (uid_local),
   KEY uid_foreign (uid_foreign)
 );
@@ -96,11 +100,14 @@ CREATE TABLE tt_news_related_mm (
 # Table structure for table 'tt_news_cat_mm'
 #
 CREATE TABLE tt_news_cat_mm (
+  uid int(11) unsigned NOT NULL auto_increment,
   uid_local int(11) DEFAULT '0' NOT NULL,
   uid_foreign int(11) DEFAULT '0' NOT NULL,
   tablenames varchar(30) DEFAULT '' NOT NULL,
   sorting int(11) DEFAULT '0' NOT NULL,
+  sorting_foreign int(10) unsigned DEFAULT '0' NOT NULL,
 
+  PRIMARY KEY (uid),
   KEY uid_local (uid_local),
   KEY uid_foreign (uid_foreign)
 );
