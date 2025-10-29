@@ -6,6 +6,12 @@ Website news with front page teasers and article handling inside.
 
 ### AKA: **"the generic record handler"**
 
+#### Version 13.0.0
+
+This tt_news version is currently in development and only compatible with TYPO3 v13.
+
+See commit history for changes. There are breaking changes! Feel free to test and contribute.
+
 #### Version 12.0.0
 
 This tt_news version is only compatible with TYPO3 v12.
