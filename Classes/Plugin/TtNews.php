@@ -2849,7 +2849,7 @@ class TtNews extends AbstractPlugin
                         $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                         $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
 //                        $lConf['image.']['file'] = $imgPath . $val;
-                        $lConf['image.']['file'] = $this->images[$cc];
+                        $lConf['image.']['file'] = $this->images[$cc] ?? 0;
 
                         $theImgCode .= $this->local_cObj->cObjGetSingle(
                             'IMAGE',
@@ -2952,7 +2952,7 @@ class TtNews extends AbstractPlugin
                 $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                 $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
 //                $lConf['image.']['file'] = $imgPath . $val;
-                $lConf['image.']['file'] = $this->images[$cc];
+                $lConf['image.']['file'] = $this->images[$cc] ?? 0;
 
                 $imgHtml = $this->local_cObj->cObjGetSingle(
                     'IMAGE',
