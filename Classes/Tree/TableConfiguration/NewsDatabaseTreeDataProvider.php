@@ -85,7 +85,6 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         $row = [];
         if ($basicNode->getId() == 0) {
             $node->setSelected(false);
-            $node->setExpanded(true);
             $node->setLabel($this->getLanguageService()?->sL($GLOBALS['TCA'][$this->tableName]['ctrl']['title']));
         } else {
             if ($basicNode->getAdditionalData() === []) {
@@ -95,7 +94,6 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
             }
             $node->setLabel(BackendUtility::getRecordTitle($this->tableName, $row) ?: $basicNode->getId());
             $node->setSelected(GeneralUtility::inList($this->getSelectedList(), $basicNode->getId()));
-            $node->setExpanded($this->isExpanded($basicNode));
         }
         $node->setId($basicNode->getId());
         $node->setSelectable(!GeneralUtility::inList($this->getNonSelectableLevelList(), (string)$level) && !in_array($basicNode->getId(), $this->getItemUnselectableList()));

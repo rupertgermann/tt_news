@@ -8,4 +8,8 @@ $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
     'value' => 'tt_news',
     'icon' => 'apps-pagetree-folder-contains-news',
 ];
-$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-news'] = 'apps-pagetree-folder-contains-news';
+
+// Register typeicon_classes for different naming variations (like tt_address does)
+$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-tt-news'] = 'apps-pagetree-folder-contains-news';
+$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-tt_news'] = 'apps-pagetree-folder-contains-news';
+$GLOBALS['TCA']['pages']['ctrl']['typeicon_classes']['contains-ttnews'] = 'apps-pagetree-folder-contains-news';

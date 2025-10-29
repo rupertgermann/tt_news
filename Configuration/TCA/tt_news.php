@@ -341,6 +341,9 @@ return [
                 'foreign_table' => 'tt_news_cat',
                 'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
                 'MM' => 'tt_news_cat_mm',
+                'MM_match_fields' => [
+                    'tablenames' => '',
+                ],
                 'size' => 20,
                 'minitems' => $confArr['requireCategories'] ? 1 : 0,
                 'maxitems' => 500,
