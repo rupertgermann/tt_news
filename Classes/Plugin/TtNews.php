@@ -513,7 +513,6 @@ class TtNews extends AbstractPlugin
 
     /**
      * Init Function: here all the needed configuration values are stored in class variables..
-     *
      */
     protected function init()
     {
@@ -1272,11 +1271,9 @@ class TtNews extends AbstractPlugin
             // Then get localization of record:
             if ($this->sys_language_content) {
                 $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
-                $row = $this->tsfe->sys_page->getRecordOverlay(
+                $row = $this->tsfe->sys_page->getLanguageOverlay(
                     'tt_news',
                     $row,
-                    $this->sys_language_content,
-                    $languageAspect->getLegacyOverlayType()
                 );
             }
 
@@ -1436,11 +1433,9 @@ class TtNews extends AbstractPlugin
         // (if the content language is not the default language)
         if (!empty($row) && $this->sys_language_content) {
             $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
-            $row = $this->tsfe->sys_page->getRecordOverlay(
+            $row = $this->tsfe->sys_page->getLanguageOverlay(
                 'tt_news',
                 $row,
-                $this->sys_language_content,
-                $languageAspect->getLegacyOverlayType()
             );
         }
 
@@ -1461,14 +1456,14 @@ class TtNews extends AbstractPlugin
 
             // If type is 1 or 2 (internal/external link), redirect to accordant page:
             if (is_array($row) && GeneralUtility::inList('1,2', $row['type'])) {
-                $redirectUrl = $this->local_cObj->getTypoLink_URL(
-                    $row['type'] == 1 ? $row['page'] : $row['ext_url']
+                $redirectUrl = $this->local_cObj->createUrl(
+                    ['parameter' => $row['type'] == 1 ? $row['page'] : $row['ext_url']]
                 );
                 $responseFactory = GeneralUtility::makeInstance(ResponseFactoryInterface::class);
                 $response = $responseFactory
                     ->createResponse()
                     ->withAddedHeader('location', $redirectUrl);
-                throw new PropagateResponseException($response);
+                throw new PropagateResponseException($response, 4084923460);
             }
             $item = false;
             // reset marker array
@@ -1519,7 +1514,7 @@ class TtNews extends AbstractPlugin
                 // set pagetitle for indexed search to news title
 
                 // fixme: still needed ?
-//                $this->tsfe->indexedDocTitle = $row['title'];
+                // $this->tsfe->indexedDocTitle = $row['title'];
             }
             if ($lConf['catOrderBy'] ?? false) {
                 $this->config['catOrderBy'] = $lConf['catOrderBy'];
@@ -1548,7 +1543,7 @@ class TtNews extends AbstractPlugin
                 $response = $responseFactory
                     ->createResponse()
                     ->withAddedHeader('location', $redirectUrl);
-                throw new PropagateResponseException($response);
+                throw new PropagateResponseException($response, 7929145195);
             }
 
             $this->fluidVars['mode'] = 'noTranslation';
@@ -2317,7 +2312,7 @@ class TtNews extends AbstractPlugin
         $rss2Enclousres = '';
         foreach ($fileArr as $val) {
             // fills the marker ###FILE_LINK### with the links to the atached files
-            $fileName = ($falFilesTitles[$val] != '' ? $falFilesTitles[$val] : basename($val));
+            $fileName = (($falFilesTitles[$val] ?? null) != '' ? $falFilesTitles[$val] : basename($val));
             $filelinks .= $this->local_cObj->stdWrap(
                 $this->local_cObj->typoLink($fileName, ['parameter' => $filesPath . $val]),
                 $this->conf['newsFiles.']['stdWrap.']
@@ -2327,9 +2322,9 @@ class TtNews extends AbstractPlugin
             if ($this->theCode == 'XML') {
                 $theFile = $filesPath . $val;
 
-                if (@is_file(Environment::getPublicPath().$theFile)) {
+                if (@is_file(Environment::getPublicPath() . $theFile)) {
                     $fileURL = $this->config['siteUrl'] . $theFile;
-                    $fileSize = filesize(Environment::getPublicPath().$theFile);
+                    $fileSize = filesize(Environment::getPublicPath() . $theFile);
                     $fileMimeType = $this->getMimeTypeByHttpRequest($fileURL);
 
                     $rss2Enclousres .= '<enclosure url="' . $fileURL . '" ';
@@ -2345,7 +2340,6 @@ class TtNews extends AbstractPlugin
     /**
      * @param $markerArray
      * @param $row
-     *
      */
     protected function getRelatedNewsByCategory(&$markerArray, $row)
     {
@@ -2855,7 +2849,7 @@ class TtNews extends AbstractPlugin
                         $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                         $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
 //                        $lConf['image.']['file'] = $imgPath . $val;
-                        $lConf['image.']['file'] = $this->images[$cc];
+                        $lConf['image.']['file'] = $this->images[$cc] ?? 0;
 
                         $theImgCode .= $this->local_cObj->cObjGetSingle(
                             'IMAGE',
@@ -2958,7 +2952,7 @@ class TtNews extends AbstractPlugin
                 $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                 $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
 //                $lConf['image.']['file'] = $imgPath . $val;
-                $lConf['image.']['file'] = $this->images[$cc];
+                $lConf['image.']['file'] = $this->images[$cc] ?? 0;
 
                 $imgHtml = $this->local_cObj->cObjGetSingle(
                     'IMAGE',
@@ -3469,11 +3463,9 @@ class TtNews extends AbstractPlugin
             foreach ($relrows as $row) {
                 if ($this->sys_language_content && $row['tablenames'] != 'pages') {
                     $OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
-                    $row = $this->tsfe->sys_page->getRecordOverlay(
+                    $row = $this->tsfe->sys_page->getLanguageOverlay(
                         'tt_news',
                         $row,
-                        $this->sys_language_content,
-                        $OLmode
                     );
                     if (!is_array($row)) {
                         continue;
@@ -4216,7 +4208,6 @@ class TtNews extends AbstractPlugin
      * fills the internal array '$this->langArr' with the available syslanguages
      *
      * @todo remove/replace legacy langArr
-     *
      */
     protected function initLanguages()
     {
@@ -4241,7 +4232,6 @@ class TtNews extends AbstractPlugin
 
     /**
      * initialize category related vars and add subcategories to the category selection
-     *
      */
     public function initCategoryVars(): void
     {
@@ -4337,7 +4327,6 @@ class TtNews extends AbstractPlugin
 
     /**
      * @param $lConf
-     *
      */
     public function initCatmenuEnv(&$lConf): void
     {
@@ -4509,7 +4498,7 @@ class TtNews extends AbstractPlugin
                 $val = $this->pageArray[$key][$fN] ?? '';
             } else {
                 $rows = $this->db->exec_SELECTgetRows('*', 'pages', 'uid=' . $uid);
-                $row = $rows[0];
+                $row = $rows[0] ?? null;
                 // get the translated record if the content language is not the default language
                 if ($L) {
                     $row = $this->tsfe->sys_page->getPageOverlay($uid, $L);
@@ -4791,7 +4780,7 @@ class TtNews extends AbstractPlugin
                 $singlePid
             )
         );
-        $url = $this->cObj->lastTypoLinkResult->getUrl();
+        $url = $this->cObj->lastTypoLinkResult ? $this->cObj->lastTypoLinkResult->getUrl() : '';
 
         // hook for processing of links
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] ?? null)) {

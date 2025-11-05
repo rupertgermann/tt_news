@@ -15,8 +15,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class HandleAfterFormEnginePageInitialized
 {
-    /**
-     */
     public function __invoke(AfterFormEnginePageInitializedEvent $event): void
     {
         $request = $event->getRequest();

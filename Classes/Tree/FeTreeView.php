@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: rupertgermann
@@ -10,11 +11,9 @@ namespace RG\TtNews\Tree;
 
 use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
-use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 /**
  * Class FeTreeView
@@ -36,7 +35,6 @@ class FeTreeView extends Categorytree
     public $treeName;
 
     public $ext_IconMode;
-
 
     /**
      * wraps the record titles in the tree with links or not depending on if they are in the
@@ -207,7 +205,7 @@ class FeTreeView extends Categorytree
          * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
          */
         $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
-        $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, Icon::SIZE_SMALL)->render();
+        $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, IconSize::SMALL)->render();
 
         if ($nextCount) {
             $cmd = $this->bank . '_' . ($isOpen ? '0_' : '1_') . $row['uid'] . '_' . $this->treeName;

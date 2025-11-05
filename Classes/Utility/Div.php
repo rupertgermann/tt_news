@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -118,7 +119,6 @@ class Div
      * @param $cat
      * @param $news_clause
      * @param $catclause
-     *
      */
     public static function getNewsCountForSubcategory(&$result, $cat, $news_clause, $catclause): void
     {

@@ -2,15 +2,14 @@
 
 namespace RG\TtNews\Tree\TableConfiguration;
 
-use RG\TtNews\Database\Database;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Backend\Tree\SortedTreeNodeCollection;
 use TYPO3\CMS\Backend\Tree\TreeNode;
 use TYPO3\CMS\Backend\Tree\TreeNodeCollection;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -54,11 +53,9 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
             foreach ($children as $child) {
                 $node = GeneralUtility::makeInstance(TreeNode::class, $this->availableItems[(int)$child] ?? []);
 
-
                 if (!in_array($child, $allowedItems)) {
                     $this->setItemUnselectableList(array_merge($this->getItemUnselectableList() ?? [], [$child]));
                 }
-
 
                 $node->setId($child);
                 if ($level < $this->levelMaximum) {
@@ -105,12 +102,12 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
 
         if (in_array($basicNode->getId(), $this->getItemUnselectableList())) {
             $iconIdentifier = $iconFactory->mapRecordTypeToIconIdentifier($this->tableName, $row);
-            $node->setIcon($iconFactory->getIcon($iconIdentifier, Icon::SIZE_SMALL, 'overlay-readonly'));
+            $node->setIcon($iconFactory->getIcon($iconIdentifier, IconSize::SMALL, 'overlay-readonly'));
             if (GeneralUtility::inList($this->getSelectedList(), $basicNode->getId())) {
                 $node->setLabel('[X] ' . $node->getLabel());
             }
         } else {
-            $node->setIcon($iconFactory->getIconForRecord($this->tableName, $row, Icon::SIZE_SMALL));
+            $node->setIcon($iconFactory->getIconForRecord($this->tableName, $row, IconSize::SMALL));
         }
 
         $node->setParentNode($parent);

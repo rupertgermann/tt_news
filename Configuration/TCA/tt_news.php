@@ -204,13 +204,9 @@ return [
             'config' => [
                 'type' => 'datetime',
                 'default' => 0,
-                'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
-                ],
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-                'format' => 'date',
             ],
         ],
         'image' => [
@@ -353,7 +349,6 @@ return [
                 'maxitems' => 500,
                 'renderMode' => 'tree',
                 'treeConfig' => [
-                    // @todo: fix for TYPO3 v12
                     'dataProvider' => NewsDatabaseTreeDataProvider::class,
                     'parentField' => 'parent_category',
                     'appearance' => [
