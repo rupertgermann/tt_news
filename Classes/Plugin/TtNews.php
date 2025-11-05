@@ -50,7 +50,9 @@ use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
+use TYPO3\CMS\Core\TypoScript\AST\AstBuilder;
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Core\TypoScript\TypoScriptStringFactory;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -474,14 +476,16 @@ class TtNews extends AbstractPlugin
 
         $flexformTyposcript = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'myTS', 's_misc');
         if ($flexformTyposcript) {
-            /** @var TypoScriptParser $tsparser */
-            $tsparser = GeneralUtility::makeInstance(TypoScriptParser::class);
-            // Copy conf into existing setup
-            $tsparser->setup = $this->conf;
-            // Parse the new Typoscript
-            $tsparser->parse($flexformTyposcript);
-            // Copy the resulting setup back into conf
-            $this->conf = $tsparser->setup;
+            // Use new TypoScript parser for TYPO3 v13 compatibility
+            $typoScriptStringFactory = GeneralUtility::makeInstance(TypoScriptStringFactory::class);
+            $astBuilder = GeneralUtility::makeInstance(AstBuilder::class);
+            
+            // Parse the flexform TypoScript
+            $ast = $typoScriptStringFactory->parseFromString($flexformTyposcript, $astBuilder);
+            $parsedConfig = $ast->toArray();
+            
+            // Merge parsed config with existing conf
+            $this->conf = array_replace_recursive($this->conf, $parsedConfig);
         }
 
         // "CODE" decides what is rendered: codes can be set by TS or FF with priority on FF
