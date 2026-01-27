@@ -160,7 +160,7 @@ plugin.tt_news {
             trim = 1
             required =
             wrap =
-            dataWrap = <p class="news-single-imgcaption" style="width:{TSFE:lastImageInfo|0}px;">|</p>
+            dataWrap = <p class="news-single-imgcaption">|</p>
         }
 
         image {

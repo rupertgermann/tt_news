@@ -120,7 +120,7 @@ class PopulateNewsSlugs implements UpgradeWizardInterface
                     $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
                     $liveVersion = $queryBuilder
                         ->select('pid')
-                        ->from($this->table)->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($record['t3ver_oid'], \PDO::PARAM_INT)))->executeQuery()->fetchAssociative();
+                        ->from($this->table)->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($record['t3ver_oid'], \TYPO3\CMS\Core\Database\Connection::PARAM_INT)))->executeQuery()->fetchAssociative();
                     $pid = (int)$liveVersion['pid'];
                 }
                 $slug = $slugHelper->generate($record, $pid);

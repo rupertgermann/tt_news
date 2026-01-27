@@ -1,5 +1,7 @@
 <?php
 
+use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
+
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************
@@ -112,8 +114,7 @@ return [
                 'default' => 0,
                 'treeConfig' => [
                     'parentField' => 'parent_category',
-                    // @todo: fix for TYPO3 v12
-                    // 'dataProvider' => NewsDatabaseTreeDataProvider::class,
+                    'dataProvider' => NewsDatabaseTreeDataProvider::class,
                     'appearance' => [
                         'showHeader' => true,
                     ],

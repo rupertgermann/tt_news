@@ -204,13 +204,9 @@ return [
             'config' => [
                 'type' => 'datetime',
                 'default' => 0,
-                'range' => [
-                    'upper' => mktime(0, 0, 0, 1, 1, 2038),
-                ],
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-                'format' => 'date',
             ],
         ],
         'image' => [
@@ -345,12 +341,14 @@ return [
                 'foreign_table' => 'tt_news_cat',
                 'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
                 'MM' => 'tt_news_cat_mm',
+                'MM_match_fields' => [
+                    'tablenames' => '',
+                ],
                 'size' => 20,
                 'minitems' => $confArr['requireCategories'] ? 1 : 0,
                 'maxitems' => 500,
                 'renderMode' => 'tree',
                 'treeConfig' => [
-                    // @todo: fix for TYPO3 v12
                     'dataProvider' => NewsDatabaseTreeDataProvider::class,
                     'parentField' => 'parent_category',
                     'appearance' => [
