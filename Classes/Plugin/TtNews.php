@@ -35,6 +35,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Menu\Catmenu;
+use RG\TtNews\PageTitle\TtNewsPageTitleProvider;
 use RG\TtNews\Utility\Div;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
@@ -479,11 +480,11 @@ class TtNews extends AbstractPlugin
             // Use new TypoScript parser for TYPO3 v13 compatibility
             $typoScriptStringFactory = GeneralUtility::makeInstance(TypoScriptStringFactory::class);
             $astBuilder = GeneralUtility::makeInstance(AstBuilder::class);
-            
+
             // Parse the flexform TypoScript
             $ast = $typoScriptStringFactory->parseFromString($flexformTyposcript, $astBuilder);
             $parsedConfig = $ast->toArray();
-            
+
             // Merge parsed config with existing conf
             $this->conf = array_replace_recursive($this->conf, $parsedConfig);
         }
@@ -1509,12 +1510,8 @@ class TtNews extends AbstractPlugin
 
             // set the title of the single view page to the title of the news record
             if ($this->conf['substitutePagetitle']) {
-
-                $this->tsfe->page['title'] = $row['title'];
-                // set pagetitle for indexed search to news title
-
-                // fixme: still needed ?
-                // $this->tsfe->indexedDocTitle = $row['title'];
+                $titleProvider = GeneralUtility::makeInstance(TtNewsPageTitleProvider::class);
+                $titleProvider->setTitle($row['title']);
             }
             if ($lConf['catOrderBy'] ?? false) {
                 $this->config['catOrderBy'] = $lConf['catOrderBy'];
@@ -2848,7 +2845,7 @@ class TtNews extends AbstractPlugin
                     if ($val) {
                         $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                         $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
-//                        $lConf['image.']['file'] = $imgPath . $val;
+                        //                        $lConf['image.']['file'] = $imgPath . $val;
                         $lConf['image.']['file'] = $this->images[$cc] ?? 0;
 
                         $theImgCode .= $this->local_cObj->cObjGetSingle(
@@ -2951,7 +2948,7 @@ class TtNews extends AbstractPlugin
 
                 $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                 $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
-//                $lConf['image.']['file'] = $imgPath . $val;
+                //                $lConf['image.']['file'] = $imgPath . $val;
                 $lConf['image.']['file'] = $this->images[$cc] ?? 0;
 
                 $imgHtml = $this->local_cObj->cObjGetSingle(

@@ -4,6 +4,9 @@ services:
     autoconfigure: false
     public: false
 
+  RG\TtNews\PageTitle\TtNewsPageTitleProvider:
+    public: true
+
   RG\TtNews\EventListener\HandleAfterFormEnginePageInitialized:
     tags:
       - name: event.listener
