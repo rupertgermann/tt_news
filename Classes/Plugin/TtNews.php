@@ -479,11 +479,11 @@ class TtNews extends AbstractPlugin
             // Use new TypoScript parser for TYPO3 v13 compatibility
             $typoScriptStringFactory = GeneralUtility::makeInstance(TypoScriptStringFactory::class);
             $astBuilder = GeneralUtility::makeInstance(AstBuilder::class);
-            
+
             // Parse the flexform TypoScript
             $ast = $typoScriptStringFactory->parseFromString($flexformTyposcript, $astBuilder);
             $parsedConfig = $ast->toArray();
-            
+
             // Merge parsed config with existing conf
             $this->conf = array_replace_recursive($this->conf, $parsedConfig);
         }
@@ -2848,7 +2848,7 @@ class TtNews extends AbstractPlugin
                     if ($val) {
                         $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                         $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
-//                        $lConf['image.']['file'] = $imgPath . $val;
+                        // $lConf['image.']['file'] = $imgPath . $val;
                         $lConf['image.']['file'] = $this->images[$cc] ?? 0;
 
                         $theImgCode .= $this->local_cObj->cObjGetSingle(
@@ -2951,7 +2951,7 @@ class TtNews extends AbstractPlugin
 
                 $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                 $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
-//                $lConf['image.']['file'] = $imgPath . $val;
+                // $lConf['image.']['file'] = $imgPath . $val;
                 $lConf['image.']['file'] = $this->images[$cc] ?? 0;
 
                 $imgHtml = $this->local_cObj->cObjGetSingle(

@@ -2,13 +2,8 @@
 
 use RG\TtNews\Form\FormDataProvider;
 use RG\TtNews\Hooks\DataHandlerHook;
-use RG\TtNews\Hooks\PageModuleHook;
 use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Routing\Aspect\ArchiveValueMapper;
-use RG\TtNews\Update\migrateCatImagesToFal;
-use RG\TtNews\Update\migrateFileAttachmentsToFal;
-use RG\TtNews\Update\migrateImagesToFal;
-use RG\TtNews\Update\PopulateNewsSlugs;
 use TYPO3\CMS\Backend\Form\FormDataProvider\DatabaseRowInitializeNew;
 use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
@@ -29,7 +24,7 @@ $boot = function () {
     // it checks if the record has an editlock. If true, nothing will not be saved.
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] = DataHandlerHook::class;
 
-    ExtensionManagementUtility::addTypoScriptSetup('
+    ExtensionManagementUtility::addTypoScriptSetup(trim('
         plugin.tt_news = USER
         plugin.tt_news {
             userFunc = ' . TtNews::class . '->main_news
@@ -37,18 +32,17 @@ $boot = function () {
             # validate some configuration values and display a message if errors have been found
             enableConfigValidation = 1
         }
-    ');
+    '));
 
-    // add default rendering for pi_layout plugin
+    // add default rendering for tt_news content element
     ExtensionManagementUtility::addTypoScript(
         'tt_news',
         'setup',
-        'tt_content.list.20.9 =< plugin.tt_news',
+        'tt_content.tt_news =< lib.contentElement
+         tt_content.tt_news.templateName = Generic
+         tt_content.tt_news.20 =< plugin.tt_news',
         'defaultContentRendering'
     );
-
-    // Page module hook
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['9']['tt_news'] = PageModuleHook::class . '->getExtensionSummary';
 
     if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] ?? null)) {
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = [
@@ -74,11 +68,6 @@ $boot = function () {
             DatabaseRowInitializeNew::class,
         ],
     ];
-
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateImagesToFal'] = migrateImagesToFal::class;
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateCatImagesToFal'] = migrateCatImagesToFal::class;
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['migrateFileAttachmentsToFal'] = migrateFileAttachmentsToFal::class;
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['tt_news_populateslugs'] = PopulateNewsSlugs::class;
 
     // add a dummy ValueMapper for the archive Aspect to get rid of the cHash in archive links
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ArchiveValueMapper'] = ArchiveValueMapper::class;
