@@ -29,7 +29,7 @@ $boot = function () {
     // it checks if the record has an editlock. If true, nothing will not be saved.
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] = DataHandlerHook::class;
 
-    ExtensionManagementUtility::addTypoScriptSetup('
+    ExtensionManagementUtility::addTypoScriptSetup(trim('
         plugin.tt_news = USER
         plugin.tt_news {
             userFunc = ' . TtNews::class . '->main_news
@@ -37,7 +37,17 @@ $boot = function () {
             # validate some configuration values and display a message if errors have been found
             enableConfigValidation = 1
         }
-    ');
+    '));
+
+    // Register the tt_news page title provider
+    ExtensionManagementUtility::addTypoScriptSetup(trim('
+        config.pageTitleProviders {
+            ttnews {
+                provider = RG\TtNews\PageTitle\TtNewsPageTitleProvider
+                before = altPageTitle,record,seo
+            }
+        }
+    '));
 
     // add default rendering for pi_layout plugin
     ExtensionManagementUtility::addTypoScript(
