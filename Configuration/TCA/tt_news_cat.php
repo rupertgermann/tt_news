@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
 
 // ******************************************************************
@@ -25,7 +27,6 @@ return [
         'mainpalette' => '2,10',
         'crdate' => 'crdate',
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/tt_news_cat.gif',
-        'searchFields' => 'uid,title',
         'security' => [
             'ignorePageTypeRestriction' => true,
         ],
@@ -46,6 +47,7 @@ return [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
+                'searchable' => false,
 
             ],
         ],
@@ -86,6 +88,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'endtime' => [
@@ -98,6 +101,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'parent_category' => [
@@ -156,6 +160,7 @@ return [
                 'checkbox' => '',
                 'eval' => 'trim',
                 'max' => '40',
+                'searchable' => false,
             ],
         ],
         'single_pid' => [
@@ -177,6 +182,7 @@ return [
                 'type' => 'text',
                 'cols' => '40',
                 'rows' => '3',
+                'searchable' => false,
             ],
         ],
     ],

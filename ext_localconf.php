@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
 use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-defined('TYPO3') or die();
+defined('TYPO3') || die();
 
 $boot = function () {
     /**
@@ -66,7 +66,7 @@ $boot = function () {
 
     // in order to make "direct Preview links" for tt_news work again in TYPO3 >= 6, unset pageNotFoundOnCHashError if a BE_USER is logged in
     $configuredCookieName = trim((string)$GLOBALS['TYPO3_CONF_VARS']['BE']['cookieName']);
-    if (empty($configuredCookieName)) {
+    if ($configuredCookieName === '' || $configuredCookieName === '0') {
         $configuredCookieName = 'be_typo_user';
     }
     if ($_COOKIE[$configuredCookieName] ?? false) {

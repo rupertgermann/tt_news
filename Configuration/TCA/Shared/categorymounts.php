@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // TCA definition for field tt_news_categorymounts in be_users and be_groups
 return [
     'exclude' => 1,

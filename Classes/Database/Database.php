@@ -154,7 +154,7 @@ class Database implements SingletonInterface
         $output = [];
         $firstRecord = true;
         while ($record = $this->sql_fetch_assoc($res)) {
-            if ($uidIndexField) {
+            if ($uidIndexField !== '' && $uidIndexField !== '0') {
                 if ($firstRecord) {
                     $firstRecord = false;
                     if (!array_key_exists($uidIndexField, $record)) {
@@ -246,11 +246,7 @@ class Database implements SingletonInterface
         $res = $this->exec_SELECTquery($select_fields, $from_table, $where_clause, $groupBy, $orderBy, '1');
         $output = null;
         if ($res) {
-            if ($numIndex) {
-                $output = $this->sql_fetch_row($res);
-            } else {
-                $output = $this->sql_fetch_assoc($res);
-            }
+            $output = $numIndex ? $this->sql_fetch_row($res) : $this->sql_fetch_assoc($res);
         }
 
         return $output;
@@ -280,11 +276,11 @@ class Database implements SingletonInterface
     ): array {
         $foreign_table_as = $foreign_table == $local_table ? $foreign_table . StringUtility::getUniqueId('_join') : '';
         $mmWhere = $local_table ? $local_table . '.uid=' . $mm_table . '.uid_local' : '';
-        $mmWhere .= ($local_table and $foreign_table) ? ' AND ' : '';
+        $mmWhere .= ($local_table && $foreign_table) ? ' AND ' : '';
         $tables = ($local_table ? $local_table . ',' : '') . $mm_table;
         if ($foreign_table) {
             $mmWhere .= ($foreign_table_as ?: $foreign_table) . '.uid=' . $mm_table . '.uid_foreign';
-            $tables .= ',' . $foreign_table . ($foreign_table_as ? ' AS ' . $foreign_table_as : '');
+            $tables .= ',' . $foreign_table . ($foreign_table_as !== '' && $foreign_table_as !== '0' ? ' AS ' . $foreign_table_as : '');
         }
 
         return [

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 defined('TYPO3') || die();
 
 $GLOBALS['TCA']['sys_file_reference']['palettes']['newsImagePalette'] = [

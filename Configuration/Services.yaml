@@ -1,8 +1,14 @@
 services:
   _defaults:
     autowire: true
-    autoconfigure: false
+    autoconfigure: true
     public: false
+
+  RG\TtNews\:
+    resource: '../Classes/*'
+
+  RG\TtNews\Plugin\TtNews:
+    public: true
 
   RG\TtNews\PageTitle\TtNewsPageTitleProvider:
     public: true

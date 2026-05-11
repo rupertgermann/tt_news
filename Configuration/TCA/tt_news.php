@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
-use TYPO3\CMS\Core\Resource\File;
 
 // get extension confArr
 $confArr = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['tt_news'] ?? [];
 // switch the use of the "StoragePid"(general record Storage Page) for tt_news categories
 $fTableWhere = (($confArr['useStoragePid'] ?? false) ? 'AND tt_news_cat.pid=###STORAGE_PID### ' : '');
 // page where records will be stored in that have been created with a wizard
-$sPid = ($fTableWhere ? '###STORAGE_PID###' : '###CURRENT_PID###');
+$sPid = ($fTableWhere !== '' && $fTableWhere !== '0' ? '###STORAGE_PID###' : '###CURRENT_PID###');
 // l10n_mode for text fields
 $l10n_mode = ($confArr['l10n_mode_prefixLangTitle'] ? 'prefixLangTitle' : '');
 // l10n_mode for the image field
@@ -58,7 +59,6 @@ return [
         ],
         'thumbnail' => 'image',
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/ext_icon.gif',
-        'searchFields' => 'uid,title,short,bodytext',
         'security' => [
             'ignorePageTypeRestriction' => true,
         ],
@@ -74,6 +74,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'endtime' => [
@@ -86,6 +87,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'hidden' => [
@@ -139,6 +141,7 @@ return [
                 'appearance' => [
                     'browserTitle' => 'Link',
                 ],
+                'searchable' => false,
             ],
         ],
         'bodytext' => [
@@ -196,6 +199,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'archivedate' => [
@@ -207,6 +211,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'image' => [
@@ -228,7 +233,7 @@ return [
                                 --palette--;;imageoverlayPalette,
                                 --palette--;;filePalette',
                         ],
-                        File::FILETYPE_IMAGE => [
+                        2 => [
                             'showitem' => '
                                 --palette--;;newsImagePalette,
                                 --palette--;;filePalette',
@@ -245,6 +250,7 @@ return [
                 'type' => 'text',
                 'cols' => '30',
                 'rows' => '3',
+                'searchable' => false,
             ],
         ],
         'imagealttext' => [
@@ -255,6 +261,7 @@ return [
                 'type' => 'text',
                 'cols' => '20',
                 'rows' => '3',
+                'searchable' => false,
             ],
         ],
         'imagetitletext' => [
@@ -265,6 +272,7 @@ return [
                 'type' => 'text',
                 'cols' => '20',
                 'rows' => '3',
+                'searchable' => false,
             ],
         ],
         'author' => [
@@ -278,6 +286,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'author_email' => [
@@ -291,6 +300,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'related' => [
@@ -317,6 +327,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'links' => [
@@ -329,6 +340,7 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'category' => [
@@ -403,6 +415,7 @@ return [
                 'fallbackCharacter' => '-',
                 'eval' => 'uniqueInSite',
                 'default' => '',
+                'searchable' => false,
             ],
         ],
         'sys_language_uid' => [
@@ -468,7 +481,7 @@ return [
         'tstamp' => [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tstamp',
             'config' => [
-                'type' => 'datetime',
+                'type' => 'datetime', 'searchable' => false,
             ],
         ],
     ],

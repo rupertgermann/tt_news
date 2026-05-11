@@ -14,9 +14,6 @@ routeEnhancers:
     type: Plugin
     namespace: 'tx_ttnews'
     routePath: '/archive/{year}/{month}'
-    _arguments:
-      year: year
-      month: month
     requirements:
       year: '\d+'
       month: '\d+'
@@ -25,9 +22,11 @@ routeEnhancers:
       month: '0'
     aspects:
       month:
-        type: ArchiveValueMapper
+        type: DateTimeMapper
+        format: 'm'
       year:
-        type: ArchiveValueMapper
+        type: DateTimeMapper
+        format: 'Y'
   TtNewsCategory:
     type: Plugin
     namespace: 'tx_ttnews'

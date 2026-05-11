@@ -2,6 +2,7 @@
 
 namespace RG\TtNews\Plugin;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Result;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Database\Connection;
@@ -9,7 +10,6 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
-use TYPO3\CMS\Core\Http\Request;
 use TYPO3\CMS\Core\Localization\Locales;
 use TYPO3\CMS\Core\Localization\LocalizationFactory;
 use TYPO3\CMS\Core\Page\DefaultJavaScriptAssetTrait;
@@ -32,7 +32,6 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * searching, displaying menus, page-browsing (next/previous/1/2/3) and handling links.
  * Functions are all prefixed "pi_" which is reserved for this class. Those functions
  * can of course be overridden in the extension classes (that is the point...)
- *
  */
 class AbstractPlugin
 {
@@ -193,11 +192,16 @@ class AbstractPlugin
     public $pi_tmpPageId = 0;
 
     /**
+     * @var ServerRequestInterface|null
+     */
+    protected ?ServerRequestInterface $request = null;
+
+    /**
      * Property for accessing TypoScriptFrontendController centrally
      *
      * @var TypoScriptFrontendController
      */
-    protected TypoScriptFrontendController $frontendController;
+    protected ?TypoScriptFrontendController $frontendController = null;
 
     /**
      * @var MarkerBasedTemplateService
@@ -213,16 +217,22 @@ class AbstractPlugin
      */
     public function __construct($_ = null, ?TypoScriptFrontendController $frontendController = null)
     {
-        $this->frontendController = $frontendController ?: $GLOBALS['TSFE'];
+        /** @var ServerRequestInterface $request */
+        $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
+
+        $this->request = $request;
+
+        $this->frontendController = $frontendController ?: $request?->getAttribute('frontend.controller');
+
         $this->templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         // Setting piVars:
         if ($this->prefixId) {
-            $this->piVars = self::getRequestPostOverGetParameterWithPrefix($this->prefixId);
+            $this->piVars = $this->getRequestPostOverGetParameterWithPrefix($this->prefixId);
         }
 
-        /** @var ServerRequestInterface $request */
-        $request = $GLOBALS['TYPO3_REQUEST'];
-        $language = $request->getAttribute('language') ?? $request->getAttribute('site')->getDefaultLanguage();
+        if ($request instanceof ServerRequestInterface) {
+            $language = $request->getAttribute('language') ?? $request->getAttribute('site')->getDefaultLanguage();
+        }
 
         $this->LLkey = $language->getTypo3Language();
 
@@ -253,12 +263,12 @@ class AbstractPlugin
     protected function applyStdWrapRecursive(array $conf, $level = 0)
     {
         foreach ($conf as $key => $confNextLevel) {
-            if (str_contains($key, '.')) {
-                $key = substr($key, 0, -1);
+            if (str_contains((string)$key, '.')) {
+                $key = substr((string)$key, 0, -1);
 
                 // descend into all non-stdWrap-subelements first
                 foreach ($confNextLevel as $subKey => $subConfNextLevel) {
-                    if (is_array($subConfNextLevel) && str_contains($subKey, '.') && $subKey !== 'stdWrap.') {
+                    if (is_array($subConfNextLevel) && str_contains((string)$subKey, '.') && $subKey !== 'stdWrap.') {
                         $conf[$key . '.'] = $this->applyStdWrapRecursive($confNextLevel, $level + 1);
                     }
                 }
@@ -281,7 +291,7 @@ class AbstractPlugin
     /**
      * If internal TypoScript property "_DEFAULT_PI_VARS." is set then it will merge the current $this->piVars array onto these default values.
      */
-    public function pi_setPiVarDefaults()
+    public function pi_setPiVarDefaults(): void
     {
         if (isset($this->conf['_DEFAULT_PI_VARS.']) && is_array($this->conf['_DEFAULT_PI_VARS.'])) {
             $this->conf['_DEFAULT_PI_VARS.'] = $this->applyStdWrapRecursive($this->conf['_DEFAULT_PI_VARS.']);
@@ -340,7 +350,7 @@ class AbstractPlugin
             $conf['fileTarget'] = $target;
         }
         if (is_array($urlParameters)) {
-            if (!empty($urlParameters)) {
+            if ($urlParameters !== []) {
                 $conf['additionalParams'] = HttpUtility::buildQueryString($urlParameters, '&');
             }
         } else {
@@ -373,7 +383,7 @@ class AbstractPlugin
             $conf['fileTarget'] = $target;
         }
         if (is_array($urlParameters)) {
-            if (!empty($urlParameters)) {
+            if ($urlParameters !== []) {
                 $conf['additionalParams'] = HttpUtility::buildQueryString($urlParameters, '&');
             }
         } else {
@@ -613,7 +623,7 @@ class AbstractPlugin
         // Now overwrite all entries in $wrapper which are also in $wrapArr
         $wrapper = array_merge($wrapper, $wrapArr);
         // Show pagebrowser
-        if ($showResultCount != 2) {
+        if ($showResultCount !== 2) {
             if ($pagefloat > -1) {
                 $lastPage = min($totalPages, max($pointer + 1 + $pagefloat, $maxPages));
                 $firstPage = max(0, $lastPage - $maxPages);
@@ -688,7 +698,7 @@ class AbstractPlugin
         }
         $pR1 = $pointer * $results_at_a_time + 1;
         $pR2 = $pointer * $results_at_a_time + $results_at_a_time;
-        if ($showResultCount) {
+        if ($showResultCount !== 0) {
             if ($wrapper['showResultsNumbersWrap'] ?? false) {
                 // This will render the resultcount in a more flexible way using markers (new in TYPO3 3.8.0).
                 // The formatting string is expected to hold template markers (see function header). Example: 'Displaying results ###FROM### to ###TO### out of ###OUT_OF###'
@@ -724,7 +734,7 @@ class AbstractPlugin
         $cells = [];
         foreach ($items as $k => $v) {
             $cells[] = '
-					<td' . ($this->piVars['mode'] == $k ? $this->pi_classParam('modeSelector-SCell') : '') . '><p>' . $this->pi_linkTP_keepPIvars(htmlspecialchars($v), ['mode' => $k], (bool)$this->pi_isOnlyFields($this->pi_isOnlyFields)) . '</p></td>';
+					<td' . ($this->piVars['mode'] == $k ? $this->pi_classParam('modeSelector-SCell') : '') . '><p>' . $this->pi_linkTP_keepPIvars(htmlspecialchars((string)$v), ['mode' => $k], (bool)$this->pi_isOnlyFields($this->pi_isOnlyFields)) . '</p></td>';
         }
         $sTables = '
 
@@ -790,7 +800,7 @@ class AbstractPlugin
     public function pi_list_row($c)
     {
         // Dummy
-        return '<tr' . ($c % 2 ? $this->pi_classParam('listrow-odd') : '') . '><td><p>[dummy row]</p></td></tr>';
+        return '<tr' . ($c % 2 !== 0 ? $this->pi_classParam('listrow-odd') : '') . '><td><p>[dummy row]</p></td></tr>';
     }
 
     /**
@@ -857,7 +867,7 @@ class AbstractPlugin
 		' . $str . '
 	</div>
 	';
-        if (!($this->frontendController->config['config']['disablePrefixComment'] ?? false)) {
+        if (!($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['disablePrefixComment'] ?? false)) {
             $content = '
 
 
@@ -914,10 +924,10 @@ class AbstractPlugin
                 $word = $this->LOCAL_LANG['default'][$key][0]['target'];
             } else {
                 // Return alternative string or empty
-                $word = !empty($this->LLtestPrefixAlt) ? $this->LLtestPrefixAlt . $alternativeLabel : $alternativeLabel;
+                $word = empty($this->LLtestPrefixAlt) ? $alternativeLabel : $this->LLtestPrefixAlt . $alternativeLabel;
             }
         }
-        return !empty($this->LLtestPrefix) ? $this->LLtestPrefix . $word : $word;
+        return empty($this->LLtestPrefix) ? $word : $this->LLtestPrefix . $word;
     }
 
     /**
@@ -930,7 +940,7 @@ class AbstractPlugin
      *
      * @param string $languageFilePath path to the plugin language file in format EXT:....
      */
-    public function pi_loadLL($languageFilePath = '')
+    public function pi_loadLL($languageFilePath = ''): void
     {
         if ($this->LOCAL_LANG_loaded) {
             return;
@@ -955,7 +965,7 @@ class AbstractPlugin
                 $this->LOCAL_LANG_UNSET = [];
                 foreach ($this->conf['_LOCAL_LANG.'] as $languageKey => $languageArray) {
                     // Remove the dot after the language key
-                    $languageKey = substr($languageKey, 0, -1);
+                    $languageKey = substr((string)$languageKey, 0, -1);
                     // Don't process label if the language is not loaded
                     if (is_array($languageArray) && isset($this->LOCAL_LANG[$languageKey])) {
                         foreach ($languageArray as $labelKey => $labelValue) {
@@ -1015,7 +1025,7 @@ class AbstractPlugin
                         $queryBuilder->expr()->eq($mm_cat['table'] . '.uid', $queryBuilder->quoteIdentifier($mm_cat['mmtable'] . '.uid_foreign')),
                         $queryBuilder->expr()->in(
                             $table . '.pid',
-                            $queryBuilder->createNamedParameter($pidList, Connection::PARAM_INT_ARRAY)
+                            $queryBuilder->createNamedParameter($pidList, ArrayParameterType::INTEGER)
                         )
                     );
                 $catUidList = (string)($mm_cat['catUidList'] ?? '');
@@ -1025,7 +1035,7 @@ class AbstractPlugin
                             $mm_cat['table'] . '.uid',
                             $queryBuilder->createNamedParameter(
                                 GeneralUtility::intExplode(',', $catUidList, true),
-                                Connection::PARAM_INT_ARRAY
+                                ArrayParameterType::INTEGER
                             )
                         )
                     );
@@ -1034,7 +1044,7 @@ class AbstractPlugin
                 $queryBuilder->where(
                     $queryBuilder->expr()->in(
                         'pid',
-                        $queryBuilder->createNamedParameter($pidList, Connection::PARAM_INT_ARRAY)
+                        $queryBuilder->createNamedParameter($pidList, ArrayParameterType::INTEGER)
                     )
                 );
             }
@@ -1060,7 +1070,7 @@ class AbstractPlugin
             $searchWhere = QueryHelper::stripLogicalOperatorPrefix(
                 $this->cObj->searchWhere($this->piVars['sword'], $this->internal['searchFieldList'], $table)
             );
-            if (!empty($searchWhere)) {
+            if ($searchWhere !== '' && $searchWhere !== '0') {
                 $queryBuilder->andWhere($searchWhere);
             }
         }
@@ -1111,7 +1121,7 @@ class AbstractPlugin
      */
     public function pi_getRecord($table, $uid, $checkPage = false)
     {
-        return $this->frontendController->sys_page->checkRecord($table, $uid, $checkPage);
+        return GeneralUtility::makeInstance(PageRepository::class)->checkRecord($table, $uid, $checkPage);
     }
 
     /**
@@ -1123,8 +1133,8 @@ class AbstractPlugin
      */
     public function pi_getPidList($pid_list, $recursive = 0)
     {
-        if (!strcmp($pid_list, '')) {
-            $pid_list = (string)$this->frontendController->id;
+        if (strcmp($pid_list, '') === 0) {
+            $pid_list = (string)$GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId();
         }
         $recursive = MathUtility::forceIntegerInRange($recursive, 0);
         $pid_list_arr = array_unique(GeneralUtility::intExplode(',', $pid_list, true));
@@ -1245,8 +1255,8 @@ class AbstractPlugin
     public function pi_autoCache($inArray)
     {
         if (is_array($inArray)) {
-            foreach ($inArray as $fN => $fV) {
-                if (!strcmp($inArray[$fN], '')) {
+            foreach (array_keys($inArray) as $fN) {
+                if (strcmp((string)$inArray[$fN], '') === 0) {
                     unset($inArray[$fN]);
                 } elseif (is_array($this->pi_autoCacheFields[$fN])) {
                     if (is_array($this->pi_autoCacheFields[$fN]['range']) && (int)$inArray[$fN] >= (int)$this->pi_autoCacheFields[$fN]['range'][0] && (int)$inArray[$fN] <= (int)$this->pi_autoCacheFields[$fN]['range'][1]) {
@@ -1258,7 +1268,7 @@ class AbstractPlugin
                 }
             }
         }
-        if (empty($inArray)) {
+        if ($inArray === []) {
             // @TODO: How do we deal with this? return TRUE would be the right thing to do here but that might be breaking
             return 1;
         }
@@ -1289,7 +1299,7 @@ class AbstractPlugin
      *
      * @param string $field Field name to convert
      */
-    public function pi_initPIflexForm($field = 'pi_flexform')
+    public function pi_initPIflexForm($field = 'pi_flexform'): void
     {
         // Converting flexform data into array
         $fieldData = $this->cObj->data[$field] ?? null;
@@ -1358,7 +1368,7 @@ class AbstractPlugin
      * @param string $parameter Key (variable name) from GET or POST vars
      * @return array Returns the GET vars merged recursively onto the POST vars.
      */
-    private static function getRequestPostOverGetParameterWithPrefix($parameter)
+    private function getRequestPostOverGetParameterWithPrefix($parameter)
     {
         $postParameter = isset($_POST[$parameter]) && is_array($_POST[$parameter]) ? $_POST[$parameter] : [];
         $getParameter = isset($_GET[$parameter]) && is_array($_GET[$parameter]) ? $_GET[$parameter] : [];

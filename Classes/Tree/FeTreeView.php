@@ -20,6 +20,7 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
  */
 class FeTreeView extends Categorytree
 {
+    public $thisScript;
     /**
      * @var
      */
@@ -55,7 +56,7 @@ class FeTreeView extends Categorytree
                 $catSelLinkParams .= ' ' . $newsConf['itemLinkTarget'];
             }
         } else {
-            $catSelLinkParams = $GLOBALS['TSFE']->id;
+            $catSelLinkParams = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId();
         }
 
         if ($row['uid'] <= 0) {
@@ -81,9 +82,9 @@ class FeTreeView extends Categorytree
             $title = $catTitleArr[$syslang] ?: $title;
         }
         $piVars = &$this->tt_news_obj->piVars;
-        $pTmp = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
+        $pTmp = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
         if ($newsConf['displayCatMenu.']['insertDescrAsTitle']) {
-            $GLOBALS['TSFE']->config['config']['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $row['description'] . '"';
+            $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $row['description'] . '"';
         }
 
         if ($this->getCatNewsCount) {
@@ -131,7 +132,7 @@ class FeTreeView extends Categorytree
         }
 
         if (!$icon) {
-            $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
+            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
             return $this->wrapIcon('<img' . IconFactory::skinImg('tt_news_cat.gif', 'width="18" height="16"') . ' alt="" />', $rec);
         }
 
@@ -145,6 +146,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Image tag.
      */
+    #[\Override]
     public function getIcon($row): string
     {
         $iconConf = [];
@@ -169,7 +171,7 @@ class FeTreeView extends Categorytree
                 break;
         }
 
-        if ($iconConf['image.']['file']) {
+        if ($iconConf['image.']['file'] !== '' && $iconConf['image.']['file'] !== '0') {
             $iconConf['image.']['file.'] = $lConf['catmenuIconFile.'];
             $icon = $GLOBALS['TSFE']->cObj->cObjGetSingle('IMAGE', $iconConf['image.']);
         }
@@ -192,6 +194,7 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Image tag with the plus/minus icon.
      */
+    #[\Override]
     public function PMicon($row, $a, $c, $nextCount, $isOpen)
     {
         if ($this->expandable) {
@@ -204,7 +207,7 @@ class FeTreeView extends Categorytree
         /**
          * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
          */
-        $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, IconSize::SMALL)->render();
 
         if ($nextCount) {
@@ -224,15 +227,12 @@ class FeTreeView extends Categorytree
      *
      * @return    string        Link-wrapped input string
      */
+    #[\Override]
     public function PMiconATagWrap($icon, $cmd, $isExpand = true)
     {
         if ($this->thisScript && $this->expandable) {
             $newsConf = &$this->tt_news_obj->conf;
-            if ($newsConf['catSelectorTargetPid']) {
-                $catSelLinkParams = $newsConf['catSelectorTargetPid'];
-            } else {
-                $catSelLinkParams = $GLOBALS['TSFE']->id;
-            }
+            $catSelLinkParams = $newsConf['catSelectorTargetPid'] ?: $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId();
             if ($this->useAjax) {
                 $icon = '<a class="pm pmiconatag"
                         data-params="' . $cmd . '"
@@ -267,7 +267,7 @@ class FeTreeView extends Categorytree
         } else {
             try {
                 $this->stored = json_decode(($_COOKIE[$this->treeName] ?? ''), true, 512, JSON_THROW_ON_ERROR);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // do nothing
             }
         }
@@ -281,16 +281,14 @@ class FeTreeView extends Categorytree
         // must update the stored positions in the tree):
         // 0: mount key, 1: set/clear boolean, 2: item ID (cannot contain "_"), 3: treeName
         $PM = explode('_', (string)($GLOBALS['TYPO3_REQUEST']->getParsedBody()['PM'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['PM'] ?? null));
-        if (count($PM) === 4 && $PM[3] == $this->treeName) {
-            if (isset($this->MOUNTS[$PM[0]])) {
-                // set
-                if ($PM[1]) {
-                    $this->stored[$PM[0]][$PM[2]] = 1;
-                    $this->savePosition();
-                } else {
-                    unset($this->stored[$PM[0]][$PM[2]]);
-                    $this->savePosition();
-                }
+        if (count($PM) === 4 && $PM[3] == $this->treeName && isset($this->MOUNTS[$PM[0]])) {
+            // set
+            if ($PM[1] !== '' && $PM[1] !== '0') {
+                $this->stored[$PM[0]][$PM[2]] = 1;
+                $this->savePosition();
+            } else {
+                unset($this->stored[$PM[0]][$PM[2]]);
+                $this->savePosition();
             }
         }
     }

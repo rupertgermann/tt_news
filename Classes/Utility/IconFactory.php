@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RG\TtNews\Utility;
 
 /*
@@ -7,7 +9,6 @@ namespace RG\TtNews\Utility;
  *
  * Simple adapter for routing old Typo's icons path to tt_news icons
  */
-
 use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
 use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

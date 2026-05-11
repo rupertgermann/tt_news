@@ -42,7 +42,6 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -160,7 +159,7 @@ class DataHandlerHook
                 }
             }
 
-            if (!empty($notAllowedItems)) {
+            if ($notAllowedItems !== []) {
                 $messageString = $this->getLanguageService()
                         ->sL(
                             'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.notAllowedCategoryError'
@@ -285,7 +284,7 @@ class DataHandlerHook
                 }
             }
 
-            if (!empty($notAllowedItems)) {
+            if ($notAllowedItems !== []) {
                 $messageString = $this->getLanguageService()
                         ->sL(
                             'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.notAllowedCategoryError'
@@ -359,7 +358,7 @@ class DataHandlerHook
             return $CPtable;
         }
 
-        $addW = !$pObj->admin ? ' AND ' . $pObj->BE_USER->getPagePermsClause($pObj->pMap['show']) : '';
+        $addW = $pObj->BE_USER->isAdmin() ? '' : ' AND ' . $pObj->BE_USER->getPagePermsClause($pObj->pMap['show']);
         $mres = Database::getInstance()->exec_SELECTquery(
             'uid',
             $table,
