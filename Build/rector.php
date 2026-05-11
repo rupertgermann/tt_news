@@ -24,7 +24,7 @@ return RectorConfig::configure()
 
         Typo3SetList::CODE_QUALITY,
         Typo3SetList::GENERAL,
-        Typo3LevelSetList::UP_TO_TYPO3_13,
+        Typo3LevelSetList::UP_TO_TYPO3_14,
         \Rector\Doctrine\Set\DoctrineSetList::DOCTRINE_DBAL_40,
     ])
     ->withImportNames(true, true, false, true)
@@ -32,11 +32,6 @@ return RectorConfig::configure()
         AddVoidReturnTypeWhereNoReturnRector::class,
     ])
     ->withSkip([
-        Rector\Transform\Rector\Assign\PropertyFetchToMethodCallRector::class, // temp, see issue: https://github.com/sabbelasichon/typo3-rector/issues/4692
-        Ssch\TYPO3Rector\TYPO313\v4\MigratePluginContentElementAndPluginSubtypesRector::class,
-        Ssch\TYPO3Rector\TYPO313\v4\MigratePluginContentElementAndPluginSubtypesSwapArgsRector::class,
-        Ssch\TYPO3Rector\TYPO313\v4\MigratePluginContentElementAndPluginSubtypesTCARector::class,
-        Ssch\TYPO3Rector\TYPO313\v4\RemoveTcaSubTypesExcludeListTCARector::class,
         __DIR__ . '/../.Build/*',
         __DIR__ . '/../.ddev/*',
         __DIR__ . '/../Build/*',
