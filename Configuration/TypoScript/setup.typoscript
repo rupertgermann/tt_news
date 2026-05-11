@@ -2,14 +2,6 @@
 # This is the default TS-setup for the new tt_news standard html template: EXT:tt_news/Resources/Private/Templates/Plugin/Template.html
 ###
 
-# Fix for TYPO3 4.6:
-# @todo: required in v12 ?
-tt_content.list.20.9 = CASE
-tt_content.list.20.9 {
-    key.field = layout
-    0 = < plugin.tt_news
-}
-
 plugin.tt_news = USER
 plugin.tt_news {
 
@@ -791,17 +783,7 @@ plugin.tt_news {
         # flag image configuration
         file.maxW = 16
     }
-
-    # Rendering of news items. re-use the RTE parseFunc configuration for normal content
-    # general_stdWrap {
-    #   parseFunc < tt_content.text.20.parseFunc
-    # }
 }
-
-# This enables the "insert records" element and the TypoScript RECORDS object item to display news
-tt_news >
-tt_news = < plugin.tt_news
-tt_news.displayCurrentRecord = 1
 
 [{$plugin.tt_news.noIconsInRelatedNews} == 1]
     plugin.tt_news.getRelatedCObject.10.default.5 >

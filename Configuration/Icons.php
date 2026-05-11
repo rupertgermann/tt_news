@@ -7,7 +7,11 @@ return [
         'provider' => BitmapIconProvider::class,
         'source' => 'EXT:tt_news/Resources/Public/Images/Icons/ext_icon_ttnews_folder.gif',
     ],
-    'ttnews-content-element-wizard-icon' => [
+    'tt-news-content-element-wizard' => [
+        'provider' => BitmapIconProvider::class,
+        'source' => 'EXT:tt_news/Resources/Public/Images/Icons/ContentElementWizardIcon.gif',
+    ],
+    'tt-news-plugin' => [
         'provider' => BitmapIconProvider::class,
         'source' => 'EXT:tt_news/Resources/Public/Images/Icons/ContentElementWizardIcon.gif',
     ],

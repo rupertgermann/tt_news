@@ -12,3 +12,7 @@ services:
       - name: event.listener
         identifier: 'core-after-formengine-page-initialized-event'
         event: TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent
+
+  RG\TtNews\Upgrades\PluginListTypeToCTypeUpdate:
+    tags:
+      - name: install.upgradewizard
