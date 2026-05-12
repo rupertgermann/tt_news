@@ -161,7 +161,7 @@ class TtNews extends AbstractPlugin
     /**
      * @var string
      */
-    public $searchFieldList = 'short,bodytext,author,keywords,links,imagecaption,title';
+    public $searchFieldList = 'short,bodytext,author,keywords,links,title';
     /**
      * @var string
      */
@@ -2774,6 +2774,10 @@ class TtNews extends AbstractPlugin
             $markerArray = $this->userProcess('imageMarkerFunc', [$markerArray, $lConf]);
         } else {
             $imgPath = 'uploads/pics/';
+            $imgsCaptions = [];
+            $imgsAltTexts = [];
+            $imgsTitleTexts = [];
+
             if (MathUtility::canBeInterpretedAsInteger($row['image'])) {
                 // seems that tt_news images have been migrated to FAL
                 $imgPath = '';
@@ -2782,21 +2786,15 @@ class TtNews extends AbstractPlugin
                 $this->images = $fileObjects;
                 if (!empty($fileObjects)) {
                     $falImages = [];
-                    $falTitles = [];
-                    $falAltTexts = [];
-                    $falCaptions = [];
                     foreach ($fileObjects as $fileObject) {
                         /** @var FileInterface $fileObject */
                         $falImages[] = $fileObject->getPublicUrl();
-                        $falTitles[] = $fileObject->getProperty('title');
-                        $falAltTexts[] = $fileObject->getProperty('alternative');
-                        $falCaptions[] = $fileObject->getProperty('description');
+                        $imgsTitleTexts[] = $fileObject->getProperty('title');
+                        $imgsAltTexts[] = $fileObject->getProperty('alternative');
+                        $imgsCaptions[] = $fileObject->getProperty('description');
                     }
                     if ($falImages !== []) {
                         $row['image'] = implode(',', $falImages);
-                        $row['imagetitletext'] = implode(chr(10), $falTitles);
-                        $row['imagealttext'] = implode(chr(10), $falAltTexts);
-                        $row['imagecaption'] = implode(chr(10), $falCaptions);
                     }
                 }
             }
@@ -2805,9 +2803,6 @@ class TtNews extends AbstractPlugin
             $imageNum = MathUtility::forceIntegerInRange($imageNum, 0, 100);
             $theImgCode = '';
             $imgs = GeneralUtility::trimExplode(',', $row['image'], 1);
-            $imgsCaptions = explode(chr(10), (string)$row['imagecaption']);
-            $imgsAltTexts = explode(chr(10), (string)$row['imagealttext']);
-            $imgsTitleTexts = explode(chr(10), (string)$row['imagetitletext']);
 
             reset($imgs);
 
@@ -2964,7 +2959,6 @@ class TtNews extends AbstractPlugin
 
                 $lConf['image.']['altText'] = $imgsAltTexts[$cc];
                 $lConf['image.']['titleText'] = $imgsTitleTexts[$cc];
-                // $lConf['image.']['file'] = $imgPath . $val;
                 $lConf['image.']['file'] = $this->images[$cc] ?? 0;
 
                 $imgHtml = $this->local_cObj->cObjGetSingle(
@@ -3239,7 +3233,6 @@ class TtNews extends AbstractPlugin
                             $syslang = $this->sys_language_content - 1;
                             $val = $catTitleArr[$syslang] ?: $val;
                         }
-                        // if (!$title) $title = $val;
                         $catSelLinkParams = ($this->conf['catSelectorTargetPid'] ? ($this->conf['itemLinkTarget'] ? $this->conf['catSelectorTargetPid'] . ' ' . $this->conf['itemLinkTarget'] : $this->conf['catSelectorTargetPid']) : $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId());
                         $pTmp = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
                         if ($this->conf['displayCatMenu.']['insertDescrAsTitle']) {

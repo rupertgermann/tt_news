@@ -242,39 +242,6 @@ return [
                 ],
             ],
         ],
-        'imagecaption' => [
-            'exclude' => 1,
-            'label' => $locallang_general . 'LGL.caption',
-            'l10n_mode' => $l10n_mode,
-            'config' => [
-                'type' => 'text',
-                'cols' => '30',
-                'rows' => '3',
-                'searchable' => false,
-            ],
-        ],
-        'imagealttext' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.imagealttext',
-            'l10n_mode' => $l10n_mode,
-            'config' => [
-                'type' => 'text',
-                'cols' => '20',
-                'rows' => '3',
-                'searchable' => false,
-            ],
-        ],
-        'imagetitletext' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.imagetitletext',
-            'l10n_mode' => $l10n_mode,
-            'config' => [
-                'type' => 'text',
-                'cols' => '20',
-                'rows' => '3',
-                'searchable' => false,
-            ],
-        ],
         'author' => [
             'exclude' => 1,
             'label' => $locallang_general . 'LGL.author',
@@ -490,7 +457,7 @@ return [
             'showitem' =>
                 'hidden, type,title,slug,short,bodytext,
             --div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special, datetime,archivedate,--palette--;;author,keywords,--palette--;;language,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.media, image,--palette--;;imagetexts,links,news_files,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.media, image,links,news_files,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.catAndRels, category,related,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended,
@@ -501,7 +468,7 @@ return [
             'showitem' =>
                 'hidden, type,title,page,short,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special, datetime,archivedate,--palette--;;author,keywords,--palette--;;language,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.media, image,--palette--;;imagetexts,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.media, image,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.categories, category,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended,
@@ -512,7 +479,7 @@ return [
             'showitem' =>
                 'hidden, type,title,ext_url,short,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.special, datetime,archivedate,--palette--;;author,keywords,--palette--;;language,
-			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.media, image,--palette--;;imagetexts,
+			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.media, image,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.categories, category,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.access, starttime,endtime,fe_group,editlock,
 			--div--;LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.tabs.extended,
@@ -527,9 +494,6 @@ return [
         ],
         'language' => [
             'showitem' => 'sys_language_uid,--linebreak--,t3ver_label,l18n_parent',
-        ],
-        'imagetexts' => [
-            'showitem' => 'imagecaption,--linebreak--,imagealttext,imagetitletext',
         ],
     ],
 ];

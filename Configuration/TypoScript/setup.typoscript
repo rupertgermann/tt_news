@@ -144,7 +144,6 @@ plugin.tt_news {
         nextLink_stdWrap.wrap = <div style="float:right;">|</div>
 
         imageCount = 10
-        imgAltTextField = imagecaption
         imageWrapIfAny = <div class="news-single-img"> | </div>
         imageMarkerOptionSplit =
 
@@ -161,7 +160,6 @@ plugin.tt_news {
 
             #   altText = TEXT
             #	altText {
-            #		field = imagealttext
             #		stripHtml = 1
             #		split.token.char = 10
             #		split.token.if.isTrue = {$styles.content.imgtext.imageTextSplit}
@@ -169,7 +167,6 @@ plugin.tt_news {
             #	}
 
             #	titleText < .altText
-            #	titleText.field = imagetitletext
 
             wrap =
             imageLinkWrap = 1
@@ -228,7 +225,6 @@ plugin.tt_news {
 
         imageCount = 1
         imageWrapIfAny =
-        imgAltTextField = imagecaption
 
         listImageMode = {$plugin.tt_news.listImageMode}
 
@@ -273,7 +269,6 @@ plugin.tt_news {
 
         imageCount = 1
         imageWrapIfAny =
-        imgAltTextField = imagecaption
 
         latestImageMode = {$plugin.tt_news.latestImageMode}
 
@@ -678,7 +673,6 @@ plugin.tt_news {
                 outerWrap = <p>|</p>
             }
             imageCount = 1
-            imgAltTextField = imagecaption
             imageWrapIfAny =
             category_stdWrap.wrap = <div class="news-latest-category"> | </div>
             categoryItem_stdWrap.wrap =
