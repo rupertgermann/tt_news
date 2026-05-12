@@ -31,7 +31,6 @@ namespace RG\TtNews\Plugin;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Result;
 use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use RG\TtNews\Database\Database;
 use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Menu\Catmenu;
@@ -72,7 +71,6 @@ use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Core\View\ViewInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Plugin 'news' for the 'tt_news' extension.
@@ -91,10 +89,6 @@ class TtNews extends AbstractPlugin
      * @var string
      */
     public $extKey = 'tt_news'; // The extension key.
-    /**
-     * @var bool
-     */
-    public $pi_checkCHash = true;
 
     /**
      * @var Helpers
@@ -252,11 +246,6 @@ class TtNews extends AbstractPlugin
      */
     public $db;
     /**
-     * @var TypoScriptFrontendController
-     */
-    public $tsfe;
-
-    /**
      * @var
      */
     public $convertToUserIntObject;
@@ -344,23 +333,10 @@ class TtNews extends AbstractPlugin
      */
     public function __construct()
     {
-        //if search => disable cache hash check to avoid pageNotFoundOnCHashError, see \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::reqCHash
-        $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
-        if ($request instanceof ServerRequestInterface) {
-            $queryParams = $request->getQueryParams();
-            $parsedBody = $request->getParsedBody();
-            $prefixedQuery = is_array($queryParams[$this->prefixId] ?? null) ? $queryParams[$this->prefixId] : [];
-            $prefixedBody = is_array($parsedBody[$this->prefixId] ?? null) ? $parsedBody[$this->prefixId] : [];
-            $merged = $prefixedQuery;
-            ArrayUtility::mergeRecursiveWithOverrule($merged, $prefixedBody);
-            if (!empty($merged['swords'])) {
-                $this->pi_checkCHash = false;
-            }
-        }
-
         $this->markerBasedTemplateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         parent::__construct();
-        $this->context = $this->request?->getAttribute('frontend.context') ?? GeneralUtility::makeInstance(Context::class);
+
+        $this->context = $this->request->getAttribute('frontend.context') ?? GeneralUtility::makeInstance(Context::class);
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
     }
 
@@ -544,8 +520,6 @@ class TtNews extends AbstractPlugin
     protected function init()
     {
         $this->db = Database::getInstance();
-        $this->tsfe = $this->frontendController;
-
         $languageAspect = $this->context->getAspect('language');
         $this->sys_language_content =  $languageAspect->getContentId();
 
@@ -561,7 +535,7 @@ class TtNews extends AbstractPlugin
 
         $this->initCaching();
 
-        $this->local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class); // Local cObj.
+        $this->local_cObj = $this->createContentObjectRendererWithRequest();
         $this->enableFields = $this->getEnableFields('tt_news');
 
         if ($this->tt_news_uid === 0) { // no tt_news_uid set by displayCurrentRecord
@@ -639,7 +613,7 @@ class TtNews extends AbstractPlugin
         $backPid = (int)($this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'backPid', 's_misc'));
         $backPid = $backPid ?: (int)($this->conf['backPid'] ?? 0);
         $backPid = $backPid ?: (int)($this->piVars['backPid'] ?? 0);
-        $backPid = $backPid ?: $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId();
+        $backPid = $backPid ?: $this->request->getAttribute('frontend.page.information')->getId();
         $this->config['backPid'] = $backPid;
 
         // max items per page
@@ -751,12 +725,12 @@ class TtNews extends AbstractPlugin
         }
 
         if (!$this->allowCaching) {
-            $this->tsfe->set_no_cache();
+            $this->request->getAttribute('frontend.cache.instruction')->disableCache('EXT:tt_news: disables caches.');
         }
 
         // get siteUrl for links in rss feeds. the 'dontInsert' option seems to be needed in some configurations depending on the baseUrl setting
         if (!($this->conf['displayXML.']['dontInsertSiteUrl'] ?? false)) {
-            $this->config['siteUrl'] = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
+            $this->config['siteUrl'] = $this->request?->getAttribute('normalizedParams')?->getSiteUrl() ?? '';
         }
     }
 
@@ -1266,7 +1240,8 @@ class TtNews extends AbstractPlugin
 
         $itemsOut = '';
         $itempartsCount = count($itemparts);
-        $pTmp = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
+        $typoScriptConfig = $this->request->getAttribute('frontend.typoscript')->getConfigArray();
+        $pTmp = $typoScriptConfig['ATagParams'] ?? '';
         $cc = 0;
 
         $piVarsArray = [
@@ -1305,7 +1280,7 @@ class TtNews extends AbstractPlugin
             // Register displayed news item globally:
             $GLOBALS['T3_VAR']['displayedNews'][] = $row['uid'];
 
-            $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp . ' title="' . $this->local_cObj->stdWrap(
+            $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp . ' title="' . $this->local_cObj->stdWrap(
                 trim(htmlspecialchars($row[$titleField] ?? '')),
                 $lConf['linkTitleField.'] ?? []
             ) . '"';
@@ -1341,7 +1316,7 @@ class TtNews extends AbstractPlugin
             }
 
             // reset ATagParams
-            $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
+            $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
             $markerArray = $this->getItemMarkerArray($row, $lConf, $prefix_display);
 
             // XML
@@ -1520,7 +1495,7 @@ class TtNews extends AbstractPlugin
                         $this->config['singleViewPointerName'] => null,
                         'pS' => null,
                         'pL' => null,
-                    ], $this->allowCaching, ($this->conf['dontUseBackPid'] ? 1 : 0), $this->config['backPid']));
+                    ], $this->allowCaching, ($this->conf['dontUseBackPid'] ? 1 : 0), (string)$this->config['backPid']));
                 } else {
                     $wrappedSubpartArray['###LINK_ITEM###'] = explode('|', $this->pi_linkTP_keepPIvars('|', [
                         'tt_news' => null,
@@ -1722,7 +1697,7 @@ class TtNews extends AbstractPlugin
             }
 
             $archiveLink = $this->conf['archiveTypoLink.']['parameter'];
-            $archiveLink = ($archiveLink ?: $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId());
+            $archiveLink = ($archiveLink ?: $this->request->getAttribute('frontend.page.information')->getId());
 
             $this->conf['parent.']['addParams'] = ($this->conf['archiveTypoLink.']['addParams'] ?? null);
             $amenuLinkCat = null;
@@ -1934,7 +1909,7 @@ class TtNews extends AbstractPlugin
                     $this->getPageRenderer()->addJsFooterFile('EXT:tt_news/Resources/Public/JavaScript/NewsCatmenu.js');
                 }
                 $catTreeObj->init($this);
-                $catTreeObj->treeObj->FE_USER = &$GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.user');
+                $catTreeObj->treeObj->FE_USER = &$this->request->getAttribute('frontend.user');
 
                 $content = '<div id="ttnews-cat-tree">' . $catTreeObj->treeObj->getBrowsableTree() . '</div>';
 
@@ -2133,7 +2108,7 @@ class TtNews extends AbstractPlugin
             $markerArray['###MORE###'] = $this->pi_getLL('more');
         }
         // get title (or its language overlay) of the page where the backLink points to (this is done only in single view)
-        if ($this->config['backPid'] && $textRenderObj == 'displaySingle' && $this->isRenderMarker('###BACK_TO_LIST###')) {
+        if (!empty($this->config['backPid']) && $textRenderObj === 'displaySingle' && $this->isRenderMarker('###BACK_TO_LIST###')) {
             $backPtitle = $this->getPageArrayEntry($this->config['backPid'], 'title');
 
             $markerArray['###BACK_TO_LIST###'] = sprintf(
@@ -2517,18 +2492,18 @@ class TtNews extends AbstractPlugin
     protected function getPrevNextLink($rec, $lConf, $p = 'prev')
     {
         $title = $rec['title'];
-        $pTmp = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
-        $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp . ' title="' . $this->local_cObj->stdWrap(
+        $pTmp = $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
+        $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp . ' title="' . $this->local_cObj->stdWrap(
             trim(htmlspecialchars((string)$title)),
             $lConf[$p . 'LinkTitle_stdWrap.']
         ) . '"';
-        $link = $this->getSingleViewLink($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId(), $rec, []);
+        $link = $this->getSingleViewLink($this->request->getAttribute('frontend.page.information')->getId(), $rec, []);
 
         $lbl = $lConf['showTitleAsPrevNextLink'] ? $title : $this->pi_getLL($p . 'Article');
 
         $lbl = $this->local_cObj->stdWrap($lbl, $lConf[$p . 'LinkLabel_stdWrap.']);
 
-        $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
+        $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
 
         return $this->local_cObj->stdWrap($link[0] . $lbl . $link[1], $lConf[$p . 'Link_stdWrap.']);
     }
@@ -2569,7 +2544,7 @@ class TtNews extends AbstractPlugin
      */
     protected function getCatMarkerArray($markerArray, $row, $lConf)
     {
-        $pTmp = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
+        $pTmp = $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
         if ((is_countable($this->categories[$row['uid']]) ? count($this->categories[$row['uid']]) : 0) && ($this->config['catImageMode'] || $this->config['catTextMode'])) {
             // wrap for all categories
             $cat_stdWrap = GeneralUtility::trimExplode(
@@ -2586,12 +2561,12 @@ class TtNews extends AbstractPlugin
             $catTextLenght = 0;
             $wroteRegister = false;
 
-            $catSelLinkParams = ($this->conf['catSelectorTargetPid'] ? ($this->conf['itemLinkTarget'] ? $this->conf['catSelectorTargetPid'] . ' ' . $this->conf['itemLinkTarget'] : $this->conf['catSelectorTargetPid']) : $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId());
+            $catSelLinkParams = ($this->conf['catSelectorTargetPid'] ? ($this->conf['itemLinkTarget'] ? $this->conf['catSelectorTargetPid'] . ' ' . $this->conf['itemLinkTarget'] : $this->conf['catSelectorTargetPid']) : $this->request->getAttribute('frontend.page.information')->getId());
 
             foreach ($this->categories[$row['uid']] as $val) {
                 // find categories, wrap them with links and collect them in the array $news_category.
                 $catTitle = htmlspecialchars((string)$val['title']);
-                $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp . ' title="' . $catTitle . '"';
+                $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp . ' title="' . $catTitle . '"';
                 $titleWrap = ($val['parent_category'] > 0 ? 'subCategoryTitleItem_stdWrap.' : 'categoryTitleItem_stdWrap.');
                 if ($this->config['catTextMode'] == 0) {
                     $markerArray['###NEWS_CATEGORY###'] = '';
@@ -2751,7 +2726,7 @@ class TtNews extends AbstractPlugin
                 $markerArray['###NEWS_CATEGORY###'] = $xmlCategories;
             }
         }
-        $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
+        $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
 
         return $markerArray;
     }
@@ -2979,9 +2954,6 @@ class TtNews extends AbstractPlugin
                     $theImgCode .= $imgHtml;
                 }
             }
-            if ($this->frontendController instanceof TypoScriptFrontendController) {
-                $this->frontendController->register['IMAGE_NUM_CURRENT'] = $cc + 1;
-            }
             $cc++;
         }
 
@@ -3133,7 +3105,7 @@ class TtNews extends AbstractPlugin
     {
         $catRootline = '';
         if (is_array($categoryArray)) {
-            $pTmp = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
+            $pTmp = $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
             $lConf = $this->conf['catRootline.'];
             if ($this->conf['catSelectorTargetPid']) {
                 $catSelLinkParams = $this->conf['catSelectorTargetPid'];
@@ -3141,7 +3113,7 @@ class TtNews extends AbstractPlugin
                     $catSelLinkParams .= ' ' . $this->conf['itemLinkTarget'];
                 }
             } else {
-                $catSelLinkParams = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId();
+                $catSelLinkParams = $this->request->getAttribute('frontend.page.information')->getId();
             }
 
             $mainCategory = array_shift($categoryArray);
@@ -3177,7 +3149,7 @@ class TtNews extends AbstractPlugin
                     }
                     $catTitle = $catTitle ?: $val['title'];
                     if ($lConf['linkTitles'] && GeneralUtility::inList('2,3', $this->config['catTextMode'])) {
-                        $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $catTitle . '"';
+                        $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $catTitle . '"';
                         $output = $this->handleCatTextMode($val, $catSelLinkParams, $catTitle, $lConf, $output);
                     } else {
                         $output[] = $this->local_cObj->stdWrap($catTitle, $lConf['title_stdWrap.']);
@@ -3190,7 +3162,7 @@ class TtNews extends AbstractPlugin
                 $catRootline = $this->local_cObj->stdWrap($catRootline, $lConf['catRootline_stdWrap.']);
             }
 
-            $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
+            $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
         }
 
         return $catRootline;
@@ -3233,10 +3205,10 @@ class TtNews extends AbstractPlugin
                             $syslang = $this->sys_language_content - 1;
                             $val = $catTitleArr[$syslang] ?: $val;
                         }
-                        $catSelLinkParams = ($this->conf['catSelectorTargetPid'] ? ($this->conf['itemLinkTarget'] ? $this->conf['catSelectorTargetPid'] . ' ' . $this->conf['itemLinkTarget'] : $this->conf['catSelectorTargetPid']) : $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId());
-                        $pTmp = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
+                        $catSelLinkParams = ($this->conf['catSelectorTargetPid'] ? ($this->conf['itemLinkTarget'] ? $this->conf['catSelectorTargetPid'] . ' ' . $this->conf['itemLinkTarget'] : $this->conf['catSelectorTargetPid']) : $this->request->getAttribute('frontend.page.information')->getId());
+                        $pTmp = $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] ?? '';
                         if ($this->conf['displayCatMenu.']['insertDescrAsTitle']) {
-                            $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $array_in['description'] . '"';
+                            $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = ($pTmp ? $pTmp . ' ' : '') . 'title="' . $array_in['description'] . '"';
                         }
                         if ($array_in['uid']) {
                             $piVarsCat = $this->piVars['cat'] ?? false;
@@ -3272,7 +3244,7 @@ class TtNews extends AbstractPlugin
                                 $catSelLinkParams
                             );
                         }
-                        $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
+                        $this->request->getAttribute('frontend.typoscript')->getConfigArray()['ATagParams'] = $pTmp;
                     }
                     if ($l) {
                         $result .= $catmenuLevel_stdWrap[1];
@@ -3461,7 +3433,7 @@ class TtNews extends AbstractPlugin
             }
 
             /** @var ContentObjectRenderer $veryLocal_cObj */
-            $veryLocal_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class); // Local cObj.
+            $veryLocal_cObj = $this->createContentObjectRendererWithRequest();
             $lines = [];
 
             foreach ($relrows as $row) {
@@ -3716,7 +3688,7 @@ class TtNews extends AbstractPlugin
         $markerArray['###IMG_H###'] = $imgSize[1] ?? null;
 
         $relImgFile = str_replace(Environment::getPublicPath() . '/', '', (string)$imgFile);
-        $markerArray['###IMG###'] = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . $relImgFile;
+        $markerArray['###IMG###'] = ($this->request?->getAttribute('normalizedParams')?->getSiteUrl() ?? '') . $relImgFile;
 
         $selectConf = [];
         $selectConf['pidInList'] = $this->pid_list;
@@ -4475,7 +4447,7 @@ class TtNews extends AbstractPlugin
             $this->conf['pid_list'],
             $this->conf['pid_list.'] ?? []
         ));
-        $pid_list = $pid_list ? implode(',', GeneralUtility::intExplode(',', (string)$pid_list)) : (string)$GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId();
+        $pid_list = $pid_list ? implode(',', GeneralUtility::intExplode(',', (string)$pid_list)) : (string)$this->request->getAttribute('frontend.page.information')->getId();
 
         $recursive = $this->pi_getFFvalue($this->cObj->data['pi_flexform'] ?? null, 'recursive', 's_misc');
         if ($recursive === null || $recursive === '') {
@@ -4653,7 +4625,7 @@ class TtNews extends AbstractPlugin
         if ($this->conf[$mConfKey] ?? false) {
             $funcConf = $this->conf[$mConfKey . '.'];
             $funcConf['parentObj'] = &$this;
-            $passVar = $this->tsfe->cObj->callUserFunction($this->conf[$mConfKey], $funcConf, $passVar);
+            $passVar = $this->cObj->callUserFunction($this->conf[$mConfKey], $funcConf, $passVar);
         }
 
         return $passVar;

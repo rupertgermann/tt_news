@@ -559,7 +559,7 @@ class Categorytree extends AbstractTreeView
         &$ajaxOutput,
         &$invertedDepthOfAjaxRequestedItem
     ) {
-        $PM = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['PM'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['PM'] ?? null;
+        $PM = $this->tt_news_obj->request->getParsedBody()['PM'] ?? $this->tt_news_obj->request->getQueryParams()['PM'] ?? null;
 
         if (($PMpos = strpos((string)$PM, '#')) !== false) {
             $PM = substr((string)$PM, 0, $PMpos);
@@ -729,6 +729,7 @@ class Categorytree extends AbstractTreeView
         }
         return $icon;
     }
+
     /**
      * Returns the record for a uid.
      * For tables: Looks up the record in the database.

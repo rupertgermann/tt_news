@@ -13,17 +13,21 @@ defined('TYPO3') || die();
 
 $boot = function () {
     /**
-     * Register Datahandler hooks:
+     * Register Datahandler hooks
      */
-    // this hook is used to prevent saving of news or category records which have categories assigned that are not allowed for the current BE user.
+
+    // This hook is used to prevent saving of news or category records which have categories assigned that are not allowed for the current BE user.
     // The list of allowed categories can be set with 'tt_news_cat.allowedItems' in user/group TSconfig.
     // This check will be disabled until 'options.useListOfAllowedItems' (user/group TSconfig) is set to a value.
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass']['tt_news'] = DataHandlerHook::class;
 
-    // this hook is used to prevent saving of a news record that has non-allowed categories assigned when a command is executed (modify,copy,move,delete...).
-    // it checks if the record has an editlock. If true, nothing will not be saved.
+    // This hook is used to prevent saving of a news record that has non-allowed categories assigned when a command is executed (modify,copy,move,delete...).
+    // It checks if the record has an editlock. If true, nothing will not be saved.
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['tt_news'] = DataHandlerHook::class;
 
+    /**
+     * Plugin & TypoScript Configuration
+     */
     ExtensionManagementUtility::addTypoScriptSetup(trim('
         plugin.tt_news = USER
         plugin.tt_news {
@@ -44,7 +48,7 @@ $boot = function () {
         }
     '));
 
-    // add default rendering for tt_news content element
+    // Default rendering definition for tt_news content elements
     ExtensionManagementUtility::addTypoScript(
         'tt_news',
         'setup',
@@ -54,32 +58,27 @@ $boot = function () {
         'defaultContentRendering'
     );
 
-    if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] ?? null)) {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] = [
-            'backend' => Typo3DatabaseBackend::class,
-            'frontend' => VariableFrontend::class,
-        ];
-    }
+    /**
+     * Cache Configuration
+     */
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tt_news_cache'] ??= [
+        'backend' => Typo3DatabaseBackend::class,
+        'frontend' => VariableFrontend::class,
+        'groups' => ['pages', 'all'],
+    ];
 
-    // register news cache table for "clear all caches"
-    $GLOBALS ['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearAllCache_additionalTables']['tt_news_cache'] = 'tt_news_cache';
+    /**
+     * FormEngine & Routing
+     */
 
-    // in order to make "direct Preview links" for tt_news work again in TYPO3 >= 6, unset pageNotFoundOnCHashError if a BE_USER is logged in
-    $configuredCookieName = trim((string)$GLOBALS['TYPO3_CONF_VARS']['BE']['cookieName']);
-    if ($configuredCookieName === '' || $configuredCookieName === '0') {
-        $configuredCookieName = 'be_typo_user';
-    }
-    if ($_COOKIE[$configuredCookieName] ?? false) {
-        $GLOBALS['TYPO3_CONF_VARS']['FE']['pageNotFoundOnCHashError'] = 0;
-    }
-
+    // Extends FormEngine data processing for tt_news specific record handling in the backend
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][FormDataProvider::class] = [
         'depends' => [
             DatabaseRowInitializeNew::class,
         ],
     ];
 
-    // add a dummy ValueMapper for the archive Aspect to get rid of the cHash in archive links
+    // Add a dummy ValueMapper for the archive Aspect to get rid of the cHash in archive links
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['routing']['aspects']['ArchiveValueMapper'] = ArchiveValueMapper::class;
 };
 

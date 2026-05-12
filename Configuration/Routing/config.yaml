@@ -14,6 +14,9 @@ routeEnhancers:
     type: Plugin
     namespace: 'tx_ttnews'
     routePath: '/archive/{year}/{month}'
+    _arguments:
+      year: year
+      month: month
     requirements:
       year: '\d+'
       month: '\d+'
@@ -22,11 +25,9 @@ routeEnhancers:
       month: '0'
     aspects:
       month:
-        type: DateTimeMapper
-        format: 'm'
+        type: ArchiveValueMapper
       year:
-        type: DateTimeMapper
-        format: 'Y'
+        type: ArchiveValueMapper
   TtNewsCategory:
     type: Plugin
     namespace: 'tx_ttnews'
@@ -49,7 +50,7 @@ routeEnhancers:
         type: LocaleModifier
         default: 'page'
         localeMap:
-          - locale: 'fr_FR.*|fr_CA.*'
+          - locale: 'en_GB.*'
             value: 'page'
           - locale: 'de_DE.*'
             value: 'seite'

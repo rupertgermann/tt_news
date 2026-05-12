@@ -35,7 +35,6 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * renders the tt_news CATMENU content element
@@ -176,7 +175,8 @@ class Catmenu
 
         $tt_newsObj->setCObjData(GeneralUtility::makeInstance(PageRepository::class)->checkRecord('tt_content', $params['cObjUid'], 1));
         $tt_newsObj->pi_initPIflexForm();
-        $tt_newsObj->conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tt_news.'];
+        $request = $tt_newsObj->request;
+        $tt_newsObj->conf = $request->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tt_news.'];
 
         // variables needed to get the newscount per category
         if (!$tt_newsObj->conf['dontUsePidList']) {
@@ -189,16 +189,8 @@ class Catmenu
 
         $ajaxParams = [];
         $ajaxParams['tt_newsObj'] = &$tt_newsObj;
-        $ajaxParams['feUserObj'] = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.user');
+        $ajaxParams['feUserObj'] = $request->getAttribute('frontend.user');
 
         return $ajaxParams;
-    }
-
-    /**
-     * @return TypoScriptFrontendController
-     */
-    private function getTypoScriptFrontendController()
-    {
-        return $GLOBALS['TSFE'];
     }
 }

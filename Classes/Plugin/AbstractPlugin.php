@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Old school base class of frontend plugins.
@@ -197,13 +196,6 @@ class AbstractPlugin
     protected ?ServerRequestInterface $request = null;
 
     /**
-     * Property for accessing TypoScriptFrontendController centrally
-     *
-     * @var TypoScriptFrontendController
-     */
-    protected ?TypoScriptFrontendController $frontendController = null;
-
-    /**
      * @var MarkerBasedTemplateService
      */
     protected $templateService;
@@ -215,14 +207,12 @@ class AbstractPlugin
      *
      * @param null $_ unused,
      */
-    public function __construct($_ = null, ?TypoScriptFrontendController $frontendController = null)
+    public function __construct($_ = null)
     {
         /** @var ServerRequestInterface $request */
         $request = $GLOBALS['TYPO3_REQUEST'] ?? null;
 
         $this->request = $request;
-
-        $this->frontendController = $frontendController ?: $request?->getAttribute('frontend.controller');
 
         $this->templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         // Setting piVars:
@@ -251,6 +241,19 @@ class AbstractPlugin
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
         $this->cObj = $cObj;
+    }
+
+    /**
+     * Creates a ContentObjectRenderer instance and injects the current request.
+     * This helper method can be used by derived plugins that need their own Cobj.
+     */
+    protected function createContentObjectRendererWithRequest(): ContentObjectRenderer
+    {
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        if ($this->request instanceof ServerRequestInterface) {
+            $cObj->setRequest($this->request);
+        }
+        return $cObj;
     }
 
     /**
@@ -491,38 +494,6 @@ class AbstractPlugin
             }
         }
         return $str;
-    }
-
-    /**
-     * Will change the href value from <a> in the input string and turn it into markup that will open a new window with the URL
-     *
-     * @param string $str The string to process. This should be a string already wrapped/including a <a> tag, only the `href` attribute will be used
-     * @param string $winName Window name for the pop-up window
-     * @param string $winParams Window parameters, see the default list for inspiration
-     * @return string The processed input string, modified IF a <a> tag was found
-     */
-    public function pi_openAtagHrefInJSwindow($str, $winName = '', $winParams = 'width=670,height=500,status=0,menubar=0,scrollbars=1,resizable=1')
-    {
-        if (!preg_match('/(.*)(<a[^>]*>)(.*)/i', $str, $matches)) {
-            return $str;
-        }
-        // decode HTML entities, `href` is used as URL for the window to be opened
-        $href = GeneralUtility::get_tag_attributes($matches[2], true)['href'] ?? '';
-        if (empty($href)) {
-            return $str;
-        }
-
-        $this->addDefaultFrontendJavaScript();
-        return sprintf(
-            '%s<a href="#" %s>%s',
-            $matches[1],
-            GeneralUtility::implodeAttributes([
-                'data-window-url' => $this->frontendController->baseUrlWrap($href, true),
-                'data-window-target' => $winName ?: md5($href),
-                'data-window-features' => $winParams,
-            ], true),
-            $matches[3]
-        );
     }
 
     /***************************
@@ -867,7 +838,7 @@ class AbstractPlugin
 		' . $str . '
 	</div>
 	';
-        if (!($GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getConfigArray()['disablePrefixComment'] ?? false)) {
+        if (!($this->request->getAttribute('frontend.typoscript')->getConfigArray()['disablePrefixComment'] ?? false)) {
             $content = '
 
 
@@ -1134,7 +1105,7 @@ class AbstractPlugin
     public function pi_getPidList($pid_list, $recursive = 0)
     {
         if (strcmp($pid_list, '') === 0) {
-            $pid_list = (string)$GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.page.information')->getId();
+            $pid_list = (string)$this->request->getAttribute('frontend.page.information')->getId();
         }
         $recursive = MathUtility::forceIntegerInRange($recursive, 0);
         $pid_list_arr = array_unique(GeneralUtility::intExplode(',', $pid_list, true));
