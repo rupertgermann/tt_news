@@ -119,12 +119,6 @@ class TtNews extends AbstractPlugin
      */
     public $sViewSplitLConf = [];
     /**
-     * @var array
-     *
-     * @todo remove/replace legacy langArr
-     */
-    public $langArr = []; // the languages found in the tt_news sysfolder
-    /**
      * @var string
      */
     public $sys_language_mode = '';
@@ -547,8 +541,6 @@ class TtNews extends AbstractPlugin
         if (ExtensionManagementUtility::isLoaded('workspaces')) {
             $this->versioningEnabled = true;
         }
-        // load available syslanguages
-        // @todo: $this->initLanguages();
         // sys_language_mode defines what to do if the requested translation is not found
         $this->sys_language_mode = (($this->conf['sys_language_mode'] ?? false) ?: $languageAspect->getLegacyLanguageMode());
 
@@ -2001,22 +1993,6 @@ class TtNews extends AbstractPlugin
 
         $markerArray['###NEWS_UID###'] = $row['uid'];
 
-        // show language label and/or flag
-        // @todo: remove/replace legacy langArr
-        // if ($this->isRenderMarker('###NEWS_LANGUAGE###')) {
-        //     if ($this->conf['showLangLabels']) {
-        //         $markerArray['###NEWS_LANGUAGE###'] = $this->langArr[$row['sys_language_uid']]['title'];
-        //     }
-
-        //     if ($this->langArr[$row['sys_language_uid']]['flag'] && $this->conf['showFlags']) {
-        //         $fImgFile = ($this->conf['flagPath'] ?: 'media/flags/flag_') . $this->langArr[$row['sys_language_uid']]['flag'];
-        //         $fImgConf = $this->conf['flagImage.'];
-        //         $fImgConf['file'] = $fImgFile;
-        //         $flagImg = $this->local_cObj->cObjGetSingle('IMAGE', $fImgConf);
-        //         $markerArray['###NEWS_LANGUAGE###'] .= $flagImg;
-        //     }
-        // }
-
         if ($row['title'] && $this->isRenderMarker('###NEWS_TITLE###')) {
             $markerArray['###NEWS_TITLE###'] = $this->local_cObj->stdWrap($row['title'], $lConf['title_stdWrap.'] ?? []);
         }
@@ -2524,11 +2500,6 @@ class TtNews extends AbstractPlugin
             '',
             'tt_news.' . $fN . ($getPrev ? ' DESC' : ' ASC')
         );
-
-        /**
-         * TODO: 05.05.2009
-         * lang overlay
-         */
 
         return $row;
     }
@@ -4189,23 +4160,6 @@ class TtNews extends AbstractPlugin
      *              Init Helpers
      *
      **********************************************************************************************/
-
-    /**
-     * fills the internal array '$this->langArr' with the available syslanguages
-     *
-     * @todo remove/replace legacy langArr
-     */
-    protected function initLanguages()
-    {
-        $lres = $this->db->exec_SELECTquery('*', 'sys_language', '1=1' . $this->getEnableFields('sys_language'));
-
-        $this->langArr = [];
-        $this->langArr[0] = ['title' => $this->conf['defLangLabel'], 'flag' => $this->conf['defLangImage']];
-
-        while (($row = $this->db->sql_fetch_assoc($lres))) {
-            $this->langArr[$row['uid']] = $row;
-        }
-    }
 
     protected function initCaching()
     {
