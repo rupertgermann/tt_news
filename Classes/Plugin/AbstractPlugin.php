@@ -2,13 +2,7 @@
 
 namespace RG\TtNews\Plugin;
 
-use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\DBAL\Result;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryHelper;
-use TYPO3\CMS\Core\Database\Query\Restriction\FrontendRestrictionContainer;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Localization\Locales;
 use TYPO3\CMS\Core\Localization\LocalizationFactory;
@@ -462,40 +456,6 @@ class AbstractPlugin
         return $this->cObj->lastTypoLinkResult->getUrl();
     }
 
-    /**
-     * Wraps the $str in a link to a single display of the record (using piVars[showUid])
-     * Uses pi_linkTP for the linking
-     *
-     * @param string $str The content string to wrap in <a> tags
-     * @param int $uid UID of the record for which to display details (basically this will become the value of [showUid]
-     * @param bool $cache See pi_linkTP_keepPIvars
-     * @param array $mergeArr Array of values to override in the current piVars. Same as $overrulePIvars in pi_linkTP_keepPIvars
-     * @param bool $urlOnly If TRUE, only the URL is returned, not a full link
-     * @param int $altPageId Alternative page ID for the link. (By default this function links to the SAME page!)
-     * @return string The input string wrapped in <a> tags
-     * @see pi_linkTP()
-     * @see pi_linkTP_keepPIvars()
-     */
-    public function pi_list_linkSingle($str, $uid, $cache = false, $mergeArr = [], $urlOnly = false, $altPageId = 0)
-    {
-        if ($this->prefixId) {
-            if ($cache) {
-                $overrulePIvars = $uid ? ['showUid' => $uid] : [];
-                $overrulePIvars = array_merge($overrulePIvars, (array)$mergeArr);
-                $str = $this->pi_linkTP($str, [$this->prefixId => $overrulePIvars], $cache, $altPageId);
-            } else {
-                $overrulePIvars = ['showUid' => $uid ?: ''];
-                $overrulePIvars = array_merge($overrulePIvars, (array)$mergeArr);
-                $str = $this->pi_linkTP_keepPIvars($str, $overrulePIvars, $cache, false, $altPageId);
-            }
-            // If urlOnly flag, return only URL as it has recently been generated.
-            if ($urlOnly) {
-                $str = $this->cObj->lastTypoLinkResult->getUrl();
-            }
-        }
-        return $str;
-    }
-
     /***************************
      *
      * Functions for listing, browsing, searching etc.
@@ -693,99 +653,6 @@ class AbstractPlugin
         return $sTables;
     }
 
-    /**
-     * Returns a mode selector; a little menu in a table normally put in the top of the page/list.
-     *
-     * @param array $items Key/Value pairs for the menu; keys are the piVars[mode] values and the "values" are the labels for them.
-     * @param string $tableParams Attributes for the table tag which is wrapped around the table cells containing the menu
-     * @return string Output HTML, wrapped in <div>-tags with a class attribute
-     */
-    public function pi_list_modeSelector($items = [], $tableParams = '')
-    {
-        $cells = [];
-        foreach ($items as $k => $v) {
-            $cells[] = '
-					<td' . ($this->piVars['mode'] == $k ? $this->pi_classParam('modeSelector-SCell') : '') . '><p>' . $this->pi_linkTP_keepPIvars(htmlspecialchars((string)$v), ['mode' => $k], (bool)$this->pi_isOnlyFields($this->pi_isOnlyFields)) . '</p></td>';
-        }
-        $sTables = '
-
-		<!--
-			Mode selector (menu for list):
-		-->
-		<div' . $this->pi_classParam('modeSelector') . '>
-			<' . rtrim('table ' . $tableParams) . '>
-				<tr>
-					' . implode('', $cells) . '
-				</tr>
-			</table>
-		</div>';
-        return $sTables;
-    }
-
-    /**
-     * Returns the list of items based on the input SQL result pointer
-     * For each result row the internal var, $this->internal['currentRow'], is set with the row returned.
-     * $this->pi_list_header() makes the header row for the list
-     * $this->pi_list_row() is used for rendering each row
-     * Notice that these two functions are typically ALWAYS defined in the extension class of the plugin since they are directly concerned with the specific layout for that plugins purpose.
-     *
-     * @param Result $statement Result pointer to a SQL result which can be traversed.
-     * @param string $tableParams Attributes for the table tag which is wrapped around the table rows containing the list
-     * @return string Output HTML, wrapped in <div>-tags with a class attribute
-     * @see pi_list_row()
-     * @see pi_list_header()
-     */
-    public function pi_list_makelist($statement, $tableParams = '')
-    {
-        // Make list table header:
-        $tRows = [];
-        $this->internal['currentRow'] = '';
-        $tRows[] = $this->pi_list_header();
-        // Make list table rows
-        $c = 0;
-        while ($this->internal['currentRow'] = $statement->fetchAssociative()) {
-            $tRows[] = $this->pi_list_row($c);
-            $c++;
-        }
-        $out = '
-
-		<!--
-			Record list:
-		-->
-		<div' . $this->pi_classParam('listrow') . '>
-			<' . rtrim('table ' . $tableParams) . '>
-				' . implode('', $tRows) . '
-			</table>
-		</div>';
-        return $out;
-    }
-
-    /**
-     * Returns a list row. Get data from $this->internal['currentRow'];
-     * (Dummy)
-     * Notice: This function should ALWAYS be defined in the extension class of the plugin since it is directly concerned with the specific layout of the listing for your plugins purpose.
-     *
-     * @param int $c Row counting. Starts at 0 (zero). Used for alternating class values in the output rows.
-     * @return string HTML output, a table row with a class attribute set (alternative based on odd/even rows)
-     */
-    public function pi_list_row($c)
-    {
-        // Dummy
-        return '<tr' . ($c % 2 !== 0 ? $this->pi_classParam('listrow-odd') : '') . '><td><p>[dummy row]</p></td></tr>';
-    }
-
-    /**
-     * Returns a list header row.
-     * (Dummy)
-     * Notice: This function should ALWAYS be defined in the extension class of the plugin since it is directly concerned with the specific layout of the listing for your plugins purpose.
-     *
-     * @return string HTML output, a table row with a class attribute set
-     */
-    public function pi_list_header()
-    {
-        return '<tr' . $this->pi_classParam('listrow-header') . '><td><p>[dummy header row]</p></td></tr>';
-    }
-
     /***************************
      *
      * Stylesheet, CSS
@@ -823,36 +690,6 @@ class AbstractPlugin
             $output .= ' ' . $additionalClassName;
         }
         return ' class="' . trim($output) . '"';
-    }
-
-    /**
-     * Wraps the input string in a <div> tag with the class attribute set to the prefixId.
-     * All content returned from your plugins should be returned through this function so all content from your plugin is encapsulated in a <div>-tag nicely identifying the content of your plugin.
-     *
-     * @param string $str HTML content to wrap in the div-tags with the "main class" of the plugin
-     * @return string HTML content wrapped, ready to return to the parent object.
-     */
-    public function pi_wrapInBaseClass($str)
-    {
-        $content = '<div class="' . str_replace('_', '-', $this->prefixId) . '">
-		' . $str . '
-	</div>
-	';
-        if (!($this->request->getAttribute('frontend.typoscript')->getConfigArray()['disablePrefixComment'] ?? false)) {
-            $content = '
-
-
-	<!--
-
-		BEGIN: Content of extension "' . $this->extKey . '", plugin "' . $this->prefixId . '"
-
-	-->
-	' . $content . '
-	<!-- END: Content of extension "' . $this->extKey . '", plugin "' . $this->prefixId . '" -->
-
-	';
-        }
-        return $content;
     }
 
     /***************************
@@ -954,133 +791,6 @@ class AbstractPlugin
         $this->LOCAL_LANG_loaded = true;
     }
 
-    /***************************
-     *
-     * Database, queries
-     *
-     **************************/
-    /**
-     * Executes a standard SELECT query for listing of records based on standard input vars from the 'browser' ($this->internal['results_at_a_time'] and $this->piVars['pointer']) and 'searchbox' ($this->piVars['sword'] and $this->internal['searchFieldList'])
-     * Set $count to 1 if you wish to get a count(*) query for selecting the number of results.
-     * Notice that the query will use $this->conf['pidList'] and $this->conf['recursive'] to generate a PID list within which to search for records.
-     *
-     * @param string $table The table name to make the query for.
-     * @param bool $count If set, you will get a "count(*)" query back instead of field selecting
-     * @param string $addWhere Additional WHERE clauses (should be starting with " AND ....")
-     * @param mixed $mm_cat If an array, then it must contain the keys "table", "mmtable" and (optionally) "catUidList" defining a table to make a MM-relation to in the query (based on fields uid_local and uid_foreign). If not array, the query will be a plain query looking up data in only one table.
-     * @param string $groupBy If set, this is added as a " GROUP BY ...." part of the query.
-     * @param string $orderBy If set, this is added as a " ORDER BY ...." part of the query. The default is that an ORDER BY clause is made based on $this->internal['orderBy'] and $this->internal['descFlag'] where the orderBy field must be found in $this->internal['orderByList']
-     * @param string $query If set, this is taken as the first part of the query instead of what is created internally. Basically this should be a query starting with "FROM [table] WHERE ... AND ...". The $addWhere clauses and all the other stuff is still added. Only the tables and PID selecting clauses are bypassed. May be deprecated in the future!
-     * @return Result
-     */
-    public function pi_exec_query($table, $count = false, $addWhere = '', $mm_cat = '', $groupBy = '', $orderBy = '', $query = '')
-    {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
-        $queryBuilder->from($table);
-
-        // Begin Query:
-        if (!$query) {
-            // This adds WHERE-clauses that ensures deleted, hidden, starttime/endtime/access records are NOT
-            // selected, if they should not! Almost ALWAYS add this to your queries!
-            $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
-
-            // Fetches the list of PIDs to select from.
-            // TypoScript property .pidList is a comma list of pids. If blank, current page id is used.
-            // TypoScript property .recursive is an int+ which determines how many levels down from the pids in the pid-list subpages should be included in the select.
-            $pidList = GeneralUtility::intExplode(',', $this->pi_getPidList($this->conf['pidList'] ?? '', (int)($this->conf['recursive'] ?? 0)), true);
-            if (is_array($mm_cat)) {
-                $queryBuilder->from($mm_cat['table'])
-                    ->from($mm_cat['mmtable'])
-                    ->where(
-                        $queryBuilder->expr()->eq($table . '.uid', $queryBuilder->quoteIdentifier($mm_cat['mmtable'] . '.uid_local')),
-                        $queryBuilder->expr()->eq($mm_cat['table'] . '.uid', $queryBuilder->quoteIdentifier($mm_cat['mmtable'] . '.uid_foreign')),
-                        $queryBuilder->expr()->in(
-                            $table . '.pid',
-                            $queryBuilder->createNamedParameter($pidList, ArrayParameterType::INTEGER)
-                        )
-                    );
-                $catUidList = (string)($mm_cat['catUidList'] ?? '');
-                if ($catUidList !== '') {
-                    $queryBuilder->andWhere(
-                        $queryBuilder->expr()->in(
-                            $mm_cat['table'] . '.uid',
-                            $queryBuilder->createNamedParameter(
-                                GeneralUtility::intExplode(',', $catUidList, true),
-                                ArrayParameterType::INTEGER
-                            )
-                        )
-                    );
-                }
-            } else {
-                $queryBuilder->where(
-                    $queryBuilder->expr()->in(
-                        'pid',
-                        $queryBuilder->createNamedParameter($pidList, ArrayParameterType::INTEGER)
-                    )
-                );
-            }
-        } else {
-            // Restrictions need to be handled by the $query parameter!
-            $queryBuilder->getRestrictions()->removeAll();
-
-            // Split the "FROM ... WHERE" string so we get the WHERE part and TABLE names separated...:
-            [$tableListFragment, $whereFragment] = preg_split('/WHERE/i', trim($query), 2);
-            foreach (QueryHelper::parseTableList($tableListFragment) as $tableNameAndAlias) {
-                [$tableName, $tableAlias] = $tableNameAndAlias;
-                $queryBuilder->from($tableName, $tableAlias);
-            }
-            $queryBuilder->where(QueryHelper::stripLogicalOperatorPrefix($whereFragment));
-        }
-
-        // Add '$addWhere'
-        if ($addWhere) {
-            $queryBuilder->andWhere(QueryHelper::stripLogicalOperatorPrefix($addWhere));
-        }
-        // Search word:
-        if ($this->piVars['sword'] && ($this->internal['searchFieldList'] ?? false)) {
-            $searchWhere = QueryHelper::stripLogicalOperatorPrefix(
-                $this->cObj->searchWhere($this->piVars['sword'], $this->internal['searchFieldList'], $table)
-            );
-            if ($searchWhere !== '' && $searchWhere !== '0') {
-                $queryBuilder->andWhere($searchWhere);
-            }
-        }
-
-        if ($count) {
-            $queryBuilder->count('*');
-        } else {
-            // Add 'SELECT'
-            $fields = $this->pi_prependFieldsWithTable($table, $this->pi_listFields);
-            $queryBuilder->select(...GeneralUtility::trimExplode(',', $fields, true));
-
-            // Order by data:
-            if (!$orderBy && ($this->internal['orderBy'] ?? false)) {
-                if (GeneralUtility::inList($this->internal['orderByList'], $this->internal['orderBy'])) {
-                    $sorting = ($this->internal['descFlag'] ?? false) ? ' DESC' : 'ASC';
-                    $queryBuilder->orderBy($table . '.' . $this->internal['orderBy'], $sorting);
-                }
-            } elseif ($orderBy) {
-                foreach (QueryHelper::parseOrderBy($orderBy) as $fieldNameAndSorting) {
-                    [$fieldName, $sorting] = $fieldNameAndSorting;
-                    $queryBuilder->addOrderBy($fieldName, $sorting);
-                }
-            }
-
-            // Limit data:
-            $pointer = (int)$this->piVars['pointer'];
-            $results_at_a_time = MathUtility::forceIntegerInRange(($this->internal['results_at_a_time'] ?? 1), 1, 1000);
-            $queryBuilder->setFirstResult($pointer * $results_at_a_time)
-                ->setMaxResults($results_at_a_time);
-
-            // Grouping
-            if (!empty($groupBy)) {
-                $queryBuilder->groupBy(...QueryHelper::parseGroupBy($groupBy));
-            }
-        }
-
-        return $queryBuilder->executeQuery();
-    }
-
     /**
      * Returns the row $uid from $table
      * (Simply calling $this->frontendEngine->sys_page->checkRecord())
@@ -1111,77 +821,6 @@ class AbstractPlugin
         $pid_list_arr = array_unique(GeneralUtility::intExplode(',', $pid_list, true));
         $pid_list = GeneralUtility::makeInstance(PageRepository::class)->getPageIdsRecursive($pid_list_arr, $recursive);
         return implode(',', $pid_list);
-    }
-
-    /**
-     * Having a comma list of fields ($fieldList) this is prepended with the $table.'.' name
-     *
-     * @param string $table Table name to prepend
-     * @param string $fieldList List of fields where each element will be prepended with the table name given.
-     * @return string List of fields processed.
-     */
-    public function pi_prependFieldsWithTable($table, $fieldList)
-    {
-        $list = GeneralUtility::trimExplode(',', $fieldList, true);
-        $return = [];
-        foreach ($list as $listItem) {
-            $return[] = $table . '.' . $listItem;
-        }
-        return implode(',', $return);
-    }
-
-    /**
-     * Will select all records from the "category table", $table, and return them in an array.
-     *
-     * @param string $table The name of the category table to select from.
-     * @param int $pid The page from where to select the category records.
-     * @param string $whereClause Optional additional WHERE clauses put in the end of the query. DO NOT PUT IN GROUP BY, ORDER BY or LIMIT!
-     * @param string $groupBy Optional GROUP BY field(s), if none, supply blank string.
-     * @param string $orderBy Optional ORDER BY field(s), if none, supply blank string.
-     * @param string $limit Optional LIMIT value ([begin,]max), if none, supply blank string.
-     * @return array The array with the category records in.
-     */
-    public function pi_getCategoryTableContents($table, $pid, $whereClause = '', $groupBy = '', $orderBy = '', $limit = '')
-    {
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
-        $queryBuilder->setRestrictions(GeneralUtility::makeInstance(FrontendRestrictionContainer::class));
-        $queryBuilder->select('*')
-            ->from($table)
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'pid',
-                    $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT)
-                ),
-                QueryHelper::stripLogicalOperatorPrefix($whereClause)
-            );
-
-        if (!empty($orderBy)) {
-            foreach (QueryHelper::parseOrderBy($orderBy) as $fieldNameAndSorting) {
-                [$fieldName, $sorting] = $fieldNameAndSorting;
-                $queryBuilder->addOrderBy($fieldName, $sorting);
-            }
-        }
-
-        if (!empty($groupBy)) {
-            $queryBuilder->groupBy(...QueryHelper::parseGroupBy($groupBy));
-        }
-
-        if (!empty($limit)) {
-            $limitValues = GeneralUtility::intExplode(',', (string)$limit, true);
-            if (count($limitValues) === 1) {
-                $queryBuilder->setMaxResults($limitValues[0]);
-            } else {
-                $queryBuilder->setFirstResult($limitValues[0])
-                    ->setMaxResults($limitValues[1]);
-            }
-        }
-
-        $result = $queryBuilder->executeQuery();
-        $outArr = [];
-        while ($row = $result->fetchAssociative()) {
-            $outArr[$row['uid']] = $row;
-        }
-        return $outArr;
     }
 
     /***************************
@@ -1244,20 +883,6 @@ class AbstractPlugin
             return 1;
         }
         return null;
-    }
-
-    /**
-     * Will process the input string with the parseFunc function from ContentObjectRenderer based on configuration
-     * set in "lib.parseFunc_RTE" in the current TypoScript template.
-     *
-     * @param string $str The input text string to process
-     * @return string The processed string
-     * @see ContentObjectRenderer::parseFunc()
-     */
-    public function pi_RTEcssText($str)
-    {
-        $str = $this->cObj->parseFunc($str, null, '< lib.parseFunc_RTE');
-        return $str;
     }
 
     /*******************************
