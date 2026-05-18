@@ -31,13 +31,14 @@ class FormDataProvider implements FormDataProviderInterface
      *
      * @return array
      */
-    public function addData(array $result)
+    public function addData(array $result): array
     {
         if ($result['command'] !== 'new' || $result['tableName'] !== 'tt_news') {
             return $result;
         }
 
-        $result['databaseRow']['datetime'] = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp');
+        $timestamp = GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp');
+        $result['databaseRow']['datetime'] = (new \DateTimeImmutable())->setTimestamp($timestamp);
 
         return $result;
     }
