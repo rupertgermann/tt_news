@@ -40,8 +40,12 @@
 				<target>Letzte Änderung:</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pid">
-				<source>Page:</source>
-				<target>Seite:</target>
+				<source>Page</source>
+				<target>Seite</target>
+			</trans-unit>
+			<trans-unit id="tt_news.type">
+				<source>Typ</source>
+				<target>Type</target>
 			</trans-unit>
 			<trans-unit id="tt_news.type.I.0">
 				<source>News</source>
@@ -55,13 +59,53 @@
 				<source>Link external URL</source>
 				<target>Link zu externer URL</target>
 			</trans-unit>
+			<trans-unit id="tt_news.ext_url">
+				<source>External URL</source>
+				<target>Externe URL</target>
+			</trans-unit>
+			<trans-unit id="tt_news.page">
+				<source>Page</source>
+				<target>Seite</target>
+			</trans-unit>
+			<trans-unit id="tt_news.title">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tt_news.subheader">
+				<source>Subheader</source>
+				<target>Untertitel</target>
+			</trans-unit>
+			<trans-unit id="tt_news.text">
+				<source>Text</source>
+				<target>Text</target>
+			</trans-unit>
 			<trans-unit id="tt_news.datetime">
-				<source>Date/Time:</source>
-				<target>Datum/Zeit:</target>
+				<source>Date/Time</source>
+				<target>Datum/Zeit</target>
 			</trans-unit>
 			<trans-unit id="tt_news.archivedate">
-				<source>Archive date:</source>
-				<target>Archivdatum:</target>
+				<source>Archive date</source>
+				<target>Archivdatum</target>
+			</trans-unit>
+			<trans-unit id="tt_news.author">
+				<source>Author</source>
+				<target>Autor</target>
+			</trans-unit>
+			<trans-unit id="tt_news.author_email">
+				<source>Author Email</source>
+				<target>Autor E-Mail</target>
+			</trans-unit>
+			<trans-unit id="tt_news.keywords">
+				<source>Keywords</source>
+				<target>Stichwörter</target>
+			</trans-unit>
+			<trans-unit id="tt_news.images">
+				<source>Images</source>
+				<target>Bilder</target>
+			</trans-unit>
+			<trans-unit id="tt_news.links">
+				<source>Links</source>
+				<target>Links</target>
 			</trans-unit>
 			<trans-unit id="tt_news.no_auto_pb">
 				<source>No automatic pagebreaks for this record</source>
@@ -83,16 +127,8 @@
 				<source>edit default language version of this article</source>
 				<target>Diesen Artikel in Originalsprache editieren</target>
 			</trans-unit>
-			<trans-unit id="tt_news.imagealttext">
-				<source>Image alttext</source>
-				<target>ALT-Text des Bildes</target>
-			</trans-unit>
-			<trans-unit id="tt_news.imagetitletext">
-				<source>Image titletext</source>
-				<target>Titel des Bildes</target>
-			</trans-unit>
 			<trans-unit id="tt_news.related">
-				<source>Related news:</source>
+				<source>Related news</source>
 				<target>In Verbindung stehende Artikel</target>
 			</trans-unit>
 			<trans-unit id="tt_news.random">
@@ -100,7 +136,7 @@
 				<target>Zufällige Reihefolge</target>
 			</trans-unit>
 			<trans-unit id="tt_news.category">
-				<source>Category:</source>
+				<source>Category</source>
 				<target>Kategorie</target>
 			</trans-unit>
 			<trans-unit id="tt_news_cat">
@@ -120,7 +156,7 @@
 				<target>Kategorien-Liste anzeigen</target>
 			</trans-unit>
 			<trans-unit id="tt_news_cat.title_lang_ol">
-				<source>title language overlays</source>
+				<source>Title language overlays</source>
 				<target>Übersetzungen (mehrere Einträge durch "|" trennen)</target>
 			</trans-unit>
 			<trans-unit id="tt_news_cat.parent_category">
@@ -143,9 +179,9 @@
 				<source>Description</source>
 				<target>Beschreibung</target>
 			</trans-unit>
-			<trans-unit id="tt_news_cat.invisible">
-				<source>Do not display this category in FE</source>
-				<target>Diese Kategorie im Frontend nicht anzeigen</target>
+			<trans-unit id="tt_news_cat.hidden">
+				<source>Verbergen</source>
+				<target>Hidden</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.sheet_general">
 				<source>General Settings</source>

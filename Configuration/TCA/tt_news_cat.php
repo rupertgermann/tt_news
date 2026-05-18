@@ -7,7 +7,6 @@ use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************
-$locallang_general = 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:';
 
 return [
     'ctrl' => [
@@ -33,7 +32,7 @@ return [
     ],
     'columns' => [
         'title' => [
-            'label' => $locallang_general . 'LGL.title',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.title',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -53,23 +52,23 @@ return [
         ],
         'hidden' => [
             'exclude' => 1,
-            'label' => $locallang_general . 'LGL.hidden',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.hidden',
             'config' => [
                 'type' => 'check',
             ],
         ],
         'fe_group' => [
             'exclude' => 1,
-            'label' => $locallang_general . 'LGL.fe_group',
+            'label' => 'core.db.general:fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => [
-                    ['label' => $locallang_general . 'LGL.hide_at_login', 'value' => -1],
-                    ['label' => $locallang_general . 'LGL.any_login', 'value' => -2],
-                    ['label' => $locallang_general . 'LGL.usergroups', 'value' => '--div--'],
+                    ['label' => 'core.db.general:hide_at_login', 'value' => -1],
+                    ['label' => 'core.db.general:any_login', 'value' => -2],
+                    ['label' => 'core.db.general:fe_group', 'value' => '--div--'],
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
@@ -80,7 +79,7 @@ return [
         ],
         'starttime' => [
             'exclude' => 1,
-            'label' => $locallang_general . 'LGL.starttime',
+            'label' => 'core.db.general:starttime',
             'config' => [
                 'type' => 'datetime',
                 'size' => 16,
@@ -93,7 +92,7 @@ return [
         ],
         'endtime' => [
             'exclude' => 1,
-            'label' => $locallang_general . 'LGL.endtime',
+            'label' => 'core.db.general:endtime',
             'config' => [
                 'type' => 'datetime',
                 'size' => 16,
