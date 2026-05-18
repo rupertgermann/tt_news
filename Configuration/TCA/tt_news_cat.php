@@ -35,7 +35,7 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.title',
             'config' => [
                 'type' => 'input',
-                'size' => '40',
+                'size' => '60',
                 'max' => '256',
                 'required' => true,
             ],
@@ -44,7 +44,7 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.title_lang_ol',
             'config' => [
                 'type' => 'input',
-                'size' => '40',
+                'size' => '60',
                 'max' => '256',
                 'searchable' => false,
 
@@ -82,8 +82,6 @@ return [
             'label' => 'core.db.general:starttime',
             'config' => [
                 'type' => 'datetime',
-                'size' => 16,
-                'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
@@ -95,8 +93,6 @@ return [
             'label' => 'core.db.general:endtime',
             'config' => [
                 'type' => 'datetime',
-                'size' => 16,
-                'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
@@ -110,7 +106,7 @@ return [
                 'type' => 'select',
                 'foreign_table' => 'tt_news_cat',
                 'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
-                'size' => 50,
+                'size' => 30,
                 'minitems' => 0,
                 'maxitems' => 1,
                 'renderType' => 'selectTree',
@@ -179,7 +175,7 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.description',
             'config' => [
                 'type' => 'text',
-                'cols' => '40',
+                'cols' => '60',
                 'rows' => '3',
                 'searchable' => false,
             ],

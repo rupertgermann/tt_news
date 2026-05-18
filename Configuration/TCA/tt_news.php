@@ -68,8 +68,6 @@ return [
             'label' => 'core.db.general:starttime',
             'config' => [
                 'type' => 'datetime',
-                'size' => 16,
-                'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
@@ -81,8 +79,6 @@ return [
             'label' => 'core.db.general:endtime',
             'config' => [
                 'type' => 'datetime',
-                'size' => 16,
-                'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
@@ -123,7 +119,7 @@ return [
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'input',
-                'size' => '40',
+                'size' => '60',
                 'max' => '256',
             ],
         ],
@@ -131,7 +127,7 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.ext_url',
             'config' => [
                 'type' => 'input',
-                'size' => '40',
+                'size' => '50',
                 'max' => '256',
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
@@ -152,7 +148,6 @@ return [
                 'rows' => 5,
                 'softref' => 'typolink_tag,email[subst],url',
                 'enableRichtext' => true,
-                'richtextConfiguration' => 'default',
             ],
         ],
         'no_auto_pb' => [
@@ -171,7 +166,7 @@ return [
             'l10n_mode' => $l10n_mode,
             'config' => [
                 'type' => 'text',
-                'cols' => '40',
+                'cols' => '60',
                 'rows' => '3',
             ],
         ],
@@ -194,7 +189,6 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.datetime',
             'config' => [
                 'type' => 'datetime',
-                'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
@@ -206,7 +200,6 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.archivedate',
             'config' => [
                 'type' => 'datetime',
-                'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
@@ -246,7 +239,7 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.author',
             'config' => [
                 'type' => 'input',
-                'size' => '20',
+                'size' => '30',
                 'eval' => 'trim',
                 'max' => '80',
                 'behaviour' => [
@@ -260,7 +253,7 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.author_email',
             'config' => [
                 'type' => 'input',
-                'size' => '20',
+                'size' => '30',
                 'eval' => 'trim',
                 'max' => '80',
                 'behaviour' => [
@@ -301,7 +294,7 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.links',
             'config' => [
                 'type' => 'text',
-                'cols' => '40',
+                'cols' => '60',
                 'rows' => '3',
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
@@ -322,7 +315,7 @@ return [
                 'MM_match_fields' => [
                     'tablenames' => '',
                 ],
-                'size' => 20,
+                'size' => 30,
                 'minitems' => $confArr['requireCategories'] ? 1 : 0,
                 'maxitems' => 500,
                 'renderMode' => 'tree',
@@ -369,7 +362,7 @@ return [
             'displayCond' => 'VERSION:IS:false',
             'config' => [
                 'type' => 'slug',
-                'size' => 50,
+                'size' => 60,
                 'generatorOptions' => [
                     'fields' => ['title'],
                     'fieldSeparator' => '-',
