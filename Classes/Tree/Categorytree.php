@@ -38,13 +38,13 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Result;
 use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Utility\Div;
-use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Tree\View\AbstractTreeView;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Database\Query\Restriction\DefaultRestrictionContainer;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -109,6 +109,10 @@ class Categorytree extends AbstractTreeView
      */
     public $titleLen;
     /**
+     * @var string
+     */
+    public $title;
+    /**
      * @var
      */
     public $pageID;
@@ -147,6 +151,50 @@ class Categorytree extends AbstractTreeView
         }
         // Sets the tree name which is used to identify the tree, used for JavaScript and other things
         $this->treeName = str_replace('_', '', (string)($this->treeName ?: $this->table));
+    }
+
+    /**
+     * Set the database table name used by the tree.
+     */
+    public function setTable(string $table): void
+    {
+        $this->table = $table;
+    }
+
+    /**
+     * Set the parent field name used by the tree.
+     */
+    public function setParentField(string $parentField): void
+    {
+        $this->parentField = $parentField;
+    }
+
+    /**
+     * Set the field list used by the tree record query.
+     */
+    public function setFieldArray(array $fieldArray): void
+    {
+        $this->fieldArray = $fieldArray;
+    }
+
+    /**
+     * Returns a fake root record for the tree if no mount record exists.
+     *
+     * @return array{
+     *     uid: int,
+     *     title: string,
+     *     pid?: int,
+     *     parent_category?: int,
+     * }
+     */
+    public function getRootRecord(): array
+    {
+        return [
+            'uid' => 0,
+            'title' => $this->treeName ?: 'root',
+            'pid' => 0,
+            'parent_category' => 0,
+        ];
     }
 
     /**
@@ -204,8 +252,8 @@ class Categorytree extends AbstractTreeView
 
             // Set PM icon for root of mount:
             $cmd = $this->bank . '_' . ($isOpen ? '0_' : '1_') . $uid . '_' . $this->treeName;
-
-            $icon = '<img' . IconFactory::skinImg('ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
+            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+            $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . ($isOpen ? 'minus' : 'plus') . 'only', IconSize::SMALL)->render();
             $firstHtml = $this->expandable && !$this->expandFirst ? $this->PMiconATagWrap($icon, $cmd) : $icon;
 
             $this->addStyle = '';
@@ -342,7 +390,7 @@ class Categorytree extends AbstractTreeView
         $a = 0;
 
         $res = $this->getDataInit($uid);
-        $c = $this->getDataCount($res);
+        $c = $this->getCount($uid);
         $crazyRecursionLimiter = 999;
         $allRows = [];
         while ($crazyRecursionLimiter > 0 && $row = $this->getDataNext($res)) {
@@ -408,8 +456,7 @@ class Categorytree extends AbstractTreeView
             $this->tree[$treeKey]['isLast'] = true;
         }
 
-        $this->getDataFree($res);
-        $this->buffer_idH = $idH ?? null;
+        $this->buffer_idH = $idH ?? [];
 
         return $c;
     }
@@ -559,7 +606,7 @@ class Categorytree extends AbstractTreeView
         &$ajaxOutput,
         &$invertedDepthOfAjaxRequestedItem
     ) {
-        $PM = $this->tt_news_obj->request->getParsedBody()['PM'] ?? $this->tt_news_obj->request->getQueryParams()['PM'] ?? null;
+        $PM = $this->tt_news_obj->getRequest()->getParsedBody()['PM'] ?? $this->tt_news_obj->getRequest()->getQueryParams()['PM'] ?? null;
 
         if (($PMpos = strpos((string)$PM, '#')) !== false) {
             $PM = substr((string)$PM, 0, $PMpos);

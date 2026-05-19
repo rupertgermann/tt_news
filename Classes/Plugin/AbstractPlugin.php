@@ -250,6 +250,11 @@ class AbstractPlugin
         return $cObj;
     }
 
+    public function getRequest(): ?ServerRequestInterface
+    {
+        return $this->request;
+    }
+
     /**
      * Recursively looks for stdWrap and executes it
      *

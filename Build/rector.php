@@ -33,7 +33,6 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         Ssch\TYPO3Rector\TYPO313\v4\MigratePluginContentElementAndPluginSubtypesRector::class,
-        Ssch\TYPO3Rector\TYPO314\v0\MigratePathUtilityGetPublicResourceWebPathRector::class,
         Ssch\TYPO3Rector\CodeQuality\General\GeneralUtilityMakeInstanceToConstructorPropertyRector::class,
         __DIR__ . '/../.Build/*',
         __DIR__ . '/../.ddev/*',

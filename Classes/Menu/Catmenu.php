@@ -71,22 +71,22 @@ class Catmenu
         $this->treeObj = GeneralUtility::makeInstance(FeTreeView::class);
         $this->treeObj->tt_news_obj = &$pObj;
         $this->treeObj->category = $pObj->piVars_catSelection;
-        $this->treeObj->table = 'tt_news_cat';
+        $this->treeObj->setTable('tt_news_cat');
+        $this->treeObj->setParentField('parent_category');
         $this->treeObj->init(
             $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere,
             $pObj->config['catOrderBy']
         );
         $this->treeObj->backPath = Environment::getPublicPath();
-        $this->treeObj->parentField = 'parent_category';
         $this->treeObj->thisScript = 'index.php?ttnewsID=tt_news_catmenu';
         $this->treeObj->cObjUid = (int)($this->getCObjUidFromTtNews($pObj));
-        $this->treeObj->fieldArray = [
+        $this->treeObj->setFieldArray([
             'uid',
             'title',
             'title_lang_ol',
             'description',
             'image',
-        ]; // those fields will be filled to the array $this->treeObj->tree
+        ]); // those fields will be filled to the array $this->treeObj->tree
         $this->treeObj->ext_IconMode = '1'; // no context menu on icons
 
         $expandable = $lConf['expandable'];
@@ -175,7 +175,7 @@ class Catmenu
 
         $tt_newsObj->setCObjData(GeneralUtility::makeInstance(PageRepository::class)->checkRecord('tt_content', $params['cObjUid'], 1));
         $tt_newsObj->pi_initPIflexForm();
-        $request = $tt_newsObj->request;
+        $request = $tt_newsObj->getRequest();
         $tt_newsObj->conf = $request->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tt_news.'];
 
         // variables needed to get the newscount per category
