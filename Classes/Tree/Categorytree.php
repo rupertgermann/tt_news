@@ -409,7 +409,7 @@ class Categorytree extends AbstractTreeView
             $newID = $row['uid'];
             $this->tree[] = [];
             $treeKey = array_key_last($this->tree); // Get the key for this space
-            $LN = ($a == $c) ? 'blank' : 'line';
+            $LN = ($a === $c) ? 'blank' : 'line';
 
             // If records should be accumulated, do so
             if ($this->setRecs) {
@@ -747,7 +747,7 @@ class Categorytree extends AbstractTreeView
 
         $BTM = ($a == $c) ? 'bottom' : '';
         /**
-         * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
+         * @var IconFactory $iconFactory
          */
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, IconSize::SMALL)->render();

@@ -452,13 +452,31 @@ class AbstractPlugin
      * @param bool $cache See pi_linkTP_keepPIvars
      * @param bool $clearAnyway See pi_linkTP_keepPIvars
      * @param int $altPageId See pi_linkTP_keepPIvars
-     * @return string The URL ($this->cObj->lastTypoLinkResult)
+     * @return string The URL generated for the current page and merged piVars
      * @see pi_linkTP_keepPIvars()
      */
     public function pi_linkTP_keepPIvars_url($overrulePIvars = [], $cache = false, $clearAnyway = false, $altPageId = 0)
     {
-        $this->pi_linkTP_keepPIvars('|', $overrulePIvars, $cache, $clearAnyway, $altPageId);
-        return $this->cObj->lastTypoLinkResult->getUrl();
+        if (is_array($this->piVars) && is_array($overrulePIvars) && !$clearAnyway) {
+            $piVars = $this->piVars;
+            unset($piVars['DATA']);
+            ArrayUtility::mergeRecursiveWithOverrule($piVars, $overrulePIvars);
+            $overrulePIvars = $piVars;
+            if ($this->pi_autoCacheEn) {
+                $cache = (bool)$this->pi_autoCache($overrulePIvars);
+            }
+        }
+
+        $conf = [];
+        if (!$cache) {
+            $conf['no_cache'] = true;
+        }
+        $conf['parameter'] = $altPageId ?: ($this->pi_tmpPageId ?: 'current');
+        $conf['additionalParams'] = ($this->conf['parent.']['addParams'] ?? '') . HttpUtility::buildQueryString([
+            $this->prefixId => $overrulePIvars,
+        ], '&', true) . $this->pi_moreParams;
+
+        return $this->cObj->createUrl($conf);
     }
 
     /***************************

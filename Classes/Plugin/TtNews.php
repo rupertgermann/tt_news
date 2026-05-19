@@ -1524,9 +1524,7 @@ class TtNews extends AbstractPlugin
             // not existing translation
             if ($this->conf['redirectNoTranslToList']) {
                 // redirect to list page
-                $this->pi_linkToPage(' ', $this->conf['backPid']);
-
-                $redirectUrl = $this->cObj->lastTypoLinkResult->getUrl();
+                $redirectUrl = $this->pi_getPageLink($this->conf['backPid']);
                 $responseFactory = GeneralUtility::makeInstance(ResponseFactoryInterface::class);
                 $response = $responseFactory
                     ->createResponse()
@@ -4712,7 +4710,12 @@ class TtNews extends AbstractPlugin
                 $singlePid
             )
         );
-        $url = $this->cObj->lastTypoLinkResult ? $this->cObj->lastTypoLinkResult->getUrl() : '';
+        $url = $this->pi_linkTP_keepPIvars_url(
+            $piVarsArray,
+            $this->allowCaching,
+            $this->conf['dontUseBackPid'],
+            $singlePid
+        );
 
         // hook for processing of links
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_news']['getSingleViewLinkHook'] ?? null)) {

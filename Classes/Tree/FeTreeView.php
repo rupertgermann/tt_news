@@ -200,7 +200,7 @@ class FeTreeView extends Categorytree
 
         $BTM = ($a == $c) ? 'bottom' : '';
         /**
-         * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
+         * @var IconFactory $iconFactory
          */
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, IconSize::SMALL)->render();
