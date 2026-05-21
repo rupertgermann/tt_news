@@ -6,294 +6,302 @@
         <sDEF>
             <ROOT>
                 <sheetTitle>
-                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.sheet_general
-                    </sheetTitle>
+                    LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.sheet_general
+                </sheetTitle>
                 <type>array</type>
                 <el>
                     <what_to_display>
-                        <onChange>reload</onChange><label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.what_to_display
-                            </label><config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items type="array">
-                                    <numIndex index="0" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.codeFromTS
-                                        </label>
-                                        <value></value>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.LIST
-                                        </label>
-                                        <value>LIST</value>
-                                    </numIndex>
-                                    <numIndex index="2" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.LIST2
-                                        </label>
-                                        <value>LIST2</value>
-                                    </numIndex>
-                                    <numIndex index="3" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.LIST3
-                                        </label>
-                                        <value>LIST3</value>
-                                    </numIndex>
-                                    <numIndex index="4" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.HEADER_LIST
-                                        </label>
-                                        <value>HEADER_LIST</value>
-                                    </numIndex>
-                                    <numIndex index="5" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.LATEST
-                                        </label>
-                                        <value>LATEST</value>
-                                    </numIndex>
-                                    <numIndex index="6" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.SINGLE
-                                        </label>
-                                        <value>SINGLE</value>
-                                    </numIndex>
-                                    <numIndex index="7" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.SINGLE2
-                                        </label>
-                                        <value>SINGLE2</value>
-                                    </numIndex>
-                                    <numIndex index="8" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.AMENU
-                                        </label>
-                                        <value>AMENU</value>
-                                    </numIndex>
-                                    <numIndex index="9" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.SEARCH
-                                        </label>
-                                        <value>SEARCH</value>
-                                    </numIndex>
-                                    <numIndex index="10" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.CATMENU
-                                        </label>
-                                        <value>CATMENU</value>
-                                    </numIndex>
-                                </items>
-                                <itemsProcFunc>RG\TtNews\Helper\ItemsProcFunc->user_insertExtraCodes</itemsProcFunc>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
+                        <onChange>reload</onChange>
+                        <label>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.what_to_display
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.codeFromTS
+                                    </label>
+                                    <value></value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.LIST
+                                    </label>
+                                    <value>LIST</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.LIST2
+                                    </label>
+                                    <value>LIST2</value>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.LIST3
+                                    </label>
+                                    <value>LIST3</value>
+                                </numIndex>
+                                <numIndex index="4" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.HEADER_LIST
+                                    </label>
+                                    <value>HEADER_LIST</value>
+                                </numIndex>
+                                <numIndex index="5" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.LATEST
+                                    </label>
+                                    <value>LATEST</value>
+                                </numIndex>
+                                <numIndex index="6" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.SINGLE
+                                    </label>
+                                    <value>SINGLE</value>
+                                </numIndex>
+                                <numIndex index="7" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.SINGLE2
+                                    </label>
+                                    <value>SINGLE2</value>
+                                </numIndex>
+                                <numIndex index="8" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.AMENU
+                                    </label>
+                                    <value>AMENU</value>
+                                </numIndex>
+                                <numIndex index="9" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.SEARCH
+                                    </label>
+                                    <value>SEARCH</value>
+                                </numIndex>
+                                <numIndex index="10" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.CATMENU
+                                    </label>
+                                    <value>CATMENU</value>
+                                </numIndex>
+                            </items>
+                            <itemsProcFunc>RG\TtNews\Helper\ItemsProcFunc->user_insertExtraCodes</itemsProcFunc>
+                            <maxitems>1</maxitems>
+                            <size>1</size>
+                        </config>
                     </what_to_display>
                     <listOrderBy>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.listOrderby
-                            </label><config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items type="array">
-                                    <numIndex index="0" type="array">
-                                        <label></label>
-                                        <value></value>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.datetime
-                                        </label>
-                                        <value>datetime</value>
-                                    </numIndex>
-                                    <numIndex index="2" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.archivedate
-                                        </label>
-                                        <value>archivedate</value>
-                                    </numIndex>
-                                    <numIndex index="3" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.author
-                                        </label>
-                                        <value>author</value>
-                                    </numIndex>
-                                    <numIndex index="4" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.title
-                                        </label>
-                                        <value>title</value>
-                                    </numIndex>
-                                    <numIndex index="5" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type
-                                        </label>
-                                        <value>type</value>
-                                    </numIndex>
-                                    <numIndex index="6" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.random
-                                        </label>
-                                        <value>random</value>
-                                    </numIndex>
-                                </items>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.listOrderby
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label></label>
+                                    <value></value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.datetime
+                                    </label>
+                                    <value>datetime</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.archivedate
+                                    </label>
+                                    <value>archivedate</value>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.author
+                                    </label>
+                                    <value>author</value>
+                                </numIndex>
+                                <numIndex index="4" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.title
+                                    </label>
+                                    <value>title</value>
+                                </numIndex>
+                                <numIndex index="5" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.type
+                                    </label>
+                                    <value>type</value>
+                                </numIndex>
+                                <numIndex index="6" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.random
+                                    </label>
+                                    <value>random</value>
+                                </numIndex>
+                            </items>
+                            <maxitems>1</maxitems>
+                            <size>1</size>
+                        </config>
                     </listOrderBy>
                     <ascDesc>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.ascDesc
-                            </label><config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items type="array">
-                                    <numIndex index="0" type="array">
-                                        <label></label>
-                                        <value></value>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.ascDesc_asc
-                                        </label>
-                                        <value>asc</value>
-                                    </numIndex>
-                                    <numIndex index="2" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.ascDesc_desc
-                                        </label>
-                                        <value>desc</value>
-                                    </numIndex>
-                                </items>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.ascDesc
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label></label>
+                                    <value></value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.ascDesc_asc
+                                    </label>
+                                    <value>asc</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.ascDesc_desc
+                                    </label>
+                                    <value>desc</value>
+                                </numIndex>
+                            </items>
+                            <maxitems>1</maxitems>
+                            <size>1</size>
+                        </config>
                     </ascDesc>
                     <categoryMode>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.select_deselect_categories
-                            </label><config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items type="array">
-                                    <numIndex index="0" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_showAll
-                                        </label>
-                                        <value>0</value>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_showSelected
-                                        </label>
-                                        <value>1</value>
-                                    </numIndex>
-                                    <numIndex index="2" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_showSelectedAND
-                                        </label>
-                                        <value>2</value>
-                                    </numIndex>
-                                    <numIndex index="3" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_DontShowSelected
-                                        </label>
-                                        <value>-1</value>
-                                    </numIndex>
-                                    <numIndex index="4" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_DontShowSelectedOR
-                                        </label>
-                                        <value>-2</value>
-                                    </numIndex>
-                                </items>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.select_deselect_categories
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_showAll
+                                    </label>
+                                    <value>0</value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_showSelected
+                                    </label>
+                                    <value>1</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_showSelectedAND
+                                    </label>
+                                    <value>2</value>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_DontShowSelected
+                                    </label>
+                                    <value>-1</value>
+                                </numIndex>
+                                <numIndex index="4" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection_DontShowSelectedOR
+                                    </label>
+                                    <value>-2</value>
+                                </numIndex>
+                            </items>
+                            <maxitems>1</maxitems>
+                            <size>1</size>
+                        </config>
                     </categoryMode>
                     <categorySelection>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection
-                            </label><config>
-                                <type>select</type>
-                                <foreign_table>tt_news_cat</foreign_table>
-                                <renderType>selectTree</renderType>
-                                <treeConfig type="array">
-                                    <expandAll>1</expandAll>
-                                    <parentField>parent_category</parentField>
-                                    <appearance type="array">
-                                        <showHeader>1</showHeader>
-                                        <width>400</width>
-                                        <maxLevels>99</maxLevels>
-                                    </appearance>
-                                </treeConfig>
-                                <foreign_table_where>ORDER BY tt_news_cat.title</foreign_table_where>
-                                <size>10</size>
-                                <minitems>0</minitems>
-                                <maxitems>99</maxitems>
-                                <allowNonIdValues>1</allowNonIdValues>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.category_selection
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <foreign_table>tt_news_cat</foreign_table>
+                            <renderType>selectTree</renderType>
+                            <treeConfig type="array">
+                                <expandAll>1</expandAll>
+                                <parentField>parent_category</parentField>
+                                <appearance type="array">
+                                    <showHeader>1</showHeader>
+                                    <width>400</width>
+                                    <maxLevels>99</maxLevels>
+                                </appearance>
+                            </treeConfig>
+                            <foreign_table_where>ORDER BY tt_news_cat.title</foreign_table_where>
+                            <size>10</size>
+                            <minitems>0</minitems>
+                            <maxitems>99</maxitems>
+                            <allowNonIdValues>1</allowNonIdValues>
+                        </config>
                     </categorySelection>
                     <useSubCategories>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.useSubCategories
-                            </label><config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items type="array">
-                                    <numIndex index="0" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.useSubCategories_TS
-                                        </label>
-                                        <value></value>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.no
-                                        </label>
-                                        <value>0</value>
-                                    </numIndex>
-                                    <numIndex index="2" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.yes
-                                        </label>
-                                        <value>1</value>
-                                    </numIndex>
-                                </items>
-                                <minitems>0</minitems>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.useSubCategories
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.useSubCategories_TS
+                                    </label>
+                                    <value></value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.no
+                                    </label>
+                                    <value>0</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.yes
+                                    </label>
+                                    <value>1</value>
+                                </numIndex>
+                            </items>
+                            <minitems>0</minitems>
+                            <maxitems>1</maxitems>
+                            <size>1</size>
+                        </config>
                     </useSubCategories>
                     <archive>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.archive
-                            </label><config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items type="array">
-                                    <numIndex index="0" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.archive_dontcare
-                                        </label>
-                                        <value>0</value>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.archive_arc
-                                        </label>
-                                        <value>1</value>
-                                    </numIndex>
-                                    <numIndex index="2" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.archive_nonarc
-                                        </label>
-                                        <value>-1</value>
-                                    </numIndex>
-                                </items>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.archive
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.archive_dontcare
+                                    </label>
+                                    <value>0</value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.archive_arc
+                                    </label>
+                                    <value>1</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.archive_nonarc
+                                    </label>
+                                    <value>-1</value>
+                                </numIndex>
+                            </items>
+                            <maxitems>1</maxitems>
+                            <size>1</size>
+                        </config>
                     </archive>
                 </el>
             </ROOT>
@@ -301,110 +309,119 @@
         <s_template>
             <ROOT>
                 <sheetTitle>
-                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.sheet_template
-                    </sheetTitle>
+                    LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.sheet_template
+                </sheetTitle>
                 <type>array</type>
                 <el>
                     <template_file>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.template_file_ref
-                            </label><config>
-                                <type>input</type>
-                                <eval>trim,tx_ttnews_templateeval</eval>
-                                <default></default>
-                                <wizards type="array">
-                                    <_PADDING>2</_PADDING>
-                                    <link type="array">
-                                        <type>popup</type>
-                                        <title>Link</title>
-                                        <icon>link_popup.gif</icon>
-                                        <module>
-                                            <name>wizard_link</name>
-                                            <urlParameters>
-                                                <mode>wizard</mode>
-                                            </urlParameters>
-                                        </module>
-                                        <params type="array">
-                                            <blindLinkOptions>page,url,mail,spec</blindLinkOptions>
-                                            <allowedExtensions>htm,html,tmpl,tpl</allowedExtensions>
-                                        </params>
-                                        <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1
-                                        </JSopenParams>
-                                    </link>
-                                </wizards>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.template_file_ref
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>trim,tx_ttnews_templateeval</eval>
+                            <default></default>
+                            <wizards type="array">
+                                <_PADDING>2</_PADDING>
+                                <link type="array">
+                                    <type>popup</type>
+                                    <title>Link</title>
+                                    <icon>link_popup.gif</icon>
+                                    <module>
+                                        <name>wizard_link</name>
+                                        <urlParameters>
+                                            <mode>wizard</mode>
+                                        </urlParameters>
+                                    </module>
+                                    <params type="array">
+                                        <blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+                                        <allowedExtensions>htm,html,tmpl,tpl</allowedExtensions>
+                                    </params>
+                                    <JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1
+                                    </JSopenParams>
+                                </link>
+                            </wizards>
+                        </config>
                     </template_file>
                     <imageMaxWidth>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.imageMaxWidth
-                            </label><config>
-                                <type>input</type>
-                                <size>60</size>
-                                <checkbox></checkbox>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.imageMaxWidth
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <size>60</size>
+                            <checkbox></checkbox>
+                        </config>
                     </imageMaxWidth>
                     <imageMaxHeight>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.imageMaxHeight
-                            </label><config>
-                                <type>input</type>
-                                <size>60</size>
-                                <checkbox></checkbox>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.imageMaxHeight
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <size>60</size>
+                            <checkbox></checkbox>
+                        </config>
                     </imageMaxHeight>
                     <altLayoutsOptionSplit>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.altLayoutsOptionSplit
-                            </label><config>
-                                <type>input</type>
-                                <size>60</size>
-                                <checkbox></checkbox>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.altLayoutsOptionSplit
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <size>60</size>
+                            <checkbox></checkbox>
+                        </config>
                     </altLayoutsOptionSplit>
                     <alternatingLayouts>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.alternatingLayouts
-                            </label><config>
-                                <type>input</type>
-                                <eval>num</eval>
-                                <checkbox></checkbox>
-                                <size>3</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.alternatingLayouts
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>num</eval>
+                            <checkbox></checkbox>
+                            <size>3</size>
+                        </config>
                     </alternatingLayouts>
                     <listLimit>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.limit
-                            </label><config>
-                                <type>input</type>
-                                <eval>num</eval>
-                                <checkbox></checkbox>
-                                <size>3</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.limit
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>num</eval>
+                            <checkbox></checkbox>
+                            <size>3</size>
+                        </config>
                     </listLimit>
                     <noPageBrowser>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.noPageBrowser
-                            </label><config>
-                                <type>check</type>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.noPageBrowser
+                        </label>
+                        <config>
+                            <type>check</type>
+                        </config>
                     </noPageBrowser>
                     <croppingLenght>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.croppingLenght
-                            </label><config>
-                                <type>input</type>
-                                <checkbox></checkbox>
-                                <size>10</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.croppingLenght
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <checkbox></checkbox>
+                            <size>10</size>
+                        </config>
                     </croppingLenght>
                     <croppingLenghtOptionSplit>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.croppingLenghtOptionSplit
-                            </label><config>
-                                <type>input</type>
-                                <checkbox></checkbox>
-                                <size>60</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.croppingLenghtOptionSplit
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <checkbox></checkbox>
+                            <size>60</size>
+                        </config>
                     </croppingLenghtOptionSplit>
                 </el>
             </ROOT>
@@ -412,135 +429,141 @@
         <s_category>
             <ROOT>
                 <sheetTitle>
-                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.sheet_category
-                    </sheetTitle>
+                    LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.sheet_category
+                </sheetTitle>
                 <type>array</type>
                 <el>
                     <catImageMode>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catImageMode
-                            </label><config>
-                                <type>select</type>
-								<renderType>selectSingle</renderType>
-								<items type="array">
-                                    <numIndex index="0" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_TS
-                                        </label>
-                                        <value></value>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_dontshow
-                                        </label>
-                                        <value>0</value>
-                                    </numIndex>
-                                    <numIndex index="2" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_shownolink
-                                        </label>
-                                        <value>1</value>
-                                    </numIndex>
-                                    <numIndex index="3" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_catshortcut
-                                        </label>
-                                        <value>2</value>
-                                    </numIndex>
-                                    <numIndex index="4" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_catsel
-                                        </label>
-                                        <value>3</value>
-                                    </numIndex>
-                                </items>
-                                <minitems>0</minitems>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catImageMode
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_TS
+                                    </label>
+                                    <value></value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_dontshow
+                                    </label>
+                                    <value>0</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_shownolink
+                                    </label>
+                                    <value>1</value>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_catshortcut
+                                    </label>
+                                    <value>2</value>
+                                </numIndex>
+                                <numIndex index="4" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_catsel
+                                    </label>
+                                    <value>3</value>
+                                </numIndex>
+                            </items>
+                            <minitems>0</minitems>
+                            <maxitems>1</maxitems>
+                            <size>1</size>
+                        </config>
                     </catImageMode>
                     <catImageMaxWidth>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catImageMaxWidth
-                            </label><config>
-                                <type>input</type>
-                                <eval>num</eval>
-                                <checkbox></checkbox>
-                                <size>10</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catImageMaxWidth
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>num</eval>
+                            <checkbox></checkbox>
+                            <size>10</size>
+                        </config>
                     </catImageMaxWidth>
                     <catImageMaxHeight>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catImageMaxHeight
-                            </label><config>
-                                <type>input</type>
-                                <eval>num</eval>
-                                <checkbox></checkbox>
-                                <size>10</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catImageMaxHeight
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>num</eval>
+                            <checkbox></checkbox>
+                            <size>10</size>
+                        </config>
                     </catImageMaxHeight>
                     <maxCatImages>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.maxCatImages
-                            </label><config>
-                                <type>input</type>
-                                <eval>num</eval>
-                                <checkbox></checkbox>
-                                <size>10</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.maxCatImages
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>num</eval>
+                            <checkbox></checkbox>
+                            <size>10</size>
+                        </config>
                     </maxCatImages>
                     <catTextMode>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catTextMode
-                            </label><config>
-                                <type>select</type>
-								<renderType>selectSingle</renderType>
-								<items type="array">
-                                    <numIndex index="0" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_TS
-                                        </label>
-                                        <value></value>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_dontshow
-                                        </label>
-                                        <value>0</value>
-                                    </numIndex>
-                                    <numIndex index="2" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_shownolink
-                                        </label>
-                                        <value>1</value>
-                                    </numIndex>
-                                    <numIndex index="3" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_catshortcut
-                                        </label>
-                                        <value>2</value>
-                                    </numIndex>
-                                    <numIndex index="4" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_catsel
-                                        </label>
-                                        <value>3</value>
-                                    </numIndex>
-                                </items>
-                                <minitems>0</minitems>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catTextMode
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_TS
+                                    </label>
+                                    <value></value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_dontshow
+                                    </label>
+                                    <value>0</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_shownolink
+                                    </label>
+                                    <value>1</value>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_catshortcut
+                                    </label>
+                                    <value>2</value>
+                                </numIndex>
+                                <numIndex index="4" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.catLinkMode_catsel
+                                    </label>
+                                    <value>3</value>
+                                </numIndex>
+                            </items>
+                            <minitems>0</minitems>
+                            <maxitems>1</maxitems>
+                            <size>1</size>
+                        </config>
                     </catTextMode>
                     <maxCatTexts>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.maxCatTexts
-                            </label><config>
-                                <type>input</type>
-                                <eval>num</eval>
-                                <checkbox></checkbox>
-                                <size>10</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.maxCatTexts
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>num</eval>
+                            <checkbox></checkbox>
+                            <size>10</size>
+                        </config>
                     </maxCatTexts>
                 </el>
             </ROOT>
@@ -548,133 +571,143 @@
         <s_misc>
             <ROOT>
                 <sheetTitle>
-                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.sheet_misc
-                    </sheetTitle>
+                    LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.sheet_misc
+                </sheetTitle>
                 <type>array</type>
                 <el>
                     <PIDitemDisplay>
                         <exclude>1</exclude><label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.PIDitemDisplay
-                            </label><config>
-                                <type>group</type>
-                                <allowed>pages</allowed>
-                                <size>1</size>
-                                <maxitems>1</maxitems>
-                                <minitems>0</minitems>
-                                <show_thumbs>1</show_thumbs>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.PIDitemDisplay
+                        </label>
+                        <config>
+                            <type>group</type>
+                            <allowed>pages</allowed>
+                            <size>1</size>
+                            <maxitems>1</maxitems>
+                            <minitems>0</minitems>
+                            <show_thumbs>1</show_thumbs>
+                        </config>
                     </PIDitemDisplay>
                     <backPid>
-                        <exclude>1</exclude><label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.backPid
-                            </label><config>
-                                <type>group</type>
-                                <allowed>pages</allowed>
-                                <size>1</size>
-                                <maxitems>1</maxitems>
-                                <minitems>0</minitems>
-                                <show_thumbs>1</show_thumbs>
-                            </config>
+                        <exclude>1</exclude>
+                        <label>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.backPid
+                        </label><config>
+                            <type>group</type>
+                            <allowed>pages</allowed>
+                            <size>1</size>
+                            <maxitems>1</maxitems>
+                            <minitems>0</minitems>
+                            <show_thumbs>1</show_thumbs>
+                        </config>
                     </backPid>
                     <pages>
-                        <exclude>1</exclude><label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.startingpoint
-                            </label><config>
-                                <type>group</type>
-                                <allowed>pages</allowed>
-                                <size>3</size>
-                                <maxitems>22</maxitems>
-                                <minitems>0</minitems>
-                                <show_thumbs>1</show_thumbs>
-                            </config>
+                        <exclude>1</exclude>
+                        <label>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.startingpoint
+                        </label><config>
+                            <type>group</type>
+                            <allowed>pages</allowed>
+                            <size>3</size>
+                            <maxitems>22</maxitems>
+                            <minitems>0</minitems>
+                            <show_thumbs>1</show_thumbs>
+                        </config>
                     </pages>
                     <recursive>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.recursive
-                            </label><config>
-                                <type>select</type>
-								<renderType>selectSingle</renderType>
-								<items type="array">
-                                    <numIndex index="0" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.recursive_TS
-                                        </label>
-                                        <value></value>
-                                    </numIndex>
-                                    <numIndex index="1" type="array">
-                                        <label>
-                                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.recursive.I.0
-                                        </label>
-                                        <value>0</value>
-                                    </numIndex>
-                                    <numIndex index="2" type="array">
-                                        <label>
-                                            LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.1
-                                        </label>
-                                        <value>1</value>
-                                    </numIndex>
-                                    <numIndex index="3" type="array">
-                                        <label>
-                                            LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.2
-                                        </label>
-                                        <value>2</value>
-                                    </numIndex>
-                                    <numIndex index="4" type="array">
-                                        <label>
-                                            LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.3
-                                        </label>
-                                        <value>3</value>
-                                    </numIndex>
-                                    <numIndex index="5" type="array">
-                                        <label>
-                                            LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.4
-                                        </label>
-                                        <value>4</value>
-                                    </numIndex>
-                                    <numIndex index="6" type="array">
-                                        <label>
-                                            LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.5
-                                        </label>
-                                        <value>250</value>
-                                    </numIndex>
-                                </items>
-                                <minitems>0</minitems>
-                                <maxitems>1</maxitems>
-                                <size>1</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.recursive
+                        </label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.recursive_TS
+                                    </label>
+                                    <value></value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>
+                                        LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.recursive.I.0
+                                    </label>
+                                    <value>0</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>
+                                        LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.1
+                                    </label>
+                                    <value>1</value>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <label>
+                                        LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.2
+                                    </label>
+                                    <value>2</value>
+                                </numIndex>
+                                <numIndex index="4" type="array">
+                                    <label>
+                                        LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.3
+                                    </label>
+                                    <value>3</value>
+                                </numIndex>
+                                <numIndex index="5" type="array">
+                                    <label>
+                                        LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.4
+                                    </label>
+                                    <value>4</value>
+                                </numIndex>
+                                <numIndex index="6" type="array">
+                                    <label>
+                                        LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.5
+                                    </label>
+                                    <value>250</value>
+                                </numIndex>
+                            </items>
+                            <minitems>0</minitems>
+                            <maxitems>1</maxitems>
+                            <size>1</size>
+                        </config>
                     </recursive>
                     <firstImageIsPreview>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.firstImageIsPreview
-                            </label><config>
-                                <type>check</type>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.firstImageIsPreview
+                        </label>
+                        <config>
+                            <type>check</type>
+                        </config>
                     </firstImageIsPreview>
                     <forceFirstImageIsPreview>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.forceFirstImageIsPreview
-                            </label><config>
-                                <type>check</type>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.forceFirstImageIsPreview
+                        </label>
+                        <config>
+                            <type>check</type>
+                        </config>
                     </forceFirstImageIsPreview>
                     <maxWordsInSingleView>
                         <label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.maxWordsInSingleView
-                            </label><config>
-                                <type>input</type>
-                                <eval>num</eval>
-                                <checkbox></checkbox>
-                                <size>6</size>
-                            </config>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.maxWordsInSingleView
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>num</eval>
+                            <checkbox></checkbox>
+                            <size>6</size>
+                        </config>
                     </maxWordsInSingleView>
                     <myTS>
-                        <displayCond>HIDE_FOR_NON_ADMINS</displayCond><exclude>1</exclude><label>
-                                LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.tsconfig
-                            </label><config>
-                                <type>text</type>
-                                <cols>80</cols>
-                                <rows>10</rows>
-                            </config>
+                        <displayCond>HIDE_FOR_NON_ADMINS</displayCond>
+                        <exclude>1</exclude>
+                        <label>
+                            LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.pi_flexform.tsconfig
+                        </label>
+                        <config>
+                            <type>text</type>
+                            <cols>80</cols>
+                            <rows>10</rows>
+                        </config>
                     </myTS>
                 </el>
             </ROOT>

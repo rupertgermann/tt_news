@@ -25,10 +25,10 @@
 				<source>Extended</source>
 			</trans-unit>
 			<trans-unit id="tt_news.uid">
-				<source>ID:</source>
+				<source>ID</source>
 			</trans-unit>
 			<trans-unit id="tt_news.tstamp">
-				<source>Last change:</source>
+				<source>Last change</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pid">
 				<source>Page</source>
@@ -151,7 +151,7 @@
 				<source>Other Settings</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.what_to_display">
-				<source>What to display:</source>
+				<source>What to display</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.codeFromTS">
 				<source>Defined by TypoScript</source>
@@ -187,10 +187,10 @@
 				<source>Category menu (CATMENU)</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.listOrderby">
-				<source>"Order by" this field (LIST &amp; LATEST):</source>
+				<source>"Order by" this field (LIST &amp; LATEST)</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.ascDesc">
-				<source>Ascending or Descending (LIST &amp; LATEST):</source>
+				<source>Ascending or Descending (LIST &amp; LATEST)</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.ascDesc_asc">
 				<source>Ascending</source>
@@ -199,10 +199,10 @@
 				<source>Descending</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.select_deselect_categories">
-				<source>Category mode:</source>
+				<source>Category mode</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.itemsHeader">
-				<source>Special options:</source>
+				<source>Special options</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.category_selection_notCategorized">
 				<source>[not categorized]</source>
@@ -247,13 +247,13 @@
 				<source>Template file reference</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.catImageMode">
-				<source>Category Image Link Mode:</source>
+				<source>Category Image Link Mode</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.catTextMode">
-				<source>Category Text Link Mode:</source>
+				<source>Category Text Link Mode</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.recursive">
-				<source>Recursive level selection:</source>
+				<source>Recursive level selection</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.recursive.I.0">
 				<source>0 levels</source>
@@ -262,25 +262,25 @@
 				<source>Defined by TypoScript</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.catImageMaxWidth">
-				<source>Max width of category image:</source>
+				<source>Max width of category image</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.catImageMaxHeight">
-				<source>Max height of category image:</source>
+				<source>Max height of category image</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.maxCatImages">
-				<source>Max number of category images:</source>
+				<source>Max number of category images</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.maxTextLength">
-				<source>Max length of category text:</source>
+				<source>Max length of category text</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.maxCatTexts">
-				<source>Max number of categorys texts:</source>
+				<source>Max number of categorys texts</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.PIDitemDisplay">
-				<source>PageId for single news display:</source>
+				<source>PageId for single news display</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.backPid">
-				<source>PageId to return to:</source>
+				<source>PageId to return to</source>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.archive_nonarc">
 				<source>SHOW NON-ARCHIVED</source>
@@ -358,7 +358,7 @@
 				<source>No categories found in page: ###PID###</source>
 			</trans-unit>
 			<trans-unit id="tt_news.treeSelect.translOrgCat">
-				<source>Categories from the translation original of this record:</source>
+				<source>Categories from the translation original of this record</source>
 			</trans-unit>
 			<trans-unit id="tt_news.treeSelect.translOrgNoCat">
 				<source>The translation original of this record has no categories assigned.</source>
