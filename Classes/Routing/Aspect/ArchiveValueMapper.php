@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RG\TtNews\Routing\Aspect;
 
 use TYPO3\CMS\Core\Routing\Aspect\StaticMappableAspectInterface;

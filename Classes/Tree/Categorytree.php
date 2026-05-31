@@ -27,7 +27,6 @@ namespace RG\TtNews\Tree;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 /**
  * generates a tree from tt_news categories.
  *
@@ -35,16 +34,17 @@ namespace RG\TtNews\Tree;
  *
  * @author     Rupert Germann <rupi@gmx.li>
  */
-
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Result;
 use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Utility\Div;
-use RG\TtNews\Utility\IconFactory;
 use TYPO3\CMS\Backend\Tree\View\AbstractTreeView;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Database\Query\Restriction\DefaultRestrictionContainer;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -53,6 +53,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Categorytree extends AbstractTreeView
 {
+    /**
+     * @var mixed
+     */
+    public $BE_USER;
+    public $treeName;
+    /**
+     * @var non-empty-array[]|bool[]
+     */
+    public $recs;
+    public $thisScript;
     /**
      * @var array
      */
@@ -99,6 +109,10 @@ class Categorytree extends AbstractTreeView
      */
     public $titleLen;
     /**
+     * @var string
+     */
+    public $title;
+    /**
      * @var
      */
     public $pageID;
@@ -119,6 +133,7 @@ class Categorytree extends AbstractTreeView
     public $expandAll = false;
     public $bank;
 
+    #[\Override]
     public function init($clause = '', $orderByFields = ''): void
     {
         // Setting BE_USER by default
@@ -136,6 +151,50 @@ class Categorytree extends AbstractTreeView
         }
         // Sets the tree name which is used to identify the tree, used for JavaScript and other things
         $this->treeName = str_replace('_', '', (string)($this->treeName ?: $this->table));
+    }
+
+    /**
+     * Set the database table name used by the tree.
+     */
+    public function setTable(string $table): void
+    {
+        $this->table = $table;
+    }
+
+    /**
+     * Set the parent field name used by the tree.
+     */
+    public function setParentField(string $parentField): void
+    {
+        $this->parentField = $parentField;
+    }
+
+    /**
+     * Set the field list used by the tree record query.
+     */
+    public function setFieldArray(array $fieldArray): void
+    {
+        $this->fieldArray = $fieldArray;
+    }
+
+    /**
+     * Returns a fake root record for the tree if no mount record exists.
+     *
+     * @return array{
+     *     uid: int,
+     *     title: string,
+     *     pid?: int,
+     *     parent_category?: int,
+     * }
+     */
+    public function getRootRecord(): array
+    {
+        return [
+            'uid' => 0,
+            'title' => $this->treeName ?: 'root',
+            'pid' => 0,
+            'parent_category' => 0,
+        ];
     }
 
     /**
@@ -193,13 +252,9 @@ class Categorytree extends AbstractTreeView
 
             // Set PM icon for root of mount:
             $cmd = $this->bank . '_' . ($isOpen ? '0_' : '1_') . $uid . '_' . $this->treeName;
-
-            $icon = '<img' . IconFactory::skinImg('ol/' . ($isOpen ? 'minus' : 'plus') . 'only.gif') . ' alt="" />';
-            if ($this->expandable && !$this->expandFirst) {
-                $firstHtml = $this->PMiconATagWrap($icon, $cmd);
-            } else {
-                $firstHtml = $icon;
-            }
+            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+            $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . ($isOpen ? 'minus' : 'plus') . 'only', IconSize::SMALL)->render();
+            $firstHtml = $this->expandable && !$this->expandFirst ? $this->PMiconATagWrap($icon, $cmd) : $icon;
 
             $this->addStyle = '';
 
@@ -213,18 +268,16 @@ class Categorytree extends AbstractTreeView
                 if (is_array($rootRec)) {
                     $firstHtml .= $this->getIcon($rootRec);
                 }
+            } elseif ($this->storagePid > 0 && $this->useStoragePid) {
+                // root = page record of current GRSP
+                $this->table = 'pages';
+                $rootRec = $this->getRecord($this->storagePid);
+                $firstHtml .= $this->getIcon($rootRec);
+                $rootRec['uid'] = 0;
             } else {
-                if ($this->storagePid > 0 && $this->useStoragePid) {
-                    // root = page record of current GRSP
-                    $this->table = 'pages';
-                    $rootRec = $this->getRecord($this->storagePid);
-                    $firstHtml .= $this->getIcon($rootRec);
-                    $rootRec['uid'] = 0;
-                } else {
-                    // Artificial record for the tree root, id=0
-                    $rootRec = $this->getRootRecord();
-                    $firstHtml .= $this->getRootIcon($rootRec);
-                }
+                // Artificial record for the tree root, id=0
+                $rootRec = $this->getRootRecord();
+                $firstHtml .= $this->getRootIcon($rootRec);
             }
 
             if ($groupByPages) {
@@ -337,7 +390,7 @@ class Categorytree extends AbstractTreeView
         $a = 0;
 
         $res = $this->getDataInit($uid);
-        $c = $this->getDataCount($res);
+        $c = $this->getCount($uid);
         $crazyRecursionLimiter = 999;
         $allRows = [];
         while ($crazyRecursionLimiter > 0 && $row = $this->getDataNext($res)) {
@@ -356,7 +409,7 @@ class Categorytree extends AbstractTreeView
             $newID = $row['uid'];
             $this->tree[] = [];
             $treeKey = array_key_last($this->tree); // Get the key for this space
-            $LN = ($a == $c) ? 'blank' : 'line';
+            $LN = ($a === $c) ? 'blank' : 'line';
 
             // If records should be accumulated, do so
             if ($this->setRecs) {
@@ -370,7 +423,7 @@ class Categorytree extends AbstractTreeView
             // Make a recursive call to the next level
             if ($depth > 1 && $this->expandNext($newID)) {
                 $nextCount = $this->getNewsCategoryTree($newID, $depth - 1, $blankLineCode . ',' . $LN);
-                if (!empty($this->buffer_idH)) {
+                if ($this->buffer_idH !== []) {
                     $idH[$row['uid']]['subrow'] = $this->buffer_idH;
                 }
                 $exp = 1; // Set "did expand" flag
@@ -391,7 +444,7 @@ class Categorytree extends AbstractTreeView
                 'row' => $row,
                 'HTML' => $HTML,
                 'hasSub' => $nextCount && $this->expandNext($newID),
-                'isFirst' => $a == 1,
+                'isFirst' => $a === 1,
                 'isLast' => false,
                 'invertedDepth' => $depth,
                 'blankLineCode' => $blankLineCode,
@@ -399,12 +452,11 @@ class Categorytree extends AbstractTreeView
             ];
         }
 
-        if ($a) {
+        if ($a !== 0) {
             $this->tree[$treeKey]['isLast'] = true;
         }
 
-        $this->getDataFree($res);
-        $this->buffer_idH = $idH ?? null;
+        $this->buffer_idH = $idH ?? [];
 
         return $c;
     }
@@ -412,9 +464,10 @@ class Categorytree extends AbstractTreeView
     /**
      * @param $parentId
      *
-     * @return \Doctrine\DBAL\Result|mixed
+     * @return Result|mixed
      */
-    public function getDataInit($parentId)
+    #[\Override]
+    public function getDataInit(int $parentId): Result
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
         $queryBuilder->getRestrictions()
@@ -444,7 +497,8 @@ class Categorytree extends AbstractTreeView
      *
      * @return array|bool
      */
-    public function getDataNext(&$res)
+    #[\Override]
+    public function getDataNext(Result $res): array|false
     {
         while ($row = $res->fetchAssociative()) {
             if (is_array($row)) {
@@ -458,9 +512,10 @@ class Categorytree extends AbstractTreeView
      * @param $uid
      *
      * @return int
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
-    public function getCount($uid)
+    #[\Override]
+    public function getCount(int $uid): int
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->table);
         $queryBuilder->getRestrictions()
@@ -551,13 +606,13 @@ class Categorytree extends AbstractTreeView
         &$ajaxOutput,
         &$invertedDepthOfAjaxRequestedItem
     ) {
-        $PM = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['PM'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['PM'] ?? null;
+        $PM = $this->tt_news_obj->getRequest()->getParsedBody()['PM'] ?? $this->tt_news_obj->getRequest()->getQueryParams()['PM'] ?? null;
 
         if (($PMpos = strpos((string)$PM, '#')) !== false) {
             $PM = substr((string)$PM, 0, $PMpos);
         }
         $PM = explode('_', (string)$PM);
-        if (is_array($PM) && count($PM) == 4 && $this->useAjax) {
+        if (is_array($PM) && count($PM) === 4 && $this->useAjax) {
             if ($PM[1] == 1) {
                 $expandedPageUid = $PM[2];
                 $ajaxOutput = '';
@@ -681,6 +736,7 @@ class Categorytree extends AbstractTreeView
      *
      * @return    string        Image tag with the plus/minus icon.
      */
+    #[\Override]
     public function PMicon($row, $a, $c, $nextCount, $isOpen)
     {
         if ($this->expandable) {
@@ -691,9 +747,9 @@ class Categorytree extends AbstractTreeView
 
         $BTM = ($a == $c) ? 'bottom' : '';
         /**
-         * @var \TYPO3\CMS\Core\Imaging\IconFactory $iconFactory
+         * @var IconFactory $iconFactory
          */
-        $iconFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconFactory::class);
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         $icon = $iconFactory->getIcon('ttnews-gfx-ol-' . $PM . $BTM, IconSize::SMALL)->render();
 
         if ($nextCount) {
@@ -720,6 +776,7 @@ class Categorytree extends AbstractTreeView
         }
         return $icon;
     }
+
     /**
      * Returns the record for a uid.
      * For tables: Looks up the record in the database.
@@ -782,6 +839,7 @@ class Categorytree extends AbstractTreeView
      * @internal
      * @see \TYPO3\CMS\Backend\Tree\View\PageTreeView::expandNext()
      */
+    #[\Override]
     public function expandNext($id)
     {
         return !empty($this->stored[$this->bank][$id]) || $this->expandAll;

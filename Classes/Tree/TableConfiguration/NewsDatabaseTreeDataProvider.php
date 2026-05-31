@@ -10,6 +10,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
+use TYPO3\CMS\Core\Schema\TcaSchemaFactory;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeDataProvider;
 use TYPO3\CMS\Core\Tree\TableConfiguration\DatabaseTreeNode;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -27,6 +28,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      *
      * @return TreeNodeCollection|null
      */
+    #[\Override]
     protected function getChildrenOf(TreeNode $node, $level): ?TreeNodeCollection
     {
         $allowedItems = $this->getBeUser()->getTSConfig()['tt_newsPerms.']['tt_news_cat.']['allowedItems'] ?? false;
@@ -40,7 +42,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
                 $nodeData = BackendUtility::getRecord($this->tableName, $node->getId(), '*', '', false);
             }
         }
-        if (empty($nodeData)) {
+        if ($nodeData === null || $nodeData === []) {
             $nodeData = [
                 'uid' => 0,
                 $this->lookupField => '',
@@ -48,7 +50,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         }
         $storage = null;
         $children = $this->getRelatedRecords($nodeData);
-        if (!empty($children)) {
+        if ($children !== []) {
             $storage = GeneralUtility::makeInstance(TreeNodeCollection::class);
             foreach ($children as $child) {
                 $node = GeneralUtility::makeInstance(TreeNode::class, $this->availableItems[(int)$child] ?? []);
@@ -60,7 +62,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
                 $node->setId($child);
                 if ($level < $this->levelMaximum) {
                     $children = $this->getChildrenOf($node, $level + 1);
-                    if ($children !== null) {
+                    if ($children instanceof TreeNodeCollection) {
                         $node->setChildNodes($children);
                     }
                 }
@@ -79,6 +81,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      * @param int $level
      * @return DatabaseTreeNode Node object
      */
+    #[\Override]
     protected function buildRepresentationForNode(TreeNode $basicNode, DatabaseTreeNode $parent = null, $level = 0): DatabaseTreeNode
     {
         $node = GeneralUtility::makeInstance(DatabaseTreeNode::class);
@@ -100,14 +103,15 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
         $node->setSortValue($this->nodeSortValues[$basicNode->getId()] ?? '');
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
+        $tcaSchema = GeneralUtility::makeInstance(TcaSchemaFactory::class)->get($this->tableName);
         if (in_array($basicNode->getId(), $this->getItemUnselectableList())) {
-            $iconIdentifier = $iconFactory->mapRecordTypeToIconIdentifier($this->tableName, $row);
+            $iconIdentifier = $iconFactory->mapRecordTypeToIconIdentifier($this->tableName, $row, $tcaSchema);
             $node->setIcon($iconFactory->getIcon($iconIdentifier, IconSize::SMALL, 'overlay-readonly'));
             if (GeneralUtility::inList($this->getSelectedList(), $basicNode->getId())) {
                 $node->setLabel('[X] ' . $node->getLabel());
             }
         } else {
-            $node->setIcon($iconFactory->getIconForRecord($this->tableName, $row, IconSize::SMALL));
+            $node->setIcon($iconFactory->getIconForRecord($this->tableName, $row, IconSize::SMALL, $tcaSchema));
         }
 
         $node->setParentNode($parent);

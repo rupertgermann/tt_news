@@ -1,8 +1,14 @@
 services:
   _defaults:
     autowire: true
-    autoconfigure: false
+    autoconfigure: true
     public: false
+
+  RG\TtNews\:
+    resource: '../Classes/*'
+
+  RG\TtNews\Plugin\TtNews:
+    public: true
 
   RG\TtNews\PageTitle\TtNewsPageTitleProvider:
     public: true
@@ -12,3 +18,7 @@ services:
       - name: event.listener
         identifier: 'core-after-formengine-page-initialized-event'
         event: TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent
+
+  RG\TtNews\Upgrades\PluginListTypeToCTypeUpdate:
+    tags:
+      - name: install.upgradewizard

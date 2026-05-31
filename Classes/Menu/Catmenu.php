@@ -32,9 +32,9 @@ use RG\TtNews\Helper\Helpers;
 use RG\TtNews\Plugin\TtNews;
 use RG\TtNews\Tree\FeTreeView;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * renders the tt_news CATMENU content element
@@ -71,22 +71,22 @@ class Catmenu
         $this->treeObj = GeneralUtility::makeInstance(FeTreeView::class);
         $this->treeObj->tt_news_obj = &$pObj;
         $this->treeObj->category = $pObj->piVars_catSelection;
-        $this->treeObj->table = 'tt_news_cat';
+        $this->treeObj->setTable('tt_news_cat');
+        $this->treeObj->setParentField('parent_category');
         $this->treeObj->init(
             $pObj->SPaddWhere . $pObj->enableCatFields . $pObj->catlistWhere,
             $pObj->config['catOrderBy']
         );
         $this->treeObj->backPath = Environment::getPublicPath();
-        $this->treeObj->parentField = 'parent_category';
         $this->treeObj->thisScript = 'index.php?ttnewsID=tt_news_catmenu';
         $this->treeObj->cObjUid = (int)($this->getCObjUidFromTtNews($pObj));
-        $this->treeObj->fieldArray = [
+        $this->treeObj->setFieldArray([
             'uid',
             'title',
             'title_lang_ol',
             'description',
             'image',
-        ]; // those fields will be filled to the array $this->treeObj->tree
+        ]); // those fields will be filled to the array $this->treeObj->tree
         $this->treeObj->ext_IconMode = '1'; // no context menu on icons
 
         $expandable = $lConf['expandable'];
@@ -173,9 +173,10 @@ class Catmenu
         $tt_newsObj->setCObj($cObj);
         $tt_newsObj->db = Database::getInstance();
 
-        $tt_newsObj->setCObjData($this->getTypoScriptFrontendController()->sys_page->checkRecord('tt_content', $params['cObjUid'], 1));
+        $tt_newsObj->setCObjData(GeneralUtility::makeInstance(PageRepository::class)->checkRecord('tt_content', $params['cObjUid'], 1));
         $tt_newsObj->pi_initPIflexForm();
-        $tt_newsObj->conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tt_news.'];
+        $request = $tt_newsObj->getRequest();
+        $tt_newsObj->conf = $request->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tt_news.'];
 
         // variables needed to get the newscount per category
         if (!$tt_newsObj->conf['dontUsePidList']) {
@@ -188,16 +189,8 @@ class Catmenu
 
         $ajaxParams = [];
         $ajaxParams['tt_newsObj'] = &$tt_newsObj;
-        $ajaxParams['feUserObj'] = $this->getTypoScriptFrontendController()->fe_user;
+        $ajaxParams['feUserObj'] = $request->getAttribute('frontend.user');
 
         return $ajaxParams;
-    }
-
-    /**
-     * @return TypoScriptFrontendController
-     */
-    private function getTypoScriptFrontendController()
-    {
-        return $GLOBALS['TSFE'];
     }
 }

@@ -54,7 +54,7 @@ class HandleAfterFormEnginePageInitialized
                                 }
                             }
 
-                            if (!empty($notAllowedItems)) {
+                            if ($notAllowedItems !== []) {
                                 $notAllowedItemsMessage = $this->getLanguageService()
                                     ->sL('LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xml:tt_news.notAllowedCategoryWarning') . implode(
                                         ', ',

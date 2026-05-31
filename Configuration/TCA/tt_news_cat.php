@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use RG\TtNews\Tree\TableConfiguration\NewsDatabaseTreeDataProvider;
 
 // ******************************************************************
 // This is the standard TypoScript news category table, tt_news_cat
 // ******************************************************************
-$locallang_general = 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:';
 
 return [
     'ctrl' => [
@@ -25,17 +26,16 @@ return [
         'mainpalette' => '2,10',
         'crdate' => 'crdate',
         'iconfile' => 'EXT:tt_news/Resources/Public/Images/Icons/tt_news_cat.gif',
-        'searchFields' => 'uid,title',
         'security' => [
             'ignorePageTypeRestriction' => true,
         ],
     ],
     'columns' => [
         'title' => [
-            'label' => $locallang_general . 'LGL.title',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news.title',
             'config' => [
                 'type' => 'input',
-                'size' => '40',
+                'size' => '60',
                 'max' => '256',
                 'required' => true,
             ],
@@ -44,30 +44,31 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.title_lang_ol',
             'config' => [
                 'type' => 'input',
-                'size' => '40',
+                'size' => '60',
                 'max' => '256',
+                'searchable' => false,
 
             ],
         ],
         'hidden' => [
             'exclude' => 1,
-            'label' => $locallang_general . 'LGL.hidden',
+            'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.hidden',
             'config' => [
                 'type' => 'check',
             ],
         ],
         'fe_group' => [
             'exclude' => 1,
-            'label' => $locallang_general . 'LGL.fe_group',
+            'label' => 'core.db.general:fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'size' => 5,
                 'maxitems' => 20,
                 'items' => [
-                    ['label' => $locallang_general . 'LGL.hide_at_login', 'value' => -1],
-                    ['label' => $locallang_general . 'LGL.any_login', 'value' => -2],
-                    ['label' => $locallang_general . 'LGL.usergroups', 'value' => '--div--'],
+                    ['label' => 'core.db.general:hide_at_login', 'value' => -1],
+                    ['label' => 'core.db.general:any_login', 'value' => -2],
+                    ['label' => 'core.db.general:fe_group', 'value' => '--div--'],
                 ],
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
@@ -78,26 +79,24 @@ return [
         ],
         'starttime' => [
             'exclude' => 1,
-            'label' => $locallang_general . 'LGL.starttime',
+            'label' => 'core.db.general:starttime',
             'config' => [
                 'type' => 'datetime',
-                'size' => 16,
-                'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'endtime' => [
             'exclude' => 1,
-            'label' => $locallang_general . 'LGL.endtime',
+            'label' => 'core.db.general:endtime',
             'config' => [
                 'type' => 'datetime',
-                'size' => 16,
-                'default' => 0,
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
+                'searchable' => false,
             ],
         ],
         'parent_category' => [
@@ -107,7 +106,7 @@ return [
                 'type' => 'select',
                 'foreign_table' => 'tt_news_cat',
                 'foreign_table_where' => ' ORDER BY tt_news_cat.title ASC',
-                'size' => 50,
+                'size' => 30,
                 'minitems' => 0,
                 'maxitems' => 1,
                 'renderType' => 'selectTree',
@@ -156,6 +155,7 @@ return [
                 'checkbox' => '',
                 'eval' => 'trim',
                 'max' => '40',
+                'searchable' => false,
             ],
         ],
         'single_pid' => [
@@ -175,8 +175,9 @@ return [
             'label' => 'LLL:EXT:tt_news/Resources/Private/Language/locallang_tca.xlf:tt_news_cat.description',
             'config' => [
                 'type' => 'text',
-                'cols' => '40',
+                'cols' => '60',
                 'rows' => '3',
+                'searchable' => false,
             ],
         ],
     ],

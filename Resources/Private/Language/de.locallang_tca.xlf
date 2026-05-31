@@ -32,16 +32,20 @@
 				<target>Erweitert</target>
 			</trans-unit>
 			<trans-unit id="tt_news.uid">
-				<source>ID:</source>
-				<target>ID:</target>
+				<source>ID</source>
+				<target>ID</target>
 			</trans-unit>
 			<trans-unit id="tt_news.tstamp">
-				<source>Last change:</source>
-				<target>Letzte Änderung:</target>
+				<source>Last change</source>
+				<target>Letzte Änderung</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pid">
-				<source>Page:</source>
-				<target>Seite:</target>
+				<source>Page</source>
+				<target>Seite</target>
+			</trans-unit>
+			<trans-unit id="tt_news.type">
+				<source>Typ</source>
+				<target>Type</target>
 			</trans-unit>
 			<trans-unit id="tt_news.type.I.0">
 				<source>News</source>
@@ -55,13 +59,53 @@
 				<source>Link external URL</source>
 				<target>Link zu externer URL</target>
 			</trans-unit>
+			<trans-unit id="tt_news.ext_url">
+				<source>External URL</source>
+				<target>Externe URL</target>
+			</trans-unit>
+			<trans-unit id="tt_news.page">
+				<source>Page</source>
+				<target>Seite</target>
+			</trans-unit>
+			<trans-unit id="tt_news.title">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="tt_news.subheader">
+				<source>Subheader</source>
+				<target>Untertitel</target>
+			</trans-unit>
+			<trans-unit id="tt_news.text">
+				<source>Text</source>
+				<target>Text</target>
+			</trans-unit>
 			<trans-unit id="tt_news.datetime">
-				<source>Date/Time:</source>
-				<target>Datum/Zeit:</target>
+				<source>Date/Time</source>
+				<target>Datum/Zeit</target>
 			</trans-unit>
 			<trans-unit id="tt_news.archivedate">
-				<source>Archive date:</source>
-				<target>Archivdatum:</target>
+				<source>Archive date</source>
+				<target>Archivdatum</target>
+			</trans-unit>
+			<trans-unit id="tt_news.author">
+				<source>Author</source>
+				<target>Autor</target>
+			</trans-unit>
+			<trans-unit id="tt_news.author_email">
+				<source>Author Email</source>
+				<target>Autor E-Mail</target>
+			</trans-unit>
+			<trans-unit id="tt_news.keywords">
+				<source>Keywords</source>
+				<target>Stichwörter</target>
+			</trans-unit>
+			<trans-unit id="tt_news.images">
+				<source>Images</source>
+				<target>Bilder</target>
+			</trans-unit>
+			<trans-unit id="tt_news.links">
+				<source>Links</source>
+				<target>Links</target>
 			</trans-unit>
 			<trans-unit id="tt_news.no_auto_pb">
 				<source>No automatic pagebreaks for this record</source>
@@ -83,16 +127,8 @@
 				<source>edit default language version of this article</source>
 				<target>Diesen Artikel in Originalsprache editieren</target>
 			</trans-unit>
-			<trans-unit id="tt_news.imagealttext">
-				<source>Image alttext</source>
-				<target>ALT-Text des Bildes</target>
-			</trans-unit>
-			<trans-unit id="tt_news.imagetitletext">
-				<source>Image titletext</source>
-				<target>Titel des Bildes</target>
-			</trans-unit>
 			<trans-unit id="tt_news.related">
-				<source>Related news:</source>
+				<source>Related news</source>
 				<target>In Verbindung stehende Artikel</target>
 			</trans-unit>
 			<trans-unit id="tt_news.random">
@@ -100,7 +136,7 @@
 				<target>Zufällige Reihefolge</target>
 			</trans-unit>
 			<trans-unit id="tt_news.category">
-				<source>Category:</source>
+				<source>Category</source>
 				<target>Kategorie</target>
 			</trans-unit>
 			<trans-unit id="tt_news_cat">
@@ -120,7 +156,7 @@
 				<target>Kategorien-Liste anzeigen</target>
 			</trans-unit>
 			<trans-unit id="tt_news_cat.title_lang_ol">
-				<source>title language overlays</source>
+				<source>Title language overlays</source>
 				<target>Übersetzungen (mehrere Einträge durch "|" trennen)</target>
 			</trans-unit>
 			<trans-unit id="tt_news_cat.parent_category">
@@ -143,9 +179,9 @@
 				<source>Description</source>
 				<target>Beschreibung</target>
 			</trans-unit>
-			<trans-unit id="tt_news_cat.invisible">
-				<source>Do not display this category in FE</source>
-				<target>Diese Kategorie im Frontend nicht anzeigen</target>
+			<trans-unit id="tt_news_cat.hidden">
+				<source>Verbergen</source>
+				<target>Hidden</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.sheet_general">
 				<source>General Settings</source>
@@ -164,8 +200,8 @@
 				<target>Sonstige Einstellungen</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.what_to_display">
-				<source>What to display:</source>
-				<target>Ansicht:</target>
+				<source>What to display</source>
+				<target>Ansicht</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.codeFromTS">
 				<source>Defined by TypoScript</source>
@@ -216,12 +252,12 @@
 				<target>Vorschau unveröffentlichter Newsbeiträge (VERSION_PREVIEW)</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.listOrderby">
-				<source>"Order by" this field (LIST &amp; LATEST):</source>
-				<target>Sortiere Beiträge (LIST &amp; LATEST) nach:</target>
+				<source>"Order by" this field (LIST &amp; LATEST)</source>
+				<target>Sortiere Beiträge (LIST &amp; LATEST) nach</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.ascDesc">
-				<source>Ascending or Descending (LIST &amp; LATEST):</source>
-				<target>Sortierreihenfolge (LIST &amp; LATEST):</target>
+				<source>Ascending or Descending (LIST &amp; LATEST)</source>
+				<target>Sortierreihenfolge (LIST &amp; LATEST)</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.ascDesc_asc">
 				<source>Ascending</source>
@@ -232,11 +268,11 @@
 				<target>Absteigend</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.select_deselect_categories">
-				<source>Category mode:</source>
-				<target>Kategoriemodus:</target>
+				<source>Category mode</source>
+				<target>Kategoriemodus</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.itemsHeader">
-				<source>Special options:</source>
+				<source>Special options</source>
 				<target>Weitere Optionen</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.category_selection_notCategorized">
@@ -285,7 +321,7 @@
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.archive">
 				<source>Archive setting (for LIST)</source>
-				<target>Archiveinstellungen (für LIST Ansicht):</target>
+				<target>Archiveinstellungen (für LIST Ansicht)</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.template_file">
 				<source>Template file</source>
@@ -296,16 +332,16 @@
 				<target>Template-Dateireferenz</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.catImageMode">
-				<source>Category Image Link Mode:</source>
-				<target>Kategoriebild Link Modus:</target>
+				<source>Category Image Link Mode</source>
+				<target>Kategoriebild Link Modus</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.catTextMode">
-				<source>Category Text Link Mode:</source>
-				<target>Kategorietext Link Modus:</target>
+				<source>Category Text Link Mode</source>
+				<target>Kategorietext Link Modus</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.recursive">
-				<source>Recursive level selection:</source>
-				<target>Rekursiv:</target>
+				<source>Recursive level selection</source>
+				<target>Rekursiv</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.recursive.I.0">
 				<source>0 levels</source>
@@ -316,32 +352,32 @@
 				<target>Definiert durch TypoScript</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.catImageMaxWidth">
-				<source>Max width of category image:</source>
-				<target>Maximale Breite für Kategoriebild:</target>
+				<source>Max width of category image</source>
+				<target>Maximale Breite für Kategoriebild</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.catImageMaxHeight">
-				<source>Max height of category image:</source>
-				<target>Maximale Höhe für Kategoriebild:</target>
+				<source>Max height of category image</source>
+				<target>Maximale Höhe für Kategoriebild</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.maxCatImages">
-				<source>Max number of category images:</source>
-				<target>Maximale Anzahl für Kategoriebilder:</target>
+				<source>Max number of category images</source>
+				<target>Maximale Anzahl für Kategoriebilder</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.maxTextLength">
-				<source>Max length of category text:</source>
-				<target>Maximale Länge für Kategorietext:</target>
+				<source>Max length of category text</source>
+				<target>Maximale Länge für Kategorietext</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.maxCatTexts">
-				<source>Max number of categorys texts:</source>
-				<target>Maximale Anzahl für Kategorietexte:</target>
+				<source>Max number of categorys texts</source>
+				<target>Maximale Anzahl für Kategorietexte</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.PIDitemDisplay">
-				<source>PageId for single news display:</source>
-				<target>Seiten-ID für die Single-Anzeige (Newsdetails):</target>
+				<source>PageId for single news display</source>
+				<target>Seiten-ID für die Single-Anzeige (Newsdetails)</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.backPid">
-				<source>PageId to return to:</source>
-				<target>Seiten-ID für 'Zurück':</target>
+				<source>PageId to return to</source>
+				<target>Seiten-ID für 'Zurück'</target>
 			</trans-unit>
 			<trans-unit id="tt_news.pi_flexform.archive_nonarc">
 				<source>SHOW NON-ARCHIVED</source>
@@ -444,8 +480,8 @@
 				<target>Keine Kategorien gefunden auf Seiten-ID: ###PID###</target>
 			</trans-unit>
 			<trans-unit id="tt_news.treeSelect.translOrgCat">
-				<source>Categories from the translation original of this record:</source>
-				<target>Kategorien der Version in Originalsprache dieses Datensatzes:</target>
+				<source>Categories from the translation original of this record</source>
+				<target>Kategorien der Version in Originalsprache dieses Datensatzes</target>
 			</trans-unit>
 			<trans-unit id="tt_news.treeSelect.translOrgNoCat">
 				<source>The translation original of this record has no categories assigned.</source>

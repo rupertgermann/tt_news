@@ -29,6 +29,7 @@ namespace RG\TtNews\Helper;
  ***************************************************************/
 use RG\TtNews\Database\Database;
 use RG\TtNews\Plugin\TtNews;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -93,8 +94,8 @@ class Helpers
                     $this->pObj->nocat = true;
                 }
                 $val = (int)$val;
-                if ($val) {
-                    $test = $GLOBALS['TSFE']->sys_page->checkRecord(
+                if ($val !== 0) {
+                    $test = GeneralUtility::makeInstance(PageRepository::class)->checkRecord(
                         'tt_news_cat',
                         $val,
                         1
@@ -307,13 +308,11 @@ class Helpers
         $cc = 0; // wordcount
         $isfirst = true; // first paragraph
         foreach ($paragraphs as $k => $p) {
-            if (trim($paragraphs[$k + 1]) == '&nbsp;') {
+            if (trim($paragraphs[$k + 1]) === '&nbsp;') {
                 unset($paragraphs[$k + 1]);
             }
-            if (!isset($paragraphs[$k + 2])) {
-                if ($paragraphs[$k + 1] && strlen($paragraphs[$k + 1]) < 20) {
-                    $p .= $paragraphs[$k + 1];
-                }
+            if (!isset($paragraphs[$k + 2]) && ($paragraphs[$k + 1] && strlen($paragraphs[$k + 1]) < 20)) {
+                $p .= $paragraphs[$k + 1];
             }
             if (!isset($paragraphs[$k + 1]) && strlen($p) < 20) { // last paragraph shorter than 20 chars was already added to previous paragraph
                 continue;
@@ -354,8 +353,9 @@ class Helpers
                 }
                 $cc++;
             }
-            if ($break) { // add break at end of current paragraph
-                array_push($pArr, $this->pObj->config['pageBreakToken']);
+            if ($break) {
+                // add break at end of current paragraph
+                $pArr[] = $this->pObj->config['pageBreakToken'];
             }
             $wtmp[] = implode(' ', $pArr);
         }

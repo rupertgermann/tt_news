@@ -50,7 +50,7 @@ routeEnhancers:
         type: LocaleModifier
         default: 'page'
         localeMap:
-          - locale: 'fr_FR.*|fr_CA.*'
+          - locale: 'en_GB.*'
             value: 'page'
           - locale: 'de_DE.*'
             value: 'seite'
