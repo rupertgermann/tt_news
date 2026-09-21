@@ -982,15 +982,21 @@ class AbstractPlugin
     }
 
     /**
-     * Returns the global arrays $_GET and $_POST merged with $_POST taking precedence.
+     * Returns query and parsed body parameters with POST taking precedence.
      *
-     * @param string $parameter Key (variable name) from GET or POST vars
-     * @return array Returns the GET vars merged recursively onto the POST vars.
+     * @param string $parameter Key (variable name) from query or body parameters
+     * @return array Returns query parameters merged recursively onto body parameters.
      */
     private function getRequestPostOverGetParameterWithPrefix($parameter)
     {
-        $postParameter = isset($_POST[$parameter]) && is_array($_POST[$parameter]) ? $_POST[$parameter] : [];
-        $getParameter = isset($_GET[$parameter]) && is_array($_GET[$parameter]) ? $_GET[$parameter] : [];
+        $queryParams = $this->request?->getQueryParams() ?? [];
+        $parsedBody = $this->request?->getParsedBody();
+        $postParameter = is_array($parsedBody) && is_array($parsedBody[$parameter] ?? null)
+            ? $parsedBody[$parameter]
+            : [];
+        $getParameter = is_array($queryParams[$parameter] ?? null)
+            ? $queryParams[$parameter]
+            : [];
         $mergedParameters = $getParameter;
         ArrayUtility::mergeRecursiveWithOverrule($mergedParameters, $postParameter);
         return $mergedParameters;
