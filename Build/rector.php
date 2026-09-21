@@ -25,7 +25,6 @@ return RectorConfig::configure()
         Typo3SetList::CODE_QUALITY,
         Typo3SetList::GENERAL,
         Typo3LevelSetList::UP_TO_TYPO3_14,
-        \Rector\Doctrine\Set\DoctrineSetList::DOCTRINE_DBAL_40,
     ])
     ->withImportNames(true, true, false, true)
     ->withRules([

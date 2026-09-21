@@ -82,7 +82,7 @@ class NewsDatabaseTreeDataProvider extends DatabaseTreeDataProvider
      * @return DatabaseTreeNode Node object
      */
     #[\Override]
-    protected function buildRepresentationForNode(TreeNode $basicNode, DatabaseTreeNode $parent = null, $level = 0): DatabaseTreeNode
+    protected function buildRepresentationForNode(TreeNode $basicNode, ?DatabaseTreeNode $parent = null, $level = 0): DatabaseTreeNode
     {
         $node = GeneralUtility::makeInstance(DatabaseTreeNode::class);
         $row = [];

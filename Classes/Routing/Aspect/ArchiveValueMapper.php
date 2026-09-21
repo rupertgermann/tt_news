@@ -10,6 +10,8 @@ use TYPO3\CMS\Core\Site\SiteLanguageAwareInterface;
 
 class ArchiveValueMapper implements StaticMappableAspectInterface, SiteLanguageAwareInterface
 {
+    protected SiteLanguage $siteLanguage;
+
     /**
      * {@inheritdoc}
      */
@@ -24,7 +26,6 @@ class ArchiveValueMapper implements StaticMappableAspectInterface, SiteLanguageA
     {
         return isset($value) ? (string)$value : null;
     }
-    protected SiteLanguage $siteLanguage;
 
     public function setSiteLanguage(SiteLanguage $siteLanguage): void
     {
