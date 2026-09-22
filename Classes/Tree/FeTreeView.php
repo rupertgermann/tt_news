@@ -87,20 +87,18 @@ class FeTreeView extends Categorytree
         }
 
         if ($newsConf['useHRDates']) {
-            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
+            return $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
                 'cat' => $row['uid'],
                 'year' => (($piVars['year'] ?? false) && $newsConf['catmenuWithArchiveParams'] ? $piVars['year'] : null),
                 'month' => (($piVars['month'] ?? false) && $newsConf['catmenuWithArchiveParams'] ? $piVars['month'] : null),
             ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
-        } else {
-            $link = $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
-                'cat' => $row['uid'],
-                'backPid' => null,
-                'pointer' => null,
-            ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
         }
 
-        return $link;
+        return $this->tt_news_obj->pi_linkTP_keepPIvars($title, [
+            'cat' => $row['uid'],
+            'backPid' => null,
+            'pointer' => null,
+        ], $this->tt_news_obj->allowCaching, ($newsConf['dontUseBackPid'] ? 1 : 0), $catSelLinkParams);
     }
 
     /**

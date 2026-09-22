@@ -8,7 +8,7 @@ Website news with front page teasers and article handling inside.
 
 #### Version 14.0.0
 
-This tt_news version is currently in development and only compatible with TYPO3 v14.
+This tt_news version is only compatible with TYPO3 v14.
 
 See commit history for changes. There are breaking changes! Feel free to test and contribute.
 
@@ -67,7 +67,7 @@ Thanks to all contributers for patches, PRs and testing.
 
 ## Compatibility
 
-branch master requires at least TYPO3 10.4 and is compatible with TYPO3 10.4 LTS and TYPO3 11.5 LTS.
+branch master requires TYPO3 14.3 LTS.
 
-For tt_news for older TYPO3 versions take a look at [https://extensions.typo3.org/extension/tt_news/](https://extensions.typo3.org/extension/tt_news/)  and scroll down to "Version History".
+For tt_news for older TYPO3 versions take a look at [https://github.com/rupertgermann/tt_news/releases](https://github.com/rupertgermann/tt_news/releases)
 

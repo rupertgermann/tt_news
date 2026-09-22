@@ -244,12 +244,11 @@ class Database implements SingletonInterface
         bool $numIndex = false
     ): bool|array|null {
         $res = $this->exec_SELECTquery($select_fields, $from_table, $where_clause, $groupBy, $orderBy, '1');
-        $output = null;
         if ($res) {
-            $output = $numIndex ? $this->sql_fetch_row($res) : $this->sql_fetch_assoc($res);
+            return $numIndex ? $this->sql_fetch_row($res) : $this->sql_fetch_assoc($res);
         }
 
-        return $output;
+        return null;
     }
 
     /**

@@ -8,6 +8,8 @@ routeEnhancers:
         type: PersistedAliasMapper
         tableName: tt_news
         routeFieldName: slug
+    requirements:
+      tt_news: '^[a-z0-9_-]+'
     defaults:
       tt_news: '0'
   TtNewsArchive:
@@ -39,12 +41,16 @@ routeEnhancers:
         routeFieldName: uid
     defaults:
       cat: '0'
+    requirements:
+      cat: '[0-9]+'
   TtNewsPagination:
     type: Plugin
     namespace: 'tx_ttnews'
     routePath: '/{localized_pointer}/{pointer}'
     defaults:
       pointer: '0'
+    requirements:
+      pointer: '\d+'
     aspects:
       localized_pointer:
         type: LocaleModifier
