@@ -582,7 +582,7 @@ class Categorytree extends AbstractTreeView
     {
         // if this is the last one and does not have subitems, we need to close
         // the tree as long as the upper levels have last items too
-        if (isset($v['isLast']) && $v['isLast'] && !$v['hasSub'] && !$doCollapse && !($doExpand && $expandedPageUid == $uid)) {
+        if (isset($v['isLast']) && $v['isLast'] && !$v['hasSub'] && !$doCollapse && (!$doExpand || $expandedPageUid != $uid)) {
             for ($i = $v['invertedDepth']; ($closeDepth[$i] ?? 0) == 1; $i++) {
                 $closeDepth[$i] = 0;
                 $itemHTML .= '</ul></li>';
@@ -669,7 +669,7 @@ class Categorytree extends AbstractTreeView
 
             // if this item is the start of a new level,
             // then a new level <ul> is needed, but not in ajax mode
-            if (isset($v['isFirst']) && $v['isFirst'] && !($doCollapse) && !($doExpand && $expandedPageUid == $uid)) {
+            if (isset($v['isFirst']) && $v['isFirst'] && !($doCollapse) && (!$doExpand || $expandedPageUid != $uid)) {
                 $itemHTML = '<ul>';
             }
 
@@ -686,7 +686,7 @@ class Categorytree extends AbstractTreeView
 
             // we have to remember if this is the last one
             // on level X so the last child on level X+1 closes the <ul>-tag
-            if (isset($v['isLast']) && $v['isLast'] && !($doExpand && $expandedPageUid == $uid)) {
+            if (isset($v['isLast']) && $v['isLast'] && (!$doExpand || $expandedPageUid != $uid)) {
                 $closeDepth[$v['invertedDepth']] = 1;
             }
 

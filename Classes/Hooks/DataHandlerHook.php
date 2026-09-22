@@ -213,8 +213,8 @@ class DataHandlerHook
             $pagesTSC = BackendUtility::getPagesTSconfig($GLOBALS['_POST']['popViewId']); // get page TSconfig
 
             if ($pagesTSC['tx_ttnews.']['singlePid']) {
-                $GLOBALS['_POST']['popViewId_addParams'] = ($fieldArray['sys_language_uid'] > 0 ?
-                        '&L=' . $fieldArray['sys_language_uid'] : '') . '&no_cache=1&tx_ttnews[tt_news]=' . $id;
+                $GLOBALS['_POST']['popViewId_addParams'] = ($fieldArray['sys_language_uid'] > 0
+                        ? '&L=' . $fieldArray['sys_language_uid'] : '') . '&no_cache=1&tx_ttnews[tt_news]=' . $id;
                 $GLOBALS['_POST']['popViewId'] = $pagesTSC['tx_ttnews.']['singlePid'];
             }
         }

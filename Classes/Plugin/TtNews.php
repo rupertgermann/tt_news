@@ -1100,9 +1100,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->conf['useFluidRendering']) {
-            if (!isset($markerArray)) {
-                $markerArray = [];
-            }
+            $markerArray ??= [];
 
             $globalMarkerArray = array_merge_recursive($markerArray, ($searchMarkers ?? []));
 
@@ -1557,7 +1555,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->conf['useFluidRendering'] && is_array($row)) {
-            $content = $this->renderFluidContent([
+            return $this->renderFluidContent([
                 'row' => $row,
                 'markerArray' => $this->getFluidMarkerArray($markerArray),
                 'vars' => $this->fluidVars,
@@ -1827,7 +1825,7 @@ class TtNews extends AbstractPlugin
         }
 
         if ($this->conf['useFluidRendering'] ?? false) {
-            $content = $this->renderFluidContent([
+            return $this->renderFluidContent([
                 'itemsOutArr' => $itemsOutArr,
                 'globalMarkerArray' => $this->getFluidMarkerArray($markerArray),
                 'categories' => $this->categories[$row['uid']],
@@ -2174,7 +2172,7 @@ class TtNews extends AbstractPlugin
         }
         // Pass to userdefined function
         if ($this->conf['itemMarkerArrayFunc'] ?? '') {
-            $markerArray = $this->userProcess('itemMarkerArrayFunc', $markerArray);
+            return $this->userProcess('itemMarkerArrayFunc', $markerArray);
         }
 
         return $markerArray;
@@ -3799,8 +3797,8 @@ class TtNews extends AbstractPlugin
                 // select newsitems by their categories
                 if ($this->config['categoryMode'] == 1 || $this->config['categoryMode'] == 2) {
                     // show items with selected categories
-                    $tmpCatExclusive = (($this->config['categoryMode'] == 2 && !$this->conf['ignoreUseSubcategoriesForAndSelection']) ?
-                        $this->actuallySelectedCategories : $this->catExclusive);
+                    $tmpCatExclusive = (($this->config['categoryMode'] == 2 && !$this->conf['ignoreUseSubcategoriesForAndSelection'])
+                        ? $this->actuallySelectedCategories : $this->catExclusive);
                     $selectConf['leftjoin'] = 'tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local';
                     $selectConf['where'] .= ' AND (tt_news_cat_mm.uid_foreign IN (' . ($tmpCatExclusive ?: 0) . '))';
                 }
@@ -3816,8 +3814,8 @@ class TtNews extends AbstractPlugin
             } elseif ($this->config['categoryMode']) {
                 // special case: if $this->catExclusive is not set but $this->config['categoryMode'] -> show only non-categorized records
                 $selectConf['leftjoin'] = 'tt_news_cat_mm ON tt_news.uid = tt_news_cat_mm.uid_local';
-                $selectConf['where'] .= ' AND tt_news_cat_mm.uid_foreign IS' .
-                    ($this->config['categoryMode'] > 0 ? '' : ' NOT') . ' NULL';
+                $selectConf['where'] .= ' AND tt_news_cat_mm.uid_foreign IS'
+                    . ($this->config['categoryMode'] > 0 ? '' : ' NOT') . ' NULL';
             }
 
             // if categoryMode is 'show items AND' it's required to check if the records in the result do actually have the same number of categories as in $this->catExclusive
@@ -4336,7 +4334,7 @@ class TtNews extends AbstractPlugin
 
         $file = GeneralUtility::getFileAbsFileName($fileName);
         if ($file !== '') {
-            $fileContent = file_get_contents($file);
+            return file_get_contents($file);
         }
 
         return $fileContent;
@@ -4492,7 +4490,7 @@ class TtNews extends AbstractPlugin
             }
         }
 
-        if (!($range['minval'] && $range['maxval'])) {
+        if (!$range['minval'] || !$range['maxval']) {
             // find minval and/or maxval automatically
             $selectConf['selectFields'] = '';
             if (!$range['minval']) {
@@ -4620,7 +4618,7 @@ class TtNews extends AbstractPlugin
     public function formatStr($str)
     {
         if (is_array($this->conf['general_stdWrap.'] ?? null)) {
-            $str = $this->local_cObj->stdWrap($str, $this->conf['general_stdWrap.']);
+            return $this->local_cObj->stdWrap($str, $this->conf['general_stdWrap.']);
         }
 
         return $str;
